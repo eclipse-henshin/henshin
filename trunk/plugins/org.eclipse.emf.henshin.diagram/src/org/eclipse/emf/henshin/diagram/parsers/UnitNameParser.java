@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.diagram.parsers;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -22,12 +21,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IteratedUnit;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -43,7 +44,6 @@ import org.eclipse.gmf.runtime.notation.View;
  * is given together with the unit name, the real parameter list is synchronized
  * with the given list, i.e., new parameters may be created, existing parameters
  * may be removed, and existing parameters may be moved in the list.
- * 
  * 
  * @generated NOT
  * @author Christian Krause
@@ -64,7 +64,7 @@ public class UnitNameParser extends AbstractParser {
 	 * 2: comma-separated list of parameter names (optional)
 	 */
 	private static final Pattern UNIT_NAME_PATTERN = Pattern
-			.compile("^\\s*(\\w*?)\\s*(?:\\s*\\(([\\w,\\s]*)\\s*\\))?$");
+			.compile("^\\s*(\\w*?)\\s*(?:\\s*\\(([\\w,\\:\\s]*)\\s*\\))?$");
 	
 	private static final String PARAMETER_SEPARATOR = ",";
 	
@@ -92,38 +92,17 @@ public class UnitNameParser extends AbstractParser {
 	 */
 	@Override
 	public String getEditString(IAdaptable element, int flags) {
+		
+		// We use getPrintString():
 		Unit unit = (Unit) unitView.getElement();
+		String result = getPrintString(element, flags);
 		
-		final StringBuilder sb = new StringBuilder();
-		
-		// Compute the display name:
-		final String name = unit.getName();
-		sb.append((name == null) ? "" : name);
-		
-		// Compute the parameters:
-		final List<Parameter> params = unit.getParameters();
-		final int paramCount = params.size();
-		if (paramCount > 0) {
-			sb.append("(");
-			for (int i=0; i<paramCount; i++) {
-				if (i>0) sb.append(", ");
-				sb.append(params.get(i).getName());
-				if (params.get(i).getType()!=null) {
-					EClassifier type = params.get(i).getType();
-					sb.append(":" + type.getName());
-				}
-			}
-			sb.append(")");
+		// We just need to remove the type of the unit in the beginning:
+		if (result.startsWith(unit.eClass().getName())) {
+			result = result.replaceFirst(unit.eClass().getName(), "").trim();
 		}
+		return result;
 		
-		if (unit instanceof IteratedUnit) {
-			String it = ((IteratedUnit) unit).getIterations();
-			if (it==null || it.trim().length()==0) it = "?"; 
-			sb.append(" [" + it + "]");
-		}
-		
-		// Compile the title:
-		return sb.toString();
 	}
 	
 	/*
@@ -132,8 +111,11 @@ public class UnitNameParser extends AbstractParser {
 	 */
 	@Override
 	public String getPrintString(IAdaptable element, int flags) {
+		
+		// The actual pretty-printing is done already in the unit implementation:
 		Unit unit = (Unit) unitView.getElement();
-		return unit.eClass().getName() + " " + getEditString(element, flags);
+		return unit.toString();
+
 	}
 	
 	/*
@@ -148,8 +130,8 @@ public class UnitNameParser extends AbstractParser {
 		final View view = (View) element.getAdapter(View.class);
 		
 		// Get the editing domain:
-		final TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(view
-				.getElement());
+		final TransactionalEditingDomain domain = 
+				TransactionUtil.getEditingDomain(view.getElement());
 		if (domain == null) {
 			return UnexecutableCommand.INSTANCE;
 		}
@@ -189,37 +171,41 @@ public class UnitNameParser extends AbstractParser {
 			}
 		}
 		
-		// TODO Support parsing of parameter types
-		
+		// Parse using the regular expression:
 		value = value.trim();
 		final Matcher matcher = UNIT_NAME_PATTERN.matcher(value);
-		
-		if (!matcher.matches()) // check for valid type and parameters
+		if (!matcher.matches()) {
 			return CommandResult.newErrorCommandResult("Error parsing unit name");
-		
+		}
+			
 		// We can be sure that a name exists!
 		String name = matcher.group(1).trim();
 		
-		String paraString = matcher.group(2);
-		
-		if (paraString != null && !paraString.trim().isEmpty()) {
-			String[] paraStrings = paraString.split(PARAMETER_SEPARATOR);
+		// Parameters:
+		String parametersString = matcher.group(2);
+		if (parametersString != null && !parametersString.trim().isEmpty()) {
 			
-			// remove duplicates and clean the names from leading and trailing
-			// whitespace
-			List<String> paramStringList = new ArrayList<String>(paraStrings.length);
-			for (String s : paraStrings) {
-				final String st = s.trim();
-				if (!paramStringList.contains(st)) paramStringList.add(st);
-			}// for
-			paraStrings = paramStringList.toArray(new String[paramStringList.size()]);
+			// Split up the parameters:
+			String[] paramStrings = parametersString.split(PARAMETER_SEPARATOR);
 			
-			// clean the names of actual parameters as well
-			final List<Parameter> currentParameters = unit.getParameters();
-			for (Parameter p : currentParameters) {
-				// remove leading and trailing whitespace
-				if (p.getName() != null) p.setName(p.getName().trim());
-			}// for
+			// Separate names from types:
+			String[] names = new String[paramStrings.length];
+			String[] types = new String[paramStrings.length];
+			for (int i=0; i<paramStrings.length; i++) {
+				String[] split = paramStrings[i].split(":");
+				names[i] = split[0].trim();
+				if (split.length>1) {
+					types[i] = split[1].trim();
+				}
+			}
+			
+			// Clean up the names of the current parameters:
+			final List<Parameter> params = unit.getParameters();
+			for (Parameter param : params) {
+				if (param.getName() != null) {
+					param.setName(param.getName().trim());
+				}
+			}
 			
 			/*
 			 * Note, if the name of an existing parameter appears in the
@@ -229,55 +215,47 @@ public class UnitNameParser extends AbstractParser {
 			 * parameters, (3) Adjust the parameters order.
 			 */
 
-			// remove parameters not occurring in the new list
-			final Iterator<Parameter> it = currentParameters.iterator();
+			// Remove parameters not occurring in the new list:
+			List<String> nameList = Arrays.asList(names);
+			Iterator<Parameter> it = params.iterator();
 			while (it.hasNext()) {
-				final Parameter p = it.next();
-				if (!paramStringList.contains(p.getName()))
+				Parameter p = it.next();
+				if (!nameList.contains(p.getName())) {
 					it.remove();
-				else
-					paramStringList.remove(p.getName());
-			}// while
+				}
+			}
 			
-			// add new parameters
-			for (String s : paramStringList) {
-				final Parameter p = HenshinFactory.eINSTANCE.createParameter();
-				p.setName(s);
-				currentParameters.add(p);
-			}// for
+			// Add the new parameters:
+			for (int i=0; i<names.length; i++) {
+				if (i>=params.size() || !names[i].equals(params.get(i).getName())) {
+					unit.getParameters().add(i, HenshinFactory.eINSTANCE.createParameter(names[i]));
+				}
+			}
 			
-			// At this point, the actual parameter list contains all necessary
-			// parameters having unique names.
-			
-			paramStringList = Arrays.asList(paraStrings);
-			/*
-			 * Correct the order of parameters. Not that beautiful algorithm but
-			 * pretty simple ;-)
-			 */
-			for (int i = 0; i < paraStrings.length; i++) {
-				final Parameter p = currentParameters.get(i);
-				int correctIndex = paramStringList.indexOf(p.getName());
-				if (correctIndex != i) {
-					currentParameters.remove(p);
-					currentParameters.add(correctIndex, p);
-					i = 0;
-				}// if
-			}// for
+			// At this point, all parameters exist and have their correct names.
+			// All we have to do is to set their types:
+			Module module = unit.getModule();
+			for (int i=0; i<names.length; i++) {
+				EClassifier type = null;
+				EClassifier[] classifiers = ModuleEditHelper.getEClassifiers(module, types[i]);
+				if (classifiers!=null && classifiers.length>0) {
+					type = classifiers[0];
+				}
+				unit.getParameters().get(i).setType(type);
+			}
 			
 		} else {
+			
+			// Otherwise reset the parameters list.
 			unit.getParameters().clear();
+			
 		}
 		
-		// Delete all parameter mappings with orphaned parameters:
-		Iterator<ParameterMapping> mappings = unit.getParameterMappings().iterator();
-		while (mappings.hasNext()) {
-			ParameterMapping mapping = mappings.next();
-			if (mapping.getSource().getUnit()==null || mapping.getTarget().getUnit()==null) {
-				mappings.remove();
-			}
-		}
+		// Clean up the parameter mappings (for all units):
+		HenshinModelCleaner.cleanModule(unit.getModule());
 		
-		// Now set the name:
+		// Now set the name (make a dummy change first so that we definitely get a notification):
+		unit.setName(name + "_");
 		unit.setName(name);
 		
 		// Done.
@@ -295,6 +273,7 @@ public class UnitNameParser extends AbstractParser {
 	protected boolean isAffectingFeature(Object feature) {
 		if (feature == HenshinPackage.eINSTANCE.getNamedElement_Name()) return true;
 		if (feature == HenshinPackage.eINSTANCE.getUnit_Parameters()) return true;
+		if (feature == HenshinPackage.eINSTANCE.getParameter_Type()) return true;
 		if (feature == HenshinPackage.eINSTANCE.getIteratedUnit_Iterations()) return true;
 		if (feature == EcorePackage.eINSTANCE.getEModelElement_EAnnotations()) return true;
 		if (feature == EcorePackage.eINSTANCE.getEAnnotation_References()) return true;

@@ -244,7 +244,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}		
 		
 		// Current action type = REQUIRE or FORBID?
-		else if ((oldType==REQUIRE || oldType==FORBID) && (oldType!=newType)) {
+		else if (oldType==REQUIRE || oldType==FORBID) {
 			
 			// We know that the element is contained in a AC and that it has no origin in the LHS.
 			NestedCondition ac = (NestedCondition) graph.eContainer();

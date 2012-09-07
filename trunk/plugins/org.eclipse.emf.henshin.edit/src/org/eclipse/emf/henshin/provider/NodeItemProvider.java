@@ -256,22 +256,8 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 */
 	@Override
 	public String getText(Object object) {
-		Node node = (Node) object;
-		String prefix = getString("_UI_Node_type");
-		String label = getNodeLabel(node);
-		return label.length() != 0 ? prefix + " " + label : prefix;
-	}
-	
-	/**
-	 * Compute a nice label for a node.
-	 */
-	public static String getNodeLabel(Node node) {
-		String label = "";
-		if (node.getName() != null)
-			label = label + node.getName();
-		if (node.getType() != null)
-			label = label + ":" + node.getType().getName();
-		return label.trim();
+		// We use the pretty-printer in the node implementation:
+		return ((Node) object).toString();
 	}
 	
 	/**

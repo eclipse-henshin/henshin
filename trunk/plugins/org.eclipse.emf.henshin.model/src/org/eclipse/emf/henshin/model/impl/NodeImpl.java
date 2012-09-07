@@ -573,12 +573,12 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 */
 	@Override
 	public String toString() {
-		String type = (this.type!=null) ? this.type.getName() : null;
-		if (name!=null) {
-			return "Node (name: " + name + ", type: " + type + ")";
-		} else {
-			return "Node (type: " + type + ")";			
+		if (type!=null && type.getName()==null) {
+			EcoreUtil.resolveAll(this);
 		}
+		String nodeName = (name!=null) ? name : "";
+		String typeName = (type!=null) ? ":"+type.getName() : "";
+		return ("Node " + nodeName + typeName).trim(); 
 	}
 
 } //NodeImpl

@@ -495,6 +495,9 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 */
 	@Override
 	public String toString() {
+		if (type!=null && type.getName()==null) {
+			EcoreUtil.resolveAll(this);
+		}
 		String srcName = (source!=null) ? ((source.getName()!=null) ? source.getName() : "_") : "?";
 		String trgName = (target!=null) ? ((target.getName()!=null) ? target.getName() : "_") : "?";
 		String edgeType = ("(" + ((type!=null) ? type.getName() : "?") + ")");

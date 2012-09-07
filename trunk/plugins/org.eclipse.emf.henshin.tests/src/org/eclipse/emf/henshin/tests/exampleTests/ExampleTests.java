@@ -1,8 +1,10 @@
 package org.eclipse.emf.henshin.tests.exampleTests;
 
+import org.eclipse.emf.henshin.examples.bank.BankExample;
 import org.eclipse.emf.henshin.examples.combpattern.CombBenchmark;
 import org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark;
 import org.eclipse.emf.henshin.examples.ecore2genmodel.Ecore2GenmodelTrafo;
+import org.eclipse.emf.henshin.examples.gossipinggirls.GossipingGirls;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
 import org.eclipse.emf.henshin.examples.oo2rdb.Oo2Rdb;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
@@ -20,6 +22,15 @@ public class ExampleTests {
 	 */
 	public static final String EXAMPLES_PATH = "../org.eclipse.emf.henshin.examples/";
 	
+	/**
+	 * Bank example.
+	 */
+	@Test
+	public void testBank() {
+		System.out.println();
+		BankExample.run(EXAMPLES_PATH + BankExample.PATH, false);
+	}
+
 	/**
 	 * Sierpinski triangle example.
 	 */
@@ -73,6 +84,15 @@ public class ExampleTests {
 	public void testDiningPhils() {
 		System.out.println();
 		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 8);
+	}
+
+	/**
+	 * Gossiping girls example (state space generation).
+	 */
+	@Test
+	public void testGossingGirls() {
+		System.out.println();
+		GossipingGirls.run(EXAMPLES_PATH + GossipingGirls.PATH, 6);
 	}
 
 }

@@ -23,7 +23,6 @@ import org.eclipse.gmf.runtime.notation.View;
 
 /**
  * Parser for rule names and root objects.
- * 
  * @generated NOT
  * @author Christian Krause
  */
@@ -31,9 +30,6 @@ public class RuleNameParser extends UnitNameParser {
 
 	/**
 	 * Default constructor.
-	 * 
-	 * @param rule
-	 *            Rule.
 	 */
 	public RuleNameParser(View view) {
 		super(view);
@@ -44,10 +40,7 @@ public class RuleNameParser extends UnitNameParser {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#isUnitEmpty(org
-	 * .eclipse.emf.henshin.model.Unit)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#isUnitEmpty(org.eclipse.emf.henshin.model.Unit)
 	 */
 	@Override
 	protected boolean isUnitEmpty(Unit unit) {
@@ -63,13 +56,10 @@ public class RuleNameParser extends UnitNameParser {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#getEditString(
-	 * org.eclipse.core.runtime.IAdaptable, int)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#getPrintString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
 	@Override
-	public String getEditString(IAdaptable element, int flags) {
+	public String getPrintString(IAdaptable element, int flags) {
 
 		// Compute the root object:
 		String root = "";
@@ -79,16 +69,13 @@ public class RuleNameParser extends UnitNameParser {
 		}
 
 		// Compile the title:
-		return (super.getEditString(element, flags) + root);
+		return (super.getPrintString(element, flags) + root);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#doParsing(java
-	 * .lang.String)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#doParsing(java.lang.String)
 	 */
 	@Override
 	protected CommandResult doParsing(String value) throws ExecutionException {
@@ -125,15 +112,13 @@ public class RuleNameParser extends UnitNameParser {
 
 			// First find the proper class and initialize the new root:
 			EClass rootClass = null;
-			EClassifier[] eclassifiers = ModuleEditHelper
-					.findEClassifierByName(rule.getModule(),
-							rootType);
-			for (EClassifier ec : eclassifiers) {
-				if (ec instanceof EClass) {
-					rootClass = (EClass) ec;
+			EClassifier[] classifiers = ModuleEditHelper.getEClassifiers(rule.getModule(), rootType);
+			for (EClassifier classifier : classifiers) {
+				if (classifier instanceof EClass) {
+					rootClass = (EClass) classifier;
 					break;
-				}// if
-			}// for
+				}
+			}
 
 			// We change only if the new root type was found:
 			if (rootClass != null) {

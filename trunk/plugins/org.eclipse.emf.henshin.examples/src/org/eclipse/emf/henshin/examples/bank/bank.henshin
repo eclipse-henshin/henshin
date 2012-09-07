@@ -1,272 +1,290 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9nqBIHg8EeGZMfr3Iy5Flw">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin">
   <imports href="bank.ecore#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_9pE9cHg8EeGZMfr3Iy5Flw" name="createAccount">
-    <parameters xmi:id="_9pM5QHg8EeGZMfr3Iy5Flw" name="client"/>
-    <parameters xmi:id="_9pFkgHg8EeGZMfr3Iy5Flw" name="accountId"/>
-    <lhs xmi:id="_9pOHYHg8EeGZMfr3Iy5Flw" name="LHS">
-      <nodes xmi:id="_9qYlAHg8EeGZMfr3Iy5Flw" outgoing="_9rA3IHg8EeGZMfr3Iy5Flw _9pVcIHg8EeGZMfr3Iy5Flw">
+  <units xsi:type="henshin:Rule" name="createAccount">
+    <parameters name="client">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="accountId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs name="LHS">
+      <nodes outgoing="//@units.0/@lhs/@edges.0 //@units.0/@lhs/@edges.1">
         <type href="bank.ecore#//Bank"/>
       </nodes>
-      <nodes xmi:id="_9qvxYHg8EeGZMfr3Iy5Flw" incoming="_9rA3IHg8EeGZMfr3Iy5Flw _9p5c0Hg8EeGZMfr3Iy5Flw">
+      <nodes incoming="//@units.0/@lhs/@edges.0 //@units.0/@lhs/@edges.2">
         <type href="bank.ecore#//Client"/>
-        <attributes xmi:id="_9qwYcHg8EeGZMfr3Iy5Flw" value="client">
+        <attributes value="client">
           <type href="bank.ecore#//Person/name"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9pzWMHg8EeGZMfr3Iy5Flw" incoming="_9pVcIHg8EeGZMfr3Iy5Flw" outgoing="_9p5c0Hg8EeGZMfr3Iy5Flw">
+      <nodes incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.2">
         <type href="bank.ecore#//Manager"/>
       </nodes>
-      <edges xmi:id="_9rA3IHg8EeGZMfr3Iy5Flw" source="_9qYlAHg8EeGZMfr3Iy5Flw" target="_9qvxYHg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
         <type href="bank.ecore#//Bank/clients"/>
       </edges>
-      <edges xmi:id="_9pVcIHg8EeGZMfr3Iy5Flw" source="_9qYlAHg8EeGZMfr3Iy5Flw" target="_9pzWMHg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.2">
         <type href="bank.ecore#//Bank/managers"/>
       </edges>
-      <edges xmi:id="_9p5c0Hg8EeGZMfr3Iy5Flw" source="_9pzWMHg8EeGZMfr3Iy5Flw" target="_9qvxYHg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.0/@lhs/@nodes.2" target="//@units.0/@lhs/@nodes.1">
         <type href="bank.ecore#//Manager/clients"/>
       </edges>
-      <formula xsi:type="henshin:Not" xmi:id="_9sjvQXg8EeGZMfr3Iy5Flw">
-        <child xsi:type="henshin:NestedCondition" xmi:id="_9rNEYHg8EeGZMfr3Iy5Flw">
-          <conclusion xmi:id="_9rNEYXg8EeGZMfr3Iy5Flw" name="">
-            <nodes xmi:id="_9rNEYng8EeGZMfr3Iy5Flw" outgoing="_9rNrcHg8EeGZMfr3Iy5Flw">
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion name="">
+            <nodes outgoing="//@units.0/@lhs/@formula/@child/@conclusion/@edges.0">
               <type href="bank.ecore#//Bank"/>
             </nodes>
-            <nodes xmi:id="_9rNEY3g8EeGZMfr3Iy5Flw" incoming="_9rNrcHg8EeGZMfr3Iy5Flw">
+            <nodes incoming="//@units.0/@lhs/@formula/@child/@conclusion/@edges.0">
               <type href="bank.ecore#//Account"/>
-              <attributes xmi:id="_9rNEZHg8EeGZMfr3Iy5Flw" value="accountId">
+              <attributes value="accountId">
                 <type href="bank.ecore#//Account/id"/>
               </attributes>
             </nodes>
-            <edges xmi:id="_9rNrcHg8EeGZMfr3Iy5Flw" source="_9rNEYng8EeGZMfr3Iy5Flw" target="_9rNEY3g8EeGZMfr3Iy5Flw">
+            <edges source="//@units.0/@lhs/@formula/@child/@conclusion/@nodes.0" target="//@units.0/@lhs/@formula/@child/@conclusion/@nodes.1">
               <type href="bank.ecore#//Bank/accounts"/>
             </edges>
           </conclusion>
-          <mappings xmi:id="_9rNrcXg8EeGZMfr3Iy5Flw" origin="_9qYlAHg8EeGZMfr3Iy5Flw" image="_9rNEYng8EeGZMfr3Iy5Flw"/>
+          <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@lhs/@formula/@child/@conclusion/@nodes.0"/>
         </child>
       </formula>
     </lhs>
-    <rhs xmi:id="_9pOHYXg8EeGZMfr3Iy5Flw" name="RHS">
-      <nodes xmi:id="_9pl60Hg8EeGZMfr3Iy5Flw" outgoing="_9pOucng8EeGZMfr3Iy5Flw _9rHk0Hg8EeGZMfr3Iy5Flw _9qhH4Hg8EeGZMfr3Iy5Flw">
+    <rhs name="RHS">
+      <nodes outgoing="//@units.0/@rhs/@edges.0 //@units.0/@rhs/@edges.1 //@units.0/@rhs/@edges.2">
         <type href="bank.ecore#//Bank"/>
       </nodes>
-      <nodes xmi:id="_9qGRIHg8EeGZMfr3Iy5Flw" incoming="_9qhH4Hg8EeGZMfr3Iy5Flw _9pudsHg8EeGZMfr3Iy5Flw">
+      <nodes incoming="//@units.0/@rhs/@edges.2 //@units.0/@rhs/@edges.3">
         <type href="bank.ecore#//Account"/>
-        <attributes xmi:id="_9qGRIXg8EeGZMfr3Iy5Flw" value="accountId">
+        <attributes value="accountId">
           <type href="bank.ecore#//Account/id"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9pOHYng8EeGZMfr3Iy5Flw" incoming="_9pOucng8EeGZMfr3Iy5Flw _9pOuc3g8EeGZMfr3Iy5Flw" outgoing="_9pudsHg8EeGZMfr3Iy5Flw">
+      <nodes incoming="//@units.0/@rhs/@edges.0 //@units.0/@rhs/@edges.4" outgoing="//@units.0/@rhs/@edges.3">
         <type href="bank.ecore#//Client"/>
-        <attributes xmi:id="_9pOucHg8EeGZMfr3Iy5Flw" value="client">
+        <attributes value="client">
           <type href="bank.ecore#//Person/name"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9pOucXg8EeGZMfr3Iy5Flw" incoming="_9rHk0Hg8EeGZMfr3Iy5Flw" outgoing="_9pOuc3g8EeGZMfr3Iy5Flw">
+      <nodes incoming="//@units.0/@rhs/@edges.1" outgoing="//@units.0/@rhs/@edges.4">
         <type href="bank.ecore#//Manager"/>
       </nodes>
-      <edges xmi:id="_9pOucng8EeGZMfr3Iy5Flw" source="_9pl60Hg8EeGZMfr3Iy5Flw" target="_9pOHYng8EeGZMfr3Iy5Flw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.2">
         <type href="bank.ecore#//Bank/clients"/>
       </edges>
-      <edges xmi:id="_9rHk0Hg8EeGZMfr3Iy5Flw" source="_9pl60Hg8EeGZMfr3Iy5Flw" target="_9pOucXg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.3">
         <type href="bank.ecore#//Bank/managers"/>
       </edges>
-      <edges xmi:id="_9qhH4Hg8EeGZMfr3Iy5Flw" source="_9pl60Hg8EeGZMfr3Iy5Flw" target="_9qGRIHg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="bank.ecore#//Bank/accounts"/>
       </edges>
-      <edges xmi:id="_9pudsHg8EeGZMfr3Iy5Flw" source="_9pOHYng8EeGZMfr3Iy5Flw" target="_9qGRIHg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.0/@rhs/@nodes.2" target="//@units.0/@rhs/@nodes.1">
         <type href="bank.ecore#//Client/accounts"/>
       </edges>
-      <edges xmi:id="_9pOuc3g8EeGZMfr3Iy5Flw" source="_9pOucXg8EeGZMfr3Iy5Flw" target="_9pOHYng8EeGZMfr3Iy5Flw">
+      <edges source="//@units.0/@rhs/@nodes.3" target="//@units.0/@rhs/@nodes.2">
         <type href="bank.ecore#//Manager/clients"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_9pP8kHg8EeGZMfr3Iy5Flw" origin="_9qYlAHg8EeGZMfr3Iy5Flw" image="_9pl60Hg8EeGZMfr3Iy5Flw"/>
-    <mappings xmi:id="_9pP8kXg8EeGZMfr3Iy5Flw" origin="_9qvxYHg8EeGZMfr3Iy5Flw" image="_9pOHYng8EeGZMfr3Iy5Flw"/>
-    <mappings xmi:id="_9pP8kng8EeGZMfr3Iy5Flw" origin="_9pzWMHg8EeGZMfr3Iy5Flw" image="_9pOucXg8EeGZMfr3Iy5Flw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.2"/>
+    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.3"/>
   </units>
-  <units xsi:type="henshin:Rule" xmi:id="_9pFkg3g8EeGZMfr3Iy5Flw" name="transferMoney">
-    <parameters xmi:id="_9pFkhHg8EeGZMfr3Iy5Flw" name="client"/>
-    <parameters xmi:id="_9pFkhXg8EeGZMfr3Iy5Flw" name="fromId"/>
-    <parameters xmi:id="_9pFkhng8EeGZMfr3Iy5Flw" name="toId"/>
-    <parameters xmi:id="_9pFkh3g8EeGZMfr3Iy5Flw" name="amount"/>
-    <parameters xmi:id="_yWEtQHg-EeGZMfr3Iy5Flw" name="x"/>
-    <parameters xmi:id="_yWOeQHg-EeGZMfr3Iy5Flw" name="y"/>
-    <lhs xmi:id="_9pFkiHg8EeGZMfr3Iy5Flw" name="LHS">
-      <nodes xmi:id="_9rYDgHg8EeGZMfr3Iy5Flw" incoming="_9qU6oHg8EeGZMfr3Iy5Flw">
+  <units xsi:type="henshin:Rule" name="transferMoney">
+    <parameters name="client">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="fromId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters name="toId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters name="amount">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameters>
+    <parameters name="x">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameters>
+    <parameters name="y">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameters>
+    <lhs name="LHS">
+      <nodes incoming="//@units.1/@lhs/@edges.0">
         <type href="bank.ecore#//Account"/>
-        <attributes xmi:id="_9rYqkHg8EeGZMfr3Iy5Flw" value="fromId">
+        <attributes value="fromId">
           <type href="bank.ecore#//Account/id"/>
         </attributes>
-        <attributes xmi:id="_9rnUEHg8EeGZMfr3Iy5Flw" value="x">
+        <attributes value="x">
           <type href="bank.ecore#//Account/credit"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9rYqkXg8EeGZMfr3Iy5Flw">
+      <nodes>
         <type href="bank.ecore#//Account"/>
-        <attributes xmi:id="_9rYqkng8EeGZMfr3Iy5Flw" value="toId">
+        <attributes value="toId">
           <type href="bank.ecore#//Account/id"/>
         </attributes>
-        <attributes xmi:id="_9rYqk3g8EeGZMfr3Iy5Flw" value="y">
+        <attributes value="y">
           <type href="bank.ecore#//Account/credit"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9rZRoHg8EeGZMfr3Iy5Flw" outgoing="_9qU6oHg8EeGZMfr3Iy5Flw">
+      <nodes outgoing="//@units.1/@lhs/@edges.0">
         <type href="bank.ecore#//Client"/>
-        <attributes xmi:id="_9rZRoXg8EeGZMfr3Iy5Flw" value="client">
+        <attributes value="client">
           <type href="bank.ecore#//Person/name"/>
         </attributes>
       </nodes>
-      <edges xmi:id="_9qU6oHg8EeGZMfr3Iy5Flw" source="_9rZRoHg8EeGZMfr3Iy5Flw" target="_9rYDgHg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.1/@lhs/@nodes.2" target="//@units.1/@lhs/@nodes.0">
         <type href="bank.ecore#//Client/accounts"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_9pFkiXg8EeGZMfr3Iy5Flw" name="RHS">
-      <nodes xmi:id="_9pFking8EeGZMfr3Iy5Flw" incoming="_9pGLlng8EeGZMfr3Iy5Flw">
+    <rhs name="RHS">
+      <nodes incoming="//@units.1/@rhs/@edges.0">
         <type href="bank.ecore#//Account"/>
-        <attributes xmi:id="_9pFki3g8EeGZMfr3Iy5Flw" value="fromId">
+        <attributes value="fromId">
           <type href="bank.ecore#//Account/id"/>
         </attributes>
-        <attributes xmi:id="_9pGLkHg8EeGZMfr3Iy5Flw" value="x-amount">
+        <attributes value="x-amount">
           <type href="bank.ecore#//Account/credit"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9pGLkXg8EeGZMfr3Iy5Flw">
+      <nodes>
         <type href="bank.ecore#//Account"/>
-        <attributes xmi:id="_9pGLkng8EeGZMfr3Iy5Flw" value="toId">
+        <attributes value="toId">
           <type href="bank.ecore#//Account/id"/>
         </attributes>
-        <attributes xmi:id="_9pGLk3g8EeGZMfr3Iy5Flw" value="y+amount">
+        <attributes value="y+amount">
           <type href="bank.ecore#//Account/credit"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9pGLlHg8EeGZMfr3Iy5Flw" outgoing="_9pGLlng8EeGZMfr3Iy5Flw">
+      <nodes outgoing="//@units.1/@rhs/@edges.0">
         <type href="bank.ecore#//Client"/>
-        <attributes xmi:id="_9pGLlXg8EeGZMfr3Iy5Flw" value="client">
+        <attributes value="client">
           <type href="bank.ecore#//Person/name"/>
         </attributes>
       </nodes>
-      <edges xmi:id="_9pGLlng8EeGZMfr3Iy5Flw" source="_9pGLlHg8EeGZMfr3Iy5Flw" target="_9pFking8EeGZMfr3Iy5Flw">
+      <edges source="//@units.1/@rhs/@nodes.2" target="//@units.1/@rhs/@nodes.0">
         <type href="bank.ecore#//Client/accounts"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_9pGLl3g8EeGZMfr3Iy5Flw" origin="_9rYDgHg8EeGZMfr3Iy5Flw" image="_9pFking8EeGZMfr3Iy5Flw"/>
-    <mappings xmi:id="_9pGLmHg8EeGZMfr3Iy5Flw" origin="_9rYqkXg8EeGZMfr3Iy5Flw" image="_9pGLkXg8EeGZMfr3Iy5Flw"/>
-    <mappings xmi:id="_9pGLmXg8EeGZMfr3Iy5Flw" origin="_9rZRoHg8EeGZMfr3Iy5Flw" image="_9pGLlHg8EeGZMfr3Iy5Flw"/>
+    <mappings origin="//@units.1/@lhs/@nodes.0" image="//@units.1/@rhs/@nodes.0"/>
+    <mappings origin="//@units.1/@lhs/@nodes.1" image="//@units.1/@rhs/@nodes.1"/>
+    <mappings origin="//@units.1/@lhs/@nodes.2" image="//@units.1/@rhs/@nodes.2"/>
   </units>
-  <units xsi:type="henshin:Rule" xmi:id="_9sSCcHg8EeGZMfr3Iy5Flw" name="deleteAllAccounts">
-    <parameters xmi:id="_9sSCcXg8EeGZMfr3Iy5Flw" name="client"/>
-    <lhs xmi:id="_9sSCcng8EeGZMfr3Iy5Flw" name="LHS">
-      <nodes xmi:id="_9sSCc3g8EeGZMfr3Iy5Flw" incoming="_9sSpgng8EeGZMfr3Iy5Flw _9sSpg3g8EeGZMfr3Iy5Flw">
+  <units xsi:type="henshin:Rule" name="deleteAllAccounts">
+    <parameters name="client">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs name="LHS">
+      <nodes incoming="//@units.2/@lhs/@edges.1 //@units.2/@lhs/@edges.2">
         <type href="bank.ecore#//Client"/>
-        <attributes xmi:id="_9sSCdHg8EeGZMfr3Iy5Flw" value="client">
+        <attributes value="client">
           <type href="bank.ecore#//Person/name"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9sSCdXg8EeGZMfr3Iy5Flw" outgoing="_9sSpgXg8EeGZMfr3Iy5Flw _9sSpgng8EeGZMfr3Iy5Flw">
+      <nodes outgoing="//@units.2/@lhs/@edges.0 //@units.2/@lhs/@edges.1">
         <type href="bank.ecore#//Bank"/>
       </nodes>
-      <nodes xmi:id="_9sSpgHg8EeGZMfr3Iy5Flw" incoming="_9sSpgXg8EeGZMfr3Iy5Flw" outgoing="_9sSpg3g8EeGZMfr3Iy5Flw">
+      <nodes incoming="//@units.2/@lhs/@edges.0" outgoing="//@units.2/@lhs/@edges.2">
         <type href="bank.ecore#//Manager"/>
       </nodes>
-      <edges xmi:id="_9sSpgXg8EeGZMfr3Iy5Flw" source="_9sSCdXg8EeGZMfr3Iy5Flw" target="_9sSpgHg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.2/@lhs/@nodes.1" target="//@units.2/@lhs/@nodes.2">
         <type href="bank.ecore#//Bank/managers"/>
       </edges>
-      <edges xmi:id="_9sSpgng8EeGZMfr3Iy5Flw" source="_9sSCdXg8EeGZMfr3Iy5Flw" target="_9sSCc3g8EeGZMfr3Iy5Flw">
+      <edges source="//@units.2/@lhs/@nodes.1" target="//@units.2/@lhs/@nodes.0">
         <type href="bank.ecore#//Bank/clients"/>
       </edges>
-      <edges xmi:id="_9sSpg3g8EeGZMfr3Iy5Flw" source="_9sSpgHg8EeGZMfr3Iy5Flw" target="_9sSCc3g8EeGZMfr3Iy5Flw">
+      <edges source="//@units.2/@lhs/@nodes.2" target="//@units.2/@lhs/@nodes.0">
         <type href="bank.ecore#//Manager/clients"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_9sSphHg8EeGZMfr3Iy5Flw" name="RHS">
-      <nodes xmi:id="_9sSphXg8EeGZMfr3Iy5Flw" incoming="_9sSping8EeGZMfr3Iy5Flw _9sSpi3g8EeGZMfr3Iy5Flw">
+    <rhs name="RHS">
+      <nodes incoming="//@units.2/@rhs/@edges.1 //@units.2/@rhs/@edges.2">
         <type href="bank.ecore#//Client"/>
-        <attributes xmi:id="_9sSphng8EeGZMfr3Iy5Flw" value="client">
+        <attributes value="client">
           <type href="bank.ecore#//Person/name"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_9sSph3g8EeGZMfr3Iy5Flw" outgoing="_9sSpiXg8EeGZMfr3Iy5Flw _9sSping8EeGZMfr3Iy5Flw">
+      <nodes outgoing="//@units.2/@rhs/@edges.0 //@units.2/@rhs/@edges.1">
         <type href="bank.ecore#//Bank"/>
       </nodes>
-      <nodes xmi:id="_9sSpiHg8EeGZMfr3Iy5Flw" incoming="_9sSpiXg8EeGZMfr3Iy5Flw" outgoing="_9sSpi3g8EeGZMfr3Iy5Flw">
+      <nodes incoming="//@units.2/@rhs/@edges.0" outgoing="//@units.2/@rhs/@edges.2">
         <type href="bank.ecore#//Manager"/>
       </nodes>
-      <edges xmi:id="_9sSpiXg8EeGZMfr3Iy5Flw" source="_9sSph3g8EeGZMfr3Iy5Flw" target="_9sSpiHg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.2/@rhs/@nodes.1" target="//@units.2/@rhs/@nodes.2">
         <type href="bank.ecore#//Bank/managers"/>
       </edges>
-      <edges xmi:id="_9sSping8EeGZMfr3Iy5Flw" source="_9sSph3g8EeGZMfr3Iy5Flw" target="_9sSphXg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.2/@rhs/@nodes.1" target="//@units.2/@rhs/@nodes.0">
         <type href="bank.ecore#//Bank/clients"/>
       </edges>
-      <edges xmi:id="_9sSpi3g8EeGZMfr3Iy5Flw" source="_9sSpiHg8EeGZMfr3Iy5Flw" target="_9sSphXg8EeGZMfr3Iy5Flw">
+      <edges source="//@units.2/@rhs/@nodes.2" target="//@units.2/@rhs/@nodes.0">
         <type href="bank.ecore#//Manager/clients"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_9sTQkHg8EeGZMfr3Iy5Flw" origin="_9sSCc3g8EeGZMfr3Iy5Flw" image="_9sSphXg8EeGZMfr3Iy5Flw"/>
-    <mappings xmi:id="_9sTQkXg8EeGZMfr3Iy5Flw" origin="_9sSCdXg8EeGZMfr3Iy5Flw" image="_9sSph3g8EeGZMfr3Iy5Flw"/>
-    <mappings xmi:id="_9sTQkng8EeGZMfr3Iy5Flw" origin="_9sSpgHg8EeGZMfr3Iy5Flw" image="_9sSpiHg8EeGZMfr3Iy5Flw"/>
-    <multiRules xmi:id="_9sbMYHg8EeGZMfr3Iy5Flw" name="">
-      <lhs xmi:id="_9sbMYXg8EeGZMfr3Iy5Flw" name="LHS">
-        <nodes xmi:id="_9sbMYng8EeGZMfr3Iy5Flw" name="client" incoming="_9sbzc3g8EeGZMfr3Iy5Flw _9sbzdHg8EeGZMfr3Iy5Flw _3V4PsHseEeGvRuXq6ahpsw" outgoing="_9sbzdng8EeGZMfr3Iy5Flw">
+    <mappings origin="//@units.2/@lhs/@nodes.0" image="//@units.2/@rhs/@nodes.0"/>
+    <mappings origin="//@units.2/@lhs/@nodes.1" image="//@units.2/@rhs/@nodes.1"/>
+    <mappings origin="//@units.2/@lhs/@nodes.2" image="//@units.2/@rhs/@nodes.2"/>
+    <multiRules name="">
+      <lhs name="LHS">
+        <nodes name="client" incoming="//@units.2/@multiRules.0/@lhs/@edges.0 //@units.2/@multiRules.0/@lhs/@edges.1 //@units.2/@multiRules.0/@lhs/@edges.5" outgoing="//@units.2/@multiRules.0/@lhs/@edges.3">
           <type href="bank.ecore#//Client"/>
         </nodes>
-        <nodes xmi:id="_9sbzcHg8EeGZMfr3Iy5Flw" outgoing="_9sbzc3g8EeGZMfr3Iy5Flw _9sbzdXg8EeGZMfr3Iy5Flw _9sbzd3g8EeGZMfr3Iy5Flw">
+        <nodes outgoing="//@units.2/@multiRules.0/@lhs/@edges.0 //@units.2/@multiRules.0/@lhs/@edges.2 //@units.2/@multiRules.0/@lhs/@edges.4">
           <type href="bank.ecore#//Bank"/>
         </nodes>
-        <nodes xmi:id="_9sbzcXg8EeGZMfr3Iy5Flw" incoming="_9sbzdXg8EeGZMfr3Iy5Flw" outgoing="_9sbzdHg8EeGZMfr3Iy5Flw">
+        <nodes incoming="//@units.2/@multiRules.0/@lhs/@edges.2" outgoing="//@units.2/@multiRules.0/@lhs/@edges.1">
           <type href="bank.ecore#//Manager"/>
         </nodes>
-        <nodes xmi:id="_9sbzcng8EeGZMfr3Iy5Flw" incoming="_9sbzdng8EeGZMfr3Iy5Flw _9sbzd3g8EeGZMfr3Iy5Flw" outgoing="_3V4PsHseEeGvRuXq6ahpsw">
+        <nodes incoming="//@units.2/@multiRules.0/@lhs/@edges.3 //@units.2/@multiRules.0/@lhs/@edges.4" outgoing="//@units.2/@multiRules.0/@lhs/@edges.5">
           <type href="bank.ecore#//Account"/>
         </nodes>
-        <edges xmi:id="_9sbzc3g8EeGZMfr3Iy5Flw" source="_9sbzcHg8EeGZMfr3Iy5Flw" target="_9sbMYng8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.1" target="//@units.2/@multiRules.0/@lhs/@nodes.0">
           <type href="bank.ecore#//Bank/clients"/>
         </edges>
-        <edges xmi:id="_9sbzdHg8EeGZMfr3Iy5Flw" source="_9sbzcXg8EeGZMfr3Iy5Flw" target="_9sbMYng8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.2" target="//@units.2/@multiRules.0/@lhs/@nodes.0">
           <type href="bank.ecore#//Manager/clients"/>
         </edges>
-        <edges xmi:id="_9sbzdXg8EeGZMfr3Iy5Flw" source="_9sbzcHg8EeGZMfr3Iy5Flw" target="_9sbzcXg8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.1" target="//@units.2/@multiRules.0/@lhs/@nodes.2">
           <type href="bank.ecore#//Bank/managers"/>
         </edges>
-        <edges xmi:id="_9sbzdng8EeGZMfr3Iy5Flw" source="_9sbMYng8EeGZMfr3Iy5Flw" target="_9sbzcng8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.0" target="//@units.2/@multiRules.0/@lhs/@nodes.3">
           <type href="bank.ecore#//Client/accounts"/>
         </edges>
-        <edges xmi:id="_9sbzd3g8EeGZMfr3Iy5Flw" source="_9sbzcHg8EeGZMfr3Iy5Flw" target="_9sbzcng8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.1" target="//@units.2/@multiRules.0/@lhs/@nodes.3">
           <type href="bank.ecore#//Bank/accounts"/>
         </edges>
-        <edges xmi:id="_3V4PsHseEeGvRuXq6ahpsw" source="_9sbzcng8EeGZMfr3Iy5Flw" target="_9sbMYng8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.3" target="//@units.2/@multiRules.0/@lhs/@nodes.0">
           <type href="bank.ecore#//Account/owner"/>
         </edges>
       </lhs>
-      <rhs xmi:id="_9sbzeHg8EeGZMfr3Iy5Flw" name="RHS">
-        <nodes xmi:id="_9sbzeXg8EeGZMfr3Iy5Flw" name="client" incoming="_9scagHg8EeGZMfr3Iy5Flw _9scagXg8EeGZMfr3Iy5Flw">
+      <rhs name="RHS">
+        <nodes name="client" incoming="//@units.2/@multiRules.0/@rhs/@edges.0 //@units.2/@multiRules.0/@rhs/@edges.1">
           <type href="bank.ecore#//Client"/>
         </nodes>
-        <nodes xmi:id="_9sbzeng8EeGZMfr3Iy5Flw" outgoing="_9scagHg8EeGZMfr3Iy5Flw _9scagng8EeGZMfr3Iy5Flw">
+        <nodes outgoing="//@units.2/@multiRules.0/@rhs/@edges.0 //@units.2/@multiRules.0/@rhs/@edges.2">
           <type href="bank.ecore#//Bank"/>
         </nodes>
-        <nodes xmi:id="_9sbze3g8EeGZMfr3Iy5Flw" incoming="_9scagng8EeGZMfr3Iy5Flw" outgoing="_9scagXg8EeGZMfr3Iy5Flw">
+        <nodes incoming="//@units.2/@multiRules.0/@rhs/@edges.2" outgoing="//@units.2/@multiRules.0/@rhs/@edges.1">
           <type href="bank.ecore#//Manager"/>
         </nodes>
-        <edges xmi:id="_9scagHg8EeGZMfr3Iy5Flw" source="_9sbzeng8EeGZMfr3Iy5Flw" target="_9sbzeXg8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@rhs/@nodes.1" target="//@units.2/@multiRules.0/@rhs/@nodes.0">
           <type href="bank.ecore#//Bank/clients"/>
         </edges>
-        <edges xmi:id="_9scagXg8EeGZMfr3Iy5Flw" source="_9sbze3g8EeGZMfr3Iy5Flw" target="_9sbzeXg8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@rhs/@nodes.2" target="//@units.2/@multiRules.0/@rhs/@nodes.0">
           <type href="bank.ecore#//Manager/clients"/>
         </edges>
-        <edges xmi:id="_9scagng8EeGZMfr3Iy5Flw" source="_9sbzeng8EeGZMfr3Iy5Flw" target="_9sbze3g8EeGZMfr3Iy5Flw">
+        <edges source="//@units.2/@multiRules.0/@rhs/@nodes.1" target="//@units.2/@multiRules.0/@rhs/@nodes.2">
           <type href="bank.ecore#//Bank/managers"/>
         </edges>
       </rhs>
-      <mappings xmi:id="_9scag3g8EeGZMfr3Iy5Flw" origin="_9sbMYng8EeGZMfr3Iy5Flw" image="_9sbzeXg8EeGZMfr3Iy5Flw"/>
-      <mappings xmi:id="_9scahHg8EeGZMfr3Iy5Flw" origin="_9sbzcHg8EeGZMfr3Iy5Flw" image="_9sbzeng8EeGZMfr3Iy5Flw"/>
-      <mappings xmi:id="_9scahXg8EeGZMfr3Iy5Flw" origin="_9sbzcXg8EeGZMfr3Iy5Flw" image="_9sbze3g8EeGZMfr3Iy5Flw"/>
-      <multiMappings xmi:id="_9sePsHg8EeGZMfr3Iy5Flw" origin="_9sSCc3g8EeGZMfr3Iy5Flw" image="_9sbMYng8EeGZMfr3Iy5Flw"/>
-      <multiMappings xmi:id="_9sfd0Hg8EeGZMfr3Iy5Flw" origin="_9sSCdXg8EeGZMfr3Iy5Flw" image="_9sbzcHg8EeGZMfr3Iy5Flw"/>
-      <multiMappings xmi:id="_9sgr8Hg8EeGZMfr3Iy5Flw" origin="_9sSpgHg8EeGZMfr3Iy5Flw" image="_9sbzcXg8EeGZMfr3Iy5Flw"/>
-      <multiMappings xmi:id="_9sihIHg8EeGZMfr3Iy5Flw" origin="_9sSphXg8EeGZMfr3Iy5Flw" image="_9sbzeXg8EeGZMfr3Iy5Flw"/>
-      <multiMappings xmi:id="_9sjIMHg8EeGZMfr3Iy5Flw" origin="_9sSph3g8EeGZMfr3Iy5Flw" image="_9sbzeng8EeGZMfr3Iy5Flw"/>
-      <multiMappings xmi:id="_9sjvQHg8EeGZMfr3Iy5Flw" origin="_9sSpiHg8EeGZMfr3Iy5Flw" image="_9sbze3g8EeGZMfr3Iy5Flw"/>
+      <mappings origin="//@units.2/@multiRules.0/@lhs/@nodes.0" image="//@units.2/@multiRules.0/@rhs/@nodes.0"/>
+      <mappings origin="//@units.2/@multiRules.0/@lhs/@nodes.1" image="//@units.2/@multiRules.0/@rhs/@nodes.1"/>
+      <mappings origin="//@units.2/@multiRules.0/@lhs/@nodes.2" image="//@units.2/@multiRules.0/@rhs/@nodes.2"/>
+      <multiMappings origin="//@units.2/@lhs/@nodes.0" image="//@units.2/@multiRules.0/@lhs/@nodes.0"/>
+      <multiMappings origin="//@units.2/@lhs/@nodes.1" image="//@units.2/@multiRules.0/@lhs/@nodes.1"/>
+      <multiMappings origin="//@units.2/@lhs/@nodes.2" image="//@units.2/@multiRules.0/@lhs/@nodes.2"/>
+      <multiMappings origin="//@units.2/@rhs/@nodes.0" image="//@units.2/@multiRules.0/@rhs/@nodes.0"/>
+      <multiMappings origin="//@units.2/@rhs/@nodes.1" image="//@units.2/@multiRules.0/@rhs/@nodes.1"/>
+      <multiMappings origin="//@units.2/@rhs/@nodes.2" image="//@units.2/@multiRules.0/@rhs/@nodes.2"/>
     </multiRules>
   </units>
 </henshin:Module>

@@ -157,7 +157,6 @@ public class CombBenchmark {
 	public static int expectedCombMatchCount(int gridWidth, int gridHeight, boolean sparse, int patternWidth) {
 		return sparse ? 0 : (gridWidth-patternWidth+1) * (gridWidth-1);
 	}
-
 	
 	/**
 	 * Run the complete benchmark.
@@ -215,7 +214,7 @@ public class CombBenchmark {
 		grid.clear();
 
 	}
-		
+	
 	public static void main(String[] args) {
 		run(PATH);
 	}

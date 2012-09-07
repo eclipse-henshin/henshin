@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_q2mewKo1EeGWmNM0TiX1dQ">
-  <rules xmi:id="_1Ge5gKo9EeGWmNM0TiX1dQ" name="extendCombPattern">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_q2mewKo1EeGWmNM0TiX1dQ">
+  <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <imports href="grid.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_1Ge5gKo9EeGWmNM0TiX1dQ" name="extendCombPattern">
     <lhs xmi:id="_1Ge5gao9EeGWmNM0TiX1dQ" name="LHS">
       <nodes xmi:id="_-9urcKo9EeGWmNM0TiX1dQ" outgoing="_MHDSIKo-EeGWmNM0TiX1dQ _l14HIKpGEeGWmNM0TiX1dQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
@@ -285,8 +288,8 @@
     <mappings xmi:id="_evonwKpHEeGWmNM0TiX1dQ" origin="_evk9YKpHEeGWmNM0TiX1dQ" image="_evnZoKpHEeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_mekCUKpHEeGWmNM0TiX1dQ" origin="_mefw4KpHEeGWmNM0TiX1dQ" image="_mehmEKpHEeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_lzCC8KpQEeGWmNM0TiX1dQ" origin="_ly_msKpQEeGWmNM0TiX1dQ" image="_lzA00KpQEeGWmNM0TiX1dQ"/>
-  </rules>
-  <rules xmi:id="_SzUUgLfhEeGgKfdtjnLQtA" name="combPattern">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_SzUUgLfhEeGgKfdtjnLQtA" name="combPattern">
     <lhs xmi:id="_SzUUgbfhEeGgKfdtjnLQtA" name="LHS">
       <nodes xmi:id="_zmvHQLfhEeGgKfdtjnLQtA" name="last" outgoing="_2fmKwLfhEeGgKfdtjnLQtA">
         <type href="grid.ecore#//Node"/>
@@ -311,11 +314,10 @@
     </rhs>
     <mappings xmi:id="_zmvuUbfhEeGgKfdtjnLQtA" origin="_zmvHQLfhEeGgKfdtjnLQtA" image="_zmvuULfhEeGgKfdtjnLQtA"/>
     <mappings xmi:id="_0sEXoLfhEeGgKfdtjnLQtA" origin="_0sDJgLfhEeGgKfdtjnLQtA" image="_0sDwkLfhEeGgKfdtjnLQtA"/>
-  </rules>
-  <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
-  <imports href="grid.ecore#/"/>
-  <transformationUnits xsi:type="henshin:IteratedUnit" xmi:id="_nIrcYLfnEeGgKfdtjnLQtA" name="buildCombPattern" subUnit="_1Ge5gKo9EeGWmNM0TiX1dQ" iterations="width-1">
-    <parameters xmi:id="_rRGDQLfnEeGgKfdtjnLQtA" name="width"/>
-  </transformationUnits>
-</henshin:TransformationSystem>
+  </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_nIrcYLfnEeGgKfdtjnLQtA" name="buildCombPattern" subUnit="_1Ge5gKo9EeGWmNM0TiX1dQ" iterations="width-1">
+    <parameters xmi:id="_rRGDQLfnEeGgKfdtjnLQtA" name="width">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+  </units>
+</henshin:Module>

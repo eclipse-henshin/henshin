@@ -9,6 +9,7 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,8 +27,6 @@ import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.model.Action;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
@@ -213,22 +212,20 @@ public class NodeCreateCommand extends EditElementCommand {
 		 */
 		public final EClassifier openAndReturnSelection() {
 
-			final List<EClassifier> elements = ModuleEditHelper
-					.collectAllEClassifier(module);
+			List<EClassifier> elements = new ArrayList<EClassifier>( 
+					ModuleEditHelper.collectAllEClassifiers(module, false));
 
 			EClassifier result = null;
 			if (elements.size() > 0) {
-
 				Collections.sort(elements, new EClassComparator());
 				this.setElements(elements.toArray());
 				int returnCode = this.open();
 				if (returnCode == ElementListSelectionDialog.OK) {
 					result = (EClassifier) getFirstResult();
-				}// if
-			}// if
-
+				}
+			}
 			return result;
-		}// openAndReturnElement
+		}
 
 		/*
 		 * @see Dialog#createDialogArea(Composite)

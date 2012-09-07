@@ -133,12 +133,23 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	public String getText(Object object) {
 		Mapping mapping = (Mapping) object;
 		String result = getString("_UI_Mapping_type");
-		String origin = (mapping.getOrigin() != null) ? NodeItemProvider.getNodeLabel(mapping.getOrigin()) : "?";
-		String image = (mapping.getImage() != null) ? NodeItemProvider.getNodeLabel(mapping.getImage()) : "?";
+		String origin = (mapping.getOrigin() != null) ? getShortNodeName(mapping.getOrigin()) : "?";
+		String image = (mapping.getImage() != null) ? getShortNodeName(mapping.getImage()) : "?";
 		origin = (origin.isEmpty()) ? "_" : origin;
 		image = (image.isEmpty()) ? "_" : image;
 		result = result + " " + origin + " -> " + image;
 		return result;
+	}
+	
+	/*
+	 * Compute a short name for a node.
+	 */
+	private static String getShortNodeName(Node node) {
+		String label = node.toString();
+		if (label.startsWith("Node")) {
+			label = label.replaceFirst("Node", "").trim();
+		}
+		return label;
 	}
 	
 	/*

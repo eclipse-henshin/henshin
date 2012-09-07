@@ -156,7 +156,12 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + " [" + iterations + "]";
+		String result = super.toString();
+		if (iterations==null || iterations.trim().length()==0) {
+			return result + " [?]";
+		} else {
+			return result + " [" + iterations + "]";			
+		}
 	}
 
 } //IteratedUnitImpl

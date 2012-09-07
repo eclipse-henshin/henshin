@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_op50IKopEeGlvMpQNzqMMA">
-  <rules xmi:id="_Cpq9QKo0EeGWmNM0TiX1dQ" name="initGrid">
-    <parameters xmi:id="_yRymQLcgEeGQre7dAX2kZQ" name="grid"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_op50IKopEeGlvMpQNzqMMA">
+  <imports href="grid.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Cpq9QKo0EeGWmNM0TiX1dQ" name="initGrid">
+    <parameters xmi:id="_yRymQLcgEeGQre7dAX2kZQ" name="grid">
+      <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
+    </parameters>
     <lhs xmi:id="_Cpq9Qao0EeGWmNM0TiX1dQ" name="LHS"/>
     <rhs xmi:id="_Cpq9Qqo0EeGWmNM0TiX1dQ" name="RHS">
       <nodes xmi:id="_dZw7oKo0EeGWmNM0TiX1dQ" incoming="_de7xcLcXEeGQre7dAX2kZQ" outgoing="_ezn6oKptEeGWmNM0TiX1dQ">
@@ -23,8 +26,8 @@
         <type href="grid.ecore#//Grid/nodes"/>
       </edges>
     </rhs>
-  </rules>
-  <rules xmi:id="_sHWKYKo0EeGWmNM0TiX1dQ" name="startNextColumn">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_sHWKYKo0EeGWmNM0TiX1dQ" name="startNextColumn">
     <lhs xmi:id="_sHWKYao0EeGWmNM0TiX1dQ" name="LHS">
       <nodes xmi:id="_x9Nxkao0EeGWmNM0TiX1dQ" name="root" outgoing="_x9XikKo0EeGWmNM0TiX1dQ">
         <type href="grid.ecore#//Grid"/>
@@ -109,8 +112,8 @@
     </rhs>
     <mappings xmi:id="_vSa_Qqo0EeGWmNM0TiX1dQ" origin="_vSa_QKo0EeGWmNM0TiX1dQ" image="_vSa_Qao0EeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_x9Nxk6o0EeGWmNM0TiX1dQ" origin="_x9Nxkao0EeGWmNM0TiX1dQ" image="_x9Nxkqo0EeGWmNM0TiX1dQ"/>
-  </rules>
-  <rules xmi:id="_IddhAKpZEeGWmNM0TiX1dQ" name="extendFirstColumn">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_IddhAKpZEeGWmNM0TiX1dQ" name="extendFirstColumn">
     <lhs xmi:id="_IddhAapZEeGWmNM0TiX1dQ" name="LHS">
       <nodes xmi:id="_MOh-4apZEeGWmNM0TiX1dQ" name="root" outgoing="_NXpjEKpZEeGWmNM0TiX1dQ _NyRpkKpZEeGWmNM0TiX1dQ">
         <type href="grid.ecore#//Grid"/>
@@ -163,8 +166,8 @@
     <mappings xmi:id="_MOil8apZEeGWmNM0TiX1dQ" origin="_MOh-4apZEeGWmNM0TiX1dQ" image="_MOil8KpZEeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_NXo8AqpZEeGWmNM0TiX1dQ" origin="_NXo8AKpZEeGWmNM0TiX1dQ" image="_NXo8AapZEeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_NyRCgqpZEeGWmNM0TiX1dQ" origin="_NyRCgKpZEeGWmNM0TiX1dQ" image="_NyRCgapZEeGWmNM0TiX1dQ"/>
-  </rules>
-  <rules xmi:id="_lOp0cKpZEeGWmNM0TiX1dQ" name="extendNextColumn">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_lOp0cKpZEeGWmNM0TiX1dQ" name="extendNextColumn">
     <lhs xmi:id="_lOp0capZEeGWmNM0TiX1dQ" name="LHS">
       <nodes xmi:id="_pbSM8apZEeGWmNM0TiX1dQ" name="root" outgoing="_qryykKpZEeGWmNM0TiX1dQ _q5ScAKpZEeGWmNM0TiX1dQ _rcKfkKpZEeGWmNM0TiX1dQ">
         <type href="grid.ecore#//Grid"/>
@@ -193,44 +196,34 @@
       <edges xmi:id="_sZfDcKpZEeGWmNM0TiX1dQ" source="_qrxkcKpZEeGWmNM0TiX1dQ" target="_q5R08KpZEeGWmNM0TiX1dQ">
         <type href="grid.ecore#//Node/ver"/>
       </edges>
-      <formula xsi:type="henshin:Not" xmi:id="_yyzV8KpZEeGWmNM0TiX1dQ">
-        <child xsi:type="henshin:NestedCondition" xmi:id="_yyzV8apZEeGWmNM0TiX1dQ">
-          <conclusion xmi:id="_yyzV8qpZEeGWmNM0TiX1dQ" name="default">
-            <nodes xmi:id="_zsTJwKpZEeGWmNM0TiX1dQ" name="root" outgoing="_xcTdEKpZEeGWmNM0TiX1dQ _sfjVkKphEeGWmNM0TiX1dQ">
+      <formula xsi:type="henshin:Not" xmi:id="_Wrk-YfjuEeGdld1gVIPz9w">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_Wrk-YvjuEeGdld1gVIPz9w">
+          <conclusion xmi:id="_Wrk-Y_juEeGdld1gVIPz9w">
+            <nodes xmi:id="_Wrqd8PjuEeGdld1gVIPz9w" name="root" outgoing="_xcTdEKpZEeGWmNM0TiX1dQ">
               <type href="grid.ecore#//Grid"/>
             </nodes>
-            <nodes xmi:id="_yyz9AKpZEeGWmNM0TiX1dQ" outgoing="_x4XG8KpZEeGWmNM0TiX1dQ">
+            <nodes xmi:id="_Wr-nAPjuEeGdld1gVIPz9w" outgoing="_x4XG8KpZEeGWmNM0TiX1dQ">
               <type href="grid.ecore#//Node"/>
             </nodes>
-            <nodes xmi:id="_sfj8oKphEeGWmNM0TiX1dQ" outgoing="_sflx0KphEeGWmNM0TiX1dQ">
-              <type href="grid.ecore#//Node"/>
-            </nodes>
-            <nodes xmi:id="_sfhgYKphEeGWmNM0TiX1dQ" incoming="_sfjVkKphEeGWmNM0TiX1dQ _sflx0KphEeGWmNM0TiX1dQ" outgoing="_HLfmwKrxEeGrSuUOoDQ5Sw">
+            <nodes xmi:id="_WsTXIPjuEeGdld1gVIPz9w" outgoing="_HLfmwKrxEeGrSuUOoDQ5Sw">
               <type href="grid.ecore#//Node"/>
             </nodes>
             <nodes xmi:id="_xcRn4KpZEeGWmNM0TiX1dQ" incoming="_xcTdEKpZEeGWmNM0TiX1dQ _x4XG8KpZEeGWmNM0TiX1dQ _HLfmwKrxEeGrSuUOoDQ5Sw">
               <type href="grid.ecore#//Node"/>
             </nodes>
-            <edges xmi:id="_x4XG8KpZEeGWmNM0TiX1dQ" source="_yyz9AKpZEeGWmNM0TiX1dQ" target="_xcRn4KpZEeGWmNM0TiX1dQ">
-              <type href="grid.ecore#//Node/ver"/>
-            </edges>
-            <edges xmi:id="_xcTdEKpZEeGWmNM0TiX1dQ" source="_zsTJwKpZEeGWmNM0TiX1dQ" target="_xcRn4KpZEeGWmNM0TiX1dQ">
+            <edges xmi:id="_xcTdEKpZEeGWmNM0TiX1dQ" source="_Wrqd8PjuEeGdld1gVIPz9w" target="_xcRn4KpZEeGWmNM0TiX1dQ">
               <type href="grid.ecore#//Grid/nodes"/>
             </edges>
-            <edges xmi:id="_sfjVkKphEeGWmNM0TiX1dQ" source="_zsTJwKpZEeGWmNM0TiX1dQ" target="_sfhgYKphEeGWmNM0TiX1dQ">
-              <type href="grid.ecore#//Grid/nodes"/>
-            </edges>
-            <edges xmi:id="_sflx0KphEeGWmNM0TiX1dQ" source="_sfj8oKphEeGWmNM0TiX1dQ" target="_sfhgYKphEeGWmNM0TiX1dQ">
+            <edges xmi:id="_x4XG8KpZEeGWmNM0TiX1dQ" source="_Wr-nAPjuEeGdld1gVIPz9w" target="_xcRn4KpZEeGWmNM0TiX1dQ">
               <type href="grid.ecore#//Node/ver"/>
             </edges>
-            <edges xmi:id="_HLfmwKrxEeGrSuUOoDQ5Sw" source="_sfhgYKphEeGWmNM0TiX1dQ" target="_xcRn4KpZEeGWmNM0TiX1dQ">
+            <edges xmi:id="_HLfmwKrxEeGrSuUOoDQ5Sw" source="_WsTXIPjuEeGdld1gVIPz9w" target="_xcRn4KpZEeGWmNM0TiX1dQ">
               <type href="grid.ecore#//Node/hor"/>
             </edges>
           </conclusion>
-          <mappings xmi:id="_yyz9AapZEeGWmNM0TiX1dQ" origin="_rcJRcKpZEeGWmNM0TiX1dQ" image="_yyz9AKpZEeGWmNM0TiX1dQ"/>
-          <mappings xmi:id="_zsTJwapZEeGWmNM0TiX1dQ" origin="_pbSM8apZEeGWmNM0TiX1dQ" image="_zsTJwKpZEeGWmNM0TiX1dQ"/>
-          <mappings xmi:id="_sfiHcKphEeGWmNM0TiX1dQ" origin="_q5R08KpZEeGWmNM0TiX1dQ" image="_sfhgYKphEeGWmNM0TiX1dQ"/>
-          <mappings xmi:id="_sfkjsKphEeGWmNM0TiX1dQ" origin="_qrxkcKpZEeGWmNM0TiX1dQ" image="_sfj8oKphEeGWmNM0TiX1dQ"/>
+          <mappings xmi:id="_Wrqd8fjuEeGdld1gVIPz9w" origin="_pbSM8apZEeGWmNM0TiX1dQ" image="_Wrqd8PjuEeGdld1gVIPz9w"/>
+          <mappings xmi:id="_Wr-nAfjuEeGdld1gVIPz9w" origin="_rcJRcKpZEeGWmNM0TiX1dQ" image="_Wr-nAPjuEeGdld1gVIPz9w"/>
+          <mappings xmi:id="_WsTXIfjuEeGdld1gVIPz9w" origin="_q5R08KpZEeGWmNM0TiX1dQ" image="_WsTXIPjuEeGdld1gVIPz9w"/>
         </child>
       </formula>
     </lhs>
@@ -279,12 +272,17 @@
     <mappings xmi:id="_qrxkcqpZEeGWmNM0TiX1dQ" origin="_qrxkcKpZEeGWmNM0TiX1dQ" image="_qrxkcapZEeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_q5R08qpZEeGWmNM0TiX1dQ" origin="_q5R08KpZEeGWmNM0TiX1dQ" image="_q5R08apZEeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_rcJ4gapZEeGWmNM0TiX1dQ" origin="_rcJRcKpZEeGWmNM0TiX1dQ" image="_rcJ4gKpZEeGWmNM0TiX1dQ"/>
-  </rules>
-  <imports href="grid.ecore#/"/>
-  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_xS9gILcYEeGQre7dAX2kZQ" name="buildGrid" subUnits="_Cpq9QKo0EeGWmNM0TiX1dQ _HmDuwLcZEeGQre7dAX2kZQ _0mMrILcbEeGQre7dAX2kZQ">
-    <parameters xmi:id="_y8Xt8LcYEeGQre7dAX2kZQ" name="width"/>
-    <parameters xmi:id="_y8gQ0LcYEeGQre7dAX2kZQ" name="height"/>
-    <parameters xmi:id="_r2K4ILeYEeGgKfdtjnLQtA" name="grid"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_xS9gILcYEeGQre7dAX2kZQ" name="buildGrid" subUnits="_Cpq9QKo0EeGWmNM0TiX1dQ _HmDuwLcZEeGQre7dAX2kZQ _0mMrILcbEeGQre7dAX2kZQ">
+    <parameters xmi:id="_y8Xt8LcYEeGQre7dAX2kZQ" name="width">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_y8gQ0LcYEeGQre7dAX2kZQ" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_r2K4ILeYEeGgKfdtjnLQtA" name="grid">
+      <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
+    </parameters>
     <parameterMappings xmi:id="_EBi0QLcbEeGQre7dAX2kZQ" source="_y8gQ0LcYEeGQre7dAX2kZQ" target="_uDkhELcaEeGQre7dAX2kZQ"/>
     <parameterMappings xmi:id="_EBqJALcbEeGQre7dAX2kZQ" source="_uDkhELcaEeGQre7dAX2kZQ" target="_y8gQ0LcYEeGQre7dAX2kZQ"/>
     <parameterMappings xmi:id="_t_wGILccEeGQre7dAX2kZQ" source="_y8Xt8LcYEeGQre7dAX2kZQ" target="_8Ck9ILcbEeGQre7dAX2kZQ"/>
@@ -293,22 +291,32 @@
     <parameterMappings xmi:id="_uADoILccEeGQre7dAX2kZQ" source="_euZb8LccEeGQre7dAX2kZQ" target="_y8gQ0LcYEeGQre7dAX2kZQ"/>
     <parameterMappings xmi:id="_s0xOYLeYEeGgKfdtjnLQtA" source="_r2K4ILeYEeGgKfdtjnLQtA" target="_yRymQLcgEeGQre7dAX2kZQ"/>
     <parameterMappings xmi:id="_s05KMLeYEeGgKfdtjnLQtA" source="_yRymQLcgEeGQre7dAX2kZQ" target="_r2K4ILeYEeGgKfdtjnLQtA"/>
-  </transformationUnits>
-  <transformationUnits xsi:type="henshin:IteratedUnit" xmi:id="_HmDuwLcZEeGQre7dAX2kZQ" name="buildFirstColumn" subUnit="_IddhAKpZEeGWmNM0TiX1dQ" iterations="height-2">
-    <parameters xmi:id="_uDkhELcaEeGQre7dAX2kZQ" name="height"/>
-  </transformationUnits>
-  <transformationUnits xsi:type="henshin:IteratedUnit" xmi:id="_K_5tgLcbEeGQre7dAX2kZQ" name="expandNextColumn" subUnit="_lOp0cKpZEeGWmNM0TiX1dQ" iterations="height-1">
-    <parameters xmi:id="_blauQLcbEeGQre7dAX2kZQ" name="height"/>
-  </transformationUnits>
-  <transformationUnits xsi:type="henshin:IteratedUnit" xmi:id="_0mMrILcbEeGQre7dAX2kZQ" name="addColumns" subUnit="_Lqd4ALccEeGQre7dAX2kZQ" iterations="width-1">
-    <parameters xmi:id="_8Ck9ILcbEeGQre7dAX2kZQ" name="width"/>
-    <parameters xmi:id="_euZb8LccEeGQre7dAX2kZQ" name="height"/>
+  </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_HmDuwLcZEeGQre7dAX2kZQ" name="buildFirstColumn" subUnit="_IddhAKpZEeGWmNM0TiX1dQ" iterations="height-2">
+    <parameters xmi:id="_uDkhELcaEeGQre7dAX2kZQ" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+  </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_K_5tgLcbEeGQre7dAX2kZQ" name="expandNextColumn" subUnit="_lOp0cKpZEeGWmNM0TiX1dQ" iterations="height-1">
+    <parameters xmi:id="_blauQLcbEeGQre7dAX2kZQ" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+  </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_0mMrILcbEeGQre7dAX2kZQ" name="addColumns" subUnit="_Lqd4ALccEeGQre7dAX2kZQ" iterations="width-1">
+    <parameters xmi:id="_8Ck9ILcbEeGQre7dAX2kZQ" name="width">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_euZb8LccEeGQre7dAX2kZQ" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
     <parameterMappings xmi:id="_fi73QLccEeGQre7dAX2kZQ" source="_euZb8LccEeGQre7dAX2kZQ" target="_OK6bgLccEeGQre7dAX2kZQ"/>
     <parameterMappings xmi:id="_fjCk8LccEeGQre7dAX2kZQ" source="_OK6bgLccEeGQre7dAX2kZQ" target="_euZb8LccEeGQre7dAX2kZQ"/>
-  </transformationUnits>
-  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_Lqd4ALccEeGQre7dAX2kZQ" name="buildNextColumn" subUnits="_sHWKYKo0EeGWmNM0TiX1dQ _K_5tgLcbEeGQre7dAX2kZQ">
-    <parameters xmi:id="_OK6bgLccEeGQre7dAX2kZQ" name="height"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_Lqd4ALccEeGQre7dAX2kZQ" name="buildNextColumn" subUnits="_sHWKYKo0EeGWmNM0TiX1dQ _K_5tgLcbEeGQre7dAX2kZQ">
+    <parameters xmi:id="_OK6bgLccEeGQre7dAX2kZQ" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
     <parameterMappings xmi:id="_TIZCILccEeGQre7dAX2kZQ" source="_OK6bgLccEeGQre7dAX2kZQ" target="_blauQLcbEeGQre7dAX2kZQ"/>
     <parameterMappings xmi:id="_TIfv0LccEeGQre7dAX2kZQ" source="_blauQLcbEeGQre7dAX2kZQ" target="_OK6bgLccEeGQre7dAX2kZQ"/>
-  </transformationUnits>
-</henshin:TransformationSystem>
+  </units>
+</henshin:Module>

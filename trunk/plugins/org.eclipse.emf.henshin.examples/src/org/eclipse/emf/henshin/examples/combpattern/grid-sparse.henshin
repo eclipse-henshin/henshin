@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_op50IKopEeGlvMpQNzqMMA">
-  <rules xmi:id="_2-D60KpsEeGWmNM0TiX1dQ" name="startColumn">
-    <parameters xmi:id="_JgK4ULeYEeGgKfdtjnLQtA" name="next"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_op50IKopEeGlvMpQNzqMMA">
+  <imports href="grid.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_2-D60KpsEeGWmNM0TiX1dQ" name="startColumn">
+    <parameters xmi:id="_JgK4ULeYEeGgKfdtjnLQtA" name="next">
+      <type xsi:type="ecore:EClass" href="grid.ecore#//Node"/>
+    </parameters>
     <lhs xmi:id="_2-D60apsEeGWmNM0TiX1dQ" name="LHS">
       <nodes xmi:id="_jNePwKptEeGWmNM0TiX1dQ" name="root">
         <type href="grid.ecore#//Grid"/>
@@ -49,9 +52,11 @@
       </edges>
     </rhs>
     <mappings xmi:id="_jNjIQKptEeGWmNM0TiX1dQ" origin="_jNePwKptEeGWmNM0TiX1dQ" image="_jNgE8KptEeGWmNM0TiX1dQ"/>
-  </rules>
-  <rules xmi:id="_L6YjwKptEeGWmNM0TiX1dQ" name="extendColumn">
-    <parameters xmi:id="_NYRLQLeYEeGgKfdtjnLQtA" name="next"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_L6YjwKptEeGWmNM0TiX1dQ" name="extendColumn">
+    <parameters xmi:id="_NYRLQLeYEeGgKfdtjnLQtA" name="next">
+      <type xsi:type="ecore:EClass" href="grid.ecore#//Node"/>
+    </parameters>
     <lhs xmi:id="_L6YjwaptEeGWmNM0TiX1dQ" name="LHS">
       <nodes xmi:id="_id2cwKqFEeGBfe4192pjRA" name="root" outgoing="_ieiZQKqFEeGBfe4192pjRA _ie6zwKqFEeGBfe4192pjRA">
         <type href="grid.ecore#//Grid"/>
@@ -116,48 +121,67 @@
     <mappings xmi:id="_oo2TUKptEeGWmNM0TiX1dQ" origin="_oo0eIKptEeGWmNM0TiX1dQ" image="_oo1FMKptEeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_o4tUQKptEeGWmNM0TiX1dQ" origin="_o4sGIKptEeGWmNM0TiX1dQ" image="_o4stMKptEeGWmNM0TiX1dQ"/>
     <mappings xmi:id="_ieShoKqFEeGBfe4192pjRA" origin="_id2cwKqFEeGBfe4192pjRA" image="_ieANwKqFEeGBfe4192pjRA"/>
-  </rules>
-  <rules xmi:id="_WoGqsKptEeGWmNM0TiX1dQ" name="initGrid">
-    <parameters xmi:id="_uNLoQLeXEeGgKfdtjnLQtA" name="grid"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_WoGqsKptEeGWmNM0TiX1dQ" name="initGrid">
+    <parameters xmi:id="_uNLoQLeXEeGgKfdtjnLQtA" name="grid">
+      <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
+    </parameters>
     <lhs xmi:id="_WoGqsaptEeGWmNM0TiX1dQ" name="LHS"/>
     <rhs xmi:id="_WoGqsqptEeGWmNM0TiX1dQ" name="RHS">
       <nodes xmi:id="_X5qZMKptEeGWmNM0TiX1dQ" name="grid">
         <type href="grid.ecore#//Grid"/>
       </nodes>
     </rhs>
-  </rules>
-  <imports href="grid.ecore#/"/>
-  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_hLVtILeYEeGgKfdtjnLQtA" name="buildGrid" subUnits="_WoGqsKptEeGWmNM0TiX1dQ _13FjcLeYEeGgKfdtjnLQtA">
-    <parameters xmi:id="_y4uU4LeYEeGgKfdtjnLQtA" name="width"/>
-    <parameters xmi:id="_y44F4LeYEeGgKfdtjnLQtA" name="height"/>
-    <parameters xmi:id="_iHSYALeYEeGgKfdtjnLQtA" name="grid"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_hLVtILeYEeGgKfdtjnLQtA" name="buildGrid" subUnits="_WoGqsKptEeGWmNM0TiX1dQ _13FjcLeYEeGgKfdtjnLQtA">
+    <parameters xmi:id="_y4uU4LeYEeGgKfdtjnLQtA" name="width">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_y44F4LeYEeGgKfdtjnLQtA" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_iHSYALeYEeGgKfdtjnLQtA" name="grid">
+      <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
+    </parameters>
     <parameterMappings xmi:id="_jlWRcLeYEeGgKfdtjnLQtA" source="_iHSYALeYEeGgKfdtjnLQtA" target="_uNLoQLeXEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_jlai4LeYEeGgKfdtjnLQtA" source="_uNLoQLeXEeGgKfdtjnLQtA" target="_iHSYALeYEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_DXtaYLeaEeGgKfdtjnLQtA" source="_y4uU4LeYEeGgKfdtjnLQtA" target="__566ULeYEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_DXxEwLeaEeGgKfdtjnLQtA" source="__566ULeYEeGgKfdtjnLQtA" target="_y4uU4LeYEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_DX0vILeaEeGgKfdtjnLQtA" source="_y44F4LeYEeGgKfdtjnLQtA" target="__5-ksLeYEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_DX4ZgLeaEeGgKfdtjnLQtA" source="__5-ksLeYEeGgKfdtjnLQtA" target="_y44F4LeYEeGgKfdtjnLQtA"/>
-  </transformationUnits>
-  <transformationUnits xsi:type="henshin:IteratedUnit" xmi:id="_13FjcLeYEeGgKfdtjnLQtA" name="buildColumns" subUnit="_ItgP0LeZEeGgKfdtjnLQtA" iterations="width/2">
-    <parameters xmi:id="__566ULeYEeGgKfdtjnLQtA" name="width"/>
-    <parameters xmi:id="__5-ksLeYEeGgKfdtjnLQtA" name="height"/>
+  </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_13FjcLeYEeGgKfdtjnLQtA" name="buildColumns" subUnit="_ItgP0LeZEeGgKfdtjnLQtA" iterations="width/2">
+    <parameters xmi:id="__566ULeYEeGgKfdtjnLQtA" name="width">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="__5-ksLeYEeGgKfdtjnLQtA" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
     <parameterMappings xmi:id="_o_JLMLeZEeGgKfdtjnLQtA" source="__5-ksLeYEeGgKfdtjnLQtA" target="_mP4IkLeZEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_o_M1kLeZEeGgKfdtjnLQtA" source="_mP4IkLeZEeGgKfdtjnLQtA" target="__5-ksLeYEeGgKfdtjnLQtA"/>
-  </transformationUnits>
-  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_ItgP0LeZEeGgKfdtjnLQtA" name="createColumn" subUnits="_2-D60KpsEeGWmNM0TiX1dQ _hjLI4LeZEeGgKfdtjnLQtA">
-    <parameters xmi:id="_mP4IkLeZEeGgKfdtjnLQtA" name="height"/>
-    <parameters xmi:id="_M2O_wLeZEeGgKfdtjnLQtA" name="next"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_ItgP0LeZEeGgKfdtjnLQtA" name="createColumn" subUnits="_2-D60KpsEeGWmNM0TiX1dQ _hjLI4LeZEeGgKfdtjnLQtA">
+    <parameters xmi:id="_mP4IkLeZEeGgKfdtjnLQtA" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_M2O_wLeZEeGgKfdtjnLQtA" name="next">
+      <type xsi:type="ecore:EClass" href="grid.ecore#//Node"/>
+    </parameters>
     <parameterMappings xmi:id="_RZ9poLeZEeGgKfdtjnLQtA" source="_M2O_wLeZEeGgKfdtjnLQtA" target="_JgK4ULeYEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_RaB7ELeZEeGgKfdtjnLQtA" source="_JgK4ULeYEeGgKfdtjnLQtA" target="_M2O_wLeZEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_UDL5MLeaEeGgKfdtjnLQtA" source="_mP4IkLeZEeGgKfdtjnLQtA" target="_lB4EYLeZEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_UDPjkLeaEeGgKfdtjnLQtA" source="_lB4EYLeZEeGgKfdtjnLQtA" target="_mP4IkLeZEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_UDTN8LeaEeGgKfdtjnLQtA" source="_M2O_wLeZEeGgKfdtjnLQtA" target="_lBzy8LeZEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_UDW4ULeaEeGgKfdtjnLQtA" source="_lBzy8LeZEeGgKfdtjnLQtA" target="_M2O_wLeZEeGgKfdtjnLQtA"/>
-  </transformationUnits>
-  <transformationUnits xsi:type="henshin:IteratedUnit" xmi:id="_hjLI4LeZEeGgKfdtjnLQtA" name="expandColumn" subUnit="_L6YjwKptEeGWmNM0TiX1dQ" iterations="height-2">
-    <parameters xmi:id="_lB4EYLeZEeGgKfdtjnLQtA" name="height"/>
-    <parameters xmi:id="_lBzy8LeZEeGgKfdtjnLQtA" name="next"/>
+  </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_hjLI4LeZEeGgKfdtjnLQtA" name="expandColumn" subUnit="_L6YjwKptEeGWmNM0TiX1dQ" iterations="height-2">
+    <parameters xmi:id="_lB4EYLeZEeGgKfdtjnLQtA" name="height">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_lBzy8LeZEeGgKfdtjnLQtA" name="next">
+      <type xsi:type="ecore:EClass" href="grid.ecore#//Node"/>
+    </parameters>
     <parameterMappings xmi:id="_wTSHMLeZEeGgKfdtjnLQtA" source="_lBzy8LeZEeGgKfdtjnLQtA" target="_NYRLQLeYEeGgKfdtjnLQtA"/>
     <parameterMappings xmi:id="_wTWYoLeZEeGgKfdtjnLQtA" source="_NYRLQLeYEeGgKfdtjnLQtA" target="_lBzy8LeZEeGgKfdtjnLQtA"/>
-  </transformationUnits>
-</henshin:TransformationSystem>
+  </units>
+</henshin:Module>

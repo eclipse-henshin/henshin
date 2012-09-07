@@ -30,6 +30,7 @@ import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.UnaryUnit;
@@ -73,6 +74,7 @@ public class HenshinModelCleaner {
 	 */
 	public static Unit cleanUnit(Unit unit) {
 		
+		// Clean the unit itself:
 		if (unit instanceof Rule) {
 			cleanRule((Rule) unit);
 		}
@@ -95,6 +97,9 @@ public class HenshinModelCleaner {
 				debug("set iterations to 1 for " + unit);
 			}
 		}
+		
+		// Clean the parameter mappings:
+		cleanParameterMappings(unit);
 		
 		// Everything ok:
 		return unit;
@@ -335,6 +340,41 @@ public class HenshinModelCleaner {
 				contents.remove(); debug(msg); continue;
 			}
 			
+		}
+		
+	}
+	
+	/**
+	 * Clean the parameter mappings of a unit. This removes all invalid parameter mappings.
+	 * @param unit The unit to be cleaned.
+	 */
+	public static void cleanParameterMappings(Unit unit) {
+		
+		// Get a list of units that the parameter mapping are allowed to use:
+		ArrayList<Unit> validUnits = new ArrayList<Unit>();
+		validUnits.add(unit);
+		validUnits.addAll(unit.getSubUnits(false));
+		
+		// Check every single parameter mapping:
+		Iterator<ParameterMapping> mappings = unit.getParameterMappings().iterator();
+		while (mappings.hasNext()) {
+			ParameterMapping pm = mappings.next();
+			String msg = "removed invalid parameter mapping " + pm;
+			
+			// Source and target must be set!
+			if (pm.getSource()==null || pm.getTarget()==null) {
+				mappings.remove(); debug(msg); continue;
+			}
+			
+			// Units of the source and targets must be set!
+			if (pm.getSource().getUnit()==null || pm.getTarget().getUnit()==null) {
+				mappings.remove(); debug(msg); continue;
+			}
+			
+			// The referenced units must be either the base units, or direct children:
+			if (!validUnits.contains(pm.getSource().getUnit()) || !validUnits.contains(pm.getTarget().getUnit())) {
+				mappings.remove(); debug(msg); continue;				
+			}
 		}
 		
 	}

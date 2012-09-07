@@ -237,7 +237,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="comb.henshin#_1Ge5gKo9EeGWmNM0TiX1dQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_a4QqZapDEeGWmNM0TiX1dQ" x="370" y="31" width="749" height="785"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_a4QqZapDEeGWmNM0TiX1dQ" x="395" y="31" width="749" height="785"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_SzodkLfhEeGgKfdtjnLQtA" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_SzprsLfhEeGgKfdtjnLQtA" type="5001"/>
@@ -264,7 +264,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="comb.henshin#_SzUUgLfhEeGgKfdtjnLQtA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SzpEoLfhEeGgKfdtjnLQtA" x="38" y="31" width="297" height="211"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SzpEoLfhEeGgKfdtjnLQtA" x="38" y="31" width="324" height="211"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_nI77ELfnEeGgKfdtjnLQtA" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_nI8iILfnEeGgKfdtjnLQtA" type="5004"/>
@@ -294,10 +294,10 @@
       </children>
     </children>
     <element xmi:type="henshin:IteratedUnit" href="comb.henshin#_nIrcYLfnEeGgKfdtjnLQtA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nI77EbfnEeGgKfdtjnLQtA" x="38" y="266" width="297" height="211"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nI77EbfnEeGgKfdtjnLQtA" x="38" y="266" width="324" height="211"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_avMN8apDEeGWmNM0TiX1dQ"/>
-  <element xmi:type="henshin:TransformationSystem" href="comb.henshin#_q2mewKo1EeGWmNM0TiX1dQ"/>
+  <element xmi:type="henshin:Module" href="comb.henshin#_q2mewKo1EeGWmNM0TiX1dQ"/>
   <edges xmi:type="notation:Connector" xmi:id="_a6MkJapDEeGWmNM0TiX1dQ" type="4001" source="_a5KCQKpDEeGWmNM0TiX1dQ" target="_a5KCTqpDEeGWmNM0TiX1dQ">
     <children xmi:type="notation:DecorationNode" xmi:id="_a6MkKKpDEeGWmNM0TiX1dQ" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_a6MkKapDEeGWmNM0TiX1dQ" x="8" y="18"/>

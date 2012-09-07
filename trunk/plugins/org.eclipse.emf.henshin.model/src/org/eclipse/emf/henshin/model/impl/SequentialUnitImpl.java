@@ -203,19 +203,12 @@ public class SequentialUnitImpl extends MultiUnitImpl implements SequentialUnit 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (strict: ");
-		result.append(strict);
-		result.append(", rollback: ");
-		result.append(rollback);
-		result.append(')');
-		return result.toString();
+		// We use the implementation in UnitImpl:
+		return super.toString();
 	}
 
 } //SequentialUnitImpl

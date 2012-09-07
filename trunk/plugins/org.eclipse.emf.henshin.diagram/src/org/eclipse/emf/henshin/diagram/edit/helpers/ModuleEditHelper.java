@@ -10,10 +10,13 @@
 package org.eclipse.emf.henshin.diagram.edit.helpers;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.Module;
 
 /**
@@ -22,18 +25,18 @@ import org.eclipse.emf.henshin.model.Module;
 public class ModuleEditHelper extends HenshinBaseEditHelper {
 
 	/**
-	 * @param ts
-	 * @param name
-	 *            of the classifier. It is allowed to specify the <i>full</i>
-	 *            qualified name, i.e., including package informations
-	 *            ("package.Name", "package.package.Name", "Name").
-	 * @return empty array if no EClassifier could be found, otherwise an array
-	 *         which contains all EClassifier with the given name.
+	 * Find an EClassifier by its name. It is allowed to specify the fully
+	 * qualified name, i.e., including package informations
+	 * ("package.Name", "package.package.Name", "Name").
+	 * 
+	 * @return an array which contains all EClassifier with the given name.
 	 */
-	public static EClassifier[] findEClassifierByName(Module ts, String name) {
-
-		if (name == null)
+	public static EClassifier[] getEClassifiers(Module module, String name) {
+		
+		// Name must be set:
+		if (name==null) {
 			return new EClassifier[] {};
+		}
 
 		EClassifier result = null;
 		name = name.trim();
@@ -42,84 +45,72 @@ public class ModuleEditHelper extends HenshinBaseEditHelper {
 		if (names.length > 1) { // if package information available
 
 			// watch out for the correct package path
-			for (EPackage p : ts.getImports()) {
+			for (EPackage p : collectAllEPackages(module, true)) {
 				if (p.getName().equals(names[0])) {
-					result = findClassifierByFQN(p, names, 1);
+					result = getEClassifier(p, names, 1);
 					break;
-				}// if
-			}// for
+				}
+			}
 			return new EClassifier[] { result };
 
 		} else {
 			// no package path is given, so we collect all matching EClassifier
-			final List<EClassifier> eclassifierList = collectAllEClassifier(ts);
-			final List<EClassifier> resultList = new ArrayList<EClassifier>();
+			Set<EClassifier> eclassifierList = collectAllEClassifiers(module, true);
+			List<EClassifier> resultList = new ArrayList<EClassifier>();
 			for (EClassifier ec : eclassifierList) {
-				if (ec.getName().equals(name))
+				if (ec.getName().equals(name)) {
 					resultList.add(ec);
-			}// for
-
+				}
+			}
 			return resultList.toArray(new EClassifier[resultList.size()]);
-		}// if else
-	}// findEClassifierByName
+		}
+	}
 
 	/**
-	 * Finds an EClassifier in a package structure <code>p</code> with a
-	 * full-qualified-name <code>fqn</code>. This helper method works
-	 * recursively with <code>index</code> being the current iteration depth in
-	 * <code>fqn</code>.
-	 * 
-	 * @param p
-	 * @param fqn
-	 * @param index
-	 * @return
+	 * Finds an EClassifier in a package with a full qualified name. 
+	 * This helper method works recursively with <code>index</code> 
+	 * being the current iteration depth in the qualified name.
 	 */
-	private static EClassifier findClassifierByFQN(EPackage p, String[] fqn,
-			int index) {
-
-		EClassifier result = null;
-		if (index < (fqn.length - 1)) {
-			for (EPackage pp : p.getESubpackages()) {
-				if (pp.getName().equals(fqn[index])) {
-					result = findClassifierByFQN(pp, fqn, index + 1);
+	private static EClassifier getEClassifier(EPackage epackage, String[] qualifiedName, int index) {
+		EClassifier classifier = null;
+		if (index < (qualifiedName.length-1)) {
+			for (EPackage subPackage : epackage.getESubpackages()) {
+				if (subPackage.getName().equals(qualifiedName[index])) {
+					classifier = getEClassifier(subPackage, qualifiedName, index + 1);
 					break;
-				}// if
-			}// for
+				}
+			}
 		} else {
-			result = p.getEClassifier(fqn[fqn.length - 1]);
-		}// if else
-
-		return result;
-	}// findClassifierByFQN
-
-	/**
-	 * Collects all classifiers found in the imported (
-	 * {@link TransformationSystem#getImports()}) EPackages of the given
-	 * {@link TransformationSystem}
-	 * 
-	 * @param ts
-	 * @return
-	 */
-	public static List<EClassifier> collectAllEClassifier(Module ts) {
-
-		List<EClassifier> list = new ArrayList<EClassifier>();
-
-		for (EPackage p : ts.getImports()) {
-			collectAllEClassifierHelper(list, p);
-		}// for
-
-		return list;
-	}// collectAllEClassifier
+			classifier = epackage.getEClassifier(qualifiedName[qualifiedName.length-1]);
+		}
+		return classifier;
+	}
 
 	/**
-	 * @param elements
-	 * @param p
+	 * Collects all classifiers found in the imported EPackages of a module.
 	 */
-	private static void collectAllEClassifierHelper(List<EClassifier> elements,
-			EPackage p) {
+	public static Set<EClassifier> collectAllEClassifiers(Module module, boolean withEcore) {
+		Set<EClassifier> classifiers = new LinkedHashSet<EClassifier>();
+		for (EPackage p : collectAllEPackages(module, withEcore)) {
+			collectAllEClassifierHelper(classifiers, p);
+		}
+		return classifiers;
+	}
+	
+	private static Set<EPackage> collectAllEPackages(Module module, boolean withEcore) {
+		Set<EPackage> packages = new LinkedHashSet<EPackage>();
+		packages.addAll(module.getImports());
+		if (withEcore) {
+			packages.add(EcorePackage.eINSTANCE);
+		}
+		return packages;
+	}
+
+	private static void collectAllEClassifierHelper(Set<EClassifier> elements, EPackage p) {
 		elements.addAll(p.getEClassifiers());
-		for (EPackage p2 : p.getESubpackages())
+		for (EPackage p2 : p.getESubpackages()) {
 			collectAllEClassifierHelper(elements, p2);
-	}// collectAllEClassifierHelper
+		}
+	}
 
 }

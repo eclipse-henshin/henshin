@@ -15,6 +15,8 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
@@ -23,9 +25,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Parameter} object.
@@ -122,6 +126,16 @@ public class ParameterItemProvider extends NamedElementItemProvider implements
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 		fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+		
+		// Notify the unit (pretend that the unit name changed so that the displayed text gets updated):
+		Unit unit = ((Parameter) notification.getNotifier()).getUnit();
+		if (unit!=null) {
+			ItemProviderAdapter adapter = 
+					(ItemProviderAdapter) adapterFactory.adapt(unit, null);
+			Notification notif = new ENotificationImpl((InternalEObject) unit, 
+					Notification.SET, HenshinPackage.eINSTANCE.getNamedElement_Name(), unit.getName(), unit.getName(), false);
+			adapter.fireNotifyChanged(new ViewerNotification(notif, unit, false, true));
+		}
 		super.notifyChanged(notification);
 	}
 	

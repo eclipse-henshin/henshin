@@ -161,7 +161,7 @@ public class NodeTypeParser extends AbstractParser {
 		
 		// Find the node type:
 		EClass nodeType = null;
-		EClassifier[] classifiers = ModuleEditHelper.findEClassifierByName(module, type);
+		EClassifier[] classifiers = ModuleEditHelper.getEClassifiers(module, type);
 		for (EClassifier classifier : classifiers) {
 			if (classifier instanceof EClass) {
 				nodeType = (EClass) classifier;

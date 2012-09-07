@@ -48,7 +48,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="grid-sparse.henshin#_2-D60KpsEeGWmNM0TiX1dQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2-GXEapsEeGWmNM0TiX1dQ" x="193" y="26" width="236" height="200"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2-GXEapsEeGWmNM0TiX1dQ" x="229" y="26" width="252" height="200"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_L6cOIKptEeGWmNM0TiX1dQ" type="2001" fontName="Segoe UI" italic="true" fillColor="16114135" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_id11sKqFEeGBfe4192pjRA" source="rootObject">
@@ -98,7 +98,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="grid-sparse.henshin#_L6YjwKptEeGWmNM0TiX1dQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_L6cOIaptEeGWmNM0TiX1dQ" x="453" y="26" width="311" height="200"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_L6cOIaptEeGWmNM0TiX1dQ" x="513" y="26" width="313" height="200"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_WoH40KptEeGWmNM0TiX1dQ" type="2001" fontName="Segoe UI" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_WoIf4KptEeGWmNM0TiX1dQ" type="5001"/>
@@ -111,11 +111,11 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_X5s1c6ptEeGWmNM0TiX1dQ"/>
         </children>
         <element xmi:type="henshin:Node" href="grid-sparse.henshin#_X5qZMKptEeGWmNM0TiX1dQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X5sOYaptEeGWmNM0TiX1dQ" x="31" y="16"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X5sOYaptEeGWmNM0TiX1dQ" x="51" y="16"/>
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="grid-sparse.henshin#_WoGqsKptEeGWmNM0TiX1dQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WoH40aptEeGWmNM0TiX1dQ" x="30" y="26" width="138" height="200"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WoH40aptEeGWmNM0TiX1dQ" x="30" y="26" width="169" height="200"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_hLuHoLeYEeGgKfdtjnLQtA" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_hLv80LeYEeGgKfdtjnLQtA" type="5004"/>
@@ -175,18 +175,18 @@
         <styles xmi:type="notation:DescriptionStyle" xmi:id="_13VbELeYEeGgKfdtjnLQtA"/>
         <styles xmi:type="notation:FontStyle" xmi:id="_13VbEbeYEeGgKfdtjnLQtA" fontName="Ubuntu"/>
         <element xmi:type="henshin:IteratedUnit" href="grid-sparse.henshin#_13FjcLeYEeGgKfdtjnLQtA"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_13WpMLeYEeGgKfdtjnLQtA" x="260" y="37"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_13WpMLeYEeGgKfdtjnLQtA" x="313" y="37"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_13sAYLeYEeGgKfdtjnLQtA" type="3003" fontName="Ubuntu" italic="true" lineColor="0">
         <children xmi:type="notation:DecorationNode" xmi:id="_13tOgLeYEeGgKfdtjnLQtA" type="5005">
           <element xmi:type="henshin:SequentialUnit" href="grid-sparse.henshin#_ItgP0LeZEeGgKfdtjnLQtA"/>
         </children>
         <element xmi:type="henshin:SequentialUnit" href="grid-sparse.henshin#_ItgP0LeZEeGgKfdtjnLQtA"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_13sAYbeYEeGgKfdtjnLQtA" x="69" y="33"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_13sAYbeYEeGgKfdtjnLQtA" x="93" y="33"/>
       </children>
     </children>
     <element xmi:type="henshin:IteratedUnit" href="grid-sparse.henshin#_13FjcLeYEeGgKfdtjnLQtA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_13RwsbeYEeGgKfdtjnLQtA" x="453" y="257" width="316" height="111"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_13RwsbeYEeGgKfdtjnLQtA" x="453" y="257" width="373" height="111"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_ItpZwLeZEeGgKfdtjnLQtA" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_ItrO8LeZEeGgKfdtjnLQtA" type="5004"/>
@@ -246,21 +246,21 @@
         <styles xmi:type="notation:DescriptionStyle" xmi:id="_hjVg8reZEeGgKfdtjnLQtA"/>
         <styles xmi:type="notation:FontStyle" xmi:id="_hjVg87eZEeGgKfdtjnLQtA" fontName="Ubuntu"/>
         <element xmi:type="henshin:IteratedUnit" href="grid-sparse.henshin#_hjLI4LeZEeGgKfdtjnLQtA"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_hjWvEreZEeGgKfdtjnLQtA" x="263" y="30"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_hjWvEreZEeGgKfdtjnLQtA" x="315" y="30"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_hjjjYLeZEeGgKfdtjnLQtA" type="3003" fontName="Ubuntu" italic="true" lineColor="0">
         <children xmi:type="notation:DecorationNode" xmi:id="_hjkxgLeZEeGgKfdtjnLQtA" type="5005">
           <element xmi:type="henshin:Rule" href="grid-sparse.henshin#_L6YjwKptEeGWmNM0TiX1dQ"/>
         </children>
         <element xmi:type="henshin:Rule" href="grid-sparse.henshin#_L6YjwKptEeGWmNM0TiX1dQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hjjjYbeZEeGgKfdtjnLQtA" x="73" y="26"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hjjjYbeZEeGgKfdtjnLQtA" x="108" y="26"/>
       </children>
     </children>
     <element xmi:type="henshin:IteratedUnit" href="grid-sparse.henshin#_hjLI4LeZEeGgKfdtjnLQtA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hjR2kbeZEeGgKfdtjnLQtA" x="453" y="388" width="316" height="99"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hjR2kbeZEeGgKfdtjnLQtA" x="453" y="388" width="373" height="99"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_zJ2S4KorEeGlvMpQNzqMMA"/>
-  <element xmi:type="henshin:TransformationSystem" href="grid-sparse.henshin#_op50IKopEeGlvMpQNzqMMA"/>
+  <element xmi:type="henshin:Module" href="grid-sparse.henshin#_op50IKopEeGlvMpQNzqMMA"/>
   <edges xmi:type="notation:Connector" xmi:id="__SVeIKpsEeGWmNM0TiX1dQ" type="4001" source="_7VAs8KpsEeGWmNM0TiX1dQ" target="_8lzmcKpsEeGWmNM0TiX1dQ">
     <children xmi:type="notation:DecorationNode" xmi:id="__SWFMKpsEeGWmNM0TiX1dQ" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="__SWFMapsEeGWmNM0TiX1dQ" x="-5" y="13"/>
@@ -374,7 +374,7 @@
     <styles xmi:type="notation:RoutingStyle" xmi:id="_13yuEbeYEeGgKfdtjnLQtA" routing="Rectilinear"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_13yuEreYEeGgKfdtjnLQtA" fontName="Ubuntu"/>
     <element xmi:type="henshin:IteratedUnit" href="grid-sparse.henshin#_13FjcLeYEeGgKfdtjnLQtA"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_13yuE7eYEeGgKfdtjnLQtA" points="[64, -1, 64, -1]$[81, -1, 81, -1]$[81, -35, 81, -35]$[-15, -35, -15, -35]$[-15, -13, -15, -13]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_13yuE7eYEeGgKfdtjnLQtA" points="[72, -1, 72, -1]$[99, -1, 99, -1]$[99, -35, 99, -35]$[-15, -35, -15, -35]$[-15, -13, -15, -13]"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_K3T08LeZEeGgKfdtjnLQtA" type="4002" source="_Itr2ALeZEeGgKfdtjnLQtA" target="_K3R_wLeZEeGgKfdtjnLQtA">
     <styles xmi:type="notation:RoutingStyle" xmi:id="_K3T08beZEeGgKfdtjnLQtA" routing="Rectilinear"/>
@@ -398,7 +398,7 @@
     <styles xmi:type="notation:RoutingStyle" xmi:id="_hjob4beZEeGgKfdtjnLQtA" routing="Rectilinear"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_hjob4reZEeGgKfdtjnLQtA" fontName="Ubuntu"/>
     <element xmi:type="henshin:IteratedUnit" href="grid-sparse.henshin#_hjLI4LeZEeGgKfdtjnLQtA"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hjob47eZEeGgKfdtjnLQtA" points="[56, -1, 56, -1]$[72, -1, 72, -1]$[72, -31, 72, -31]$[-1, -31, -1, -31]$[-1, -13, -1, -13]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hjob47eZEeGgKfdtjnLQtA" points="[64, -1, 64, -1]$[93, -1, 93, -1]$[93, -31, 93, -31]$[-1, -31, -1, -31]$[-1, -13, -1, -13]"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_BruZsLeaEeGgKfdtjnLQtA" type="4002" source="_BrskgLeaEeGgKfdtjnLQtA" target="_hL1cYLeYEeGgKfdtjnLQtA">
     <styles xmi:type="notation:RoutingStyle" xmi:id="_BruZsbeaEeGgKfdtjnLQtA" routing="Rectilinear"/>
