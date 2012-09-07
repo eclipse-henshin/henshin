@@ -196,14 +196,18 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void refreshVisuals() {
 
-		// Set the decorations:
-		Edge edge = (Edge) getNotationView().getElement();
-		if (edge == null)
+		// Make sure the model is there:
+		Object elem = getNotationView().getElement();
+		if (!(elem instanceof Edge)) {
 			return;
-		EReference type = edge.getType();
-
+		}
+		
+		// Make the normal refresh:
 		super.refreshVisuals();
-
+		
+		// Set the decorations:
+		Edge edge = (Edge) elem;
+		EReference type = edge.getType();
 		if (type != null) {
 
 			// Source decoration:

@@ -693,8 +693,21 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void dispose() {
+	public void disposeGen() {
 		disposable.dispose();
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.IDisposable#dispose()
+	 */
+	@Override
+	public void dispose() {
+		try {
+			disposeGen();
+		} catch (Throwable t) {
+			System.err.println(t + " occured while disposing item provider adapter factory");
+		}
+	}
+
 }

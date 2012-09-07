@@ -82,7 +82,7 @@ public class HenshinDiagramUpdater {
 
 		// Collect all action nodes:
 		Rule rule = (Rule) containerView.getElement();
-		List<Node> actionNodes = rule.getActionNodes(null);
+		List<Node> actionNodes = new ArrayList<Node>(rule.getActionNodes(null));
 
 		// Check if we should exclude a root object:
 		Node root = RootObjectEditHelper.getRootObject(containerView);

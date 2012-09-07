@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_0Q2AMNSpEeG9M9qn3DU1vA">
-  <rules xmi:id="_WG1qQNSqEeG9M9qn3DU1vA" name="exchangeSecrets">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_0Q2AMNSpEeG9M9qn3DU1vA">
+  <imports href="gossipinggirls.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_WG1qQNSqEeG9M9qn3DU1vA" name="exchangeSecrets">
     <parameters xmi:id="_Fdgg4NT0EeGUZu_gkNNb3Q" name="g1"/>
     <parameters xmi:id="_Fd0p8NT0EeGUZu_gkNNb3Q" name="g2"/>
     <lhs xmi:id="_WG2RUNSqEeG9M9qn3DU1vA" name="LHS">
@@ -43,7 +44,7 @@
         </edges>
         <formula xsi:type="henshin:Not" xmi:id="_j1sVANSsEeGQhMvzqn4H7w">
           <child xsi:type="henshin:NestedCondition" xmi:id="_j1sVAdSsEeGQhMvzqn4H7w">
-            <conclusion xmi:id="_j1sVAtSsEeGQhMvzqn4H7w" name="default">
+            <conclusion xmi:id="_j1sVAtSsEeGQhMvzqn4H7w" name="">
               <nodes xmi:id="_j1uKMNSsEeGQhMvzqn4H7w" outgoing="_h5K98NSsEeGQhMvzqn4H7w">
                 <type href="gossipinggirls.ecore#//Girl"/>
               </nodes>
@@ -105,8 +106,8 @@
       <multiMappings xmi:id="_TlD_INSsEeGQhMvzqn4H7w" origin="_b24WQNSqEeG9M9qn3DU1vA" image="_TlDYENSsEeGQhMvzqn4H7w"/>
       <multiMappings xmi:id="_TlJesNSsEeGQhMvzqn4H7w" origin="_b23vMNSqEeG9M9qn3DU1vA" image="_TlI3oNSsEeGQhMvzqn4H7w"/>
     </multiRules>
-  </rules>
-  <rules xmi:id="_URk_gNSvEeGQhMvzqn4H7w" name="addGirl">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_URk_gNSvEeGQhMvzqn4H7w" name="addGirl">
     <lhs xmi:id="_URk_gdSvEeGQhMvzqn4H7w" name="LHS">
       <nodes xmi:id="_VQ3SQNSvEeGQhMvzqn4H7w" name="root">
         <type href="gossipinggirls.ecore#//Container"/>
@@ -133,6 +134,5 @@
       </edges>
     </rhs>
     <mappings xmi:id="_VQ35UdSvEeGQhMvzqn4H7w" origin="_VQ3SQNSvEeGQhMvzqn4H7w" image="_VQ35UNSvEeGQhMvzqn4H7w"/>
-  </rules>
-  <imports href="gossipinggirls.ecore#/"/>
-</henshin:TransformationSystem>
+  </units>
+</henshin:Module>
