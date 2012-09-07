@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Ijws8Ve9EeGfwPyorbpJMQ">
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Ijws8Ve9EeGfwPyorbpJMQ" name="multiruleTests">
   <rules xmi:id="_Vsv8cFe9EeGfwPyorbpJMQ" name="innermostParameter">
     <lhs xmi:id="_Vsv8cVe9EeGfwPyorbpJMQ" name="LHS">
       <nodes xmi:id="_dKCNYFe9EeGfwPyorbpJMQ" name="outer-krl-node">
