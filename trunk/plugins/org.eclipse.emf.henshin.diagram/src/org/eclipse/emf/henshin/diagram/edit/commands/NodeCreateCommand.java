@@ -283,7 +283,7 @@ public class NodeCreateCommand extends EditElementCommand {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					action = new Action(action.getType(), amalgamated
-							.getSelection(), action.getArguments());
+							.getSelection(), action.getPath());
 				}
 
 				@Override
@@ -292,14 +292,14 @@ public class NodeCreateCommand extends EditElementCommand {
 				}
 			});
 
-			// Arguments:
-			createLabel("Arguments:", group);
+			// Path:
+			createLabel("Path:", group);
 			final Text args = new Text(group, SWT.BORDER | SWT.SINGLE);
 			args.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			args.addModifyListener(new ModifyListener() {
 				@Override
 				public void modifyText(ModifyEvent e) {
-					String[] parsed = args.getText().split(",");
+					String[] parsed = args.getText().split(Action.PATH_SEPARATOR + "");
 					action = new Action(action.getType(), action.isMulti(),
 							parsed);
 				}

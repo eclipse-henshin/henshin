@@ -103,11 +103,11 @@ public class EdgeActionParser extends AbstractParser {
 			// The source and the target node must have either the same
 			// action as the edge, or PRESERVE.			
 			if (!srcAction.equals(action) && 
-				!(srcAction.getType()==PRESERVE /* && !srcAction.isAmalgamated() */)) {
+				!(srcAction.getType()==PRESERVE)) {
 				src.setAction(action);
 			}
 			if (!trgAction.equals(action) && 
-				!(trgAction.getType()==PRESERVE /* && !trgAction.isAmalgamated() */)) {
+				!(trgAction.getType()==PRESERVE)) {
 				trg.setAction(action);
 			}
 			

@@ -60,8 +60,8 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// Check if the element is amalgamated:
 		boolean isMulti = isMulti(element);
 		
-		// Get the amalgamation parameters:
-		String[] multiParams = getMultiParameters(element, rule);
+		// Get the path:
+		String[] multiPath = isMulti ? getMultiPath(element, rule) : null;
 		
 		// If the rule is a multi-rule, but the action is not
 		// a multi-action, the element is not an action element.
@@ -80,9 +80,9 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// Check if it is mapped to the RHS:
 			if (image!=null) {
-				return new Action(PRESERVE, isMulti, multiParams);
+				return new Action(PRESERVE, isMulti, multiPath);
 			} else {
-				return new Action(DELETE, isMulti, multiParams);
+				return new Action(DELETE, isMulti, multiPath);
 			}
 		}
 		
@@ -94,7 +94,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// If it has an origin in the LHS, it is a CREATE-action:
 			if (origin==null) {
-				return new Action(CREATE, isMulti, multiParams);
+				return new Action(CREATE, isMulti, multiPath);
 			}
 		}
 		
@@ -119,20 +119,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 
 				// If it has an origin in the LHS, it is a PAC/NAC-action:
 				if (origin==null) {
-					String name = graph.getName();
-					if (isMulti) {
-						if (name==null || name.trim().length()==0) {
-							return new Action(type, true, multiParams);							
-						} else {
-							return null;
-						}
-					} else {
-						if (name==null || name.trim().length()==0) {
-							return new Action(type, false);
-						} else {
-							return new Action(type, false, name.trim());
-						}
-					}			
+					return new Action(type, isMulti, multiPath, graph.getName());
 				}
 			}
 		}
@@ -244,7 +231,8 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}		
 		
 		// Current action type = REQUIRE or FORBID?
-		else if (oldType==REQUIRE || oldType==FORBID) {
+		else if ((oldType==REQUIRE || oldType==FORBID) && 
+				 (oldType!=newType || !oldAction.hasSameFragment(newAction))) {
 			
 			// We know that the element is contained in a AC and that it has no origin in the LHS.
 			NestedCondition ac = (NestedCondition) graph.eContainer();
@@ -278,21 +266,21 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		oldAction = getAction(element);
 		if (oldAction.isMulti()) {
 			
-			String[] oldArgs = oldAction.getArguments();
-			String[] newArgs = newAction.getArguments();
+			String[] oldPath = oldAction.getPath();
+			String[] newPath = newAction.getPath();
 			
 			if (!newAction.isMulti()) {
 				moveMultiElement(rule, rule.getRootRule(), newAction, element); // move it up to the root rule
 			}
-			else if (!Arrays.equals(oldArgs, newArgs)) {
-				List<String> args = new ArrayList<String>();
-				int max = Math.min(oldArgs.length, newArgs.length);
+			else if (!Arrays.equals(oldPath, newPath)) {
+				List<String> path = new ArrayList<String>();
+				int max = Math.min(oldPath.length, newPath.length);
 				for (int i=0; i<max; i++) {
-					if (oldArgs[i].equals(newArgs[i])) {
-						args.add(oldArgs[i]);
+					if (oldPath[i].equals(newPath[i])) {
+						path.add(oldPath[i]);
 					} else break;
 				}
-				Action common = new Action(oldAction.getType(), true, args.toArray(new String[0]));
+				Action common = new Action(oldAction.getType(), true, path.toArray(new String[0]));
 				Rule rx = getOrCreateMultiRule(rule.getRootRule(), common); 
 				moveMultiElement(rule, rx, newAction, element); // move it to the common parent rule
 			}
@@ -332,6 +320,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		ruleChain.add(rule);
 		while (rule!=rule1) {
 			rule = rule.getKernelRule();
+			if (rule==null) break;
 			ruleChain.add(0, rule);
 		}
 		
@@ -384,8 +373,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 
 	}
-	
-	
+		
 	/*
 	 * Get the container graph for an element.
 	 */
@@ -459,23 +447,23 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	
 	/*
 	 * If an element has a multi-action, this method
-	 * returns the proper parameters for the multi-action.
+	 * returns the proper path for the multi-action.
 	 */
-	private String[] getMultiParameters(E element, Rule multiRule) {
+	private String[] getMultiPath(E element, Rule multiRule) {
 		if (!isMulti(element)) {
-			return new String[] {};
+			return null;
 		}
-		List<String> names = new ArrayList<String>();
+		List<String> path = new ArrayList<String>();
 		while (multiRule.isMultiRule()) {
 			String name = multiRule.getName();
-			names.add(name==null ? "" : name.trim());
+			path.add(name==null ? "" : name.trim());
 			multiRule = multiRule.getKernelRule();
 		}
-		if (names.size()==1 && names.get(0).length()==0) {
+		if (path.size()==1 && path.get(0).length()==0) {
 			return new String[] {};
 		}
-		Collections.reverse(names);
-		return names.toArray(new String[0]);
+		Collections.reverse(path);
+		return path.toArray(new String[0]);
 	}
 	
 	
@@ -487,14 +475,14 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 
 		// Get the names of the multi-rules (must be a modifiable list):
-		List<String> names = new ArrayList<String>(Arrays.asList(action.getArguments()));
-		if (names.isEmpty()) {
-			names.add(null);
+		List<String> path = new ArrayList<String>(Arrays.asList(action.getPath()));
+		if (path.isEmpty()) {
+			path.add(null);
 		}
 		
 		// Find or create the multi-rules:
 		Rule rule = root.getRootRule(); // really make sure we start with the root rule
-		for (String name : names) {
+		for (String name : path) {
 			Rule multi = rule.getMultiRule(name);
 			if (multi==null) {
 				multi = HenshinFactory.eINSTANCE.createRule(name);
@@ -528,13 +516,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}	
 		
 		// Get the name of the application condition:
-		String name = null;
-		if (!action.isMulti()) {  // not for multi-actions
-			String[] args = action.getArguments();
-			if (args != null && args.length > 0 && args[0] != null) {
-				name = args[0];
-			}
-		}
+		String name = action.getFragment();
 		
 		// Find or create the application condition:
 		return getOrCreateAC(rule, name, action.getType()==REQUIRE);

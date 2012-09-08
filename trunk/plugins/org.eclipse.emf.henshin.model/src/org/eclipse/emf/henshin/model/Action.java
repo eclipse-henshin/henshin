@@ -10,13 +10,18 @@
 package org.eclipse.emf.henshin.model;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Pattern;
+import java.util.List;
 
 /**
- * This class represents an Action of a graph element. Actions consist of an
- * {@link Type} and a number of string arguments. Actions can be printed,
- * parsed and compared using equals().
+ * This class represents an action of a {@link GraphElement}. Actions consist of:
+ * <ul>
+ * <li>an action {@link Type},</li>
+ * <li>a Boolean multi flag,</li>
+ * <li>a possibly empty path (only if the multi flag is <code>true</code>,</li>
+ * <li>an optional fragment.</li>
+ * </ul>
  * 
  * @author Christian Krause
  * @author Stefan Jurack
@@ -28,12 +33,13 @@ public final class Action {
 	 * @author Christian Krause
 	 */
 	public static enum Type {
-			
+		
+		// The following action types are supported:
 		PRESERVE, CREATE, DELETE, FORBID, REQUIRE;
 		
 		/**
 		 * Parse an element action type.
-		 * @param value String representation.
+		 * @param value String representation of the action type.
 		 * @return The parsed action type.
 		 * @throws ParseException On parse errors.
 		 */
@@ -67,139 +73,249 @@ public final class Action {
 	}
 	
 	/**
-	 * Separator of the action type information
+	 * Marker for the start of paths.
 	 */
-	private static final String SEPARATOR_TYPE = ":";
-	private static final Pattern PATTERN_TYPE = Pattern.compile(SEPARATOR_TYPE);
+	public static final char PATH_START = ':';
 
 	/**
-	 * Separator of action type arguments
+	 * Separator for paths.
 	 */
-	private static final String SEPARATOR_ARGS = ",";
-	private static final Pattern PATTERN_ARGS = Pattern.compile(SEPARATOR_ARGS);
+	public static final char PATH_SEPARATOR = '/';
 
 	/**
-	 * Multi-marker
+	 * Multi-flag marker.
 	 */
-	private static final String MULTI_MARKER = "*";
+	public static final char MULTI_MARKER = '*';
 
 	/**
-	 * Empty string array
+	 * Fragment marker.
 	 */
+	public static final char FRAGMENT_START = '#';
+
+	// Empty string array.
 	private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
+	// Action type.
+	private final Type type;
+
+	// Multi flag.
+	private final boolean isMulti;
+
+	// Path.
+	private final String[] path;
+
+	// Fragment:
+	private final String fragment;
+	
 	/**
-	 * Parses an action string for graph elements. Such string may have the form ".*:[.*[,.*]*]?".
-	 * 
-	 * @param value
-	 *            String representation of the action.
+	 * Constructor.
+	 * @param type Action type.
+	 * @param isMulti Multi flag.
+	 * @param path Path.
+	 * @param fragment Fragment.
+	 */
+	public Action(Type type, boolean isMulti, String[] path, String fragment) {
+		if (type==null) {
+			throw new IllegalArgumentException("Action type must not be null.");
+		}
+		this.type = type;
+		this.isMulti = isMulti;
+		if (path!=null) {
+			this.path = new String[path.length];
+			for (int i=0; i<path.length; i++) {
+				this.path[i] = (path[i]!=null) ? path[i] : "";
+			}
+		} else {
+			this.path = EMPTY_STRING_ARRAY;
+		}
+		this.fragment = (fragment==null || fragment.trim().length()==0) ? 
+						null : fragment.trim();
+	}
+
+	/**
+	 * Constructor without fragment.
+	 * @param type Action type.
+	 * @param isMulti Multi flag.
+	 * @param path Path.
+	 */
+	public Action(Type type, boolean isMulti, String[] path) {
+		this(type, isMulti, path, null);
+	}
+
+	/**
+	 * Constructor without path and fragment.
+	 * @param type Action type.
+	 * @param isMulti Multi flag.
+	 */
+	public Action(Type type, boolean isMulti) {
+		this(type, isMulti, null, null);
+	}
+
+	/**
+	 * Constructor without multi-flag, path and fragment.
+	 * @param type Action type.
+	 */
+	public Action(Type type) {
+		this(type, false, null, null);
+	}
+
+	/**
+	 * Parses an action string for graph elements.
+	 * @param value String representation of the action.
 	 * @return The parsed element action.
-	 * @throws ParseException
-	 *             On parse errors.
+	 * @throws ParseException On parse errors.
 	 */
 	public static Action parse(String value) throws ParseException {
 		
-		/*
-		 * Check for a colon, as the string before a colon is suggested to be an
-		 * action type informations.
-		 */
-		String[] typeAndArgs = PATTERN_TYPE.split(value, 2);
+		// Null?
+		if (value==null) {
+			throw new NullPointerException();
+		}
 		
+		// Trim whitespace and convert to char array:
+		char[] chars = value.trim().toCharArray();
+		
+		// Empty string?
+		if (chars.length==0) {
+			throw new ParseException("Empty string", 0);
+		}
+		int pos = 0;
+
+		// Parse the action type:
+		String type = "";
+		while (pos<chars.length && Character.isLetter(chars[pos])) {
+			type = type + chars[pos++];
+		}
+		
+		// Eat whitespace:
+		while (pos<chars.length && Character.isWhitespace(chars[pos])) {
+			pos++;
+		}
+		
+		// Check for the multi-marker:
 		boolean isMulti = false;
-		String trimmedType = typeAndArgs[0].trim();
-		if (trimmedType.endsWith(MULTI_MARKER)) {
+		if (pos<chars.length && chars[pos]==MULTI_MARKER) {
 			isMulti = true;
-			trimmedType = trimmedType.substring(0, trimmedType.length()-1);
+			pos++;
 		}
-		Type type = Type.parse(trimmedType);
-
-		/*
-		 * Check for further arguments, which occur after the colon and which
-		 * have to be separated by a comma.
-		 */
-		String[] args;
-		if (typeAndArgs.length == 2) {
-			args = PATTERN_ARGS.split(typeAndArgs[1]);
-		} else {
-			args = EMPTY_STRING_ARRAY;
+		
+		// Eat whitespace:
+		while (pos<chars.length && Character.isWhitespace(chars[pos])) {
+			pos++;
+		}
+		
+		// Check if there is a path:
+		String[] path = EMPTY_STRING_ARRAY;
+		if (pos<chars.length && chars[pos]==PATH_START) {
+			pos++;
+			List<String> pathList = new ArrayList<String>();
+			pathList.add("");
+			while (pos<chars.length) {
+				if (chars[pos]==PATH_SEPARATOR) {
+					pathList.add("");
+				}
+				else if (Character.isJavaIdentifierPart(chars[pos])) {
+					String newValue = pathList.get(pathList.size()-1) + chars[pos];
+					pathList.set(pathList.size()-1, newValue);
+				}
+				else {
+					break;
+				}
+				pos++;
+			}
+			path = pathList.toArray(path);
 		}
 
+		// Check for the fragment:
+		String fragment = null;
+		if (pos<chars.length && chars[pos]==FRAGMENT_START) {
+			fragment = "";
+			pos++;
+			while (pos<chars.length && Character.isJavaIdentifierPart(chars[pos])) {
+				fragment = fragment + chars[pos++];
+			}
+		}
+		
+		// Now we MUST be at the end:
+		if (pos<chars.length) {
+			throw new ParseException("Unexpected character at position " + pos, pos);
+		}
+		
 		// Create and return the new action:
-		return new Action(type, isMulti, args);
-
-	}
-
-	// Action type.
-	private Type type;
-
-	// Multi-flag.
-	private boolean isMulti;
-
-	// Optional arguments.
-	private String[] arguments;
-
-	/**
-	 * Default constructor.
-	 * @param type Action type. Must not be <code>null</code>!
-	 * @param isMulti Multi-flag.
-	 * @param arguments Optional arguments.
-	 */
-	public Action(Type type, boolean isMulti, String... arguments) {
-		if (type == null)
-			throw new IllegalArgumentException(
-					"Parameter type must not be null.");
-		this.type = type;
-		this.isMulti = isMulti;
-		this.arguments = (arguments == null) ? EMPTY_STRING_ARRAY : arguments;
-	}
-
-	/*
-	 * Alternative constructor.
-	 */
-	public Action(Type type, String... arguments) {
-		this(type, false, arguments);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		if (object == this)
-			return true;
-		if (object instanceof Action) {
-			Action action = (Action) object;
-			return (type == action.getType() &&
-					isMulti == action.isMulti() &&
-					Arrays.equals(arguments, action.getArguments()));
-		}
-		return false;
+		return new Action(Type.parse(type), isMulti, path, fragment);
+		
 	}
 
 	/**
-	 * Get the multi-flag. 
-	 * @return Multi-flag.
+	 * Returns the type of this action. This never returns <code>null</code>.
+	 * @return The action type.
+	 */
+	public Type getType() {
+		return type;
+	}
+
+	/**
+	 * Get the multi flag. 
+	 * @return Multi flag.
 	 */
 	public boolean isMulti() {
 		return isMulti;
 	}
 
 	/**
-	 * Returns arguments this Action contains. If no arguments are specified,
-	 * this method returns an empty string array.
-	 * @return Arguments.
+	 * Returns path this action contains. If no path was specified, this method 
+	 * returns an empty string array. This never returns <code>null</code>.
+	 * @return The path.
 	 */
-	public String[] getArguments() {
-		return Arrays.copyOf(arguments , arguments.length);
+	public String[] getPath() {
+		return Arrays.copyOf(path , path.length);
+	}
+	
+	/**
+	 * Returns the fragment of this action or <code>null</code> if it does not have a fragment.
+	 * @return The fragment or <code>null</code>.
+	 */
+	public String getFragment() {
+		return fragment;
 	}
 
 	/**
-	 * Returns the action type represented by this Action.
-	 * @return Action type.
+	 * Returns <code>true</code> if this action has the same type as the argument action.
+	 * @param action An action.
+	 * @return <code>true</code> if it has the same type.
 	 */
-	public Type getType() {
-		return type;
+	public boolean hasSameType(Action action) {
+		return type==action.type;
+	}
+
+	/**
+	 * Returns <code>true</code> if this action has the same multi-flag as the argument action.
+	 * @param action An action.
+	 * @return <code>true</code> if it has the same multi-flag.
+	 */
+	public boolean hasSameMultiFlag(Action action) {
+		return isMulti==action.isMulti;
+	}
+
+	/**
+	 * Returns <code>true</code> if this action has the same path as the argument action.
+	 * @param action An action.
+	 * @return <code>true</code> if it has the same path.
+	 */
+	public boolean hasSamePath(Action action) {
+		return Arrays.equals(path, action.path);
+	}
+
+	/**
+	 * Returns <code>true</code> if this action has the same fragment as the argument action.
+	 * @param action An action.
+	 * @return <code>true</code> if it has the same fragment.
+	 */
+	public boolean hasSameFragment(Action action) {
+		if (fragment==null) {
+			return action.fragment==null;
+		}
+		return fragment.equals(fragment);
 	}
 
 	/*
@@ -209,13 +325,34 @@ public final class Action {
 	@Override
 	public int hashCode() {
 		int hash = type.hashCode();
-		for (String argument : arguments) {
-			hash = (hash + argument.hashCode()) << 1;
+		for (String elem : path) {
+			hash = (hash + elem.hashCode()) << 1;
 		}
 		if (isMulti) {
 			hash++;
 		}
+		if (fragment!=null) {
+			hash += fragment.hashCode();			
+		}
 		return hash;
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object object) {
+		if (object==this) {
+			return true;
+		}
+		if (object instanceof Action) {
+			Action action = (Action) object;
+			return (hasSameType(action) && hasSameMultiFlag(action) &&
+					hasSamePath(action) && hasSameFragment(action));
+		}
+		return false;
 	}
 
 	/*
@@ -229,20 +366,19 @@ public final class Action {
 		if (isMulti){
 			result.append(MULTI_MARKER);
 		}
-		if (arguments.length > 0) {
-			result.append(SEPARATOR_TYPE);
-			result.append(argumentToString(arguments[0]));
-			for (int i = 1; i < arguments.length; i++) {
-				result.append(SEPARATOR_ARGS);
-				result.append(argumentToString(arguments[i]));
+		if (path.length > 0) {
+			result.append(PATH_START);
+			result.append(path[0]);
+			for (int i=1; i<path.length; i++) {
+				result.append(PATH_SEPARATOR);
+				result.append(path[i]);
 			}
 		}
+		if (fragment!=null) {
+			result.append(FRAGMENT_START);
+			result.append(fragment);
+		}
 		return result.toString();
-	}
-	
-	private static String argumentToString(String arg) {
-		if (arg==null || arg.trim().length()==0) return "?";
-		return arg;
 	}
 	
 }
