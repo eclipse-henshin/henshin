@@ -512,8 +512,7 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSetGen(int featureID) {
 		switch (featureID) {
 			case HenshinPackage.ATTRIBUTE__ACTION:
 				return ACTION_EDEFAULT == null ? getAction() != null : !ACTION_EDEFAULT.equals(getAction());
@@ -529,6 +528,19 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 				return null_ != NULL_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		if (featureID==HenshinPackage.ATTRIBUTE__ACTION) {
+			return false;
+		}
+		return eIsSetGen(featureID);
 	}
 
 	/**

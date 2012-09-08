@@ -515,8 +515,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSetGen(int featureID) {
 		switch (featureID) {
 			case HenshinPackage.NODE__ACTION:
 				return ACTION_EDEFAULT == null ? getAction() != null : !ACTION_EDEFAULT.equals(getAction());
@@ -534,6 +533,19 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return !getAllEdges().isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		if (featureID==HenshinPackage.NODE__ACTION) {
+			return false;
+		}
+		return eIsSetGen(featureID);
 	}
 
 	/**

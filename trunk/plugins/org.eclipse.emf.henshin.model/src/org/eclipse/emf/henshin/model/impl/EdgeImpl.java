@@ -473,8 +473,7 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSetGen(int featureID) {
 		switch (featureID) {
 			case HenshinPackage.EDGE__ACTION:
 				return ACTION_EDEFAULT == null ? getAction() != null : !ACTION_EDEFAULT.equals(getAction());
@@ -491,6 +490,21 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		if (featureID==HenshinPackage.EDGE__ACTION) {
+			return false;
+		}
+		return eIsSetGen(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
