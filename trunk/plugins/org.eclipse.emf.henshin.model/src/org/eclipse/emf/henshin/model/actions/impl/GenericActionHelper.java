@@ -265,26 +265,21 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// Update the multi-rule:
 		oldAction = getAction(element);
 		if (oldAction.isMulti()) {
-			
-			String[] oldPath = oldAction.getPath();
-			String[] newPath = newAction.getPath();
-			
 			if (!newAction.isMulti()) {
 				moveMultiElement(rule, rule.getRootRule(), newAction, element); // move it up to the root rule
 			}
-			else if (!Arrays.equals(oldPath, newPath)) {
-				List<String> path = new ArrayList<String>();
-				int max = Math.min(oldPath.length, newPath.length);
-				for (int i=0; i<max; i++) {
-					if (oldPath[i].equals(newPath[i])) {
-						path.add(oldPath[i]);
-					} else break;
+			else if (!oldAction.hasSameFragment(newAction)) {
+				String[] common = getCommonFragment(oldAction, newAction);
+				if (common.length==0) {
+					moveMultiElement(rule, rule.getRootRule(), newAction, element); // move it to the root rule
+				} else {
+					Action action = new Action(oldAction.getType(), true, common);
+					Rule multi = getOrCreateMultiRule(rule.getRootRule(), action); 
+					moveMultiElement(rule, multi, newAction, element); // move it to the common parent rule					
 				}
-				Action common = new Action(oldAction.getType(), true, path.toArray(new String[0]));
-				Rule rx = getOrCreateMultiRule(rule.getRootRule(), common); 
-				moveMultiElement(rule, rx, newAction, element); // move it to the common parent rule
 			}
 		}
+		
 		oldAction = getAction(element);
 		if (oldAction!=null && !oldAction.equals(newAction)) {
 			Rule multi = getOrCreateMultiRule(rule.getRootRule(), newAction);
@@ -298,7 +293,21 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 	}
 	
-	
+	/*
+	 * Get the common start of the fragments of two actions.
+	 */
+	private static String[] getCommonFragment(Action a1, Action a2) {
+		List<String> path = new ArrayList<String>();
+		String[] p1 = a1.getPath();
+		String[] p2 = a2.getPath();
+		int max = Math.min(p1.length, p2.length);
+		for (int i=0; i<max; i++) {
+			if (p1[i].equals(p2[i])) {
+				path.add(p1[i]);
+			} else break;
+		}
+		return path.toArray(new String[0]);
+	}
 	
 	/*
 	 * Move an element either from a (multi-) rule to another (multi-) rule.
