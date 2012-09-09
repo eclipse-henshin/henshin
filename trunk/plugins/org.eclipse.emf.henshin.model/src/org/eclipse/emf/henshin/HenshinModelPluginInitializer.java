@@ -11,7 +11,6 @@ package org.eclipse.emf.henshin;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 
 /**
@@ -37,7 +36,7 @@ class HenshinModelPluginInitializer {
 					HenshinModelExporter exporter = (HenshinModelExporter) element.createExecutableExtension("class");
 					HenshinModelPlugin.INSTANCE.getExporters().put(id, exporter);
 				} catch (Throwable t) {
-					HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error loading exporter " + id, t);
+					HenshinModelPlugin.INSTANCE.logError("Error loading exporter " + id, t);
 				}
 			}
 			if ("importer".equals(element.getName())) {
@@ -46,7 +45,7 @@ class HenshinModelPluginInitializer {
 					HenshinModelImporter importer = (HenshinModelImporter) element.createExecutableExtension("class");
 					HenshinModelPlugin.INSTANCE.getImporters().put(id, importer);
 				} catch (Throwable t) {
-					HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error loading importer " + id, t);
+					HenshinModelPlugin.INSTANCE.logError("Error loading importer " + id, t);
 				}
 			}
 		}

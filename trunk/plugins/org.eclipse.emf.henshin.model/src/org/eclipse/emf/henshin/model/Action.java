@@ -73,11 +73,6 @@ public final class Action {
 	}
 	
 	/**
-	 * Marker for the start of paths.
-	 */
-	public static final char PATH_START = ':';
-
-	/**
 	 * Separator for paths.
 	 */
 	public static final char PATH_SEPARATOR = '/';
@@ -206,17 +201,17 @@ public final class Action {
 		
 		// Check if there is a path:
 		String[] path = EMPTY_STRING_ARRAY;
-		if (pos<chars.length && chars[pos]==PATH_START) {
+		if (pos<chars.length && chars[pos]==PATH_SEPARATOR) {
 			pos++;
 			List<String> pathList = new ArrayList<String>();
 			pathList.add("");
 			while (pos<chars.length) {
-				if (chars[pos]==PATH_SEPARATOR) {
-					pathList.add("");
-				}
-				else if (Character.isJavaIdentifierPart(chars[pos])) {
+				if (Character.isJavaIdentifierPart(chars[pos])) {
 					String newValue = pathList.get(pathList.size()-1) + chars[pos];
 					pathList.set(pathList.size()-1, newValue);
+				}
+				else if (chars[pos]==PATH_SEPARATOR) {
+					pathList.add("");
 				}
 				else {
 					break;
@@ -367,9 +362,7 @@ public final class Action {
 			result.append(MULTI_MARKER);
 		}
 		if (path.length > 0) {
-			result.append(PATH_START);
-			result.append(path[0]);
-			for (int i=1; i<path.length; i++) {
+			for (int i=0; i<path.length; i++) {
 				result.append(PATH_SEPARATOR);
 				result.append(path[i]);
 			}

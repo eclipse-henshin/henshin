@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -262,31 +263,53 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// THE ACTION TYPE IS CORRECT NOW.
 		
-		// Update the multi-rule:
+		// Update the current action:
 		oldAction = getAction(element);
+
+		// Is the old action a multi-action?
 		if (oldAction.isMulti()) {
+			
+			// If the new one is not a multi-action, move the element up to the root rule:
 			if (!newAction.isMulti()) {
-				moveMultiElement(rule, rule.getRootRule(), newAction, element); // move it up to the root rule
+				moveMultiElement(rule, rule.getRootRule(), newAction, element);
 			}
-			else if (!oldAction.hasSameFragment(newAction)) {
-				String[] common = getCommonFragment(oldAction, newAction);
+			
+			// Does the new action have a different path? (it IS a multi-action)
+			else if (!oldAction.hasSamePath(newAction)) {
+				
+				// Find the common sub-path:
+				String[] common = getCommonPath(oldAction, newAction);
+				
+				// If they are completely different, move it up to the root rule:
 				if (common.length==0) {
-					moveMultiElement(rule, rule.getRootRule(), newAction, element); // move it to the root rule
-				} else {
+					moveMultiElement(rule, rule.getRootRule(), newAction, element);
+				}
+				// Otherwise move it to the common parent rule:
+				else {
 					Action action = new Action(oldAction.getType(), true, common);
 					Rule multi = getOrCreateMultiRule(rule.getRootRule(), action); 
-					moveMultiElement(rule, multi, newAction, element); // move it to the common parent rule					
+					moveMultiElement(rule, multi, newAction, element);					
 				}
 			}
 		}
 		
+		// Update the current action:
 		oldAction = getAction(element);
+		
+		// Still not the same?
 		if (oldAction!=null && !oldAction.equals(newAction)) {
+			
+			// Then find the new target multi-rule and move the element there:
 			Rule multi = getOrCreateMultiRule(rule.getRootRule(), newAction);
-			moveMultiElement(getGraph(element).getRule(), multi, newAction, element); // move it to the multi-rule
+			moveMultiElement(getGraph(element).getRule(), multi, newAction, element);
+			
 		}
 		
 		// NOW EVERYTHING SHOULD BE CORRECT.
+		if (!newAction.equals(getAction(element))) {
+			HenshinModelPlugin.INSTANCE.logWarning("Failed to set action for " + element + 
+					" (got " + getAction(element) + " instead of " + newAction, null);
+		}
 		
 		// CLEAN UP:
 		HenshinModelCleaner.cleanRule(rule.getRootRule());
@@ -294,9 +317,9 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	}
 	
 	/*
-	 * Get the common start of the fragments of two actions.
+	 * Get the common start of the path of two actions.
 	 */
-	private static String[] getCommonFragment(Action a1, Action a2) {
+	private static String[] getCommonPath(Action a1, Action a2) {
 		List<String> path = new ArrayList<String>();
 		String[] p1 = a1.getPath();
 		String[] p2 = a2.getPath();

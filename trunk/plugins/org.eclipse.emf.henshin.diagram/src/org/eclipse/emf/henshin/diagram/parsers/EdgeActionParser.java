@@ -117,7 +117,7 @@ public class EdgeActionParser extends AbstractParser {
 			
 		}
 		catch (Throwable t) {
-			HenshinDiagramEditorPlugin.getInstance().logError("Error occurred when trying to set an edge action", t);
+			HenshinDiagramEditorPlugin.getInstance().logError("Error setting edge action", t);
 			return CommandResult.newErrorCommandResult(t);
 		}		
 	}

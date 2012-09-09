@@ -480,7 +480,17 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 */
 	public Edge createEdge(Node source, Node target, EReference type) {
 		
-		// Make sure we have the action nodes:
+		// Check if we really can create an edge:
+		if (!canCreateEdge(source, target, type)) {
+			return null;
+		}
+		
+		// If the two nodes are in the same graph, we directly create the edge:
+		if (source.getGraph()==target.getGraph()) {
+			return doCreateEdge(source, target, type, null);
+		}
+		
+		// Otherwise we take the action nodes:
 		source = source.getActionNode();
 		target = target.getActionNode();
 		
@@ -493,10 +503,18 @@ public class RuleImpl extends UnitImpl implements Rule {
 			return doCreateEdge(source, target, type, sourceAction.getType());
 		}
 		
-		// Otherwise we do a trick and first change the action of the target node:
-		target.setAction(sourceAction);
-		Edge edge = doCreateEdge(source, target, type, sourceAction.getType());
-		target.setAction(targetAction);
+		// Otherwise we do a trick and first change the action of the one node.
+		// We change the action of the node with the least number of edges.
+		Edge edge;
+		if (target.getAllEdges().size() < source.getAllEdges().size()) {
+			target.setAction(sourceAction);
+			edge = doCreateEdge(source, target, type, sourceAction.getType());
+			target.setAction(targetAction);
+		} else {
+			source.setAction(targetAction);
+			edge = doCreateEdge(source, target, type, targetAction.getType());
+			source.setAction(sourceAction);			
+		}		
 		return edge;
 
 	}
@@ -524,7 +542,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean canCreateEdge(Node source, Node target, EReference edgeType) {
+	public boolean canCreateEdge(Node source, Node target, EReference type) {
 		
 		// Get the source and target type.
 		EClass targetType = target.getType();
@@ -532,24 +550,24 @@ public class RuleImpl extends UnitImpl implements Rule {
 
 		// Everything must be set.
 		if (source == null || target == null || sourceType == null
-				|| targetType == null || edgeType == null) {
+				|| targetType == null || type == null) {
 			return false;
 		}
 
 		// Reference must be owned by source.
-		if (!sourceType.getEAllReferences().contains(edgeType)) {
+		if (!sourceType.getEAllReferences().contains(type)) {
 			return false;
 		}
 
 		// Target type must be ok. Extra check for EObjects!!!
-		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType) &&
-			!targetType.isSuperTypeOf(edgeType.getEReferenceType())
-				&& edgeType.getEReferenceType() != EcorePackage.eINSTANCE
+		if (!type.getEReferenceType().isSuperTypeOf(targetType) &&
+			!targetType.isSuperTypeOf(type.getEReferenceType())
+				&& type.getEReferenceType() != EcorePackage.eINSTANCE
 						.getEObject()) {
 			return false;
 		}
 
-		// Check for source/target consistency.
+		// Check the source/target graphs:
 		Graph sourceGraph = source.getGraph();
 		Graph targetGraph = target.getGraph();
 		if (sourceGraph==null || targetGraph==null) {
@@ -566,11 +584,11 @@ public class RuleImpl extends UnitImpl implements Rule {
 		// Source and target rule must be compatible:
 		if (sourceRule!=targetRule && 
 				!EcoreUtil.isAncestor(sourceRule, targetRule) && 
-				EcoreUtil.isAncestor(targetRule, sourceRule)) {
+				!EcoreUtil.isAncestor(targetRule, sourceRule)) {
 			return false;
 		}
 		
-		// Everything alright:
+		// Everything ok:
 		return true;
 	}
 
@@ -579,13 +597,15 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean removeEdge(Edge edge, boolean removeMapped) {		
+	public boolean removeEdge(Edge edge, boolean removeMapped) {
+		
 		// Must be invoked from the root kernel rule:
 		if (getKernelRule()!=null) {
 			return getKernelRule().removeEdge(edge, removeMapped);
 		}
 		Set<Edge> edges = new HashSet<Edge>();
 		edges.add(edge);
+		
 		// Collect mapped edges if necessary:
 		if (removeMapped) {
 			// Collect a list of ALL mappings:
@@ -620,11 +640,13 @@ public class RuleImpl extends UnitImpl implements Rule {
 				}
 			} while (changed);
 		}
+		
 		// Now remove the collected edges:
 		for (Edge e : edges) {
 			e.getGraph().removeEdge(e);
 		}
 		return true;
+		
 	}
 
 	/**

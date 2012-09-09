@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -225,7 +226,11 @@ public class AttributeParser extends AbstractParser {
 		// Set the action:
 		Action currentAction = attribute.getAction();
 		if (currentAction!=null && !currentAction.equals(action)) {
-			attribute.setAction(action);
+			try {
+				attribute.setAction(action);
+			} catch (Throwable t) {
+				HenshinDiagramEditorPlugin.getInstance().logError("Error setting attribute action", t);
+			}
 		}
 		
 		// Done.

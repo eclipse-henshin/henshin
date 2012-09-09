@@ -103,12 +103,35 @@ public class HenshinModelPlugin extends EMFPlugin {
 	}
 
 	/**
-	 * Log a message.
-	 * @param code Status code.
+	 * Log an info message.
+	 * @param message The message.
+	 */
+	public void logInfo(String message) {
+		log(IStatus.INFO, message, null);
+	}
+
+	/**
+	 * Log a warning message.
 	 * @param message The message.
 	 * @param t Exception.
 	 */
-	public void log(int code, String message, Throwable t) {
+	public void logWarning(String message, Throwable t) {
+		log(IStatus.WARNING, message, t);
+	}
+
+	/**
+	 * Log an error message.
+	 * @param message The message.
+	 * @param t Exception.
+	 */
+	public void logError(String message, Throwable t) {
+		log(IStatus.ERROR, message, null);
+	}
+	
+	/*
+	 * Log a message.
+	 */
+	private void log(int code, String message, Throwable t) {
 		if (plugin!=null && plugin.getLog()!=null) {
 			plugin.getLog().log(new Status(code, PLUGIN_ID, 0, message, t));
 		} else {

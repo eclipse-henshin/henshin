@@ -103,7 +103,7 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 					try {
 						module = (Module) resourceSet.getResource(fileURI, true).getContents().get(0);
 					} catch (Throwable t) {
-						HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error loading transformation model from file " + fileURI.toFileString(), t);
+						HenshinModelPlugin.INSTANCE.logError("Error loading transformation model from file " + fileURI.toFileString(), t);
 					}
 				}
 			}
@@ -179,11 +179,11 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 					IStatus status = performExport(exporter, file, monitor);
 					if (status.getSeverity()==IStatus.ERROR) {
 						MessageDialog.openError(getShell(), "Export Transformation Model", status.getMessage());
-						HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error exporting transformation model: " + status.getMessage(), status.getException());
+						HenshinModelPlugin.INSTANCE.logError("Error exporting transformation model: " + status.getMessage(), status.getException());
 					}
 					if (status.getSeverity()==IStatus.WARNING) {
 						MessageDialog.openWarning(getShell(), "Export Transformation Model", status.getMessage());
-						HenshinModelPlugin.INSTANCE.log(IStatus.WARNING, status.getMessage(), status.getException());
+						HenshinModelPlugin.INSTANCE.logError(status.getMessage(), status.getException());
 					}
 				}
 			};
@@ -196,7 +196,7 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 			return true;
 		}
 		catch (Throwable t) {
-			HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error exporting transformation model", t);
+			HenshinModelPlugin.INSTANCE.logError("Error exporting transformation model", t);
 			return false;
 		}
 	}
@@ -229,7 +229,7 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 			IDE.openEditor(page, file, true);
 		}
 		catch (Throwable t) {
-			HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error opening exported file.", t);
+			HenshinModelPlugin.INSTANCE.logError("Error opening exported file.", t);
 		}
 	}
 		

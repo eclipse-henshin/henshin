@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.BinaryFormula;
@@ -411,7 +410,7 @@ public class HenshinModelCleaner {
 	 * Print debug messages.
 	 */
 	private static void debug(String message) {
-		HenshinModelPlugin.INSTANCE.log(IStatus.INFO, "HenshinModelCleaner: " + message, null);
+		HenshinModelPlugin.INSTANCE.logInfo("CleanUp: " + message);
 	}
 	
 }

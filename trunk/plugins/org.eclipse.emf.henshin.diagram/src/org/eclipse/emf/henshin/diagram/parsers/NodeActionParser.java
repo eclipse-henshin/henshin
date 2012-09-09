@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -100,7 +101,7 @@ public class NodeActionParser extends AbstractParser {
 			node.setAction(action);
 			return CommandResult.newOKCommandResult();
 		} catch (Throwable t) {
-			t.printStackTrace();
+			HenshinDiagramEditorPlugin.getInstance().logError("Error occurred when trying to set an edge action", t);
 			return CommandResult.newErrorCommandResult(t);
 		}		
 	}
