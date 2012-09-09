@@ -487,7 +487,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		
 		// If the two nodes are in the same graph, we directly create the edge:
 		if (source.getGraph()==target.getGraph()) {
-			return doCreateEdge(source, target, type, null);
+			return doCreateEdge(source, target, type, source.getGraph().isLhs());
 		}
 		
 		// Otherwise we take the action nodes:
@@ -500,7 +500,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		
 		// If they are the same, we can just create the edge:
 		if (sourceAction.equals(targetAction)) {
-			return doCreateEdge(source, target, type, sourceAction.getType());
+			return doCreateEdge(source, target, type, sourceAction.getType()==Action.Type.PRESERVE);
 		}
 		
 		// Otherwise we do a trick and first change the action of the one node.
@@ -508,12 +508,12 @@ public class RuleImpl extends UnitImpl implements Rule {
 		Edge edge;
 		if (target.getAllEdges().size() < source.getAllEdges().size()) {
 			target.setAction(sourceAction);
-			edge = doCreateEdge(source, target, type, sourceAction.getType());
+			edge = doCreateEdge(source, target, type, sourceAction.getType()==Action.Type.PRESERVE);
 			target.setAction(targetAction);
 		} else {
 			source.setAction(targetAction);
-			edge = doCreateEdge(source, target, type, targetAction.getType());
-			source.setAction(sourceAction);			
+			edge = doCreateEdge(source, target, type, targetAction.getType()==Action.Type.PRESERVE);
+			source.setAction(sourceAction);
 		}		
 		return edge;
 
@@ -522,12 +522,12 @@ public class RuleImpl extends UnitImpl implements Rule {
 	/*
 	 * Perform the edge creation.
 	 */
-	private Edge doCreateEdge(Node source, Node target, EReference edgeType, Action.Type actionType) {
+	private Edge doCreateEdge(Node source, Node target, EReference edgeType, boolean createRhsImage) {
 		Edge edge = source.getOutgoing(edgeType, target);
 		if (edge==null) {
 			edge = HenshinFactory.eINSTANCE.createEdge(source, target, edgeType);			
 		}
-		if (actionType==Action.Type.PRESERVE) {
+		if (createRhsImage) {
 			source = getMappings().getImage(source, getRhs());
 			target = getMappings().getImage(target, getRhs());
 			if (source.getOutgoing(edgeType, target)==null) {

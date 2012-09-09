@@ -261,7 +261,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 		}
 		
-		// THE ACTION TYPE IS CORRECT NOW.
+		// THE ACTION TYPE AND THE FRAGMENT ARE CORRECT NOW.
 		
 		// Update the current action:
 		oldAction = getAction(element);
@@ -359,9 +359,11 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// Find out from where to where we need to move the element:
 		if (getGraph(element).getRule()==rule1) {
 			// correct order already
-		} else if (getGraph(element).getRule()==rule2) {
+		}
+		else if (getGraph(element).getRule()==rule2) {
 			Collections.reverse(ruleChain); // reverse the order
-		} else {
+		}
+		else {
 			return; // something is wrong, so we stop
 		}
 		
@@ -387,9 +389,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// Decide what and how to move the element:
 			if (actionType==CREATE) {
-				//HenshinModelCleaner.cleanMappingList(multi.getMultiMappings(), kernel.getLhs(), multi.getLhs(), kernel.getRhs(), multi.getRhs());
 				getMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings()).move(element);
-				//HenshinModelCleaner.cleanMappingList(multi.getMultiMappings(), kernel.getLhs(), multi.getLhs(), kernel.getRhs(), multi.getRhs());
 			}
 			else if (actionType==DELETE) {
 				getMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings()).move(element);
@@ -398,8 +398,8 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				new MultiRuleMapEditor(kernel, multi).moveMappedElement(element);
 			}
 			else if (actionType==FORBID || actionType==REQUIRE) {
-				NestedCondition kernelAC = getOrCreateAC(kernel, null, actionType==REQUIRE);
-				NestedCondition currentAC = getOrCreateAC(multi, null, actionType==REQUIRE);
+				NestedCondition kernelAC = getOrCreateAC(kernel, action.getFragment(), actionType==REQUIRE);
+				NestedCondition currentAC = getOrCreateAC(multi, action.getFragment(), actionType==REQUIRE);
 				new ConditionElemMapEditor(kernelAC, currentAC).moveConditionElement(element);
 			}
 		}

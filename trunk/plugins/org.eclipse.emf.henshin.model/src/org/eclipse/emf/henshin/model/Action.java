@@ -310,7 +310,7 @@ public final class Action {
 		if (fragment==null) {
 			return action.fragment==null;
 		}
-		return fragment.equals(fragment);
+		return fragment.equals(action.fragment);
 	}
 
 	/*
