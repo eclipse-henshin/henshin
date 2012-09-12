@@ -20,11 +20,19 @@ public interface TransformationUnit extends NamedElement {
 
 	void setActivated(boolean value);
 
+	/**
+	 * @deprecated Use getModule()
+	 */
 	TransformationSystem getTransformationSystem();
 
 	EList<Parameter> getParameters();
 
 	Parameter getParameter(String parameter);
+
+	/**
+	 * @deprecated Use {@link #getParameter(String)}
+	 */
+	Parameter getParameterByName(String parameter);
 
 	EList<ParameterMapping> getParameterMappings();
 	

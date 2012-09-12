@@ -218,7 +218,16 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * @deprecated Will be removed in the future.
+	 * <!-- end-user-doc -->
+	 */
+	public Rule findRuleByName(String ruleName) {
+		return getRule(ruleName);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * @deprecated Will be removed in the future.

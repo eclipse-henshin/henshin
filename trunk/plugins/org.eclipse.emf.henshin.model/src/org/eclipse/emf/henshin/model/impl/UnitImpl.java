@@ -229,7 +229,16 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Parameter getParameterByName(String name) {
+		return getParameter(name);
+	}
+
 	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->

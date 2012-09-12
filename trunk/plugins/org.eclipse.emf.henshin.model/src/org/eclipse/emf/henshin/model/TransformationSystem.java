@@ -44,4 +44,9 @@ public interface TransformationSystem extends NamedElement {
 	 */
 	Rule getRule(String ruleName);
 
+	/**
+	 * @deprecated Use getUnit(String name) instead and cast the result to a rule.
+	 */
+	Rule findRuleByName(String ruleName);
+
 } // TransformationSystem

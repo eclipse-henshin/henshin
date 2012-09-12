@@ -463,14 +463,25 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public Node createNode(EClass type) {
+		
+		// Create nodes in the Lhs and the Rhs:
 		Node lhsNode = new NodeImpl();
 		Node rhsNode = new NodeImpl();
+		
+		// Set the type:
 		lhsNode.setType(type);
 		rhsNode.setType(type);
+		
+		// Add the nodes to the Lhs and the Rhs:
 		getLhs().getNodes().add(lhsNode);
 		getRhs().getNodes().add(rhsNode);
+		
+		// Add a mapping:
 		getMappings().add(lhsNode, rhsNode);
-		return lhsNode.getActionNode(); // just to make sure the LHS-node is the action node
+		
+		// Return the action node:
+		return lhsNode.getActionNode();
+		
 	}
 
 	/**
@@ -484,20 +495,15 @@ public class RuleImpl extends UnitImpl implements Rule {
 		if (!canCreateEdge(source, target, type)) {
 			return null;
 		}
-		
-		// If the two nodes are in the same graph, we directly create the edge:
-		if (source.getGraph()==target.getGraph()) {
-			return doCreateEdge(source, target, type, source.getGraph().isLhs());
-		}
-		
-		// Otherwise we take the action nodes:
+
+		// Get the action nodes:
 		source = source.getActionNode();
 		target = target.getActionNode();
 		
 		// Get the source and target actions:
 		Action sourceAction = source.getAction();
 		Action targetAction = target.getAction();
-		
+
 		// If they are the same, we can just create the edge:
 		if (sourceAction.equals(targetAction)) {
 			return doCreateEdge(source, target, type, sourceAction.getType()==Action.Type.PRESERVE);
@@ -530,7 +536,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		if (createRhsImage) {
 			source = getMappings().getImage(source, getRhs());
 			target = getMappings().getImage(target, getRhs());
-			if (source.getOutgoing(edgeType, target)==null) {
+			if (source!=null && target!=null && source.getOutgoing(edgeType, target)==null) {
 				HenshinFactory.eINSTANCE.createEdge(source, target, edgeType);
 			}
 		}
