@@ -119,9 +119,6 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 			for (EPackage epackage : unresolved) {
 				message = message + "  -  " + EcoreUtil.getURI(epackage) + "\n";
 			}
-			message = message
-					+ "\nIf no generated model code exists for these packages, try to register their "
-					+ "corresponding Ecore-files from the context menu using \"Henshin->Register EPackages\".";
 			MessageDialog.openError(getSite().getShell(),
 					"Error opening Henshin file", message);
 		}
