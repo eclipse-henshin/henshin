@@ -59,7 +59,7 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		doRemove(edge);
 		
 		// Clean up:
-		HenshinModelCleaner.cleanRule(rule);
+		HenshinModelCleaner.cleanRule(rule.getRootRule());
 
 		// Done.
 		return CommandResult.newOKCommandResult();

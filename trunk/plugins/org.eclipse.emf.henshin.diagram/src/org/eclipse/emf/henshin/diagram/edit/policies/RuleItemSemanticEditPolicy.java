@@ -12,7 +12,7 @@ package org.eclipse.emf.henshin.diagram.edit.policies;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.henshin.diagram.edit.commands.RuleDeleteCommand;
+import org.eclipse.emf.henshin.diagram.edit.commands.UnitDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
@@ -47,7 +47,7 @@ public class RuleItemSemanticEditPolicy extends
 	 */
 	protected Command getDestroyElementCommand(DestroyElementRequest req) {
 		Rule rule = (Rule) ((View) getHost().getModel()).getElement();
-		return getGEFWrapper(new RuleDeleteCommand(getEditingDomain(), rule));
+		return getGEFWrapper(new UnitDeleteCommand(getEditingDomain(), rule));
 	}
 
 	/**

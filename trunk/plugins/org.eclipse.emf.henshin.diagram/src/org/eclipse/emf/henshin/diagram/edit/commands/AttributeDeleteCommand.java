@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 
 import static org.eclipse.emf.henshin.model.Action.Type.*;
 
@@ -60,6 +61,9 @@ public class AttributeDeleteCommand extends AbstractTransactionalCommand {
 		// Now we can remove it safely.
 		attribute.getNode().getAttributes().remove(attribute);
 		
+		// Clean up:
+		HenshinModelCleaner.cleanRule(attribute.getNode().getGraph().getRule().getRootRule());
+
 		// Done.
 		return CommandResult.newOKCommandResult();
 		

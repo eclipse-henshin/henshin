@@ -19,8 +19,10 @@ import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEdit
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -135,6 +137,9 @@ public class EdgeCreateCommand extends EditElementCommand {
 			RootObjectEditHelper.updateRootContainment(ruleView, getSource());
 			RootObjectEditHelper.updateRootContainment(ruleView, getTarget());
 		}
+		
+		// Clean up:
+		HenshinModelCleaner.cleanRule(rule.getRootRule());
 
 		// Configure and return:
 		doConfigure(edge, monitor, info);

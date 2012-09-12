@@ -28,6 +28,7 @@ import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -122,12 +123,12 @@ public class NodeCreateCommand extends EditElementCommand {
 		CreateElementRequest request = (CreateElementRequest) getRequest();
 		Object type = request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY);
 
-		Module ts = rule.getModule();
+		Module module = rule.getModule();
 		SingleEClassifierSelectionDialog dialog = null;
 
 		// if no type has been specified yet, let the user choose one
 		if (type == null) {
-			dialog = new SingleEClassifierSelectionDialog(ts);
+			dialog = new SingleEClassifierSelectionDialog(module);
 			type = dialog.openAndReturnSelection();
 		}
 
@@ -144,12 +145,18 @@ public class NodeCreateCommand extends EditElementCommand {
 
 		// Finally, we set the user-defined action:
 		if (dialog != null) {
-			node.setAction(dialog.getAction());
+			try {
+				node.setAction(dialog.getAction());
+			} catch (Throwable t) {
+				HenshinDiagramEditorPlugin.getInstance().logError("Error setting node action", t);
+			}
 		}
 
-		// This shouldn't do anything, but we call it to be sure:
-		doConfigure(node, monitor, info);
+		// Clean up:
+		HenshinModelCleaner.cleanRule(rule.getRootRule());
 
+		// Configure and return:
+		doConfigure(node, monitor, info);
 		request.setNewElement(node);
 		return CommandResult.newOKCommandResult(node);
 

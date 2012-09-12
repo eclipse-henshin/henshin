@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -112,8 +113,10 @@ public class AttributeCreateCommand extends EditElementCommand {
 			}
 		}
 
+		// Clean up:
+		HenshinModelCleaner.cleanRule(rule.getRootRule());
+		
 		doConfigure(attribute, monitor, info);
-
 		((CreateElementRequest) getRequest()).setNewElement(attribute);
 		return CommandResult.newOKCommandResult(attribute);
 	}

@@ -12,7 +12,6 @@ package org.eclipse.emf.henshin.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -45,8 +44,13 @@ public class UnitDeleteCommand extends AbstractTransactionalCommand {
 	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
-		// Delete the unit:
-		EcoreUtil.delete(unit);
+		// Nothing to do?
+		if (unit.getModule()==null) {
+			return CommandResult.newOKCommandResult();
+		}
+		
+		// Delete the unit.
+		unit.getModule().getUnits().remove(unit);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();
