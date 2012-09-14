@@ -29,6 +29,7 @@ import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSnapshot;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
@@ -238,8 +239,9 @@ public class Henshination {
 		}
 		try {
 			
-			MatchModel matchModel = MatchService.doMatch(previewModel, originalModel,
-					Collections.<String, Object> emptyMap());
+			Map<String, Object> options = new HashMap<String, Object>();
+			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, new Boolean(true));
+			MatchModel matchModel = MatchService.doMatch(previewModel, originalModel, options);
 			DiffModel diffModel = DiffService.doDiff(matchModel);
 			
 			ComparisonResourceSnapshot snapshot = DiffFactory.eINSTANCE
