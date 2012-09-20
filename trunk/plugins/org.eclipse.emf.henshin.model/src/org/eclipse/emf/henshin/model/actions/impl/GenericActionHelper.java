@@ -37,7 +37,7 @@ import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 /**
  * @author Christian Krause
  */
-public abstract class GenericActionHelper<E extends EObject,C extends EObject> implements ActionHelper<E,C> {
+public abstract class GenericActionHelper<E extends GraphElement,C extends EObject> implements ActionHelper<E,C> {
 	
 	/*
 	 * (non-Javadoc)
@@ -46,7 +46,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	public Action getAction(E element) {
 		
 		// Get the graph and the rule:
-		Graph graph = getGraph(element);
+		Graph graph = element.getGraph();
 		if (graph==null) {
 			return null;
 		}
@@ -144,7 +144,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		Type newType = newAction.getType();
 		
 		// Get the container graph and rule.
-		Graph graph = getGraph(element);
+		Graph graph = element.getGraph();
 		Rule rule = graph.getRule();
 
 		// Map editor.
@@ -301,7 +301,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// Then find the new target multi-rule and move the element there:
 			Rule multi = getOrCreateMultiRule(rule.getRootRule(), newAction);
-			moveMultiElement(getGraph(element).getRule(), multi, newAction, element);
+			moveMultiElement(element.getGraph().getRule(), multi, newAction, element);
 			
 		}
 		
@@ -357,10 +357,10 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 		
 		// Find out from where to where we need to move the element:
-		if (getGraph(element).getRule()==rule1) {
+		if (element.getGraph().getRule()==rule1) {
 			// correct order already
 		}
-		else if (getGraph(element).getRule()==rule2) {
+		else if (element.getGraph().getRule()==rule2) {
 			Collections.reverse(ruleChain); // reverse the order
 		}
 		else {
@@ -405,18 +405,24 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 
 	}
-		
+	
 	/*
-	 * Get the container graph for an element.
-	 */
-	protected Graph getGraph(E e) {
-		EObject current = e.eContainer();
-		while (current!=null) {
-			if (current instanceof Graph) return (Graph) current;
-			current = current.eContainer();
+	private void replaceNodeInMappings(Node oldNode, Node newNode) {
+		Iterator<EObject> it = newNode.getGraph().getRule().getRootRule().eAllContents();
+		while (it.hasNext()) {
+			EObject obj = it.next();
+			if (obj instanceof Mapping) {
+				Mapping m = (Mapping) obj;
+				if (m.getOrigin()==oldNode) {
+					m.setOrigin(newNode);
+				}
+				else if (m.getImage()==oldNode) {
+					m.setImage(newNode);
+				}				
+			}
 		}
-		return null;
 	}
+	*/
 	
 	/*
 	 * Create a new map editor for a given target graph.

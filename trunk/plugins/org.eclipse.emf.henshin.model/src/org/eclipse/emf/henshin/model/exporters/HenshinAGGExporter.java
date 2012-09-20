@@ -50,6 +50,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Unit;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -232,7 +233,10 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			typesElem.appendChild(typeGraphElem);
 			
 			// Rules:
-			for (Rule rule : module.getRules()) {
+			for (Unit unit : module.getUnits()) {
+				if (!(unit instanceof Rule)) continue;
+				Rule rule = (Rule) unit;
+				
 				Element ruleElem = newElement("Rule", systemElem, true);
 				ruleElem.setAttribute("name", rule.getName());
 				ruleElem.setAttribute("formula", "true");

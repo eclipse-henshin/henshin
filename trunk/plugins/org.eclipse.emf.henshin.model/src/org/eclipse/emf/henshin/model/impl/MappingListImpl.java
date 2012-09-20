@@ -86,7 +86,8 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 	@Override
 	public Node getImage(Node origin, Graph imageGraph) {
 		for (Mapping m : this) {
-			if (m.getOrigin()==origin && m.getImage()!=null && m.getImage().getGraph()==imageGraph) {
+			if (m.getOrigin()==origin && m.getImage()!=null && 
+				(imageGraph==null || imageGraph==m.getImage().getGraph())) {
 				return m.getImage();
 			}
 		}

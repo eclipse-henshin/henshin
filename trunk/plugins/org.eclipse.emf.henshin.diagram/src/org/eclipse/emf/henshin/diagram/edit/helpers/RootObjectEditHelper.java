@@ -21,11 +21,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeCreateCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.NodeDeleteCommand;
-import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
@@ -35,9 +33,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
-import org.eclipse.gmf.runtime.emf.core.resources.GMFResource;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
-import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -61,7 +57,7 @@ public class RootObjectEditHelper {
 	public static Node getRootObject(View ruleView) {
 		
 		// Check whether it is the correct view:
-		if (!isRuleView(ruleView)) {
+		if (!RuleEditHelper.isRuleView(ruleView)) {
 			return null;
 		}
 		
@@ -287,38 +283,6 @@ public class RootObjectEditHelper {
 			}			
 		}
 		return false;
-	}
-
-	/**
-	 * Check whether a given view is a rule view.
-	 * @param view The view.
-	 * @return <code>true</code> if it is a rule view.
-	 */
-	public static boolean isRuleView(View view) {
-		// We allow only the root view for rules.
-		return (view!=null && view.getElement() instanceof Rule && view.getType().equals(String.valueOf(RuleEditPart.VISUAL_ID)));
-	}
-	
-	/**
-	 * Find the corresponding view for a rule.
-	 * @param rule Rule.
-	 * @return The rule view if found.
-	 */
-	public static View findRuleView(Rule rule) {
-		for (Resource resource : rule.eResource().getResourceSet().getResources()) {
-			if (resource instanceof GMFResource) {
-				for (EObject object : resource.getContents()) {
-					if (object instanceof Diagram && (((Diagram) object).getElement()==rule.getModule())) {
-						Diagram diagram = (Diagram) object;
-						for (int i=0; i<diagram.getChildren().size(); i++) {
-							View view = (View) diagram.getChildren().get(i);
-							if (isRuleView(view) && view.getElement()==rule) return view;
-						}
-					}
-				}
-			}
-		}
-		return null;
 	}
 	
 }

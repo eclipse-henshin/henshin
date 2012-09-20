@@ -50,10 +50,8 @@ public class HenshinPaletteUpdater {
 	/**
 	 * Default constructor.
 	 * 
-	 * @param palette
-	 *            Palette root.
-	 * @param module
-	 *            Transformation system.
+	 * @param palette Palette root.
+	 * @param module The module.
 	 */
 	public HenshinPaletteUpdater(PaletteRoot palette, Module module) {
 		this.palette = palette;
@@ -110,7 +108,7 @@ public class HenshinPaletteUpdater {
 	}
 	
 	/*
-	 * Transformation system listener.
+	 * Module listener.
 	 */
 	private Adapter listener = new AdapterImpl() {
 		public void notifyChanged(Notification event) {

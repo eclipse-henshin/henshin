@@ -12,11 +12,12 @@ package org.eclipse.emf.henshin.model.actions.impl;
 import java.util.List;
 
 import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.GraphElement;
 
 /**
  * Action helper.
  */
-public interface ActionHelper<E,C> {
+public interface ActionHelper<E extends GraphElement,C> {
 	
 	/**
 	 * Determine the action for an element. If this returns <code>null</code>

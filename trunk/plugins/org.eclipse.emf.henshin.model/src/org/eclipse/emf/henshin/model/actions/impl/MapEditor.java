@@ -10,9 +10,10 @@
 package org.eclipse.emf.henshin.model.actions.impl;
 
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.MappingList;
 
-public interface MapEditor<E> {
+public interface MapEditor<E extends GraphElement> {
 	
 	/**
 	 * Get the source graph.

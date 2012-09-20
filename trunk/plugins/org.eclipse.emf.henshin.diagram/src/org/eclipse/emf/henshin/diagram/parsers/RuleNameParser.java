@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
@@ -33,7 +34,7 @@ public class RuleNameParser extends UnitNameParser {
 	 */
 	public RuleNameParser(View view) {
 		super(view);
-		if (!RootObjectEditHelper.isRuleView(view)) {
+		if (!RuleEditHelper.isRuleView(view)) {
 			throw new IllegalArgumentException();
 		}
 	}

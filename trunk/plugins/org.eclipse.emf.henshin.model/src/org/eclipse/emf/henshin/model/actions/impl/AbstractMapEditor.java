@@ -9,13 +9,13 @@
  */
 package org.eclipse.emf.henshin.model.actions.impl;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 
-public abstract class AbstractMapEditor<E> implements MapEditor<E> {
+public abstract class AbstractMapEditor<E extends GraphElement> implements MapEditor<E> {
 	
 	// Source graph.
 	private Graph source;
@@ -114,7 +114,7 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 		if (mappings==null) {
 			return null;
 		}
-		Graph graph = getContainer(e);
+		Graph graph = e.getGraph();
 		if (graph==null || (graph!=source && graph!=target)) {
 			throw new IllegalArgumentException("Illegal element container: " + graph);
 		}
@@ -134,18 +134,6 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 		return null;
 	}
 
-	/*
-	 * Get the container graph for an element.
-	 */
-	protected Graph getContainer(E e) {
-		EObject current = ((EObject) e).eContainer();
-		while (current!=null) {
-			if (current instanceof Graph) return (Graph) current;
-			current = current.eContainer();
-		}
-		return null;
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.maps.MapEditor#move(java.lang.Object)
@@ -169,7 +157,7 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	 * @see org.eclipse.emf.henshin.diagram.edit.maps.MapEditor#remove(java.lang.Object)
 	 */
 	public final void remove(E e) {
-		Graph container = getContainer(e); 
+		Graph container = e.getGraph();
 		if (container!=source && container!=target) {
 			throw new IllegalArgumentException();
 		}
@@ -223,8 +211,8 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 		if (mappings==null) {
 			return;
 		}
-		Graph g1 = getContainer(e1);
-		Graph g2 = getContainer(e2);
+		Graph g1 = e1.getGraph();
+		Graph g2 = e2.getGraph();
 		if (g1==source && g2==target) {
 			doRemoveMapping(e1, e2);
 		}
@@ -250,8 +238,8 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 		if (mappings==null) {
 			return;
 		}
-		Graph g1 = getContainer(e1);
-		Graph g2 = getContainer(e2);
+		Graph g1 = e1.getGraph();
+		Graph g2 = e2.getGraph();
 		if (g1==source && g2==target) {
 			doCreateMapping(e1, e2);
 		}

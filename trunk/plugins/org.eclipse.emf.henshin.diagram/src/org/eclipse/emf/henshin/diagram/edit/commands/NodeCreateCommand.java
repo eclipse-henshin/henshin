@@ -9,6 +9,7 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.helpers.EClassComparator;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
@@ -116,8 +118,11 @@ public class NodeCreateCommand extends EditElementCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 
-		// The node is created in the context of a rule (PRESERVE-action):
+		// The node is created in the context of a rule:
 		Rule rule = (Rule) getElementToEdit();
+		
+		// Get the default action to be used:
+		Action action = RuleEditHelper.getDefaultAction(rule);
 
 		// Set the type of the nodes:
 		CreateElementRequest request = (CreateElementRequest) getRequest();
@@ -128,7 +133,7 @@ public class NodeCreateCommand extends EditElementCommand {
 
 		// if no type has been specified yet, let the user choose one
 		if (type == null) {
-			dialog = new SingleEClassifierSelectionDialog(module);
+			dialog = new SingleEClassifierSelectionDialog(module, action);
 			type = dialog.openAndReturnSelection();
 		}
 
@@ -140,16 +145,19 @@ public class NodeCreateCommand extends EditElementCommand {
 		}
 
 		// Update the root containment for the new node:
-		View ruleView = RootObjectEditHelper.findRuleView(rule);
+		View ruleView = RuleEditHelper.findRuleView(rule);
 		RootObjectEditHelper.updateRootContainment(ruleView, node);
 
 		// Finally, we set the user-defined action:
 		if (dialog != null) {
-			try {
-				node.setAction(dialog.getAction());
-			} catch (Throwable t) {
-				HenshinDiagramEditorPlugin.getInstance().logError("Error setting node action", t);
-			}
+			action = dialog.getAction();
+		}
+		try {
+			node.setAction(action);
+			RuleEditHelper.setDefaultAction(rule, action);
+		}
+		catch (Throwable t) {
+			HenshinDiagramEditorPlugin.getInstance().logError("Error setting node action", t);
 		}
 
 		// Clean up:
@@ -200,14 +208,14 @@ public class NodeCreateCommand extends EditElementCommand {
 		 * 
 		 * @param module
 		 */
-		public SingleEClassifierSelectionDialog(Module module) {
+		public SingleEClassifierSelectionDialog(Module module, Action action) {
 			super(shell, labelProvider);
 			this.setMultipleSelection(false);
 			this.setBlockOnOpen(true);
 			this.setTitle(Messages.SingleEClassifierSelectionDialog_title);
 			this.setMessage(Messages.SingleEClassifierSelectionDialog_msg);
 			this.module = module;
-			this.action = null;
+			this.action = action;
 		}// constructor
 
 		/**
@@ -258,16 +266,14 @@ public class NodeCreateCommand extends EditElementCommand {
 			buttons.setLayout(new RowLayout(SWT.HORIZONTAL));
 
 			// Action types as radio buttons:
-			boolean first = true;
 			for (Type type : Type.values()) {
 				final Action current = new Action(type);
 				Button button = new Button(buttons, SWT.RADIO);
 				button.setText(type.toString());
 				button.setForeground(HenshinDiagramColorProvider
 						.getActionColor(current));
-				if (first) {
+				if (type==action.getType()) {
 					button.setSelection(true);
-					action = current;
 				}
 				button.addSelectionListener(new SelectionListener() {
 					@Override
@@ -280,16 +286,16 @@ public class NodeCreateCommand extends EditElementCommand {
 						widgetSelected(e);
 					}
 				});
-				first = false;
 			}
 
 			// Multi-flag:
 			createLabel("Multi-node:", group);
-			final Button amalgamated = new Button(group, SWT.CHECK);
-			amalgamated.addSelectionListener(new SelectionListener() {
+			final Button multi = new Button(group, SWT.CHECK);
+			multi.setSelection(action.isMulti());
+			multi.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					action = new Action(action.getType(), amalgamated
+					action = new Action(action.getType(), multi
 							.getSelection(), action.getPath());
 				}
 
@@ -301,17 +307,32 @@ public class NodeCreateCommand extends EditElementCommand {
 
 			// Path:
 			createLabel("Path:", group);
-			final Text args = new Text(group, SWT.BORDER | SWT.SINGLE);
-			args.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			args.addModifyListener(new ModifyListener() {
+			final Text path = new Text(group, SWT.BORDER | SWT.SINGLE);
+			path.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			
+			String text = action.toString().replaceFirst(action.getType().toString(), "");
+			if (action.isMulti()) {
+				text.replaceFirst(Action.MULTI_MARKER+"", "");
+			}
+			
+			path.setText(text);
+			path.addModifyListener(new ModifyListener() {
 				@Override
 				public void modifyText(ModifyEvent e) {
-					String[] parsed = args.getText().split(Action.PATH_SEPARATOR + "");
-					action = new Action(action.getType(), action.isMulti(),
-							parsed);
+					String text = action.getType().toString();
+					if (action.isMulti()) {
+						text = text + Action.MULTI_MARKER;
+					}
+					String pathText = path.getText().trim();
+					if (pathText.length()>0 && !pathText.startsWith(Action.PATH_SEPARATOR+"") && 
+							!pathText.startsWith(Action.FRAGMENT_START+"")) {
+						pathText = Action.PATH_SEPARATOR + pathText;
+					}
+					try {
+						action = Action.parse(pathText);
+					} catch (ParseException e1) {}
 				}
 			});
-
 			return contents;
 		}
 

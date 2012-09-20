@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Node;
@@ -97,10 +98,19 @@ public class NodeActionParser extends AbstractParser {
 	 */
 	private CommandResult doParsing(String value, Node node) {
 		try {
+			
+			// Parse the action:
 			Action action = Action.parse(value);
+			
+			// Set the node action:
 			node.setAction(action);
+			
+			// Take this action as the new default action for the rule:
+			RuleEditHelper.setDefaultAction(node.getGraph().getRule(), action);
+			
 			return CommandResult.newOKCommandResult();
-		} catch (Throwable t) {
+		}
+		catch (Throwable t) {
 			HenshinDiagramEditorPlugin.getInstance().logError("Error occurred when trying to set an edge action", t);
 			return CommandResult.newErrorCommandResult(t);
 		}		

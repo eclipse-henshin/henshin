@@ -25,6 +25,7 @@ import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
@@ -74,7 +75,7 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 	 * @generated
 	 */
 	public static final String CONTEXT_ID = "org.eclipse.emf.henshin.diagram.ui.diagramContext"; //$NON-NLS-1$
-
+	
 	/**
 	 * @generated
 	 */
@@ -88,7 +89,7 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 	protected String getContextID() {
 		return CONTEXT_ID;
 	}
-
+	
 	/**
 	 * @generated NOT
 	 */
@@ -134,8 +135,8 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 		new HenshinPaletteFactory().fillPalette(root);
 
 		// Install the palette updater.
-		Module system = (Module) getDiagram().getElement();
-		new HenshinPaletteUpdater(root, system);
+		Module module = (Module) getDiagram().getElement();
+		new HenshinPaletteUpdater(root, module);
 
 		// Done.
 		return root;

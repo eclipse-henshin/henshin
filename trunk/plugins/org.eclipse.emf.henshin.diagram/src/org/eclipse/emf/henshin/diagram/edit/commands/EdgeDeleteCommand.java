@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -84,7 +85,7 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 
 		// Update the root containment if the edge is containment / container:
 		if (type!=null && (type.isContainment() || type.isContainer())) {
-			View ruleView = RootObjectEditHelper.findRuleView(rule);
+			View ruleView = RuleEditHelper.findRuleView(rule);
 			if (ruleView!=null) {
 				RootObjectEditHelper.updateRootContainment(ruleView, source);
 				RootObjectEditHelper.updateRootContainment(ruleView, target);

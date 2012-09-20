@@ -87,6 +87,10 @@ public class EdgeMapEditor extends AbstractMapEditor<Edge> {
 		edge.setGraph(null);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.actions.impl.AbstractMapEditor#doReplace(org.eclipse.emf.henshin.model.GraphElement)
+	 */
 	@Override
 	protected Edge doReplace(Edge edge) {
 		Edge opposite = getOpposite(edge);

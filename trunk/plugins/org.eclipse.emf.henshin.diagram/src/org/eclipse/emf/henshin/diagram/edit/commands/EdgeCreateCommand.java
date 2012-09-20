@@ -15,11 +15,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
@@ -133,7 +132,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 
 		// Update the root containment is the edge is containment / container:
 		if (type.isContainment() || type.isContainer()) {
-			View ruleView = RootObjectEditHelper.findRuleView(rule);
+			View ruleView = RuleEditHelper.findRuleView(rule);
 			RootObjectEditHelper.updateRootContainment(ruleView, getSource());
 			RootObjectEditHelper.updateRootContainment(ruleView, getTarget());
 		}
