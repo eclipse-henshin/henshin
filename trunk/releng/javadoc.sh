@@ -1,15 +1,15 @@
 #!/bin/sh
 
-JAVADOC="/usr/lib/jvm/java-7-openjdk-amd64/bin/javadoc"
+JAVADOC="/opt/public/common/jdk1.6.0_27.x86_64/bin/javadoc"
 
 # WORKSPACE:
-WORKSPACE="/home/ckrause/Dropbox/Workspaces/henshin"
+WORKSPACE="/opt/public/jobs/cbi_henshin_nightly/workspace/org.eclipse.emft.henshin/trunk/plugins"
 
 # ECLIPSE:
-ECLIPSE="/opt/eclipse"
+ECLIPSE="/home/data/users/ckrause/eclipse-juno-x86_64"
 
 # DESTINATION:
-DEST="/home/ckrause/javadoc"
+DEST="/home/data/httpd/download.eclipse.org/modeling/emft/henshin/javadoc/nightly"
 
 # TITLE:
 TITLE="Henshin"
@@ -58,7 +58,7 @@ SP=""
 CP=""
 for s in $PACKAGES; do
   SP="$SP:$WORKSPACE/$s/src"
-  CP="$CP:$WORKSPACE/$s/bin"
+#  CP="$CP:$WORKSPACE/$s/bin"
 done
 SP=`echo $SP | cut -c2-`
 CP=`echo $CP | cut -c2-`
@@ -79,5 +79,3 @@ for l in $LINKS; do
 done
 
 $JAVADOC -doctitle $TITLE -windowtitle $TITLE -d $DEST -sourcepath $SP -classpath $CP $LN $PACKAGES
-
-
