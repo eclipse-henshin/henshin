@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Parameter assignment interface for storing parameter values.
+ * Interface for parameter assignments. Used for storing parameter values.
  * 
  * @author Christian Krause
  */

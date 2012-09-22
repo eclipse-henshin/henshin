@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Default {@link Match} implementation. For result matches, use {@link ResultMatchImpl}.
+ * Default {@link Match} implementation.
  */
 public class MatchImpl extends AssignmentImpl implements Match {
 	

@@ -16,7 +16,7 @@ import javax.script.ScriptEngine;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * Engine interface for the Henshin interpreter.
+ * Interface for interpreter engines.
  * 
  * @author Christian Krause, Enrico Biermann
  */

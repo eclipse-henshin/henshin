@@ -12,8 +12,8 @@ package org.eclipse.emf.henshin.interpreter;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Unit application interface for executing a {@link TransformationUnit}.
- * If you want to execute a transformation rule, you can also use 
+ * Interface for {@link Unit} applications. 
+ * If you want to execute a rule, you can also use 
  * {@link RuleApplication} instead.
  * 
  * @author Enrico Biermann, Christian Krause

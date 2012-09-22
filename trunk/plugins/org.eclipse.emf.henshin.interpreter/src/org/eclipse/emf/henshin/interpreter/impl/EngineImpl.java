@@ -71,7 +71,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Xor;
 
 /**
- * The default implementation of {@link Engine}.
+ * Default {@link Engine} implementation.
  * 
  * @author Christian Krause, Gregor Bonifer, Enrico Biermann
  */

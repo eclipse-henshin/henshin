@@ -16,8 +16,9 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * Match interface for mapping {@link Node}s to {@link EObject} and 
- * assigning parameter values by extending {@link Assignment}.
+ * Interface for rules matches.
+ * Maps {@link Node}s to {@link EObject}s and assigns 
+ * parameter values by extending {@link Assignment}.
  * 
  * @author Christian Krause, Gregor Bonifer, Enrico Biermann
  */

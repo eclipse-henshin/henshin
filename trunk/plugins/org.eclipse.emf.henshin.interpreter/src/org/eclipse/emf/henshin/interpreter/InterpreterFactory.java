@@ -14,7 +14,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Factory interface for the Henshin interpreter.
+ * Interface for the interpreter factory.
  * 
  * @author Christian Krause
  */

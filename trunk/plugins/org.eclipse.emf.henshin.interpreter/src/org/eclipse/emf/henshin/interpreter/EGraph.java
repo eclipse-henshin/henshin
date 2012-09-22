@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 
 /**
- * EGraph interface for storing object graphs.
+ * Interface for storing {@link EObject} graphs.
  * 
  * @author Christian Krause, Enrico Biermann
  */

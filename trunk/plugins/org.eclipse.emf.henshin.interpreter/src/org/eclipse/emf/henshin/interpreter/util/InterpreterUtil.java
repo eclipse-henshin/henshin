@@ -31,7 +31,6 @@ import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * Common utility methods for the Henshin interpreter.
-
  * @author Christian Krause
  */
 public class InterpreterUtil {

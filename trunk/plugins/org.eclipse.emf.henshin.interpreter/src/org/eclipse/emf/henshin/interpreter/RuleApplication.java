@@ -12,8 +12,8 @@ package org.eclipse.emf.henshin.interpreter;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * Rule application interface for executing a {@link Rule}.
- * {@link RuleApplication}s are reusable. To reuse an instance
+ * Interface for {@link Rule} applications. 
+ * Rule applications are reusable. To reuse an instance
  * you must invoke {@link #setPartialMatch(Match)} or
  * {@link #setCompleteMatch(Match)} or {@link #setRule(Rule)}
  * before every execution. 

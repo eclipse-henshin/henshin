@@ -21,8 +21,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * An implementation of an executable rule application. 
- * It must be initialized with an instance of {@link Rule}.
+ * Default {@link RuleApplication} implementation.
+ * 
+ * @author Enrico Biermann, Gregor Bonifer, Christian Krause
  */
 public class RuleApplicationImpl extends AbstractApplicationImpl implements RuleApplication {
 

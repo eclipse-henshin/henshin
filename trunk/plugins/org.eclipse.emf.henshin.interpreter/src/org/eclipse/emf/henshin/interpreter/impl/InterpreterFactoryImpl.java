@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Default interpreter factory.
+ * Default {@link InterpreterFactory} implementation.
  * 
  * @author Christian Krause
  */

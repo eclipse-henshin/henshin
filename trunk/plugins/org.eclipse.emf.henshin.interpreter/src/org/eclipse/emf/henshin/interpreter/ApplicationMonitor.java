@@ -10,8 +10,9 @@
 package org.eclipse.emf.henshin.interpreter;
 
 /**
- * Application monitor interface.
+ * Interface for application monitors.
  * 
+ * @see UnitApplication
  * @author Gregor Bonifer, Christian Krause
  */
 public interface ApplicationMonitor {
