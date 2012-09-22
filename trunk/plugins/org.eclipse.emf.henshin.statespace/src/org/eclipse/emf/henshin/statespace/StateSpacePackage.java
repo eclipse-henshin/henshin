@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
- * The <b>Package</b> for the model.
+ * Interface for the state space package.
  * It contains accessors for the meta objects to represent
  * <ul>
  *   <li>each class,</li>

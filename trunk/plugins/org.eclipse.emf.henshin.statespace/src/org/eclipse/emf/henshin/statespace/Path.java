@@ -12,7 +12,8 @@ package org.eclipse.emf.henshin.statespace;
 import java.util.ArrayDeque;
 
 /**
- * Data type for paths in state spaces.
+ * Data-type for paths in {@link StateSpace}s.
+ * 
  * @generated NOT
  */
 public class Path extends ArrayDeque<Transition> {

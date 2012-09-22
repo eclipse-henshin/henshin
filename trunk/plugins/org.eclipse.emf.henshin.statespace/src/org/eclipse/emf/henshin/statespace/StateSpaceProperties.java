@@ -10,19 +10,36 @@
 package org.eclipse.emf.henshin.statespace;
 
 /**
- * Common state space properties.
+ * Keys for common state space properties.
+ * 
  * @author Christian Krause
  */
 public class StateSpaceProperties {
 
+	/**
+	 * Key for a state space property that determines whether the order of links matters.
+	 */
 	public static final String CHECK_LINK_ORDER = "checkLinkOrder";
 
+	/**
+	 * Key for a state space property that defines a list of types for which object identity matters.
+	 */
 	public static final String IDENTITY_TYPES = "identityTypes";
 
+	/**
+	 * Key for a state space property that defines a list of attributes whose values should be ignored.
+	 */
 	public static final String IGNORED_ATTRIBUTES = "ignoredAttributes";
 	
+	/**
+	 * Key for a state space property that determines whether missing root objects should be collected.
+	 */
 	public static final String COLLECT_MISSING_ROOTS = "collectMissingRoots";
 
+	/**
+	 * Key for a state space property that determines whether duplicate transitions should be ignored.
+	 * Transitions are duplicate if their sources, targets and rules are respectively the same. 
+	 */
 	public static final String IGNORE_DUPLICATE_TRANSITIONS = "ignoreDuplicateTransitions";
 
 }

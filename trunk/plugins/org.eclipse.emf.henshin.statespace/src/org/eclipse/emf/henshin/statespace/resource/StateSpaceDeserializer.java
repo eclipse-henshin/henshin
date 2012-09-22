@@ -24,7 +24,8 @@ import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.impl.ModelImpl;
 
 /**
- * State space deserialization class.
+ * State space deserializer.
+ * 
  * @author Christian Krause
  */
 public class StateSpaceDeserializer {

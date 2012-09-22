@@ -15,6 +15,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
+ * Runnable for loading state spaces.
+ * 
  * @author Christian Krause
  */
 public class StateSpaceResourceWorker implements Runnable {

@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.model.Module;
 
 /**
  * <!-- begin-user-doc -->
- * The <b>Factory</b> for the model.
+ * Interface for the state space factory.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.henshin.statespace.StateSpacePackage

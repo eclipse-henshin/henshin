@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
  * Interface for state space validators.
+ * 
  * @author Christian Krause
  * @generated NOT
  */

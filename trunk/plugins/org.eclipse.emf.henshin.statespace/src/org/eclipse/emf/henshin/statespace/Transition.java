@@ -12,7 +12,8 @@ package org.eclipse.emf.henshin.statespace;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * Light-weight transition model.
+ * Interface for transitions.
+ * 
  * @generated
  */
 public interface Transition extends Storage {

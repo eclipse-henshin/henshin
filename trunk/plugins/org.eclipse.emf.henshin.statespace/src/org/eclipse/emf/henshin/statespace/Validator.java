@@ -11,7 +11,6 @@ package org.eclipse.emf.henshin.statespace;
 
 import java.text.ParseException;
 
-
 /**
  * Interface for validators. Clients should not implement
  * this interface directly, but rather one of the following two:

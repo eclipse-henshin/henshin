@@ -20,7 +20,8 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 
 /**
- * Default implementation of {@link StateSpaceIndexImpl}. 
+ * Default implementation of {@link StateSpaceIndex}.
+ * 
  * @generated NOT
  * @author Christian Krause
  */

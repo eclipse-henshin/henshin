@@ -28,6 +28,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 
 /**
  * Resource implementation for state spaces.
+ * 
  * @author Christian Krause
  */
 public class StateSpaceResource extends ResourceImpl {

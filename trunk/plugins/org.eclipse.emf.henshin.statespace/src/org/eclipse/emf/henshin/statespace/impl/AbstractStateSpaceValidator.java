@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
 
 /**
- * Abstract state space validator implementation.
+ * Abstract implementation of the {@link StateSpaceValidator} interface.
  * @author Christian Krause
  */
 public abstract class AbstractStateSpaceValidator implements StateSpaceValidator {

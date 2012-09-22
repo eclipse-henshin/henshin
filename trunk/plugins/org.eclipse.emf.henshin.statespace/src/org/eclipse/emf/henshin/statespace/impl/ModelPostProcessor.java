@@ -20,10 +20,9 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 
 /**
  * Model post processor implementation.
- * @author ckrause
- *
+ * @author Chrstian Krause
  */
-public class ModelPostProcessor {
+class ModelPostProcessor {
 	
 	// Script engine:
 	private ScriptEngine engine;

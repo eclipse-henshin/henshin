@@ -10,7 +10,10 @@
 package org.eclipse.emf.henshin.statespace;
 
 /**
- * An interface for state space indexes.
+ * Interface for state space indexes.
+ * State spaces indexes are used to store states
+ * and to quickly find states based on models.
+ * 
  * @author Christian Krause
  * @generated NOT
  */

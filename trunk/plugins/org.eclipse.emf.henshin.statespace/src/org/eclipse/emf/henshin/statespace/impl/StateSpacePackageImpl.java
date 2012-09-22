@@ -32,7 +32,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * <!-- begin-user-doc -->
- * The <b>Package</b> for the model.
+ * Default implementation of {@link StateSpacePackage}.
  * It contains accessors for the meta objects to represent
  * <ul>
  *   <li>each class,</li>

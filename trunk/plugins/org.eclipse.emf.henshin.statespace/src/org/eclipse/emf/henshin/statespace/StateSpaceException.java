@@ -10,7 +10,9 @@
 package org.eclipse.emf.henshin.statespace;
 
 /**
- * Exception for any kind of invalid state space accesses.
+ * State space exception class. For any kind of invalid 
+ * state space accesses or errors related to state spaces.
+ * 
  * @author Christian Krause
  * @generated NOT
  */

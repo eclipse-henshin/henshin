@@ -15,8 +15,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * Helper class for deciding whether two state models are
- * equal and for calculating their hash codes.
+ * Helper for deciding equality of {@link Model}s and computing their hash codes.
+ * 
  * @model
  * @generated
  */

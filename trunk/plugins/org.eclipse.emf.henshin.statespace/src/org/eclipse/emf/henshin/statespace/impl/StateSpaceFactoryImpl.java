@@ -34,7 +34,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
+ * Default implementation of {@link StateSpaceFactory}.
  * <!-- end-user-doc -->
  * @generated
  */

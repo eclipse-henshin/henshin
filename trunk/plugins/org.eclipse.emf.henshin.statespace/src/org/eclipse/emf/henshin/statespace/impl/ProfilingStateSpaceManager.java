@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
- * A single-threaded state space manager implementation that gathers profiling statistics.
+ * {@link StateSpaceManager} implementation for gathering profiling statistics.
  * 
  * @author Christian Krause
  */

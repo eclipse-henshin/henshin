@@ -12,6 +12,8 @@ package org.eclipse.emf.henshin.statespace;
 import org.eclipse.emf.ecore.EObject;
 
 /**
+ * Interface for storage objects.
+ * 
  * @model
  * @generated
  */

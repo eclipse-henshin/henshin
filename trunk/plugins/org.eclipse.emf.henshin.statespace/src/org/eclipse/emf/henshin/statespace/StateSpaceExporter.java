@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.URI;
 
 /**
  * Interface for state space exporters.
+ * 
  * @author Christian Krause
  */
 public interface StateSpaceExporter {

@@ -13,7 +13,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
- * A resource factory for Henshin state space files.
+ * Resource factory for state space resources.
+ * 
  * @author Christian Krause
  */
 public class StateSpaceResourceFactory implements Resource.Factory {

@@ -36,7 +36,7 @@ import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
- * Basic, single-threaded state space manager implementation.
+ * Basic {@link StateSpaceManager} implementation.
  * 
  * @author Christian Krause
  * @generated NOT

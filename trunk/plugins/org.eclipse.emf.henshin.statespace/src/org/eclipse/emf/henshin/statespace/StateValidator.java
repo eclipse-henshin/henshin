@@ -12,7 +12,8 @@ package org.eclipse.emf.henshin.statespace;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
- * Interface for state space validators.
+ * Interface for state validators.
+ * 
  * @author Christian Krause
  * @generated NOT
  */

@@ -35,7 +35,7 @@ import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 
 /**
- * Transient container for state models.
+ * Default implementation of {@link Model}.
  * @generated
  */
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model {

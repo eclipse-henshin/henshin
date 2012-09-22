@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.statespace;
 
 /**
  * Validation result data class.
+ * 
  * @author Christian Krause
  * @generated NOT
  */

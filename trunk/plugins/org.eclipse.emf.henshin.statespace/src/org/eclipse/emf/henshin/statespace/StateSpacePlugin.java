@@ -18,7 +18,7 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**
- * This is the central singleton for the StateSpace model plugin.
+ * The state space plug-in implementation.
  * @generated
  */
 public final class StateSpacePlugin extends EMFPlugin {

@@ -14,8 +14,10 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
- * State space manager interface. State managers are used to
- * modify and explore state spaces.
+ * Interface for state space managers. State managers are used to
+ * modify and explore state spaces. They extend the functionality
+ * of state space indexes.
+ * 
  * @author Christian Krause
  * @generated NOT
  */

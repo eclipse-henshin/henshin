@@ -38,7 +38,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
- * Concrete implementation of the {@link State} interface.
+ * Default implementation of the {@link StateSpace} interface.
  * @generated
  */
 public class StateSpaceImpl extends StorageImpl implements StateSpace {

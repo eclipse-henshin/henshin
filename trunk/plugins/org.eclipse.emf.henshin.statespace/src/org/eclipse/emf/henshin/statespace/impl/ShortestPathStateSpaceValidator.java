@@ -24,6 +24,12 @@ import org.eclipse.emf.henshin.statespace.StateValidator;
 import org.eclipse.emf.henshin.statespace.ValidationResult;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceShortestPath;
 
+/**
+ * {@link StateSpaceValidator} that computes the shortest path to some target states.
+ * The target states are defined by means of a {@link StateValidator}.
+ * 
+ * @author Christian Krause
+ */
 public class ShortestPathStateSpaceValidator implements StateSpaceValidator {
 	
 	// State validator to be used:

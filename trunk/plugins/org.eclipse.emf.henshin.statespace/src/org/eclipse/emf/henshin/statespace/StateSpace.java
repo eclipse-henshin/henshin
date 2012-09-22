@@ -16,7 +16,8 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * Light-weight state space model.
+ * Interface for state spaces.
+ * 
  * @generated
  */
 public interface StateSpace extends Storage {

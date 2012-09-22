@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.Platform;
 
 /**
  * Helper class for registering platform validators and exporters.
+ * 
  * @author Christian Krause
  * @generated NOT
  */

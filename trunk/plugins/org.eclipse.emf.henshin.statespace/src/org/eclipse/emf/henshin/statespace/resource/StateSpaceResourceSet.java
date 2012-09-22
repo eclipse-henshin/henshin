@@ -18,10 +18,10 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 
 /**
- * A resource set implementation for state spaces that provides some 
- * convenience methods for easy use and supports automatic resolving 
- * of relative file URIs using a base directory as implemented
- * in {@link HenshinResourceSet}.
+ * A resource set implementation for state spaces. 
+ * Provides some convenience methods for easy use and supports 
+ * automatic resolving of relative file URIs using a base 
+ * directory as implemented in {@link HenshinResourceSet}.
  * 
  * @author Christian Krause
  */

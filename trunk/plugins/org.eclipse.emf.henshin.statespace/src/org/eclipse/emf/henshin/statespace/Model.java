@@ -21,8 +21,8 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 
 /**
- * Container class for state models.
- * These state models are transient. 
+ * Transient container for {@link State} models.
+ * 
  * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel()
  * @model
  * @generated

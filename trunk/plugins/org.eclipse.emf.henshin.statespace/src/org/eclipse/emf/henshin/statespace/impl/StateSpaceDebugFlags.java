@@ -10,7 +10,7 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 /**
- * Debug flags for the state space classes.
+ * Common debug flags for the state space tools.
  */
 public class StateSpaceDebugFlags {
 

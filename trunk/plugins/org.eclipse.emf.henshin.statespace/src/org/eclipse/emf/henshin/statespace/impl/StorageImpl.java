@@ -19,6 +19,7 @@ import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Storage;
 
 /**
+ * Default implementation of the {@link Storage} interface.
  * @generated
  */
 public class StorageImpl extends MinimalEObjectImpl.Container implements Storage {

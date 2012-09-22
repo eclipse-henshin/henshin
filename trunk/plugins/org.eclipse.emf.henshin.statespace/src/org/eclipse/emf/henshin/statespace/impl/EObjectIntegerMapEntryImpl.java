@@ -25,7 +25,7 @@ import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>EObject Integer Map Entry</b></em>'.
+ * A map entry implementation that associates an {@link EObject} with an {@link Integer}.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.statespace.StateSpacePackage;
  * @generated
  */
 public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<EObject,Integer> {
+	
 	/**
 	 * The cached value of the '{@link #getTypedKey() <em>Key</em>}' reference.
 	 * <!-- begin-user-doc -->

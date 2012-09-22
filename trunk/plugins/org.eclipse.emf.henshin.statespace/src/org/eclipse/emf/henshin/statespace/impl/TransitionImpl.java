@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 
 /**
+ * Default implementation of the {@link Transition} interface.
  * @generated
  */
 public class TransitionImpl extends StorageImpl implements Transition {

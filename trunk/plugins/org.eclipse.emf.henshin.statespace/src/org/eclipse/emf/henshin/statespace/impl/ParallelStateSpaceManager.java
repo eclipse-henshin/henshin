@@ -19,9 +19,10 @@ import java.util.concurrent.Future;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 
 /**
- * Parallelized (i.e. multi-threaded) version of the basic state space manager.
+ * Parallelized {@link StateSpaceManager} implementation.
  * 
  * @author Christian Krause
  * @generated NOT

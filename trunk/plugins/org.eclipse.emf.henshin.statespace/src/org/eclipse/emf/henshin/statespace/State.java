@@ -14,7 +14,8 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
- * Light-weight state model.
+ * Interface for states.
+ * 
  * @generated
  */
 public interface State extends Storage {

@@ -21,7 +21,8 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
- * State space serialization class.
+ * State space serializer.
+ * 
  * @author Christian Krause
  * @see StateSpaceDeserializer
  */

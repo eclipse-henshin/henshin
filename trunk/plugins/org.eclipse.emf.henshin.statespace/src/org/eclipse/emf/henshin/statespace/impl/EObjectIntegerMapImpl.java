@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 
 /**
- * Implementation of a map that associates {@link EObject}s with {@link Integer}s.
+ * Default implementation of a map that associates {@link EObject}s with {@link Integer}s.
  * 
  * @author Christian Krause
  */
