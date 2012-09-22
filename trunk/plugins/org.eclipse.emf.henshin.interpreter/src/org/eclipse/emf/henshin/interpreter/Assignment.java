@@ -62,6 +62,6 @@ public interface Assignment {
 	 * Checks whether this is an assignment for a result of a unit application. 
 	 * @return <code>true</code> if it is a result assignment.
 	 */
-	boolean isResultAssignment();
+	boolean isResult();
 
 }

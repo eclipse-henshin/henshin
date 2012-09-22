@@ -33,7 +33,7 @@ public class AssignmentImpl implements Assignment {
 	protected final Map<Object,Object> values = new HashMap<Object,Object>();
 	
 	// Whether this is a result assignment:
-	protected final boolean isResultAssignment; 
+	protected final boolean isResult; 
 	
 	/**
 	 * Default constructor.
@@ -46,8 +46,8 @@ public class AssignmentImpl implements Assignment {
 	/**
 	 * Constructor.
 	 */
-	public AssignmentImpl(Unit unit, boolean isResultAssignment) {
-		this.isResultAssignment = isResultAssignment;
+	public AssignmentImpl(Unit unit, boolean isResult) {
+		this.isResult = isResult;
 		setUnit(unit);
 	}
 	
@@ -56,7 +56,7 @@ public class AssignmentImpl implements Assignment {
 	 * @param assignment Assignment to be copied.
 	 */
 	public AssignmentImpl(Assignment assignment, boolean isResultAssignment) {
-		this.isResultAssignment = isResultAssignment;
+		this.isResult = isResultAssignment;
 		setUnit(assignment.getUnit());
 		copyParameterValues(assignment);
 	}
@@ -172,7 +172,7 @@ public class AssignmentImpl implements Assignment {
 			if (unit!=a.getUnit()) {
 				return false;
 			}
-			if (isResultAssignment!=a.isResultAssignment()) {
+			if (isResult!=a.isResult()) {
 				return false;
 			}
 			for (Parameter param : unit.getParameters()) {
@@ -193,7 +193,7 @@ public class AssignmentImpl implements Assignment {
 	 */
 	@Override
 	public String toString() {
-		if (isResultAssignment) {
+		if (isResult) {
 			return "Result assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");
 		} else {
 			return "Assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");			
@@ -225,8 +225,8 @@ public class AssignmentImpl implements Assignment {
 	 * @see org.eclipse.emf.henshin.interpreter.Assignment#isResultAssignment()
 	 */
 	@Override
-	public boolean isResultAssignment() {
-		return isResultAssignment;
+	public boolean isResult() {
+		return isResult;
 	}
 
 }

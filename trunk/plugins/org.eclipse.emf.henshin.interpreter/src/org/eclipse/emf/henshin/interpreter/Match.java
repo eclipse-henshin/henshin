@@ -79,10 +79,4 @@ public interface Match extends Assignment {
 	 */
 	boolean isValid();
 
-	/**
-	 * Checks whether this is a match for a result of a rule application. 
-	 * @return <code>true</code> if it is a result match.
-	 */
-	boolean isResultMatch();
-	
 }

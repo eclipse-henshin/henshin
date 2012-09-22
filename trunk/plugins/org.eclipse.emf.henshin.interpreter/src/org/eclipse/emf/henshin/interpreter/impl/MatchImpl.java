@@ -75,7 +75,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 		}
 		this.unit = unit;
 		// LHS or RHS nodes?
-		this.nodes = isResultAssignment ? ((Rule) unit).getRhs().getNodes() : ((Rule) unit).getLhs().getNodes(); 
+		this.nodes = isResult ? ((Rule) unit).getRhs().getNodes() : ((Rule) unit).getLhs().getNodes(); 
 	}
 	
 	/*
@@ -257,20 +257,11 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.Match#isResultMatch()
-	 */
-	@Override
-	public boolean isResultMatch() {
-		return isResultAssignment;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		if (isResultAssignment) {
+		if (isResult) {
 			return "Result match for rule '" + unit.getName() + "':\n" + toStringWithIndent("");
 		} else {
 			return "Match for rule '" + unit.getName() + "':\n" + toStringWithIndent("");			
