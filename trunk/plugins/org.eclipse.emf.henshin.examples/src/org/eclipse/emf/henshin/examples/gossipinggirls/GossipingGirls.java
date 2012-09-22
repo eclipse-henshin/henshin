@@ -18,12 +18,12 @@ import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.ocl.OCLStateValidator;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
-import org.eclipse.emf.henshin.statespace.validation.ShortestPathStateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.impl.ParallelStateSpaceManager;
+import org.eclipse.emf.henshin.statespace.impl.ShortestPathStateSpaceValidator;
 
 /**
  * Gossiping girls example in Henshin.
@@ -47,7 +47,7 @@ public class GossipingGirls {
 		// Load the state space and create a state space manager:
 		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(path);		
 		StateSpace stateSpace = resourceSet.getStateSpace("2-girls.henshin_statespace");
-		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
+		StateSpaceManager manager = new ParallelStateSpaceManager(stateSpace);
 		
 		// Find the rule for adding a girl and create an engine instance:
 		Rule addGirlRule = (Rule) stateSpace.getRules().get(0).getModule().getUnit("addGirl");

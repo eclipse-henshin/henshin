@@ -30,10 +30,10 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.StateValidator;
+import org.eclipse.emf.henshin.statespace.Validator;
 import org.eclipse.emf.henshin.statespace.tuples.Tuple;
 import org.eclipse.emf.henshin.statespace.tuples.TupleList;
-import org.eclipse.emf.henshin.statespace.validation.StateValidator;
-import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
  * PRISM utils.

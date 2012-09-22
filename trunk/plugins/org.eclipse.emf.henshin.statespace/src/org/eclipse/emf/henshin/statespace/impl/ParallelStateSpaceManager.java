@@ -21,11 +21,12 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 
 /**
- * Multi-threaded version of the basic state space manager.
+ * Parallelized (i.e. multi-threaded) version of the basic state space manager.
+ * 
  * @author Christian Krause
  * @generated NOT
  */
-public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceManager {
+public class ParallelStateSpaceManager extends BasicStateSpaceManager {
 	
 	// Executor service.
 	private ExecutorService executor;
@@ -51,7 +52,7 @@ public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceMana
 	 * @param numThreads Number of threads to be used.
 	 */
 	@SuppressWarnings("unchecked")
-	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
+	public ParallelStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
 		numThreads = Math.max(numThreads, 1);
 		executor = Executors.newFixedThreadPool(numThreads);
@@ -66,7 +67,7 @@ public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceMana
 	 * Default constructor.
 	 * @param stateSpace State space.
 	 */
-	public MultiThreadedStateSpaceManager(StateSpace stateSpace) {
+	public ParallelStateSpaceManager(StateSpace stateSpace) {
 		this(stateSpace, Runtime.getRuntime().availableProcessors());
 	}
 

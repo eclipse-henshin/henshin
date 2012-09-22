@@ -21,8 +21,8 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
-import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
+import org.eclipse.emf.henshin.statespace.ValidationResult;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceXYPlot;
 
 /**
  * Data class and parsing functionality for PRISM experiment results.

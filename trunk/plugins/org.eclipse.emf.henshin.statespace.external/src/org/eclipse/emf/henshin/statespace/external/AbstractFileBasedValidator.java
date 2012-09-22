@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.external.cadp.AUTStateSpaceExporter;
-import org.eclipse.emf.henshin.statespace.validation.AbstractStateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceValidator;
 
 /**
  * Abstract state space validator implementation that is based

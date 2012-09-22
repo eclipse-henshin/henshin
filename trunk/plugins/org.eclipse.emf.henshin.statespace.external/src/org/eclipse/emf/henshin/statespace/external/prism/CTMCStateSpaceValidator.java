@@ -16,8 +16,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.ValidationResult;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
-import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
  * PRISM CTMC state space validator.

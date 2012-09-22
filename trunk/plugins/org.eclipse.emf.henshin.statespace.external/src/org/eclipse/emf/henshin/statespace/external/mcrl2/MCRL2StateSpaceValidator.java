@@ -28,10 +28,10 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.ValidationResult;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
-import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
  * mCRL2 state space validator.

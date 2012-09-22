@@ -7,11 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.statespace.validation;
+package org.eclipse.emf.henshin.statespace.impl;
 
 import java.text.ParseException;
 
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
 
 /**
  * Abstract state space validator implementation.

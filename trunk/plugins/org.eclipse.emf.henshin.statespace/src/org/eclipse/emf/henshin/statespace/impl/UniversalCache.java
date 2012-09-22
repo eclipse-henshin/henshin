@@ -19,7 +19,7 @@ import java.util.Map;
  * @param <K> Keys
  * @param <V> Values
  */
-public class CacheImpl<K,V> extends LinkedHashMap<K,V> {
+public class UniversalCache<K,V> extends LinkedHashMap<K,V> {
 
 	// Default cache size, estimated with maximum number of MB of free memory:
 	public static final int DEFAULT_CACHE_SIZE;
@@ -42,14 +42,14 @@ public class CacheImpl<K,V> extends LinkedHashMap<K,V> {
 	 * Constructor.
 	 * @param cacheSize Cache size.
 	 */
-	public CacheImpl(int cacheSize) {
+	public UniversalCache(int cacheSize) {
 		this.cacheSize = cacheSize;
 	}
 	
 	/**
 	 * Constructor. Uses {@link #DEFAULT_CACHE_SIZE}.
 	 */
-	public CacheImpl() {
+	public UniversalCache() {
 		this(DEFAULT_CACHE_SIZE);
 	}
 	

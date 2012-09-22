@@ -18,6 +18,5 @@ Export-Package: org.eclipse.emf.henshin.statespace,
  org.eclipse.emf.henshin.statespace.layout,
  org.eclipse.emf.henshin.statespace.resource,
  org.eclipse.emf.henshin.statespace.tuples,
- org.eclipse.emf.henshin.statespace.util,
- org.eclipse.emf.henshin.statespace.validation
+ org.eclipse.emf.henshin.statespace.util
 Bundle-Activator: org.eclipse.emf.henshin.statespace.StateSpacePlugin$Implementation

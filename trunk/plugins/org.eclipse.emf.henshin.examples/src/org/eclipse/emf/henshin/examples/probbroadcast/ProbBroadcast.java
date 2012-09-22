@@ -12,13 +12,14 @@ package org.eclipse.emf.henshin.examples.probbroadcast;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.external.prism.MDPStateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.impl.ParallelStateSpaceManager;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceImpl;
 import org.eclipse.emf.henshin.statespace.ocl.OCLStateValidator;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
-import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceXYPlot;
 
 /**
  * Probabilistic broadcast example for wireless sensor networks. This example
@@ -56,8 +57,8 @@ public class ProbBroadcast {
 		// Load transformation system and initialize the state space (manager):
 		resourceSet = new StateSpaceResourceSet(path);
 		Module module = resourceSet.getModule("probbroadcast.henshin");
-		StateSpace stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace(module);
-		manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
+		StateSpace stateSpace = new StateSpaceImpl(module);
+		manager = new ParallelStateSpaceManager(stateSpace);
 	}
 	
 	/**

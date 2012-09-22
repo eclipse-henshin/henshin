@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
  * 
  * @author Christian Krause
  */
-public class ProfilingStateSpaceManager extends SingleThreadedStateSpaceManager {
+public class ProfilingStateSpaceManager extends BasicStateSpaceManager {
 	
 	// Time needed for exploring states:
 	protected long explorationTime = 0;

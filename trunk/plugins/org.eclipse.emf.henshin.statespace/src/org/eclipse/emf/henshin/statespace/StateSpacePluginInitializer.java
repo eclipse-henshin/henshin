@@ -12,7 +12,6 @@ package org.eclipse.emf.henshin.statespace;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
  * Helper class for registering platform validators and exporters.

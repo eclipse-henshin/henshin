@@ -36,12 +36,12 @@ import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
- * Single-threaded state space manager implementation.
+ * Basic, single-threaded state space manager implementation.
  * 
  * @author Christian Krause
  * @generated NOT
  */
-public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
+public class BasicStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
 	// State exploration helpers:
 	protected final Stack<StateExplorer> explorers = new Stack<StateExplorer>();
@@ -59,7 +59,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 * Default constructor.
 	 * @param stateSpace State space.
 	 */
-	public SingleThreadedStateSpaceManager(StateSpace stateSpace) {
+	public BasicStateSpaceManager(StateSpace stateSpace) {
 		super(stateSpace);
 		refreshHelpers();
 	}

@@ -27,11 +27,12 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -56,13 +57,28 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		getProperties().put(StateSpaceProperties.IGNORE_DUPLICATE_TRANSITIONS, "false");
 		
 		// Create a default equality helper:
-		setEqualityHelper(StateSpaceFactory.eINSTANCE.createEqualityHelper());
+		setEqualityHelper(new EqualityHelperImpl());
 		
 		// Already initialize the set of open states here:
 		openStates = new LinkedHashSet<State>();
 		
 	}
 
+	/**
+	 * Constructor. Imports all rules of the given module.
+	 * @param module Module which contains the rules to be used.
+	 */
+	public StateSpaceImpl(Module module) {
+		this();
+		if (module!=null) {
+			for (Unit unit : module.getUnits()) {
+				if (unit instanceof Rule) {
+					getRules().add((Rule) unit);					
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Get the set of open states in this state space.
 	 * @generated NOT

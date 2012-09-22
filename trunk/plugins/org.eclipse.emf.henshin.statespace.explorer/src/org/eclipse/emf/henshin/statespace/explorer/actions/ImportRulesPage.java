@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -298,7 +299,11 @@ public class ImportRulesPage extends WizardPage {
 						List<Rule> rules = new ArrayList<Rule>();
 						for (EObject item : resource.getContents()) {
 							if (item instanceof Module) {
-								rules.addAll(((Module) item).getRules());
+								for (Unit unit : ((Module) item).getUnits()) {
+									if (unit instanceof Rule) {
+										rules.add((Rule) unit);
+									}
+								}
 							}
 						}
 						return rules.toArray();

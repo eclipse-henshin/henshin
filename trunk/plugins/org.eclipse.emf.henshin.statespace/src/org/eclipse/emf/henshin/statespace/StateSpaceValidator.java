@@ -7,25 +7,23 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.statespace.validation;
+package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.henshin.statespace.State;
 
 /**
  * Interface for state space validators.
  * @author Christian Krause
  * @generated NOT
  */
-public interface StateValidator extends Validator {
-
+public interface StateSpaceValidator extends Validator {
+	
 	/**
-	 * Perform the validation for the given state.
-	 * @param state State to be validated.
+	 * Perform the validation for the given state space.
 	 * @param monitor Progress monitor.
 	 * @return Validation result.
 	 * @throws Exception If an error occurs during the validation.
 	 */
-	ValidationResult validate(State state, IProgressMonitor monitor) throws Exception;
-
+	ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception;
+	
 }

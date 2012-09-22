@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.statespace.validation;
+package org.eclipse.emf.henshin.statespace.util;
 
 /**
  * Data class for XY-plots. Can be used as validation results.

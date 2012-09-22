@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.statespace.validation;
+package org.eclipse.emf.henshin.statespace.impl;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -19,6 +19,9 @@ import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.StateValidator;
+import org.eclipse.emf.henshin.statespace.ValidationResult;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceShortestPath;
 
 public class ShortestPathStateSpaceValidator implements StateSpaceValidator {

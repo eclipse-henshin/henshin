@@ -29,7 +29,12 @@ org.eclipse.emf.henshin.statespace
 org.eclipse.emf.henshin.statespace.impl
 org.eclipse.emf.henshin.statespace.resource
 org.eclipse.emf.henshin.statespace.util
-org.eclipse.emf.henshin.statespace.validation
+org.eclipse.emf.henshin.statespace.external
+org.eclipse.emf.henshin.statespace.external.cadp
+org.eclipse.emf.henshin.statespace.external.mcrl2
+org.eclipse.emf.henshin.statespace.external.prism
+org.eclipse.emf.henshin.statespace.external.tikz
+org.eclipse.emf.henshin.statespace.ocl
 org.eclipse.emf.henshin.testframework
 org.eclipse.emf.henshin.trace
 org.eclipse.emf.henshin.trace.impl"
