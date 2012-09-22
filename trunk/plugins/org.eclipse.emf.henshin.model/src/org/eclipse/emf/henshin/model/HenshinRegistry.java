@@ -15,6 +15,7 @@ import org.eclipse.emf.henshin.model.impl.HenshinRegistryImpl;
 
 /**
  * Henshin registry for storing and accessing {@link TransformationSystem}s.
+ * @deprecated
  */
 public interface HenshinRegistry {
 	
