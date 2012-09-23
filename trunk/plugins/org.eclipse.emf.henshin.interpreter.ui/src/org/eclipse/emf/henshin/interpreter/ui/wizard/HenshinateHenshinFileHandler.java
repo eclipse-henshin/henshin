@@ -14,17 +14,15 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.resource.HenshinResource;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
- * @author Gregor Bonifer
- * @author Stefan Jurack
+ * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
 public class HenshinateHenshinFileHandler extends AbstractHandler {
 	
@@ -35,33 +33,45 @@ public class HenshinateHenshinFileHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		IStructuredSelection selection = (IStructuredSelection) HandlerUtil
-				.getActiveMenuSelection(event);
+		// Get the active selection:
+		IStructuredSelection selection = (IStructuredSelection) 
+				HandlerUtil.getActiveMenuSelection(event);
 		
-		if (selection.size() == 1) {
-			Object firstElement = selection.getFirstElement();
-			if (firstElement instanceof IFile) {
-				IFile iFile = (IFile) firstElement;
-				if (!iFile.getFileExtension().equals("henshin")) return null;
+		// We expect exactly one element:
+		if (selection.size()==1) {
+			Object first = selection.getFirstElement();
+			
+			// Should be an IFile:
+			if (first instanceof IFile) {
+				IFile file = (IFile) first;
 				
-				ResourceSet resourceSet = new ResourceSetImpl();
-				Resource resource = resourceSet.getResource(
-						URI.createPlatformResourceURI(iFile.getFullPath().toOSString(), true), true);
+				// Must be a Henshin file:
+				if (HenshinResource.FILE_EXTENSION.equals(file.getFileExtension())) {
 				
-				if (resource.getContents().size() == 0) return null;
-				EObject root = resource.getContents().get(0);
-				if (root instanceof Module) {
-					Module module = (Module) root;
-					HenshinWizard tWiz = new HenshinWizard(module);
-					HenshinWizardDialog dialog = new HenshinWizardDialog(
-							HandlerUtil.getActiveShell(event), tWiz);
-					dialog.open();
+					// Create a resource set and load the resource::
+					HenshinResourceSet resourceSet = new HenshinResourceSet();
+
+					// Load the module:
+					URI uri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+					Module module = resourceSet.getModule(uri, false);
+
+					// Run the wizard:
+					if (module!=null) {
+						HenshinWizard wizard = new HenshinWizard(module);
+						HenshinWizardDialog dialog = new HenshinWizardDialog(
+								HandlerUtil.getActiveShell(event), wizard);
+						dialog.open();
+						return null;
+					}
 				}
 			}
-		} else if (selection.size() == 2) {
-			
 		}
 		
+		// Something was wrong:
+		MessageDialog.openError(HandlerUtil.getActiveShell(event), "Error", "Please select exactly one *." + 
+				HenshinResource.FILE_EXTENSION + " file.");
 		return null;
+		
 	}
+	
 }

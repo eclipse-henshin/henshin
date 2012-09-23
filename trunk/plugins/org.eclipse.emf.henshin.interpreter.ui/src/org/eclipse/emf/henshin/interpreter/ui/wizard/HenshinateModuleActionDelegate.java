@@ -17,13 +17,14 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * @author Gregor Bonifer
- * @author Stefan Jurack
+ * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
-public class HenshinateSystemActionDelegate implements IObjectActionDelegate {
+public class HenshinateModuleActionDelegate implements IObjectActionDelegate {
 	
+	// Target workbench part:
 	protected IWorkbenchPart targetPart;
 	
+	// Module to be used:
 	protected Module module;
 	
 	/*
@@ -32,8 +33,8 @@ public class HenshinateSystemActionDelegate implements IObjectActionDelegate {
 	 */
 	@Override
 	public void run(IAction action) {
-		HenshinWizard tWiz = new HenshinWizard(module);
-		HenshinWizardDialog dialog = new HenshinWizardDialog(targetPart.getSite().getShell(), tWiz);
+		HenshinWizard wizard = new HenshinWizard(module);
+		HenshinWizardDialog dialog = new HenshinWizardDialog(targetPart.getSite().getShell(), wizard);
 		dialog.open();
 	}
 	
@@ -45,8 +46,6 @@ public class HenshinateSystemActionDelegate implements IObjectActionDelegate {
 	public void selectionChanged(IAction action, ISelection sel) {
 		if (sel instanceof IStructuredSelection) {
 			module = (Module) ((IStructuredSelection) sel).getFirstElement();
-		} else {
-			System.out.println("not an IStructuredSelection");
 		}
 	}
 	

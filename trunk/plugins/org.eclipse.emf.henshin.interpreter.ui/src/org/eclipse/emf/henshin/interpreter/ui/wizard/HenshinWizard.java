@@ -9,10 +9,8 @@
  */
 package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -21,9 +19,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector.ModelSelectorListener;
@@ -31,10 +26,10 @@ import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ParameterEditTable;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ParameterEditTable.ParameterChangeListener;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector.UnitSelectionListener;
-import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -50,8 +45,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * @author Gregor Bonifer
- * @author Stefan Jurack
+ * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
 public class HenshinWizard extends Wizard implements UnitSelectionListener, ModelSelectorListener,
 		ParameterChangeListener {
@@ -70,9 +64,9 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	protected Module module;
 	
-	protected ArrayList<Unit> availableUnits;
+	protected List<Unit> availableUnits;
 	
-	protected Collection<CompletionListener> completionListeners = new ArrayList<HenshinWizard.CompletionListener>();
+	protected List<CompletionListener> completionListeners = new ArrayList<HenshinWizard.CompletionListener>();
 	
 	protected boolean uriFieldDirty = false;
 	
@@ -86,56 +80,61 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	protected boolean unitSelectable = true;
 	
-	public HenshinWizard(Unit tUnit) {
+	/**
+	 * Constructor.
+	 * @param unit Unit to be applied.
+	 */
+	public HenshinWizard(Unit unit) {
 		this();
 		unitSelectable = false;
-		this.initialUnit = tUnit;
-		this.module = (Module) tUnit.eContainer();
+		this.initialUnit = unit;
+		this.module = unit.getModule();
 	}
 	
-	public HenshinWizard(Module tSystem) {
+	/**
+	 * Constructor.
+	 * @param module Module to be used.
+	 */
+	public HenshinWizard(Module module) {
 		this();
 		unitSelectable = true;
-		this.module = tSystem;
+		this.module = module;
 	}
 	
+	/*
+	 * Private constructor.
+	 */
 	private HenshinWizard() {
 		setWindowTitle(InterpreterUIPlugin.LL("_UI_Wizard"));
-		setDefaultPageImageDescriptor(ImageDescriptor
-				.createFromURL((URL) InterpreterUIPlugin.INSTANCE.getImage("Henshin_small.png")));
+		setDefaultPageImageDescriptor(
+				ImageDescriptor.createFromURL(
+				(URL) InterpreterUIPlugin.INSTANCE.getImage("Henshin_small.png")));
 	}
 	
+	/**
+	 * Get the label to be used for a unit.
+	 * @param unit Unit.
+	 * @return The label for the unit.
+	 */
 	protected String getUnitLabel(Unit unit) {
-		return unit.getName() + "[" + unit.eClass().getName() + "]";
+		return unit.toString(); //unit.getName() + "[" + unit.eClass().getName() + "]";
 	}
 	
 	protected void initData() {
+		
 		/*
 		 * We do now reload the unit/trafosystem in a separate ResourceSet in
 		 * order to work with them without corrupting the original resource set,
 		 * which might be used by an editor.
 		 */
 
-		ResourceSet rs = new ResourceSetImpl();
-		URI trafoUri = this.module.eResource().getURI();
-		Resource r = rs.createResource(trafoUri);
+		HenshinResourceSet resourceSet = new HenshinResourceSet();
+		URI moduleUri = module.eResource().getURI();
+		module = resourceSet.getModule(moduleUri, false);
 		
-		try {
-			r.load(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		this.module = (Module) r.getContents().get(0);
-		if (this.initialUnit != null) {
-			String id = initialUnit.eResource().getURIFragment(initialUnit);
-			List<Unit> l = new ArrayList<Unit>();
-			l.addAll(this.module.getUnits());
-			for (Unit unit : l) {
-				if (r.getURIFragment(unit).equals(id)) {
-					this.initialUnit = unit;
-					break;
-				}
-			}
+		if (initialUnit != null) {
+			int index = initialUnit.getModule().getUnits().indexOf(initialUnit);
+			initialUnit = module.getUnits().get(index);
 		}
 		
 		availableUnits = new ArrayList<Unit>();
@@ -166,21 +165,21 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 			selectedUnit = availableUnits.get(0);
 		}
 		unitSelector.setSelectableUnits(unitLabels.toArray(new String[0]));
-		
 		unitSelector.setSelection(initIdx);
 		
-		// enable selector if no unit was given to constructor
-		//
-		unitSelector.setEnabled(initialUnit == null);
+		// Enable selector if no unit was given in the constructor:
+		unitSelector.setEnabled(initialUnit==null);
 		
 		List<String> lastUsedModels = getModelPreferences();
 		
 		cfg = new Henshination();
-		if (selectedUnit != null)
-			cfg.setTransformationUnit(selectedUnit, getParameterPreferences(selectedUnit));
+		if (selectedUnit != null) {
+			cfg.setUnit(selectedUnit, getParameterPreferences(selectedUnit));
+		}
 		
-		if (lastUsedModels.get(0).length() > 0)
+		if (lastUsedModels.get(0).length() > 0) {
 			cfg.setModelUri(URI.createURI(lastUsedModels.get(0)));
+		}
 		
 		modelSelector.setLastUsedModels(lastUsedModels.toArray(new String[0]));
 		
@@ -210,9 +209,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	public void addPages() {
 		addPage(page = new WizardPage(InterpreterUIPlugin.LL("_UI_PseudoPage")) {
 			{
-				
 				setDescription(InterpreterUIPlugin.LL("_UI_Wizard_DefaultDescription"));
-				
 			}
 			
 			public void performHelp() {
@@ -271,12 +268,20 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		});
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#createPageControls(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
 		initData();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
+	 */
 	@Override
 	public boolean canFinish() {
 		
@@ -287,8 +292,9 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 			page.setMessage(null);
 		}
 		
-		if (cfg.getModelUri() == null || cfg.getTransformationUnit() == null)
+		if (cfg.getModelUri() == null || cfg.getUnit() == null) {
 			return false;
+		}
 		
 		List<String> errors = new ArrayList<String>();
 		
@@ -299,7 +305,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 			errors.add(e.getMessage());
 		}
 		
-		if (!cfg.getTransformationUnit().isActivated())
+		if (!cfg.getUnit().isActivated())
 			errors.add(InterpreterUIPlugin.LL("_UI_Status_TransforamtionUnitNotActivated"));
 		
 		if (errors.size() == 0) {
@@ -333,6 +339,10 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
+	 */
 	@Override
 	public boolean performFinish() {
 		try {
@@ -345,6 +355,10 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		return true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#performCancel()
+	 */
 	@Override
 	public boolean performCancel() {
 		if (store.getBoolean("saveOnCancel"))
@@ -366,12 +380,16 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 			paramCfg.persist(store);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector.UnitSelectionListener#unitSelected(int)
+	 */
 	@Override
 	public boolean unitSelected(int idx) {
 		
 		Unit unit = this.availableUnits.get(idx);
 		
-		cfg.setTransformationUnit(unit, getParameterPreferences(unit));
+		cfg.setUnit(unit, getParameterPreferences(unit));
 		
 		parameterEditor.setParameters(cfg.getParameterConfigurations());
 		
@@ -380,6 +398,10 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector.ModelSelectorListener#modelURIChanged(org.eclipse.emf.common.util.URI)
+	 */
 	@Override
 	public boolean modelURIChanged(URI modelUri) {
 		cfg.setModelUri(modelUri);
@@ -388,12 +410,20 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ParameterEditTable.ParameterChangeListener#parameterChanged(org.eclipse.emf.henshin.interpreter.ui.wizard.ParameterConfiguration)
+	 */
 	@Override
 	public void parameterChanged(ParameterConfiguration paramCfg) {
 		// cfg.parameterValues.put(parameter.getName(), value);
 		fireCompletionChange();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector.ModelSelectorListener#uriFieldDirty()
+	 */
 	@Override
 	public void uriFieldDirty() {
 		this.uriFieldDirty = true;

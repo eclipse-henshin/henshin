@@ -11,7 +11,6 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -51,7 +50,6 @@ import org.eclipse.emf.henshin.interpreter.ui.util.Capsule;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuple;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuples;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -61,25 +59,45 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * @author Gregor Bonifer
- * @author Stefan Jurack
+ * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
 public class Henshination {
 	
+	/**
+	 * The unit to be applied.
+	 */
 	protected Unit unit;
 	
+	/**
+	 * Configuration parameters.
+	 */
 	protected Collection<ParameterConfiguration> paramCfgs;
 	
+	/**
+	 * Model URI.
+	 */
 	protected URI modelUri;
 	
+	/**
+	 * Model root object.
+	 */
 	protected EObject modelRoot;
 	
+	/**
+	 * Used resource set.
+	 */
 	protected ResourceSet resourceSet;
 	
+	/**
+	 * Default constructor.
+	 */
 	public Henshination() {
-		modelUri = null;
 	}
 	
+	/**
+	 * Get the model URI to be used.
+	 * @return The model URI.
+	 */
 	public URI getModelUri() {
 		return modelUri;
 	}
@@ -91,36 +109,37 @@ public class Henshination {
 		registerImportedPackages();
 	}
 	
-	public TransformationUnit getTransformationUnit() {
+	public Unit getUnit() {
 		return unit;
 	}
 	
-	public void setTransformationUnit(Unit unit,
-			Collection<ParameterConfiguration> paramCfgs) {
+	public void setUnit(Unit unit, Collection<ParameterConfiguration> paramCfgs) {
 		this.unit = unit;
 		this.paramCfgs = paramCfgs;
 		registerImportedPackages();
 	}
 	
 	private void registerImportedPackages() {
-		if (this.resourceSet == null || this.unit == null)
+		if (resourceSet == null || unit == null) {
 			return;
-		Module tSys = unit.getModule();
-		for (EPackage pack : tSys.getImports())
-			this.resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
+		}
+		for (EPackage pack : unit.getModule().getImports()) {
+			resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
+		}
 	}
 	
 	public Object getParameterValue(String parameterName) {
 		ParameterConfiguration pCfg = getParameterConfiguration(parameterName);
-		if (pCfg == null)
-			return null;
+		if (pCfg == null) return null;
 		return pCfg.getValue();
 	}
 	
 	public ParameterConfiguration getParameterConfiguration(String parameterName) {
-		for (ParameterConfiguration pCfg : paramCfgs)
-			if (pCfg.getName().equals(parameterName))
+		for (ParameterConfiguration pCfg : paramCfgs) {
+			if (pCfg.getName().equals(parameterName)) {
 				return pCfg;
+			}
+		}
 		return null;
 	}
 	
@@ -131,14 +150,12 @@ public class Henshination {
 	protected Map<String, Object> prepareParameterValues() {
 		Map<String, Object> result = new HashMap<String, Object>();
 		for (ParameterConfiguration paramCfg : paramCfgs) {
-			if (paramCfg.isClear())
-				continue;
-			System.out.println(paramCfg.getName() + " => " + paramCfg.getValue() + "("
-					+ paramCfg.getTypeLabel() + ")[isNull:" + (paramCfg.getValue() == null) + "]");
+			if (paramCfg.isClear()) continue;
+			//System.out.println(paramCfg.getName() + " => " + paramCfg.getValue() + "("
+			//		+ paramCfg.getTypeLabel() + ")[isNull:" + (paramCfg.getValue() == null) + "]");
 			result.put(paramCfg.getName(), paramCfg.getValue());
 		}
-		System.out.println(result);
-		
+		//System.out.println(result);
 		return result;
 	}
 	
@@ -214,8 +231,9 @@ public class Henshination {
 	
 	public boolean isModelAffectedByTransformation() {
 		Module module = unit.getModule();
-		for (EPackage ep : module.getImports())
+		for (EPackage ep : module.getImports()) {
 			EcoreUtil.resolveAll(ep);
+		}
 		return module.getImports().contains(getModel().eClass().getEPackage());
 	}
 	
@@ -267,17 +285,20 @@ public class Henshination {
 	
 	public EObject getModel() {
 		
-		if (modelRoot != null)
+		if (modelRoot != null) {
 			return modelRoot;
+		}
 		
-		if (modelUri == null || modelUri.isEmpty())
+		if (modelUri == null || modelUri.isEmpty()) {
 			return null;
+		}
 		
 		Map<String, Object> extReg = resourceSet.getResourceFactoryRegistry()
 				.getExtensionToFactoryMap();
 		
-		if (!extReg.containsKey(modelUri.fileExtension()))
+		if (!extReg.containsKey(modelUri.fileExtension())) {
 			extReg.put(modelUri.fileExtension(), new XMIResourceFactoryImpl());
+		}
 		Resource res;
 		
 		try {
@@ -286,14 +307,19 @@ public class Henshination {
 			throw new RuntimeException("Unable to load Resource");
 		}
 		
-		if (res.getContents().size() == 0)
+		if (res.getContents().size() == 0) {
 			throw new RuntimeException("Resource is empty");
+		}
 		
 		modelRoot = res.getContents().get(0);
-		
 		return modelRoot;
+		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + unit.getName() + " "
@@ -311,7 +337,7 @@ public class Henshination {
 		final UnitApplication unitApplication = createUnitApplication(resource.getContents().get(0));
 		
 		String title = InterpreterUIPlugin.LL("_UI_UndoableOperation_Henshin") + ": "
-				+ getTransformationUnit().getName();
+				+ getUnit().getName();
 		
 		IUndoableOperation operation = new AbstractOperation(title) {
 			

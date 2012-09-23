@@ -11,9 +11,10 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard.widgets;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -26,10 +27,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
 /**
- * 
- * 
- * @author Gregor Bonifer
- * @author Stefan Jurack
+ * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
 public class UnitSelector {
 	
@@ -41,7 +39,7 @@ public class UnitSelector {
 	
 	protected Combo unitSelector;
 	
-	protected ArrayList<TransformationUnit> units;
+	protected List<Unit> units;
 	
 	public UnitSelector(Composite parent) {
 		container = new Group(parent, SWT.NONE);
@@ -88,9 +86,6 @@ public class UnitSelector {
 		boolean unitSelected(int idx);
 	}
 	
-	/**
-	 * @param enabled
-	 */
 	public void setEnabled(boolean enabled) {
 		this.unitSelector.setEnabled(enabled);
 	}
