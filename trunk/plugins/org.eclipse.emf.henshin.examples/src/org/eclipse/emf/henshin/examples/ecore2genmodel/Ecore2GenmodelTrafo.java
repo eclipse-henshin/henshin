@@ -64,7 +64,7 @@ public class Ecore2GenmodelTrafo {
 		GenModelPackage.eINSTANCE.getName();
 		
 		// Load the module:
-		Module module = resourceSet.getModule("Ecore2Genmodel.henshin");
+		Module module = resourceSet.getModule("Ecore2Genmodel.henshin", false);
 		
 		// Load Ecore files:
 		EPackage mappingModel = (EPackage) resourceSet.getEObject("ecore2gen.ecore");
@@ -108,7 +108,7 @@ public class Ecore2GenmodelTrafo {
 		System.out.println("Successfully generated GenModel.");
 		
 		if (save) {
-			resourceSet.saveObject(genModel, "flowchartdsl-generated.genmodel");
+			resourceSet.saveEObject(genModel, "flowchartdsl-generated.genmodel");
 			System.out.println("Saved the result to flowchartdsl-generated.genmodel");
 		}
 

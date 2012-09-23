@@ -65,7 +65,7 @@ public class Java2StateMachine {
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 		
 		// Load the module:
-		Module module = resourceSet.getModule("java2statemachine.henshin");
+		Module module = resourceSet.getModule("java2statemachine.henshin", false);
 		
 		// Create a "Package" instance to store all "CompilationUnit"s
 		EObject rootPackage = null;
@@ -113,7 +113,7 @@ public class Java2StateMachine {
 
 		// Save the generated state machine:
 		if (saveResult) {
-			resourceSet.saveObject(statemachine, "generated-statemachine.xmi");
+			resourceSet.saveEObject(statemachine, "generated-statemachine.xmi");
 			System.out.println("Saved generated state machine in 'generated-statemachine.xmi'");
 		} else {
 			Resource dummyResource = new ResourceImpl(); // dump it into a dummy resource

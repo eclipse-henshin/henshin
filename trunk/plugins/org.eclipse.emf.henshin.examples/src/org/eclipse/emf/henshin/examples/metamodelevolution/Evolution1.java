@@ -413,7 +413,7 @@ public class Evolution1 {
 	 */
 	private Module loadPetriModuleM() {
 		HenshinPackageImpl.init();
-		Module tsM = resourceSet.getModule(HENSHIN_PETRI_META);
+		Module tsM = resourceSet.getModule(HENSHIN_PETRI_META, false);
 		return tsM;
 	}// loadPetriTrafoSystemM
 

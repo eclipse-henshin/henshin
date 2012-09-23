@@ -64,7 +64,7 @@ public class CombBenchmark {
 	public long buildGrid(EGraph graph, int width, int height, boolean sparse) {
 		
 		// Load the module and unit:
-		Module module = resourceSet.getModule(sparse ? "grid-sparse.henshin" : "grid-full.henshin");
+		Module module = resourceSet.getModule(sparse ? "grid-sparse.henshin" : "grid-full.henshin", false);
 		Unit unit = module.getUnit("buildGrid");
 		
 		// Apply the unit:
@@ -98,7 +98,7 @@ public class CombBenchmark {
 	public Rule buildCombPattern(int width) {
 		
 		// Load the module and unit for building the rule:
-		Module module = resourceSet.getModule("comb.henshin");
+		Module module = resourceSet.getModule("comb.henshin", false);
 		Unit unit = module.getUnit("buildCombPattern");
 		
 		// Create a copy of the initial rule and prepare the EGraph:

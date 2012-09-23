@@ -64,7 +64,7 @@ public class Oo2Rdb {
 		
 		// Load the transformation module and the input model:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
-		Module module = resourceSet.getModule("oo2rdb.henshin");
+		Module module = resourceSet.getModule("oo2rdb.henshin", false);
 		Resource carRental = resourceSet.getResource(ooModel);
 		
 		// Initialize the Henshin graph:
@@ -103,7 +103,7 @@ public class Oo2Rdb {
 		// save the result?
 		if (saveResult) {
 			String resultFile = ooModel.replaceFirst(".ecore", "-generated-result.xmi");
-			resourceSet.saveObject(result, resultFile);
+			resourceSet.saveEObject(result, resultFile);
 			System.out.println("Saved result in '" + resultFile + "'");
 		}
 		

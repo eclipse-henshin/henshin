@@ -18,8 +18,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
@@ -27,14 +30,18 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
- * A resource set implementation for Henshin that provides some 
- * convenience methods for easy use and supports automatic resolving 
- * of relative file URIs using a base directory.
+ * Resource set implementation for Henshin.
+ * Provides some convenience methods for easy use 
+ * and supports automatic resolving of relative 
+ * file URIs using a base directory.
  * 
  * @author Christian Krause
  */
@@ -56,7 +63,9 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		}		
 	}
 
-	// Absolute file path of the base directory as a file URI:
+	/** 
+	 * Absolute file path of the base directory as a file URI.
+	 */
 	private URI baseDir;
 
 	/**
@@ -113,7 +122,9 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	
 	/**
 	 * Register {@link XMIResourceFactoryImpl}s for the given file extensions.
-	 * The factories are registered in the scope of this resource set.
+	 * The factories are registered in the scope of this resource set. The 
+	 * resource factories are registered only if no other resource factory
+	 * is already registered for the file extension.
 	 * 
 	 * @param fileExtension File extensions.
 	 */
@@ -135,9 +146,8 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 
 	/**
-	 * Tries to open the Ecore file at the given location. 
-	 * If successful, all {@link EPackage}s in the model are
-	 * registered in the local package registry of this resource set.
+	 * Load {@link EPackage}s from an Ecore file and
+	 * register them in the local package registry.
 	 * 
 	 * @param ecorePath The relative path to an Ecore file.
 	 * @return List of loaded and registered {@link EPackage}s.
@@ -161,8 +171,9 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 	
 	/**
-	 * Loads a resource for the given file name. If the path is relative, 
-	 * it will be resolved using the base directory of this resource set.
+	 * Load a resource for the given (relative) path and file name. 
+	 * If the path is relative, it will be resolved using the base 
+	 * directory of this resource set.
 	 * 
 	 * @param path Possible relative model path.
 	 * @return The loaded resource.
@@ -172,9 +183,9 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 
 	/**
-	 * Loads a resource for the given file name and returns the first
-	 * EObject contained in it. If the path is relative, it will be resolved 
-	 * using the base directory of this resource set.
+	 * Load a resource for the given file name and get the first
+	 * {@link EObject} contained in it. If the path is relative, 
+	 * it will be resolved using the base directory of this resource set.
 	 * 
 	 * @param path Possible relative path and file name.
 	 * @return The first contained object.
@@ -200,26 +211,111 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	public TransformationSystem getTransformationSystem(String path) {
 		return (TransformationSystem) getEObject(path);
 	}
-
+	
 	/**
-	 * Convenience method for loading a {@link Module} from a 
-	 * Henshin file given as a path and file name.
-	 * 
-	 * @param path Possible relative path and file name of a Henshin resource.
-	 * @return The contained {@link Module}.
+	 * @deprecated Use {@link #getModule(String, boolean)} with <code>fixImports=false</code> instead.
 	 */
 	public Module getModule(String path) {
-		return (Module) getEObject(path);
+		return getModule(path, false);
+	}
+
+
+	/**
+	 * <p>
+	 * Load a {@link Module} from a Henshin file given as a 
+	 * path and file name. If the path is relative, it will be 
+	 * resolved using the base directory of this resource set.
+	 * </p>
+	 * <p>
+	 * If <code>fixImports</code> is set to <code>true</code>, 
+	 * the method will try to fix broken imports of the module.
+	 * Specifically, it will check for every imported package
+	 * of the module, if a another package with the same namespace
+	 * URI is registered in the local package registry of this
+	 * resource. If yes, all references to elements of this package
+	 * in the module will be replaced by the found package.
+	 * </p>
+	 * <p>
+	 * If you want to fix the imports, you should first load the
+	 * instance models to be transformed, and then call this method.
+	 * </p>
+	 * 
+	 * @param path Possible relative path and file name of a Henshin resource.
+	 * @param fixImports If <code>true</code>, tries to fix the imports of the loaded module (default is <code>false</code>).
+	 * @return The contained {@link Module}.
+	 */
+	public Module getModule(String path, boolean fixImports) {
+		
+		// Try to load the module:
+		Module module = null;
+		Resource resource = getResource(path);
+		if (resource!=null) {
+			for (EObject object : resource.getContents()) {
+				if (object instanceof Module) {
+					module = (Module) object;
+					break;
+				}
+			}
+		}
+		
+		// Fix imports?
+		if (module!=null && fixImports) {
+			Iterator<EObject> it = module.eAllContents();
+			while (it.hasNext()) {
+				EObject obj = it.next();
+				if (obj instanceof Node) {  // nodes
+					Node n = (Node) obj;
+					EPackage real = getRealEPackage(n.getType().getEPackage());
+					if (real!=null) {
+						n.setType((EClass) real.getEClassifier(n.getType().getName()));
+					}
+				}
+				else if (obj instanceof Edge) {  // edges
+					Edge e = (Edge) obj;
+					EPackage real = getRealEPackage(e.getType().getEContainingClass().getEPackage());
+					if (real!=null) {
+						EClass owner = (EClass) real.getEClassifier(e.getType().getEContainingClass().getName());
+						e.setType((EReference) owner.getEStructuralFeature(e.getType().getName()));
+					}
+				}
+				else if (obj instanceof Attribute) {  // attributes
+					Attribute a = (Attribute) obj;
+					EPackage real = getRealEPackage(a.getType().getEContainingClass().getEPackage());
+					if (real!=null) {
+						EClass owner = (EClass) real.getEClassifier(a.getType().getEContainingClass().getName());
+						a.setType((EAttribute) owner.getEStructuralFeature(a.getType().getName()));
+					}
+				}
+			}
+		}
+		return module;
 	}
 
 	/**
-	 * Save an object at a given path. This creates a new resource
+	 * Get the real package that should be used. This checks whether there is
+	 * a different {@link EPackage} registered in this resource set's package registry
+	 * under the same namespace URI as the given used package. If yes, this package
+	 * will be returned, otherwise <code>null</code>.
+	 * 
+	 * @param usedPackage The used package in a module.
+	 * @return The correct package or <code>null</code>.
+	 */
+	private EPackage getRealEPackage(EPackage usedPackage) {
+		EPackage realPackage = getPackageRegistry().getEPackage(usedPackage.getNsURI());
+		if (realPackage!=null && realPackage!=usedPackage) {
+			return realPackage;
+		}
+		return null;
+	}
+
+	/**
+	 * Save an {@link EObject} at a given path. This creates a new resource
 	 * under the given path, adds the object to the resource and saves it.
 	 * 
-	 * @param object Object to be saved.
+	 * @param object {@link EObject} to be saved.
 	 * @param path Possibly relative file path.
 	 */
-	public void saveObject(EObject object, String path) {
+	public void saveEObject(EObject object, String path) {
 		URI uri = URI.createFileURI(path);
 		Resource resource = createResource(uri);
 		resource.getContents().clear();
@@ -231,6 +327,13 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/**
+	 * @deprecated Use {@link #saveEObject(EObject, String)} instead.
+	 */
+	public void saveObject(EObject object, String path) {
+		saveEObject(object, path);
 	}
 
 }

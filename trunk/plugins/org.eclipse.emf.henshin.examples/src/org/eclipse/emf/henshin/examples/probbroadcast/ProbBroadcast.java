@@ -56,7 +56,7 @@ public class ProbBroadcast {
 	public ProbBroadcast(String path) {
 		// Load transformation system and initialize the state space (manager):
 		resourceSet = new StateSpaceResourceSet(path);
-		Module module = resourceSet.getModule("probbroadcast.henshin");
+		Module module = resourceSet.getModule("probbroadcast.henshin", false);
 		StateSpace stateSpace = new StateSpaceImpl(module);
 		manager = new ParallelStateSpaceManager(stateSpace);
 	}

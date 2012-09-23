@@ -53,7 +53,7 @@ public class ALAPBenchmark {
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 
 		// Load the module:
-		Module module = resourceSet.getModule("mutualexclusion.henshin");
+		Module module = resourceSet.getModule("mutualexclusion.henshin", false);
 
 		// Load initial model:
 		EObject container = resourceSet.getEObject("initialgraph.xmi");

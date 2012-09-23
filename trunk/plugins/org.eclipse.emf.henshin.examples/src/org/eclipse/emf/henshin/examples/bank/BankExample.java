@@ -41,7 +41,7 @@ public class BankExample {
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 		
 		// Load the module:
-		Module module = resourceSet.getModule("bank.henshin");
+		Module module = resourceSet.getModule("bank.henshin", false);
 
 		// Load the example model into an EGraph:
 		EGraph graph = new EGraphImpl(resourceSet.getResource("example-bank.xmi"));
@@ -78,7 +78,7 @@ public class BankExample {
 		
 		// Saving the result:
 		if (saveResult) {
-			resourceSet.saveObject(graph.getRoots().get(0), "example-result.xmi");
+			resourceSet.saveEObject(graph.getRoots().get(0), "example-result.xmi");
 		}
 	}
 	

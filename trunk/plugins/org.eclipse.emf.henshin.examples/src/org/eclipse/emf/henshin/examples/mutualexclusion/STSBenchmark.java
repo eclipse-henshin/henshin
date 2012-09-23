@@ -53,7 +53,7 @@ public class STSBenchmark {
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 
 		// Load the module:
-		Module module = resourceSet.getModule("mutualexclusion.henshin");
+		Module module = resourceSet.getModule("mutualexclusion.henshin", false);
 		EObject container = resourceSet.getEObject("initialgraph.xmi");
 
 		// Load the rules:
