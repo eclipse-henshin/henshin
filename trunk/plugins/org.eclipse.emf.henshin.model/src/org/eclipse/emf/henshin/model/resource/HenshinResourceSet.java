@@ -199,32 +199,23 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 
 	/**
-	 * @deprecated Use {@link #getEObject(String)}
-	 */
-	public EObject getObject(String path) {
-		return getEObject(path);
-	}
-
-	/**
-	 * @deprecated Use {@link #getModule(String)}
-	 */
-	public TransformationSystem getTransformationSystem(String path) {
-		return (TransformationSystem) getEObject(path);
-	}
-	
-	/**
-	 * @deprecated Use {@link #getModule(String, boolean)} with <code>fixImports=false</code> instead.
-	 */
-	public Module getModule(String path) {
-		return getModule(path, false);
-	}
-
-
-	/**
-	 * <p>
 	 * Load a {@link Module} from a Henshin file given as a 
 	 * path and file name. If the path is relative, it will be 
 	 * resolved using the base directory of this resource set.
+	 * The behavior is as in {@link #getModule(URI, boolean)}.
+	 * 
+	 * @see #getModule(URI, boolean)
+	 * @param path Possibly relative path to a Henshin file.
+	 * @param fixImports If <code>true</code>, tries to fix the imports of the loaded module (default is <code>false</code>).
+	 * @return The contained {@link Module}.
+	 */
+	public Module getModule(String path, boolean fixImports) {
+		return getModule(URI.createFileURI(path), fixImports);
+	}
+
+	/**
+	 * <p>
+	 * Load a {@link Module} from a Henshin file given by a URI. 
 	 * </p>
 	 * <p>
 	 * If <code>fixImports</code> is set to <code>true</code>, 
@@ -244,11 +235,11 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	 * @param fixImports If <code>true</code>, tries to fix the imports of the loaded module (default is <code>false</code>).
 	 * @return The contained {@link Module}.
 	 */
-	public Module getModule(String path, boolean fixImports) {
+	public Module getModule(URI uri, boolean fixImports) {
 		
 		// Try to load the module:
 		Module module = null;
-		Resource resource = getResource(path);
+		Resource resource = getResource(uri, true);
 		if (resource!=null) {
 			for (EObject object : resource.getContents()) {
 				if (object instanceof Module) {
@@ -311,12 +302,23 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	/**
 	 * Save an {@link EObject} at a given path. This creates a new resource
 	 * under the given path, adds the object to the resource and saves it.
+	 * This delegates to {@link #saveEObject(EObject, URI)}.
 	 * 
 	 * @param object {@link EObject} to be saved.
 	 * @param path Possibly relative file path.
 	 */
 	public void saveEObject(EObject object, String path) {
-		URI uri = URI.createFileURI(path);
+		saveEObject(object, URI.createFileURI(path));
+	}
+
+	/**
+	 * Save an {@link EObject} at a given URI. This creates a new resource
+	 * under the given path, adds the object to the resource and saves it.
+	 * 
+	 * @param object {@link EObject} to be saved.
+	 * @param uri URI pointing to the file where the object should be saved.
+	 */
+	public void saveEObject(EObject object, URI uri) {
 		Resource resource = createResource(uri);
 		resource.getContents().clear();
 		resource.getContents().add(object);		
@@ -334,6 +336,27 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	 */
 	public void saveObject(EObject object, String path) {
 		saveEObject(object, path);
+	}
+
+	/**
+	 * @deprecated Use {@link #getEObject(String)}
+	 */
+	public EObject getObject(String path) {
+		return getEObject(path);
+	}
+
+	/**
+	 * @deprecated Use {@link #getModule(String)}
+	 */
+	public TransformationSystem getTransformationSystem(String path) {
+		return (TransformationSystem) getEObject(path);
+	}
+	
+	/**
+	 * @deprecated Use {@link #getModule(String, boolean)} with <code>fixImports=false</code> instead.
+	 */
+	public Module getModule(String path) {
+		return getModule(path, false);
 	}
 
 }
