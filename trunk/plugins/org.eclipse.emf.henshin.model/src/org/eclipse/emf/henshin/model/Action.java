@@ -15,13 +15,49 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * <p>
  * This class represents an action of a {@link GraphElement}. Actions consist of:
  * <ul>
- * <li>an action {@link Type},</li>
+ * <li>an action type,</li>
  * <li>a Boolean multi flag,</li>
- * <li>a possibly empty path (only if the multi flag is <code>true</code>,</li>
+ * <li>a possibly empty path (only if the multi flag is <code>true</code>),</li>
  * <li>an optional fragment.</li>
  * </ul>
+ * </p>
+ * <p>
+ * Since version 0.9.3, the syntax of actions is as follows:
+ * ...
+ * </p>
+ * 
+ * <p>
+ * Some basic examples (all examples shown with surrounding &laquo;..&raquo;):
+ * <ul>
+ * <li><span style="color:gray">&laquo;preserve&raquo;</span> Preserve a graph element.</li>
+ * <li><span style="color:green">&laquo;create&raquo;</span> Create a graph element.</li>
+ * <li><span style="color:red">&laquo;delete&raquo;</span> Delete a graph element.</li>
+ * <li><span style="color:brown">&laquo;require&raquo;</span> Require the existence of a graph element.</li>
+ * <li><span style="color:blue">&laquo;forbid&raquo;</span> Forbid the existence of a graph element.</li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * Examples of named positive and negative application conditions (PACs and NACs):
+ * <ul>
+ * <li><span style="color:brown">&laquo;require#1&raquo;</span> Graph element is part of a PAC named <i>1</i>.</li>
+ * <li><span style="color:blue">&laquo;forbid#myNAC&raquo;</span> Graph is element of a NAC named <i>myNAC</i>.</li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * Examples of (nested) multi-rules:
+ * <ul>
+ * <li><span style="color:gray">&laquo;preserve*&raquo;</span> Preserve all matching graph elements (default multi-rule).</li>
+ * <li><span style="color:red">&laquo;delete*&#47;multi&raquo;</span> Delete all matching graph elements (multi-rule <i>multi</i>).</li>
+ * <li><span style="color:green">&laquo;create*&#47;my/nested/rule&raquo;</span> Create a graph element in a nested multi rule.</li>
+ * <li><span style="color:brown">&laquo;require*&#47;my/nested/rule#1&raquo;</span> Named PAC in a nested multi-rule.</li>
+ * <li><span style="color:blue">&laquo;forbid*&#47;my/nested/rule#myNAC&raquo;</span> Named NAC in a nested multi-rule.</li>
+ * </ul>
+ * </p>
  * 
  * @author Christian Krause
  * @author Stefan Jurack
