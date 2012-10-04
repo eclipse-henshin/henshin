@@ -9,8 +9,6 @@
  */
 package org.eclipse.emf.henshin.interpreter;
 
-import java.util.List;
-
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -66,10 +64,5 @@ public interface RuleApplication extends UnitApplication {
 	 * @return The match for the result.
 	 */
 	Match getResultMatch();
-	
-	/**
-	 * Get all matches
-	 */
-	List<Match> findAllMatches();
 
 }

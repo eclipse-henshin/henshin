@@ -9,8 +9,6 @@
  */
 package org.eclipse.emf.henshin.interpreter.impl;
 
-import java.util.List;
-
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.Change;
@@ -18,7 +16,6 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
@@ -324,15 +321,6 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 	@Override
 	public Assignment getResultAssignment() {
 		return resultMatch;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.RuleApplication#findAllMatches()
-	 */
-	@Override
-	public List<Match> findAllMatches() {
-		return InterpreterUtil.findAllMatches(engine, (Rule) unit, graph, partialMatch);
 	}
 	
 }
