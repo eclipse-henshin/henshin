@@ -36,13 +36,58 @@ public interface MappingList extends EList<Mapping> {
 	Mapping add(Node origin, Node image);
 
 	/**
+	 * Create and add a new mapping between the origin and image edge.
+	 * This maps source to source and target to target.
+	 * @param origin Origin edge.
+	 * @param image Image edge.
+	 */
+	void add(Edge origin, Edge image);
+
+	/**
+	 * Create and add a new mapping between the origin and image attribute.
+	 * @param origin Origin attribute.
+	 * @param image Image attribute.
+	 * @return The newly created mapping.
+	 */
+	Mapping add(Attribute origin, Attribute image);
+
+	/**
+	 * Create a mapping between two graph elements.
+	 * @param origin Origin element.
+	 * @param image Target element.
+	 */
+	<E extends GraphElement> void add(E origin, E image);
+
+	/**
 	 * Remove a mapping between the given origin and image node.
 	 * @param origin Origin node.
 	 * @param image Image node.
 	 * @return The removed mapping.
 	 */
 	Mapping remove(Node origin, Node image);
-		
+
+	/**
+	 * Remove a mapping between the given origin and image edge.
+	 * @param origin Origin edge.
+	 * @param image Image edge.
+	 */
+	void remove(Edge origin, Edge image);
+
+	/**
+	 * Remove a mapping between the given origin and image attribute.
+	 * @param origin Origin attribute.
+	 * @param image Image attribute.
+	 * @return The removed mapping.
+	 */
+	Mapping remove(Attribute origin, Attribute image);
+
+	/**
+	 * Remove a mapping between two graph elements.
+	 * @param origin Origin element.
+	 * @param image Target element.
+	 */
+	<E extends GraphElement> void remove(E origin, E image);
+
 	/**
 	 * Find the origin of a node.
 	 * @param image Image node.
@@ -73,7 +118,7 @@ public interface MappingList extends EList<Mapping> {
 	 * @param object Image.
 	 * @return The origin.
 	 */
-	<T> T getOrigin(T object);
+	<E extends GraphElement> E getOrigin(E object);
 
 	/**
 	 * Get the image of a node in a given target graph.
@@ -108,7 +153,7 @@ public interface MappingList extends EList<Mapping> {
 	 * @param imageGraph Image graph.
 	 * @return The image.
 	 */
-	<T> T getImage(T origin, Graph imageGraph);
+	<E extends GraphElement> E getImage(E origin, Graph imageGraph);
 
 	/**
 	 * Check whether this map is 'onto' (surjective).

@@ -142,8 +142,18 @@ public abstract class AbstractMapEditor<E extends GraphElement> implements MapEd
 		E opposite = getOpposite(e);
 		if (opposite!=null) {
 			replace(opposite);     // Rather replace the opposite if it exists already
-		} else {
-			doMove(e);		// Otherwise move
+			return;
+		} 
+		// Do the moving:
+		doMove(e);
+		// Now move in the multi-rules:
+		if (getTarget().isRhs()) {
+			for (Rule multi : getTarget().getRule().getMultiRules()) {
+				E eImage = multi.getMultiMappings().getImage(e, null);
+				if (eImage!=null) {
+					newInstance(multi.getLhs(), multi.getRhs(), multi.getMappings()).move(eImage);
+				}
+			}
 		}
 	}
 	
@@ -166,7 +176,18 @@ public abstract class AbstractMapEditor<E extends GraphElement> implements MapEd
 		if (opposite!=null) {
 			removeMapping(e, opposite);
 		}
+		// Do the removal:
 		doRemove(e);
+		// Now remove in the multi-rules:
+		if (getTarget().isRhs()) {
+			for (Rule multi : getTarget().getRule().getMultiRules()) {
+				E eImage = multi.getMultiMappings().getImage(e, null);
+				if (eImage!=null) {
+					newInstance(multi.getLhs(), multi.getRhs(), multi.getMappings()).remove(eImage);
+					multi.getMultiMappings().remove(e, eImage);
+				}
+			}
+		}
 	}
 
 	/*
@@ -182,7 +203,20 @@ public abstract class AbstractMapEditor<E extends GraphElement> implements MapEd
 		if (getOpposite(e)==null) {
 			throw new IllegalArgumentException("Cannot replace an element that is not mapped: " + e);
 		}
-		return doReplace(e);
+		// Do the replacement:
+		E r = doReplace(e);
+		// Now replace in the multi-rules:
+		if (getTarget().isRhs()) {
+			for (Rule multi : getTarget().getRule().getMultiRules()) {
+				E eImage = multi.getMultiMappings().getImage(e, null);
+				E rImage = multi.getMultiMappings().getImage(r, null);
+				if (eImage!=null && rImage!=null) {
+					newInstance(multi.getLhs(), multi.getRhs(), multi.getMappings()).replace(eImage);
+					multi.getMultiMappings().remove(e, eImage);
+				}
+			}
+		}
+		return r;
 	}
 
 	/*
@@ -195,8 +229,19 @@ public abstract class AbstractMapEditor<E extends GraphElement> implements MapEd
 	 * @see org.eclipse.emf.henshin.diagram.edit.maps.MapEditor#copy(java.lang.Object)
 	 */
 	public final E copy(E e) {
-		// For compatibility.
-		return doCopy(e);
+		// Do the copy:
+		E c = doCopy(e);
+		// Now copy in the multi-rules:
+		if (getTarget().isRhs()) {
+			for (Rule multi : getTarget().getRule().getMultiRules()) {
+				E eImage = multi.getMultiMappings().getImage(e, null);
+				if (eImage!=null) {
+					E cImage = newInstance(multi.getLhs(), multi.getRhs(), multi.getMappings()).copy(eImage);
+					multi.getMultiMappings().add(c, cImage);
+				}
+			}
+		}
+		return c;
 	}
 	
 	/*
@@ -256,5 +301,18 @@ public abstract class AbstractMapEditor<E extends GraphElement> implements MapEd
 	protected void doCreateMapping(E origin, E image) {
 		// Default implementation assumes that mappings are implicit, so nothing to do here.
 	}
-	
+
+	/*
+	 * Create a new instance of the current map editor.
+	 */
+	@SuppressWarnings("unchecked")
+	private MapEditor<E> newInstance(Graph source, Graph target, MappingList mappings) {
+		try {
+			return getClass().getConstructor(Graph.class, Graph.class, MappingList.class)
+				.newInstance(source, target, mappings);
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return null;
+		}
+	}
 }

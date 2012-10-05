@@ -14,12 +14,13 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 
 /**
- * Default implementation of {@link MappingList}.
+ * An implementation of the {@link MappingList} interface.
  * @author Christian Krause
  */
 public class MappingListImpl extends EObjectContainmentEList<Mapping> implements MappingList {
@@ -68,6 +69,45 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#add(org.eclipse.emf.henshin.model.Edge, org.eclipse.emf.henshin.model.Edge)
+	 */
+	@Override
+	public void add(Edge origin, Edge image) {
+		add(origin.getSource(), image.getSource());
+		add(origin.getTarget(), image.getTarget());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#add(org.eclipse.emf.henshin.model.Attribute, org.eclipse.emf.henshin.model.Attribute)
+	 */
+	@Override
+	public Mapping add(Attribute origin, Attribute image) {
+		return add(origin.getNode(), image.getNode());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#add(org.eclipse.emf.henshin.model.GraphElement, org.eclipse.emf.henshin.model.GraphElement)
+	 */
+	@Override
+	public <E extends GraphElement> void add(E origin, E image) {
+		if (origin instanceof Node) {
+			add((Node) origin, (Node) image);
+		}
+		else if (origin instanceof Edge) {
+			add((Edge) origin, (Edge) image);
+		}
+		else if (origin instanceof Attribute) {
+			add((Attribute) origin, (Attribute) image);
+		}
+		else {
+			throw new IllegalArgumentException("Element of unknown type: " + image);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.model.MappingList#remove(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.henshin.model.Node)
 	 */
 	@Override
@@ -79,6 +119,45 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 		return m;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#remove(org.eclipse.emf.henshin.model.Edge, org.eclipse.emf.henshin.model.Edge)
+	 */
+	@Override
+	public void remove(Edge origin, Edge image) {
+		remove(origin.getSource(), image.getSource());
+		remove(origin.getTarget(), image.getTarget());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#remove(org.eclipse.emf.henshin.model.Attribute, org.eclipse.emf.henshin.model.Attribute)
+	 */
+	@Override
+	public Mapping remove(Attribute origin, Attribute image) {
+		return remove(origin.getNode(), image.getNode());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#remove(org.eclipse.emf.henshin.model.GraphElement, org.eclipse.emf.henshin.model.GraphElement)
+	 */
+	@Override
+	public <E extends GraphElement> void remove(E origin, E image) {
+		if (origin instanceof Node) {
+			remove((Node) origin, (Node) image);
+		}
+		else if (origin instanceof Edge) {
+			remove((Edge) origin, (Edge) image);
+		}
+		else if (origin instanceof Attribute) {
+			remove((Attribute) origin, (Attribute) image);
+		}
+		else {
+			throw new IllegalArgumentException("Element of unknown type: " + origin);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.model.MappingList#getImage(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.henshin.model.Graph)
@@ -180,17 +259,19 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T getOrigin(T image) {
+	public <E extends GraphElement> E getOrigin(E image) {
 		if (image instanceof Node) {
-			return (T) getOrigin((Node) image);
+			return (E) getOrigin((Node) image);
 		}
-		if (image instanceof Edge) {
-			return (T) getOrigin((Edge) image);
+		else if (image instanceof Edge) {
+			return (E) getOrigin((Edge) image);
 		}
-		if (image instanceof Attribute) {
-			return (T) getOrigin((Attribute) image);
+		else if (image instanceof Attribute) {
+			return (E) getOrigin((Attribute) image);
 		}
-		throw new IllegalArgumentException("Object of unknown type: " + image);
+		else {
+			throw new IllegalArgumentException("Element of unknown type: " + image);
+		}
 	}
 
 	/*
@@ -199,17 +280,19 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T getImage(T origin, Graph imageGraph) {
+	public <E extends GraphElement> E getImage(E origin, Graph imageGraph) {
 		if (origin instanceof Node) {
-			return (T) getImage((Node) origin, imageGraph);
+			return (E) getImage((Node) origin, imageGraph);
 		}
-		if (origin instanceof Edge) {
-			return (T) getImage((Edge) origin, imageGraph);
+		else if (origin instanceof Edge) {
+			return (E) getImage((Edge) origin, imageGraph);
 		}
-		if (origin instanceof Attribute) {
-			return (T) getImage((Attribute) origin, imageGraph);
+		else if (origin instanceof Attribute) {
+			return (E) getImage((Attribute) origin, imageGraph);
 		}
-		throw new IllegalArgumentException("Object of unknown type: " + origin);
+		else {
+			throw new IllegalArgumentException("Element of unknown type: " + origin);
+		}
 	}
 
 	/*

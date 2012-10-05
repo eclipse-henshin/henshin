@@ -20,9 +20,11 @@ import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.ToolEntry;
+import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.events.KeyEvent;
 
 /**
  * Additional palette tools for the graphical Henshin editor.
@@ -35,11 +37,93 @@ public class HenshinPaletteTools {
 	
 	// EPackage icon:
 	public static ImageDescriptor EPACKAGE_ICON = ImageDescriptor.createFromImage(HenshinIcons.EPACKAGE);
+	
+	/**
+	 * A long-living creation tool.
+	 */
+	public static class LongLivingCreationTool extends UnspecifiedTypeCreationTool {
+
+		public LongLivingCreationTool(List<?> elementTypes) {
+			super(elementTypes);
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gmf.runtime.diagram.ui.tools.CreationTool#handleFinished()
+		 */
+		@Override
+		protected void handleFinished() {
+			reactivate();  // keep the currently active tool
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gef.tools.CreationTool#handleButtonDown(int)
+		 */
+		@Override
+		protected boolean handleButtonDown(int button) {
+			if (getCommand()==null) {
+				super.handleFinished();
+			}
+			return super.handleButtonDown(button);
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gmf.runtime.diagram.ui.tools.CreationTool#handleKeyUp(org.eclipse.swt.events.KeyEvent)
+		 */
+		@Override
+		protected boolean handleKeyUp(KeyEvent e) {
+			return false;
+		}
+
+	}
+
+	/**
+	 * A long-living connection tool.
+	 */
+	public static class LongLivingConnectionTool extends UnspecifiedTypeConnectionTool {
+
+		public LongLivingConnectionTool(List<?> elementTypes) {
+			super(elementTypes);
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gmf.runtime.diagram.ui.tools.CreationTool#handleFinished()
+		 */
+		@Override
+		protected void handleFinished() {
+			reactivate();  // keep the currently active tool
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gef.tools.CreationTool#handleButtonDown(int)
+		 */
+		@Override
+		protected boolean handleButtonDown(int button) {
+			if (getCommand()==null) {
+				super.handleFinished();
+			}
+			return super.handleButtonDown(button);
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gmf.runtime.diagram.ui.tools.CreationTool#handleKeyUp(org.eclipse.swt.events.KeyEvent)
+		 */
+		@Override
+		protected boolean handleKeyUp(KeyEvent e) {
+			return false;
+		}
+
+	}
 
 	/**
 	 * Creation tool for nodes.
 	 */
-	public static class EClassNodeTool extends UnspecifiedTypeCreationTool {
+	public static class EClassNodeTool extends LongLivingCreationTool {
 		
 		/**
 		 * Key for the node type parameter in creation requests.
@@ -54,13 +138,17 @@ public class HenshinPaletteTools {
 			parameters.put(TYPE_PARAMETER_KEY, eclass);
 		}
 		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool#createTargetRequest()
+		 */
 		@Override
 		protected Request createTargetRequest() {
 			Request request = super.createTargetRequest();
 			request.setExtendedData(parameters);
 			return request;
 		}
-	
+		
 	}
 
 	/**
@@ -83,6 +171,10 @@ public class HenshinPaletteTools {
 			this.eclass = eclass;
 		}
 		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gef.palette.ToolEntry#createTool()
+		 */
 		@Override
 		public Tool createTool() {
 			Tool tool = new EClassNodeTool(eclass, HENSHIN_NODE_TYPES);

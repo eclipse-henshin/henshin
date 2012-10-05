@@ -510,9 +510,8 @@ public class RuleImpl extends UnitImpl implements Rule {
 		}
 		
 		// Otherwise we do a trick and first change the action of the one node.
-		// We change the action of the node with the least number of edges.
 		Edge edge;
-		if (target.getAllEdges().size() < source.getAllEdges().size()) {
+		if (sourceAction.getType()==Action.Type.PRESERVE) {
 			target.setAction(sourceAction);
 			edge = doCreateEdge(source, target, type, sourceAction.getType()==Action.Type.PRESERVE);
 			target.setAction(targetAction);

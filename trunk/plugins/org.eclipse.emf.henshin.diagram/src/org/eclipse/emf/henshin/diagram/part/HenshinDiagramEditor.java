@@ -10,7 +10,10 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -24,15 +27,20 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem;
-import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gmf.runtime.common.ui.services.marker.MarkerNavigationService;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.actions.ActionIds;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CanonicalEditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDiagramDocument;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDocument;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDocumentProvider;
@@ -103,7 +111,15 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 				|| !(getDiagram().getElement() instanceof Module)) {
 			return;
 		}
-
+		
+		// Install a command stack listener:
+		getEditDomain().getCommandStack().addCommandStackListener(new CommandStackListener() {
+			@Override
+			public void commandStackChanged(EventObject event) {
+				refreshRuleViews();
+			}
+		});
+		
 		// Collect all packages which cannot be resolved:
 		Module module = (Module) getDiagram().getElement();
 		List<EPackage> unresolved = new ArrayList<EPackage>();
@@ -124,7 +140,50 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 					"Error opening Henshin file", message);
 		}
 	}
-
+	
+	/*
+	 * This method takes the currently selected elements and refreshes their views
+	 * by invoking the refresh method of the corresponding canonical edit policies.
+	 */
+	private void refreshRuleViews() {
+		GraphicalViewer viewer = getGraphicalViewer();
+		if (viewer!=null && viewer.getControl()!=null && !viewer.getControl().isDisposed()) {
+			
+			// Get the relevant edit parts:
+			Set<EditPart> editparts = new HashSet<EditPart>();
+			for (Object obj : viewer.getSelectedEditParts()) {
+				EditPart ep = (EditPart) obj;
+				while (ep!=null) {
+					if (ep instanceof RuleCompartmentEditPart) {
+						editparts.add(ep); break;
+					}
+					ep = ep.getParent();
+				}
+			}
+			// If no selection was found, we take all rule compartments:
+			if (editparts.isEmpty()) {
+				editparts.add((EditPart) viewer.getRootEditPart().getChildren().get(0));
+			}
+			
+			// Now refresh the canonical edit policies:
+			for (EditPart ep : editparts) {
+				refreshCanonicalEditPolicies(ep);
+			}
+		}
+	}
+	
+	/*
+	 * Refresh the canonical edit policies of an edit part.
+	 */
+	private void refreshCanonicalEditPolicies(EditPart editpart) {
+		CanonicalEditPolicy can = (CanonicalEditPolicy) 
+				editpart.getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
+		if (can!=null) can.refresh();
+		for (Object child : editpart.getChildren()) {
+			refreshCanonicalEditPolicies((EditPart) child);
+		}
+	}
+	
 	/**
 	 * @generated NOT
 	 */

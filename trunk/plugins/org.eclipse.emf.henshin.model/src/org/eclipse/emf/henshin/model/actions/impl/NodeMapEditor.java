@@ -10,13 +10,10 @@
 package org.eclipse.emf.henshin.model.actions.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 
@@ -160,9 +157,6 @@ public class NodeMapEditor extends AbstractMapEditor<Node> {
 		// Remove the mapping now (not earlier):
 		removeMapping(node, opposite);
 
-		// Update all mappings in the container that refer to the old node:
-		replaceNodeInAllMappings(node, opposite, graph.eContainer());
-		
 		// Replace the old node by the new node:
 		int index = graph.getNodes().indexOf(node);
 		graph.getNodes().set(index, opposite);
@@ -171,27 +165,7 @@ public class NodeMapEditor extends AbstractMapEditor<Node> {
 		return opposite;
 		
 	}
-	
-	/*
-	 * Replaces a node by another in all mappings in an arbitrary container.
-	 */
-	private void replaceNodeInAllMappings(Node node, Node replacement, EObject container) {
-		if (container==null) return;
-		Iterator<EObject> contents = container.eAllContents();
-		while (contents.hasNext()) {
-			EObject next = contents.next();
-			if (next instanceof Mapping) {
-				Mapping mapping = (Mapping) next;
-				if (mapping.getOrigin()==node) {
-					mapping.setOrigin(replacement);
-				}
-				if (mapping.getImage()==node) {
-					mapping.setImage(replacement);
-				}
-			}
-		}
-	}
-	
+		
 	/*
 	 * Perform a copy operation.
 	 */

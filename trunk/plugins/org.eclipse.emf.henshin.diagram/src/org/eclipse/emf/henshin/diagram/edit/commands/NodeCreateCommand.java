@@ -266,19 +266,18 @@ public class NodeCreateCommand extends EditElementCommand {
 			buttons.setLayout(new RowLayout(SWT.HORIZONTAL));
 
 			// Action types as radio buttons:
-			for (Type type : Type.values()) {
-				final Action current = new Action(type);
+			for (final Type type : Type.values()) {
 				Button button = new Button(buttons, SWT.RADIO);
 				button.setText(type.toString());
 				button.setForeground(HenshinDiagramColorProvider
-						.getActionColor(current));
+						.getActionColor(new Action(type)));
 				if (type==action.getType()) {
 					button.setSelection(true);
 				}
 				button.addSelectionListener(new SelectionListener() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						action = current;
+						action = new Action(type, action.isMulti(), action.getPath(), action.getFragment());
 					}
 
 					@Override
@@ -312,7 +311,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			
 			String text = action.toString().replaceFirst(action.getType().toString(), "");
 			if (action.isMulti()) {
-				text.replaceFirst(Action.MULTI_MARKER+"", "");
+				text = text.replaceFirst("\\"+Action.MULTI_MARKER+"", "");
 			}
 			
 			path.setText(text);
@@ -328,8 +327,12 @@ public class NodeCreateCommand extends EditElementCommand {
 							!pathText.startsWith(Action.FRAGMENT_START+"")) {
 						pathText = Action.PATH_SEPARATOR + pathText;
 					}
+					text = text + pathText;
+					if (action.getFragment()!=null) {
+						text = text + Action.FRAGMENT_START + action.getFragment();
+					}
 					try {
-						action = Action.parse(pathText);
+						action = Action.parse(text);
 					} catch (ParseException e1) {}
 				}
 			});
