@@ -78,16 +78,7 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		// Make sure the standard packages are initialized:
 		EcorePackage.eINSTANCE.getName();
 		HenshinPackage.eINSTANCE.getName();
-		
-		// Try to load the trace model too:
-		try {
-			Class<?> clazz = Class.forName("org.eclipse.emf.henshin.trace.impl.TracePackageImpl");
-			if (clazz!=null) {
-				clazz.getMethod("init").invoke(clazz);
-			}
-		} catch (Throwable t) {
-			// do nothing
-		}
+		initPackageImplementation("org.eclipse.emf.henshin.trace.TracePackage");
 		
 		// Register common XMI file resource factories:
 		registerXMIResourceFactories(HenshinResource.FILE_EXTENSION, "ecore", "xmi");
@@ -168,6 +159,20 @@ public class HenshinResourceSet extends ResourceSetImpl {
 			t.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * Try to initialize a package implementation.
+	 * @param packageClassName Class name of the (interface) of a package implementation.
+	 * @return <code>true</code> if the package was successfully initialized.
+	 */
+	public static boolean initPackageImplementation(String packageClassName) {
+		try {
+			Class<?> clazz = Class.forName(packageClassName);
+			return (clazz!=null && clazz.getField("eINSTANCE").get(clazz)!=null);
+		} catch (Throwable t) {
+			return false;
+		}
 	}
 	
 	/**
