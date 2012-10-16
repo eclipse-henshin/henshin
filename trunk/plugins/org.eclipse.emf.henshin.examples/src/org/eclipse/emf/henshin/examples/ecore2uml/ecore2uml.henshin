@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_pjrvMPkiEeGBJtMuXK3Iag">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_pjrvMPkiEeGBJtMuXK3Iag">
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin/Trace#/"/>
@@ -7,20 +7,32 @@
     <lhs xmi:id="_FFEzEPqhEeGh2oGuZgC45Q" name="Lhs"/>
     <rhs xmi:id="_FFEzEfqhEeGh2oGuZgC45Q" name="Rhs"/>
     <multiRules xmi:id="_0AWWcA7bEeKUPdwkmgHfHA" name="pack">
+      <parameters xmi:id="_v6qc4BfCEeKrxb-85yBLDg" name="x">
+        <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </parameters>
       <lhs xmi:id="_0AW9gA7bEeKUPdwkmgHfHA" name="Lhs">
         <nodes xmi:id="_0ANMgA7bEeKUPdwkmgHfHA">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+          <attributes xmi:id="_h6hYYBfBEeKrxb-85yBLDg" value="x">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+          </attributes>
         </nodes>
       </lhs>
       <rhs xmi:id="_0AW9gQ7bEeKUPdwkmgHfHA" name="Rhs">
         <nodes xmi:id="_0AT6MA7bEeKUPdwkmgHfHA" incoming="_5U_f4A7bEeKUPdwkmgHfHA">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+          <attributes xmi:id="_h8CbUBfBEeKrxb-85yBLDg" value="x">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+          </attributes>
         </nodes>
         <nodes xmi:id="_1XdTUA7bEeKUPdwkmgHfHA" outgoing="_5U_f4A7bEeKUPdwkmgHfHA _5srAEA7bEeKUPdwkmgHfHA">
           <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace"/>
         </nodes>
         <nodes xmi:id="_2Y_o0A7bEeKUPdwkmgHfHA" incoming="_5srAEA7bEeKUPdwkmgHfHA">
           <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+          <attributes xmi:id="_GAzDABfCEeKrxb-85yBLDg" value="x">
+            <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+          </attributes>
         </nodes>
         <edges xmi:id="_5U_f4A7bEeKUPdwkmgHfHA" source="_1XdTUA7bEeKUPdwkmgHfHA" target="_0AT6MA7bEeKUPdwkmgHfHA">
           <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/source"/>
@@ -31,12 +43,18 @@
       </rhs>
       <mappings xmi:id="_0AVIUA7bEeKUPdwkmgHfHA" origin="_0ANMgA7bEeKUPdwkmgHfHA" image="_0AT6MA7bEeKUPdwkmgHfHA"/>
       <multiRules xmi:id="_FoeDsA7cEeKUPdwkmgHfHA" name="class">
+        <parameters xmi:id="_2hkfcBfCEeKrxb-85yBLDg" name="y">
+          <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </parameters>
         <lhs xmi:id="_FoeqwA7cEeKUPdwkmgHfHA" name="Lhs">
           <nodes xmi:id="_FpDSgA7cEeKUPdwkmgHfHA" outgoing="_FoWu8A7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
           </nodes>
           <nodes xmi:id="_A6XV0A7cEeKUPdwkmgHfHA" incoming="_FoWu8A7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+            <attributes xmi:id="_SUOjgBfCEeKrxb-85yBLDg" value="y">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+            </attributes>
           </nodes>
           <edges xmi:id="_FoWu8A7cEeKUPdwkmgHfHA" source="_FpDSgA7cEeKUPdwkmgHfHA" target="_A6XV0A7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
@@ -48,9 +66,15 @@
           </nodes>
           <nodes xmi:id="_A6cOUA7cEeKUPdwkmgHfHA" incoming="_FobncA7cEeKUPdwkmgHfHA _PvQtgA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+            <attributes xmi:id="_SU2OkBfCEeKrxb-85yBLDg" value="y">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+            </attributes>
           </nodes>
           <nodes xmi:id="_yClMwA7cEeKUPdwkmgHfHA" incoming="_yCKWAA7cEeKUPdwkmgHfHA _QOY5gA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+            <attributes xmi:id="_UtC1ABfCEeKrxb-85yBLDg" value="y">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+            </attributes>
           </nodes>
           <nodes xmi:id="_PHKywA7cEeKUPdwkmgHfHA" outgoing="_PHY1MA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace"/>
@@ -74,7 +98,7 @@
             <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/target"/>
           </edges>
           <edges xmi:id="_yCKWAA7cEeKUPdwkmgHfHA" source="_zchbMA7cEeKUPdwkmgHfHA" target="_yClMwA7cEeKUPdwkmgHfHA">
-            <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Element/ownedElement"/>
+            <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
           </edges>
         </rhs>
         <mappings xmi:id="_FpW0gA7cEeKUPdwkmgHfHA" origin="_FpDSgA7cEeKUPdwkmgHfHA" image="_FohuEA7cEeKUPdwkmgHfHA"/>
@@ -85,12 +109,18 @@
         <multiMappings xmi:id="_zcnh0A7cEeKUPdwkmgHfHA" origin="_2Y_o0A7bEeKUPdwkmgHfHA" image="_zchbMA7cEeKUPdwkmgHfHA"/>
       </multiRules>
       <multiRules xmi:id="_iAqBQA7cEeKUPdwkmgHfHA" name="data">
+        <parameters xmi:id="_7OjzABfCEeKrxb-85yBLDg" name="z">
+          <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </parameters>
         <lhs xmi:id="_iAr2cA7cEeKUPdwkmgHfHA" name="Lhs">
           <nodes xmi:id="_iBHUQA7cEeKUPdwkmgHfHA" outgoing="_iAheYA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
           </nodes>
           <nodes xmi:id="_bdpAMA7cEeKUPdwkmgHfHA" incoming="_iAheYA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+            <attributes xmi:id="_V27OMBfCEeKrxb-85yBLDg" value="z">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+            </attributes>
           </nodes>
           <edges xmi:id="_iAheYA7cEeKUPdwkmgHfHA" source="_iBHUQA7cEeKUPdwkmgHfHA" target="_bdpAMA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
@@ -105,9 +135,15 @@
           </nodes>
           <nodes xmi:id="_bdrccA7cEeKUPdwkmgHfHA" incoming="_iAnlAA7cEeKUPdwkmgHfHA _oyndQA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+            <attributes xmi:id="_V3dZsBfCEeKrxb-85yBLDg" value="z">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+            </attributes>
           </nodes>
           <nodes xmi:id="_sf94wA7cEeKUPdwkmgHfHA" incoming="_sfleQA7cEeKUPdwkmgHfHA _pH3UgA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/uml2/3.0.0/UML#//DataType"/>
+            <attributes xmi:id="_XG3zIBfCEeKrxb-85yBLDg" value="z">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+            </attributes>
           </nodes>
           <nodes xmi:id="_nRJqgA7cEeKUPdwkmgHfHA" outgoing="_oyndQA7cEeKUPdwkmgHfHA _pH3UgA7cEeKUPdwkmgHfHA">
             <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace"/>
@@ -128,7 +164,7 @@
             <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/target"/>
           </edges>
           <edges xmi:id="_sfleQA7cEeKUPdwkmgHfHA" source="_0dXNIA7cEeKUPdwkmgHfHA" target="_sf94wA7cEeKUPdwkmgHfHA">
-            <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Element/ownedElement"/>
+            <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
           </edges>
         </rhs>
         <mappings xmi:id="_iBVWsA7cEeKUPdwkmgHfHA" origin="_iBHUQA7cEeKUPdwkmgHfHA" image="_iAu5wA7cEeKUPdwkmgHfHA"/>
@@ -182,6 +218,9 @@
       <mappings xmi:id="_5Rn7cA7eEeKStMJ7o5iMtQ" origin="_36tL0A7eEeKStMJ7o5iMtQ" image="_5Rib4A7eEeKStMJ7o5iMtQ"/>
       <mappings xmi:id="_llFfYA7eEeKStMJ7o5iMtQ" origin="_lk7uYA7eEeKStMJ7o5iMtQ" image="_llCcEA7eEeKStMJ7o5iMtQ"/>
       <multiRules xmi:id="_O3QnIA7fEeKStMJ7o5iMtQ" name="ref">
+        <parameters xmi:id="__jP7UBfCEeKrxb-85yBLDg" name="y">
+          <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </parameters>
         <lhs xmi:id="_O3WGsA7fEeKStMJ7o5iMtQ" name="Lhs">
           <nodes xmi:id="_O30AwA7fEeKStMJ7o5iMtQ" incoming="_O4A1EA7fEeKStMJ7o5iMtQ" outgoing="_ux0UsA7eEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -203,6 +242,9 @@
           </nodes>
           <nodes xmi:id="_nDwc0A7eEeKStMJ7o5iMtQ" incoming="_ux0UsA7eEeKStMJ7o5iMtQ" outgoing="_w2ydIA7eEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+            <attributes xmi:id="_dFz2wBfCEeKrxb-85yBLDg" value="y">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+            </attributes>
           </nodes>
           <edges xmi:id="_O4A1EA7fEeKStMJ7o5iMtQ" source="_O345QA7fEeKStMJ7o5iMtQ" target="_O30AwA7fEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/source"/>
@@ -244,9 +286,15 @@
           </nodes>
           <nodes xmi:id="_nD0uQA7eEeKStMJ7o5iMtQ" incoming="_uyGokA7eEeKStMJ7o5iMtQ" outgoing="_w3CUwA7eEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+            <attributes xmi:id="_dGQisBfCEeKrxb-85yBLDg" value="y">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+            </attributes>
           </nodes>
           <nodes xmi:id="_otD88A7eEeKStMJ7o5iMtQ" incoming="_0_D6EA7eEeKStMJ7o5iMtQ" outgoing="_2m7PwA7eEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Association"/>
+            <attributes xmi:id="_e4VkUBfCEeKrxb-85yBLDg" value="y">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+            </attributes>
           </nodes>
           <edges xmi:id="_O3lXQA7fEeKStMJ7o5iMtQ" source="_O3eCgA7fEeKStMJ7o5iMtQ" target="_O3ZKAA7fEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/source"/>
@@ -287,7 +335,10 @@
         <multiMappings xmi:id="_O4UXEA7fEeKStMJ7o5iMtQ" origin="_llCcEA7eEeKStMJ7o5iMtQ" image="_O4RTwA7fEeKStMJ7o5iMtQ"/>
         <multiMappings xmi:id="_O4fWMA7fEeKStMJ7o5iMtQ" origin="_lk7uYA7eEeKStMJ7o5iMtQ" image="_O4cS4A7fEeKStMJ7o5iMtQ"/>
       </multiRules>
-      <multiRules xmi:id="_aw6VsA7fEeKStMJ7o5iMtQ" name="att">
+      <multiRules xmi:id="_aw6VsA7fEeKStMJ7o5iMtQ" name="att" description="">
+        <parameters xmi:id="_DTersBfDEeKrxb-85yBLDg" name="x">
+          <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </parameters>
         <lhs xmi:id="_aw9ZAA7fEeKStMJ7o5iMtQ" name="Lhs">
           <nodes xmi:id="_axuOAA7fEeKStMJ7o5iMtQ" incoming="_ayCXEA7fEeKStMJ7o5iMtQ" outgoing="_kVRA0A7fEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -300,6 +351,9 @@
           </nodes>
           <nodes xmi:id="_awYKMA7fEeKStMJ7o5iMtQ" incoming="_kVRA0A7fEeKStMJ7o5iMtQ" outgoing="_0HLaYA7fEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+            <attributes xmi:id="_ay8cQBfCEeKrxb-85yBLDg" value="x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+            </attributes>
           </nodes>
           <nodes xmi:id="_ssz6kA7fEeKStMJ7o5iMtQ" incoming="_0HLaYA7fEeKStMJ7o5iMtQ _91ZzMA7fEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
@@ -341,6 +395,9 @@
           </nodes>
           <nodes xmi:id="_awcboA7fEeKStMJ7o5iMtQ" incoming="_kVYVkA7fEeKStMJ7o5iMtQ" outgoing="_0HTWMA7fEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+            <attributes xmi:id="_azZvQBfCEeKrxb-85yBLDg" value="x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+            </attributes>
           </nodes>
           <nodes xmi:id="_stAH0A7fEeKStMJ7o5iMtQ" incoming="_0HTWMA7fEeKStMJ7o5iMtQ _91suIA7fEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
@@ -353,6 +410,9 @@
           </nodes>
           <nodes xmi:id="_fJMkkA7fEeKStMJ7o5iMtQ" incoming="_lWSY8A7fEeKStMJ7o5iMtQ" outgoing="_AUUFoA7gEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Property"/>
+            <attributes xmi:id="_cQAQIBfCEeKrxb-85yBLDg" value="x">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+            </attributes>
           </nodes>
           <edges xmi:id="_axjO4A7fEeKStMJ7o5iMtQ" source="_axNQoA7fEeKStMJ7o5iMtQ" target="_axDfoA7fEeKStMJ7o5iMtQ">
             <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/source"/>
@@ -395,4 +455,5 @@
       </multiRules>
     </multiRules>
   </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_IGDigBfGEeKrxb-85yBLDg" name="main" subUnits="_FEPFkPqhEeGh2oGuZgC45Q _5FTooA7cEeKUPdwkmgHfHA"/>
 </henshin:Module>
