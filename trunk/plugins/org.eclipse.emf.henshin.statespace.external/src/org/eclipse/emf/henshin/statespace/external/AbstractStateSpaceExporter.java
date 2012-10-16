@@ -18,7 +18,6 @@ import java.io.OutputStreamWriter;
 
 import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
-import org.eclipse.emf.henshin.statespace.tuples.TupleList;
 
 /**
  * Abstract exporter class.
@@ -28,9 +27,6 @@ public abstract class AbstractStateSpaceExporter implements StateSpaceExporter {
 
 	// The state space index:
 	protected StateSpaceIndex index;
-	
-	// Tuples:
-	protected TupleList tuples;
 
 	/*
 	 * (non-Javadoc)
@@ -51,10 +47,6 @@ public abstract class AbstractStateSpaceExporter implements StateSpaceExporter {
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(file), 65536);
 		OutputStreamWriter writer = new OutputStreamWriter(out);
 		return writer;
-	}
-	
-	public TupleList getTuples() {
-		return tuples;
 	}
 	
 }

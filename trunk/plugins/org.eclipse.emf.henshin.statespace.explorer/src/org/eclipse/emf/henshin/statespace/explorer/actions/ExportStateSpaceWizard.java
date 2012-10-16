@@ -221,7 +221,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		URI fileURI = URI.createFileURI(file.getLocation().toOSString());
 
 		exporter.setStateSpaceIndex(index);
-		exporter.export(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,19));
+		exporter.doExport(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,19));
 				
 	}
 	

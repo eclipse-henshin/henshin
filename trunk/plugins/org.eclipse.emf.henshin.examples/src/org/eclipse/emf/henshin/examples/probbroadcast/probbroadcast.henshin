@@ -57,7 +57,7 @@
         <nodes xmi:id="_xBp1IFSpEeGUbrZWeWd1QA" incoming="_xBv7wFSpEeGUbrZWeWd1QA">
           <type href="probbroadcast.ecore#//Message"/>
         </nodes>
-        <nodes xmi:id="_YBRg4FSpEeGUbrZWeWd1QA" name="" incoming="_oBnYAFSpEeGUbrZWeWd1QA">
+        <nodes xmi:id="_YBRg4FSpEeGUbrZWeWd1QA" name="y" incoming="_oBnYAFSpEeGUbrZWeWd1QA">
           <type href="probbroadcast.ecore#//Node"/>
           <attributes xmi:id="_te3OYFSqEeGUbrZWeWd1QA" value="true">
             <type href="probbroadcast.ecore#//Node/active"/>
@@ -77,7 +77,7 @@
         <nodes xmi:id="_xBYvYFSpEeGUbrZWeWd1QA" incoming="_xBeO8FSpEeGUbrZWeWd1QA">
           <type href="probbroadcast.ecore#//Message"/>
         </nodes>
-        <nodes xmi:id="_YBSvAFSpEeGUbrZWeWd1QA" name="" incoming="_oBxwEFSpEeGUbrZWeWd1QA" outgoing="_ur7T4FSpEeGUbrZWeWd1QA">
+        <nodes xmi:id="_YBSvAFSpEeGUbrZWeWd1QA" name="y" incoming="_oBxwEFSpEeGUbrZWeWd1QA" outgoing="_ur7T4FSpEeGUbrZWeWd1QA">
           <type href="probbroadcast.ecore#//Node"/>
           <attributes xmi:id="_tfAYUFSqEeGUbrZWeWd1QA" value="true">
             <type href="probbroadcast.ecore#//Node/active"/>

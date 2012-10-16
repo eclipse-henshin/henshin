@@ -80,6 +80,7 @@ public class PRISMExperiment {
 			
 			// The next line:
 			line = line.trim();
+			//System.out.println(line);
 			if (line.length()==0) {
 				if (parseError) {
 					throw new RuntimeException(error);
@@ -106,9 +107,9 @@ public class PRISMExperiment {
 					experiment.getConstants().put(keyval[0], NUMBER_FORMAT.parse(keyval[1]).doubleValue());
 				}
 			}
-			else if (line.startsWith("Result:")) {
+			else if (line.startsWith("Result")) {
 				//System.out.println(line);
-				line = line.substring("Result:".length()).trim();
+				line = line.substring(line.indexOf(':')+1).trim();
 				experiment.setResult(NUMBER_FORMAT.parse(line).doubleValue());
 				return experiment; // done!
 			}

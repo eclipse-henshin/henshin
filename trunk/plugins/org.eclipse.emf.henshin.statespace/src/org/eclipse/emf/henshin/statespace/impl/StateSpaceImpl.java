@@ -51,10 +51,14 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		super();
 		
 		// Default properties:
-		getProperties().put(StateSpaceProperties.CHECK_LINK_ORDER, "false");
-		getProperties().put(StateSpaceProperties.IDENTITY_TYPES, "");
-		getProperties().put(StateSpaceProperties.IGNORED_ATTRIBUTES, "");
-		getProperties().put(StateSpaceProperties.IGNORE_DUPLICATE_TRANSITIONS, "false");
+		EMap<String,String> props = getProperties();
+		props.put(StateSpaceProperties.CHECK_LINK_ORDER, "false");
+		props.put(StateSpaceProperties.COLLECT_MISSING_ROOTS, "false");
+		props.put(StateSpaceProperties.IGNORE_DUPLICATE_TRANSITIONS, "false");
+		props.put(StateSpaceProperties.USE_CLOCKS, "false");
+		props.put(StateSpaceProperties.IDENTITY_TYPES, "");
+		props.put(StateSpaceProperties.IGNORED_ATTRIBUTES, "");
+		props.put(StateSpaceProperties.CLOCK_DECLARATIONS, "");
 		
 		// Create a default equality helper:
 		setEqualityHelper(new EqualityHelperImpl());

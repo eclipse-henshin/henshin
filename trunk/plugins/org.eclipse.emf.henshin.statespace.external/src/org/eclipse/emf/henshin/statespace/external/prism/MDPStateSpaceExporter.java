@@ -18,19 +18,23 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.external.AbstractStateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.external.prism.PRISMUtil.Range;
-import org.eclipse.emf.henshin.statespace.tuples.SimpleTupleGenerator;
-import org.eclipse.emf.henshin.statespace.tuples.Tuple;
-import org.eclipse.emf.henshin.statespace.tuples.TupleUtil;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceTimeInfo;
 
 /**
- * Exporter for PRISM. This generates a MDP model.
+ * Exporter for PRISM. This generates an MDP or a PTA model.
  * @author Christian Krause
  */
 public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
@@ -39,22 +43,34 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 	 * ID of this exporter.
 	 */
 	public static final String EXPORTER_ID = "org.eclipse.emf.henshin.statespace.external.export.prismmdp";
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.export.StateSpaceExporter#export(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.emf.common.util.URI, org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceExporter#doExport(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.emf.common.util.URI, java.lang.String, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void export(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException {
+	public void doExport(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException, StateSpaceException {
 
 		int stateCount = stateSpace.getStates().size();
 		monitor.beginTask("Exporting state space...", 3 * stateCount);
+
+		// Get the time info:
+		StateSpaceTimeInfo timeInfo;
+		try {
+			timeInfo = new StateSpaceTimeInfo(index);
+		} catch (StateSpaceException e) {
+			throw new IOException(e);
+		}
+		boolean timed = timeInfo.isTimed();
+
+		// For timed cases, we need an engine to find matches:
+		Engine engine = timed ? new EngineImpl() : null;
 		
 		// Shall we produce an explicit model?
-		boolean explicit = "tra".equalsIgnoreCase(uri.fileExtension());
-		
-		// Generate the tuples:
-		tuples = TupleUtil.generateTuples(new SimpleTupleGenerator(), index, true, new SubProgressMonitor(monitor,stateCount));
+		if (timed && !"nm".equalsIgnoreCase(uri.fileExtension())) {
+			throw new IOException("Explicit export for timed models not supported.");
+		}
+		boolean explicit = !timed && "tra".equalsIgnoreCase(uri.fileExtension());
 
 		// Get the probabilistic rules:
 		Map<String, List<Rule>> probRules = PRISMUtil.getProbabilisticRules(stateSpace);
@@ -68,7 +84,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 
 		// Output the header and constants:
 		if (!explicit) {			
-			writer.write(PRISMUtil.getModelHeader("mdp"));
+			writer.write(PRISMUtil.getModelHeader(timed ? "pta" : "mdp"));
 			for (String ruleName : probRules.keySet()) {
 				List<Rule> rules = probRules.get(ruleName);
 				if (rules.size()>1) {
@@ -80,30 +96,38 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 							writer.write(" = " + value);
 						}
 						writer.write(";\n");
+						writer.write("const double " + PRISMUtil.getProbVar(i) + " = " + key + ";\n");
 					}
 				}
 			}
 			writer.write("\nmodule " + uri.trimFileExtension().lastSegment() + "\n\n");
 		}
-		
-		// State and transition count:
+
 		if (explicit) {
+			// State and transition count:
 			writer.write(stateCount + " " + stateSpace.getTransitionCount() + "\n");
 		} else {
-			writer.write(PRISMUtil.getVariableDeclarations(tuples, false));
+			// State variables:
+			writer.write(PRISMUtil.getVariableDeclarations(stateSpace.getStateCount(), false));
+			// Clock variables:
+			if (timed) {
+				for (String clock : timeInfo.getClocks()) {
+					writer.write("\t" + clock + " : clock;\n");
+				}
+			}
 		}
 
 		// Output the transitions:
 		int removedIllegal = 0;
 		for (State s : stateSpace.getStates()) {
-			
+
 			// Sort transitions by labels:
 			Map<MDPLabel, List<Transition>> trs = MDPLabel.getTransitionsByLabel(s);
 			int transitionIndex = 0;
 			for (MDPLabel l : trs.keySet()) {
 				List<Transition> ts = trs.get(l);
 				if (ts.isEmpty()) continue;
-				
+
 				// Check if all rules are enabled:
 				String label = l.getTransition().getRule().getName();
 				List<Rule> rules = probRules.get(label);
@@ -125,10 +149,16 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 					removedIllegal++;
 					continue;
 				}
-				
+
 				// Output the transition:
 				if (!explicit) {
-					writer.write("\t[" + label + "] " + PRISMUtil.getPRISMState(tuples.get(s.getIndex()), false) + " -> ");
+					String guard = null;
+					if (timed) {
+						Model model = index.getModel(l.getTransition().getSource());
+						Match match = getMatch(l.getTransition(), engine);
+						guard = timeInfo.getGuard(match, model);
+					}
+					writer.write("\t[" + label + "] " + PRISMUtil.getPRISMState(s.getIndex(), guard, false) + " -> ");
 				}
 
 				boolean first = true;
@@ -136,17 +166,23 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 					if (!first) {
 						writer.write(explicit ? "\n" : " + ");
 					}
-					String probKey = PRISMUtil.getProbKey(t.getRule(), rules.indexOf(t.getRule()));
+					String probKey = PRISMUtil.getProbVar(rules.indexOf(t.getRule()));
 					if (explicit) {
 						String prob = (rules.size()>1) ? probs.get(probKey) : "1";
 						writer.write(s.getIndex() + " " + transitionIndex + " " + t.getTarget().getIndex() + " " + prob);
 					} else {
 						String prob = (rules.size()>1) ? probKey+":" : "";
-						writer.write(prob + PRISMUtil.getPRISMState(tuples.get(t.getTarget().getIndex()), true));
+						String resets = null;
+						if (timed) {
+							Model model = index.getModel(t.getSource());
+							Match match = getMatch(t, engine);
+							resets = timeInfo.getResets(match, model);
+						}
+						writer.write(prob + PRISMUtil.getPRISMState(t.getTarget().getIndex(), resets, true));
 					}
 					first = false;
 				}
-				
+
 				if (explicit) {
 					writer.write("\n");
 					transitionIndex++;
@@ -154,7 +190,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 					writer.write(";\n");
 				}
 			}
-			
+
 			// Update the monitor:
 			monitor.worked(1);
 			if (monitor.isCanceled()) {
@@ -162,7 +198,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 			}
 
 		}
-		
+
 		// Did we remove any illegal transitions?
 		if (removedIllegal>0) {
 			StateSpacePlugin.INSTANCE.logWarning("Removed " + removedIllegal + " illegal probabilistic transitions");
@@ -171,20 +207,17 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 		// Initial states
 		if (!explicit) {
 			writer.write("\nendmodule\n\n");
-			writer.write("init\n\t");
-			for (int i=0; i<stateSpace.getInitialStates().size(); i++) {
-				Tuple t = tuples.get(stateSpace.getInitialStates().get(i).getIndex());
-				writer.write(PRISMUtil.getPRISMState(t, false));
-				if (i<stateSpace.getInitialStates().size()-1) writer.write(" | ");
+			if (!timed) {
+				writer.write("init\n\t");
+				writer.write(PRISMUtil.getPRISMStates(stateSpace.getInitialStates()));
+				writer.write("\nendinit\n");
 			}
-			writer.write("\nendinit\n");
 		}
 
 		// State labels:		
 		if (parameters!=null) {
 			try {
-				String expanded = PRISMUtil.expandLabels(parameters, index, 
-						tuples, new SubProgressMonitor(monitor, stateCount));
+				String expanded = PRISMUtil.expandLabels(parameters, index, new SubProgressMonitor(monitor, stateCount));
 				if (explicit) {
 					OutputStreamWriter labelsWriter = createWriter(new File(uri.toFileString().replaceAll(".tra", ".lab")));
 					labelsWriter.write(expanded);
@@ -196,13 +229,13 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 				throw new IOException(e);
 			}
 		}
-		
+
 		// States file:
 		if (explicit) {
 			OutputStreamWriter statesWriter = createWriter(new File(uri.toFileString().replaceAll(".tra", ".sta")));
-			statesWriter.write(PRISMUtil.getVariableDeclarations(tuples, true) + "\n");					
+			statesWriter.write(PRISMUtil.getVariableDeclarations(stateSpace.getStateCount(), true) + "\n");					
 			for (int i=0; i<stateCount; i++) {
-				statesWriter.write(i + ":" + tuples.get(i) + "\n");
+				statesWriter.write(i + ":(" + i + ")\n");
 			}
 			statesWriter.close();
 		}
@@ -214,14 +247,27 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 		}
 
 	}
-
+	
+	private Match getMatch(Transition transition, Engine engine) throws StateSpaceException {
+		EGraph graph = index.getModel(transition.getSource()).getEGraph();
+		int matchIndex = transition.getMatch();
+		int currentIndex = 0;
+		for (Match match : engine.findMatches(transition.getRule(), graph, null)) {
+			if (currentIndex++==matchIndex) {
+				return match;
+			}
+		}
+		throw new StateSpaceException("Invalid match index " + matchIndex + " in " + transition);
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.export.StateSpaceExporter#getName()
 	 */
 	@Override
 	public String getName() {
-		return "PRISM MDP";
+		return "PRISM MDP/PTA";
 	}
 
 	/*

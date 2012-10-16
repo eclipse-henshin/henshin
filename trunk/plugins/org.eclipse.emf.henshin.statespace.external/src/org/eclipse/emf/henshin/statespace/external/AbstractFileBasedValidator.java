@@ -133,7 +133,7 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		
 		// Do the export:
 		AUTStateSpaceExporter exporter = new AUTStateSpaceExporter();
-		exporter.export(stateSpace, uri, null, monitor);
+		exporter.doExport(stateSpace, uri, null, monitor);
 		
 		// We cache the file so that we don't have to generate it again:
 		addCachedFile(stateSpace, AUT_FILE_EXPORT_KEY, aut);
@@ -151,7 +151,7 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		
 		// Do the export:
 		exporter.setStateSpaceIndex(index);
-		exporter.export(stateSpace, uri, parameters, monitor);
+		exporter.doExport(stateSpace, uri, parameters, monitor);
 		return tmp;
 		
 	}

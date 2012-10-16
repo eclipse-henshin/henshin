@@ -71,7 +71,7 @@ public class MDPStateSpaceValidator extends AbstractFileBasedValidator {
 		File traFile = export(stateSpace, exporter, null, "nm",  new SubProgressMonitor(monitor, 1));
 
 		// Generate the CSL file.
-		String expanded = PRISMUtil.expandLabels(property, index, exporter.getTuples(), new SubProgressMonitor(monitor, 1));
+		String expanded = PRISMUtil.expandLabels(property, index, new SubProgressMonitor(monitor, 1));
 		File pctlFile = createTempFile("property", ".pctl", expanded);
 				
 		// Invoke the PRISM tool:
@@ -102,7 +102,7 @@ public class MDPStateSpaceValidator extends AbstractFileBasedValidator {
 	 */
 	@Override
 	public String getName() {
-		return "PRISM MDP";
+		return "PRISM MDP/PTA";
 	}
 
 }

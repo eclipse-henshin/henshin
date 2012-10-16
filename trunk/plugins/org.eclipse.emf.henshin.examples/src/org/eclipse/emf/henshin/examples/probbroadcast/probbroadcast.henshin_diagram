@@ -154,7 +154,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_b6gm0VSqEeGUbrZWeWd1QA" x="30" y="287" width="388"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_JQ7ugVSoEeGUbrZWeWd1QA"/>
-  <element xmi:type="henshin:TransformationSystem" href="probbroadcast.henshin#_JM7_UVSoEeGUbrZWeWd1QA"/>
+  <element xmi:type="henshin:Module" href="probbroadcast.henshin#_JM7_UVSoEeGUbrZWeWd1QA"/>
   <edges xmi:type="notation:Connector" xmi:id="_duMAYFSpEeGUbrZWeWd1QA" type="4001" source="_XaHaQFSpEeGUbrZWeWd1QA" target="_dIZLsFSpEeGUbrZWeWd1QA">
     <children xmi:type="notation:DecorationNode" xmi:id="_duNOgFSpEeGUbrZWeWd1QA" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_duNOgVSpEeGUbrZWeWd1QA" x="29" y="30"/>

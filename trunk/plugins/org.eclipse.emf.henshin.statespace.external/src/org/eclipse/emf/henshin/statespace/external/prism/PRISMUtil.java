@@ -32,14 +32,15 @@ import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.StateValidator;
 import org.eclipse.emf.henshin.statespace.Validator;
-import org.eclipse.emf.henshin.statespace.tuples.Tuple;
-import org.eclipse.emf.henshin.statespace.tuples.TupleList;
 
 /**
  * PRISM utils.
  * @author Christian Krause
  */
 public class PRISMUtil {
+	
+	public static final String STATE_VARIABLE = "s";
+	
 	
 	/**
 	 * Data class for ranges (and constants).
@@ -183,7 +184,7 @@ public class PRISMUtil {
 	/*
 	 * Expand labels.
 	 */
-	public static String expandLabels(String template, StateSpaceIndex index, TupleList tuples, IProgressMonitor monitor) throws Exception {
+	public static String expandLabels(String template, StateSpaceIndex index, IProgressMonitor monitor) throws Exception {
 
 		// Find out how many sections need to be replaced:
 		int sections = -1;
@@ -198,7 +199,7 @@ public class PRISMUtil {
 		// Now do the expansion:
 		monitor.beginTask("Expanding labels...", sections);
 		for (int i=0; i<sections; i++) {
-			template = doExpandLabels(template, index, tuples, new SubProgressMonitor(monitor,1));
+			template = doExpandLabels(template, index, new SubProgressMonitor(monitor,1));
 		}
 		monitor.done();
 		return template;
@@ -208,7 +209,7 @@ public class PRISMUtil {
 	/*
 	 * Expand the first occurrence of <<<...>>>.
 	 */
-	private static String doExpandLabels(String template, StateSpaceIndex index, TupleList tuples, IProgressMonitor monitor) throws Exception {
+	private static String doExpandLabels(String template, StateSpaceIndex index, IProgressMonitor monitor) throws Exception {
 		
 		// Find <<< ... >>>
 		int start = template.indexOf("<<<");
@@ -249,7 +250,7 @@ public class PRISMUtil {
 		for (State state : index.getStateSpace().getStates()) {
 			if (validator.validate(state, nullMonitor).isValid()) {
 				if (result.length()>0) result = result + " | ";
-				result = result + PRISMUtil.getPRISMState(tuples.get(state.getIndex()), false);
+				result = result + getPRISMState(state.getIndex(), null, false);
 			}
 			monitor.worked(1);
 			if (monitor.isCanceled()) {
@@ -320,7 +321,14 @@ public class PRISMUtil {
 	public static String getProbKey(Rule rule, int index) {
 		return "prob" + capitalize(removeWhiteSpace(rule.getName())) + (index+1);
 	}
-	
+
+	/**
+	 * Get the variable name for a rule probability.
+	 */
+	public static String getProbVar(int index) {
+		return "p" + (index+1);
+	}
+
 	/**
 	 * Get the probability of a rule, as specified in the state space properties.
 	 */
@@ -417,44 +425,11 @@ public class PRISMUtil {
 		return stateSpace.getProperties().get(PRISM_EXPERIMENT_KEY);
 	}
 	
-	public static String[] getVariables(int count) {
-		if (count==0) {
-			return new String[0];
-		}
-		else if (count==1) {
-			return new String[] { "s" };
-		}
-		else {
-			String[] vars = new String[count];
-			for (int i=0; i<count; i++) {
-				vars[i] = "s" + (i+1);
-			}
-			return vars;
-		}
-	}
-	
-	public static String getVariableDeclarations(TupleList tuples, boolean explicit) {
-		if (tuples.isEmpty()) {
-			return "";
-		}
-		String[] vars = getVariables(tuples.get(0).width());
+	public static String getVariableDeclarations(int size, boolean explicit) {
 		if (explicit) {
-			String v = "(";
-			for (int i=0; i<vars.length; i++) {
-				v = v + vars[i];
-				if (i<vars.length-1) {
-					v = v + ",";
-				}
-			}
-			return v + ")";
+			return "(" + STATE_VARIABLE + ")";
 		} else {
-			TupleList minmax = tuples.getMinMax();
-			String v = "";
-			for (int i=0; i<vars.length; i++) {
-				v = v + "\t" + vars[i] + " : [" + 
-						minmax.get(0).data()[i] + ".." + minmax.get(1).data()[i] + "];\n";
-			}
-			return v;
+			return "\t" + STATE_VARIABLE + " : [0.." + (size-1) + "];\n";
 		}
 	}
 	
@@ -464,8 +439,8 @@ public class PRISMUtil {
 	private static String capitalize(String string) {
 		if (string==null || string.length()==0) return string;
 		String first = string.substring(0,1).toUpperCase();
-		if (string.length()==0) return first;
-		else return first + string.substring(1);
+		if (string.length()==1) return first;
+		return first + string.substring(1);
 	}
 	
 	/*
@@ -484,26 +459,28 @@ public class PRISMUtil {
 		return h;
 	}
 	
-	public static String getPRISMState(Tuple t, boolean successor) {
-		if (t.width()==0) {
-			return "true";
+	public static String getPRISMState(int index, String extra, boolean successor) {
+		if (extra!=null && extra.trim().length()>0) {
+			extra = extra.trim();
+			if (!extra.startsWith("(")) {
+				extra = "(" + extra + ")";
+			}
+			extra = "&" + extra;
+		} else {
+			extra = "";
 		}
-		String s = "";
-		String[] vars = getVariables(t.width());
-		for (int i=0; i<vars.length; i++) {
-			s = s + "(" + vars[i];
-			if (successor) s = s + "'";
-			s = s + "=" + t.data()[i] + ")";
-			if (i<vars.length-1) s = s + " & ";
+		if (successor) {
+			return "(" + STATE_VARIABLE + "'=" + index + ")" + extra;
+		} else {
+			return "(" + STATE_VARIABLE + "=" + index + ")" + extra;
 		}
-		return s;
 	}
 	
-	public static String getPRISMStates(TupleList tuples) {
+	public static String getPRISMStates(List<State> states) {
 		String r = "";
-		int count = tuples.size();
+		int count = states.size();
 		for (int i=0; i<count; i++) {
-			r = r + getPRISMState(tuples.get(i),false);
+			r = r + getPRISMState(states.get(i).getIndex(), null, false);
 			if (i<count-1) r = r + " | ";
 		}
 		return r;

@@ -1,0 +1,3 @@
+label "target" = (s=3);
+Pmax=?[F "target"]
+

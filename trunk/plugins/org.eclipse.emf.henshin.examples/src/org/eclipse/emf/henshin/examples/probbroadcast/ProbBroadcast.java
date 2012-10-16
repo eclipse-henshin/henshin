@@ -26,7 +26,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceXYPlot;
  * is described in detail in this paper (presented at ICGT 2012):
  * <ul><li>
  * C. Krause, H. Giese: <i>Probabilistic Graph Transformation Systems</i>. 
- * Lecture Notes in Computer Science XX, Springer-Verlag, 2012.
+ * Lecture Notes in Computer Science 7562, Springer-Verlag, 2012.
  * </li></ul>
  * This program computes some of the results for the example of probabilistic
  * broadcasting in wireless sensor network as presented in the above paper.
@@ -49,16 +49,15 @@ public class ProbBroadcast {
 	
 	// State space resource set for loading files:
 	public final StateSpaceResourceSet resourceSet;
-
+	
 	/**
 	 * Default constructor.
 	 */
 	public ProbBroadcast(String path) {
-		// Load transformation system and initialize the state space (manager):
 		resourceSet = new StateSpaceResourceSet(path);
-		Module module = resourceSet.getModule("probbroadcast.henshin", false);
+		Module module = resourceSet.getModule("probbroadcast.henshin", false); // load the transformation module
 		StateSpace stateSpace = new StateSpaceImpl(module);
-		manager = new ParallelStateSpaceManager(stateSpace);
+		manager = new ParallelStateSpaceManager(stateSpace); // create a state space manager
 	}
 	
 	/**

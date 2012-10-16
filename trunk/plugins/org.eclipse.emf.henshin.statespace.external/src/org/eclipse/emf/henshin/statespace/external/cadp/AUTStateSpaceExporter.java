@@ -37,7 +37,7 @@ public class AUTStateSpaceExporter implements StateSpaceExporter {
 	 * @see org.eclipse.emf.henshin.statespace.export.StateSpaceExporter#export(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.emf.common.util.URI, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void export(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException {
+	public void doExport(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException {
 		
 		// Export to file...
 		File file = new File(uri.toFileString());

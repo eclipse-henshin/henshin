@@ -43,6 +43,7 @@ org.eclipse.emf.codegen.ecore
 org.eclipse.emf.codegen
 org.eclipse.emf.ecore.change
 org.eclipse.ocl
+org.eclipse.ocl.common
 lpg.runtime.java
 org.eclipse.ocl.ecore"
 

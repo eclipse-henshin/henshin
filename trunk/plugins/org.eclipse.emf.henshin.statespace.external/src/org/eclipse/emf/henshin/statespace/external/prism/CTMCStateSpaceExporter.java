@@ -34,7 +34,7 @@ public class CTMCStateSpaceExporter extends AbstractStateSpaceExporter {
 	 * @see org.eclipse.emf.henshin.statespace.export.StateSpaceExporter#export(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.emf.common.util.URI, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void export(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException {
+	public void doExport(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException {
 
 		int stateCount = stateSpace.getStates().size();
 		monitor.beginTask("Exporting state space...", 2*stateCount);
@@ -104,8 +104,7 @@ public class CTMCStateSpaceExporter extends AbstractStateSpaceExporter {
 		// State labels:		
 		if (parameters!=null) {
 			try {
-				String expanded = PRISMUtil.expandLabels(parameters, index, 
-						tuples, new SubProgressMonitor(monitor, stateCount));
+				String expanded = PRISMUtil.expandLabels(parameters, index, new SubProgressMonitor(monitor, stateCount));
 				if (explicit) {
 					OutputStreamWriter labelsWriter = createWriter(new File(uri.toFileString().replaceAll(".tra", ".lab")));
 					labelsWriter.write(expanded);

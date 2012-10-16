@@ -30,6 +30,16 @@ public class StateSpaceProperties {
 	 * Key for a state space property that defines a list of attributes whose values should be ignored.
 	 */
 	public static final String IGNORED_ATTRIBUTES = "ignoredAttributes";
+
+	/**
+	 * Key for a state space property that defines a list of clock attributes.
+	 */
+	public static final String CLOCK_DECLARATIONS = "clockDeclarations";
+	
+	/**
+	 * Key for a state space property that decides whether clocks should be used.
+	 */
+	public static final String USE_CLOCKS = "useClocks";
 	
 	/**
 	 * Key for a state space property that determines whether missing root objects should be collected.

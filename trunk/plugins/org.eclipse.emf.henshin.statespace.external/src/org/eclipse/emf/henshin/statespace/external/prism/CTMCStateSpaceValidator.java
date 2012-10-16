@@ -51,7 +51,7 @@ public class CTMCStateSpaceValidator extends AbstractFileBasedValidator {
 		File modelFile = export(stateSpace, exporter, null, "sm", new SubProgressMonitor(monitor, 1));
 
 		// Generate the CSL file.
-		String expanded = PRISMUtil.expandLabels(property, index, exporter.getTuples(), new SubProgressMonitor(monitor, 1));
+		String expanded = PRISMUtil.expandLabels(property, index, new SubProgressMonitor(monitor, 1));
 		File cslFile = createTempFile("property", ".csl", expanded);
 
 

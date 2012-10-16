@@ -9,17 +9,13 @@
  */
 package org.eclipse.emf.henshin.statespace.impl;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -28,6 +24,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
 import org.eclipse.emf.henshin.statespace.util.GraphEqualityChecker;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceTypesHelper;
 
 /**
  * Default implementation of {@link EqualityHelper}.
@@ -50,21 +47,9 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 		String linkOrder = stateSpace.getProperties().get(StateSpaceProperties.CHECK_LINK_ORDER);
 		checkLinkOrder = "true".equalsIgnoreCase(linkOrder) || "yes".equalsIgnoreCase(linkOrder);
 		// Gather all known types and attributes:
-		Map<String,EClass> allTypes = new HashMap<String,EClass>();
-		Map<String,EAttribute> allAttrs = new HashMap<String,EAttribute>();
-		for (Rule rule : stateSpace.getRules()) {
-			for (EPackage pack : rule.getModule().getImports()) {
-				for (EClassifier type : pack.getEClassifiers()) {
-					if (type instanceof EClass) {
-						allTypes.put(type.getName(), (EClass) type);
-						for (EAttribute att : ((EClass) type).getEAllAttributes()) {
-							allAttrs.put(type.getName() + "." + att.getName(), att);
-						}
-					}
-				}
-			}
-		}
-		// Identity types:
+		Map<String,EClass> allTypes = StateSpaceTypesHelper.getTypesNameMap(stateSpace);
+		Map<String,EAttribute> allAttrs = StateSpaceTypesHelper.getAttributesNameMap(stateSpace);
+		// Update cached identity types:
 		getIdentityTypes().clear();
 		String typeNames = stateSpace.getProperties().get(StateSpaceProperties.IDENTITY_TYPES);
 		if (typeNames!=null) {
@@ -75,7 +60,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 				}
 			}
 		}
-		// Ignored attributes:
+		// Update ignored attributes:
 		getIgnoredAttributes().clear();
 		String attrNames = stateSpace.getProperties().get(StateSpaceProperties.IGNORED_ATTRIBUTES);
 		if (attrNames!=null) {
