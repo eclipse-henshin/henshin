@@ -350,10 +350,11 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 		List<Rule> ruleChain = new ArrayList<Rule>();
 		Rule rule = rule2;
 		ruleChain.add(rule);
-		while (rule!=rule1) {
+		while (rule!=rule1 && rule!=null) {
 			rule = rule.getKernelRule();
-			if (rule==null) break;
-			ruleChain.add(0, rule);
+			if (rule!=null) {
+				ruleChain.add(0, rule);
+			}
 		}
 		
 		// Find out from where to where we need to move the element:
