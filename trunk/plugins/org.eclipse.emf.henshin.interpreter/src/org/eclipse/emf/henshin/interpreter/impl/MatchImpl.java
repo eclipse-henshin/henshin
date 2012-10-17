@@ -151,10 +151,10 @@ public class MatchImpl extends AssignmentImpl implements Match {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.Match#getNestedMatches(org.eclipse.emf.henshin.model.Rule)
+	 * @see org.eclipse.emf.henshin.interpreter.Match#getMultiMatches(org.eclipse.emf.henshin.model.Rule)
 	 */
 	@Override
-	public List<Match> getNestedMatches(Rule multiRule) {
+	public List<Match> getMultiMatches(Rule multiRule) {
 		@SuppressWarnings("unchecked")
 		List<Match> nested = (List<Match>) values.get(multiRule);
 		if (nested==null) {
@@ -162,6 +162,15 @@ public class MatchImpl extends AssignmentImpl implements Match {
 			values.put(multiRule, nested);
 		}
 		return nested;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.Match#getNestedMatches(org.eclipse.emf.henshin.model.Rule)
+	 */
+	@Override
+	public List<Match> getNestedMatches(Rule multiRule) {
+		return getMultiMatches(multiRule);
 	}
 
 	/*
@@ -188,7 +197,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 			return false;
 		}
 		for (Rule multiRule : getRule().getMultiRules()) {
-			for (Match nestedMatch : getNestedMatches(multiRule)) {
+			for (Match nestedMatch : getMultiMatches(multiRule)) {
 				if (!nestedMatch.isComplete()) {
 					return false;
 				}
@@ -291,7 +300,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 		for (Rule multiRule : ((Rule) unit).getMultiRules()) {
 			String name = multiRule.getName()!=null ? "'" + multiRule.getName() + "'" : "#" + index;
 			result = result + "\n" + indent + "  Multi-rule " + name + ":\n";
-			List<Match> matches = getNestedMatches(multiRule);
+			List<Match> matches = getMultiMatches(multiRule);
 			for (int i=0; i<matches.size(); i++) {
 				result = result + "\n" + indent + "  Match #" + i + ":\n";
 				Match match = matches.get(i);

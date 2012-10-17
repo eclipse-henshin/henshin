@@ -55,6 +55,11 @@ public interface Match extends Assignment {
 	 * @param multiRule The multi-rule.
 	 * @return List of matches.
 	 */
+	List<Match> getMultiMatches(Rule multiRule);
+
+	/**
+	 * @deprecated Use {@link #getMultiMatches(Rule)} instead.
+	 */
 	List<Match> getNestedMatches(Rule multiRule);
 
 	/**

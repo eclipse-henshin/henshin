@@ -287,7 +287,7 @@ public class EngineImpl implements Engine {
 
 				// Find all multi-matches:
 				MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, usedKernelObjects);
-				List<Match> nestedMatches = nextMatch.getNestedMatches(multiRule);
+				List<Match> nestedMatches = nextMatch.getMultiMatches(multiRule);
 				while (matchFinder.hasNext()) {
 					nestedMatches.add(matchFinder.next());
 				}
@@ -612,7 +612,7 @@ public class EngineImpl implements Engine {
 
 		// Now recursively for the multi-rules:
 		for (Rule multiRule : rule.getMultiRules()) {
-			for (Match multiMatch : completeMatch.getNestedMatches(multiRule)) {
+			for (Match multiMatch : completeMatch.getMultiMatches(multiRule)) {
 				Match multiResultMatch = new MatchImpl(multiRule, true);
 				for (Mapping mapping : multiRule.getMultiMappings()) {
 					if (mapping.getImage().getGraph().isRhs()) {
@@ -621,7 +621,7 @@ public class EngineImpl implements Engine {
 					}
 				}
 				createChanges(multiRule, graph, multiMatch, multiResultMatch, complexChange);
-				resultMatch.getNestedMatches(multiRule).add(multiResultMatch);
+				resultMatch.getMultiMatches(multiRule).add(multiResultMatch);
 			}
 		}
 
