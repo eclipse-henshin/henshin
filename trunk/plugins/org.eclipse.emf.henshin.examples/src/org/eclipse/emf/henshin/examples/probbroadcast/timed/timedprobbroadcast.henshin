@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_bUCvABhCEeKg4P_l5UwyZg" name="">
+  <imports href="timedprobbroadcast.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_bUCvARhCEeKg4P_l5UwyZg" name="send">
+    <lhs xmi:id="_bUCvAhhCEeKg4P_l5UwyZg" name="Lhs">
+      <nodes xmi:id="_bUDWEBhCEeKg4P_l5UwyZg" name="root" outgoing="_bUEkMhhCEeKg4P_l5UwyZg _bUEkMxhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_bUDWERhCEeKg4P_l5UwyZg" name="m" incoming="_bUEkMhhCEeKg4P_l5UwyZg" outgoing="_bUEkMRhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Node"/>
+        <attributes xmi:id="_bUDWEhhCEeKg4P_l5UwyZg" value="true">
+          <type href="timedprobbroadcast.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bUEkMBhCEeKg4P_l5UwyZg" name="u" incoming="_bUEkMRhCEeKg4P_l5UwyZg _bUEkMxhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Message"/>
+      </nodes>
+      <edges xmi:id="_bUEkMRhCEeKg4P_l5UwyZg" source="_bUDWERhCEeKg4P_l5UwyZg" target="_bUEkMBhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Node/knows"/>
+      </edges>
+      <edges xmi:id="_bUEkMhhCEeKg4P_l5UwyZg" source="_bUDWEBhCEeKg4P_l5UwyZg" target="_bUDWERhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_bUEkMxhCEeKg4P_l5UwyZg" source="_bUDWEBhCEeKg4P_l5UwyZg" target="_bUEkMBhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Network/messages"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_bUEkNBhCEeKg4P_l5UwyZg" name="Rhs">
+      <nodes xmi:id="_bUEkNRhCEeKg4P_l5UwyZg" name="m" incoming="_bUEkOhhCEeKg4P_l5UwyZg" outgoing="_bUEkORhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Node"/>
+        <attributes xmi:id="_bUEkNhhCEeKg4P_l5UwyZg" value="false">
+          <type href="timedprobbroadcast.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bUEkNxhCEeKg4P_l5UwyZg" name="u" incoming="_bUEkORhCEeKg4P_l5UwyZg _bUEkOxhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Message"/>
+      </nodes>
+      <nodes xmi:id="_bUEkOBhCEeKg4P_l5UwyZg" name="root" outgoing="_bUEkOhhCEeKg4P_l5UwyZg _bUEkOxhCEeKg4P_l5UwyZg _8rzYYBhXEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_8rtRwBhXEeKsfotxZKFPww" name="w" incoming="_8rzYYBhXEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Message"/>
+      </nodes>
+      <edges xmi:id="_bUEkORhCEeKg4P_l5UwyZg" source="_bUEkNRhCEeKg4P_l5UwyZg" target="_bUEkNxhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Node/knows"/>
+      </edges>
+      <edges xmi:id="_bUEkOhhCEeKg4P_l5UwyZg" source="_bUEkOBhCEeKg4P_l5UwyZg" target="_bUEkNRhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_bUEkOxhCEeKg4P_l5UwyZg" source="_bUEkOBhCEeKg4P_l5UwyZg" target="_bUEkNxhCEeKg4P_l5UwyZg">
+        <type href="timedprobbroadcast.ecore#//Network/messages"/>
+      </edges>
+      <edges xmi:id="_8rzYYBhXEeKsfotxZKFPww" source="_bUEkOBhCEeKg4P_l5UwyZg" target="_8rtRwBhXEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Network/messages"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_bUEkPBhCEeKg4P_l5UwyZg" origin="_bUDWERhCEeKg4P_l5UwyZg" image="_bUEkNRhCEeKg4P_l5UwyZg"/>
+    <mappings xmi:id="_bUEkPRhCEeKg4P_l5UwyZg" origin="_bUEkMBhCEeKg4P_l5UwyZg" image="_bUEkNxhCEeKg4P_l5UwyZg"/>
+    <mappings xmi:id="_bUFLQBhCEeKg4P_l5UwyZg" origin="_bUDWEBhCEeKg4P_l5UwyZg" image="_bUEkOBhCEeKg4P_l5UwyZg"/>
+    <multiRules xmi:id="_njPDMBhXEeKsfotxZKFPww" name="messages">
+      <lhs xmi:id="_njQ4YBhXEeKsfotxZKFPww" name="Lhs">
+        <nodes xmi:id="_nkEwsBhXEeKsfotxZKFPww" name="root" outgoing="_nkRlABhXEeKsfotxZKFPww _nkdLMBhXEeKsfotxZKFPww _bUFLTBhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_nkJpMBhXEeKsfotxZKFPww" name="n" incoming="_nkRlABhXEeKsfotxZKFPww" outgoing="_nlAk0BhXEeKsfotxZKFPww _bUFLSxhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Node"/>
+          <attributes xmi:id="_nkJpMRhXEeKsfotxZKFPww" value="true">
+            <type href="timedprobbroadcast.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_nkVPYBhXEeKsfotxZKFPww" name="u" incoming="_nkdLMBhXEeKsfotxZKFPww _nlAk0BhXEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_bUFLRxhCEeKg4P_l5UwyZg" name="v" incoming="_bUFLSxhCEeKg4P_l5UwyZg _bUFLTBhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <edges xmi:id="_nkRlABhXEeKsfotxZKFPww" source="_nkEwsBhXEeKsfotxZKFPww" target="_nkJpMBhXEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_nkdLMBhXEeKsfotxZKFPww" source="_nkEwsBhXEeKsfotxZKFPww" target="_nkVPYBhXEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_nlAk0BhXEeKsfotxZKFPww" source="_nkJpMBhXEeKsfotxZKFPww" target="_nkVPYBhXEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_bUFLSxhCEeKg4P_l5UwyZg" source="_nkJpMBhXEeKsfotxZKFPww" target="_bUFLRxhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_bUFLTBhCEeKg4P_l5UwyZg" source="_nkEwsBhXEeKsfotxZKFPww" target="_bUFLRxhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_njStkBhXEeKsfotxZKFPww" name="Rhs">
+        <nodes xmi:id="_njUiwBhXEeKsfotxZKFPww" name="root" outgoing="_njjMQBhXEeKsfotxZKFPww _njuycBhXEeKsfotxZKFPww _bUFyWBhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_njapYBhXEeKsfotxZKFPww" name="n" incoming="_njjMQBhXEeKsfotxZKFPww" outgoing="_nkxUQBhXEeKsfotxZKFPww _bUFyVxhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Node"/>
+          <attributes xmi:id="_njapYRhXEeKsfotxZKFPww" value="false">
+            <type href="timedprobbroadcast.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_njmPkBhXEeKsfotxZKFPww" name="u" incoming="_njuycBhXEeKsfotxZKFPww _nkxUQBhXEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_bUFyUxhCEeKg4P_l5UwyZg" name="v" incoming="_bUFyVxhCEeKg4P_l5UwyZg _bUFyWBhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <edges xmi:id="_njjMQBhXEeKsfotxZKFPww" source="_njUiwBhXEeKsfotxZKFPww" target="_njapYBhXEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_njuycBhXEeKsfotxZKFPww" source="_njUiwBhXEeKsfotxZKFPww" target="_njmPkBhXEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_nkxUQBhXEeKsfotxZKFPww" source="_njapYBhXEeKsfotxZKFPww" target="_njmPkBhXEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_bUFyVxhCEeKg4P_l5UwyZg" source="_njapYBhXEeKsfotxZKFPww" target="_bUFyUxhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_bUFyWBhCEeKg4P_l5UwyZg" source="_njUiwBhXEeKsfotxZKFPww" target="_bUFyUxhCEeKg4P_l5UwyZg">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_nksbwBhXEeKsfotxZKFPww" origin="_nkEwsBhXEeKsfotxZKFPww" image="_njUiwBhXEeKsfotxZKFPww"/>
+      <mappings xmi:id="_nlMLABhXEeKsfotxZKFPww" origin="_nkJpMBhXEeKsfotxZKFPww" image="_njapYBhXEeKsfotxZKFPww"/>
+      <mappings xmi:id="_nlOnQBhXEeKsfotxZKFPww" origin="_nkVPYBhXEeKsfotxZKFPww" image="_njmPkBhXEeKsfotxZKFPww"/>
+      <mappings xmi:id="_bUFyXBhCEeKg4P_l5UwyZg" origin="_bUFLRxhCEeKg4P_l5UwyZg" image="_bUFyUxhCEeKg4P_l5UwyZg"/>
+      <multiMappings xmi:id="_njYNIBhXEeKsfotxZKFPww" origin="_bUEkOBhCEeKg4P_l5UwyZg" image="_njUiwBhXEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_njeTwBhXEeKsfotxZKFPww" origin="_bUEkNRhCEeKg4P_l5UwyZg" image="_njapYBhXEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_njpS4BhXEeKsfotxZKFPww" origin="_bUEkNxhCEeKg4P_l5UwyZg" image="_njmPkBhXEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_nkIbEBhXEeKsfotxZKFPww" origin="_bUDWEBhCEeKg4P_l5UwyZg" image="_nkEwsBhXEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_nkNTkBhXEeKsfotxZKFPww" origin="_bUDWERhCEeKg4P_l5UwyZg" image="_nkJpMBhXEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_nkYSsBhXEeKsfotxZKFPww" origin="_bUEkMBhCEeKg4P_l5UwyZg" image="_nkVPYBhXEeKsfotxZKFPww"/>
+    </multiRules>
+    <multiRules xmi:id="_NKuB4BhYEeKsfotxZKFPww" name="neighbors">
+      <lhs xmi:id="_NKweIBhYEeKsfotxZKFPww" name="Lhs">
+        <nodes xmi:id="_NLh6MBhYEeKsfotxZKFPww" name="root" outgoing="_NLxx0BhYEeKsfotxZKFPww _NMC3kBhYEeKsfotxZKFPww _BQlLIBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_NLlkkBhYEeKsfotxZKFPww" name="m" incoming="_NLxx0BhYEeKsfotxZKFPww _DQFkwBhYEeKsfotxZKFPww" outgoing="_NMwCMBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node"/>
+          <attributes xmi:id="_NLlkkRhYEeKsfotxZKFPww" value="true">
+            <type href="timedprobbroadcast.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_NL0OEBhYEeKsfotxZKFPww" name="u" incoming="_NMC3kBhYEeKsfotxZKFPww _NMwCMBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_BQfEgBhYEeKsfotxZKFPww" incoming="_BQlLIBhYEeKsfotxZKFPww" outgoing="_DQFkwBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node"/>
+          <attributes xmi:id="_Q_BZ8BhYEeKsfotxZKFPww" value="true">
+            <type href="timedprobbroadcast.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <edges xmi:id="_NLxx0BhYEeKsfotxZKFPww" source="_NLh6MBhYEeKsfotxZKFPww" target="_NLlkkBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_NMC3kBhYEeKsfotxZKFPww" source="_NLh6MBhYEeKsfotxZKFPww" target="_NL0OEBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_NMwCMBhYEeKsfotxZKFPww" source="_NLlkkBhYEeKsfotxZKFPww" target="_NL0OEBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_BQlLIBhYEeKsfotxZKFPww" source="_NLh6MBhYEeKsfotxZKFPww" target="_BQfEgBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_DQFkwBhYEeKsfotxZKFPww" source="_BQfEgBhYEeKsfotxZKFPww" target="_NLlkkBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/connected"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_NKxFMBhYEeKsfotxZKFPww" name="Rhs">
+        <nodes xmi:id="_NKyTUBhYEeKsfotxZKFPww" name="root" outgoing="_NK62MBhYEeKsfotxZKFPww _NLCK8BhYEeKsfotxZKFPww _NLYJMBhYEeKsfotxZKFPww _ClZpABhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_NK19sBhYEeKsfotxZKFPww" name="m" incoming="_NK62MBhYEeKsfotxZKFPww _DQIoEBhYEeKsfotxZKFPww" outgoing="_NMfjgBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node"/>
+          <attributes xmi:id="_NK19sRhYEeKsfotxZKFPww" value="false">
+            <type href="timedprobbroadcast.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_NK9ScBhYEeKsfotxZKFPww" name="u" incoming="_NLCK8BhYEeKsfotxZKFPww _NMfjgBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_ClVXkBhYEeKsfotxZKFPww" incoming="_ClZpABhYEeKsfotxZKFPww" outgoing="_DQIoEBhYEeKsfotxZKFPww _D6TmcBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node"/>
+          <attributes xmi:id="_Q_EdQBhYEeKsfotxZKFPww" value="true">
+            <type href="timedprobbroadcast.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_NLTQsBhYEeKsfotxZKFPww" name="w" incoming="_NLYJMBhYEeKsfotxZKFPww _D6TmcBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <edges xmi:id="_NK62MBhYEeKsfotxZKFPww" source="_NKyTUBhYEeKsfotxZKFPww" target="_NK19sBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_NLCK8BhYEeKsfotxZKFPww" source="_NKyTUBhYEeKsfotxZKFPww" target="_NK9ScBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_NLYJMBhYEeKsfotxZKFPww" source="_NKyTUBhYEeKsfotxZKFPww" target="_NLTQsBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_NMfjgBhYEeKsfotxZKFPww" source="_NK19sBhYEeKsfotxZKFPww" target="_NK9ScBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_ClZpABhYEeKsfotxZKFPww" source="_NKyTUBhYEeKsfotxZKFPww" target="_ClVXkBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_DQIoEBhYEeKsfotxZKFPww" source="_ClVXkBhYEeKsfotxZKFPww" target="_NK19sBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/connected"/>
+        </edges>
+        <edges xmi:id="_D6TmcBhYEeKsfotxZKFPww" source="_ClVXkBhYEeKsfotxZKFPww" target="_NLTQsBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_NMQ6ABhYEeKsfotxZKFPww" origin="_NLh6MBhYEeKsfotxZKFPww" image="_NKyTUBhYEeKsfotxZKFPww"/>
+      <mappings xmi:id="_NM6aQBhYEeKsfotxZKFPww" origin="_NLlkkBhYEeKsfotxZKFPww" image="_NK19sBhYEeKsfotxZKFPww"/>
+      <mappings xmi:id="_NM7BUBhYEeKsfotxZKFPww" origin="_NL0OEBhYEeKsfotxZKFPww" image="_NK9ScBhYEeKsfotxZKFPww"/>
+      <mappings xmi:id="_ClWlsBhYEeKsfotxZKFPww" origin="_BQfEgBhYEeKsfotxZKFPww" image="_ClVXkBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_NK0vkBhYEeKsfotxZKFPww" origin="_bUEkOBhCEeKg4P_l5UwyZg" image="_NKyTUBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_NK3y4BhYEeKsfotxZKFPww" origin="_bUEkNRhCEeKg4P_l5UwyZg" image="_NK19sBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_NK_HoBhYEeKsfotxZKFPww" origin="_bUEkNxhCEeKg4P_l5UwyZg" image="_NK9ScBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_NLVF4BhYEeKsfotxZKFPww" origin="_8rtRwBhXEeKsfotxZKFPww" image="_NLTQsBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_NLkWcBhYEeKsfotxZKFPww" origin="_bUDWEBhCEeKg4P_l5UwyZg" image="_NLh6MBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_NLnZwBhYEeKsfotxZKFPww" origin="_bUDWERhCEeKg4P_l5UwyZg" image="_NLlkkBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_NL2DQBhYEeKsfotxZKFPww" origin="_bUEkMBhCEeKg4P_l5UwyZg" image="_NL0OEBhYEeKsfotxZKFPww"/>
+    </multiRules>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Y_BWYBhYEeKsfotxZKFPww" name="send">
+    <lhs xmi:id="_Y_BWYRhYEeKsfotxZKFPww" name="Lhs">
+      <nodes xmi:id="_b9GREBhYEeKsfotxZKFPww" name="root" outgoing="_b9eEgBhYEeKsfotxZKFPww _b9y0oBhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_Y_BWYxhYEeKsfotxZKFPww" name="m" incoming="_b9eEgBhYEeKsfotxZKFPww" outgoing="_Y_BWZhhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Node"/>
+        <attributes xmi:id="_Y_BWZBhYEeKsfotxZKFPww" value="true">
+          <type href="timedprobbroadcast.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Y_BWZRhYEeKsfotxZKFPww" name="u" incoming="_Y_BWZhhYEeKsfotxZKFPww _b9y0oBhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Message"/>
+      </nodes>
+      <edges xmi:id="_Y_BWZhhYEeKsfotxZKFPww" source="_Y_BWYxhYEeKsfotxZKFPww" target="_Y_BWZRhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Node/knows"/>
+      </edges>
+      <edges xmi:id="_b9eEgBhYEeKsfotxZKFPww" source="_b9GREBhYEeKsfotxZKFPww" target="_Y_BWYxhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_b9y0oBhYEeKsfotxZKFPww" source="_b9GREBhYEeKsfotxZKFPww" target="_Y_BWZRhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Network/messages"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Y_BWaRhYEeKsfotxZKFPww" name="Rhs">
+      <nodes xmi:id="_Y_BWahhYEeKsfotxZKFPww" name="m" incoming="_b9kLIBhYEeKsfotxZKFPww" outgoing="_Y_BWbxhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Node"/>
+        <attributes xmi:id="_Y_BWaxhYEeKsfotxZKFPww" value="false">
+          <type href="timedprobbroadcast.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Y_BWbBhYEeKsfotxZKFPww" name="u" incoming="_Y_BWbxhYEeKsfotxZKFPww _b9138BhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Message"/>
+      </nodes>
+      <nodes xmi:id="_b9G4IBhYEeKsfotxZKFPww" name="root" outgoing="_b9kLIBhYEeKsfotxZKFPww _b9138BhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Network"/>
+      </nodes>
+      <edges xmi:id="_Y_BWbxhYEeKsfotxZKFPww" source="_Y_BWahhYEeKsfotxZKFPww" target="_Y_BWbBhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Node/knows"/>
+      </edges>
+      <edges xmi:id="_b9kLIBhYEeKsfotxZKFPww" source="_b9G4IBhYEeKsfotxZKFPww" target="_Y_BWahhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_b9138BhYEeKsfotxZKFPww" source="_b9G4IBhYEeKsfotxZKFPww" target="_Y_BWbBhYEeKsfotxZKFPww">
+        <type href="timedprobbroadcast.ecore#//Network/messages"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Y_BWcxhYEeKsfotxZKFPww" origin="_Y_BWYxhYEeKsfotxZKFPww" image="_Y_BWahhYEeKsfotxZKFPww"/>
+    <mappings xmi:id="_Y_BWdBhYEeKsfotxZKFPww" origin="_Y_BWZRhYEeKsfotxZKFPww" image="_Y_BWbBhYEeKsfotxZKFPww"/>
+    <mappings xmi:id="_b9IGQBhYEeKsfotxZKFPww" origin="_b9GREBhYEeKsfotxZKFPww" image="_b9G4IBhYEeKsfotxZKFPww"/>
+    <multiRules xmi:id="_b-c78BhYEeKsfotxZKFPww" name="messages">
+      <lhs xmi:id="_b-exIBhYEeKsfotxZKFPww" name="Lhs">
+        <nodes xmi:id="_b_Q0QBhYEeKsfotxZKFPww" name="root" outgoing="_b_cacBhYEeKsfotxZKFPww _b_jIIBhYEeKsfotxZKFPww _b-R80BhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_b_Xh8BhYEeKsfotxZKFPww" name="m" incoming="_b_cacBhYEeKsfotxZKFPww" outgoing="_cABpQBhYEeKsfotxZKFPww _Y_B9lRhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node"/>
+          <attributes xmi:id="_b_Xh8RhYEeKsfotxZKFPww" value="true">
+            <type href="timedprobbroadcast.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_b_ePoBhYEeKsfotxZKFPww" name="u" incoming="_b_jIIBhYEeKsfotxZKFPww _cABpQBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_Y_B9kRhYEeKsfotxZKFPww" name="v" incoming="_Y_B9lRhYEeKsfotxZKFPww _b-R80BhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <edges xmi:id="_b_cacBhYEeKsfotxZKFPww" source="_b_Q0QBhYEeKsfotxZKFPww" target="_b_Xh8BhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_b_jIIBhYEeKsfotxZKFPww" source="_b_Q0QBhYEeKsfotxZKFPww" target="_b_ePoBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_cABpQBhYEeKsfotxZKFPww" source="_b_Xh8BhYEeKsfotxZKFPww" target="_b_ePoBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_Y_B9lRhYEeKsfotxZKFPww" source="_b_Xh8BhYEeKsfotxZKFPww" target="_Y_B9kRhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_b-R80BhYEeKsfotxZKFPww" source="_b_Q0QBhYEeKsfotxZKFPww" target="_Y_B9kRhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_b-f_QBhYEeKsfotxZKFPww" name="Rhs">
+        <nodes xmi:id="_b-jpoBhYEeKsfotxZKFPww" name="root" outgoing="_b-8rMBhYEeKsfotxZKFPww _b_F1IBhYEeKsfotxZKFPww _b-bt0BhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_b-vP0BhYEeKsfotxZKFPww" name="m" incoming="_b-8rMBhYEeKsfotxZKFPww" outgoing="_b_5GYBhYEeKsfotxZKFPww _Y_B9oBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node"/>
+          <attributes xmi:id="_b-vP0RhYEeKsfotxZKFPww" value="false">
+            <type href="timedprobbroadcast.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_b-_ugBhYEeKsfotxZKFPww" name="u" incoming="_b_F1IBhYEeKsfotxZKFPww _b_5GYBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_Y_B9nBhYEeKsfotxZKFPww" name="v" incoming="_Y_B9oBhYEeKsfotxZKFPww _b-bt0BhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Message"/>
+        </nodes>
+        <edges xmi:id="_b-8rMBhYEeKsfotxZKFPww" source="_b-jpoBhYEeKsfotxZKFPww" target="_b-vP0BhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_b_F1IBhYEeKsfotxZKFPww" source="_b-jpoBhYEeKsfotxZKFPww" target="_b-_ugBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_b_5GYBhYEeKsfotxZKFPww" source="_b-vP0BhYEeKsfotxZKFPww" target="_b-_ugBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_Y_B9oBhYEeKsfotxZKFPww" source="_b-vP0BhYEeKsfotxZKFPww" target="_Y_B9nBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_b-bt0BhYEeKsfotxZKFPww" source="_b-jpoBhYEeKsfotxZKFPww" target="_Y_B9nBhYEeKsfotxZKFPww">
+          <type href="timedprobbroadcast.ecore#//Network/messages"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_b_sSEBhYEeKsfotxZKFPww" origin="_b_Q0QBhYEeKsfotxZKFPww" image="_b-jpoBhYEeKsfotxZKFPww"/>
+      <mappings xmi:id="_cAHv4BhYEeKsfotxZKFPww" origin="_b_Xh8BhYEeKsfotxZKFPww" image="_b-vP0BhYEeKsfotxZKFPww"/>
+      <mappings xmi:id="_cAI-ABhYEeKsfotxZKFPww" origin="_b_ePoBhYEeKsfotxZKFPww" image="_b-_ugBhYEeKsfotxZKFPww"/>
+      <mappings xmi:id="_Y_B9pRhYEeKsfotxZKFPww" origin="_Y_B9kRhYEeKsfotxZKFPww" image="_Y_B9nBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_b-taoBhYEeKsfotxZKFPww" origin="_b9G4IBhYEeKsfotxZKFPww" image="_b-jpoBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_b-0vYBhYEeKsfotxZKFPww" origin="_Y_BWahhYEeKsfotxZKFPww" image="_b-vP0BhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_b_CKwBhYEeKsfotxZKFPww" origin="_Y_BWbBhYEeKsfotxZKFPww" image="_b-_ugBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_b_WT0BhYEeKsfotxZKFPww" origin="_b9GREBhYEeKsfotxZKFPww" image="_b_Q0QBhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_b_ZXIBhYEeKsfotxZKFPww" origin="_Y_BWYxhYEeKsfotxZKFPww" image="_b_Xh8BhYEeKsfotxZKFPww"/>
+      <multiMappings xmi:id="_b_gE0BhYEeKsfotxZKFPww" origin="_Y_BWZRhYEeKsfotxZKFPww" image="_b_ePoBhYEeKsfotxZKFPww"/>
+    </multiRules>
+  </units>
+</henshin:Module>

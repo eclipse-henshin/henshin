@@ -50,10 +50,15 @@ public class AttributeDeleteCommand extends AbstractTransactionalCommand {
 	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
+		// Nothing to do?
+		if (attribute.getNode()==null) {
+			return CommandResult.newOKCommandResult();
+		}
+		Rule rule = attribute.getNode().getGraph().getRule().getRootRule();
+		
 		// Check for attribute images:
 		Action action = attribute.getAction();
 		if (action.getType()==PRESERVE) {
-			Rule rule = attribute.getNode().getGraph().getRule();
 			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
 			image.getNode().getAttributes().remove(image);
 		}
@@ -62,7 +67,7 @@ public class AttributeDeleteCommand extends AbstractTransactionalCommand {
 		attribute.getNode().getAttributes().remove(attribute);
 		
 		// Clean up:
-		HenshinModelCleaner.cleanRule(attribute.getNode().getGraph().getRule().getRootRule());
+		HenshinModelCleaner.cleanRule(rule);
 
 		// Done.
 		return CommandResult.newOKCommandResult();

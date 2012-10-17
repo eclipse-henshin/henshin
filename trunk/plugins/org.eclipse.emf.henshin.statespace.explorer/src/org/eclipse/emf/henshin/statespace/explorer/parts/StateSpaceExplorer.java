@@ -338,8 +338,12 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 */
 	@Override
 	public void dispose() {
-		jobManager.stopAllJobs(); // stop all jobs first.
-		toolsMenu.dispose(); // explicitly dispose tools menu.
+		if (jobManager!=null) {
+			jobManager.stopAllJobs(); // stop all jobs first.
+		}
+		if (toolsMenu!=null) {
+			toolsMenu.dispose(); // explicitly dispose tools menu.
+		}
 		if (stateSpaceManager!=null) { // shut down the state space manager
 			stateSpaceManager.shutdown();
 		}

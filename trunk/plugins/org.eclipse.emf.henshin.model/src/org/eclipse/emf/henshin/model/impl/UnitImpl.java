@@ -360,7 +360,7 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 */
 	@Override
 	public String toString() {
-		String result = eClass().getName() + " " + (name==null ? "unnamed" : name);
+		String result = eClass().getName() + (name!=null ? " " + name : "");
 		if (!getParameters().isEmpty()) {
 			result = result + "(";
 			for (int i=0; i<parameters.size(); i++) {

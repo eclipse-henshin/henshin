@@ -162,11 +162,13 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 	
 	/**
-	 * Try to initialize a package implementation.
+	 * Try to initialize a generated package implementation. Note that
+	 * this has a global effect (not limited to this resource set).
+	 * 
 	 * @param packageClassName Class name of the (interface) of a package implementation.
 	 * @return <code>true</code> if the package was successfully initialized.
 	 */
-	public static boolean initPackageImplementation(String packageClassName) {
+	public boolean initPackageImplementation(String packageClassName) {
 		try {
 			Class<?> clazz = Class.forName(packageClassName);
 			return (clazz!=null && clazz.getField("eINSTANCE").get(clazz)!=null);

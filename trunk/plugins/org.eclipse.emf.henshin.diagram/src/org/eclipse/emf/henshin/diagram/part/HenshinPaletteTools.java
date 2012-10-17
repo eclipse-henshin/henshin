@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.ToolEntry;
@@ -75,6 +77,21 @@ public class HenshinPaletteTools {
 		@Override
 		protected boolean handleKeyUp(KeyEvent e) {
 			return false;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.gmf.runtime.diagram.ui.tools.CreationTool#selectAddedObject(org.eclipse.gef.EditPartViewer, java.util.Collection)
+		 */
+		@SuppressWarnings("rawtypes")
+		@Override
+		protected void selectAddedObject(EditPartViewer viewer, Collection objects) {
+			// Workaround: Unhandled event loop exception: An EditPart has to be selectable (isSelectable() == true) in order to get selected.
+			try {
+				super.selectAddedObject(viewer, objects);
+			} catch (Throwable t) {
+				// don't complain
+			}
 		}
 
 	}

@@ -50,15 +50,15 @@ public class Ecore2UML {
 	 * @param saveResult Whether the result should be saved.
 	 */
 	public static void run(String path, String ecore, boolean saveResult) {
-		
+
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
-		
+
 		// Initialize UML package:
 		if (!resourceSet.initPackageImplementation("org.eclipse.uml2.uml.UMLPackage")) {
 			throw new RuntimeException("UML2 package not found. Make sure that org.eclipse.uml2.uml is in the classpath.");
 		}
-		
+
 		// Load the module:
 		Module module = resourceSet.getModule("ecore2uml.henshin", false);
 

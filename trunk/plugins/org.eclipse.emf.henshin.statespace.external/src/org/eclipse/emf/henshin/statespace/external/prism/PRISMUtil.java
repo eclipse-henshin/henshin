@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -246,19 +247,41 @@ public class PRISMUtil {
 		validator.setProperty(theProperty);
 		String result = "";
 		IProgressMonitor nullMonitor = new NullProgressMonitor();
-		monitor.beginTask("Expanding labels...", index.getStateSpace().getStates().size());
+		monitor.beginTask("Expanding labels...", index.getStateSpace().getStateCount());
+		
+		// First collect all target states:
+		List<State> targets = new ArrayList<State>();
 		for (State state : index.getStateSpace().getStates()) {
 			if (validator.validate(state, nullMonitor).isValid()) {
-				if (result.length()>0) result = result + " | ";
-				result = result + getPRISMState(state.getIndex(), null, false);
+				targets.add(state);
 			}
 			monitor.worked(1);
 			if (monitor.isCanceled()) {
 				return template;
 			}
 		}
-		if (result.length()==0) {
+		
+		// Now generate the text representation:
+		if (targets.size()==0) {
 			result = "false";
+		} else {
+			System.out.println(targets.size() + " target states");
+			boolean negate = targets.size() > (index.getStateSpace().getStateCount() / 2);
+			if (negate) {
+				List<State> negated = new Vector<State>(index.getStateSpace().getStates());
+				negated.removeAll(targets);
+				targets = negated;
+			}
+			for (State state : targets) {
+				if (result.length()>0) result = result + " | ";
+				result = result + getPRISMState(state.getIndex(), null, false);
+				if (monitor.isCanceled()) {
+					return template;
+				}
+			}
+			if (negate) {
+				result = "!(" + result + ")";
+			}
 		}
 
 		// Replace the text with the result:
