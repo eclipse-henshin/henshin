@@ -34,7 +34,7 @@ public interface UnaryUnit extends Unit {
 	 * @return the value of the '<em>Sub Unit</em>' reference.
 	 * @see #setSubUnit(Unit)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getUnaryUnit_SubUnit()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	Unit getSubUnit();

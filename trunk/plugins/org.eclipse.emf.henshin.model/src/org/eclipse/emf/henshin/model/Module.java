@@ -27,8 +27,7 @@ import org.eclipse.emf.ecore.EPackage;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueUnitNames noCyclicUnits parameterNamesNotTypeName'"
- *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL uniqueUnitNames='transformationUnits->forAll(unit1,unit2:TransformationUnit | unit1 <> unit2 implies unit1.name <> unit2.name)' uniqueUnitNames.Msg='_Ocl_Msg_TransformationSystem_uniqueUnitNames'"
+ * @model
  * @generated
  */
 public interface Module extends NamedElement, TransformationSystem {

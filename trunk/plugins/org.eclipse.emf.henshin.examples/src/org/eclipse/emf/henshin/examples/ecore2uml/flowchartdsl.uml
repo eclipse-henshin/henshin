@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Package xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" name="flowchartdsl">
+  <packagedElement xsi:type="uml:Class" name="Decision"/>
+  <packagedElement xsi:type="uml:Class" name="Action"/>
+  <packagedElement xsi:type="uml:Class" name="Transition">
+    <ownedAttribute association="//@packagedElement.5"/>
+    <ownedAttribute association="//@packagedElement.6"/>
+    <ownedAttribute association="//@packagedElement.7"/>
+  </packagedElement>
+  <packagedElement xsi:type="uml:Class" name="Node">
+    <ownedAttribute association="//@packagedElement.5"/>
+    <ownedAttribute association="//@packagedElement.6"/>
+    <ownedAttribute association="//@packagedElement.8"/>
+  </packagedElement>
+  <packagedElement xsi:type="uml:Class" name="Flowchart">
+    <ownedAttribute association="//@packagedElement.7"/>
+    <ownedAttribute association="//@packagedElement.8"/>
+  </packagedElement>
+  <packagedElement xsi:type="uml:Association" memberEnd="//Transition/@ownedAttribute.0 //Node/@ownedAttribute.0"/>
+  <packagedElement xsi:type="uml:Association" memberEnd="//Transition/@ownedAttribute.1 //Node/@ownedAttribute.1"/>
+  <packagedElement xsi:type="uml:Association" memberEnd="//Flowchart/@ownedAttribute.0 //Transition/@ownedAttribute.2"/>
+  <packagedElement xsi:type="uml:Association" memberEnd="//Flowchart/@ownedAttribute.1 //Node/@ownedAttribute.2"/>
+</uml:Package>

@@ -1581,7 +1581,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEReference(getMapping_Image(), this.getNode(), null, "image", null, 1, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unaryUnitEClass, UnaryUnit.class, "UnaryUnit", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUnaryUnit_SubUnit(), this.getUnit(), null, "subUnit", null, 0, 1, UnaryUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUnaryUnit_SubUnit(), this.getUnit(), null, "subUnit", null, 1, 1, UnaryUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(multiUnitEClass, MultiUnit.class, "MultiUnit", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMultiUnit_SubUnits(), this.getUnit(), null, "subUnits", null, 0, -1, MultiUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1644,8 +1644,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Create annotations
 		// http://www.eclipse.org/emf/2002/Ecore
 		createEcoreAnnotations();
-		// http://www.eclipse.org/emf/2010/Henshin/OCL
-		createOCLAnnotations();
 	}
 
 	/**
@@ -1657,141 +1655,53 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	protected void createEcoreAnnotations() {
 		String source = "http://www.eclipse.org/emf/2002/Ecore";		
 		addAnnotation
-		  (namedElementEClass, 
-		   source, 
-		   new String[] {
-			 "constraints", "ValidName"
-		   });			
-		addAnnotation
-		  (moduleEClass, 
-		   source, 
-		   new String[] {
-			 "constraints", "uniqueUnitNames noCyclicUnits parameterNamesNotTypeName"
-		   });			
-		addAnnotation
 		  (unitEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "uniqueParameterNames parameterMappingsPointToDirectSubUnit"
-		   });			
+			 "constraints", "parameterNamesUnique parameterMappingsPointToDirectSubUnit"
+		   });		
 		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "lhsAndRhsNotNull mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"
-		   });			
+			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"
+		   });		
 		addAnnotation
 		  (parameterEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "nameRequired"
-		   });			
+			 "constraints", "nameNotEmpty nameNotTypeName"
+		   });		
 		addAnnotation
 		  (graphEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueNodeNames"
-		   });			
+		   });		
 		addAnnotation
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueAttributeTypes"
-		   });			
+		   });		
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "equalParentGraphs"
-		   });			
+		   });		
 		addAnnotation
-		  (mappingEClass, 
+		  (iteratedUnitEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "ruleMapping_TypeEquality"
-		   });			
+			 "constraints", "iterationsNotEmpty"
+		   });		
 		addAnnotation
 		  (nestedConditionEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "mappingOriginContainedInParentCondition mappingImageContainedInCurrent"
 		   });
-	}
-
-	/**
-	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2010/Henshin/OCL</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createOCLAnnotations() {
-		String source = "http://www.eclipse.org/emf/2010/Henshin/OCL";			
-		addAnnotation
-		  (namedElementEClass, 
-		   source, 
-		   new String[] {
-			 "ValidName", "not self.name.oclIsUndefined() implies self.name<>\'\'",
-			 "ValidName.Msg", "_Ocl_Msg_NamedElement_ValidName",
-			 "ValidName.Severity", "Warning"
-		   });			
-		addAnnotation
-		  (moduleEClass, 
-		   source, 
-		   new String[] {
-			 "uniqueUnitNames", "transformationUnits->forAll(unit1,unit2:TransformationUnit | unit1 <> unit2 implies unit1.name <> unit2.name)",
-			 "uniqueUnitNames.Msg", "_Ocl_Msg_TransformationSystem_uniqueUnitNames"
-		   });			
-		addAnnotation
-		  (unitEClass, 
-		   source, 
-		   new String[] {
-			 "uniqueParameterNames", "parameters->forAll( param1, param2 : Parameter | param1 <> param2 implies param1.name <> param2.name)",
-			 "uniqueParameterNames.Msg", "_Ocl_Msg_TransformationUnit_uniqueParameterNames"
-		   });			
-		addAnnotation
-		  (ruleEClass, 
-		   source, 
-		   new String[] {
-			 "lhsAndRhsNotNull", "not lhs->isEmpty() and not rhs->isEmpty()",
-			 "lhsAndRhsNotNull.Msg", "_Ocl_Msg_Rule_lhsAndRhsNotNull",
-			 "mappingsFromLeft2Right", "mappings->forAll(mapping : Mapping | \r\n\tlhs.nodes->includes(mapping.origin)\r\n\tand\r\n\trhs.nodes->includes(mapping.image)\r\n)",
-			 "mappingsFromLeft2Right.Msg", "_Ocl_Msg_Rule_mappingsFromLeft2Right"
-		   });			
-		addAnnotation
-		  (parameterEClass, 
-		   source, 
-		   new String[] {
-			 "nameRequired", "not name.oclIsUndefined() and name.size() > 0",
-			 "nameRequired.Msg", "_Ocl_Msg_Parameter_nameRequired"
-		   });			
-		addAnnotation
-		  (graphEClass, 
-		   source, 
-		   new String[] {
-			 "uniqueNodeNames", "nodes->forAll( node1, node2 : Node | (node1 <> node2 and not node1.name.oclIsUndefined() ) implies node1.name <> node2.name)",
-			 "uniqueNodeNames.Msg", "_Ocl_Msg_Graph_uniqueNodeNames"
-		   });			
-		addAnnotation
-		  (nodeEClass, 
-		   source, 
-		   new String[] {
-			 "uniqueAttributeTypes", "attributes->forAll(attr1,attr2 : Attribute| attr1<>attr2 implies attr1.type <> attr2.type)",
-			 "uniqueAttributeTypes.Msg", "_Ocl_Msg_Node_uniqueAttributeTypes"
-		   });			
-		addAnnotation
-		  (edgeEClass, 
-		   source, 
-		   new String[] {
-			 "equalParentGraphs", "source.graph=target.graph",
-			 "equalParentGraphs.Msg", "_Ocl_Msg_Edge_equalParentGraphs"
-		   });			
-		addAnnotation
-		  (mappingEClass, 
-		   source, 
-		   new String[] {
-			 "ruleMapping_TypeEquality", "Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type",
-			 "ruleMapping_TypeEquality.Msg", "_Ocl_Msg_Mapping_ruleMapping_TypeEquality"
-		   });	
 	}
 
 } //HenshinPackageImpl

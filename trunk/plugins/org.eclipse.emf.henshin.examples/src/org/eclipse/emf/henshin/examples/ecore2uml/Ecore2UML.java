@@ -54,10 +54,11 @@ public class Ecore2UML {
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 
-		// Initialize UML package:
+		// Initialize UML package and register *.uml file extension:
 		if (!resourceSet.initPackageImplementation("org.eclipse.uml2.uml.UMLPackage")) {
 			throw new RuntimeException("UML2 package not found. Make sure that org.eclipse.uml2.uml is in the classpath.");
 		}
+		resourceSet.registerXMIResourceFactories("uml");
 
 		// Load the module:
 		Module module = resourceSet.getModule("ecore2uml.henshin", false);

@@ -9,28 +9,19 @@
  */
 package org.eclipse.emf.henshin.model.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.*;
-import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.Query;
-import org.eclipse.ocl.ecore.Constraint;
-import org.eclipse.ocl.ecore.OCL;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,8 +52,8 @@ public class HenshinValidator extends EObjectValidator {
 	
 	/**
 	 * A constant with a fixed name that can be used as the base value for additional hand written constants.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
@@ -74,90 +65,6 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
-	
-	/**
-	 * The parsed OCL expression for the definition of the '<em>ValidName</em>' invariant constraint.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint namedElement_ValidNameInvOCL;
-	/**
-	 * The parsed OCL expression for the definition of the '<em>uniqueUnitNames</em>' invariant constraint.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint module_uniqueUnitNamesInvOCL;
-
-	/**
-	 * The parsed OCL expression for the definition of the '<em>uniqueParameterNames</em>' invariant constraint.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint unit_uniqueParameterNamesInvOCL;
-
-	/**
-	 * The parsed OCL expression for the definition of the '<em>lhsAndRhsNotNull</em>' invariant constraint.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint rule_lhsAndRhsNotNullInvOCL;
-	
-	/**
-	 * The parsed OCL expression for the definition of the '
-	 * <em>mappingsFromLeft2Right</em>' invariant constraint. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	private static Constraint rule_mappingsFromLeft2RightInvOCL;
-	
-	/**
-	 * The parsed OCL expression for the definition of the '<em>nameRequired</em>' invariant constraint.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint parameter_nameRequiredInvOCL;
-	
-	/**
-	 * The parsed OCL expression for the definition of the '<em>uniqueNodeNames</em>' invariant constraint.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint graph_uniqueNodeNamesInvOCL;
-	
-	/**
-	 * The parsed OCL expression for the definition of the '
-	 * <em>ruleMapping_TypeEquality</em>' invariant constraint. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	private static Constraint mapping_ruleMapping_TypeEqualityInvOCL;
-	
-	/**
-	 * The parsed OCL expression for the definition of the '<em>uniqueAttributeTypes</em>' invariant constraint.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint node_uniqueAttributeTypesInvOCL;
-	
-	/**
-	 * The parsed OCL expression for the definition of the '<em>equalParentGraphs</em>' invariant constraint.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint edge_equalParentGraphsInvOCL;
-	
-	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/emf/2010/Henshin/OCL";
-	
-	private static final OCL OCL_ENV = OCL.newInstance();
 	
 	/**
 	 * Maps to translate OCL severity additions ("info", "warning" and "error")
@@ -267,124 +174,18 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateNamedElement(NamedElement namedElement, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		boolean result = validate_NoCircularContainment(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(namedElement, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(namedElement, diagnostics, context);
-		return result;
-	}
-	
-	/**
-	 * Validates the ValidName constraint of '<em>Named Element</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public boolean validateNamedElement_ValidName(NamedElement namedElement,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-        if (namedElement_ValidNameInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.NAMED_ELEMENT);
-			
-			EAnnotation ocl = HenshinPackage.Literals.NAMED_ELEMENT.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("ValidName");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				namedElement_ValidNameInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			namedElement_ValidNameInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("ValidName.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("ValidName.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(namedElement_ValidNameInvOCL);
-		
-		if (!query.check(namedElement)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = namedElement_ValidNameInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "ValidName", getObjectLabel(namedElement, context) },
-						 new Object[] { namedElement },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
+		return validate_EveryDefaultConstraint(namedElement, diagnostics, context);
 	}
 		
-	protected boolean containsImportedEClassifier(Module module, String name) {
-		for (EPackage pack : module.getImports()) {
-			if (pack.getEClassifier(name) != null) return true;
-		}
-		return false;
-	}
-	
 	/**
-	 * Recursive Helper for validateTransformationSystem_noCyclicUnits. '. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @author Gregor Bonifer
-	 * @author Stefan Jurack (sjurack)
-	 * @generated NOT
-	 */
-	protected Unit isCyclic(Stack<Unit> path, Unit unit) {
-		if (path.contains(unit)) return unit;
-		path.push(unit);
-		for (Unit subUnit : unit.getSubUnits(false)) {
-			if (subUnit != null) {
-				Unit tu = isCyclic(path, subUnit);
-				if (tu != null) return tu;
-			}
-		}
-		path.pop();
-		return null;
-	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateRule(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -397,10 +198,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rule, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(rule, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(rule, diagnostics, context);
-		if (result || diagnostics != null) result &= validateRule_lhsAndRhsNotNull(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_mappingsFromLeft2Right(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_createdNodesNotAbstract(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_createdEdgesNotDerived(rule, diagnostics, context);
@@ -409,327 +208,92 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * Validates the lhsAndRhsNotNull constraint of '<em>Rule</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public boolean validateRule_lhsAndRhsNotNull(Rule rule, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-        if (rule_lhsAndRhsNotNullInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.RULE);
-			
-			EAnnotation ocl = HenshinPackage.Literals.RULE.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("lhsAndRhsNotNull");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				rule_lhsAndRhsNotNullInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			rule_lhsAndRhsNotNullInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("lhsAndRhsNotNull.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("lhsAndRhsNotNull.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(rule_lhsAndRhsNotNullInvOCL);
-		
-		if (!query.check(rule)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = rule_lhsAndRhsNotNullInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "lhsAndRhsNotNull", getObjectLabel(rule, context) },
-						 new Object[] { rule },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Validates the mappingsFromLeft2Right constraint of '<em>Rule</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public boolean validateRule_mappingsFromLeft2Right(Rule rule, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-        if (rule_mappingsFromLeft2RightInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.RULE);
-			
-			EAnnotation ocl = HenshinPackage.Literals.RULE.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("mappingsFromLeft2Right");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				rule_mappingsFromLeft2RightInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			rule_mappingsFromLeft2RightInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("mappingsFromLeft2Right.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("mappingsFromLeft2Right.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(rule_mappingsFromLeft2RightInvOCL);
-		
-		if (!query.check(rule)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = rule_mappingsFromLeft2RightInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "mappingsFromLeft2Right", getObjectLabel(rule, context) },
-						 new Object[] { rule },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Validates the createdNodesNotAbstract constraint of '<em>Rule</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Validates the mappingsFromLeft2Right constraint of '<em>Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
-	 * @author Gregor Bonifer
-	 * @author Stefan Jurack (sjurack)
 	 */
-	public boolean validateRule_createdNodesNotAbstract(Rule rule, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-		nodeLoop: for (Node node : rule.getRhs().getNodes()) {
-			if (node.getType() != null && node.getType().isAbstract()) {
-				for (Mapping mapping : rule.getMappings()) {
-					// node is not <<create>>, if there is a mapping onto it.
-					//
-					if (mapping.getImage() == node) continue nodeLoop;
-				}
-				// no mapping onto current node found. So node is <<create>>
-				//
-				diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
-						"_UI_GenericConstraint_diagnostic", new Object[] {
-								"rule_createdNodesNotAbstract", getObjectLabel(node, context) },
-						new Object[] { node }, context,
-						"_EcoreConstraint_Msg_Rule_createdNodesNotAbstract"));
-				return false;
+	public boolean validateRule_mappingsFromLeft2Right(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		for (Mapping m : rule.getMappings()) {
+			if (m.getOrigin()!=null && m.getImage()!=null && (!m.getOrigin().getGraph().isLhs() || !m.getImage().getGraph().isRhs())) {
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, m, Rule.class, "mappingsFromLeft2Right", context));
+				result = false;
 			}
 		}
-		return true;
-	}
-	
-	/**
-	 * Validates the createdEdgesNotDerived constraint of '<em>Rule</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 * @author Gregor Bonifer
-	 * @author Stefan Jurack (sjurack)
-	 */
-	public boolean validateRule_createdEdgesNotDerived(Rule rule, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-		edgeLoop: for (Edge edge : rule.getRhs().getEdges()) {
-			if (edge.getType() != null && edge.getType().isDerived()) {
-				// check whether the edge is <<create>>
-				//
-				Node sourceOrigin = null, targetOrigin = null;
-				boolean originsFound = false;
-				mappingLoop: for (Mapping mapping : rule.getMappings()) {
-					
-					if (mapping.getImage() != null && mapping.getImage() == edge.getSource()) {
-						sourceOrigin = mapping.getOrigin();
-						// cannot perform check for current edge if involved
-						// mappings incomplete.
-						//
-						if (sourceOrigin == null) continue edgeLoop;
-					}
-					
-					if (mapping.getImage() != null && mapping.getImage() == edge.getTarget()) {
-						targetOrigin = mapping.getOrigin();
-						// cannot perform check for current edge if involved
-						// mappings incomplete.
-						//
-						if (targetOrigin == null) continue edgeLoop;
-					}
-					
-					// involved origins found.
-					if (sourceOrigin != null && targetOrigin != null) {
-						originsFound = true;
-						break mappingLoop;
-					}
-					
-				}
-				if (!originsFound) continue edgeLoop;
-				
-				for (Edge oEdge : sourceOrigin.getOutgoing()) {
-					// if lhs edge of same type is found between origins, the
-					// edge is not <<create>>
-					if (oEdge.getTarget() == targetOrigin && oEdge.getType() == edge.getType()) {
-						continue edgeLoop;
-					}
-				}
-				// no lhs edge of same type is found between origin. So the edge
-				// is <<create>>.
-				//
-				diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
-						"_UI_GenericConstraint_diagnostic", new Object[] {
-								"rule_createdNodesNotAbstract", getObjectLabel(edge, context) },
-						new Object[] { edge }, context,
-						"_EcoreConstraint_Msg_Rule_createdEdgesNotDerived"));
-				return false;
-				
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Validates the deletedEdgesNotDerived constraint of '<em>Rule</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 * @author Gregor Bonifer
-	 * @author Stefan Jurack (sjurack)
-	 */
-	public boolean validateRule_deletedEdgesNotDerived(Rule rule, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-		edgeLoop: for (Edge edge : rule.getLhs().getEdges()) {
-			if (edge.getType() != null && edge.getType().isDerived()) {
-				// check whether the edge is <<delete>>
-				//
-				Node sourceImage = null, targetImage = null;
-				boolean imagesFound = false;
-				mappingLoop: for (Mapping mapping : rule.getMappings()) {
-					
-					if (mapping.getOrigin() != null && mapping.getOrigin() == edge.getSource()) {
-						sourceImage = mapping.getImage();
-						// cannot perform check for current edge if involved
-						// mappings incomplete.
-						//
-						if (sourceImage == null) continue edgeLoop;
-					}
-					
-					if (mapping.getOrigin() != null && mapping.getOrigin() == edge.getTarget()) {
-						targetImage = mapping.getImage();
-						// cannot perform check for current edge if involved
-						// mappings incomplete.
-						//
-						if (targetImage == null) continue edgeLoop;
-					}
-					
-					// involved images found.
-					if (sourceImage != null && targetImage != null) {
-						imagesFound = true;
-						break mappingLoop;
-					}
-					
-				}
-				if (!imagesFound) continue edgeLoop;
-				
-				for (Edge iEdge : sourceImage.getOutgoing()) {
-					// if rhs edge of same type is found between origins, the
-					// edge is not <<delete>>
-					if (iEdge.getTarget() == targetImage && iEdge.getType() == edge.getType()) {
-						continue edgeLoop;
-					}
-				}
-				// no rhs edge of same type is found between images. So the edge
-				// is <<delete>>.
-				//
-				diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
-						"_UI_GenericConstraint_diagnostic", new Object[] {
-								"rule_createdNodesNotAbstract", getObjectLabel(edge, context) },
-						new Object[] { edge }, context,
-						"_EcoreConstraint_Msg_Rule_deletedEdgesNotDerived"));
-				return false;
-				
-			}
-		}
-		return true;
-		
-	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateAttributeCondition(AttributeCondition attributeCondition,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_NoCircularContainment(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(attributeCondition, diagnostics, context);
 		return result;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Validates the createdNodesNotAbstract constraint of '<em>Rule</em>'. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateRule_createdNodesNotAbstract(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		for (Node node : rule.getRhs().getNodes()) {
+			if (node.getType()!=null && node.getType().isAbstract()) {
+				if (rule.getMappings().getOrigin(node)==null) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, node, Rule.class, "createdNodesNotAbstract", context));
+					result = false;
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Validates the createdEdgesNotDerived constraint of '<em>Rule</em>'. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateRule_createdEdgesNotDerived(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		for (Edge edge : rule.getRhs().getEdges()) {
+			if (edge.getType()!=null && edge.getType().isDerived()) {
+				if (rule.getMappings().getOrigin(edge)==null) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Rule.class, "createdEdgesNotDerived", context));
+					result = false;
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Validates the deletedEdgesNotDerived constraint of '<em>Rule</em>'. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateRule_deletedEdgesNotDerived(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		for (Edge edge : rule.getLhs().getEdges()) {
+			if (edge.getType()!=null && edge.getType().isDerived()) {
+				if (rule.getMappings().getImage(edge, rule.getRhs())==null) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Rule.class, "deletedEdgesNotDerived", context));
+					result = false;
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateAttributeCondition(AttributeCondition attributeCondition,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(attributeCondition, diagnostics, context);
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateParameter(Parameter parameter, DiagnosticChain diagnostics,
@@ -743,83 +307,66 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(parameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(parameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validateParameter_nameRequired(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_nameNotEmpty(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_nameNotTypeName(parameter, diagnostics, context);
 		return result;
 	}
 	
 	/**
-	 * Validates the nameRequired constraint of '<em>Parameter</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
+	 * Validates the nameNotEmpty constraint of '<em>Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
-	public boolean validateParameter_nameRequired(Parameter parameter, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-        if (parameter_nameRequiredInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.PARAMETER);
-			
-			EAnnotation ocl = HenshinPackage.Literals.PARAMETER.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("nameRequired");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				parameter_nameRequiredInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			parameter_nameRequiredInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("nameRequired.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("nameRequired.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(parameter_nameRequiredInvOCL);
-		
-		if (!query.check(parameter)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = parameter_nameRequiredInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "nameRequired", getObjectLabel(parameter, context) },
-						 new Object[] { parameter },
-						 context, addMsg));
-			}
+	public boolean validateParameter_nameNotEmpty(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (parameter.getName()==null || parameter.getName().trim().length()==0) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameter, Parameter.class, "nameNotEmpty", context));
 			return false;
 		}
 		return true;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Validates the nameNotTypeName constraint of '<em>Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateParameter_nameNotTypeName(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (parameter.getName()==null) return true;
+		Unit unit = parameter.getUnit();
+		if (unit==null) return true;
+		Module module = unit.getModule();
+		if (module==null) return true;
+		for (EPackage epackage : module.getImports()) {
+			if (validateParameter_nameNotTypeName(parameter, diagnostics, context, epackage)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/*
+	 * Helper method for validateParameter_nameNotTypeName.
+	 */
+	private boolean validateParameter_nameNotTypeName(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context, EPackage epackage) {
+		for (EClassifier classifier : epackage.getEClassifiers()) {
+			if (parameter.getName().equals(classifier.getName())) {
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameter, Parameter.class, "nameNotTypeName", context));
+				return false;
+			}
+		}
+		for (EPackage sub : epackage.getESubpackages()) {
+			if (!validateParameter_nameNotTypeName(parameter, diagnostics, context, sub)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateGraph(Graph graph, DiagnosticChain diagnostics,
@@ -833,83 +380,35 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(graph, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(graph, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(graph, diagnostics, context);
 		if (result || diagnostics != null) result &= validateGraph_uniqueNodeNames(graph, diagnostics, context);
 		return result;
 	}
 	
 	/**
-	 * Validates the uniqueNodeNames constraint of '<em>Graph</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
+	 * Validates the uniqueNodeNames constraint of '<em>Graph</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
-	public boolean validateGraph_uniqueNodeNames(Graph graph, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-        if (graph_uniqueNodeNamesInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.GRAPH);
-			
-			EAnnotation ocl = HenshinPackage.Literals.GRAPH.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("uniqueNodeNames");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				graph_uniqueNodeNamesInvOCL = helper.createInvariant(expr);
+	public boolean validateGraph_uniqueNodeNames(Graph graph, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		for (Node n1 : graph.getNodes()) {
+			if (n1.getName()!=null && n1.getName().trim().length()!=0) {
+				for (Node n2 : graph.getNodes()) {
+					if (n1==n2) break;
+					if (n2.getName()!=null && n1.getName().trim().equals(n2.getName().trim())) {
+						diagnostics.add(createDiagnostic(Diagnostic.ERROR, n2, Graph.class, "uniqueNodeNames", context));
+						result = false;
+					}
+				}
 			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			graph_uniqueNodeNamesInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("uniqueNodeNames.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("uniqueNodeNames.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
 		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(graph_uniqueNodeNamesInvOCL);
-		
-		if (!query.check(graph)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = graph_uniqueNodeNamesInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "uniqueNodeNames", getObjectLabel(graph, context) },
-						 new Object[] { graph },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
+		return result;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateGraphElement(GraphElement graphElement, DiagnosticChain diagnostics,
@@ -923,143 +422,7 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateModule(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_NoCircularContainment(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validateModule_uniqueUnitNames(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validateModule_noCyclicUnits(module, diagnostics, context);
-		if (result || diagnostics != null) result &= validateModule_parameterNamesNotTypeName(module, diagnostics, context);
-		return result;
-	}
-
-	/**
-	 * Validates the uniqueUnitNames constraint of '<em>Module</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateModule_uniqueUnitNames(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
-        if (module_uniqueUnitNamesInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.MODULE);
-			
-			EAnnotation ocl = HenshinPackage.Literals.MODULE.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("uniqueUnitNames");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				module_uniqueUnitNamesInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			module_uniqueUnitNamesInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("uniqueUnitNames.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("uniqueUnitNames.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(module_uniqueUnitNamesInvOCL);
-		
-		if (!query.check(module)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = module_uniqueUnitNamesInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "uniqueUnitNames", getObjectLabel(module, context) },
-						 new Object[] { module },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Validates the noCyclicUnits constraint of '<em>Module</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean validateModule_noCyclicUnits(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		final Stack<Unit> path = new Stack<Unit>();
-		final List<Unit> cyclic = new ArrayList<Unit>();
-		boolean result = true;
-		for (Unit unit : module.getUnits()) {
-			path.clear();
-			Unit cyc = isCyclic(path, unit);
-			if (cyc != null && !cyclic.contains(cyc)) {
-				cyclic.add(cyc);
-				diagnostics.add(createDiagnostic(
-						Diagnostic.WARNING,
-						DIAGNOSTIC_SOURCE,
-						0,
-						"_UI_GenericConstraint_diagnostic",
-						new Object[] { "module_noCyclicUnits",
-								getObjectLabel(module, context),
-								getObjectLabel(cyc, context) },
-						new Object[] { module }, context,
-						"_EcoreConstraint_Msg_TransformationSystem_noCyclicUnits"));
-				result = false;
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Validates the parameterNamesNotTypeName constraint of '<em>Module</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean validateModule_parameterNamesNotTypeName(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		for (Unit tUnit : module.getUnits()) {
-			for (Parameter param : tUnit.getParameters()) {
-				if (containsImportedEClassifier(module, param.getName())) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
-							"_UI_GenericConstraint_diagnostic", new Object[] {
-									"module_parameterNamesNotTypeName",
-									getObjectLabel(module, context) },
-							new Object[] { module }, context,
-							"_EcoreConstraint_Msg_Module_parameterNamesNotTypeName"));
-					return false;
-				}
-			}
-		}
-		return true;
+		return validate_EveryDefaultConstraint(module, diagnostics, context);
 	}
 
 	/**
@@ -1077,79 +440,31 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(unit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(unit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(unit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(unit, diagnostics, context);
 		return result;
 	}
 
 	/**
-	 * Validates the uniqueParameterNames constraint of '<em>Unit</em>'.
+	 * Validates the parameterNamesUnique constraint of '<em>Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	public boolean validateUnit_uniqueParameterNames(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-        if (unit_uniqueParameterNamesInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.UNIT);
-			
-			EAnnotation ocl = HenshinPackage.Literals.UNIT.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("uniqueParameterNames");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				unit_uniqueParameterNamesInvOCL = helper.createInvariant(expr);
+	public boolean validateUnit_parameterNamesUnique(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		for (Parameter p1 : unit.getParameters()) {
+			if (p1.getName()!=null && p1.getName().trim().length()!=0) {
+				for (Parameter p2 : unit.getParameters()) {
+					if (p1==p2) break;
+					if (p2.getName()!=null && p1.getName().trim().equals(p2.getName().trim())) {
+						diagnostics.add(createDiagnostic(Diagnostic.ERROR, p2, Unit.class, "parameterNamesUnique", context));
+						result = false;
+					}
+				}
 			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			unit_uniqueParameterNamesInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("uniqueParameterNames.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("uniqueParameterNames.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
 		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(unit_uniqueParameterNamesInvOCL);
-		
-		if (!query.check(unit)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = unit_uniqueParameterNamesInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "uniqueParameterNames", getObjectLabel(unit, context) },
-						 new Object[] { unit },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
+		return result;
 	}
 
 	/**
@@ -1157,138 +472,38 @@ public class HenshinValidator extends EObjectValidator {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
-	 * @author Stefan Jurack, Gregor Bonifer
 	 */
 	public boolean validateUnit_parameterMappingsPointToDirectSubUnit(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		for (ParameterMapping pm : unit.getParameterMappings()) {
 			if (unit.getParameters().contains(pm.getSource())) {
 				if (pm.getTarget() != null && !unit.getSubUnits(false).contains(pm.getTarget().getUnit())) {
-					diagnostics
-					.add(createDiagnostic(
-							Diagnostic.ERROR,
-							DIAGNOSTIC_SOURCE,
-							0,
-							"_UI_GenericConstraint_diagnostic",
-							new Object[] {
-									"transformationUnit_parameterMappingsPointToDirectSubUnit",
-									getObjectLabel(unit, context) },
-									new Object[] { unit }, context,
-							"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, unit, Unit.class, "parameterMappingsPointToDirectSubUnit", context));
 					return false;
 				}
 			}
 			if (unit.getParameters().contains(pm.getTarget())) {
-				if (pm.getSource() != null
-						&& !unit.getSubUnits(false).contains(pm.getSource().getUnit())) {
-					diagnostics
-					.add(createDiagnostic(
-							Diagnostic.ERROR,
-							DIAGNOSTIC_SOURCE,
-							0,
-							"_UI_GenericConstraint_diagnostic",
-							new Object[] {
-									"transformationUnit_parameterMappingsPointToDirectSubUnit",
-									getObjectLabel(unit, context) },
-									new Object[] { unit }, context,
-							"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
+				if (pm.getSource() != null && !unit.getSubUnits(false).contains(pm.getSource().getUnit())) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, unit, Unit.class, "parameterMappingsPointToDirectSubUnit", context));
 					return false;
 				}
 			}
 		}
 		return true;
-
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateMapping(Mapping mapping, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		boolean result = validate_NoCircularContainment(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validateMapping_ruleMapping_TypeEquality(mapping, diagnostics, context);
-		return result;
+		return validate_EveryDefaultConstraint(mapping, diagnostics, context);
 	}
-	
-	/**
-	 * Validates the ruleMapping_TypeEquality constraint of '<em>Mapping</em>'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateMapping_ruleMapping_TypeEquality(Mapping mapping,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-        if (mapping_ruleMapping_TypeEqualityInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.MAPPING);
-			
-			EAnnotation ocl = HenshinPackage.Literals.MAPPING.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("ruleMapping_TypeEquality");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				mapping_ruleMapping_TypeEqualityInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			mapping_ruleMapping_TypeEqualityInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("ruleMapping_TypeEquality.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("ruleMapping_TypeEquality.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(mapping_ruleMapping_TypeEqualityInvOCL);
-		
-		if (!query.check(mapping)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = mapping_ruleMapping_TypeEqualityInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
 
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "ruleMapping_TypeEquality", getObjectLabel(mapping, context) },
-						 new Object[] { mapping },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
-	}
-	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateNode(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1301,83 +516,35 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(node, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNode_uniqueAttributeTypes(node, diagnostics, context);
 		return result;
 	}
 	
 	/**
-	 * Validates the uniqueAttributeTypes constraint of '<em>Node</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
+	 * Validates the uniqueAttributeTypes constraint of '<em>Node</em>'. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
-	public boolean validateNode_uniqueAttributeTypes(Node node, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-        if (node_uniqueAttributeTypesInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.NODE);
-			
-			EAnnotation ocl = HenshinPackage.Literals.NODE.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("uniqueAttributeTypes");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				node_uniqueAttributeTypesInvOCL = helper.createInvariant(expr);
+	public boolean validateNode_uniqueAttributeTypes(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		for (Attribute a1 : node.getAttributes()) {
+			if (a1.getType()!=null) {
+				for (Attribute a2 : node.getAttributes()) {
+					if (a1==a2) break;
+					if (a1.getType()==a2.getType()) {
+						diagnostics.add(createDiagnostic(Diagnostic.ERROR, a2, Node.class, "uniqueAttributeTypes", context));
+						result = false;
+					}
+				}
 			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			node_uniqueAttributeTypesInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("uniqueAttributeTypes.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("uniqueAttributeTypes.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
 		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(node_uniqueAttributeTypesInvOCL);
-		
-		if (!query.check(node)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = node_uniqueAttributeTypesInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "uniqueAttributeTypes", getObjectLabel(node, context) },
-						 new Object[] { node },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
+		return result;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateAttribute(Attribute attribute, DiagnosticChain diagnostics,
@@ -1386,7 +553,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateEdge(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1404,71 +572,17 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * Validates the equalParentGraphs constraint of '<em>Edge</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
+	 * Validates the equalParentGraphs constraint of '<em>Edge</em>'. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
-	public boolean validateEdge_equalParentGraphs(Edge edge, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-        if (edge_equalParentGraphsInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.EDGE);
-			
-			EAnnotation ocl = HenshinPackage.Literals.EDGE.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("equalParentGraphs");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				edge_equalParentGraphsInvOCL = helper.createInvariant(expr);
+	public boolean validateEdge_equalParentGraphs(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (edge.getSource()!=null && edge.getTarget()!=null) {
+			if (edge.getSource().getGraph()!=edge.getGraph() || edge.getTarget().getGraph()!=edge.getGraph()) {
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Edge.class, "equalParentGraphs", context));
+				return false;
 			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			edge_equalParentGraphsInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("equalParentGraphs.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("equalParentGraphs.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(edge_equalParentGraphsInvOCL);
-		
-		if (!query.check(edge)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = edge_equalParentGraphsInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "equalParentGraphs", getObjectLabel(edge, context) },
-						 new Object[] { edge },
-						 context, addMsg));
-			}
-			return false;
 		}
 		return true;
 	}
@@ -1488,8 +602,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(unaryUnit, diagnostics, context);
 		return result;
 	}
@@ -1509,14 +622,14 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(multiUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(multiUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(multiUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateIndependentUnit(IndependentUnit independentUnit,
@@ -1530,14 +643,14 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(independentUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(independentUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(independentUnit, diagnostics, context);
 		return result;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateSequentialUnit(SequentialUnit sequentialUnit,
@@ -1551,14 +664,14 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(sequentialUnit, diagnostics, context);
 		return result;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateConditionalUnit(ConditionalUnit conditionalUnit,
@@ -1572,14 +685,14 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(conditionalUnit, diagnostics, context);
 		return result;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validatePriorityUnit(PriorityUnit priorityUnit, DiagnosticChain diagnostics,
@@ -1593,8 +706,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(priorityUnit, diagnostics, context);
 		return result;
 	}
@@ -1614,10 +726,24 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateIteratedUnit_iterationsNotEmpty(iteratedUnit, diagnostics, context);
 		return result;
+	}
+
+	/**
+	 * Validates the iterationsNotEmpty constraint of '<em>Iterated Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateIteratedUnit_iterationsNotEmpty(IteratedUnit iteratedUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (iteratedUnit.getIterations()==null || iteratedUnit.getIterations().trim().length()==0) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, iteratedUnit, Edge.class, "iterationsNotEmpty", context));
+			return false;			
+		}
+		return true;
 	}
 
 	/**
@@ -1635,14 +761,14 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(loopUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(loopUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(loopUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateNestedCondition(NestedCondition nestedCondition,
@@ -1662,62 +788,30 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * Validates the mappingOriginContainedInParentCondition constraint of '
-	 * <em>Nested Condition</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Validates the mappingOriginContainedInParentCondition constraint of '<em>Nested Condition</em>'. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public boolean validateNestedCondition_mappingOriginContainedInParentCondition(
 			NestedCondition nestedCondition, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		
-		Graph graph = findContainingGraph(nestedCondition);
+		Graph graph = nestedCondition.getHost();
 		if (graph != null && graph.eContainer() instanceof NestedCondition) {
 			for (Mapping mapping : nestedCondition.getMappings()) {
 				if (mapping.getOrigin() != null && mapping.getOrigin().getGraph() != graph) {
-					diagnostics
-							.add(createDiagnostic(
-									Diagnostic.ERROR,
-									DIAGNOSTIC_SOURCE,
-									0,
-									"_UI_GenericConstraint_diagnostic",
-									new Object[] {
-											"nestedCondition_mappingOriginContainedInParentCondition",
-											getObjectLabel(nestedCondition, context) },
-									new Object[] { nestedCondition }, context,
-									"_EcoreConstraint_Msg_NestedCondition_mappingOriginContainedInParentCondition"));
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, mapping, NestedCondition.class, "mappingOriginContainedInParentCondition", context));
 					return false;
 				}
-				
 			}
 		}
 		return true;
 	}
 	
 	/**
-	 * Helper for
-	 * {@link HenshinValidator#validateNestedCondition_mappingOriginContainedInParentCondition(NestedCondition, DiagnosticChain, Map)}
-	 * Returns the nearest graph containing the given {@link NestedCondition}.
-	 * 
-	 * @param nestedCondition
-	 * @return
-	 * @generated NOT
-	 * @author Gregor Bonifer
-	 * @author Stefan Jurack (sjurack)
-	 */
-	protected Graph findContainingGraph(NestedCondition nestedCondition) {
-		EObject container = nestedCondition.eContainer();
-		while (container != null) {
-			if (container instanceof Graph) return (Graph) container;
-			container = container.eContainer();
-		}
-		return null;
-	}
-	
-	/**
-	 * Validates the mappingImageContainedInCurrent constraint of '
-	 * <em>Nested Condition</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Validates the mappingImageContainedInCurrent constraint of '<em>Nested Condition</em>'. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public boolean validateNestedCondition_mappingImageContainedInCurrent(
@@ -1725,21 +819,16 @@ public class HenshinValidator extends EObjectValidator {
 			Map<Object, Object> context) {
 		for (Mapping mapping : nestedCondition.getMappings()) {
 			if (!nestedCondition.getConclusion().getNodes().contains(mapping.getImage())) {
-				diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
-						"_UI_GenericConstraint_diagnostic",
-						new Object[] { "nestedCondition_mappingImageContainedInCurrent",
-								getObjectLabel(nestedCondition, context) }, new Object[] {
-								nestedCondition, mapping }, context,
-						"_EcoreConstraint_Msg_NestedCondition_mappingImageContainedInCurrent"));
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, mapping, NestedCondition.class, "mappingImageContainedInCurrent", context));
 				return false;
 			}
 		}
 		return true;
-		
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateFormula(Formula formula, DiagnosticChain diagnostics,
@@ -1748,7 +837,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateUnaryFormula(UnaryFormula unaryFormula, DiagnosticChain diagnostics,
@@ -1757,7 +847,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateBinaryFormula(BinaryFormula binaryFormula, DiagnosticChain diagnostics,
@@ -1766,7 +857,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateAnd(And and, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1774,7 +866,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateOr(Or or, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1782,7 +875,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateNot(Not not, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1799,7 +893,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateXor(Xor xor, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1807,7 +902,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateParameterMapping(ParameterMapping parameterMapping,
@@ -1817,14 +913,27 @@ public class HenshinValidator extends EObjectValidator {
 	
 	/**
 	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
 		return HenshinModelPlugin.INSTANCE;
 	}
+
+	/*
+	 * Private helper for creating diagnostics.
+	 */
+	private Diagnostic createDiagnostic(int severity, EObject object, Class<?> targetType, String constraint, Map<Object, Object> context) {
+		String typeName = targetType.getSimpleName();
+		return createDiagnostic(severity, DIAGNOSTIC_SOURCE, 0,
+				"_UI_GenericConstraint_diagnostic", 
+				new Object[] { typeName.toLowerCase() + "_" + constraint, getObjectLabel(object, context) },
+				new Object[] { object }, context, "_Constraint_Msg_" + typeName + "_" + constraint);
+	}
 	
+
 	/**
 	 * Extended version of
 	 * {@link #createDiagnostic(int, String, int, String, Object[], Object[], Map)}
@@ -1834,33 +943,19 @@ public class HenshinValidator extends EObjectValidator {
 	 * 1) if additionalMessage starts with an "_", it is considered of being a
 	 * key pointing to a string in the plugin.properties,<br>
 	 * 2) otherwise the contained string is passed as is
-	 * 
-	 * @param severity
-	 * @param source
-	 * @param code
-	 * @param messageKey
-	 * @param messageSubstitutions
-	 * @param data
-	 * @param context
-	 * @param additionalMessage
-	 * @return
-	 * 
-	 * @author sjurack
-	 * 
 	 * @generated
 	 */
 	protected BasicDiagnostic createDiagnostic(int severity, String source, int code,
 			String messageKey, Object[] messageSubstitutions, Object[] data,
 			Map<Object, Object> context, String additionalMessage) {
-
-		String henshinMessage = "";
-
-		if ((additionalMessage != null) && (additionalMessage.length() > 0))
-			henshinMessage = " -- " + (additionalMessage.startsWith("_") ? getString(additionalMessage,
-					messageSubstitutions) : additionalMessage);
-
-		String message = getString(messageKey, messageSubstitutions);
-		return new BasicDiagnostic(severity, source, code, message + henshinMessage, data);
-	}// createDiagnostic
+		String message;
+		if ((additionalMessage != null) && (additionalMessage.length() > 0)) {
+			message = ((additionalMessage.startsWith("_") ? getString(additionalMessage,
+					messageSubstitutions) : additionalMessage));
+		} else {
+			message = getString(messageKey, messageSubstitutions);			
+		}
+		return new BasicDiagnostic(severity, source, code, message, data);
+	}
 	
-} // HenshinValidator
+}
