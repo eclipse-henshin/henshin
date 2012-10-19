@@ -32,12 +32,31 @@ public interface EGraph extends Collection<EObject> {
 	boolean addTree(EObject root);
 	
 	/**
+	 * Adds an {@link EObject} and all reachable objects to this graph.
+	 * In contrast to {@link #addTree(EObject)} this method adds all
+	 * referenced objects to the graph, and not just the children of
+	 * the containment tree.
+	 * @param object An arbitrary object.
+	 * @return <code>true</code> if at least one object was added.
+	 */
+	boolean addGraph(EObject object);
+	
+	/**
 	 * Removes an {@link EObject} and all its children from this graph.
 	 * @param root The root object of the tree.
-	 * @return <code>true</code> if any object was removed. 
+	 * @return <code>true</code> if any object was removed.
+	 * @see #addTree(EObject)
 	 */
 	boolean removeTree(EObject root);
-	
+
+	/**
+	 * Removes an {@link EObject} and all reachable objects from this graph.
+	 * @param object An arbitrary object.
+	 * @return <code>true</code> if any object was removed.
+	 * @see #addGraph(EObject)
+	 */
+	boolean removeGraph(EObject object);
+
 	/**
 	 * Copy this object graph. If the parameter map is <code>null</code>
 	 * the objects in the graph will be copied too. If the map is not

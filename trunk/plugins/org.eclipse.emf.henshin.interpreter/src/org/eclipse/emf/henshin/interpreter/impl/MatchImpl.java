@@ -283,18 +283,20 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	@Override
 	protected String toStringWithIndent(String indent) {
 		String result = super.toStringWithIndent(indent);
-		if (nodes.isEmpty()) {
-			return indent + "- no nodes\n";
-		}
+		String matchType = isResult ? "Result match" : "Match";
 		int index = 1;
-		for (Node node : nodes) {
-			String name = node.getName()!=null ? "'" + node.getName() + "'" : "#" + index;
-			EObject target = getNodeTarget(node);
-			if (target!=null) {
-				result = result + indent + "- node " + name + " => " + 
+		if (nodes.isEmpty()) {
+			result = result + indent + "- no nodes\n";
+		} else {
+			for (Node node : nodes) {
+				String name = node.getName()!=null ? "'" + node.getName() + "'" : "#" + index;
+				EObject target = getNodeTarget(node);
+				if (target!=null) {
+					result = result + indent + "- node " + name + " => " + 
 							InterpreterUtil.objectToString(target) + "\n";
+				}
+				index++;
 			}
-			index++;
 		}
 		index = 1;
 		for (Rule multiRule : ((Rule) unit).getMultiRules()) {
@@ -302,7 +304,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 			result = result + "\n" + indent + "  Multi-rule " + name + ":\n";
 			List<Match> matches = getMultiMatches(multiRule);
 			for (int i=0; i<matches.size(); i++) {
-				result = result + "\n" + indent + "  Match #" + i + ":\n";
+				result = result + "\n" + indent + "  " + matchType + " #" + i + ":\n";
 				Match match = matches.get(i);
 				if (match instanceof MatchImpl) {
 					result = result + ((MatchImpl) match).toStringWithIndent(indent + "  "); 
