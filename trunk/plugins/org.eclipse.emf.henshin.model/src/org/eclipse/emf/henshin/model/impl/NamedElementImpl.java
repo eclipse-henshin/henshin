@@ -80,7 +80,7 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NamedElementImpl() {
+	public NamedElementImpl() {
 		super();
 	}
 
@@ -211,7 +211,15 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 	 */
 	@Override
 	public String toString() {
-		return name;
+		String typeName = getClass().getSimpleName();
+		if (typeName.endsWith("Impl")) {
+			typeName = typeName.substring(0, typeName.length()-4);
+		}
+		if (name!=null && name.trim().length()>0) {
+			return typeName + " " + name.trim();			
+		} else {
+			return typeName;
+		}
 	}
 
 } //NamedElementImpl

@@ -62,7 +62,7 @@ public class MappingImpl extends EObjectImpl implements Mapping {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MappingImpl() {
+	public MappingImpl() {
 		super();
 	}
 

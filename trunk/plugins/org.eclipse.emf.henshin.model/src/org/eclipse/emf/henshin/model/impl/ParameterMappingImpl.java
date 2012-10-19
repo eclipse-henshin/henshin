@@ -62,7 +62,7 @@ public class ParameterMappingImpl extends EObjectImpl implements ParameterMappin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ParameterMappingImpl() {
+	public ParameterMappingImpl() {
 		super();
 	}
 

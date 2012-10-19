@@ -29,7 +29,7 @@ public class IndependentUnitImpl extends MultiUnitImpl implements IndependentUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IndependentUnitImpl() {
+	public IndependentUnitImpl() {
 		super();
 	}
 

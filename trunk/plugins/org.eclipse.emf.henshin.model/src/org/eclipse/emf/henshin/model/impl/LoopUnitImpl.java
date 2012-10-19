@@ -29,7 +29,7 @@ public class LoopUnitImpl extends UnaryUnitImpl implements LoopUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LoopUnitImpl() {
+	public LoopUnitImpl() {
 		super();
 	}
 

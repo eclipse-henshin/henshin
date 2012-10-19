@@ -63,7 +63,7 @@ public abstract class BinaryFormulaImpl extends EObjectImpl implements BinaryFor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BinaryFormulaImpl() {
+	public BinaryFormulaImpl() {
 		super();
 	}
 

@@ -166,15 +166,6 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * @ordered
 	 */
 	protected EList<Mapping> multiMappings;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected RuleImpl() {
-		super();
-	}
 	
 	/**
 	 * <!-- begin-user-doc -->

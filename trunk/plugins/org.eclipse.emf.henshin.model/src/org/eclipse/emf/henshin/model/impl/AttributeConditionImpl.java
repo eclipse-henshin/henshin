@@ -64,7 +64,7 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeConditionImpl() {
+	public AttributeConditionImpl() {
 		super();
 	}
 

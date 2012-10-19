@@ -30,7 +30,7 @@ public class AndImpl extends BinaryFormulaImpl implements And {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AndImpl() {
+	public AndImpl() {
 		super();
 	}
 

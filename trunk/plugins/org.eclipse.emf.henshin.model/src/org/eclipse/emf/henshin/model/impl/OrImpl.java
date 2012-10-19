@@ -30,7 +30,7 @@ public class OrImpl extends BinaryFormulaImpl implements Or {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OrImpl() {
+	public OrImpl() {
 		super();
 	}
 

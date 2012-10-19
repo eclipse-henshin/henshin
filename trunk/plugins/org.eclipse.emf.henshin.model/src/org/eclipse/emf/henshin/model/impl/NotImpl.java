@@ -30,7 +30,7 @@ public class NotImpl extends UnaryFormulaImpl implements Not {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NotImpl() {
+	public NotImpl() {
 		super();
 	}
 

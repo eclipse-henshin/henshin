@@ -91,7 +91,7 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UnitImpl() {
+	public UnitImpl() {
 		super();
 	}
 	

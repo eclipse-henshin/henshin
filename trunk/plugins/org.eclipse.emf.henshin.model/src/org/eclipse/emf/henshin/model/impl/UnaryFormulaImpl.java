@@ -52,7 +52,7 @@ public abstract class UnaryFormulaImpl extends EObjectImpl implements UnaryFormu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UnaryFormulaImpl() {
+	public UnaryFormulaImpl() {
 		super();
 	}
 

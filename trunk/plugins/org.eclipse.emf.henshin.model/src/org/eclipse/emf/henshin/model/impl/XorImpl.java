@@ -30,7 +30,7 @@ public class XorImpl extends BinaryFormulaImpl implements Xor {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected XorImpl() {
+	public XorImpl() {
 		super();
 	}
 	

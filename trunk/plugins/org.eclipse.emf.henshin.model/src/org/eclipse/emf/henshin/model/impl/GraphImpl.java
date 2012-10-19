@@ -92,7 +92,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected GraphImpl() {
+	public GraphImpl() {
 		super();
 	}
 	

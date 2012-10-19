@@ -50,7 +50,7 @@ public abstract class UnaryUnitImpl extends UnitImpl implements UnaryUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UnaryUnitImpl() {
+	public UnaryUnitImpl() {
 		super();
 	}
 

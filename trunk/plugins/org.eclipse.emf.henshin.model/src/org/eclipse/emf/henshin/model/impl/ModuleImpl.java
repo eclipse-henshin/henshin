@@ -94,7 +94,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ModuleImpl() {
+	public ModuleImpl() {
 		super();
 	}
 

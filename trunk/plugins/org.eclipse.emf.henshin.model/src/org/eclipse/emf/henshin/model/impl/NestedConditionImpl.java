@@ -72,7 +72,7 @@ public class NestedConditionImpl extends EObjectImpl implements NestedCondition 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NestedConditionImpl() {
+	public NestedConditionImpl() {
 		super();
 	}
 	

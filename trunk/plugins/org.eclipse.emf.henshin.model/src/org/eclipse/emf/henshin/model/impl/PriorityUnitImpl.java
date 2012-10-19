@@ -29,7 +29,7 @@ public class PriorityUnitImpl extends MultiUnitImpl implements PriorityUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PriorityUnitImpl() {
+	public PriorityUnitImpl() {
 		super();
 	}
 

@@ -93,7 +93,7 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EdgeImpl() {
+	public EdgeImpl() {
 		super();
 	}
 

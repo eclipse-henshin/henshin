@@ -112,7 +112,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NodeImpl() {
+	public NodeImpl() {
 		super();
 	}
 

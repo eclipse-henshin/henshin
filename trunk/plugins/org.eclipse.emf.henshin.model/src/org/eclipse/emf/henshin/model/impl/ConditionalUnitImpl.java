@@ -71,7 +71,7 @@ public class ConditionalUnitImpl extends UnitImpl implements ConditionalUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ConditionalUnitImpl() {
+	public ConditionalUnitImpl() {
 		super();
 	}
 	

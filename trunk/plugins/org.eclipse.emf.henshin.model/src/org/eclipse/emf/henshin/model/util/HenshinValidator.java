@@ -948,14 +948,15 @@ public class HenshinValidator extends EObjectValidator {
 	protected BasicDiagnostic createDiagnostic(int severity, String source, int code,
 			String messageKey, Object[] messageSubstitutions, Object[] data,
 			Map<Object, Object> context, String additionalMessage) {
-		String message;
-		if ((additionalMessage != null) && (additionalMessage.length() > 0)) {
-			message = ((additionalMessage.startsWith("_") ? getString(additionalMessage,
-					messageSubstitutions) : additionalMessage));
-		} else {
-			message = getString(messageKey, messageSubstitutions);			
-		}
-		return new BasicDiagnostic(severity, source, code, message, data);
-	}
+
+		String henshinMessage = "";
+
+		if ((additionalMessage != null) && (additionalMessage.length() > 0))
+			henshinMessage = " -- " + (additionalMessage.startsWith("_") ? getString(additionalMessage,
+					messageSubstitutions) : additionalMessage);
+
+		String message = getString(messageKey, messageSubstitutions);
+		return new BasicDiagnostic(severity, source, code, message + henshinMessage, data);
+	}// createDiagnostic
 	
 }

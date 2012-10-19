@@ -51,7 +51,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ParameterImpl() {
+	public ParameterImpl() {
 		super();
 	}
 

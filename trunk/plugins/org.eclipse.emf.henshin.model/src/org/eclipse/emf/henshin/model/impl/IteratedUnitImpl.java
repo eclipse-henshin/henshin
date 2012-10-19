@@ -55,7 +55,7 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IteratedUnitImpl() {
+	public IteratedUnitImpl() {
 		super();
 	}
 

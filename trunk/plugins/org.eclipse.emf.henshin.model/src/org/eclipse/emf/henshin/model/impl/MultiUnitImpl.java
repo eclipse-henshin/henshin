@@ -48,7 +48,7 @@ public abstract class MultiUnitImpl extends UnitImpl implements MultiUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MultiUnitImpl() {
+	public MultiUnitImpl() {
 		super();
 	}
 

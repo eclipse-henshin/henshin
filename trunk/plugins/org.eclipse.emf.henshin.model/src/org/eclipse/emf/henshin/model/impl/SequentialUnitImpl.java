@@ -76,7 +76,7 @@ public class SequentialUnitImpl extends MultiUnitImpl implements SequentialUnit 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SequentialUnitImpl() {
+	public SequentialUnitImpl() {
 		super();
 	}
 
