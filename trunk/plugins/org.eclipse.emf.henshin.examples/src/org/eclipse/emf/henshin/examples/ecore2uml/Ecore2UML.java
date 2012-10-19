@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -65,6 +66,7 @@ public class Ecore2UML {
 
 		// Load the example model into an EGraph:
 		EGraph graph = new EGraphImpl(resourceSet.getResource(ecore));
+		graph.addAll(EcorePackage.eINSTANCE.getEClassifiers()); // we need the EDataTypes in the graph
 		
 		// Create an engine and a unit application:
 		Engine engine = new EngineImpl();

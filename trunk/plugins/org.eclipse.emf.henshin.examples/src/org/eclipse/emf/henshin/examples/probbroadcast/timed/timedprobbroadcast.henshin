@@ -2,6 +2,8 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_bUCvABhCEeKg4P_l5UwyZg" name="">
   <imports href="timedprobbroadcast.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_bUCvARhCEeKg4P_l5UwyZg" name="send">
+    <parameters xmi:id="_HZxPQBm-EeKjPeFnJPdbZA" name="m"/>
+    <parameters xmi:id="_HZ5yIBm-EeKjPeFnJPdbZA" name="u"/>
     <lhs xmi:id="_bUCvAhhCEeKg4P_l5UwyZg" name="Lhs">
       <nodes xmi:id="_bUDWEBhCEeKg4P_l5UwyZg" name="root" outgoing="_bUEkMhhCEeKg4P_l5UwyZg _bUEkMxhCEeKg4P_l5UwyZg">
         <type href="timedprobbroadcast.ecore#//Network"/>
@@ -226,7 +228,9 @@
       <multiMappings xmi:id="_NL2DQBhYEeKsfotxZKFPww" origin="_bUEkMBhCEeKg4P_l5UwyZg" image="_NL0OEBhYEeKsfotxZKFPww"/>
     </multiRules>
   </units>
-  <units xsi:type="henshin:Rule" xmi:id="_Y_BWYBhYEeKsfotxZKFPww" name="send">
+  <units xsi:type="henshin:Rule" xmi:id="_Y_BWYBhYEeKsfotxZKFPww" name="stop">
+    <parameters xmi:id="_I7VIoBm-EeKjPeFnJPdbZA" name="m"/>
+    <parameters xmi:id="_I7aoMBm-EeKjPeFnJPdbZA" name="u"/>
     <lhs xmi:id="_Y_BWYRhYEeKsfotxZKFPww" name="Lhs">
       <nodes xmi:id="_b9GREBhYEeKsfotxZKFPww" name="root" outgoing="_b9eEgBhYEeKsfotxZKFPww _b9y0oBhYEeKsfotxZKFPww">
         <type href="timedprobbroadcast.ecore#//Network"/>

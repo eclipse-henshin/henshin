@@ -138,7 +138,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 	 * Default constructor.
 	 * @generated
 	 */
-	protected EqualityHelperImpl() {
+	public EqualityHelperImpl() {
 		super();
 	}
 

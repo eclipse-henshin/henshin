@@ -94,10 +94,10 @@ public class TimedProbBroadcast {
 	 * @param path Relative path to the model files.
 	 */
 	public static void run(String path) {
-		TimedProbBroadcast main = new TimedProbBroadcast(path, "grid3x3.henshin_statespace");
+		TimedProbBroadcast main = new TimedProbBroadcast(path, "grid2x2.henshin_statespace");
 		try {
 			OCLStateValidator.register(); // we need the OCL validator
-			main.fixedSendProb(new int[] { 9 }, 0.6);
+			main.fixedSendProb(new int[] { 2,3,4 }, 0.6);
 			// main.fixedSendProb(new int[] {2,4,3,5,7,6,8,9}, 0.6);
 			// main.fixedNode(9, "0:0.1:1"); 
 		}

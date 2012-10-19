@@ -4,7 +4,7 @@
     modelDirectory="/org.eclipse.emf.henshin.statespace/src" modelPluginID="org.eclipse.emf.henshin.statespace"
     modelName="StateSpace" modelPluginClass="StateSpacePlugin" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    runtimeVersion="2.6" usedGenPackages="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin">
+    publicConstructors="true" runtimeVersion="2.6" usedGenPackages="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin">
   <foreignModel>statespace.ecore</foreignModel>
   <genPackages prefix="StateSpace" basePackage="org.eclipse.emf.henshin" disposableProviderFactory="true"
       fileExtensions="henshin_statespace" ecorePackage="statespace.ecore#/">

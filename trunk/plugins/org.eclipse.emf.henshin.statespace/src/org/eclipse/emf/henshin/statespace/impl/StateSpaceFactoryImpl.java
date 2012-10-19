@@ -21,16 +21,8 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.statespace.*;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.statespace.EqualityHelper;
-import org.eclipse.emf.henshin.statespace.Model;
-import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.StateSpacePackage;
-import org.eclipse.emf.henshin.statespace.Storage;
-import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * <!-- begin-user-doc -->

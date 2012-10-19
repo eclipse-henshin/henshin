@@ -36,6 +36,15 @@ import org.eclipse.emf.henshin.statespace.Transition;
 public class StateImpl extends StorageImpl implements State {
 	
 	/**
+	 * Constructor.
+	 * @param index The index of this state.
+	 * @generated NOT
+	 */
+	public StateImpl(int index) {
+		this.index = index;
+	}
+
+	/**
 	 * Check whether this state is an initial one.
 	 * @generated NOT
 	 */
@@ -273,7 +282,7 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated
 	 */
-	protected StateImpl() {
+	public StateImpl() {
 		super();
 	}
 

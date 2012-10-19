@@ -1,11 +1,13 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.EClass;
@@ -218,21 +220,29 @@ public class StateSpaceTimeInfo {
 				}
 			}
 			properties.removeAll(original);
-			if (properties.isEmpty()) {
-				return null;
-			}
+			Set<String> missingClockVariables = getMissingClockVariables(replacements.keySet(), match.getRule());
+			
 			String result = "";
 			int count = properties.size();
 			for (int j=0; j<count; j++) {
-				boolean duplicate = false;
+				String prop = properties.get(j);
+				boolean use = true;
 				for (int k=0; k<j; k++) {
-					if (properties.get(k).equals(properties.get(j))) {
-						duplicate = true;
+					if (properties.get(k).equals(prop)) {
+						use = false;
 						break;
 					}
 				}
-				if (!duplicate) {
-					String prop = properties.get(j).trim();
+				if (use) {
+					for (String missing : missingClockVariables) {
+						if (prop.indexOf(missing)>=0) {
+							use = false;
+							break;
+						}
+					}
+				}
+				if (use) {
+					prop = prop.trim();
 					if (!prop.startsWith("(")) {
 						prop = "(" + prop + ")";
 					}
@@ -242,7 +252,7 @@ public class StateSpaceTimeInfo {
 					result = result + prop;
 				}
 			}
-			return result;
+			return result.length()>0 ? result : null;
 		}
 		return null;
 	}
@@ -263,10 +273,29 @@ public class StateSpaceTimeInfo {
 			}
 		}
 		for (Rule multiRule : match.getRule().getMultiRules()) {
-			for (Match multiMatch : match.getNestedMatches(multiRule)) {
+			for (Match multiMatch : match.getMultiMatches(multiRule)) {
 				computePropertyReplacements(multiMatch, model, replacements);
 			}
 		}
+	}
+	
+	private Set<String> getMissingClockVariables(Set<String> usedClockVariables, Rule rule) {
+		Set<String> missing = new HashSet<String>();
+		String nodeName;
+		for (Node node : rule.getLhs().getNodes()) {
+			nodeName = node.getName();
+			if (nodeName!=null) {
+				for (String clockName : clockDeclarations.get(node.getType())) {
+					if (!usedClockVariables.contains(nodeName + "\\." + clockName)) {
+						missing.add(nodeName + "." + clockName);
+					}
+				}
+			}
+		}
+		for (Rule multiRule : rule.getMultiRules()) {
+			missing.addAll(getMissingClockVariables(usedClockVariables, multiRule));
+		}
+		return missing;
 	}
 	
 	/*

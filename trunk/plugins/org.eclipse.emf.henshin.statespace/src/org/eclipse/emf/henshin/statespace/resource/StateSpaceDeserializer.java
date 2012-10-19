@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.statespace.resource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -22,6 +23,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.impl.ModelImpl;
+import org.eclipse.emf.henshin.statespace.impl.StateImpl;
 
 /**
  * State space deserializer.
@@ -73,10 +75,9 @@ public class StateSpaceDeserializer {
 		stateSpace.setData(data);
 		
 		// Create states:
+		List<State> states = stateSpace.getStates();
 		for (int i=0; i<stateCount; i++) {
-			State state = StateSpaceFactory.eINSTANCE.createState();
-			state.setIndex(i);
-			stateSpace.getStates().add(state);
+			states.add(new StateImpl(i));
 		}
 		
 		// Load rules:
@@ -89,7 +90,7 @@ public class StateSpaceDeserializer {
 			
 		// Load states and transitions:
 		transitionCount = 0;
-		for (State state : stateSpace.getStates()) {
+		for (State state : states) {
 			
 			// Initial states have a model URI:
 			String modelUri = readString();

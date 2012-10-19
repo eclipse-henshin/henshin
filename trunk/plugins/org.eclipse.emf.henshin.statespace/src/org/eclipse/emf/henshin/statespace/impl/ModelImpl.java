@@ -152,7 +152,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			match.setNodeTarget(node, newImage);
 		}
 		for (Rule rule : match.getRule().getMultiRules()) {
-			for (Match nested : match.getNestedMatches(rule)) {
+			for (Match nested : match.getMultiMatches(rule)) {
 				updateMatch(nested, copier);
 			}
 		}
@@ -380,7 +380,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ModelImpl() {
+	public ModelImpl() {
 		super();
 	}
 

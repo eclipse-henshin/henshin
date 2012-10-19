@@ -165,7 +165,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated
 	 */
-	protected TransitionImpl() {
+	public TransitionImpl() {
 		super();
 	}
 

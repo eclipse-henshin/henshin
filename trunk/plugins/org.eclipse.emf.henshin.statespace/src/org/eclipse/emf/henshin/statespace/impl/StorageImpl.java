@@ -153,7 +153,7 @@ public class StorageImpl extends MinimalEObjectImpl.Container implements Storage
 	/**
 	 * @generated
 	 */
-	protected StorageImpl() {
+	public StorageImpl() {
 		super();
 	}
 

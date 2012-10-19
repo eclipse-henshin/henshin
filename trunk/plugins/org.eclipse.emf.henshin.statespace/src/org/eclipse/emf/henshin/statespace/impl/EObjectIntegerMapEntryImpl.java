@@ -74,7 +74,7 @@ public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EObjectIntegerMapEntryImpl() {
+	public EObjectIntegerMapEntryImpl() {
 		super();
 	}
 
