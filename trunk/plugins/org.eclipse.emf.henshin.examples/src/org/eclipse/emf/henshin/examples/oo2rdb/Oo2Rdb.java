@@ -68,7 +68,8 @@ public class Oo2Rdb {
 		Resource carRental = resourceSet.getResource(ooModel);
 		
 		// Initialize the Henshin graph:
-		EGraph graph = new EGraphImpl(carRental);
+		EGraph graph = new EGraphImpl();
+		graph.addTree(carRental.getContents().get(0));
 		for (EClassifier classifier : EcorePackageImpl.eINSTANCE.getEClassifiers()) {
 			if (classifier instanceof EDataType) {
 				graph.add(classifier);	// (we need the Ecore datatypes as well)
@@ -87,6 +88,13 @@ public class Oo2Rdb {
 		EObject result = (EObject) unitApp.getResultParameterValue("schema");
 		System.out.println("Generated Rdb model.");
 		
+		// Save the result?
+		if (saveResult) {
+			String resultFile = ooModel.replaceFirst(".ecore", "-generated-result.xmi");
+			resourceSet.saveEObject(result, resultFile);
+			System.out.println("Saved result in '" + resultFile + "'");
+		}
+
 		// Compare with a reference model?
 		if (referenceRdbModel!=null) {
 			Resource reference = resourceSet.getResource(referenceRdbModel);
@@ -99,14 +107,7 @@ public class Oo2Rdb {
 			}
 			
 		}
-		
-		// save the result?
-		if (saveResult) {
-			String resultFile = ooModel.replaceFirst(".ecore", "-generated-result.xmi");
-			resourceSet.saveEObject(result, resultFile);
-			System.out.println("Saved result in '" + resultFile + "'");
-		}
-		
+				
 	}
 
 	public static void main(String[] args) {
