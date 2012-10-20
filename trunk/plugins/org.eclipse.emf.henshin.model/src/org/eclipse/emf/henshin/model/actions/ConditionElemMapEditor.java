@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.model.actions.impl;
+package org.eclipse.emf.henshin.model.actions;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;

@@ -33,8 +33,8 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.actions.impl.AttributeActionHelper;
-import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
+import org.eclipse.emf.henshin.model.actions.AttributeActionHelper;
+import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
 
 /**
  * <!-- begin-user-doc -->

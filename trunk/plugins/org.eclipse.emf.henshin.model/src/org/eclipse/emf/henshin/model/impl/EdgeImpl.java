@@ -26,8 +26,8 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.actions.impl.ActionElementFinder;
-import org.eclipse.emf.henshin.model.actions.impl.EdgeActionHelper;
+import org.eclipse.emf.henshin.model.actions.ActionElementFinder;
+import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
 
 /**
  * <!-- begin-user-doc -->

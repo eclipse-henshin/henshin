@@ -42,8 +42,8 @@ import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.actions.impl.EdgeActionHelper;
-import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
+import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
+import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
 
 /**
  * <!-- begin-user-doc --> 
