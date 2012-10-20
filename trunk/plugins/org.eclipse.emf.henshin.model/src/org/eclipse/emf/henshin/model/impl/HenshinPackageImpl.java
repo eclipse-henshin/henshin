@@ -1446,6 +1446,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		addEOperation(ruleEClass, this.getRule(), "getAllMultiRules", 0, -1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(ruleEClass, this.getMapping(), "getAllMappings", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		op = addEOperation(ruleEClass, this.getNode(), "getActionNodes", 0, -1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getAction(), "action", 0, 1, IS_UNIQUE, IS_ORDERED);
 

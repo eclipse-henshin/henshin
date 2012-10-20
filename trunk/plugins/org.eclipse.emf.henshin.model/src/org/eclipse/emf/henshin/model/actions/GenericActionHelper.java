@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 
 /**
+ * Generic action helper class.
  * @author Christian Krause
  */
 public abstract class GenericActionHelper<E extends GraphElement,C extends EObject> implements ActionHelper<E,C> {

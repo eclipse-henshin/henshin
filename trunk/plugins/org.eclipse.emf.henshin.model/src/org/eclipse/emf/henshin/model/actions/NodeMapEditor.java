@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * A helper class for editing node maps, e.g. for copying and 
@@ -161,11 +163,29 @@ public class NodeMapEditor extends AbstractMapEditor<Node> {
 		int index = graph.getNodes().indexOf(node);
 		graph.getNodes().set(index, opposite);
 		
+		// Update the multi-mappings:
+		updateMappings(node, opposite);
+		
 		// Done.
 		return opposite;
 		
 	}
-		
+
+	/*
+	 * Update all related mappings.
+	 */
+	void updateMappings(Node oldNode, Node newNode) {
+		Rule rule = newNode.getGraph().getRule();
+		for (Mapping m : rule.getAllMappings()) {
+			if (m.getOrigin()==oldNode) {
+				m.setOrigin(newNode);
+			}
+			if (m.getImage()==oldNode) {
+				m.setImage(newNode);
+			}
+		}
+	}
+	
 	/*
 	 * Perform a copy operation.
 	 */
@@ -178,7 +198,7 @@ public class NodeMapEditor extends AbstractMapEditor<Node> {
 		}
 		return opposite;
 	}
-		
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.maps.AbstractMapEditor#doRemoveMapping(java.lang.Object, java.lang.Object)

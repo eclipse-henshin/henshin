@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -172,6 +171,15 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RuleImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.RULE;
@@ -292,7 +300,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 */
 	public MappingList getMappings() {
 		if (mappings == null) {
-			mappings = new MappingListImpl(this, HenshinPackage.RULE__MAPPINGS);
+			mappings = new MappingContainmentListImpl(this, HenshinPackage.RULE__MAPPINGS);
 		}
 		return (MappingList) mappings;
 	}
@@ -362,18 +370,13 @@ public class RuleImpl extends UnitImpl implements Rule {
 			changed = false;
 			
 			// Add all mappings that refer to the nodes:
-			TreeIterator<EObject> it = eAllContents();
-			while (it.hasNext()) {
-				EObject obj = it.next();
-				if (obj instanceof Mapping) {
-					Mapping m = (Mapping) obj;
-					if (!mappings.contains(m)) {
-						for (Node n : nodes) {
-							if (m.getOrigin()==n || m.getImage()==n) {
-								mappings.add(m);
-								changed = true;
-								break;
-							}
+			for (Mapping m : getAllMappings()) {
+				if (!mappings.contains(m)) {
+					for (Node n : nodes) {
+						if (m.getOrigin()==n || m.getImage()==n) {
+							mappings.add(m);
+							changed = true;
+							break;
 						}
 					}
 				}
@@ -417,6 +420,23 @@ public class RuleImpl extends UnitImpl implements Rule {
 			allMultiRules.addAll(multiRule.getAllMultiRules());
 		}
 		return ECollections.unmodifiableEList(allMultiRules);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public MappingList getAllMappings() {
+		MappingList mappings = new MappingListImpl();
+		TreeIterator<EObject> it = eAllContents();
+		while (it.hasNext()) {
+			EObject obj = it.next();
+			if (obj instanceof Mapping) {
+				mappings.add((Mapping) obj);
+			}
+		}
+		return mappings;
 	}
 
 	/**
@@ -605,19 +625,12 @@ public class RuleImpl extends UnitImpl implements Rule {
 		// Collect mapped edges if necessary:
 		if (removeMapped) {
 			// Collect a list of ALL mappings:
-			List<Mapping> mappings = new ArrayList<Mapping>();
-			TreeIterator<EObject> it = eAllContents();
-			while (it.hasNext()) {
-				EObject obj = it.next();
-				if (obj instanceof Mapping) {
-					mappings.add((Mapping) obj);
-				}
-			}
+			MappingList mappings = getAllMappings();
 			// Now collect edges to be removed:
 			boolean changed;
 			do {
 				changed = false;
-				it = eAllContents();
+				TreeIterator<EObject> it = eAllContents();
 				while (it.hasNext()) {
 					EObject obj = it.next();
 					if (obj instanceof Edge) {
@@ -625,10 +638,10 @@ public class RuleImpl extends UnitImpl implements Rule {
 						if (e.getType()!=edge.getType() || edges.contains(e)) {
 							continue;
 						}
-						if ((getMappings().get(edge.getSource(), e.getSource())!=null &&
-							 getMappings().get(edge.getTarget(), e.getTarget())!=null) ||
-							(getMappings().get(e.getSource(), edge.getSource())!=null &&
-							 getMappings().get(e.getTarget(), edge.getTarget())!=null)) {
+						if ((mappings.get(edge.getSource(), e.getSource())!=null &&
+							 mappings.get(edge.getTarget(), e.getTarget())!=null) ||
+							(mappings.get(e.getSource(), edge.getSource())!=null &&
+							 mappings.get(e.getTarget(), edge.getTarget())!=null)) {
 							edges.add(e);
 							changed = true;
 						}
@@ -706,7 +719,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 */
 	public MappingList getMultiMappings() {
 		if (multiMappings == null) {
-			multiMappings = new MappingListImpl(this, HenshinPackage.RULE__MULTI_MAPPINGS);
+			multiMappings = new MappingContainmentListImpl(this, HenshinPackage.RULE__MULTI_MAPPINGS);
 		}
 		return (MappingList) multiMappings;
 	}

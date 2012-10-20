@@ -158,6 +158,15 @@ public interface Rule extends Unit {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get all mappings recursively contained in this rule.
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated NOT
+	 */
+	MappingList getAllMappings();
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model actionDataType="org.eclipse.emf.henshin.model.Action"
 	 * @generated

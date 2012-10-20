@@ -9,7 +9,8 @@
  */
 package org.eclipse.emf.henshin.model.impl;
 
-import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -22,16 +23,18 @@ import org.eclipse.emf.henshin.model.Node;
  * An implementation of the {@link MappingList} interface.
  * @author Christian Krause
  */
-public class MappingListImpl extends BasicEList<Mapping> implements MappingList {
+public class MappingContainmentListImpl extends EObjectContainmentEList<Mapping> implements MappingList {
 
 	// Generated serial ID:
 	private static final long serialVersionUID = -7095784906496813L;
 
 	/**
 	 * Default constructor.
+	 * @param owner Owner of this mapping list.
+	 * @param featureID Feature ID.
 	 */
-	public MappingListImpl() {
-		super();
+	public MappingContainmentListImpl(InternalEObject owner, int featureID) {
+		super(Mapping.class, owner, featureID);
 	}
 		
 	/*
@@ -195,5 +198,5 @@ public class MappingListImpl extends BasicEList<Mapping> implements MappingList 
 	public boolean isOnto(Graph imageGraph) {
 		return MappingListHelper.isOnto(this, imageGraph);
 	}
-
+	
 }
