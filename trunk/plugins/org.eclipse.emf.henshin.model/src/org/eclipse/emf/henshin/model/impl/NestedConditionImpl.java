@@ -136,7 +136,7 @@ public class NestedConditionImpl extends EObjectImpl implements NestedCondition 
 	 */
 	public MappingList getMappings() {
 		if (mappings == null) {
-			mappings = new MappingListImpl(this, HenshinPackage.NESTED_CONDITION__MAPPINGS);
+			mappings = new MappingContainmentListImpl(this, HenshinPackage.NESTED_CONDITION__MAPPINGS);
 		}
 		return (MappingList) mappings;
 	}
