@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceDebugFlags;
 
 /**
  * An exploration helper class.
@@ -111,7 +110,7 @@ public class StateSpaceExplorationHelper {
 		
 		// Adjust the number of states to be explored in one step:
 		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.5, 2);
-		if (!StateSpaceDebugFlags.ENFORCE_DETERMINISM) {
+		if (!StateSpaceManager.DEBUG_ENFORCE_DETERMINISM) {
 			blockSize = rangeCheck((int) ((double) blockSize * speedChange), minBlockSize, maxBlockSize);
 		}
 		

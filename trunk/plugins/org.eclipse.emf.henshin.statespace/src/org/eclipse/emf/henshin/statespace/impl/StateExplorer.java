@@ -26,17 +26,15 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
+import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
-import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
-import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 
 /**
  * Helper class for exploring states. This forms the bridge between a {@link StateSpaceManager}
@@ -102,14 +100,10 @@ public class StateExplorer {
 		ruleParameters = new HashMap<Rule,List<Node>>();
 		if (useObjectKeys) {
 			for (Rule rule : rules) {
-				try {
-					ruleParameters.put(rule, ParameterUtil.getParameters(stateSpace, rule));
-				} catch (StateSpaceException e) {
-					throw new RuntimeException(e);
-				}
+				ruleParameters.put(rule, rule.getParameterNodes());
 			}
 		}
-		String collect = stateSpace.getProperties().get(StateSpaceProperties.COLLECT_MISSING_ROOTS);
+		String collect = stateSpace.getProperties().get(StateSpace.PROPERTY_COLLECT_MISSING_ROOTS);
 		collectMissingRoots = (collect!=null) && ("true".equalsIgnoreCase(collect) || "yes".equalsIgnoreCase(collect));
 		
 		// Set-up the engine:

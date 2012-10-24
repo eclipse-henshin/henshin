@@ -34,7 +34,6 @@ import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
-import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
@@ -52,13 +51,13 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		
 		// Default properties:
 		EMap<String,String> props = getProperties();
-		props.put(StateSpaceProperties.CHECK_LINK_ORDER, "false");
-		props.put(StateSpaceProperties.COLLECT_MISSING_ROOTS, "false");
-		props.put(StateSpaceProperties.IGNORE_DUPLICATE_TRANSITIONS, "false");
-		props.put(StateSpaceProperties.USE_CLOCKS, "false");
-		props.put(StateSpaceProperties.IDENTITY_TYPES, "");
-		props.put(StateSpaceProperties.IGNORED_ATTRIBUTES, "");
-		props.put(StateSpaceProperties.CLOCK_DECLARATIONS, "");
+		props.put(StateSpace.PROPERTY_CHECK_LINK_ORDER, "false");
+		props.put(StateSpace.PROPERTY_COLLECT_MISSING_ROOTS, "false");
+		props.put(StateSpace.PROPERTY_IGNORE_DUPLICATE_TRANSITIONS, "false");
+		props.put(StateSpace.PROPERTY_USE_CLOCKS, "false");
+		props.put(StateSpace.PROPERTY_IDENTITY_TYPES, "");
+		props.put(StateSpace.PROPERTY_IGNORED_ATTRIBUTES, "");
+		props.put(StateSpace.PROPERTY_CLOCK_DECLARATIONS, "");
 		
 		// Create a default equality helper:
 		setEqualityHelper(new EqualityHelperImpl());

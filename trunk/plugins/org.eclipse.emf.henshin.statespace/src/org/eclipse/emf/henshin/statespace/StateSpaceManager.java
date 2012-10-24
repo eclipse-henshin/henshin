@@ -24,6 +24,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public interface StateSpaceManager extends StateSpaceIndex {
 	
 	/**
+	 * Debug flag: enforces deterministic behavior of state space manager.
+	 */
+	public static final boolean DEBUG_ENFORCE_DETERMINISM = false;
+
+	/**
 	 * Create a new initial state to the state space. This throws a 
 	 * runtime exception if the state is not contained in a resource.
 	 * If there is already a state for it, it is returned instead.

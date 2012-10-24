@@ -14,18 +14,8 @@ fi
 # WORKSPACE:
 WORKSPACE=`cd ../../../../../../../../..; pwd`
 
-# MAX_MEMORY:
-TOTAL_MEM=`free | grep Mem | awk '{print $2}'`
-TOTAL_MEM=$(($TOTAL_MEM / 1024))
-if [ "$TOTAL_MEM" -gt "2048" ]; then
-    MAX_MEMORY="$(($TOTAL_MEM - 768))M"
-else
-    MAX_MEMORY="$(($TOTAL_MEM - 384))M"
-fi
-
 echo "ECLIPSE_HOME : $ECLIPSE_HOME"
 echo "WORKSPACE    : $WORKSPACE"
-echo "MAX_MEMORY   : $MAX_MEMORY"
 
 DEPS="org.eclipse.core.contenttype
 org.eclipse.core.jobs
@@ -67,5 +57,5 @@ done
 
 sync
 cd $WORKSPACE/org.eclipse.emf.henshin.examples
-java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.probbroadcast.timed.TimedProbBroadcast
+java -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.probbroadcast.timed.TimedProbBroadcast
 cd - > /dev/null

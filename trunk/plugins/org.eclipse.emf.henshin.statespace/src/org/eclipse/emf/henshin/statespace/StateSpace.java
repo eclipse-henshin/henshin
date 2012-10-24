@@ -21,6 +21,42 @@ import org.eclipse.emf.henshin.model.Rule;
  * @generated
  */
 public interface StateSpace extends Storage {
+	
+	/**
+	 * Key for a state space property that determines whether the order of links matters.
+	 */
+	public static final String PROPERTY_CHECK_LINK_ORDER = "checkLinkOrder";
+
+	/**
+	 * Key for a state space property that defines a list of types for which object identity matters.
+	 */
+	public static final String PROPERTY_IDENTITY_TYPES = "identityTypes";
+
+	/**
+	 * Key for a state space property that defines a list of attributes whose values should be ignored.
+	 */
+	public static final String PROPERTY_IGNORED_ATTRIBUTES = "ignoredAttributes";
+
+	/**
+	 * Key for a state space property that defines a list of clock attributes.
+	 */
+	public static final String PROPERTY_CLOCK_DECLARATIONS = "clockDeclarations";
+	
+	/**
+	 * Key for a state space property that decides whether clocks should be used.
+	 */
+	public static final String PROPERTY_USE_CLOCKS = "useClocks";
+	
+	/**
+	 * Key for a state space property that determines whether missing root objects should be collected.
+	 */
+	public static final String PROPERTY_COLLECT_MISSING_ROOTS = "collectMissingRoots";
+
+	/**
+	 * Key for a state space property that determines whether duplicate transitions should be ignored.
+	 * Transitions are duplicate if their sources, targets and rules are respectively the same. 
+	 */
+	public static final String PROPERTY_IGNORE_DUPLICATE_TRANSITIONS = "ignoreDuplicateTransitions";
 
 	/**
 	 * Get the states stored in this state space.
@@ -45,16 +81,12 @@ public interface StateSpace extends Storage {
 	boolean removeState(State state);
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
 	void updateEqualityHelper();
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
@@ -197,12 +229,6 @@ public interface StateSpace extends Storage {
 
 	/**
 	 * Returns the value of the '<em><b>Layout Hide Indizes</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Layout Hide Indizes</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Layout Hide Indizes</em>' attribute.
 	 * @see #setLayoutHideIndizes(boolean)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_LayoutHideIndizes()
@@ -213,8 +239,6 @@ public interface StateSpace extends Storage {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.StateSpace#isLayoutHideIndizes <em>Layout Hide Indizes</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Layout Hide Indizes</em>' attribute.
 	 * @see #isLayoutHideIndizes()
 	 * @generated

@@ -20,10 +20,9 @@ import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
-import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
+import org.eclipse.emf.henshin.statespace.equality.EcoreEqualityHelper;
+import org.eclipse.emf.henshin.statespace.equality.GraphEqualityChecker;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
-import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
-import org.eclipse.emf.henshin.statespace.util.GraphEqualityChecker;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceTypesHelper;
 
 /**
@@ -44,14 +43,14 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 	 */
 	public void setStateSpace(StateSpace stateSpace) {
 		// Check link order?
-		String linkOrder = stateSpace.getProperties().get(StateSpaceProperties.CHECK_LINK_ORDER);
+		String linkOrder = stateSpace.getProperties().get(StateSpace.PROPERTY_CHECK_LINK_ORDER);
 		checkLinkOrder = "true".equalsIgnoreCase(linkOrder) || "yes".equalsIgnoreCase(linkOrder);
 		// Gather all known types and attributes:
 		Map<String,EClass> allTypes = StateSpaceTypesHelper.getTypesNameMap(stateSpace);
 		Map<String,EAttribute> allAttrs = StateSpaceTypesHelper.getAttributesNameMap(stateSpace);
 		// Update cached identity types:
 		getIdentityTypes().clear();
-		String typeNames = stateSpace.getProperties().get(StateSpaceProperties.IDENTITY_TYPES);
+		String typeNames = stateSpace.getProperties().get(StateSpace.PROPERTY_IDENTITY_TYPES);
 		if (typeNames!=null) {
 			for (String name : typeNames.split(",")) {
 				EClass type = allTypes.get(name.trim());
@@ -62,7 +61,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 		}
 		// Update ignored attributes:
 		getIgnoredAttributes().clear();
-		String attrNames = stateSpace.getProperties().get(StateSpaceProperties.IGNORED_ATTRIBUTES);
+		String attrNames = stateSpace.getProperties().get(StateSpace.PROPERTY_IGNORED_ATTRIBUTES);
 		if (attrNames!=null) {
 			for (String name : attrNames.split(",")) {
 				EAttribute attr = allAttrs.get(name.trim());

@@ -39,6 +39,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
@@ -457,6 +458,41 @@ public class RuleImpl extends UnitImpl implements Rule {
 	public EList<Edge> getActionEdges(Action action) {
 		List<Edge> result = EdgeActionHelper.INSTANCE.getActionElements(this, action);
 		return ECollections.unmodifiableEList(new BasicEList<Edge>(result));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Node> getParameterNodes() {
+		EList<Node> nodes = new BasicEList<Node>();
+		for (Parameter param : getParameters()) {
+			Node node = findNodeByName(param.getName());
+			if (node!=null) nodes.add(node);
+		}
+		return nodes;
+	}
+
+	/*
+	 * Find a node in a graph based on its name.
+	 */
+	private static Node findNodeByName(String name, Graph graph) {
+		for (Node node : graph.getNodes()) {
+			if (name.equals(node.getName())) return node;
+		}
+		return null;
+	}
+	
+	/*
+	 * Find a node in a rule based on its name.
+	 */
+	private Node findNodeByName(String name) {
+		Node node = findNodeByName(name, getLhs());
+		if (node==null) {
+			node = findNodeByName(name, getRhs());
+		}
+		return node;
 	}
 
 	/**

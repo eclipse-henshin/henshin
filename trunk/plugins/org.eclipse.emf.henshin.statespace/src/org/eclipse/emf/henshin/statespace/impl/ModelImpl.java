@@ -26,8 +26,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
@@ -65,7 +65,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 */
 	public EGraph getEGraph() {
 		if (eGraph==null) {
-			eGraph = InterpreterFactory.INSTANCE.createEGraph();
+			eGraph = new EGraphImpl();
 			for (EObject root : resource.getContents()) {
 				eGraph.addTree(root);
 			}
@@ -170,7 +170,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		boolean changed = false;
 
 		// Get the next free object Id:
-		int nextFreeId = getNextFreeId();
+		byte[] usedIds = getUsedIds();
+		int nextId = 0;
 		
 		// Now set the keys for new objects:
 		TreeIterator<EObject> iterator = resource.getAllContents();
@@ -182,12 +183,17 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			
 			// Check if we need to create or change the key:
 			if (currentId==0 && identityTypes.contains(object.eClass())) {
+				
+				// Get the next free Id:
+				nextId++;
+				while (nextId<usedIds.length && usedIds[nextId]!=0) nextId++;
+				
 				//System.out.println("Creating object id " + nextFreeId + " for object of type " + object.eClass().getName());
-				int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextFreeId++, identityTypes);
+				int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextId++, identityTypes);
 				objectKeysMap.put(object, objectKey);
 				changed = true;
-			}
-			else if (currentId!=0 && !identityTypes.contains(object.eClass())) {
+			
+			} else if (currentId!=0 && !identityTypes.contains(object.eClass())) {
 				//System.out.println("Removing illegal object id for object of type " + object.eClass().getName());
 				objectKeysMap.remove(object);
 				changed = true;
@@ -203,7 +209,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/*
 	 * Get the next free object Id.
 	 */
-	private int getNextFreeId() {
+/*	private int getNextFreeId() {
 		
 		// Make sure the keys map is not null.
 		getObjectKeysMap();
@@ -220,6 +226,40 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		
 		// Done.
 		return nextFreeId;
+		
+	}
+*/
+
+	/*
+	 * Get the used object Ids.
+	 */
+	private byte[] getUsedIds() {
+		
+		// Get the object keys as an array:
+		int[] values = getObjectKeys();
+		
+		// Get the ids and the maximum id:
+		int maxId = 0;
+		for (int i=0; i<values.length; i++) {
+			values[i] = ObjectKeyHelper.getObjectID(values[i]);
+			if (values[i]>maxId) maxId = values[i];
+		}
+		
+		// Create the used Ids array:
+		byte[] used = new byte[maxId+1];
+		
+		// Mark the used Ids:
+		for (int id=1; id<used.length; id++) {
+			for (int j=0; j<values.length; j++) {
+				if (values[j]==id) {
+					used[id] = 1;
+					break;
+				}
+			}
+		}
+				
+		// Done.
+		return used;
 		
 	}
 
@@ -251,8 +291,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		while (iterator.hasNext()) {
 			objectKeys.add(objectKeysMap.get(iterator.next()));
 		}
-		int[] result = new int[objectKeys.size()];
-		for (int i = 0; i < objectKeys.size(); i++) {
+		int size = objectKeys.size();
+		int[] result = new int[size];
+		for (int i = 0; i < size; i++) {
 			result[i] = objectKeys.get(i);
 		}
 		return result;

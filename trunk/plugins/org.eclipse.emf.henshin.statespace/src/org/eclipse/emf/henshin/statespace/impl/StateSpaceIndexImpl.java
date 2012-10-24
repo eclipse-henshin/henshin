@@ -32,7 +32,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	
 	// State model cache:
 	private final Map<State,Model> stateModelCache = 
-			Collections.synchronizedMap(new UniversalCache<State,Model>());
+			Collections.synchronizedMap(new StateSpaceCache<State,Model>());
 	
 	// The state space index:
 	private State[][] index;

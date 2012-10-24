@@ -20,7 +20,6 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 
@@ -53,7 +52,7 @@ public class DiningPhilsBenchmark {
 		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
 		
 		// To improve the performance, we omit the identity types:
-		stateSpace.getProperties().remove(StateSpaceProperties.IDENTITY_TYPES);
+		stateSpace.getProperties().remove(StateSpace.PROPERTY_IDENTITY_TYPES);
 		
 		// Find the rule for adding a philosopher:
 		Rule createPhilRule = (Rule) stateSpace.getRules().get(0).getModule().getUnit("createPhil");

@@ -97,9 +97,9 @@ public class TimedProbBroadcast {
 		TimedProbBroadcast main = new TimedProbBroadcast(path, "grid2x2.henshin_statespace");
 		try {
 			OCLStateValidator.register(); // we need the OCL validator
-			main.fixedSendProb(new int[] { 2,3,4 }, 0.6);
-			// main.fixedSendProb(new int[] {2,4,3,5,7,6,8,9}, 0.6);
-			// main.fixedNode(9, "0:0.1:1"); 
+			 main.fixedSendProb(new int[] { 1,2,3,4 }, 0.6);
+			//main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 0.6);
+			// main.fixedNode(9, "0:0.1:1");
 		}
 		catch (Throwable t){
 			t.printStackTrace();

@@ -265,7 +265,7 @@ public class PRISMUtil {
 		if (targets.size()==0) {
 			result = "false";
 		} else {
-			boolean negate = targets.size() > (index.getStateSpace().getStateCount() / 2);
+			boolean negate = false;//targets.size() > (index.getStateSpace().getStateCount() / 2);
 			if (negate) {
 				List<State> negated = new Vector<State>(index.getStateSpace().getStates());
 				negated.removeAll(targets);

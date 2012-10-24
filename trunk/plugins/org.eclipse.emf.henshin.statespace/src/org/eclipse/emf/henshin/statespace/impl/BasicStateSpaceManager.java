@@ -30,7 +30,6 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Path;
-import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -69,7 +68,7 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 	 */
 	protected void refreshHelpers() {
 		getStateSpace().updateEqualityHelper();
-		String ign = getStateSpace().getProperties().get(StateSpaceProperties.IGNORE_DUPLICATE_TRANSITIONS);
+		String ign = getStateSpace().getProperties().get(StateSpace.PROPERTY_IGNORE_DUPLICATE_TRANSITIONS);
 		ignoreDuplicateTransitions = (ign!=null) && (ign.trim().equalsIgnoreCase("true") || ign.trim().equalsIgnoreCase("yes"));
 		if (getStateSpace().getMaxStateDistance()>=0) {
 			stateDistanceMonitor = new StateDistanceMonitor(getStateSpace());

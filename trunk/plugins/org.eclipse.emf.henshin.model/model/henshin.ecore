@@ -63,6 +63,7 @@
     <eOperations name="getActionEdges" upperBound="-1" eType="#//Edge">
       <eParameters name="action" eType="#//Action"/>
     </eOperations>
+    <eOperations name="getParameterNodes" upperBound="-1" eType="#//Node"/>
     <eOperations name="isMultiRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="createNode" eType="#//Node">
       <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>

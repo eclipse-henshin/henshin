@@ -243,7 +243,6 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 	 */
 	protected File createTempFile(String prefix, String suffix, String content) throws IOException {
 		File temp = File.createTempFile(prefix, suffix);
-		temp.deleteOnExit();
 		FileWriter writer = new FileWriter(temp);
 		writer.write(content);
 		writer.close();

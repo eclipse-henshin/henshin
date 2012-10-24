@@ -12,20 +12,22 @@ package org.eclipse.emf.henshin.statespace.impl;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+
 /**
- * A universal cache class.
+ * A universal cache for state spaces.
  * @author Christian Krause
  *
  * @param <K> Keys
  * @param <V> Values
  */
-class UniversalCache<K,V> extends LinkedHashMap<K,V> {
+class StateSpaceCache<K,V> extends LinkedHashMap<K,V> {
 
 	// Default cache size, estimated with maximum number of MB of free memory:
 	public static final int DEFAULT_CACHE_SIZE;
 	
 	static {
-		if (StateSpaceDebugFlags.ENFORCE_DETERMINISM) {
+		if (StateSpaceManager.DEBUG_ENFORCE_DETERMINISM) {
 			DEFAULT_CACHE_SIZE = 1024; 
 		} else {
 			DEFAULT_CACHE_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
@@ -42,14 +44,14 @@ class UniversalCache<K,V> extends LinkedHashMap<K,V> {
 	 * Constructor.
 	 * @param cacheSize Cache size.
 	 */
-	public UniversalCache(int cacheSize) {
+	public StateSpaceCache(int cacheSize) {
 		this.cacheSize = cacheSize;
 	}
 	
 	/**
 	 * Constructor. Uses {@link #DEFAULT_CACHE_SIZE}.
 	 */
-	public UniversalCache() {
+	public StateSpaceCache() {
 		this(DEFAULT_CACHE_SIZE);
 	}
 	

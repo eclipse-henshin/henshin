@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,7 +21,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
-import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
+import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceTypesHelper;
 
@@ -40,6 +41,8 @@ public class StateSpaceTimeInfo {
 	
 	private final Map<Rule,Vector<String>> ruleResets;
 	
+	private final Map<Rule,Vector<String>> ruleInvariants;
+	
 	/**
 	 * Default constructor.
 	 * @param index State space index.
@@ -48,7 +51,7 @@ public class StateSpaceTimeInfo {
 		StateSpace stateSpace = index.getStateSpace();
 		
 		// Find out whether the state space is timed:
-		String useClocks = stateSpace.getProperties().get(StateSpaceProperties.USE_CLOCKS);
+		String useClocks = stateSpace.getProperties().get(StateSpace.PROPERTY_USE_CLOCKS);
 		timed = ("yes".equalsIgnoreCase(useClocks) || "true".equalsIgnoreCase(useClocks));
 		
 		// Extract the clock declarations:
@@ -57,7 +60,7 @@ public class StateSpaceTimeInfo {
 		for (EClass type : types) {
 			clockDeclarations.put(type, new Vector<String>());
 		}
-		String prop = stateSpace.getProperties().get(StateSpaceProperties.CLOCK_DECLARATIONS);
+		String prop = stateSpace.getProperties().get(StateSpace.PROPERTY_CLOCK_DECLARATIONS);
 		if (prop!=null) {
 			Map<String,EClass> typeNameMap = StateSpaceTypesHelper.getTypesNameMap(index.getStateSpace());
 			for (String decl : prop.split(",")) {
@@ -96,6 +99,7 @@ public class StateSpaceTimeInfo {
 		// Extract the rule guards and resets:
 		ruleGuards = getRuleProperties(stateSpace, "guard");
 		ruleResets = getRuleProperties(stateSpace, "resets");
+		ruleInvariants = getRuleProperties(stateSpace, "invariant");
 		
 	}
 	
@@ -193,20 +197,36 @@ public class StateSpaceTimeInfo {
 		};
 	}
 	
-	public String getGuard(Match match, Model model) {
-		return getNestedMatchProperty(ruleGuards.get(match.getRule()), match, model);
+	public String getGuard(Transition transition, Match match, Match resultMatch) {
+		return getNestedMatchProperty(ruleGuards.get(transition.getRule()), transition, match, resultMatch);
 	}
 
-	public String getResets(Match match, Model model) {
-		return getNestedMatchProperty(ruleResets.get(match.getRule()), match, model);
+	public String getResets(Transition transition, Match match, Match resultMatch) {
+		return getNestedMatchProperty(ruleResets.get(transition.getRule()), transition, match, resultMatch);
 	}
 	
-	private String getNestedMatchProperty(Vector<String> properties, Match match, Model model) {
+	public String getInvariant(State state, List<Match> matches) {
+		int index = 0;
+		String r = "";
+		Set<String> atoms = new HashSet<String>();
+		for (Transition t : state.getOutgoing()) {
+			String s = getNestedMatchProperty(ruleInvariants.get(t.getRule()), t, matches.get(index++), null);
+			if (s!=null && !atoms.contains(s)) {
+				if (r.length()>0) r = r + " & ";
+				r = r + s;
+				atoms.add(s);
+			}
+		}
+		if (r.length()==0) return null;
+		return r;
+	}
+	
+	private String getNestedMatchProperty(Vector<String> properties, Transition transition, Match match, Match resultMatch) {
 		if (properties!=null) {
 			List<String> original = new Vector<String>(properties);
 			properties = new Vector<String>(properties);
 			Map<String,List<String>> replacements = new HashMap<String,List<String>>();
-			computePropertyReplacements(match, model, replacements);
+			computePropertyReplacements(getAllNodes(transition.getRule()), transition, match, resultMatch, replacements);
 			for (String key : replacements.keySet()) {
 				List<String> details = replacements.get(key);
 				for (int i=0; i<details.size(); i++) {
@@ -214,8 +234,7 @@ public class StateSpaceTimeInfo {
 						properties.set(j, properties.get(j).replaceAll(key, details.get(i)));
 					}
 					if (i<details.size()-1) {
-						properties = new Vector<String>(properties);
-						properties.addAll(properties);
+						properties.addAll(original);
 					}
 				}
 			}
@@ -257,12 +276,28 @@ public class StateSpaceTimeInfo {
 		return null;
 	}
 	
-	private void computePropertyReplacements(Match match, Model model, Map<String,List<String>> replacements) {
+	private List<Node> getAllNodes(Rule rule) {
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.addAll(rule.getLhs().getNodes());
+		nodes.addAll(rule.getRhs().getNodes());
+		for (Rule multiRule : rule.getMultiRules()) {
+			nodes.addAll(getAllNodes(multiRule));
+		}
+		return nodes;
+	}
+	
+	private void computePropertyReplacements(List<Node> nodes, Transition transition, Match match, Match resultMatch, Map<String,List<String>> replacements) {
 		String nodeName;
-		for (Node node : match.getRule().getLhs().getNodes()) {
+		for (Node node : nodes) {
 			nodeName = node.getName();
 			if (nodeName!=null) {
 				EObject object = match.getNodeTarget(node);
+				Model model = transition.getSource().getModel();
+				if (object==null && resultMatch!=null) {
+					object = resultMatch.getNodeTarget(node);
+					model = transition.getTarget().getModel();
+				}
+				if (object==null) continue;
 				for (String clockName : clockDeclarations.get(node.getType())) {
 					String key = nodeName + "\\." + clockName;
 					if (!replacements.containsKey(key)) {
@@ -273,8 +308,10 @@ public class StateSpaceTimeInfo {
 			}
 		}
 		for (Rule multiRule : match.getRule().getMultiRules()) {
-			for (Match multiMatch : match.getMultiMatches(multiRule)) {
-				computePropertyReplacements(multiMatch, model, replacements);
+			int size = match.getMultiMatches(multiRule).size();
+			for (int i=0; i<size; i++) {
+				Match r = resultMatch!=null ? resultMatch.getMultiMatches(multiRule).get(i) : null;
+				computePropertyReplacements(nodes, transition, match.getMultiMatches(multiRule).get(i), r, replacements);
 			}
 		}
 	}

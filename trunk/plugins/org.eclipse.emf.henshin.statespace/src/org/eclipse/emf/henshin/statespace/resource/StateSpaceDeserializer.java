@@ -20,7 +20,6 @@ import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
-import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.impl.ModelImpl;
 import org.eclipse.emf.henshin.statespace.impl.StateImpl;
@@ -62,7 +61,7 @@ public class StateSpaceDeserializer {
 			int equalityType = readShort(); // Equality type
 			boolean useGraphEquality = (equalityType & 1)==1;
 			if (!useGraphEquality) {
-				stateSpace.getProperties().put(StateSpaceProperties.CHECK_LINK_ORDER, "true");
+				stateSpace.getProperties().put(StateSpace.PROPERTY_CHECK_LINK_ORDER, "true");
 			}			
 		}
 		

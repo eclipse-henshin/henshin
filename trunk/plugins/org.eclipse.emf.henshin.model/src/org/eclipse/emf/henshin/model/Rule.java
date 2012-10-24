@@ -187,6 +187,14 @@ public interface Rule extends Unit {
 	 * @model kind="operation"
 	 * @generated
 	 */
+	EList<Node> getParameterNodes();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
 	boolean isMultiRule();
 
 	/**
