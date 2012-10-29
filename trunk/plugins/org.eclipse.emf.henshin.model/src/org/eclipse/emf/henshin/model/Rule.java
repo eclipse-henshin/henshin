@@ -134,6 +134,21 @@ public interface Rule extends Unit {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get the path to multi-rule. The path starts with a direct multi-rule
+	 * of this rule and ends with the argument multi-rule. If the argument
+	 * rule is not a direct or indirect multi-rule of this rule, an empty
+	 * list is returned.
+	 * 
+	 * @param multiRule a direct or indirect multi-rule of this rule.
+	 * @return The path to the argument multi-rule.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	EList<Rule> getMultiRulePath(Rule multiRule);
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated

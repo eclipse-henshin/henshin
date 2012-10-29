@@ -10,9 +10,11 @@
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -38,6 +40,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
@@ -355,58 +358,16 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean removeNode(Node node, boolean removeMapped) {
-		
-		// Must be invoked from the root kernel rule:
-		if (getKernelRule()!=null) {
-			return getKernelRule().removeNode(node, removeMapped);
+	public EList<Rule> getMultiRulePath(Rule multiRule) {
+		List<Rule> path = new Vector<Rule>();
+		while (multiRule!=null && multiRule!=this) {
+			path.add(0, multiRule);
+			multiRule = multiRule.getKernelRule();
 		}
-		
-		// Collect all mappings and nodes to delete:
-		Set<Mapping> mappings = new HashSet<Mapping>();
-		Set<Node> nodes = new HashSet<Node>();
-		nodes.add(node);
-		boolean changed;
-		do {
-			changed = false;
-			
-			// Add all mappings that refer to the nodes:
-			for (Mapping m : getAllMappings()) {
-				if (!mappings.contains(m)) {
-					for (Node n : nodes) {
-						if (m.getOrigin()==n || m.getImage()==n) {
-							mappings.add(m);
-							changed = true;
-							break;
-						}
-					}
-				}
-			}
-			
-			// Add all mapped nodes if necessary:
-			if (changed && removeMapped) {
-				for (Mapping m : mappings) {
-					if (m.getOrigin()!=null) {
-						nodes.add(m.getOrigin());
-					}
-					if (m.getImage()!=null) {
-						nodes.add(m.getImage());
-					}
-				}
-			}
-		} while (changed);
-		
-		// Now remove the collected mappings and nodes:
-		for (Mapping m : mappings) {
-			m.setOrigin(null);
-			m.setImage(null);
-			EcoreUtil.remove(m);
+		if (multiRule!=this) {
+			path.clear();
 		}
-		for (Node n : nodes) {
-			n.getGraph().removeNode(n);
-		}
-		return true;
-		
+		return ECollections.unmodifiableEList(new BasicEList<Rule>(path));
 	}
 
 	/**
@@ -536,6 +497,65 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public boolean removeNode(Node node, boolean removeMapped) {
+		
+		// Must be invoked from the root kernel rule:
+		if (getKernelRule()!=null) {
+			return getKernelRule().removeNode(node, removeMapped);
+		}
+		
+		// Collect all mappings and nodes to delete:
+		Set<Mapping> mappings = new HashSet<Mapping>();
+		Set<Node> nodes = new HashSet<Node>();
+		nodes.add(node);
+		boolean changed;
+		do {
+			changed = false;
+			
+			// Add all mappings that refer to the nodes:
+			for (Mapping m : getAllMappings()) {
+				if (!mappings.contains(m)) {
+					for (Node n : nodes) {
+						if (m.getOrigin()==n || m.getImage()==n) {
+							mappings.add(m);
+							changed = true;
+							break;
+						}
+					}
+				}
+			}
+			
+			// Add all mapped nodes if necessary:
+			if (changed && removeMapped) {
+				for (Mapping m : mappings) {
+					if (m.getOrigin()!=null) {
+						nodes.add(m.getOrigin());
+					}
+					if (m.getImage()!=null) {
+						nodes.add(m.getImage());
+					}
+				}
+			}
+		} while (changed);
+		
+		// Now remove the collected mappings and nodes:
+		for (Mapping m : mappings) {
+			m.setOrigin(null);
+			m.setImage(null);
+			EcoreUtil.remove(m);
+		}
+		for (Node n : nodes) {
+			n.getGraph().removeNode(n);
+		}
+		return true;
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public Edge createEdge(Node source, Node target, EReference type) {
 		
 		// Check if we really can create an edge:
@@ -543,50 +563,37 @@ public class RuleImpl extends UnitImpl implements Rule {
 			return null;
 		}
 
-		// Get the action nodes:
-		source = source.getActionNode();
-		target = target.getActionNode();
-		
-		// Get the source and target actions:
-		Action sourceAction = source.getAction();
-		Action targetAction = target.getAction();
+		// Get the real source and target:
+		List<Node> sourceAndTarget = getSourceAndTargetForEdgeCreation(source, target, false);
+		source = sourceAndTarget.get(0);
+		target = sourceAndTarget.get(1);
 
-		// If they are the same, we can just create the edge:
-		if (sourceAction.equals(targetAction)) {
-			return doCreateEdge(source, target, type, sourceAction.getType()==Action.Type.PRESERVE);
-		}
-		
-		// Otherwise we do a trick and first change the action of the one node.
-		Edge edge;
-		if (sourceAction.getType()==Action.Type.PRESERVE) {
-			target.setAction(sourceAction);
-			edge = doCreateEdge(source, target, type, sourceAction.getType()==Action.Type.PRESERVE);
-			target.setAction(targetAction);
-		} else {
-			source.setAction(targetAction);
-			edge = doCreateEdge(source, target, type, targetAction.getType()==Action.Type.PRESERVE);
-			source.setAction(sourceAction);
-		}		
-		return edge;
-
-	}
-	
-	/*
-	 * Perform the edge creation.
-	 */
-	private Edge doCreateEdge(Node source, Node target, EReference edgeType, boolean createRhsImage) {
-		Edge edge = source.getOutgoing(edgeType, target);
+		// Check if there is an edge and create a new one if necessary:
+		Edge edge = source.getOutgoing(type, target);
 		if (edge==null) {
-			edge = HenshinFactory.eINSTANCE.createEdge(source, target, edgeType);			
+			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);			
 		}
-		if (createRhsImage) {
-			source = getMappings().getImage(source, getRhs());
-			target = getMappings().getImage(target, getRhs());
-			if (source!=null && target!=null && source.getOutgoing(edgeType, target)==null) {
-				HenshinFactory.eINSTANCE.createEdge(source, target, edgeType);
+		
+		// If the source and the target lie both in an LHS, try to create an image in the RHS as well:
+		Graph sourceGraph = source.getGraph();
+		if (sourceGraph!=null && sourceGraph.isLhs() && sourceGraph==target.getGraph() && sourceGraph.getRule()!=null) {
+			
+			// Get the node images in the RHS:
+			source = sourceGraph.getRule().getMappings().getImage(source, sourceGraph.getRule().getRhs());
+			target = sourceGraph.getRule().getMappings().getImage(target, sourceGraph.getRule().getRhs());
+			
+			// Node images must be found:
+			if (source!=null && target!=null) {
+				Edge edge2 = source.getOutgoing(type, target);
+				if (edge2==null) {
+					edge2 = HenshinFactory.eINSTANCE.createEdge(source, target, type);
+				}
 			}
 		}
+		
+		// Done.
 		return edge;
+		
 	}
 	
 	/**
@@ -601,8 +608,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		EClass sourceType = source.getType();
 
 		// Everything must be set.
-		if (source == null || target == null || sourceType == null
-				|| targetType == null || type == null) {
+		if (source == null || target == null || sourceType == null || targetType == null || type == null) {
 			return false;
 		}
 
@@ -619,24 +625,9 @@ public class RuleImpl extends UnitImpl implements Rule {
 			return false;
 		}
 
-		// Check the source/target graphs:
-		Graph sourceGraph = source.getGraph();
-		Graph targetGraph = target.getGraph();
-		if (sourceGraph==null || targetGraph==null) {
-			return false;
-		}
-
-		// Make sure the rules are found and compatible:
-		Rule sourceRule = sourceGraph.getRule();
-		Rule targetRule = targetGraph.getRule();
-		if (sourceRule==null || targetRule==null) {
-			return false;
-		}
-		
-		// Source and target rule must be compatible:
-		if (sourceRule!=targetRule && 
-				!EcoreUtil.isAncestor(sourceRule, targetRule) && 
-				!EcoreUtil.isAncestor(targetRule, sourceRule)) {
+		// Check whether we get the proper source and target nodes for the edges creation:
+		List<Node> sourceAndTarget = getSourceAndTargetForEdgeCreation(source, target, false);
+		if (sourceAndTarget==null || sourceAndTarget.size()!=2) {
 			return false;
 		}
 		
@@ -644,6 +635,99 @@ public class RuleImpl extends UnitImpl implements Rule {
 		return true;
 	}
 
+	/*
+	 * Get the source and target nodes to be used for creating an edge.
+	 * This returns either a list of two nodes in the same graph, or null.
+	 */
+	private List<Node> getSourceAndTargetForEdgeCreation(Node source, Node target, boolean reverse) {
+
+		// Get the source and target graphs:
+		Graph sourceGraph = source.getGraph();
+		Graph targetGraph = target.getGraph();
+		if (sourceGraph==null || targetGraph==null) {
+			return null;
+		}
+
+		// Get the rules:
+		Rule sourceRule = sourceGraph.getRule();
+		Rule targetRule = targetGraph.getRule();
+		if (sourceRule==null || targetRule==null) {
+			return null;
+		}
+		
+		// Must be this rule or a multi-rule:
+		List<Rule> multis = getAllMultiRules();
+		if (sourceRule!=this && !multis.contains(sourceRule)) {
+			return null;
+		}
+		if (targetRule!=this && !multis.contains(targetRule)) {
+			return null;
+		}
+
+		// Create the result list:
+		List<Node> result = new Vector<Node>();
+		
+		// Same rule?
+		if (sourceRule==targetRule) {
+			if (sourceGraph==targetGraph) {		// same graphs?
+				result.add(source);
+				result.add(target);
+			}
+			else if (sourceGraph.isLhs()) {		// otherwise at least one graph should be an LHS
+				MappingList mappings = null;				
+				if (targetGraph.isRhs()) {
+					mappings = targetRule.getMappings();
+				} else if (targetGraph.isNestedCondition()) {
+					mappings = ((NestedCondition) targetGraph.eContainer()).getMappings();
+				}
+				if (mappings!=null) {
+					Node sourceImage = mappings.getImage(source, targetGraph);
+					if (sourceImage!=null) {
+						result.add(sourceImage);
+						result.add(target);
+					}
+				}
+			}
+			else if (targetGraph.isLhs()) {		// symmetric case
+				result = getSourceAndTargetForEdgeCreation(target, source, true);
+			}
+		}
+		else {
+			
+			// Otherwise one rule should be a direct or indirect multi-rule of the other:
+			EList<Rule> path = sourceRule.getMultiRulePath(targetRule);
+			if (!path.isEmpty()) {
+				
+				// Find the corresponding node in the target rule:
+				Node newSource = source;
+				for (Rule multiRule : path) {
+					newSource = multiRule.getMultiMappings().getImage(newSource, null);	// at most one image
+					if (newSource==null) break;
+				}
+				
+				// If the new source was found, we can use it instead of the old one:
+				if (newSource!=null) {
+					return getSourceAndTargetForEdgeCreation(newSource, target, reverse);
+				}
+			}
+			else {
+				path = targetRule.getMultiRulePath(sourceRule);
+				if (!path.isEmpty()) {		// symmetric case
+					result = getSourceAndTargetForEdgeCreation(target, source, true);
+				}
+			}
+		}
+
+		// Reverse the result?
+		if (reverse) {
+			Collections.reverse(result);
+		}
+		
+		// Done.
+		return result.isEmpty() ? null : result;
+		
+	}
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
