@@ -29,7 +29,6 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -403,35 +402,10 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 	 */
 	@Override
 	protected Model deriveModel(State state, boolean fromInitial) throws StateSpaceException {
-		
-		// Find a path from one of the states predecessors:
-		Path trace = new Path();
-		State source = state;
-		State target;
-		Model start = null;
-		List<State> states = getStateSpace().getStates();
-		try {
-			while (start==null) {
-				target = source;
-				source = states.get(target.getDerivedFrom());
-				trace.addFirst(source.getOutgoing(target, null, -1, null));
-				start = getCachedModel(source);
-				if (fromInitial && !source.isInitial()) {
-					start = null;
-				}
-			}
-		} catch (Throwable t) {
-			throw new StateSpaceException("Error deriving model for " + state, t);
-		}
-
-		// Now derive the model:
 		StateExplorer explorer = acquireExplorer();
-		Model model = explorer.deriveModel(trace, start);
+		Model model = explorer.deriveModel(state, fromInitial);
 		releaseExplorer(explorer);
-
-		// Done.
 		return model;
-		
 	}
 
 	/*

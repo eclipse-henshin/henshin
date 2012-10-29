@@ -13,8 +13,10 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.6.0",
  org.eclipse.emf.ecore;bundle-version="2.6.0";visibility:=reexport,
  org.eclipse.emf.henshin.interpreter;bundle-version="0.9.0";visibility:=reexport
 Export-Package: org.eclipse.emf.henshin.statespace,
+ org.eclipse.emf.henshin.statespace.equality,
  org.eclipse.emf.henshin.statespace.hashcodes,
  org.eclipse.emf.henshin.statespace.impl,
+ org.eclipse.emf.henshin.statespace.info,
  org.eclipse.emf.henshin.statespace.layout,
  org.eclipse.emf.henshin.statespace.resource,
  org.eclipse.emf.henshin.statespace.util

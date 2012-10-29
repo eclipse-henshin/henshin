@@ -61,6 +61,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceIndex#getModel(org.eclipse.emf.henshin.statespace.State)
 	 */
+	@Override
 	public Model getModel(State state) throws StateSpaceException {
 		Model model = getCachedModel(state);
 		if (model==null) {	
@@ -73,9 +74,11 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	}
 	
 	/*
-	 * Try to get a cached model for a state.
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceIndex#getCachedModel(org.eclipse.emf.henshin.statespace.State)
 	 */
-	protected Model getCachedModel(State state) {
+	@Override
+	public Model getCachedModel(State state) {
 		Model model = state.getModel();
 		if (model!=null) {
 			return model;
@@ -140,6 +143,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getState(org.eclipse.emf.henshin.statespace.Model)
 	 */
+	@Override
 	public final State getState(Model model) throws StateSpaceException {
 		return getState(model, stateSpace.getEqualityHelper().hashCode(model));
 	}
@@ -252,6 +256,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceIndex#getStateSpace()
 	 */
+	@Override
 	public StateSpace getStateSpace() {
 		return stateSpace;
 	}

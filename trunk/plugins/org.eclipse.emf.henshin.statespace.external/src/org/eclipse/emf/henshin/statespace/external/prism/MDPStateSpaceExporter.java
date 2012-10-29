@@ -12,21 +12,13 @@ package org.eclipse.emf.henshin.statespace.external.prism;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.Match;
-import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
@@ -34,7 +26,10 @@ import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.external.AbstractStateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.external.prism.PRISMUtil.Range;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceTimeInfo;
+import org.eclipse.emf.henshin.statespace.impl.StateExplorer;
+import org.eclipse.emf.henshin.statespace.info.StateInfo;
+import org.eclipse.emf.henshin.statespace.info.StateSpaceTimeInfo;
+import org.eclipse.emf.henshin.statespace.info.TransitionInfo;
 
 /**
  * Exporter for PRISM. This generates an MDP or a PTA model.
@@ -66,8 +61,11 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 		}
 		boolean timed = timeInfo.isTimed();
 
-		// For timed cases, we need an engine to find matches:
-		Engine engine = timed ? new EngineImpl() : null;
+		// For timed cases, we need an explorer to find matches:
+		StateExplorer explorer = null;
+		if (timed) {
+			explorer = new StateExplorer(index);
+		}
 		
 		// Shall we produce an explicit model?
 		if (timed && !"nm".equalsIgnoreCase(uri.fileExtension())) {
@@ -122,7 +120,8 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 				// Clock invariants:
 				boolean first = true;
 				for (State s : stateSpace.getStates()) {
-					String inv = timeInfo.getInvariant(s, getMatches(s, engine));
+					StateInfo info = new StateInfo(s, index.getModel(s), explorer);
+					String inv = timeInfo.getInvariant(info);
 					if (inv!=null) {
 						if (first) {
 							writer.write("\n\tinvariant\n");
@@ -177,9 +176,8 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 				if (!explicit) {
 					String guard = null;
 					if (timed) {
-						Match match = getMatch(l.getTransition(), engine);
-						Match resultMatch = getResultMatch(l.getTransition(), engine);
-						guard = timeInfo.getGuard(l.getTransition(), match, resultMatch);
+						TransitionInfo info = new TransitionInfo(l.getTransition(), index.getModel(l.getTransition().getSource()), explorer);
+						guard = timeInfo.getGuard(info);
 					}
 					writer.write("\t[" + label + "] " + PRISMUtil.getPRISMState(s.getIndex(), guard, false) + " -> ");
 				}
@@ -197,9 +195,8 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 						String prob = (rules.size()>1) ? probKey+":" : "";
 						String resets = null;
 						if (timed) {
-							Match match = getMatch(t, engine);
-							Match resultMatch = getResultMatch(t, engine);
-							resets = timeInfo.getResets(t, match, resultMatch);
+							TransitionInfo info = new TransitionInfo(t, index.getModel(t.getSource()), explorer);
+							resets = timeInfo.getResets(info);
 						}
 						writer.write(prob + PRISMUtil.getPRISMState(t.getTarget().getIndex(), resets, true));
 					}
@@ -269,67 +266,6 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 			monitor.done();
 		}
 
-	}
-
-	
-	private Match getMatch(Transition transition, Engine engine) throws StateSpaceException {
-		
-		// Get the source model and create an EGraph:
-		Model model = index.getModel(transition.getSource());
-		EGraph graph = model.getEGraph();
-		
-		// Set the model!!!
-		transition.getSource().setModel(model);
-		
-		// Get the match:
-		int matchIndex = transition.getMatch();
-		int currentIndex = 0;
-		for (Match m : engine.findMatches(transition.getRule(), graph, null)) {
-			if (currentIndex++==matchIndex) {
-				return m;
-			}
-		}
-		return null;
-		
-	}
-
-	private List<Match> getMatches(State state, Engine engine) throws StateSpaceException {
-		List<Match> matches = new ArrayList<Match>();
-		for (Transition t : state.getOutgoing()) {
-			matches.add(getMatch(t, engine));
-		}
-		return matches;
-	}
-	
-	private Match getResultMatch(Transition transition, Engine engine) throws StateSpaceException {
-		
-		// Copy the source model and create an EGraph:
-		Model copiedModel = index.getModel(transition.getSource()).getCopy(null);
-		EGraph graph = copiedModel.getEGraph();
-		
-		// Get the match:
-		int currentIndex = 0;
-		Match match = null;
-		int matchIndex = transition.getMatch();
-		for (Match m : engine.findMatches(transition.getRule(), graph, null)) {
-			if (currentIndex++==matchIndex) {
-				match = m; break;
-			}
-		}
-		
-		// Transform the graph:
-		RuleApplication app = new RuleApplicationImpl(engine, graph, transition.getRule(), match);
-		app.execute(null);
-		
-		// Update the object keys:
-		copiedModel.updateObjectKeys(index.getStateSpace().getEqualityHelper().getIdentityTypes());
-		
-		// Update the model of the target state!!!
-		transition.getTarget().setModel(copiedModel);
-		
-		// Done.
-		return app.getResultMatch();
-		
 	}
 
 	

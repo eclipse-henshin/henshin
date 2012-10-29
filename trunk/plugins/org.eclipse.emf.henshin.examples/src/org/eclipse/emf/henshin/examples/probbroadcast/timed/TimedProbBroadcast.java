@@ -68,7 +68,7 @@ public class TimedProbBroadcast {
 		for (int i=0; i<nodes.length; i++) {
 			String label = "label \"target\" = <<<OCL not self.nodes->at(" + nodes[i] + ").active >>>;"; // OCL constraint for identifying the target states
 			double pmin = (Double) getResults(probSend+"", label + " Pmin=?[F \"target\"]");   // minimum reception probability
-			double pmax = (Double) getResults(probSend+"", label + " Pmax=?[F \"target\"]");   // maximum reception probability
+			double pmax = 1;//(Double) getResults(probSend+"", label + " Pmax=?[F \"target\"]");   // maximum reception probability
 			System.out.println("   " + nodes[i] + "\t" + pmin + "\t" + pmax);
 		}
 	}
@@ -97,8 +97,9 @@ public class TimedProbBroadcast {
 		TimedProbBroadcast main = new TimedProbBroadcast(path, "grid2x2.henshin_statespace");
 		try {
 			OCLStateValidator.register(); // we need the OCL validator
-			 main.fixedSendProb(new int[] { 1,2,3,4 }, 0.6);
+			//main.fixedSendProb(new int[] { 1,2,3,4 }, 0.6);
 			//main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 0.6);
+			main.fixedSendProb(new int[] { 8 }, 0.6);
 			// main.fixedNode(9, "0:0.1:1");
 		}
 		catch (Throwable t){

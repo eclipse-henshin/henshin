@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.impl;
+package org.eclipse.emf.henshin.statespace.info;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -197,20 +197,20 @@ public class StateSpaceTimeInfo {
 		};
 	}
 	
-	public String getGuard(Transition transition, Match match, Match resultMatch) {
-		return getNestedMatchProperty(ruleGuards.get(transition.getRule()), transition, match, resultMatch);
+	public String getGuard(TransitionInfo transitionInfo) {
+		return getNestedMatchProperty(ruleGuards.get(transitionInfo.getTransition().getRule()), transitionInfo);
 	}
 
-	public String getResets(Transition transition, Match match, Match resultMatch) {
-		return getNestedMatchProperty(ruleResets.get(transition.getRule()), transition, match, resultMatch);
+	public String getResets(TransitionInfo transitionInfo) {
+		return getNestedMatchProperty(ruleResets.get(transitionInfo.getTransition().getRule()), transitionInfo);
 	}
 	
-	public String getInvariant(State state, List<Match> matches) {
+	public String getInvariant(StateInfo stateInfo) {
 		int index = 0;
 		String r = "";
 		Set<String> atoms = new HashSet<String>();
-		for (Transition t : state.getOutgoing()) {
-			String s = getNestedMatchProperty(ruleInvariants.get(t.getRule()), t, matches.get(index++), null);
+		for (Transition t : stateInfo.getState().getOutgoing()) {
+			String s = getNestedMatchProperty(ruleInvariants.get(t.getRule()), stateInfo.getOutgoing().get(index++));
 			if (s!=null && !atoms.contains(s)) {
 				if (r.length()>0) r = r + " & ";
 				r = r + s;
@@ -221,12 +221,16 @@ public class StateSpaceTimeInfo {
 		return r;
 	}
 	
-	private String getNestedMatchProperty(Vector<String> properties, Transition transition, Match match, Match resultMatch) {
+	private String getNestedMatchProperty(Vector<String> properties, TransitionInfo transitionInfo) {
 		if (properties!=null) {
 			List<String> original = new Vector<String>(properties);
 			properties = new Vector<String>(properties);
+			
 			Map<String,List<String>> replacements = new HashMap<String,List<String>>();
-			computePropertyReplacements(getAllNodes(transition.getRule()), transition, match, resultMatch, replacements);
+			computePropertyReplacements(getAllNodes(transitionInfo.getTransition().getRule()), 
+					transitionInfo.getTransition(), transitionInfo.getSourceModel(), transitionInfo.getTargetModel(), 
+					transitionInfo.getMatch(), transitionInfo.getResultMatch(), replacements);
+			
 			for (String key : replacements.keySet()) {
 				List<String> details = replacements.get(key);
 				for (int i=0; i<details.size(); i++) {
@@ -239,7 +243,7 @@ public class StateSpaceTimeInfo {
 				}
 			}
 			properties.removeAll(original);
-			Set<String> missingClockVariables = getMissingClockVariables(replacements.keySet(), match.getRule());
+			Set<String> missingClockVariables = getMissingClockVariables(replacements.keySet(), transitionInfo.getMatch().getRule());
 			
 			String result = "";
 			int count = properties.size();
@@ -286,18 +290,21 @@ public class StateSpaceTimeInfo {
 		return nodes;
 	}
 	
-	private void computePropertyReplacements(List<Node> nodes, Transition transition, Match match, Match resultMatch, Map<String,List<String>> replacements) {
+	private void computePropertyReplacements(List<Node> nodes, Transition transition, Model sourceModel,  Model targetModel, Match match, Match resultMatch, Map<String,List<String>> replacements) {
 		String nodeName;
 		for (Node node : nodes) {
 			nodeName = node.getName();
 			if (nodeName!=null) {
+				Model model = sourceModel;
 				EObject object = match.getNodeTarget(node);
-				Model model = transition.getSource().getModel();
 				if (object==null && resultMatch!=null) {
+					model = targetModel;
 					object = resultMatch.getNodeTarget(node);
-					model = transition.getTarget().getModel();
 				}
 				if (object==null) continue;
+				if (object.eResource()!=model.getResource()) {
+					throw new RuntimeException("Unexpected model object");
+				}
 				for (String clockName : clockDeclarations.get(node.getType())) {
 					String key = nodeName + "\\." + clockName;
 					if (!replacements.containsKey(key)) {
@@ -311,7 +318,7 @@ public class StateSpaceTimeInfo {
 			int size = match.getMultiMatches(multiRule).size();
 			for (int i=0; i<size; i++) {
 				Match r = resultMatch!=null ? resultMatch.getMultiMatches(multiRule).get(i) : null;
-				computePropertyReplacements(nodes, transition, match.getMultiMatches(multiRule).get(i), r, replacements);
+				computePropertyReplacements(nodes, transition, sourceModel, targetModel, match.getMultiMatches(multiRule).get(i), r, replacements);
 			}
 		}
 	}

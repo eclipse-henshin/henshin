@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
@@ -47,9 +47,9 @@ import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
  */
 public class StateExplorer {
 	
-	// State space manager:
-	private final StateSpaceManager manager;
-	
+	// State space index:
+	private final StateSpaceIndex index;
+
 	// Cached state space:
 	private final StateSpace stateSpace;
 	
@@ -80,18 +80,18 @@ public class StateExplorer {
 	// Cached post-processor:
 	private final ModelPostProcessor postProcessor;
 	
-	// Cached flag determining whether to collect miossing roots:
+	// Cached flag determining whether to collect missing roots:
 	private final boolean collectMissingRoots;
 	
 	/**
 	 * Default constructor.
 	 */
-	public StateExplorer(StateSpaceManager manager) {
+	public StateExplorer(StateSpaceIndex index) {
 		
-		this.manager = manager;
+		this.index = index;
 		
 		// Cache data:
-		stateSpace = manager.getStateSpace();
+		stateSpace = index.getStateSpace();
 		equalityHelper = stateSpace.getEqualityHelper();
 		result = new ArrayList<Transition>();
 		identityTypes = equalityHelper.getIdentityTypes();
@@ -118,7 +118,6 @@ public class StateExplorer {
 		
 	}
 	
-	
 	/**
 	 * Explore a state without actually changing the state space.
 	 * This method does not check if the state is explored already
@@ -132,7 +131,7 @@ public class StateExplorer {
 		result.clear();
 		
 		// Get the state model and create an engine for it:
-		Model model = manager.getModel(state);
+		Model model = index.getModel(state);
 		EGraph graph = model.getEGraph();
 		
 		// Apply all rules:
@@ -214,44 +213,67 @@ public class StateExplorer {
 	}
 
 	/**
-	 * Derive a model using a trace and a given start model.
-	 * @param trace Trace.
-	 * @param model Start model.
+	 * Derive a model.
+	 * @param State state.
+	 * @param fromInitial Whether to derive it from an initial state.
 	 * @return The derived model.
 	 * @throws StateSpaceException On errors.
 	 */
-	public Model deriveModel(Path trace, Model model) throws StateSpaceException {
+	public Model deriveModel(State state, boolean fromInitial) throws StateSpaceException {
 		
-		// We need to copy the start model!!!
-		model = model.getCopy(null);
-		EGraph graph = model.getEGraph();
-		application.setEGraph(graph);
-		
-		// Derive the model for the current state:
-		for (Transition transition : trace) {
-			
-			// Find the right match:
-			application.setRule(transition.getRule());
-			int targetMatch = transition.getMatch();
-			int currentMatch = 0;
-			Match match = null;
-			for (Match foundMatch : engine.findMatches(transition.getRule(), graph, null)) {
-				if (currentMatch++ == targetMatch) {
-					match = foundMatch;
+		// Find a path from one of the states predecessors:
+		Path trace = new Path();
+		State source = state;
+		State target;
+		Model start = null;
+		List<State> states = index.getStateSpace().getStates();
+		try {
+			while (start==null) {
+				target = source;
+				source = states.get(target.getDerivedFrom());
+				trace.addFirst(source.getOutgoing(target, null, -1, null));
+				start = index.getCachedModel(source);
+				if (fromInitial && !source.isInitial()) {
+					start = null;
 				}
 			}
-			if (match==null) {
-				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
-			}
+		} catch (Throwable t) {
+			throw new StateSpaceException("Error deriving model for " + state, t);
+		}
+
+		// Now derive the model:
+		return deriveModel(trace, start);
+		
+	}
+	
+	/**
+	 * Derive a model using a path and a given start model.
+	 * @param path Path.
+	 * @param sourceModel Source model.
+	 * @return The derived model.
+	 * @throws StateSpaceException On errors.
+	 */
+	public Model deriveModel(Path path, Model sourceModel) throws StateSpaceException {
+		
+		// We need to copy the start model!!!
+		sourceModel = sourceModel.getCopy(null);
+		application.setEGraph(sourceModel.getEGraph());
+		Match match;
+		
+		// Derive the model for the current state:
+		for (Transition transition : path) {
+			
+			// Find the match:
+			match = getMatch(transition, sourceModel);
 			
 			// Apply the rule with the found match:
 			application.setCompleteMatch(match);
 			if (!application.execute(null)) {
 				throw new StateSpaceException("Error deriving model");				
 			}
-			postProcessor.process(model);
+			postProcessor.process(sourceModel);
 			if (collectMissingRoots) {
-				model.collectMissingRootObjects();
+				sourceModel.collectMissingRootObjects();
 			}
 			
 			// Debug: Validate model if necessary:
@@ -260,22 +282,56 @@ public class StateExplorer {
 			//	throw new StateSpaceException("Error constructing model for state " +
 			//			transition.getTarget().getIndex() + " in path " + trace);
 			//}
-			
+
+			// Update object keys if necessary:
+			if (useObjectKeys) {
+				sourceModel.updateObjectKeys(identityTypes);
+			}
+
 		}
 
 		// Set the object keys if necessary:
-		if (useObjectKeys) {
-			model.setObjectKeys(trace.getTarget().getObjectKeys());
-		}
+		//if (useObjectKeys) {
+		//	model.setObjectKeys(path.getTarget().getObjectKeys());
+		//}
 		
 		// Update the object hash codes:
-		StateSpaceHashCodeUtil.computeHashCode(model, equalityHelper);
+		StateSpaceHashCodeUtil.computeHashCode(sourceModel, equalityHelper);
 		
 		// Done.
-		return model;
+		return sourceModel;
 		
 	}
 	
+	/**
+	 * Get the match for a given transition.
+	 * @param transition The transition.
+	 * @param sourceModel The model of the source state.
+	 * @return The match.
+	 * @throws StateSpaceException On state space errors.
+	 */
+	public Match getMatch(Transition transition, Model sourceModel) throws StateSpaceException {
+		EGraph graph = sourceModel.getEGraph();
+		application.setEGraph(graph);
+		application.setRule(transition.getRule());
+		int targetMatch = transition.getMatch();
+		int currentMatch = 0;
+		for (Match foundMatch : engine.findMatches(transition.getRule(), graph, null)) {
+			if (currentMatch++ == targetMatch) {
+				return foundMatch;
+			}
+		}
+		throw new StateSpaceException("Illegal transition in state " + transition.getSource());
+	}
+	
+	/**
+	 * Get the last result match used during the derivation of a model.
+	 * @return The last used result match.
+	 */
+	public Match getLastResultMatch() {
+		return application.getResultMatch();
+	}
+
 	/*
 	 * Perform a sanity check for the exploration. For testing only.
 	 * This check if doExplore() really yields equal results when invoked

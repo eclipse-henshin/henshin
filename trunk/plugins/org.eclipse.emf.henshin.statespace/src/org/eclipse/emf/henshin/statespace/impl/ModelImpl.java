@@ -185,11 +185,12 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			if (currentId==0 && identityTypes.contains(object.eClass())) {
 				
 				// Get the next free Id:
-				nextId++;
-				while (nextId<usedIds.length && usedIds[nextId]!=0) nextId++;
+				do {
+					nextId++;
+				} while (nextId<usedIds.length && usedIds[nextId]!=0);
 				
 				//System.out.println("Creating object id " + nextFreeId + " for object of type " + object.eClass().getName());
-				int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextId++, identityTypes);
+				int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextId, identityTypes);
 				objectKeysMap.put(object, objectKey);
 				changed = true;
 			
@@ -245,17 +246,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			if (values[i]>maxId) maxId = values[i];
 		}
 		
-		// Create the used Ids array:
+		// Create the used Ids array and mark the used Ids:
 		byte[] used = new byte[maxId+1];
-		
-		// Mark the used Ids:
-		for (int id=1; id<used.length; id++) {
-			for (int j=0; j<values.length; j++) {
-				if (values[j]==id) {
-					used[id] = 1;
-					break;
-				}
-			}
+		for (int i=0; i<values.length; i++) {
+			used[values[i]] = 1;
 		}
 				
 		// Done.

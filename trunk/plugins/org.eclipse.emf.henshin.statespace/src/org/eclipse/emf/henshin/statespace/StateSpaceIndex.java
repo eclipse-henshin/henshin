@@ -34,8 +34,15 @@ public interface StateSpaceIndex {
 	State getState(Model model) throws StateSpaceException;
 	
 	/**
-	 * Get the model that corresponds to a state. The model is either cached
-	 * or if not cached, it has to be derived on-the-fly.
+	 * Get the cached model that corresponds to a state.
+	 * @param state State in the state space.
+	 * @return The corresponding model or {@link NullPointerException} if the model is not cached.
+	 * @exception StateSpaceException If the state space contains errors.
+	 */
+	Model getCachedModel(State state) throws StateSpaceException;
+
+	/**
+	 * Get the  model that corresponds to a state. The model is either cached or will be derived on-the-fly.
 	 * @param state State in the state space.
 	 * @return The corresponding model.
 	 * @exception StateSpaceException If the state space contains errors.
