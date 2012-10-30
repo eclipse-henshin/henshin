@@ -43,8 +43,11 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.interpreter.impl.BasicApplicationMonitor;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.ui.util.Capsule;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuple;
@@ -79,9 +82,9 @@ public class Henshination {
 	protected URI modelUri;
 	
 	/**
-	 * Model root object.
+	 * Model resource.
 	 */
-	protected EObject modelRoot;
+	protected Resource modelResource;
 	
 	/**
 	 * Used resource set.
@@ -104,7 +107,7 @@ public class Henshination {
 	
 	public void setModelUri(URI modelUri) {
 		this.modelUri = modelUri;
-		this.modelRoot = null;
+		this.modelResource = null;
 		this.resourceSet = new ResourceSetImpl();
 		registerImportedPackages();
 	}
@@ -159,9 +162,15 @@ public class Henshination {
 		return result;
 	}
 	
-	protected HenshinationResult applyTo(EObject model) throws HenshinationException {
+	protected HenshinationResult applyTo(Resource model) throws HenshinationException {
 		UnitApplication unitApplication = createUnitApplication(model);
 		boolean result = runUnitApplication(unitApplication, false).getSecond();
+		// Collect new root objects:
+		for (EObject root : unitApplication.getEGraph().getRoots()) {
+			if (!model.getContents().contains(root)) {
+				model.getContents().add(root);
+			}
+		}
 		return new HenshinationResult(this, unitApplication, result);
 	}
 	
@@ -173,7 +182,7 @@ public class Henshination {
 	 */
 	protected Tuple<Boolean, Boolean> runUnitApplication(final UnitApplication ua,
 			final boolean undoOnCancel) {
-		final ApplicationMonitor appMon = InterpreterFactory.INSTANCE.createApplicationMonitor();
+		final ApplicationMonitor appMon = new BasicApplicationMonitor();
 		final Capsule<Boolean> result = new Capsule<Boolean>(false);
 		IRunnableWithProgress unitApplicationMonitor = new IRunnableWithProgress() {
 			@Override
@@ -216,13 +225,10 @@ public class Henshination {
 		return new Tuple<Boolean, Boolean>(!appMon.isCanceled(), result.getValue());
 	}
 	
-	protected UnitApplication createUnitApplication(EObject model) {
-		EGraph context = InterpreterFactory.INSTANCE.createEGraph();
-		context.addTree(model);
-		Engine engine = InterpreterFactory.INSTANCE.createEngine();
-		UnitApplication unitApplication = InterpreterFactory.INSTANCE.createUnitApplication(engine);
-		unitApplication.setEGraph(context);
-		unitApplication.setUnit(unit);
+	protected UnitApplication createUnitApplication(Resource model) {
+		EGraph graph = new EGraphImpl(model);
+		Engine engine = new EngineImpl();
+		UnitApplication unitApplication = new UnitApplicationImpl(engine, graph, unit, null);
 		for (Entry<String,Object> entry : prepareParameterValues().entrySet()) {
 			unitApplication.setParameterValue(entry.getKey(), entry.getValue());
 		}
@@ -234,13 +240,18 @@ public class Henshination {
 		for (EPackage ep : module.getImports()) {
 			EcoreUtil.resolveAll(ep);
 		}
-		return module.getImports().contains(getModel().eClass().getEPackage());
+		for (EObject obj : getModel().getContents()) {
+			if (module.getImports().contains(obj.eClass().getEPackage())) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public HenshinationResultView createPreview() throws HenshinationException {
 		
-		EObject originalModel = getModel();
-		EObject previewModel = createCopy(originalModel);
+		Resource originalModel = getModel();
+		Resource previewModel = createCopy(originalModel);
 		HenshinationResult result = applyTo(previewModel);
 		
 		if (!result.isSuccess()) {
@@ -259,7 +270,7 @@ public class Henshination {
 			
 			Map<String, Object> options = new HashMap<String, Object>();
 			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, new Boolean(true));
-			MatchModel matchModel = MatchService.doMatch(previewModel, originalModel, options);
+			MatchModel matchModel = MatchService.doResourceMatch(previewModel, originalModel, options);
 			DiffModel diffModel = DiffService.doDiff(matchModel);
 			
 			ComparisonResourceSnapshot snapshot = DiffFactory.eINSTANCE
@@ -275,18 +286,17 @@ public class Henshination {
 		}
 	}
 	
-	protected EObject createCopy(EObject eobj) {
-		EObject result = EcoreUtil.copy(eobj);
-		Resource resource = new ResourceImpl();
-		resource.setURI(URI.createURI("dummy"));
-		resource.getContents().add(result);
-		return result;
+	protected Resource createCopy(Resource resource) {
+		Resource copy = new ResourceImpl();
+		copy.setURI(URI.createURI("dummy"));
+		copy.getContents().addAll(EcoreUtil.copyAll(resource.getContents()));
+		return copy;
 	}
 	
-	public EObject getModel() {
+	public Resource getModel() {
 		
-		if (modelRoot != null) {
-			return modelRoot;
+		if (modelResource != null) {
+			return modelResource;
 		}
 		
 		if (modelUri == null || modelUri.isEmpty()) {
@@ -299,20 +309,13 @@ public class Henshination {
 		if (!extReg.containsKey(modelUri.fileExtension())) {
 			extReg.put(modelUri.fileExtension(), new XMIResourceFactoryImpl());
 		}
-		Resource res;
 		
 		try {
-			res = resourceSet.getResource(modelUri, true);
+			modelResource = resourceSet.getResource(modelUri, true);
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to load Resource");
-		}
-		
-		if (res.getContents().size() == 0) {
-			throw new RuntimeException("Resource is empty");
-		}
-		
-		modelRoot = res.getContents().get(0);
-		return modelRoot;
+		}		
+		return modelResource;
 		
 	}
 	
@@ -330,11 +333,12 @@ public class Henshination {
 		
 		ResourceSet resSet = (this.resourceSet != null) ? this.resourceSet : new ResourceSetImpl();
 		Map<String, Object> extReg = resSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
-		if (!extReg.containsKey(modelUri.fileExtension()))
+		if (!extReg.containsKey(modelUri.fileExtension())) {
 			extReg.put(modelUri.fileExtension(), new XMIResourceFactoryImpl());
+		}
 		
 		final Resource resource = resSet.getResource(modelUri, true);
-		final UnitApplication unitApplication = createUnitApplication(resource.getContents().get(0));
+		final UnitApplication unitApplication = createUnitApplication(resource);
 		
 		String title = InterpreterUIPlugin.LL("_UI_UndoableOperation_Henshin") + ": "
 				+ getUnit().getName();
