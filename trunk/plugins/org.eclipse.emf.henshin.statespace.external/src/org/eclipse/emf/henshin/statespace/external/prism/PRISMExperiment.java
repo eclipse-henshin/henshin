@@ -88,7 +88,6 @@ public class PRISMExperiment {
 					continue;
 				}
 			}
-			
 			// Parse error?
 			if (parseError) {
 				error = error + "\n" + line;
@@ -173,10 +172,15 @@ public class PRISMExperiment {
 		}
 		
 		// Find out which parameter to use for the X-axis:
-		String variable = changing.get(0);
-		String userPreference = PRISMUtil.getPRISMExperiment(stateSpace);
-		if (userPreference!=null && changing.contains(userPreference)) {
-			variable = userPreference;
+		String variable;
+		if (!changing.isEmpty()) {
+			variable = changing.get(0);
+			String userPreference = PRISMUtil.getPRISMExperiment(stateSpace);
+			if (userPreference!=null && changing.contains(userPreference)) {
+				variable = userPreference;
+			}
+		} else {
+			variable = "x";
 		}
 		
 		// Now partition the experiments into plots:
@@ -220,8 +224,9 @@ public class PRISMExperiment {
 			// X- and Y-values for this plot:
 			xValues[i] = new double[length];
 			yValues[i] = new double[length];
+			int xDefault = 1;
 			for (int j=0; j<length; j++) {
-				xValues[i][j] = plot.get(j).getConstants().get(variable);
+				xValues[i][j] = plot.get(j).getConstants().containsKey(variable) ? plot.get(j).getConstants().get(variable) : xDefault++;
 				yValues[i][j] = plot.get(j).getResult();
 			}
 							

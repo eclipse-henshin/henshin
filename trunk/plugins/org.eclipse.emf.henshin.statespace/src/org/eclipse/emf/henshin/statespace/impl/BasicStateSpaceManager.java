@@ -606,6 +606,7 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 		synchronized (explorers) {
 			explorers.clear();
 		}
+		System.gc();
 	}
 
 }

@@ -68,16 +68,22 @@ public class MDPStateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Generate the model file.
 		MDPStateSpaceExporter exporter = new MDPStateSpaceExporter();
-		File traFile = export(stateSpace, exporter, null, "nm",  new SubProgressMonitor(monitor, 1));
+		File modelFile = export(stateSpace, exporter, null, "nm",  new SubProgressMonitor(monitor, 1));
 
+		// Try to free memory:
+		index.clearCache();
+		
 		// Generate the CSL file.
 		String expanded = PRISMUtil.expandLabels(property, index, new SubProgressMonitor(monitor, 1));
-		File pctlFile = createTempFile("property", ".pctl", expanded);
-				
+		File propertyFile = createTempFile("property", ".pctl", expanded);
+		
+		// Try to free memory:
+		index.clearCache();
+		
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
 		Map<String, String> constants = PRISMUtil.getAllProbs(stateSpace, true);
-		Process process = PRISMUtil.invokePRISM(stateSpace, traFile, pctlFile, new String[] { "-fixdl" , "-gaussseidel" }, constants, true,  new SubProgressMonitor(monitor, 1));
+		Process process = PRISMUtil.invokePRISM(stateSpace, modelFile, propertyFile, new String[] { "-fixdl" , "-gaussseidel" }, constants, true,  new SubProgressMonitor(monitor, 1));
 		
 		// Parse the experiments:
 		ValidationResult result = PRISMExperiment.parseValidationResult(stateSpace, process, new SubProgressMonitor(monitor, 1));

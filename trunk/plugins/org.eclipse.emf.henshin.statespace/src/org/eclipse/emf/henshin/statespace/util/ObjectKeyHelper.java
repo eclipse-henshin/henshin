@@ -9,7 +9,8 @@
  */
 package org.eclipse.emf.henshin.statespace.util;
 
-import org.eclipse.emf.common.util.EList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -21,7 +22,7 @@ public class ObjectKeyHelper {
 	/**
 	 * Extract the object type of an object key. 
 	 */
-	public static EClass getObjectType(int objectKey, EList<EClass> identityTypes) {
+	public static EClass getObjectType(int objectKey, List<EClass> identityTypes) {
 		int index = ((objectKey >>> 24) & 0xFF)-1;
 		if (index>=0 && index<identityTypes.size()) {
 			return identityTypes.get(index);
@@ -47,7 +48,7 @@ public class ObjectKeyHelper {
 	/**
 	 * Extract the object type of an object key. 
 	 */
-	public static int createObjectKey(EClass type, int id, EList<EClass> identityTypes) {
+	public static int createObjectKey(EClass type, int id, List<EClass> identityTypes) {
 		
 		// Find out the type id:
 		int typeId = identityTypes.indexOf(type) + 1;

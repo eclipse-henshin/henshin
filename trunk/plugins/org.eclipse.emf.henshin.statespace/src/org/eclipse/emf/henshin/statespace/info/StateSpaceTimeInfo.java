@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Vector;
 
@@ -29,7 +28,7 @@ public class StateSpaceTimeInfo {
 	
 	private final boolean timed;
 	
-	private final List<EClass> types;
+	private final List<EClass> identityTypes;
 	
 	private final Map<EClass,List<String>> clockDeclarations;
 	
@@ -56,8 +55,8 @@ public class StateSpaceTimeInfo {
 		
 		// Extract the clock declarations:
 		clockDeclarations = new LinkedHashMap<EClass,List<String>>();
-		types = StateSpaceTypesHelper.getTypes(index.getStateSpace());
-		for (EClass type : types) {
+		identityTypes = index.getStateSpace().getEqualityHelper().getIdentityTypes();
+		for (EClass type : identityTypes) {
 			clockDeclarations.put(type, new Vector<String>());
 		}
 		String prop = stateSpace.getProperties().get(StateSpace.PROPERTY_CLOCK_DECLARATIONS);
@@ -67,7 +66,7 @@ public class StateSpaceTimeInfo {
 				String[] split = decl.split("\\.");
 				if (split.length==2) {
 					EClass type = typeNameMap.get(split[0]);
-					if (type!=null) {
+					if (type!=null && identityTypes.contains(type)) {
 						clockDeclarations.get(type).add(split[1]);
 					}
 				}
@@ -76,22 +75,27 @@ public class StateSpaceTimeInfo {
 		
 		// Compute the maximum used object IDs for every type:
 		maxObjectIds = new LinkedHashMap<EClass,Integer>();
-		for (EClass type : types) {
+		for (EClass type : identityTypes) {
 			maxObjectIds.put(type, 0);
 		}
+		int[] objectKeys;
 		for (State state : stateSpace.getStates()) {
-			Model model = index.getModel(state);
-			for (Entry<EObject,Integer> entry : model.getObjectKeysMap()) {
-				int id = ObjectKeyHelper.getObjectID(entry.getValue());
-				if (maxObjectIds.get(entry.getKey().eClass()) < id) {
-					maxObjectIds.put(entry.getKey().eClass(), id);
+			//Model model = index.getModel(state);
+			objectKeys = state.getObjectKeys();
+			for (int i=0; i<objectKeys.length; i++) {
+				EClass type = ObjectKeyHelper.getObjectType(objectKeys[i], identityTypes);
+				if (identityTypes.contains(type)) {
+					int id = ObjectKeyHelper.getObjectID(objectKeys[i]);
+					if (maxObjectIds.get(type) < id) {
+						maxObjectIds.put(type, id);
+					}
 				}
 			}
 		}
 		
 		// Now we can compute the required number of clocks:
 		int clocks = 0;
-		for (EClass type : types) {
+		for (EClass type : identityTypes) {
 			clocks += maxObjectIds.get(type) * clockDeclarations.get(type).size();
 		}
 		clockCount = clocks;
@@ -163,9 +167,9 @@ public class StateSpaceTimeInfo {
 			throw new IllegalArgumentException("Class '" + object.eClass().getName() + "' must be an identity type to have clocks.");
 		}
 		int clock = 0;
-		for (EClass type : types) {
+		for (EClass type : identityTypes) {
 			if (type==object.eClass()) {
-				clock += (objectId-1);
+				clock += objectId;
 				break;
 			} else {
 				clock += maxObjectIds.get(type) * clockDeclarations.get(type).size();
@@ -179,10 +183,10 @@ public class StateSpaceTimeInfo {
 			@Override
 			public Iterator<String> iterator() {
 				return new Iterator<String>() {
-					int clock = 0;
+					int clock = 1;
 					@Override
 					public boolean hasNext() {
-						return clock<clockCount;
+						return clock<=clockCount;
 					}
 					@Override
 					public String next() {
@@ -294,7 +298,7 @@ public class StateSpaceTimeInfo {
 		String nodeName;
 		for (Node node : nodes) {
 			nodeName = node.getName();
-			if (nodeName!=null) {
+			if (nodeName!=null && identityTypes.contains(node.getType())) {
 				Model model = sourceModel;
 				EObject object = match.getNodeTarget(node);
 				if (object==null && resultMatch!=null) {
@@ -328,7 +332,7 @@ public class StateSpaceTimeInfo {
 		String nodeName;
 		for (Node node : rule.getLhs().getNodes()) {
 			nodeName = node.getName();
-			if (nodeName!=null) {
+			if (nodeName!=null && identityTypes.contains(node.getType())) {
 				for (String clockName : clockDeclarations.get(node.getType())) {
 					if (!usedClockVariables.contains(nodeName + "\\." + clockName)) {
 						missing.add(nodeName + "." + clockName);

@@ -251,10 +251,16 @@ public class PRISMUtil {
 		
 		// First collect all target states:
 		List<State> targets = new ArrayList<State>();
+		int steps = 0;
 		for (State state : index.getStateSpace().getStates()) {
 			if (validator.validate(state, nullMonitor).isValid()) {
 				targets.add(state);
 			}
+			// Clean up regularly:
+			if (steps++ % 5000==0) {
+				index.clearCache();
+			}
+			// Update and check monitor:
 			monitor.worked(1);
 			if (monitor.isCanceled()) {
 				return template;
@@ -264,8 +270,12 @@ public class PRISMUtil {
 		// Now generate the text representation:
 		if (targets.size()==0) {
 			result = "false";
-		} else {
-			boolean negate = false;//targets.size() > (index.getStateSpace().getStateCount() / 2);
+		}
+		else if (targets.size()==index.getStateSpace().getStateCount()){
+			result = "true";
+		}
+		else {
+			boolean negate = targets.size() > (index.getStateSpace().getStateCount() / 2);
 			if (negate) {
 				List<State> negated = new Vector<State>(index.getStateSpace().getStates());
 				negated.removeAll(targets);
@@ -414,6 +424,21 @@ public class PRISMUtil {
 			rules.add(rule);
 		}
 		return probRules;
+	}
+	
+	public static String getConstants(StateSpace stateSpace) {
+		String constants = stateSpace.getProperties().get(StateSpace.PROPERTY_CONSTANTS);
+		if (constants!=null) {
+			String result = "";
+			for (String part : constants.split(",")) {
+				part = part.trim();
+				if (part.length()>0) {
+					result = result + "const " + part + ";\n";
+				}
+			}
+			return result;
+		}
+		return "";
 	}
 
 	/**

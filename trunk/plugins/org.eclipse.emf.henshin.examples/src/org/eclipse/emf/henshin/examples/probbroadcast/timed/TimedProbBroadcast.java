@@ -45,64 +45,71 @@ public class TimedProbBroadcast {
 		System.out.println(" - Loaded " + stateSpace.getStateCount() + " states from " + stateSpaceFile);
 	}
 	
-	
-	/*
-	 * Compute the results by running the PRISM tool.
-	 */
-	private Object getResults(String probSend, String property) throws Exception {
-		MDPStateSpaceValidator validator = new MDPStateSpaceValidator(manager);
-		validator.setProperty(property);
-		manager.getStateSpace().getProperties().put("probSend1", probSend);  // set the send probability
-		manager.getStateSpace().getProperties().put("probSend2", "1-probSend1");  // probability for *not* sending
-		return validator.validate(manager.getStateSpace(), null).getResult();
-	}
-	
+		
 	/**
 	 * Compute the message reception probabilities for a set of nodes and a fixed send probability. 
 	 * @param nodes The nodes for which the reception probabilities shall be computed. 
 	 * @param probSend The fixed send probability.
 	 */
-	public void fixedSendProb(int[] nodes, double probSend) throws Exception {
-		System.out.println("\n - Computing reception probabilities for send probability "  + probSend + "...\n");
+	public void fixedSendProb(int[] nodes, int LO, int UP, int CF, double probSend) throws Exception {
+		
+		System.out.println("\n - Constants: LO=" + LO + ", UP=" + UP + ", CF=" + CF + ", probSend="  + probSend);
+		System.out.println(" - Computing reception probabilities...");
 		System.out.println("   Node\tPmin\tPmax");
+		
+		// Build the properties to check:
+		String prop = "";
 		for (int i=0; i<nodes.length; i++) {
-			String label = "label \"target\" = <<<OCL not self.nodes->at(" + nodes[i] + ").active >>>;"; // OCL constraint for identifying the target states
-			double pmin = (Double) getResults(probSend+"", label + " Pmin=?[F \"target\"]");   // minimum reception probability
-			double pmax = 1;//(Double) getResults(probSend+"", label + " Pmax=?[F \"target\"]");   // maximum reception probability
-			System.out.println("   " + nodes[i] + "\t" + pmin + "\t" + pmax);
+			prop = prop + "label \"T" + i + "\" = <<<OCL not self.nodes->at(" + nodes[i] + ").active >>>;\n" 
+						+ " Pmin=?[F \"T" + i + "\"]  Pmax=?[F \"T" + i + "\"]\n";
 		}
+		
+		// Create the state space validator instance and set the property:
+		MDPStateSpaceValidator validator = new MDPStateSpaceValidator(manager);
+		validator.setProperty(prop);
+		
+		// Set the time constants:
+		manager.getStateSpace().getProperties().put("constants", "int LO=" + LO + ",int UP=" + UP + ",int CF=" + CF + "");
+		
+		// Set the send probabilities:
+		manager.getStateSpace().getProperties().put("probSend1", probSend+"");
+		manager.getStateSpace().getProperties().put("probSend2", "1-probSend1");
+		
+		// Run the validator:
+		StateSpaceXYPlot plot = (StateSpaceXYPlot) validator.validate(manager.getStateSpace(), null).getResult();
+		
+		// Print the results:
+		for (int i=0; i<nodes.length; i++) {
+			System.out.println("   " + nodes[i] + "\t" + plot.getY(0, 2*i) + "\t" + plot.getY(0, 2*i+1));
+		}
+		
 	}
 
 	/**
-	 * Compute the message reception probabilities for a fixed node and varying send probability.
-	 * @param node The fixed node for which the reception probabilities shall be computed. 
-	 * @param probSend Varying send probability (see PRISM syntax for experiments).
-	 */
-	public void fixedNode(int node, String probSend) throws Exception {
-		System.out.println("\n - Computing reception probabilities for node " + node + "...\n");
-		System.out.println("   Psend\tPmin\tPmax");
-		String label = "label \"target\" = <<<OCL not self.nodes->at(" + node + ").active >>>;"; // OCL constraint for identifying the target states
-		StateSpaceXYPlot pmin = (StateSpaceXYPlot) getResults(probSend, label + " Pmin=?[F \"target\"]");   // minimum reception probabilities
-		StateSpaceXYPlot pmax = (StateSpaceXYPlot) getResults(probSend, label + " Pmax=?[F \"target\"]");   // maximum reception probabilities
-		for (int x=0; x<pmin.getXMaxSegments(); x++) {
-			System.out.println("   " + pmin.getX(0, x) + "\t" + pmin.getY(0, x) + "\t" + pmax.getY(0, x));
-		}
-	}
-
-	/**
-	 * Compute the results for the probabilistic broadcast example.
+	 * Compute the results for the probabilistic timed broadcast example.
 	 * @param path Relative path to the model files.
 	 */
 	public static void run(String path) {
-		TimedProbBroadcast main = new TimedProbBroadcast(path, "grid2x2.henshin_statespace");
+		TimedProbBroadcast main = new TimedProbBroadcast(path, "grid3x3.henshin_statespace");
 		try {
 			OCLStateValidator.register(); // we need the OCL validator
-			//main.fixedSendProb(new int[] { 1,2,3,4 }, 0.6);
-			//main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 0.6);
-			main.fixedSendProb(new int[] { 8 }, 0.6);
-			// main.fixedNode(9, "0:0.1:1");
-		}
-		catch (Throwable t){
+			
+			//main.fixedSendProb(new int[] { 1,2,3,4 }, 5, 8, 2, 0.8);			// 2x2 grid
+			//main.fixedSendProb(new int[] { 1,2,3,4 }, 5, 18, 2, 0.8);			// 2x2 grid
+			
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 6, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 7, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 8, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 9, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 10, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 11, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 12, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 13, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 14, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 15, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 16, 2, 0.8);	// 3x3 grid
+			
+		} catch (Throwable t){
 			t.printStackTrace();
 		} finally {
 			main.manager.shutdown();  // shut down the state space manager

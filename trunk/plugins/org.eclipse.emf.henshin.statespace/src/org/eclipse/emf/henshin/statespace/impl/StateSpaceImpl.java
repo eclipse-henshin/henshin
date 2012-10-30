@@ -55,6 +55,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		props.put(StateSpace.PROPERTY_COLLECT_MISSING_ROOTS, "false");
 		props.put(StateSpace.PROPERTY_IGNORE_DUPLICATE_TRANSITIONS, "false");
 		props.put(StateSpace.PROPERTY_USE_CLOCKS, "false");
+		props.put(StateSpace.PROPERTY_CONSTANTS, "");
 		props.put(StateSpace.PROPERTY_IDENTITY_TYPES, "");
 		props.put(StateSpace.PROPERTY_IGNORED_ATTRIBUTES, "");
 		props.put(StateSpace.PROPERTY_CLOCK_DECLARATIONS, "");

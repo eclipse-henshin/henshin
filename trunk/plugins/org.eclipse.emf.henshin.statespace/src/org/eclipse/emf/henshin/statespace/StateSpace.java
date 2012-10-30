@@ -38,6 +38,11 @@ public interface StateSpace extends Storage {
 	public static final String PROPERTY_IGNORED_ATTRIBUTES = "ignoredAttributes";
 
 	/**
+	 * Key for a state space property that defines a list of constants.
+	 */
+	public static final String PROPERTY_CONSTANTS = "constants";
+
+	/**
 	 * Key for a state space property that defines a list of clock attributes.
 	 */
 	public static final String PROPERTY_CLOCK_DECLARATIONS = "clockDeclarations";

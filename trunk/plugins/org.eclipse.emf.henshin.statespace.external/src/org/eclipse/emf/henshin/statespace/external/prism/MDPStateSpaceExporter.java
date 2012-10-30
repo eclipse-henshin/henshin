@@ -41,6 +41,11 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 	 * ID of this exporter.
 	 */
 	public static final String EXPORTER_ID = "org.eclipse.emf.henshin.statespace.external.export.prismmdp";
+	
+	/**
+	 * Clean up interval.
+	 */
+	private static final int CLEAN_UP_INTERVAL = 10000;
 
 	/*
 	 * (non-Javadoc)
@@ -51,6 +56,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 
 		int stateCount = stateSpace.getStates().size();
 		monitor.beginTask("Exporting state space...", 3 * stateCount);
+		int steps;
 
 		// Get the time info:
 		StateSpaceTimeInfo timeInfo;
@@ -101,6 +107,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 					}
 				}
 			}
+			writer.write(PRISMUtil.getConstants(stateSpace));
 			writer.write("\nmodule " + uri.trimFileExtension().lastSegment() + "\n\n");
 		}
 
@@ -119,6 +126,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 				
 				// Clock invariants:
 				boolean first = true;
+				steps = 0;
 				for (State s : stateSpace.getStates()) {
 					StateInfo info = new StateInfo(s, index.getModel(s), explorer);
 					String inv = timeInfo.getInvariant(info);
@@ -126,10 +134,12 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 						if (first) {
 							writer.write("\n\tinvariant\n");
 						}
-						writer.write("\t\t");
-						if (!first) writer.write("& ");
-						writer.write("(s=" + s.getIndex()  + " => " + inv + ")\n");
+						writer.write(first ? "\t\t  (s=" : "\t\t& (s=");
+						writer.write(s.getIndex() + " => " + inv + ")\n");
 						first = false;
+					}
+					if (steps++ % CLEAN_UP_INTERVAL==0) {
+						index.clearCache();
 					}
 				}
 				if (!first) {
@@ -141,6 +151,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 
 		// Output the transitions:
 		int removedIllegal = 0;
+		steps = 0;
 		for (State s : stateSpace.getStates()) {
 
 			// Sort transitions by labels:
@@ -209,6 +220,11 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 				} else {				
 					writer.write(";\n");
 				}
+			}
+
+			// Clean up regularly:
+			if (steps++ % CLEAN_UP_INTERVAL==0) {
+				index.clearCache();
 			}
 
 			// Update the monitor:
