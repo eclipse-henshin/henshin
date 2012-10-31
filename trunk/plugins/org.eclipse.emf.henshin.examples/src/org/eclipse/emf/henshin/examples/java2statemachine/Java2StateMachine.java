@@ -104,7 +104,7 @@ public class Java2StateMachine {
 		// Execute the transformation:
 		System.out.println("Generating state machine...");
 		long time = System.currentTimeMillis();
-		InterpreterUtil.executeOrDie(unitApp, null);
+		InterpreterUtil.executeOrDie(unitApp);
 		time = System.currentTimeMillis() - time;
 		System.out.println("Generation took " + time + "ms.");
 		

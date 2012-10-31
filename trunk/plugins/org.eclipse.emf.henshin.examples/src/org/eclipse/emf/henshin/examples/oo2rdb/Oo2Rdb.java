@@ -84,7 +84,7 @@ public class Oo2Rdb {
 		unitApp.setEGraph(graph);
 		
 		// Execute the transformation unit:
-		InterpreterUtil.executeOrDie(unitApp, null);
+		InterpreterUtil.executeOrDie(unitApp);
 		EObject result = (EObject) unitApp.getResultParameterValue("schema");
 		System.out.println("Generated Rdb model.");
 		

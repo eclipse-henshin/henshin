@@ -87,7 +87,7 @@ public class Ecore2GenmodelTrafo {
 		unitApp.setParameterValue("pluginName", ecoreModel.getName());
 		
 		// Execute the transformation unit:
-		InterpreterUtil.executeOrDie(unitApp, null);
+		InterpreterUtil.executeOrDie(unitApp);
 		
 		// Get the generated Genmodel:
 		GenModel genModel = (GenModel) unitApp.getResultParameterValue("genModel");
@@ -98,12 +98,12 @@ public class Ecore2GenmodelTrafo {
 
 		// Process annotations and generate related Henshin rules:
 		unitApp.setUnit(module.getUnit("prepareCustomizationUnit"));
-		InterpreterUtil.executeOrDie(unitApp, null);
+		InterpreterUtil.executeOrDie(unitApp);
 
 		// Apply generated rules to transfer annotations to the genmodel.
 		Unit customizationUnit = (Unit) unitApp.getResultParameterValue("seqUnit");
 		unitApp.setUnit(customizationUnit);
-		InterpreterUtil.executeOrDie(unitApp, null);
+		InterpreterUtil.executeOrDie(unitApp);
 
 		System.out.println("Successfully generated GenModel.");
 		
