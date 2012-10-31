@@ -12,8 +12,10 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
@@ -127,7 +129,10 @@ public class Henshination {
 			return;
 		}
 		for (EPackage pack : unit.getModule().getImports()) {
-			resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
+			String nsURI = pack.getNsURI();
+			if (nsURI!=null && resourceSet.getPackageRegistry().getEPackage(nsURI)==null) {
+				resourceSet.getPackageRegistry().put(nsURI, pack);
+			}
 		}
 	}
 	
@@ -164,13 +169,7 @@ public class Henshination {
 	
 	protected HenshinationResult applyTo(Resource model) throws HenshinationException {
 		UnitApplication unitApplication = createUnitApplication(model);
-		boolean result = runUnitApplication(unitApplication, false).getSecond();
-		// Collect new root objects:
-		for (EObject root : unitApplication.getEGraph().getRoots()) {
-			if (!model.getContents().contains(root)) {
-				model.getContents().add(root);
-			}
-		}
+		boolean result = runUnitApplication(unitApplication, model, false).getSecond();
 		return new HenshinationResult(this, unitApplication, result);
 	}
 	
@@ -180,8 +179,13 @@ public class Henshination {
 	 * @param undoOnCancel
 	 * @return {@link Tuple} (not canceled, application result)
 	 */
-	protected Tuple<Boolean, Boolean> runUnitApplication(final UnitApplication ua,
+	protected Tuple<Boolean, Boolean> runUnitApplication(final UnitApplication ua, final Resource model,
 			final boolean undoOnCancel) {
+		
+		// Remember the old root objects:
+		Set<EObject> oldRoots = new HashSet<EObject>();
+		oldRoots.addAll(ua.getEGraph().getRoots());
+		
 		final ApplicationMonitor appMon = new BasicApplicationMonitor();
 		final Capsule<Boolean> result = new Capsule<Boolean>(false);
 		IRunnableWithProgress unitApplicationMonitor = new IRunnableWithProgress() {
@@ -221,6 +225,15 @@ public class Henshination {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		// Collect new root objects:
+		for (EObject root : ua.getEGraph().getRoots()) {
+			if (!oldRoots.contains(root)) {
+				//System.out.println("Collect new root object: " + root);
+				model.getContents().add(root);
+			}
+		}
+
 		// return result;
 		return new Tuple<Boolean, Boolean>(!appMon.isCanceled(), result.getValue());
 	}
@@ -337,8 +350,8 @@ public class Henshination {
 			extReg.put(modelUri.fileExtension(), new XMIResourceFactoryImpl());
 		}
 		
-		final Resource resource = resSet.getResource(modelUri, true);
-		final UnitApplication unitApplication = createUnitApplication(resource);
+		final Resource model = resSet.getResource(modelUri, true);
+		final UnitApplication unitApplication = createUnitApplication(model);
 		
 		String title = InterpreterUIPlugin.LL("_UI_UndoableOperation_Henshin") + ": "
 				+ getUnit().getName();
@@ -350,8 +363,8 @@ public class Henshination {
 					throws ExecutionException {
 				
 				try {
-					if (Tuples.and(runUnitApplication(unitApplication, true))) {
-						resource.save(null);
+					if (Tuples.and(runUnitApplication(unitApplication, model, true))) {
+						model.save(null);
 						return Status.OK_STATUS;
 					}
 					return new Status(Status.ERROR, InterpreterUIPlugin.ID, "Canceled by user!");
@@ -366,7 +379,7 @@ public class Henshination {
 					throws ExecutionException {
 				try {
 					unitApplication.redo(null);
-					resource.save(null);
+					model.save(null);
 				} catch (Exception e) {
 					return new Status(Status.ERROR, InterpreterUIPlugin.ID, e.getMessage());
 				}
@@ -378,7 +391,7 @@ public class Henshination {
 					throws ExecutionException {
 				try {
 					unitApplication.undo(null);
-					resource.save(null);
+					model.save(null);
 				} catch (Exception e) {
 					return new Status(Status.ERROR, InterpreterUIPlugin.ID, e.getMessage());
 				}
