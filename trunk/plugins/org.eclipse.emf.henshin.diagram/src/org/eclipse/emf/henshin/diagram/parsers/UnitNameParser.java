@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.diagram.parsers;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -57,7 +56,6 @@ public class UnitNameParser extends AbstractParser {
 	 * allowed as well and spaces may be between all names, brackets and commas.
 	 * E.g., the following unit names are allowed (separated by semicolon):
 	 * unit; unit(); unit(x); unit ( x ); unit(x, y) etc.
-	 * 
 	 * 
 	 * The indices are as follows:<br>
 	 * 1: unit name <br>
@@ -199,49 +197,96 @@ public class UnitNameParser extends AbstractParser {
 				}
 			}
 			
-			// Clean up the names of the current parameters:
+			// Remove duplicate names (and the corresponding types):
+			for (int i=1; i<names.length; i++) {
+				for (int j=0; j<i; j++) {
+					if (names[i]!=null && names[j]!=null && names[i].equals(names[j])) {
+						names[i] = null;
+						types[i] = null;
+						break;
+					}
+				}
+			}
+			
+			// The parameters:
 			final List<Parameter> params = unit.getParameters();
-			for (Parameter param : params) {
-				if (param.getName() != null) {
-					param.setName(param.getName().trim());
+
+			// Delete parameters without names, and remove trailing spaces from the others:
+			Iterator<Parameter> it = params.iterator();
+			while (it.hasNext()) {
+				Parameter p = it.next();
+				if (p.getName()==null) {
+					it.remove();
+				} else {
+					p.setName(p.getName().trim());		
+				}
+			}
+			
+			// Now make sure that there are no parameters with the same names:
+			for (int i=1; i<params.size(); i++) {
+				Parameter p = params.get(i);
+				for (int j=0; j<i; j++) {
+					if (p.getName().equals(params.get(j).getName())) {
+						params.remove(i--);
+						break;
+					}
 				}
 			}
 			
 			/*
 			 * Note, if the name of an existing parameter appears in the
 			 * parameter list of the given string, the actual parameter is NOT
-			 * deleted but moved! Therefore, the algorithm below works as
-			 * follows: (1) Remove obsolete parameters, (2) Create new
-			 * parameters, (3) Adjust the parameters order.
+			 * deleted but moved! We do this as follows:
+			 * (1) Remove obsolete parameters, 
+			 * (2) Create new parameters, 
+			 * (3) Adjust the parameters order.
 			 */
 
 			// Remove parameters not occurring in the new list:
-			List<String> nameList = Arrays.asList(names);
-			Iterator<Parameter> it = params.iterator();
+			it = params.iterator();
 			while (it.hasNext()) {
-				Parameter p = it.next();
-				if (!nameList.contains(p.getName())) {
+				String n = it.next().getName();
+				boolean found = false;
+				for (int i=0; i<names.length; i++) {
+					if (names[i]!=null && names[i].equals(n)) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
 					it.remove();
 				}
 			}
 			
 			// Add the new parameters:
 			for (int i=0; i<names.length; i++) {
-				if (i>=params.size() || !names[i].equals(params.get(i).getName())) {
-					unit.getParameters().add(i, HenshinFactory.eINSTANCE.createParameter(names[i]));
+				if (names[i]!=null && unit.getParameter(names[i])==null) {
+					unit.getParameters().add(HenshinFactory.eINSTANCE.createParameter(names[i]));
 				}
 			}
 			
-			// At this point, all parameters exist and have their correct names.
-			// All we have to do is to set their types:
+			/* At this point, all parameters exist and have their correct names */
+			
+			// Now sort the parameters:
+			int index = 0;
+			for (int i=0; i<names.length; i++) {
+				if (names[i]!=null) {
+					Parameter p = unit.getParameter(names[i]);
+					unit.getParameters().move(index++, p);
+				}
+			}
+						
+			// Now we only need to set their types:
 			Module module = unit.getModule();
 			for (int i=0; i<names.length; i++) {
-				EClassifier type = null;
-				EClassifier[] classifiers = ModuleEditHelper.getEClassifiers(module, types[i]);
-				if (classifiers!=null && classifiers.length>0) {
-					type = classifiers[0];
+				if (names[i]!=null && types[i]!=null) {
+					EClassifier type = null;
+					EClassifier[] classifiers = ModuleEditHelper.getEClassifiers(module, types[i]);
+					if (classifiers!=null && classifiers.length>0) {
+						type = classifiers[0];
+					}
+					unit.getParameter(names[i]).setType(type);
 				}
-				unit.getParameters().get(i).setType(type);
 			}
 			
 		} else {
