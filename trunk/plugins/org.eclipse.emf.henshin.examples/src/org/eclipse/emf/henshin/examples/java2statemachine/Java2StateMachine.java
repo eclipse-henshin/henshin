@@ -61,7 +61,7 @@ public class Java2StateMachine {
 	public static void run(String path, String javaModel, String referenceModel, boolean saveResult) {
 		
 		// Create the resource set:
-		System.out.println("Loading Java2StateMachine transformation system...");
+		System.out.println("Loading Java2StateMachine transformation...");
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 		
 		// Load the module:

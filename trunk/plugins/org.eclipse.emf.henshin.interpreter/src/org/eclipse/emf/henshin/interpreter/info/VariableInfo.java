@@ -33,7 +33,6 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
@@ -143,9 +142,9 @@ public class VariableInfo {
 		}
 		
 		for (Attribute attribute : node.getAttributes()) {
-			if (attributeIsParameter(rule, attribute)) {
-				ParameterConstraint constraint = new ParameterConstraint(attribute.getValue(),
-						attribute.getType());
+			String val = attribute.getValue();
+			if (rule.getParameter(val)!=null) {
+				ParameterConstraint constraint = new ParameterConstraint(val, attribute.getType());
 				var.parameterConstraints.add(constraint);
 			} else {
 				Object value = engine.evalAttributeExpression(attribute);
@@ -249,28 +248,7 @@ public class VariableInfo {
 		// TODO: change Solution to get rid of this method
 		return node2variable;
 	}
-	
-	/**
-	 * Checks whether the value of the given attribute corresponds to a
-	 * parameter of the rule.
-	 * 
-	 * @param rule
-	 *            The rule which contains the parameters.
-	 * @param attribute
-	 *            The attribute, which value should be checked.
-	 * @return true, if the attribute value equals a parameter name.
-	 */
-	private static boolean attributeIsParameter(Rule rule, Attribute attribute) {
-		String potentialParameter = attribute.getValue();
-		boolean found = false;
-		for (Parameter parameter : rule.getParameters()) {
-			found = parameter.getName().equals(potentialParameter);
-			if (found)
-				break;
-		}
-		return found;
-	}
-	
+		
 	private static final Integer ONE = new Integer(1);
 	
 }

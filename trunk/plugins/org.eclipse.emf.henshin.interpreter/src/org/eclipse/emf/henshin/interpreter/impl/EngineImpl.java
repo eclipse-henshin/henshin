@@ -606,7 +606,13 @@ public class EngineImpl implements Engine {
 		// Attribute changes:
 		for (Attribute attribute : ruleChange.getAttributeChanges()) {
 			EObject object = resultMatch.getNodeTarget(attribute.getNode());
-			Object value = evalAttributeExpression(attribute);
+			Object value;
+			Parameter param = rule.getParameter(attribute.getValue());
+			if (param!=null) {
+				value = castValueToDataType(resultMatch.getParameterValue(param), attribute.getType().getEAttributeType());
+			} else {
+				value = evalAttributeExpression(attribute);	// casting done here automatically
+			}			
 			changes.add(new AttributeChangeImpl(graph, object, attribute.getType(), value));
 		}
 
@@ -627,55 +633,68 @@ public class EngineImpl implements Engine {
 
 	}
 	
-	/*
-	 * Evaluates a given JavaScript-Expression.
+	/**
+	 * Evaluates a given attribute expression using the JavaScript engine.
+	 * @param attribute Attribute to be interpreted.
+	 * @return The value.
 	 */
 	public Object evalAttributeExpression(Attribute attribute) {
 
-		// Is it a constant?
+		// Is it a constant or null?
 		Object constant = attribute.getConstant();
 		if (constant!=null) {
 			return constant;
 		}
-		
-		// Null?
 		if (attribute.isNull()) {
 			return null;
 		}
 		
-		// Try to evaluate the expression:
+		// Try to evaluate the expression and cast it to the correct type:
 		try {
-			Object value = scriptEngine.eval(attribute.getValue());
-			if (value==null) {
-				return null;
-			}
-			// Number format conversions:
-			if (value instanceof Number) {
-				EDataType type = attribute.getType().getEAttributeType();
-				EcorePackage P = EcorePackage.eINSTANCE;
-				if (type==P.getEByte() || type==P.getEByteObject()) {
-					return ((Number) value).byteValue();
-				}
-				else if (type==P.getEInt() || type==P.getEIntegerObject()) {
-					return ((Number) value).intValue();
-				}
-				else if (type==P.getELong() || type==P.getELongObject()) {
-					return ((Number) value).longValue();
-				}
-				else if (type==P.getEFloat() || type==P.getEFloatObject()) {
-					return ((Number) value).floatValue();
-				}
-				else if (type==P.getEDouble() || type==P.getEDoubleObject()) {
-					return ((Number) value).doubleValue();
-				}
-			}
-			// Generic attribute value creation:
-			return EcoreUtil.createFromString(attribute.getType().getEAttributeType(), value.toString());
-		}
-		catch (ScriptException e) {
+			return castValueToDataType(scriptEngine.eval(attribute.getValue()), attribute.getType().getEAttributeType());
+		} catch (ScriptException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 
+	}
+	
+	/*
+	 * Ecore package.
+	 */
+	private static final EcorePackage ECORE = EcorePackage.eINSTANCE;
+	
+	/*
+	 * Cast a data value into a given data type.
+	 */
+	private static Object castValueToDataType(Object value, EDataType type) {
+		
+		// Null?
+		if (value==null) {
+			return null;
+		}
+		
+		// Number format conversions:
+		if (value instanceof Number) {
+			if (type==ECORE.getEInt() || type==ECORE.getEIntegerObject()) {
+				return ((Number) value).intValue();
+			}
+			if (type==ECORE.getEDouble() || type==ECORE.getEDoubleObject()) {
+				return ((Number) value).doubleValue();
+			}
+			if (type==ECORE.getEByte() || type==ECORE.getEByteObject()) {
+				return ((Number) value).byteValue();
+			}
+			if (type==ECORE.getELong() || type==ECORE.getELongObject()) {
+				return ((Number) value).longValue();
+			}
+			if (type==ECORE.getEFloat() || type==ECORE.getEFloatObject()) {
+				return ((Number) value).floatValue();
+			}
+		}
+		
+		// Generic attribute value creation:
+		return EcoreUtil.createFromString(type, value.toString());		
+		
 	}
 	
 	/*
