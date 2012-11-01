@@ -500,8 +500,8 @@ public class RuleImpl extends UnitImpl implements Rule {
 	public boolean removeNode(Node node, boolean removeMapped) {
 		
 		// Must be invoked from the root kernel rule:
-		if (getKernelRule()!=null) {
-			return getKernelRule().removeNode(node, removeMapped);
+		if (getRootRule()!=this) {
+			return getRootRule().removeNode(node, removeMapped);
 		}
 		
 		// Collect all mappings and nodes to delete:
@@ -557,7 +557,12 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public Edge createEdge(Node source, Node target, EReference type) {
-		
+
+		// Must be called at the root rule:
+		if (getRootRule()!=this) {
+			return getRootRule().createEdge(source, target, type);
+		}
+
 		// Check if we really can create an edge:
 		if (!canCreateEdge(source, target, type)) {
 			return null;
@@ -602,6 +607,11 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public boolean canCreateEdge(Node source, Node target, EReference type) {
+
+		// Must be called at the root rule:
+		if (getRootRule()!=this) {
+			return getRootRule().canCreateEdge(source, target, type);
+		}
 		
 		// Get the source and target type.
 		EClass targetType = target.getType();
@@ -630,7 +640,15 @@ public class RuleImpl extends UnitImpl implements Rule {
 		if (sourceAndTarget==null || sourceAndTarget.size()!=2) {
 			return false;
 		}
-		
+		source = sourceAndTarget.get(0);
+		target = sourceAndTarget.get(1);
+
+		// Check if there is already an edge:
+		Edge edge = source.getOutgoing(type, target);
+		if (edge!=null) {
+			return false;
+		}
+
 		// Everything ok:
 		return true;
 	}
@@ -736,9 +754,11 @@ public class RuleImpl extends UnitImpl implements Rule {
 	public boolean removeEdge(Edge edge, boolean removeMapped) {
 		
 		// Must be invoked from the root kernel rule:
-		if (getKernelRule()!=null) {
-			return getKernelRule().removeEdge(edge, removeMapped);
+		if (getRootRule()!=this) {
+			return getRootRule().removeEdge(edge, removeMapped);
 		}
+		
+		// Edges to be removed:
 		Set<Edge> edges = new HashSet<Edge>();
 		edges.add(edge);
 		
