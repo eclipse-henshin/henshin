@@ -97,17 +97,7 @@ public class TimedProbBroadcast {
 			//main.fixedSendProb(new int[] { 1,2,3,4 }, 5, 8, 2, 0.8);			// 2x2 grid
 			//main.fixedSendProb(new int[] { 1,2,3,4 }, 5, 18, 2, 0.8);			// 2x2 grid
 			
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 6, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 7, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 8, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 9, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 10, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 11, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 12, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 13, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 14, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 15, 2, 0.8);	// 3x3 grid
-			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 16, 2, 0.8);	// 3x3 grid
+			main.fixedSendProb(new int[] { 2,4,3,5,7,6,8,9 }, 5, 80, 4, 0.8);	// 3x3 grid
 			
 		} catch (Throwable t){
 			t.printStackTrace();

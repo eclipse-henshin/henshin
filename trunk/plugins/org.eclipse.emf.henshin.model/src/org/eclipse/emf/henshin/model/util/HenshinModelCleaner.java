@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.UnaryUnit;
 import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.model.actions.MultiRuleMapEditor;
 
 /**
  * Utilities methods for cleaning Henshin models.
@@ -376,6 +377,38 @@ public class HenshinModelCleaner {
 			}
 		}
 		
+	}
+	
+	/**
+	 * Complete all multi-rules in a module. This invokes {@link #completeMultiRules(Rule)} on all
+	 * rules directly or indirectly contained by the argument module.
+	 * @param module A module.
+	 */
+	public static void completeMultiRules(Module module) {
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof Rule) {
+				completeMultiRules((Rule) unit);
+			}
+		}
+		for (Module subModule : module.getSubModules()) {
+			completeMultiRules(subModule);
+		}
+	}
+
+	/**
+	 * Complete a multi-rule and all its directly and indirectly contained multi-rules.
+	 * This method can be used to ensure that the multi-mappings are complete.
+	 * @param rule Rule to be completed.
+	 */
+	public static void completeMultiRules(Rule rule) {
+		Rule kernel = rule.getKernelRule();
+		if (kernel!=null) {
+			MultiRuleMapEditor editor = new MultiRuleMapEditor(kernel, rule);
+			editor.ensureCompleteness();
+		}
+		for (Rule multiRule : rule.getMultiRules()) {
+			completeMultiRules(multiRule);
+		}
 	}
 	
 	/*

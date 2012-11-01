@@ -74,7 +74,7 @@ public class ExampleTests {
 	@Test
 	public void testOo2Rdb() {
 		System.out.println();
-		Oo2Rdb.run(EXAMPLES_PATH + Oo2Rdb.PATH, Oo2Rdb.EXAMPLE_OO_MODEL, Oo2Rdb.EXAMPLE_RDB_MODEL, false);
+		Oo2Rdb.run(EXAMPLES_PATH + Oo2Rdb.PATH, Oo2Rdb.EXAMPLE_OO_MODEL, Oo2Rdb.EXAMPLE_OO_PACKAGE_NAME, Oo2Rdb.EXAMPLE_RDB_MODEL, false);
 	}
 
 	/**

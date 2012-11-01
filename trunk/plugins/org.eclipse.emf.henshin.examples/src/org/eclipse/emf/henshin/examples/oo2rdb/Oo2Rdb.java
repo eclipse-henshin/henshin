@@ -9,10 +9,7 @@
  */
 package org.eclipse.emf.henshin.examples.oo2rdb;
 
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -45,7 +42,12 @@ public class Oo2Rdb {
 	 * Example OO-input model:
 	 */
 	public static final String EXAMPLE_OO_MODEL = "CarRental.ecore";
-	
+
+	/**
+	 * Package name of the example model: 
+	 */
+	public static final String EXAMPLE_OO_PACKAGE_NAME = "CarRentalModel";
+
 	/**
 	 * Example RDB-output model (reference):
 	 */
@@ -58,7 +60,7 @@ public class Oo2Rdb {
 	 * @param referenceRdbModel If set, the generated result will be compared with that model (for testing).
 	 * @param saveResult Whether to save the result.
 	 */
-	public static void run(String path, String ooModel, String referenceRdbModel, boolean saveResult) {
+	public static void run(String path, String ooModel, String packageName, String referenceRdbModel, boolean saveResult) {
 		
 		System.out.println("Generating Rdb model for '" + ooModel + "'...");
 		
@@ -68,20 +70,14 @@ public class Oo2Rdb {
 		Resource carRental = resourceSet.getResource(ooModel);
 		
 		// Initialize the Henshin graph:
-		EGraph graph = new EGraphImpl();
-		graph.addTree(carRental.getContents().get(0));
-		for (EClassifier classifier : EcorePackageImpl.eINSTANCE.getEClassifiers()) {
-			if (classifier instanceof EDataType) {
-				graph.add(classifier);	// (we need the Ecore datatypes as well)
-			}
-		}
+		EGraph graph = new EGraphImpl(carRental);
 		
 		// Initialize the interpreter:
 		Engine engine = new EngineImpl();
+		
 		Unit unit = module.getUnit("Start");
-		UnitApplication unitApp = new UnitApplicationImpl(engine);
-		unitApp.setUnit(unit);
-		unitApp.setEGraph(graph);
+		UnitApplication unitApp = new UnitApplicationImpl(engine, graph, unit, null);
+		unitApp.setParameterValue("packageName", packageName);
 		
 		// Execute the transformation unit:
 		InterpreterUtil.executeOrDie(unitApp);
@@ -107,11 +103,11 @@ public class Oo2Rdb {
 			}
 			
 		}
-				
+		
 	}
 
 	public static void main(String[] args) {
-		run(PATH, EXAMPLE_OO_MODEL, EXAMPLE_RDB_MODEL, true);
+		run(PATH, EXAMPLE_OO_MODEL, EXAMPLE_OO_PACKAGE_NAME, EXAMPLE_RDB_MODEL, true);
 	}
 
 }

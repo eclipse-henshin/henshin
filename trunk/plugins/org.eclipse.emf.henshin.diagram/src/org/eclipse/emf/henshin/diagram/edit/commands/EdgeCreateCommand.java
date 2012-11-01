@@ -137,6 +137,9 @@ public class EdgeCreateCommand extends EditElementCommand {
 			RootObjectEditHelper.updateRootContainment(ruleView, getTarget());
 		}
 		
+		// Complete multi-rules:
+		HenshinModelCleaner.completeMultiRules(rule.getRootRule());
+
 		// Clean up:
 		HenshinModelCleaner.cleanRule(rule.getRootRule());
 

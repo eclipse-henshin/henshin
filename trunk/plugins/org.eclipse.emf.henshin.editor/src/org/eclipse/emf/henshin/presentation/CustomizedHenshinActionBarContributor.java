@@ -25,6 +25,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CleanUpCommandMenuContributor;
+import org.eclipse.emf.henshin.editor.menuContributors.CompleteMultiRulesCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CopySubgraphMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateDynamicMC;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateEdgeCommandMenuContributor;
@@ -232,6 +233,8 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 				currentSelection, domain);
 
 		CleanUpCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection, domain);
+		
+		CompleteMultiRulesCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection, domain);
 
 		// ExpandNodeMenuContributor.INSTANCE.buildContributions(menuManager,
 		// currentSelection, domain);

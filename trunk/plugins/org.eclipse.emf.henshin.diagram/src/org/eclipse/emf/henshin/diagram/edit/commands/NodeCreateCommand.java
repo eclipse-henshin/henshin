@@ -160,6 +160,9 @@ public class NodeCreateCommand extends EditElementCommand {
 			HenshinDiagramEditorPlugin.getInstance().logError("Error setting node action", t);
 		}
 
+		// Complete multi-rules:
+		HenshinModelCleaner.completeMultiRules(rule.getRootRule());
+
 		// Clean up:
 		HenshinModelCleaner.cleanRule(rule.getRootRule());
 
