@@ -17,7 +17,8 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
@@ -42,10 +43,13 @@ public class SetAction extends HenshinTest {
 		HenshinResourceSet resourceSet = new HenshinResourceSet();
 		rules = new ArrayList<Rule>();
 		for (File file : files) {
-			TransformationSystem system = resourceSet.getTransformationSystem(file.getAbsolutePath());
-			for (Rule rule : system.getRules()) {
-				HenshinModelCleaner.cleanRule(rule);
-				rules.add(rule);
+			Module system = resourceSet.getModule(file.getAbsolutePath(), false);
+			for (Unit unit : system.getUnits()) {
+				if (unit instanceof Rule) {
+					Rule rule = (Rule) unit;
+					HenshinModelCleaner.cleanRule(rule);
+					rules.add(rule);
+				}
 			}
 		}
 				

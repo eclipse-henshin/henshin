@@ -8,6 +8,7 @@ package org.eclipse.emf.henshin.model.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -19,8 +20,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.henshin.model.Graph;
@@ -38,6 +42,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getSubModules <em>Sub Modules</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getSuperModule <em>Super Module</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getUnits <em>Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getInstances <em>Instances</em>}</li>
@@ -46,6 +51,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *
  * @generated
  */
+@SuppressWarnings("deprecation")
 public class ModuleImpl extends NamedElementImpl implements Module {
 	
 	/**
@@ -115,9 +121,50 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 */
 	public EList<Module> getSubModules() {
 		if (subModules == null) {
-			subModules = new EObjectContainmentEList<Module>(Module.class, this, HenshinPackage.MODULE__SUB_MODULES);
+			subModules = new EObjectContainmentWithInverseEList<Module>(Module.class, this, HenshinPackage.MODULE__SUB_MODULES, HenshinPackage.MODULE__SUPER_MODULE);
 		}
 		return subModules;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Module getSuperModule() {
+		if (eContainerFeatureID() != HenshinPackage.MODULE__SUPER_MODULE) return null;
+		return (Module)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSuperModule(Module newSuperModule, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newSuperModule, HenshinPackage.MODULE__SUPER_MODULE, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSuperModule(Module newSuperModule) {
+		if (newSuperModule != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.MODULE__SUPER_MODULE && newSuperModule != null)) {
+			if (EcoreUtil.isAncestor(this, newSuperModule))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newSuperModule != null)
+				msgs = ((InternalEObject)newSuperModule).eInverseAdd(this, HenshinPackage.MODULE__SUB_MODULES, Module.class, msgs);
+			msgs = basicSetSuperModule(newSuperModule, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.MODULE__SUPER_MODULE, newSuperModule, newSuperModule));
 	}
 
 	/**
@@ -193,6 +240,25 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case HenshinPackage.MODULE__SUB_MODULES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubModules()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.MODULE__SUPER_MODULE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetSuperModule((Module)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * @deprecated Will be removed in the future.
 	 * <!-- end-user-doc -->
 	 */
@@ -262,6 +328,8 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 		switch (featureID) {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				return ((InternalEList<?>)getSubModules()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.MODULE__SUPER_MODULE:
+				return basicSetSuperModule(null, msgs);
 			case HenshinPackage.MODULE__UNITS:
 				return ((InternalEList<?>)getUnits()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.MODULE__INSTANCES:
@@ -276,10 +344,26 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case HenshinPackage.MODULE__SUPER_MODULE:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.MODULE__SUB_MODULES, Module.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				return getSubModules();
+			case HenshinPackage.MODULE__SUPER_MODULE:
+				return getSuperModule();
 			case HenshinPackage.MODULE__IMPORTS:
 				return getImports();
 			case HenshinPackage.MODULE__UNITS:
@@ -319,6 +403,9 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 				getSubModules().clear();
 				getSubModules().addAll((Collection<? extends Module>)newValue);
 				return;
+			case HenshinPackage.MODULE__SUPER_MODULE:
+				setSuperModule((Module)newValue);
+				return;
 			case HenshinPackage.MODULE__IMPORTS:
 				getImports().clear();
 				getImports().addAll((Collection<? extends EPackage>)newValue);
@@ -346,6 +433,9 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				getSubModules().clear();
 				return;
+			case HenshinPackage.MODULE__SUPER_MODULE:
+				setSuperModule((Module)null);
+				return;
 			case HenshinPackage.MODULE__IMPORTS:
 				getImports().clear();
 				return;
@@ -369,6 +459,8 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 		switch (featureID) {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				return subModules != null && !subModules.isEmpty();
+			case HenshinPackage.MODULE__SUPER_MODULE:
+				return getSuperModule() != null;
 			case HenshinPackage.MODULE__IMPORTS:
 				return imports != null && !imports.isEmpty();
 			case HenshinPackage.MODULE__UNITS:

@@ -247,13 +247,22 @@ public interface HenshinPackage extends EPackage {
 	int MODULE__SUB_MODULES = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Super Module</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE__SUPER_MODULE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Imports</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__IMPORTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int MODULE__IMPORTS = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Units</b></em>' containment reference list.
@@ -262,7 +271,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__UNITS = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int MODULE__UNITS = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Instances</b></em>' containment reference list.
@@ -271,7 +280,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__INSTANCES = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int MODULE__INSTANCES = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Module</em>' class.
@@ -280,7 +289,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int MODULE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.UnitImpl <em>Unit</em>}' class.
@@ -841,22 +850,13 @@ public interface HenshinPackage extends EPackage {
 	int NODE__OUTGOING = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>All Edges</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NODE__ALL_EDGES = NAMED_ELEMENT_FEATURE_COUNT + 6;
-
-	/**
 	 * The number of structural features of the '<em>Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 7;
+	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Action</b></em>' attribute.
@@ -2066,6 +2066,17 @@ public interface HenshinPackage extends EPackage {
 	EReference getModule_SubModules();
 
 	/**
+	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.model.Module#getSuperModule <em>Super Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Super Module</em>'.
+	 * @see org.eclipse.emf.henshin.model.Module#getSuperModule()
+	 * @see #getModule()
+	 * @generated
+	 */
+	EReference getModule_SuperModule();
+
+	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Module#getImports <em>Imports</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2237,17 +2248,6 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getNode_Outgoing();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Node#getAllEdges <em>All Edges</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>All Edges</em>'.
-	 * @see org.eclipse.emf.henshin.model.Node#getAllEdges()
-	 * @see #getNode()
-	 * @generated
-	 */
-	EReference getNode_AllEdges();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Attribute <em>Attribute</em>}'.
@@ -2959,6 +2959,14 @@ public interface HenshinPackage extends EPackage {
 		EReference MODULE__SUB_MODULES = eINSTANCE.getModule_SubModules();
 
 		/**
+		 * The meta object literal for the '<em><b>Super Module</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODULE__SUPER_MODULE = eINSTANCE.getModule_SuperModule();
+
+		/**
 		 * The meta object literal for the '<em><b>Imports</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3091,14 +3099,6 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NODE__OUTGOING = eINSTANCE.getNode_Outgoing();
-
-		/**
-		 * The meta object literal for the '<em><b>All Edges</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NODE__ALL_EDGES = eINSTANCE.getNode_AllEdges();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.

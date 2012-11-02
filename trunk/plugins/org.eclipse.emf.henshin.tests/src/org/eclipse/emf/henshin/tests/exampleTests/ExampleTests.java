@@ -4,9 +4,9 @@ import org.eclipse.emf.henshin.examples.bank.BankExample;
 import org.eclipse.emf.henshin.examples.combpattern.CombBenchmark;
 import org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark;
 import org.eclipse.emf.henshin.examples.ecore2genmodel.Ecore2GenmodelTrafo;
+import org.eclipse.emf.henshin.examples.ecore2rdb.Ecore2Rdb;
 import org.eclipse.emf.henshin.examples.gossipinggirls.GossipingGirls;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
-import org.eclipse.emf.henshin.examples.oo2rdb.Oo2Rdb;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
 import org.junit.Test;
 
@@ -72,9 +72,9 @@ public class ExampleTests {
 	 * Oo2Rdb example.
 	 */
 	@Test
-	public void testOo2Rdb() {
+	public void testEcore2Rdb() {
 		System.out.println();
-		Oo2Rdb.run(EXAMPLES_PATH + Oo2Rdb.PATH, Oo2Rdb.EXAMPLE_OO_MODEL, Oo2Rdb.EXAMPLE_OO_PACKAGE_NAME, Oo2Rdb.EXAMPLE_RDB_MODEL, false);
+		Ecore2Rdb.run(EXAMPLES_PATH + Ecore2Rdb.PATH, Ecore2Rdb.EXAMPLE_ECORE_MODEL, Ecore2Rdb.EXAMPLE_PACKAGE_NAME, Ecore2Rdb.EXAMPLE_RDB_MODEL, false);
 	}
 
 	/**

@@ -94,6 +94,17 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get the first node in this graph that has the given argument name.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Node getNode(String name);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Get all nodes in this graph that are of a specific type.
+	 * This returns an unmodifiable list of nodes.
 	 * <!-- end-user-doc -->
 	 * @model ordered="false" nodeTypeRequired="true"
 	 * @generated
@@ -102,6 +113,8 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get all edges in this graph that are of a specific type.
+	 * This returns an unmodifiable list of edge.
 	 * <!-- end-user-doc -->
 	 * @model ordered="false" edgeTypeRequired="true"
 	 * @generated
@@ -110,6 +123,8 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get all nested conditions that occur in the formula of this graph.
+	 * This returns an unmodifiable list of nested condition objects.
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -118,6 +133,8 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get a positive application condition (PAC) of this graph with a given name.
+	 * This returns the first PAC with this name.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -126,6 +143,8 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get a negative application condition (PAC) of this graph with a given name.
+	 * This returns the first NAC with this name.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -134,6 +153,7 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Check whether this graph is the left-hand side of a rule.
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -142,6 +162,7 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Check whether this graph is the right-hand side of a rule.
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -150,6 +171,7 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Check whether this graph is a nested condition of a rule.
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -158,6 +180,7 @@ public interface Graph extends NamedElement {
 	
 	/**
 	 * <!-- begin-user-doc -->
+	 * Create a new positive application condition (PAC) in this graphs formula.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -166,6 +189,7 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Create a new negative application condition (NAC) in this graphs formula.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -192,6 +216,7 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Remove a nested condition from this graph's formula.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated

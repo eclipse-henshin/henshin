@@ -18,7 +18,9 @@
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subModules" upperBound="-1"
-        eType="#//Module" containment="true"/>
+        eType="#//Module" containment="true" eOpposite="#//Module/superModule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superModule" eType="#//Module"
+        eOpposite="#//Module/subModules"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="units" upperBound="-1"
@@ -122,6 +124,9 @@
       <details key="constraints" value="uniqueNodeNames"/>
     </eAnnotations>
     <eOperations name="getRule" eType="#//Rule"/>
+    <eOperations name="getNode" eType="#//Node">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eOperations name="getNodes" ordered="false" upperBound="-1" eType="#//Node">
       <eParameters name="nodeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eOperations>
@@ -164,6 +169,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="uniqueAttributeTypes"/>
     </eAnnotations>
+    <eOperations name="getAllEdges" upperBound="-1" eType="#//Edge"/>
     <eOperations name="getOutgoing" ordered="false" upperBound="-1" eType="#//Edge">
       <eParameters name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
@@ -194,9 +200,6 @@
         eType="#//Edge" eOpposite="#//Edge/target"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
         eType="#//Edge" eOpposite="#//Edge/source"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="allEdges" ordered="false"
-        upperBound="-1" eType="#//Edge" changeable="false" volatile="true" transient="true"
-        derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//GraphElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">

@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getGraph <em>Graph</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getOutgoing <em>Outgoing</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.Node#getAllEdges <em>All Edges</em>}</li>
  * </ul>
  * </p>
  *
@@ -127,8 +126,6 @@ public interface Node extends NamedElement, GraphElement {
 	EList<Edge> getOutgoing();
 
 	/**
-	 * Returns the value of the '<em><b>All Edges</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Edge}.
 	 * <!-- begin-user-doc -->
 	 * Returns an <b>unmodifiable</b> list of all coinciding edges of a node.<br>
 	 * Remark: This list is a snapshot of the current set of incoming and outgoing edges
@@ -136,9 +133,7 @@ public interface Node extends NamedElement, GraphElement {
 	 * incoming and outgoing edges. After such changes this method has to be
 	 * called again to retrieve an updated list of edges.
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>All Edges</em>' reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_AllEdges()
-	 * @model transient="true" changeable="false" volatile="true" derived="true" ordered="false"
+	 * @model kind="operation"
 	 * @generated
 	 */
 	EList<Edge> getAllEdges();

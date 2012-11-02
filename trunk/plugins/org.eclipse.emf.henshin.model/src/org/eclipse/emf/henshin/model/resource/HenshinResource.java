@@ -9,8 +9,14 @@
  */
 package org.eclipse.emf.henshin.model.resource;
 
+import java.util.HashMap;
+
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 
 /**
  * Resource implementation for Henshin resources.
@@ -28,6 +34,10 @@ public class HenshinResource extends XMIResourceImpl {
 	 */
 	public HenshinResource() {
 		super();
+		getDefaultLoadOptions().put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+		getDefaultLoadOptions().put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object,Object>());
+		getDefaultSaveOptions().put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 	}
 	
 	/**

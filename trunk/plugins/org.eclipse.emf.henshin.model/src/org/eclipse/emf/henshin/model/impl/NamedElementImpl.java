@@ -216,7 +216,7 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 			typeName = typeName.substring(0, typeName.length()-4);
 		}
 		if (name!=null && name.trim().length()>0) {
-			return typeName + " " + name.trim();			
+			return typeName + " " + name.trim();
 		} else {
 			return typeName;
 		}

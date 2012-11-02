@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EPackage;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getSubModules <em>Sub Modules</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Module#getSuperModule <em>Super Module</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getUnits <em>Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getInstances <em>Instances</em>}</li>
@@ -30,19 +31,46 @@ import org.eclipse.emf.ecore.EPackage;
  * @model
  * @generated
  */
+@SuppressWarnings("deprecation")
 public interface Module extends NamedElement, TransformationSystem {
 	
 	/**
 	 * Returns the value of the '<em><b>Sub Modules</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Module}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Module#getSuperModule <em>Super Module</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sub Modules</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_SubModules()
-	 * @model containment="true"
+	 * @see org.eclipse.emf.henshin.model.Module#getSuperModule
+	 * @model opposite="superModule" containment="true"
 	 * @generated
 	 */
 	EList<Module> getSubModules();
+
+	/**
+	 * Returns the value of the '<em><b>Super Module</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Module#getSubModules <em>Sub Modules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Super Module</em>' container reference.
+	 * @see #setSuperModule(Module)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_SuperModule()
+	 * @see org.eclipse.emf.henshin.model.Module#getSubModules
+	 * @model opposite="subModules" transient="false"
+	 * @generated
+	 */
+	Module getSuperModule();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Module#getSuperModule <em>Super Module</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Super Module</em>' container reference.
+	 * @see #getSuperModule()
+	 * @generated
+	 */
+	void setSuperModule(Module value);
 
 	/**
 	 * Returns the value of the '<em><b>Imports</b></em>' reference list.

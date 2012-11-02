@@ -9,9 +9,7 @@
  */
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -88,14 +86,26 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	protected Formula formula;
 	
 	/**
-	 * <!-- begin-user-doc --> 
+	 * <!-- begin-user-doc -->
+	 * Default constructor.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public GraphImpl() {
 		super();
 	}
-	
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Convenience constructor.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public GraphImpl(String name) {
+		super();
+		setName(name);
+	}
+
 	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
@@ -316,13 +326,29 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public Node getNode(String name) {
+		if (name==null) name = ""; 
+		else name = name.trim();
+		for (Node node : getNodes()) {
+			String n = node.getName();
+			n = (n==null) ? "" : n.trim();
+			if (name.equals(n)) return node;
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public EList<Node> getNodes(EClass nodeType) {
-		List<Node> result = new ArrayList<Node>();
+		EList<Node> result = new BasicEList<Node>();
 		for (Node node : this.getNodes()) {
 			if (nodeType.equals(node.getType()))
 				result.add(node);
 		}
-		return new BasicEList<Node>(result);
+		return ECollections.unmodifiableEList(result);
 	}
 	
 	/**
@@ -331,12 +357,12 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * @generated NOT
 	 */
 	public EList<Edge> getEdges(EReference edgeType) {
-		List<Edge> result = new ArrayList<Edge>();
+		EList<Edge> result = new BasicEList<Edge>();
 		for (Edge edge : this.getEdges()) {
 			if (edgeType.equals(edge.getType()))
 				result.add(edge);
 		}
-		return new BasicEList<Edge>(result);
+		return ECollections.unmodifiableEList(result);
 	}
 	
 	/**
@@ -550,7 +576,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 */
 	@Override
 	public String toString() {
-		return "Graph (name: " + name + ", formula: " + formula + ")";
+		return "Graph " + name;
 	}
 
 } // GraphImpl

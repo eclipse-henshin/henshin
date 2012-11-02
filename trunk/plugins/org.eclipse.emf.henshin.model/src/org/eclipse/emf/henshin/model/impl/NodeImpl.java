@@ -49,7 +49,6 @@ import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getGraph <em>Graph</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getOutgoing <em>Outgoing</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getAllEdges <em>All Edges</em>}</li>
  * </ul>
  * </p>
  *
@@ -440,8 +439,6 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return getIncoming();
 			case HenshinPackage.NODE__OUTGOING:
 				return getOutgoing();
-			case HenshinPackage.NODE__ALL_EDGES:
-				return getAllEdges();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -529,8 +526,6 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return incoming != null && !incoming.isEmpty();
 			case HenshinPackage.NODE__OUTGOING:
 				return outgoing != null && !outgoing.isEmpty();
-			case HenshinPackage.NODE__ALL_EDGES:
-				return !getAllEdges().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

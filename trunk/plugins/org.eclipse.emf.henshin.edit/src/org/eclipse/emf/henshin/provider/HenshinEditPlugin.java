@@ -73,7 +73,7 @@ public final class HenshinEditPlugin extends EMFPlugin {
 	}
 	
 	/**
-	 * The actual implementation of the Eclipse <b>Plugin</b>. 
+	 * The actual implementation of the Eclipse <b>Plugin</b>.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated

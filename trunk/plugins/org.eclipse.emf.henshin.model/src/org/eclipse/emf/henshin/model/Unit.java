@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.EList;
  *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='parameterNamesUnique parameterMappingsPointToDirectSubUnit'"
  * @generated
  */
+@SuppressWarnings("deprecation")
 public interface Unit extends NamedElement, TransformationUnit {
 	
 	/**

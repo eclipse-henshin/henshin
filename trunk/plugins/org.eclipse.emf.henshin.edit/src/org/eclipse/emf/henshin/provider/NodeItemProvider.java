@@ -52,7 +52,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. 
+	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -62,7 +62,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. 
+	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -76,7 +76,6 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			addTypePropertyDescriptor(object);
 			addIncomingPropertyDescriptor(object);
 			addOutgoingPropertyDescriptor(object);
-			addAllEdgesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -118,7 +117,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Incoming feature. 
+	 * This adds a property descriptor for the Incoming feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -140,7 +139,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Outgoing feature. 
+	 * This adds a property descriptor for the Outgoing feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -153,28 +152,6 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				 getString("_UI_Node_outgoing_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Node_outgoing_feature", "_UI_Node_type"),
 				 HenshinPackage.Literals.NODE__OUTGOING,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-	
-	/**
-	 * This adds a property descriptor for the All Edges feature. 
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAllEdgesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Node_allEdges_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Node_allEdges_feature", "_UI_Node_type"),
-				 HenshinPackage.Literals.NODE__ALL_EDGES,
 				 true,
 				 false,
 				 true,
@@ -305,8 +282,8 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

@@ -45,6 +45,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  * 
  * @author Christian Krause
  */
+@SuppressWarnings("deprecation")
 public class HenshinResourceSet extends ResourceSetImpl {
 
 	/**

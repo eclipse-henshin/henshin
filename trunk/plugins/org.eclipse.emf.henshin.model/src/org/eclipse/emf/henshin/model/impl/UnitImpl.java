@@ -44,6 +44,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  *
  * @generated
  */
+@SuppressWarnings("deprecation")
 public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	
 	/**
@@ -378,4 +379,4 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 		return result;		
 	}
 	
-} // TransformationUnitImpl
+} // UnitImpl
