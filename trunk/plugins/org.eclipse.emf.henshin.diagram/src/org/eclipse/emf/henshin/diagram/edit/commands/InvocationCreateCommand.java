@@ -17,13 +17,9 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.IndependentUnit;
-import org.eclipse.emf.henshin.model.IteratedUnit;
-import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.PriorityUnit;
-import org.eclipse.emf.henshin.model.SequentialUnit;
+import org.eclipse.emf.henshin.model.MultiUnit;
+import org.eclipse.emf.henshin.model.UnaryUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -106,21 +102,24 @@ public class InvocationCreateCommand extends EditElementCommand {
 		for (Unit used : owner.getSubUnits(false)) {
 			if (candidates.size() > 1) {
 				candidates.remove(used);
-			} else
+			} else {
 				break;
+			}
 		}
 
 		// Now we just take the first candidate:
 		Unit target = candidates.get(0);
 
 		// Add it to the parent unit:
-		if (owner instanceof SequentialUnit) {
-			((SequentialUnit) owner).getSubUnits().add(target);
-		} else if (owner instanceof PriorityUnit) {
-			((PriorityUnit) owner).getSubUnits().add(target);
-		} else if (owner instanceof IndependentUnit) {
-			((IndependentUnit) owner).getSubUnits().add(target);
-		} else if (owner instanceof ConditionalUnit) {
+		if (owner instanceof MultiUnit) {
+			((MultiUnit) owner).getSubUnits().add(target);
+		}
+		else if (owner instanceof UnaryUnit) {
+			if (((UnaryUnit) owner).getSubUnit() == null) {
+				((UnaryUnit) owner).setSubUnit(target);
+			}
+		}
+		else if (owner instanceof ConditionalUnit) {
 			ConditionalUnit cond = (ConditionalUnit) owner;
 			if (cond.getIf() == null) {
 				cond.setIf(target);
@@ -129,16 +128,8 @@ public class InvocationCreateCommand extends EditElementCommand {
 			} else if (cond.getElse() == null) {
 				cond.setElse(target);
 			}
-		} else if (owner instanceof LoopUnit) {
-			if (((LoopUnit) owner).getSubUnit() == null) {
-				((LoopUnit) owner).setSubUnit(target);
-			}
-		} else if (owner instanceof IteratedUnit) {
-			if (((IteratedUnit) owner).getSubUnit() == null) {
-				((IteratedUnit) owner).setSubUnit(target);
-			}
 		}
-
+		
 		// No need to configure.
 		// doConfigure(newElement, monitor, info);
 
