@@ -1,0 +1,2568 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Henshin Test Doku</title>
+<style type="text/css">
+h3 {margin-top: 20px; padding-top: 10px; border-top: 1px dashed rgb(245, 245, 245);}
+div.example {border: 1px solid black;
+			background-color: rgb(239, 243, 208);
+			padding: 10px;}
+table.mtch {border: 3px double rgb(180, 180, 180);
+			background-color: rgb(240, 240, 240);}
+table.mtch td {border: 1px solid black;
+				background-color: rgb(255, 255, 255);
+				padding: 4px;
+				font-family: Monospace;
+				font-size: 120%;}
+table.mtch td em {background-color: rgb(240, 240, 130);}
+table.coll {border: 3px solid rgb(180, 180, 255);
+			background-color: rgb(240, 240, 240);
+			margin-right: 10px;
+			margin-left: 10px;}
+table.coll td {font-family: Monospace;
+				font-size: 120%;}
+table.coll th {border-bottom: 1px dashed rgb(180, 180, 255);}
+table.grph {border: 3px outset rgb(245, 190, 22);
+			background-color: rgb(255, 255, 255);}
+table.grph td {border: 1px solid rgb(245, 190, 22); 
+			   background-color: rgb(255, 245, 240);
+			   padding: 4px;
+			   font-family: Monospace;
+			   font-size:120%;}
+table.grph td em {background-color: rgb(255,200,122);}
+
+div.example td.coll {background-color: rgb(230, 230, 255);
+					border-right: 1px solid rgb(200, 200, 200);}
+div.example > table {border-spacing: 0px; border: 1px solid black;}
+
+div.example td.pos {width: 25%; vertical-align: top;}
+div.example td.neg {width: 25%; vertical-align: top;}
+div.example td.coll {width: 5%; vertical-align: middle;}
+div.example td.pos {background-color: rgb(240, 255, 240); padding: 5px;}
+div.example td.pos + td.pos {background-color: rgb(225, 255, 225); border-left: 5px dotted rgb(240, 255, 240);}
+div.example td.pos + td.pos + td.neg {border-left: 7px dotted rgb(225, 255, 225);}
+div.example td.neg {background-color: rgb(255, 240, 240); border-left: 7px dotted rgb(240, 255, 240); padding: 5px;}
+div.example td.neg + td.neg {background-color:rgb(255, 225, 225); border-left: 5px dotted rgb(255, 240, 240); padding: 5px;}
+div.example td.neg:after {content:"X";}
+div.example td.pos:after {content:"!";}
+div.example table.tu ol {margin: 0px; padding-left: 30px;}
+div.example table.tu ol li {padding: 3px; margin-bottom: 3px; padding-bottom: 3px;}
+div.example td.coll table.tu ol li {background-color: rgb(245, 245, 255);}
+div.example td.coll table.tu ol li table.mtch {font-size: 80%;}
+span.note {background-color: rgb(240, 240, 255);}
+</style>
+</head>
+<body>
+<h1>Henshin Test Framework documentation</h1>
+<hr />
+<h2>Henshin Loaders</h2>
+<p>(HenshinLoaders.java) Functions for loading henshin files and model graphs</p>
+
+<h3>TransformationSystem loadHenshin(String fileName)</h3>
+<p>Loads a henshin file and returns a TransformationSystem.
+</p>
+
+<h3>EmfEngine loadEngine(String modelFileName, String modelFileExt)</h3>
+<p>Loads the model from the file and initializes a new EmfEngine on the model.
+</p>
+
+<h3>EmfGraph loadGraph(String modelFileName, ModelFileExt)</h3>
+<p>Loads the model from the file and returns the corresponding EmfGraph
+</p>
+
+<h3>EmfGraph loadEmbeddedGraph(String embeddedGraphName, TransformationSystem ts)</h3>
+<p>Loads the specified embedded graph from the TransformationSystem. <br />
+Embedded graphs are specified directly in the .henshin file. Using them is not recommended.
+</p>
+
+<h3>EmfGraph loadGraph(String embeddedGraphName, TransformationSystem ts)</h3>
+<p>See <b>loadEmbeddedGraph</b>
+</p>
+
+<h3>EmfGraph loadGraph(URI uri)</h3>
+<p>Load an EMF graph from a URI
+</p>
+
+<hr />
+
+<h2>Matches</h2>
+<p>(Matches.java) Assertions for everything related to matches (i.e. without changing the graph or applying any transformations)</p>
+<h3>assertObjectContainedInAllMatches(Rule r, EmfGraph graph, EObject object)<br />
+assertObjectContainedInAllMatches(Rule r, EmfGraph graph, EObject object)<br />
+assertObjectContainedInAllMatches(RuleApplication ra, EObject object)</h3>
+<p>Assert that an EObject is contained in all matches.<br /></p>
+<div class="example">
+	<table>
+		<tr>
+		<td class="pos">Example (hsObj A contained in all matches)
+
+		<table class="mtch">
+		<tr>
+		<th>Matches:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj B<br />hsObj C</td>
+		</tr>
+		<tr>
+		<td>hsObj D<br /><em>hsObj A</em><br />hsObj C</td>
+		</tr>
+		<tr>
+		<td>hsObj F<br />hsObj G<br /><em>hsObj A</em></td>
+		</tr>
+		</table>
+		</td>
+		<td class="neg">
+		Example (hsObj A not contained in all matches)
+				<table class="mtch">
+				<tr>
+				<th>Matches:</th>
+				</tr>
+				<tr>
+				<td><em>hsObj A</em><br />hsObj B<br />hsObj C</td>
+				</tr>
+				<tr>
+				<td>hsObj D<br />hsObj F<br />hsObj C</td>
+				</tr>
+				<tr>
+				<td>hsObj F<br />hsObj G<br /><em>hsObj A</em></td>
+				</tr>
+				</table>
+		</td>
+		</tr>
+</table>
+</div>
+
+
+<h3>assertObjectContainedInNoMatch(Rule r, EmfGraph graph, EObject object)<br />
+assertObjectContainedInNoMatch(Rule r, EmfGraph graph, EObject object)<br />
+assertObjectContainedInNoMatch(RuleApplication ra, EObject object)</h3>
+<p>Assert that an EObject is contained in no match
+</p><div class="example">
+<table>
+<tr>
+<td class="pos">Example (hsObj A contained in no match)
+
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj F</td>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj G</td>
+	</tr>
+	<tr>
+	<td>hsObj F<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (hsObj A not contained in no match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj F</td>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj G</td>
+	</tr>
+	<tr>
+	<td>hsObj F<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+<h3>assertObjectContainedInNMatches(Rule r, EmfGraph graph, EObject object, int n)<br />assertObjectContainedInNMatches(Rule r, EmfEngine engine, EObject object, int n)<br />assertObjectContainedInNMatches(RuleApplication ra, EObject object, int n)
+</h3>
+<p>Assert that an EObject is contained in exactly n matches.
+</p><div class="example">
+<table>
+<tr>
+<td class="pos">Example (hsObj A contained in n = 2 matches)
+
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em></td>
+	</tr>
+	<tr>
+	<td>hsObj D</td>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em></td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (hsObj A not contained in n=2 matches)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em></td>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em></td>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em></td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (hsObj A not contained in n=2 matches)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj B</td>
+	</tr>
+	<tr>
+	<td>hsObj C</td>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em></td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+<h3>assertObjectContainedInAtLeastOneMatch(Rule r, EmfGraph graph, EObject object)<br />assertObjectContainedInAtLeastOneMatch(Rule r, EmfEngine engine, EObject object)<br />
+assertObjectContainedInAtLeastOneMatch(RuleApplication ra, EObject object)</h3>
+<p>Assert that an EObject is contained in at least one match
+</p><div class="example">
+<table>
+<tr>
+<td class="pos">Example (hsObj A contained in one match)
+
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj F</td>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj G</td>
+	</tr>
+	<tr>
+	<td>hsObj F<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example (hsObj A contained in several matches)
+
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj F</td>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj G</td>
+	</tr>
+	<tr>
+	<td>hsObj F<br /><em>hsObj A</em></td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (hsObj A contained in no match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>haObj C<br />hsObj F</td>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj G</td>
+	</tr>
+	<tr>
+	<td>hsObj F<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+<h3>assertNoObjectFromGroupContainedInAnyMatch(Rule r, EmfGraph graph, Collection&lt;? extends EObject&gt; group)<br />
+ assertNoObjectFromGroupContainedInAnyMatch(Rule r, EmfEngine engine, Collection&lt;? extends EObject&gt; group)<br />
+ assertNoObjectFromGroupContainedInAnyMatch(RuleApplication ra, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Assert that no Object contained in the Collection is contained in any match.
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;F<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example (no element from group contained in any match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj E</td>
+	</tr>
+	<tr>
+	<td>hsObj C</td>
+	</tr>
+	<tr>
+	<td>hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (elements from group contained in a match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>haObj A</em></td>
+	</tr>
+	<tr>
+	<td>hsObj D</td>
+	</tr>
+	<tr>
+	<td>hsObj G</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+<h3>assertGroupContainedInNoMatch(Rule r, EmfGraph graph, Collection&lt;? extends EObject&gt; group)<br />
+ assertGroupContainedInNoMatch(Rule r, EmfEngine engine, Collection&lt;? extends EObject&gt; group)<br />
+ assertGroupContainedInNoMatch(RuleApplication ra, Collection&lt;? extends EObject&gt; group)
+</h3>
+<p>Assert that the whole group in its entirety is not contained in any match
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;F<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example (whole group not contained in any match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj D<br />hsObj F</td>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj D<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (whole group contained in a single match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj F</em></td>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj D<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+<h3>assertGroupContainedInAtLeastOneMatch(Rule r, EmfGraph graph, Collection&lt;? extends EObject&gt; group)<br />
+assertGroupContainedInAtLeastOneMatch(Rule r, EmfEngine engine, Collection&lt;? extends EObject&gt; group)<br />
+assertGroupContainedInAtLeastOneMatch(RuleApplication ra, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Assert that the whole group in its entirety is contained in at least one match
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;F<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">
+Example (whole group contained in a single match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj F</em></td>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj D<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">
+Example (whole group contained in a several matches)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em><br />hsObj C<br /><em>hsObj F</em></td>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj F</em><br />hsObj Q</td>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj C<br />hsObj D<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">Example (whole group not contained in any match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj D<br />hsObj F</td>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj D<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+
+</tr>
+</table></div>
+
+<h3>assertAnyObjectFromGroupContainedInAtLeastOneMatch(Rule r, EmfGraph graph, Collection&lt;? extends EObject&gt; group)<br />
+assertAnyObjectFromGroupContainedInAtLeastOneMatch(Rule r, EmfEngine engine, Collection&lt;? extends EObject&gt; group)<br />
+assertAnyObjectFromGroupContainedInAtLeastOneMatch(RuleApplication ra, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Assert that at least one element from the group is contained in at least one match
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;F<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">
+Example (one or more objects from group contained in one or more matches)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj D<br />hsObj C</td>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em><br />hsObj Q</td>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj D<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">
+Example (one object from group contained in one match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj E<br />hsObj C<br />hsObj D</td>
+	</tr>
+	<tr>
+	<td>hsObj M<br />hsObj D<br /><em>hsObj A</em></td>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj D<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">Example (no object from group contained in any match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj D<br />hsObj E</td>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj D<br />hsObj M</td>
+	</tr>
+	<tr>
+	<td>hsObj Q<br />hsObj D<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+
+</tr>
+</table></div>
+
+<h3>assertElementMatchedByUnitApplication(UnitApplication ua, EObject element)</h3>
+<p>Assert that an object is contained in at least one match produced by the Rules in the TransformationUnit<br />
+<span class="note">Please note: The UnitApplication will not be executed (so ensure it was already executed before using this assertion).</span>
+</p><div class="example">
+<table>
+<tr>
+<!--
+<td class="coll">
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj B<br />hsObj J<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+</td>
+-->
+<td class="pos">Example (hsObj A contained in at least one match)
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj B<br />hsObj J<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+
+</td>
+<td class="neg">
+Example (hsObj E not contained in any match)
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj B<br />hsObj J<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+
+</td>
+</tr>
+</table></div>
+
+<h3>assertElementNotMatchedByUnitApplication(UnitApplication ua, EObject element)</h3>
+<p>Assert that an object is not contained in any matches produced by the Rules in the TransformationUnit<br />
+<span class="note">Please note: The UnitApplication will not be executed (so ensure it was already executed before using this assertion).</span>
+</p><div class="example">
+<table>
+<tr>
+<!--
+<td class="coll">
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj B<br />hsObj J<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+</td>
+-->
+
+<td class="pos">
+Example (hsObj E not contained in any match)
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj B<br />hsObj J<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+
+</td>
+<td class="neg">Example (hsObj A contained in at least one match)
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj B<br />hsObj J<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+
+</td>
+</tr>
+</table></div>
+
+<h3>assertElementMatchedByUnitApplicationNTimes(UnitApplication ua, EObject element, int n)</h3>
+<p>Assert that an object is contained in exactly n matches produced by the Rules in the TransformationUnit<br />
+<span class="note">Please note: The UnitApplication will not be executed (so ensure it was already executed before using this assertion).</span>
+</p><div class="example">
+<table>
+<tr>
+<!--
+<td class="coll">
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj B<br />hsObj J<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+</td> -->
+
+<td class="pos">
+Example (hsObj C contained in n = 3 matches)
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj C</em><br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br /><em>hsObj C</em></td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj A<br />hsObj B<br />hsObj J<br /><em>hsObj C</em></td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+
+</td>
+<td class="neg">Example (hsObj A not contained in n = 3 matches)
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj B<br />hsObj J<br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+
+</td>
+
+<td class="neg">Example<br /><strong>Attention: Only valid if matching is not injective!</strong><br /> (hsObj A not contained in n = 3 matches) It doesn't matter how often an object is contained in a match, it will only be counted once. So even if hsObj&nbsp;A is contained once in the match produced by Rule2 and twice in the match produced by Rule3, it is only counted twice (1x Rule2, 1x Rule3)<br />
+
+
+	<table class="tu">
+	<tr>
+	<th>SequentialUnit</th>
+	</tr>
+	<tr>
+	<td>
+	<ol>
+	<li>Rule1<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj C<br />hsObj D</td>
+		</tr>
+		</table></li>
+	<li>Rule2<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule3<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td><em>hsObj A</em><br />hsObj B<br /><em>hsObj A</em><br />hsObj C</td>
+		</tr>
+		</table>
+	</li>
+	<li>Rule4<br />
+		<table class="mtch">
+		<tr>
+		<th>Match:</th>
+		</tr>
+		<tr>
+		<td>hsObj Q</td>
+		</tr>
+		</table>
+	</li>
+	</ol>
+	</td>
+	</tr>
+	</table>
+
+</td>
+
+</tr>
+</table></div>
+
+
+
+<h3>assertGroupMatchedByUnitApplication(UnitApplication ua, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Assert that the entire group (as a whole) is matched by any RuleApplication executed during the execution of the UnitApplication.<br />
+Attention: Please ensure the UnitApplication has already been executed before running this assertion.
+</p><div class="example">
+See assertGroupContainedInAtLeastOneMatch for examples.
+</div>
+
+<h3>assertGroupNotMatchedByUnitApplication(UnitApplication ua, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Assert that the group (as a whole) is not matched by any RuleApplication executed during the execution of the UnitApplication.<br />
+Attention: Please ensure the UnitApplication has already been executed before running this assertion.
+</p><div class="example">
+See assertGroupContainedInNoMatch for examples.
+</div>
+
+<h3>assertNoElementInGroupMatchedByAnyRuleInUnitApplication(UnitApplication ua, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Assert that no element contained in the group is matched by any RuleApplication executed during the execution of the UnitApplication.<br />
+Attention: Please ensure the UnitApplication has already been executed before running this assertion.
+</p><div class="example">
+See assertNoObjectFromGroupContainedInAnyMatch for examples.
+</div>
+
+
+<h3>assertAllElementsInGroupMatchedByUnitApplication(UnitApplication ua, Collection&lt;? extends EObject&gt; group)</h3>
+<p>
+Assert that all elements contained in the group are matched (at least once) by (at least one) RuleApplication executed during the execution of the UnitApplication.<br />
+Attention: Please ensure the UnitApplication has already been executed before running this assertion.
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;F<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">
+Example
+<table class="tu">
+<tr><th>SequentialUnit</th></tr>
+<tr>
+<td>
+<ol>
+<li>Rule 1<br />
+	<table class="mtch">
+	<tr>
+	<th>Match</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj C</td>
+	</tr>
+	</table>
+</li>
+<li>Rule 2<br />
+	<table class="mtch">
+	<tr>
+	<th>Match</th>
+	</tr>
+	<tr>
+	<td>hsObj G<br />hsObj H</td>
+	</tr>
+	</table>
+</li>	
+<li>Rule 3<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj B<br />hsObj F</em></td>
+	</tr>
+	</table>
+</li></ol>
+</td></tr></table>
+</td>
+<td class="pos">
+Example
+<table class="tu">
+<tr>
+<th>SequentialUnit</th>
+</tr>
+<tr>
+<td>
+<ol>
+<li>Rule 1<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em><br />hsObj C</td>
+	</tr>
+	</table>
+</li><li>Rule 2<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj G</td>
+	</tr>
+	</table>
+</li><li>Rule 3<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td>hsObj C<br /><em>hsObj B<br />hsObj F</em></td>
+	</tr>
+	</table>
+</li>
+</ol>
+</td></tr></table>
+</td>
+<td class="neg">Example (one element (hsObj F) missing)
+<table class="tu">
+<tr>
+<th>SequentialUnit</th>
+</tr><tr>
+<td>
+<ol>
+<li>Rule 1<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj C</td>
+	</tr>
+	</table>
+</li><li>Rule 2<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td>hsObj G<br />hsObj H</td>
+	</tr>
+	</table>
+</li><li>Rule 3<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj B</em><br />hsObj D</td>
+	</tr>
+	</table>
+</li></ol>
+</td></tr></table>
+</td>
+<td class="neg">Example (no element from group in any match)
+<table class="tu">
+<tr>
+<th>SequentialUnit</th>
+</tr>
+<tr>
+<td>
+<ol>
+<li>Rule 1<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td>hsObj X<br />hsObj C</td>
+	</tr>
+	</table>
+</li><li>Rule 2<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td>hsObj G<br />hsObj H</td>
+	</tr>
+	</table>
+</li><li>Rule 3<br />
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td>hsObj Q<br />hsObj D</td>
+	</tr>
+	</table>
+</li></ol>
+</td></tr></table>
+</td>
+</tr>
+</table></div>
+
+
+
+
+<h3>assertGroupIsMatched(RuleApplication ra, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Asserts that a RuleApplication matches all objects contained in the group.<br />
+<span class="note">Note: If all elements should be matched in a single match, use assertGroupContainedInAtLeastOneMatch</span>
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;F<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example (all elements from group contained in a single match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj F</em></td>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj E<br />hsObj Q</td>
+	</tr>
+	<tr>
+	<td>hsObj G<br />hsObj R<br />hsObj Q</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example (all elements from group matched)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj C<br />hsObj D</td>
+	</tr>
+	<tr>
+	<td>hsObj C<br /><em>hsObj B</em><br />hsObj Q</td>
+	</tr>
+	<tr>
+	<td>hsObj E<br />hsObj G<br />hsObj J</td>
+	</tr>
+	<tr>
+	<td>hsObj G<br />hsObj R<br /><em>hsObj F</em></td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (elements from group contained in a match, but not all elements matched)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj D</td>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj Q</td>
+	</tr>
+	<tr>
+	<td><em>hsObj F</em><br />hsObj Q</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+
+
+<h3>assertOnlyGroupIsMatched(RuleApplication ra, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Asserts that a RuleApplication matches all objects contained in the group and only these objects.
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;C<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em></td>
+	</tr>
+	<tr>
+	<td><em>hsObj C<br />hsObj A</em></td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (elements not in the group contained in a match)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em></td>
+	</tr>
+	<tr>
+	<td><em>hsObj C</em><br />hsObj D</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (not all elements matched)
+	<table class="mtch">
+	<tr>
+	<th>Matches:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em></td>
+	</tr>
+	<tr>
+	<td><em>hsObj B<br />hsObj A</em></td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+
+<h3>assertMatchIsGroup(Match match, Collection&lt;? extends EObject&gt; group)</h3>
+<p>Asserts that a match contains all elements contained in the group and no elements not contained in the group.
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;C<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example
+	<table class="mtch">
+	<tr>
+	<th>Match</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj C</em></td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (elements not in the group contained in a match)
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj C</em><br />hsObjD</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (not all elements matched)
+	<table class="mtch">
+	<tr>
+	<th>Match:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em></td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+<hr />
+<h2>Element Groups</h2>
+<p>(ElementGroups.java) Assertions for Collections of EObjects.</p>
+
+
+<h3>assertElementGroupDeleted(Collection&lt;? extends EObject&gt; group, EmfGraph graph)</h3>
+<p>Assert that the element group is deleted from the graph, i.e. one or more elements contained in the group are not contained in the graph. <br />
+<span class="note">Note: If all no element from the group should be contained in the graph, use assertAllElementsFromElementGroupDeleted</span>
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;C<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example (hsObj C not in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em><br />hsObj D<br />hsObj E</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example (no object from group in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td>hsObj E<br />hsObj F<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (group still contained in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td>hsObj Q<br /><em>hsObj A<br />hsObj B<br />hsObj C</em><br />hsObj D<br />hsObj E</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+
+<h3>assertAllElementsFromElementGroupDeleted(Collection&lt;? extends EObject&gt; group, EmfGraph graph)</h3>
+<p>Assert that all elements contained in the element group are deleted from the graph, i.e. no element  contained in the group is contained in the graph. <br />
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;C<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj E<br />hsObj F<br />hsObj G</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (some elements contained in the group still contained in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td>hsObj Q<br />hsObj R<br /><em>hsObj B</em><br />hsObj D<br />hsObj E</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+<h3>assertNoElementFromElementGroupDeleted(Collection&lt;? extends EObject&gt; group, EmfGraph graph)</h3>
+<p>Assert that no elements contained in the element group are deleted from the graph, i.e. all elements contained in the group are contained in the graph.
+</p><div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="coll">
+	<tr>
+	<th>Group:</th>
+	</tr><tr>
+	<td>
+	hsObj&nbsp;A<br />
+	hsObj&nbsp;B<br />
+	hsObj&nbsp;C<br />
+	</td>
+	</tr>
+	</table>
+</td>
+<td class="pos">Example
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj E<br /><em>hsObj B<br />hsObj C</em><br />hsObj D</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (some elements contained in the group are not contained in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td>hsObj Q<br />hsObj R<br /><em>hsObj B<br />hsObj C</em><br />hsObj E</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+
+<hr />
+<h2>Graphs</h2>
+<p>Assertions for static EmfGraphs. For everything related to changes (caused by Rules/TransformationUnits) on graphs, see GraphTransformations.</p>
+
+<h3>assertObjectInGraph(EObject obj, EmfGraph graph)<br />
+assertObjectInGraph(EObject obj, EmfEngine engine)</h3>
+<p>Assert that the specified object is contained in the graph. (Or the EmfEngine's graph)
+</p><div class="example">
+<table>
+<tr>
+<td class="pos">Example (hsObj A contained in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj B<br />hsObj C<br />hsObj D<br />hsObj E</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (hsObj A not contained in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td>hsObj Q<br />hsObj R<br />hsObj S<br />hsObj T<br />hsObj U</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+
+
+<h3>assertObjectNotInGraph(EObject obj, EmfGraph graph)<br />
+assertObjectNotInGraph(EObject obj, EmfEngine engine)</h3>
+<p>Assert that the specified object is not contained in the graph. (Or the EmfEngine's graph)
+</p><div class="example">
+<table>
+<tr>
+<td class="pos">Example (hsObj A not contained in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td>hsObj Q<br />hsObj R<br />hsObj S<br />hsObj T<br />hsObj U</td>
+	</tr>
+	</table>
+</td>
+<td class="neg">
+Example (hsObj A contained in the graph)
+	<table class="grph">
+	<tr>
+	<th>Graph:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A</em><br />hsObj B<br />hsObj C<br />hsObj D<br />hsObj E</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table></div>
+
+
+<h3>assertGraphsEqual(EmfGraph graph1, EmfGraph graph2, double matchSimilarityThreshold)</h3>
+<p>Assert that both graphs are equal. This method uses EmfCompare to compare the graphs. MatchSimilarityThreshold is an internal parameter which can be used to fine-tune the outcome of this comparison. Usually, 0.9 or 0.8 is sufficient. Occasionally, lower values may be needed. <span class="note">Please note that changes in edge order will most likely lead to differences being found, even if henshin should ideally ignore the edge order.</span>
+</p>
+<p>
+This assertion can be used to quickly assert transformations of graphs are executed correctly, by comparing the current graph (after the transformation has been applied) with a graph containing the expected results loaded from disk.
+</p>
+<div class="example">
+<table>
+<tr>
+<td class="pos">Example (Graphs equal)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph1:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph2:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+<td class="neg">
+Example (addition/removal of objects)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph1:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph2:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br /><em>hsObj D</em><br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+<td class="neg">
+Example (differences in object/edge order):
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph1:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em><br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph2:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj B<br />hsObj A</em><br />hsObj C<br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+</tr>
+</table></div>
+
+<h3>boolean graphsEqual(EmfGraph graph1, EmfGraph graph2, double matchSimilarityThreshold)</h3>
+<p>This works just like assertGraphsEqual, but not as an assertion, but a method returning a boolean, which can be handy for building own tests or getting intermediate results when developing a transformation.</p>
+
+<hr />
+<h2>Graph Transformations</h2>
+<p>
+Assertions for changes on EmfGraphs caused by the application or execution of Rules and TransformationUnits.
+</p>
+
+<h3>assertNumberOfObjectsIdentical(Rule r, EmfEngine engine)<br />
+assertNumberOfObjectsIdentical(Rule r, EmfGraph graph)<br />
+assertNumberOfObjectsIdentical(TransformationUnit tu, EmfEngine engine)<br />
+assertNumberOfObjectsIdentical(UnitApplication ua)</h3>
+<p>Assert that the number of objects in the (specified/EmfEngine's/UnitApplication's) graph is identical before and after execution.</p>
+<div class="example">
+<table>
+<tr>
+<td class="pos">Example (Graphs equal)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+<td class="pos">Example (only the number of objects needs to be identical, not the actual objects or even their type)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj E<br />otherObj XY<br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+<td class="neg">
+Example (addition/removal of objects)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br /><em>hsObj D</em><br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+</tr>
+</table></div>
+
+
+<h3>assertNumberOfObjectsChanged(Rule r, EmfEngine engine)<br />
+assertNumberOfObjectsChanged(Rule r, EmfGraph graph)<br />
+assertNumberOfObjectsChanged(TransformationUnit tu, EmfEngine engine)<br />
+assertNumberOfObjectsChanged(UnitApplication ua)</h3>
+<p>Assert that the number of objects in the (specified/EmfEngine's/UnitApplication's) graph has changed (i.e. is not identical) before and after execution.</p>
+<div class="example">
+<table>
+<tr>
+<td class="pos">
+Example (addition/removal of objects)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br /><em>hsObj D</em><br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+<td class="neg">Example (Graphs equal)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+<td class="neg">Example (only the number of objects needs to change, so even if all objects are replaced by an identical number of new objects, this assertion will fail)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj E<br />otherObj XY<br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+</tr>
+</table></div>
+
+
+<h3>assertGraphIsNotChanged(Rule r, EmfGraph graph, double matchSimilarityThreshold)<br />
+assertGraphIsNotChanged(Rule r, EmfEngine engine, double matchSimilarityThreshold)<br />
+assertGraphIsNotChanged(TransformationUnit tu, EmfEngine engine, double matchSimilarityThreshold)<br />
+assertGraphIsNotChanged(UnitApplication ua, double matchSimilarityThreshold)</h3>
+<p>Assert that the graph will not be changed by applying/executing the Rule/TransformationUnit. <span class="note">Please note that graphs with multiple root objects are currently not supported.</span></p>
+<div class="example">
+<table>
+<tr>
+<td class="pos">Example (Graphs equal)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+<td class="neg">
+Example (addition/removal of objects)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br /><em>hsObj D</em><br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+<td class="neg">
+Example (differences in object/edge order):
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B</em><br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj B<br />hsObj A</em><br />hsObj C<br /></td>
+	</tr>
+	</table>
+	</td></tr></table>
+</td>
+</tr>
+</table></div>
+
+
+<h3>assertTransformsGraph(Rule r, EmfEngine engine, EmfGraph graph2, double matchSimilarityThreshold)<br />
+assertTransformsGraph(Rule r, EmfGraph graph, EmfGraph graph2, double matchSimilarityThreshold)<br />
+assertTransformsGraph(TransformationUnit tu, EmfGraph graph, EmfGraph graph2, double matchSimilarityThreshold)<br />
+assertTransformsGraph(TransformationUnit tu, EmfEngine engine, EmfGraph graph2, double matchSimilarityThreshold)<br />
+assertTransformsGraph(UnitApplication ua, EmfGraph graph2, double matchSimilarityThreshold)<br />
+assertTransformsGraph(RuleApplication ra, EmfGraph graph2, double matchSimilarityThreshold)
+</h3>
+<p>Assert that the specified (engine's) graph and graph2 are equal after applying the Rule/RuleApplication/executing the TransformationUnit/UnitApplication to the (engine's) graph. <span class="note">Please note that graphs with multiple root objects are currently not supported.</span></p>
+<div class="example">
+(The Rule used for this example will remove hsObj A)
+<table>
+<tr>
+<td class="pos">Example (Graphs equal after execution)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj C<br /></td>
+	</tr>
+	</table>
+	</td><td style="padding-left: 15px;">
+		<table class="grph">
+			<tr>
+			<th>Graph2:</th>
+			</tr>
+			<tr>
+			<td><em>hsObj B<br />hsObj C</em></td>
+			</tr>
+		</table>
+	</td>
+	</tr></table>
+</td>
+
+<td class="neg">
+Example (graphs not equal after applying Rule)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br />hsObj D</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj B<br />hsObj C<br /><em>hsObj D</em><br /></td>
+	</tr>
+	</table>
+	</td><td style="padding-left: 15px;">
+		<table class="grph">
+			<tr>
+			<th>Graph2:</th>
+			</tr>
+			<tr>
+			<td><em>hsObj B<br />hsObj C</em></td>
+			</tr>
+		</table>
+	</td></tr></table>
+</td>
+</tr>
+</table></div>
+
+
+<h3>assertNObjectsDeleted(Rule r, EmfGraph graph, int n)<br />
+assertNObjectsDeleted(Rule r, EmfEngine engine, int n<br />
+assertNObjectsDeleted(TransformationUnit tu, EmfGraph graph, int n)<br />
+assertNObjectsDeleted(TransformationUnit tu, EmfEngine engine, int n)<br />
+assertNObjectsDeleted(UnitApplication ua, int n)
+</h3>
+<p>Assert that n objects are deleted when applying the Rule/executing the TransformationUnit on the specified (engine's) graph. <span class="note">Please note that graphs with multiple root objects are currently not supported.</span></p>
+<div class="example">
+<table>
+<tr>
+<td class="pos">Example (n = 3; 3 objects deleted)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj C</em><br />hsObj D</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj D</td>
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+<td class="pos">Example (n = 3; 3 objects deleted, 5 objects created)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj C</em><br />hsObj D</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj D<br />hsObj E<br />hsObj F<br />hsObj G<br />hsObj Q<br />hsObj R</td>
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+
+<td class="neg">Example (n = 3; 4 objects deleted)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj C<br />hsObj D</em><br />hsObj E</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj E</td>
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+</tr>
+</table></div>
+
+
+
+<h3>assertNObjectsCreated(Rule r, EmfGraph graph, int n)<br />
+assertNObjectsCreated(Rule r, EmfEngine engine, int n<br />
+assertNObjectsCreated(TransformationUnit tu, EmfGraph graph, int n)<br />
+assertNObjectsCreated(TransformationUnit tu, EmfEngine engine, int n)<br />
+assertNObjectsCreated(UnitApplication ua, int n)
+</h3>
+<p>Assert that n objects are created when applying the Rule/executing the TransformationUnit on the specified (engine's) graph. <span class="note">Please note that graphs with multiple root objects are currently not supported.</span></p>
+<div class="example">
+<table>
+<tr>
+<td class="pos">Example (n = 3; 3 objects created)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br /><em>hsObj B<br />hsObj C<br />hsObj D</em></td>
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+<td class="pos">Example (n = 5; 5 objects created, 2 objects deleted)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br />hsObj D</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj D<br /><em>hsObj E<br />hsObj F<br />hsObj G<br />hsObj Q<br />hsObj R</em></td>
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+
+<td class="neg">Example (n = 3; 4 objects created)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>	
+	<td>hsObj E</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj C<br />hsObj D</em><br />hsObj E</td>
+
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+
+</tr>
+</table></div>
+
+<h3>assertTransformsSubgraph(Rule r, EmfGraph graph, EmfGraph subgraphBefore, EmfGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)<br />
+assertTransformsSubgraph(Rule r, EmfEngine engine, EmfGraph subgraphBefore, EmfGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)<br />
+assertTransformsSubgraph(TransformationUnit tu, EmfGraph graph, EmfGraph subgraphBefore, EmfGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)<br />
+assertTransformsSubgraph(TransformationUnit tu, EmfEngine engine, EmfGraph subgraphBefore, EmfGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)<br />
+assertTransformsSubgraph(UnitApplication ua, EmfGraph subgraphBefore, EmfGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
+</h3>
+<p>This assertion is used if the graph involved in a graph transformation is too big, too complex too random to use assertTransformsGraph. If this is not the case, assertTransformsGraph should be used, as assertTransformsSubgraph is slower and more error-prone.<br />
+This assertion will check if subgraphBefore is contained in the graph before the graph transformation (by executing a Rule or TransformationUnit) takes place. Then, the graph is transformed and the assertion will check if subgraphAfter is contained in the graph.<br />
+By setting the parameter ignoreChanges, changes to attributes of objects in the graph are ignored, which can be useful if only the graph's structure is of interest.<br />
+<span class="note">Please note that this assertion can only check if a subgraph is contained in another graph and is not able to assert that only objects in subgraphBefore were transformed into subgraphAfter by the graph transformation.</span><br />
+This assertion will fail if the Rule/TransformationUnit/UnitApplication can not be applied/executed.
+</p>
+<div class="example">
+<table>
+<tr>
+<td class="coll">
+	<table class="grph">
+	<tr>
+	<th>subgraphBefore</th></tr><tr>
+	<td>hsObj C<br />hsObj Q</td>
+	</tr>
+	</table>
+	
+	<table class="grph">
+	<tr>
+	<th>subgraphAfter</th></tr><tr>
+	<td>hsObj B<br />hsObj C</td>
+	</tr>
+	</table>
+</td>
+
+<td class="pos">Example (the rule will remove all hsObj x, x > C)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<em><br />hsObj C<br />hsObj Q</em><br />hsObj R<br />hsObj S</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<em><br />hsObj B<br />hsObj C</em></td>
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+<!--
+<td class="pos">Example (n = 5; 5 objects created, 2 objects deleted)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>
+	<td>hsObj A<br />hsObj B<br />hsObj C<br />hsObj D</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td>hsObj C<br />hsObj D<br /><em>hsObj E<br />hsObj F<br />hsObj G<br />hsObj Q<br />hsObj R</em></td>
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+
+<td class="neg">Example (n = 3; 4 objects created)
+	<table><tr><td>
+	<table class="grph">
+	<tr>
+	<th>Graph before:</th>
+	</tr>
+	<tr>	
+	<td>hsObj E</td>
+	</tr>
+	</table>
+	</td><td>-&gt;</td><td>
+	<table class="grph">
+	<tr>
+	<th>Graph after:</th>
+	</tr>
+	<tr>
+	<td><em>hsObj A<br />hsObj B<br />hsObj C<br />hsObj D</em><br />hsObj E</td>
+
+	</tr>
+	</table>
+	</td>
+	</tr></table>
+</td>
+
+</tr>
+</table> 
+</td> -->
+</tr> 
+</table>
+</div>
+
+<hr />
+
+<h2>OCL Queries</h2>
+<p>
+Assertions for results of context-free OCL queries.
+</p>
+
+<h3>assertElementsInQueryResult(String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Assert that the context-free OCL query executed on the graph will lead to a result containing elements (i.e. the query result is not empty).</p>
+
+<h3>assertObjectInQueryResult(EObject eobj, String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Assert that the context-free OCL query executed on the graph will lead to a result containing the specified EObject.</p>
+
+<h3>assertObjectNotInQueryResult(EObject eobj, String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Assert that the context-free OCL query executed on the graph will lead to a result which does not contain the specified EObject. This will also be the case if the result is empty. If the result should be non-empty, use assertElementsInQueryResult beforehand.</p>
+
+<h3>assertGroupInQueryResult(Collection&lt;? extends EObject&gt; group, String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Assert that all elements contained in the Collection group are contained in the query result which is obtained by executing the context-free OCL query on the graph.
+</p>
+
+<h3>assertGroupNotInQueryResult(Collection&lt;? extends EObject&gt; group, String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Assert that at least one element contained in the group is not contained in the query result.
+</p>
+
+<h3>assertNoElementFromGroupInQueryResult(Collection&lt;? extends EObject&gt; group, String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Assert that no element contained in the group is contained in the query result.</p>
+
+<h3>assertAtLeastOneElementFromGroupInQueryResult(Collection&lt;? extends EObject&gt; group, String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Assert that at least one element contained in the group is contained in the query result.</p>
+
+
+<hr />
+<h2>Parameters</h2>
+<p>
+Assertions for Parameters.
+</p>
+
+<h3>assertParameterMappingContainsObject(Match ma, Object obj)</h3>
+<p>
+Assert that a parameter mapping of the Match contains the object.
+</p>
+
+<h3>assertParameterMappingEquals(Match ma, String parameterName, Object obj)</h3>
+<p>Assert that a parameter mapping of the Match contains a parameter with the specified name and the specified object as the value.
+</p>
+
+<hr />
+<h2>TransformationUnits</h2>
+<p>General assertions for Transformation Units. For assertions on specific objects matched, see Matches.</p><p><span class="note">Please note: All of these assertions will execute the Transformation Unit, so if changes to the graph are not desired, undo() has to be called manually after the assertion.</span></p>
+
+<h3>assertTransformationUnitCanBeExecutedMultipleTimes(TransformationUnit tu, EmfGraph graph)<br />
+assertTransformationUnitCanBeExecutedMultipleTimes(TransformationUnit tu, EmfEngine engine)<br />
+assertUnitApplicationCanBeExecutedMultipleTimes(UnitApplication ua)</h3>
+<p>Assert that the specified TransformationUnit/UnitApplication can be executed multiple times, i.e. the first execution resulted in Rules being applied and the second execution resulted in Rules being applied.
+</p>
+
+<h3>assertTransformationUnitCanBeExecutedNTimes(TransformationUnit tu, EmfGraph graph, int n)<br />
+assertTransformationUnitCanBeExecutedNTimes(TransformationUnit tu, EmfEngine engine, int n)<br />
+assertUnitApplicationCanBeExecutedNTimes(UnitApplication ua, int n)</h3>
+<p>Assert that the specified TransformationUnit/UnitApplication can be executed at least n times, i.e. n executions each lead to Rules being applied.
+</p>
+
+<h3>assertTuCanBeExecuted(UnitApplication ua)</h3>
+<p>Execute the specified Unit Application and assert that it could in fact be executed.</p>
+
+
+<hr />
+<h2>Rules</h2>
+<p>
+General assertions for Rules. Contains basic statistical assertions for Matches. If more in-depth analysis of Matches (i.e. objects matched) is required, see Matches.
+</p>
+
+<h3>assertRuleHasMatch(Rule r, EmfEngine engine)<br />
+assertRuleHasMatch(Rule r, EmfGraph graph)<br />
+assertRuleHasMatch(RuleApplication ra)</h3>
+<p>Assert that the specified Rule produces a match (at least one) on the specified (engine's) graph.
+</p>
+
+<h3>assertRuleHasNoMatch(Rule r, EmfEngine engine)<br />
+assertRuleHasNoMatch(Rule r, EmfGraph graph)<br />
+assertRuleHasNoMatch(RuleApplication ra)</h3>
+<p>Assert that the specified Rule produces no match on the specified (engine's) graph.
+</p>
+
+<h3>assertRuleHasNMatches(Rule r, EmfEngine engine, int n)<br />
+assertRuleHasNMatches(Rule r, EmfGraph graph, int n)<br />
+assertRuleHasNMatches(RuleApplication ra, int n)</h3>
+<p>Assert that the specified Rule produces exactly n matches. 
+</p>
+
+<h3>assertRuleCanBeAppliedMultipleTimes(Rule r, EmfEngine engine)<br />
+assertRuleCanBeAppliedMultipleTimes(Rule r, EmfGraph graph)<br />
+assertRuleCanBeAppliedMultipleTimes(RuleApplication ra)</h3>
+<p>Assert that the specified Rule can be applied multiple times (that is, at least twice) on the (engine's) graph. <span class="note">Please note that the Rule will be applied on the graph, so if changes to the graph are not desired, undo() needs to be called manually after this assertion.</span>
+</p>
+
+<h3>assertRuleCanBeAppliedNTimes(Rule r, EmfEngine engine, int n)<br />
+assertRuleCanBeAppliedNTimes(Rule r, EmfGraph graph, int n)<br />
+assertRuleCanBeAppliedNTimes(RuleApplication ra, int n)</h3>
+<p>Assert that the specified Rule can be applied at least n times. <span class="note">Please note that the Rule will be applied on the graph, so if changes on the graph are not desired, undo() needs to be called manually after this assertion.</span>
+</p>
+
+<h3>assertRuleExecutedByUnitApplication(UnitApplication ua, Rule r)</h3>
+<p>Assert that the specified Rule was applied when the UnitApplication was executed. <span class="note">Please note: This assertion requires a UnitApplication that has already been executed and will not execute the UnitApplication.</span>
+</p>
+
+<h3>assertRuleExecutedByUnitApplicationNTimes(UnitApplication ua, Rule r, int n)</h3>
+<p>Assert that the specified Rule was applied exactly n times when the UnitApplication was executed. <span class="note">Please note: This assertion requires a UnitApplication that has already been executed and will not execute the UnitApplication.</span>
+</p>
+
+<h3>assertRuleCanBeApplied(Rule r, EmfEngine engine)<br />
+assertRuleCanBeApplied(Rule r, EmfGraph graph)<br />
+assertRuleCanBeApplied(RuleApplication ra)</h3>
+<p>Assert that the Rule can be applied on the graph. <span class="note">Please note: This will apply the Rule, so if changes on the graph are not desired, undo() needs to be called manually after this assertion. However, this assertion is primarily meant as a replacement for Rule.apply(), as it will apply the Rule and assert that it was applied successfully.</span>
+</p>
+
+<hr />
+<h2>Tools</h2>
+<p>Miscellaneous tools to aid in testing and application development.
+</p>
+
+<h3>int[] getGraphSizes(UnitApplication ua)</h3>
+<p>This method executes the UnitApplication and returns an array containing the number of elements in the graph before execution and the number of elements in the graph after execution.</p>
+
+<h3>TransformationUnit createTUFromRule(Rule r)</h3>
+<p>This method creates a TransformationUnit from a given Rule.
+</p>
+
+<h3>void printMatches(List&lt;Match&gt; ma)</h3>
+<p>Prints the matches on the console.
+</p>
+
+<h3>void printMatch(Match ma)<br />
+void printMatches(Match ma)</h3>
+<p>Prints the match on the console.</p>
+
+<h3>void printGraph(EmfGraph graph)</h3>
+<p>Prints the graph on the console.</p>
+
+<h3>void persist(EObject rootObject, String filename)</h3>
+<p>Store the graph attached to the root object to disk.</p>
+
+<h3>void persistAllEmbeddedGraphs(TransformationSystem ts, String path, String fileExt)</h3>
+<p>Store all embedded graphs to disk.</p>
+
+<h3>void persist(Rule rule, String filename)</h3>
+<p>Store the Rule in a file on disk.</p>
+
+<h3>Collection&lt;? extends EObject&gt; getOCLQueryResults(String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Return the objects matching the specified context-free OCL query executed on the graph.</p>
+
+<h3>EObject getFirstElementFromOCLQueryResult(String contextFreeOclQuery, EmfGraph graph)</h3>
+<p>Return the first object matched by the specified context-free OCL query executed on the graph.</p>
+
+<h3>EObject getGraphRoot(EmfGraph graph)</h3>
+<p>Returns the first root object of the specified graph.</p>
+
+<h3>void printCollection(Collection&lt;? extends EObject&gt; coll)</h3>
+<p>Prints the collection on the console.</p>
+
+<h3>void printParameterMappings(RuleApplication ra)</h3>
+<p>Prints the RuleApplication's parameters and their values on the console.</p>
+
+
+</body>
+</html>
