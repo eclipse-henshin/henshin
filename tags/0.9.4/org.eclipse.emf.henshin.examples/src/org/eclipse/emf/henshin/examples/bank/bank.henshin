@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin">
+  <imports href="bank.ecore#/"/>
+  <units xsi:type="henshin:Rule" name="createAccount">
+    <parameters name="client">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="accountId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs name="LHS">
+      <nodes outgoing="//@units.0/@lhs/@edges.0 //@units.0/@lhs/@edges.1">
+        <type href="bank.ecore#//Bank"/>
+      </nodes>
+      <nodes incoming="//@units.0/@lhs/@edges.0 //@units.0/@lhs/@edges.2">
+        <type href="bank.ecore#//Client"/>
+        <attributes value="client">
+          <type href="bank.ecore#//Person/name"/>
+        </attributes>
+      </nodes>
+      <nodes incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.2">
+        <type href="bank.ecore#//Manager"/>
+      </nodes>
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+        <type href="bank.ecore#//Bank/clients"/>
+      </edges>
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.2">
+        <type href="bank.ecore#//Bank/managers"/>
+      </edges>
+      <edges source="//@units.0/@lhs/@nodes.2" target="//@units.0/@lhs/@nodes.1">
+        <type href="bank.ecore#//Manager/clients"/>
+      </edges>
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion name="">
+            <nodes outgoing="//@units.0/@lhs/@formula/@child/@conclusion/@edges.0">
+              <type href="bank.ecore#//Bank"/>
+            </nodes>
+            <nodes incoming="//@units.0/@lhs/@formula/@child/@conclusion/@edges.0">
+              <type href="bank.ecore#//Account"/>
+              <attributes value="accountId">
+                <type href="bank.ecore#//Account/id"/>
+              </attributes>
+            </nodes>
+            <edges source="//@units.0/@lhs/@formula/@child/@conclusion/@nodes.0" target="//@units.0/@lhs/@formula/@child/@conclusion/@nodes.1">
+              <type href="bank.ecore#//Bank/accounts"/>
+            </edges>
+          </conclusion>
+          <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@lhs/@formula/@child/@conclusion/@nodes.0"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes outgoing="//@units.0/@rhs/@edges.0 //@units.0/@rhs/@edges.1 //@units.0/@rhs/@edges.2">
+        <type href="bank.ecore#//Bank"/>
+      </nodes>
+      <nodes incoming="//@units.0/@rhs/@edges.2 //@units.0/@rhs/@edges.3">
+        <type href="bank.ecore#//Account"/>
+        <attributes value="accountId">
+          <type href="bank.ecore#//Account/id"/>
+        </attributes>
+      </nodes>
+      <nodes incoming="//@units.0/@rhs/@edges.0 //@units.0/@rhs/@edges.4" outgoing="//@units.0/@rhs/@edges.3">
+        <type href="bank.ecore#//Client"/>
+        <attributes value="client">
+          <type href="bank.ecore#//Person/name"/>
+        </attributes>
+      </nodes>
+      <nodes incoming="//@units.0/@rhs/@edges.1" outgoing="//@units.0/@rhs/@edges.4">
+        <type href="bank.ecore#//Manager"/>
+      </nodes>
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.2">
+        <type href="bank.ecore#//Bank/clients"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.3">
+        <type href="bank.ecore#//Bank/managers"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+        <type href="bank.ecore#//Bank/accounts"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.2" target="//@units.0/@rhs/@nodes.1">
+        <type href="bank.ecore#//Client/accounts"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.3" target="//@units.0/@rhs/@nodes.2">
+        <type href="bank.ecore#//Manager/clients"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.2"/>
+    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.3"/>
+  </units>
+  <units xsi:type="henshin:Rule" name="transferMoney">
+    <parameters name="client">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="fromId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters name="toId">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters name="amount">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameters>
+    <parameters name="x">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameters>
+    <parameters name="y">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameters>
+    <lhs name="LHS">
+      <nodes incoming="//@units.1/@lhs/@edges.0">
+        <type href="bank.ecore#//Account"/>
+        <attributes value="fromId">
+          <type href="bank.ecore#//Account/id"/>
+        </attributes>
+        <attributes value="x">
+          <type href="bank.ecore#//Account/credit"/>
+        </attributes>
+      </nodes>
+      <nodes>
+        <type href="bank.ecore#//Account"/>
+        <attributes value="toId">
+          <type href="bank.ecore#//Account/id"/>
+        </attributes>
+        <attributes value="y">
+          <type href="bank.ecore#//Account/credit"/>
+        </attributes>
+      </nodes>
+      <nodes outgoing="//@units.1/@lhs/@edges.0">
+        <type href="bank.ecore#//Client"/>
+        <attributes value="client">
+          <type href="bank.ecore#//Person/name"/>
+        </attributes>
+      </nodes>
+      <edges source="//@units.1/@lhs/@nodes.2" target="//@units.1/@lhs/@nodes.0">
+        <type href="bank.ecore#//Client/accounts"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes incoming="//@units.1/@rhs/@edges.0">
+        <type href="bank.ecore#//Account"/>
+        <attributes value="fromId">
+          <type href="bank.ecore#//Account/id"/>
+        </attributes>
+        <attributes value="x-amount">
+          <type href="bank.ecore#//Account/credit"/>
+        </attributes>
+      </nodes>
+      <nodes>
+        <type href="bank.ecore#//Account"/>
+        <attributes value="toId">
+          <type href="bank.ecore#//Account/id"/>
+        </attributes>
+        <attributes value="y+amount">
+          <type href="bank.ecore#//Account/credit"/>
+        </attributes>
+      </nodes>
+      <nodes outgoing="//@units.1/@rhs/@edges.0">
+        <type href="bank.ecore#//Client"/>
+        <attributes value="client">
+          <type href="bank.ecore#//Person/name"/>
+        </attributes>
+      </nodes>
+      <edges source="//@units.1/@rhs/@nodes.2" target="//@units.1/@rhs/@nodes.0">
+        <type href="bank.ecore#//Client/accounts"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@units.1/@lhs/@nodes.0" image="//@units.1/@rhs/@nodes.0"/>
+    <mappings origin="//@units.1/@lhs/@nodes.1" image="//@units.1/@rhs/@nodes.1"/>
+    <mappings origin="//@units.1/@lhs/@nodes.2" image="//@units.1/@rhs/@nodes.2"/>
+  </units>
+  <units xsi:type="henshin:Rule" name="deleteAllAccounts">
+    <parameters name="client">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs name="LHS">
+      <nodes incoming="//@units.2/@lhs/@edges.1 //@units.2/@lhs/@edges.2">
+        <type href="bank.ecore#//Client"/>
+        <attributes value="client">
+          <type href="bank.ecore#//Person/name"/>
+        </attributes>
+      </nodes>
+      <nodes outgoing="//@units.2/@lhs/@edges.0 //@units.2/@lhs/@edges.1">
+        <type href="bank.ecore#//Bank"/>
+      </nodes>
+      <nodes incoming="//@units.2/@lhs/@edges.0" outgoing="//@units.2/@lhs/@edges.2">
+        <type href="bank.ecore#//Manager"/>
+      </nodes>
+      <edges source="//@units.2/@lhs/@nodes.1" target="//@units.2/@lhs/@nodes.2">
+        <type href="bank.ecore#//Bank/managers"/>
+      </edges>
+      <edges source="//@units.2/@lhs/@nodes.1" target="//@units.2/@lhs/@nodes.0">
+        <type href="bank.ecore#//Bank/clients"/>
+      </edges>
+      <edges source="//@units.2/@lhs/@nodes.2" target="//@units.2/@lhs/@nodes.0">
+        <type href="bank.ecore#//Manager/clients"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes incoming="//@units.2/@rhs/@edges.1 //@units.2/@rhs/@edges.2">
+        <type href="bank.ecore#//Client"/>
+        <attributes value="client">
+          <type href="bank.ecore#//Person/name"/>
+        </attributes>
+      </nodes>
+      <nodes outgoing="//@units.2/@rhs/@edges.0 //@units.2/@rhs/@edges.1">
+        <type href="bank.ecore#//Bank"/>
+      </nodes>
+      <nodes incoming="//@units.2/@rhs/@edges.0" outgoing="//@units.2/@rhs/@edges.2">
+        <type href="bank.ecore#//Manager"/>
+      </nodes>
+      <edges source="//@units.2/@rhs/@nodes.1" target="//@units.2/@rhs/@nodes.2">
+        <type href="bank.ecore#//Bank/managers"/>
+      </edges>
+      <edges source="//@units.2/@rhs/@nodes.1" target="//@units.2/@rhs/@nodes.0">
+        <type href="bank.ecore#//Bank/clients"/>
+      </edges>
+      <edges source="//@units.2/@rhs/@nodes.2" target="//@units.2/@rhs/@nodes.0">
+        <type href="bank.ecore#//Manager/clients"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@units.2/@lhs/@nodes.0" image="//@units.2/@rhs/@nodes.0"/>
+    <mappings origin="//@units.2/@lhs/@nodes.1" image="//@units.2/@rhs/@nodes.1"/>
+    <mappings origin="//@units.2/@lhs/@nodes.2" image="//@units.2/@rhs/@nodes.2"/>
+    <multiRules name="">
+      <lhs name="LHS">
+        <nodes name="client" incoming="//@units.2/@multiRules.0/@lhs/@edges.0 //@units.2/@multiRules.0/@lhs/@edges.1 //@units.2/@multiRules.0/@lhs/@edges.5" outgoing="//@units.2/@multiRules.0/@lhs/@edges.3">
+          <type href="bank.ecore#//Client"/>
+        </nodes>
+        <nodes outgoing="//@units.2/@multiRules.0/@lhs/@edges.0 //@units.2/@multiRules.0/@lhs/@edges.2 //@units.2/@multiRules.0/@lhs/@edges.4">
+          <type href="bank.ecore#//Bank"/>
+        </nodes>
+        <nodes incoming="//@units.2/@multiRules.0/@lhs/@edges.2" outgoing="//@units.2/@multiRules.0/@lhs/@edges.1">
+          <type href="bank.ecore#//Manager"/>
+        </nodes>
+        <nodes incoming="//@units.2/@multiRules.0/@lhs/@edges.3 //@units.2/@multiRules.0/@lhs/@edges.4" outgoing="//@units.2/@multiRules.0/@lhs/@edges.5">
+          <type href="bank.ecore#//Account"/>
+        </nodes>
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.1" target="//@units.2/@multiRules.0/@lhs/@nodes.0">
+          <type href="bank.ecore#//Bank/clients"/>
+        </edges>
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.2" target="//@units.2/@multiRules.0/@lhs/@nodes.0">
+          <type href="bank.ecore#//Manager/clients"/>
+        </edges>
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.1" target="//@units.2/@multiRules.0/@lhs/@nodes.2">
+          <type href="bank.ecore#//Bank/managers"/>
+        </edges>
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.0" target="//@units.2/@multiRules.0/@lhs/@nodes.3">
+          <type href="bank.ecore#//Client/accounts"/>
+        </edges>
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.1" target="//@units.2/@multiRules.0/@lhs/@nodes.3">
+          <type href="bank.ecore#//Bank/accounts"/>
+        </edges>
+        <edges source="//@units.2/@multiRules.0/@lhs/@nodes.3" target="//@units.2/@multiRules.0/@lhs/@nodes.0">
+          <type href="bank.ecore#//Account/owner"/>
+        </edges>
+      </lhs>
+      <rhs name="RHS">
+        <nodes name="client" incoming="//@units.2/@multiRules.0/@rhs/@edges.0 //@units.2/@multiRules.0/@rhs/@edges.1">
+          <type href="bank.ecore#//Client"/>
+        </nodes>
+        <nodes outgoing="//@units.2/@multiRules.0/@rhs/@edges.0 //@units.2/@multiRules.0/@rhs/@edges.2">
+          <type href="bank.ecore#//Bank"/>
+        </nodes>
+        <nodes incoming="//@units.2/@multiRules.0/@rhs/@edges.2" outgoing="//@units.2/@multiRules.0/@rhs/@edges.1">
+          <type href="bank.ecore#//Manager"/>
+        </nodes>
+        <edges source="//@units.2/@multiRules.0/@rhs/@nodes.1" target="//@units.2/@multiRules.0/@rhs/@nodes.0">
+          <type href="bank.ecore#//Bank/clients"/>
+        </edges>
+        <edges source="//@units.2/@multiRules.0/@rhs/@nodes.2" target="//@units.2/@multiRules.0/@rhs/@nodes.0">
+          <type href="bank.ecore#//Manager/clients"/>
+        </edges>
+        <edges source="//@units.2/@multiRules.0/@rhs/@nodes.1" target="//@units.2/@multiRules.0/@rhs/@nodes.2">
+          <type href="bank.ecore#//Bank/managers"/>
+        </edges>
+      </rhs>
+      <mappings origin="//@units.2/@multiRules.0/@lhs/@nodes.0" image="//@units.2/@multiRules.0/@rhs/@nodes.0"/>
+      <mappings origin="//@units.2/@multiRules.0/@lhs/@nodes.1" image="//@units.2/@multiRules.0/@rhs/@nodes.1"/>
+      <mappings origin="//@units.2/@multiRules.0/@lhs/@nodes.2" image="//@units.2/@multiRules.0/@rhs/@nodes.2"/>
+      <multiMappings origin="//@units.2/@lhs/@nodes.0" image="//@units.2/@multiRules.0/@lhs/@nodes.0"/>
+      <multiMappings origin="//@units.2/@lhs/@nodes.1" image="//@units.2/@multiRules.0/@lhs/@nodes.1"/>
+      <multiMappings origin="//@units.2/@lhs/@nodes.2" image="//@units.2/@multiRules.0/@lhs/@nodes.2"/>
+      <multiMappings origin="//@units.2/@rhs/@nodes.0" image="//@units.2/@multiRules.0/@rhs/@nodes.0"/>
+      <multiMappings origin="//@units.2/@rhs/@nodes.1" image="//@units.2/@multiRules.0/@rhs/@nodes.1"/>
+      <multiMappings origin="//@units.2/@rhs/@nodes.2" image="//@units.2/@multiRules.0/@rhs/@nodes.2"/>
+    </multiRules>
+  </units>
+</henshin:Module>
