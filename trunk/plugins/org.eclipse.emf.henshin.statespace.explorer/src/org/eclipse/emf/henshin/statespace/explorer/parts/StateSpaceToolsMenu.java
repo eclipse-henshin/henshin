@@ -31,6 +31,7 @@ import org.eclipse.emf.henshin.statespace.explorer.actions.CreateInitialStateAct
 import org.eclipse.emf.henshin.statespace.explorer.actions.EditPropertiesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction;
+import org.eclipse.emf.henshin.statespace.explorer.actions.MergeTerminalStatesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
@@ -109,6 +110,7 @@ public class StateSpaceToolsMenu extends Composite {
 	private Link resetLink;
 	private Link exportLink;
 	private Link propertiesLink;
+	private Link mergeTerminalsLink;
 	
 	// Normal buttons:
 	private Button validateButton;
@@ -162,6 +164,7 @@ public class StateSpaceToolsMenu extends Composite {
 		resetLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Reset state space</a>");
 		exportLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Export state space</a>");		
 		propertiesLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Edit properties</a>");
+		mergeTerminalsLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Merge terminal states</a>");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, tasks, "Tasks", 1);
 
 		// The display group:
@@ -344,6 +347,7 @@ public class StateSpaceToolsMenu extends Composite {
 		layouterLink.setEnabled(enabled);
 		explorerLink.setEnabled(enabled);
 		exportLink.setEnabled(enabled);
+		mergeTerminalsLink.setEnabled(enabled);
 		repulsionScale.setEnabled(enabled);
 		attractionScale.setEnabled(enabled);
 		validateButton.setEnabled(enabled);
@@ -431,6 +435,7 @@ public class StateSpaceToolsMenu extends Composite {
 		exportLink.addSelectionListener(exportListener);
 		resetLink.addSelectionListener(resetListener);
 		propertiesLink.addSelectionListener(propertiesListener);
+		mergeTerminalsLink.addSelectionListener(mergeTerminalsListener);
 		validateButton.addSelectionListener(validateListener);
 		hideIndizesButton.addSelectionListener(hideLabelsListener);
 		hideLabelsButton.addSelectionListener(hideLabelsListener);
@@ -466,6 +471,7 @@ public class StateSpaceToolsMenu extends Composite {
 		resetLink.removeSelectionListener(resetListener);
 		explorerLink.removeSelectionListener(explorerListener);
 		layouterLink.removeSelectionListener(layouterListener);
+		mergeTerminalsLink.removeSelectionListener(mergeTerminalsListener);
 		validateButton.removeSelectionListener(validateListener);
 		hideIndizesButton.removeSelectionListener(hideLabelsListener);
 		hideLabelsButton.removeSelectionListener(hideLabelsListener);
@@ -632,6 +638,23 @@ public class StateSpaceToolsMenu extends Composite {
 	};
 
 	/*
+	 * Merge terminals link listener.
+	 */
+	private SelectionListener mergeTerminalsListener = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (explorer!=null) {
+				MergeTerminalStatesAction action = new MergeTerminalStatesAction();
+				action.setExplorer(explorer);
+				action.run(null);
+				refresh();
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
+	/*
 	 * Explorer link listener.
 	 */
 	private SelectionListener explorerListener = new SelectionListener() {			
@@ -709,6 +732,7 @@ public class StateSpaceToolsMenu extends Composite {
 			public void done(IJobChangeEvent event) {
 				Display.getDefault().asyncExec(new Runnable() {
 					public void run() {
+						refresh();
 						link.setText(link.getText().replaceFirst("Stop","Start"));
 					}
 				});

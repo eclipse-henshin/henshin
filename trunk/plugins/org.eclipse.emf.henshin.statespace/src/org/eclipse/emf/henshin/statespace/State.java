@@ -19,27 +19,32 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @generated
  */
 public interface State extends Storage {
-	
+
 	/**
 	 * Color for normal states (RGB).
 	 */
 	public final static int[] COLOR_DEFAULT = new int[] { 220,220,220 };
-	
+
 	/**
 	 * Color for initial states (RGB).
 	 */
 	public final static int[] COLOR_INITIAL = new int[] { 40,220,40 };
-	
+
 	/**
 	 * Color for terminal states (RGB).
 	 */
 	public final static int[] COLOR_TERMINAL = new int[] { 250,60,60 };
-		
+
 	/**
 	 * Color for open states (RGB).
 	 */
 	public final static int[] COLOR_OPEN = new int[] { 100,100,250 };
-	
+
+	/**
+	 * Color for pruned states (RGB).
+	 */
+	public final static int[] COLOR_PRUNED = new int[] { 255,40,167 };
+
 	/**
 	 * Get the index of this state.
 	 * @return the index of this state.
@@ -61,10 +66,6 @@ public interface State extends Storage {
 	/**
 	 * Returns the value of the '<em><b>Derived From</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Derived From</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Derived From</em>' attribute.
 	 * @see #setDerivedFrom(int)
@@ -172,6 +173,52 @@ public interface State extends Storage {
 	void setOpen(boolean value);
 
 	/**
+	 * Returns the value of the '<em><b>Goal</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Goal</em>' attribute.
+	 * @see #setGoal(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_Goal()
+	 * @model default="false" transient="true" volatile="true"
+	 * @generated
+	 */
+	boolean isGoal();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#isGoal <em>Goal</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Goal</em>' attribute.
+	 * @see #isGoal()
+	 * @generated
+	 */
+	void setGoal(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Pruned</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Pruned</em>' attribute.
+	 * @see #setPruned(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_Pruned()
+	 * @model default="false" transient="true" volatile="true"
+	 * @generated
+	 */
+	boolean isPruned();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#isPruned <em>Pruned</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Pruned</em>' attribute.
+	 * @see #isPruned()
+	 * @generated
+	 */
+	void setPruned(boolean value);
+
+	/**
 	 * Get the hash code of this state.
 	 * @return the hash code.
 	 * @see #setHashCode(int)
@@ -231,19 +278,11 @@ public interface State extends Storage {
 	boolean isInitial();
 
 	/**
-	 * Check if this state is terminal. A state is terminal if it is
-	 * not open and it has no outgoing transitions.
-	 * @model kind="operation"
-	 * @generated
-	 */
-	boolean isTerminal();
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model paramIDsDataType="org.eclipse.emf.henshin.statespace.IntegerArray"
 	 * @generated
 	 */
 	Transition getOutgoing(State target, Rule rule, int match, int[] paramIDs);
-		
+
 }

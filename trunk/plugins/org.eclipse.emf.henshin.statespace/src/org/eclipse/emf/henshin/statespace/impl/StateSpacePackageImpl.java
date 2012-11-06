@@ -387,7 +387,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EReference getState_Model() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(10);
+		return (EReference)stateEClass.getEStructuralFeatures().get(12);
 	}
 
 
@@ -477,7 +477,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EAttribute getState_Location() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(7);
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(9);
 	}
 
 
@@ -488,6 +488,26 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 */
 	public EAttribute getState_Open() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(6);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getState_Goal() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(7);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getState_Pruned() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(8);
 	}
 
 
@@ -517,7 +537,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EAttribute getState_ObjectCount() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(8);
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(10);
 	}
 
 
@@ -527,7 +547,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EAttribute getState_ObjectKeys() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(11);
 	}
 
 
@@ -780,6 +800,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEAttribute(stateEClass, STATE__HASH_CODE);
 		createEAttribute(stateEClass, STATE__DERIVED_FROM);
 		createEAttribute(stateEClass, STATE__OPEN);
+		createEAttribute(stateEClass, STATE__GOAL);
+		createEAttribute(stateEClass, STATE__PRUNED);
 		createEAttribute(stateEClass, STATE__LOCATION);
 		createEAttribute(stateEClass, STATE__OBJECT_COUNT);
 		createEAttribute(stateEClass, STATE__OBJECT_KEYS);
@@ -888,6 +910,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEAttribute(getState_HashCode(), ecorePackage.getEInt(), "hashCode", "0", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_DerivedFrom(), ecorePackage.getEInt(), "derivedFrom", null, 0, 1, State.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Open(), ecorePackage.getEBoolean(), "open", "false", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Goal(), ecorePackage.getEBoolean(), "goal", "false", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Pruned(), ecorePackage.getEBoolean(), "pruned", "false", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Location(), this.getIntegerArray(), "location", null, 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_ObjectCount(), ecorePackage.getEInt(), "objectCount", null, 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_ObjectKeys(), this.getIntegerArray(), "objectKeys", null, 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

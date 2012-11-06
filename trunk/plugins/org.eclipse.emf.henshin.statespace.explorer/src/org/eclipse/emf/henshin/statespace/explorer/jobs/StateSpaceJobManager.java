@@ -20,22 +20,29 @@ import org.eclipse.gef.EditDomain;
  */
 public class StateSpaceJobManager {
 	
-	// Job for reloading the state space:
-	private ReloadStateSpaceJob reloadJob;
-	
-	// Job for running the spring layouter:
+	/** 
+	 * Job for running the spring layouter.
+	 */
 	private LayoutStateSpaceJob layoutJob;
 	
-	// Job for exploring the state space:
+	/** 
+	 * Job for exploring the state space.
+	 */
 	private ExploreStateSpaceJobWithDisplay exploreJob;
 
-	// Job for running the validator:
+	/** 
+	 * Job for running the validator.
+	 */
 	private ValidateStateSpaceJob validateJob;
 
-	// State space manager:
+	/** 
+	 * State space manager.
+	 */
 	private StateSpaceManager stateSpaceManager;
 	
-	// Edit domain for running commands:
+	/** 
+	 * Edit domain for running commands.
+	 */
 	private EditDomain editDomain;
 	
 	/**
@@ -45,7 +52,6 @@ public class StateSpaceJobManager {
 	public StateSpaceJobManager(StateSpaceManager stateSpaceManager, EditDomain editDomain) {
 		this.stateSpaceManager = stateSpaceManager;
 		this.editDomain = editDomain;
-		this.reloadJob = new ReloadStateSpaceJob(stateSpaceManager);
 		this.layoutJob = new LayoutStateSpaceJob(stateSpaceManager.getStateSpace());
 		this.exploreJob = new ExploreStateSpaceJobWithDisplay(stateSpaceManager, editDomain);
 		this.validateJob = new ValidateStateSpaceJob(stateSpaceManager);
@@ -62,14 +68,6 @@ public class StateSpaceJobManager {
 		return layoutJob;
 	}
 	
-	/**
-	 * Start the reload job.
-	 */
-	public ReloadStateSpaceJob startReloadJob() {
-		if (isTerminated(reloadJob)) reloadJob.schedule();
-		return reloadJob;
-	}
-
 	/**
 	 * Start the explore job.
 	 */
@@ -91,13 +89,6 @@ public class StateSpaceJobManager {
 	 */
 	public void stopLayoutJob() {
 		stop(layoutJob);
-	}
-
-	/**
-	 * Stop the reload job.
-	 */
-	public void stopReloadJob() {
-		stop(reloadJob);
 	}
 
 	/**
@@ -142,7 +133,6 @@ public class StateSpaceJobManager {
 	public void stopAllJobs() {
 		stopLayoutJob();
 		stopExploreJob();
-		stopReloadJob();
 		stopValidateJob();
 	}
 	
@@ -154,14 +144,6 @@ public class StateSpaceJobManager {
 		return layoutJob;
 	}
 	
-	/**
-	 * Get the reload job.
-	 * @return reload job.
-	 */
-	public ReloadStateSpaceJob getReloadJob() {
-		return reloadJob;
-	}
-
 	/**
 	 * Get the explore job.
 	 * @return explore job.

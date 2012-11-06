@@ -72,7 +72,7 @@ public class TikZStateSpaceExporter implements StateSpaceExporter {
 			// Attributes:
 			if (state.isInitial()) writer.write(",heninit");
 			else if (state.isOpen()) writer.write(",henopen");
-			else if (state.isTerminal()) writer.write(",henterm");
+			else if (state.getOutgoing().isEmpty()) writer.write(",henterm");
 			
 			// Id and label:
 			writer.write("] (s" + index + ") {" + index + "};\n");

@@ -64,6 +64,11 @@ public interface StateSpace extends Storage {
 	public static final String PROPERTY_IGNORE_DUPLICATE_TRANSITIONS = "ignoreDuplicateTransitions";
 
 	/**
+	 * Key for a state space property that can be used to define a goal property.
+	 */
+	public static final String PROPERTY_GOAL_PROPERTY = "goalProperty";
+
+	/**
 	 * Get the states stored in this state space.
 	 * @model opposite="stateSpace" containment="true"
 	 * @generated

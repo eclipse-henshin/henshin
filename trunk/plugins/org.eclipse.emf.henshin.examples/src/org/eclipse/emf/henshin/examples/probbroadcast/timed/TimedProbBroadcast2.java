@@ -24,10 +24,11 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceXYPlot;
 
 /**
  * Timed version of the probabilistic broadcast example for wireless sensor networks.
+ * This version contains a probabilistic waiting phase before the message sending.
  * 
  * @author Christian Krause
  */
-public class TimedProbBroadcast {
+public class TimedProbBroadcast2 {
 
 	/**
 	 * Relative path to the example files.
@@ -42,7 +43,7 @@ public class TimedProbBroadcast {
 	/**
 	 * Compute the message reception probabilities for a set of nodes and a fixed send probability. 
 	 */
-	public static void fixedSendProb(String path, String module, String initModel, int[] nodes, int CF, int LO, int UP, double probSend) {
+	public static void fixedSendProb(String path, String module, String initModel, int[] nodes, int CF, int LO, int UP, int DL, double probSend, double probWait) {
 
 		// Initialize the state space:
 		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(path);
@@ -51,24 +52,29 @@ public class TimedProbBroadcast {
 
 		// General properties:		
 		props.put(StateSpace.PROPERTY_IDENTITY_TYPES, "Node,Message");  // identity types
-		props.put(StateSpace.PROPERTY_CLOCK_DECLARATIONS, "Message.c"); // clock declarations
-		props.put(StateSpace.PROPERTY_CONSTANTS, "int LO=" + LO + ",int UP=" + UP + ",int CF=" + CF + ""); // time bounds
+		props.put(StateSpace.PROPERTY_CLOCK_DECLARATIONS, "Message.c,Node.d"); // clock declarations
+		props.put(StateSpace.PROPERTY_CONSTANTS, "int LO=" + LO + ",int UP=" + UP + ",int CF=" + CF + ", DL=" + DL); // time bounds
 		props.put(StateSpace.PROPERTY_USE_CLOCKS, "true"); // we need clocks
 
 		// Probabilities:
-		props.put("probSend1", probSend+"");   // send probability 
-		props.put("probSend2", "1-probSend1"); // probability for not sending
+		props.put("probSend1", probSend+"");              // send probability 
+		props.put("probSend2", (1-probWait-probSend)+""); // probability for not sending
+		props.put("probSend3", probWait+"");              // wait probability 
 
 		// Guards:
-		props.put("guardSend", "LO<=u.c & u.c<=UP & v.c<=CF"); // guard for rule 'send'
+		props.put("guardPrep", "LO<=u.c & u.c<=UP & v.c<=CF"); // guard for rule 'prep'
 		props.put("guardDel1", "LO<=u.c & u.c<=UP & v.c>CF");  // guard for rule 'delete1'
 		props.put("guardDel2", "LO<=u.c & u.c<=UP & v.c>CF");  // guard for rule 'delete2'
+		props.put("guardSend", "m.d=DL"); // guard for rule 'send'
 
 		// Clock resets:
-		props.put("resetsSend1", "w.c'=0");
+		props.put("resetsPrep",  "m.d'=0"); // initial waiting phase
+		props.put("resetsSend1", "w.c'=0"); // message sent
+		props.put("resetsSend3", "m.d'=0"); // node wait more
 		
 		// Clock invariants:
-		props.put("invariantSend", "u.c<=UP");
+		props.put("invariantPrep", "u.c<=UP");
+		props.put("invariantSend", "m.d<=DL");
 
 		// Create a state space manager and an MDP/PTA validator:
 		StateSpaceManager manager = new ParallelStateSpaceManager(stateSpace);
@@ -76,7 +82,7 @@ public class TimedProbBroadcast {
 
 		System.out.println("\n - Rules module: " + module);
 		System.out.println(" - Initial model: "  + initModel);
-		System.out.println(" - Constants: CF=" + CF + ", LO=" + LO + ", UP=" + UP + ", probSend="  + probSend);
+		System.out.println(" - Constants: CF=" + CF + ", LO=" + LO + ", UP=" + UP + ", probSend="  + probSend + ", probWait="  + probWait);
 		System.out.println(" - Computing reception probabilities...");
 
 		try {
@@ -119,8 +125,8 @@ public class TimedProbBroadcast {
 	 * @param path Relative path to the model files.
 	 */
 	public static void run(String path) {
-		fixedSendProb(path, "tpb.henshin", "init-grid2x2.xmi", new int[] { 1,2,3,4 }, 4, 5, 16, 0.8);
-		fixedSendProb(path, "tpb.henshin", "init-grid3x3.xmi", new int[] { 2,4,3,5,7,6,8,9 }, 4, 5, 16, 0.8);
+		fixedSendProb(path, "tpb2.henshin", "init-grid2x2.xmi", new int[] { 1,2,3,4 }, 4, 5, 16, 1, 0.8, 0.1);
+		fixedSendProb(path, "tpb2.henshin", "init-grid3x3.xmi", new int[] { 2,4,3,5,7,6,8,9 }, 4, 5, 16, 1, 0.8, 0.1);
 	}
 
 	public static void main(String[] args) {

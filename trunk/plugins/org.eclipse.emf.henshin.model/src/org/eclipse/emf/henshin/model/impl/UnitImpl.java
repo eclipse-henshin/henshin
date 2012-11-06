@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
  * <!-- begin-user-doc --> 
- * An implementation of the model object '<em><b>Transformation Unit</b></em>'. 
+ * An implementation of the model object '<em><b>Unit</b></em>'. 
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:

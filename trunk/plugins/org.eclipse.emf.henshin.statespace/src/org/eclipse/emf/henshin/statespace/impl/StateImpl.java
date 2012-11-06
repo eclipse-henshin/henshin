@@ -59,7 +59,7 @@ public class StateImpl extends StorageImpl implements State {
 	 * @generated NOT
 	 */
 	public boolean isTerminal() {
-		return !isOpen() && getOutgoing().isEmpty();
+		return !isOpen() && !isPruned() && getOutgoing().isEmpty();
 	}
 	
 	/**
@@ -109,14 +109,20 @@ public class StateImpl extends StorageImpl implements State {
 	 * @generated NOT
 	 */
 	public boolean isOpen() {
-		return (getData(2)!=0);
+		return ((getData(2) & 1)==1);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public void setOpen(boolean open) {
-		setData(2, open ? 1 : 0);
+		int data = getData(2);
+		if (open) {
+			data = data | 1;
+		} else {
+			data = data & ~1;
+		}
+		setData(2, data);
 		StateSpace stateSpace = getStateSpace();
 		if (stateSpace!=null) {
 			if (open) {
@@ -125,6 +131,46 @@ public class StateImpl extends StorageImpl implements State {
 				getStateSpace().getOpenStates().remove(this);
 			}
 		}
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public boolean isGoal() {
+		return ((getData(2) & 2)==2);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setGoal(boolean goal) {
+		int data = getData(2);
+		if (goal) {
+			data = data | 2;
+		} else {
+			data = data & ~2;
+		}
+		setData(2, data);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public boolean isPruned() {
+		return ((getData(2) & 4)==4);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setPruned(boolean pruned) {
+		int data = getData(2);
+		if (pruned) {
+			data = data | 4;
+		} else {
+			data = data & ~4;
+		}
+		setData(2, data);
 	}
 
 	/**
@@ -242,6 +288,26 @@ public class StateImpl extends StorageImpl implements State {
 	 * @ordered
 	 */
 	protected static final boolean OPEN_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #isGoal() <em>Goal</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isGoal()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean GOAL_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #isPruned() <em>Pruned</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isPruned()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean PRUNED_EDEFAULT = false;
 
 	/**
 	 * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
@@ -478,6 +544,10 @@ public class StateImpl extends StorageImpl implements State {
 				return getDerivedFrom();
 			case StateSpacePackage.STATE__OPEN:
 				return isOpen();
+			case StateSpacePackage.STATE__GOAL:
+				return isGoal();
+			case StateSpacePackage.STATE__PRUNED:
+				return isPruned();
 			case StateSpacePackage.STATE__LOCATION:
 				return getLocation();
 			case StateSpacePackage.STATE__OBJECT_COUNT:
@@ -519,6 +589,12 @@ public class StateImpl extends StorageImpl implements State {
 				return;
 			case StateSpacePackage.STATE__OPEN:
 				setOpen((Boolean)newValue);
+				return;
+			case StateSpacePackage.STATE__GOAL:
+				setGoal((Boolean)newValue);
+				return;
+			case StateSpacePackage.STATE__PRUNED:
+				setPruned((Boolean)newValue);
 				return;
 			case StateSpacePackage.STATE__LOCATION:
 				setLocation((int[])newValue);
@@ -563,6 +639,12 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__OPEN:
 				setOpen(OPEN_EDEFAULT);
 				return;
+			case StateSpacePackage.STATE__GOAL:
+				setGoal(GOAL_EDEFAULT);
+				return;
+			case StateSpacePackage.STATE__PRUNED:
+				setPruned(PRUNED_EDEFAULT);
+				return;
 			case StateSpacePackage.STATE__LOCATION:
 				setLocation(LOCATION_EDEFAULT);
 				return;
@@ -599,6 +681,10 @@ public class StateImpl extends StorageImpl implements State {
 				return getDerivedFrom() != DERIVED_FROM_EDEFAULT;
 			case StateSpacePackage.STATE__OPEN:
 				return isOpen() != OPEN_EDEFAULT;
+			case StateSpacePackage.STATE__GOAL:
+				return isGoal() != GOAL_EDEFAULT;
+			case StateSpacePackage.STATE__PRUNED:
+				return isPruned() != PRUNED_EDEFAULT;
 			case StateSpacePackage.STATE__LOCATION:
 				return LOCATION_EDEFAULT == null ? getLocation() != null : !LOCATION_EDEFAULT.equals(getLocation());
 			case StateSpacePackage.STATE__OBJECT_COUNT:

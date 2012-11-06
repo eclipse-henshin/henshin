@@ -14,6 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -32,7 +37,10 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.StateValidator;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.Validator;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 
@@ -47,42 +55,74 @@ import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
  */
 public class StateExplorer {
 	
-	// State space index:
+	/**
+	 * Dummy progress monitor.
+	 */
+	private static final NullProgressMonitor NULL_PROGRESS_MONITOR = new NullProgressMonitor();
+
+	/** 
+	 * State space index.
+	 */
 	private final StateSpaceIndex index;
 
-	// Cached state space:
+	/**
+	 * Cached state space.
+	 */
 	private final StateSpace stateSpace;
 	
-	// Cached equality helper:
+	/** 
+	 * Cached equality helper.
+	 */
 	private final EqualityHelper equalityHelper;
 	
-	// Cached engine:
+	/** 
+	 * Cached engine.
+	 */
 	private Engine engine;
 	
-	// Cached result:
+	/**
+	 * Cached result.
+	 */
 	private final List<Transition> result;
 	
-	// Whether to use object keys:
+	/** 
+	 * Whether to use object keys.
+	 */
 	private final boolean useObjectKeys;
 	
-	// Cached rules:
+	/** 
+	 * Cached rules.
+	 */
 	private final Rule[] rules;
 	
-	// Cached rule parameters:
+	/** 
+	 * Cached rule parameters.
+	 */
 	private final Map<Rule,List<Node>> ruleParameters;
 	
-	// Cached rule application:
+	/** 
+	 * Cached rule application.
+	 */
 	private final RuleApplication application;
 	
-	// Cached identity types:
+	/** 
+	 * Cached identity types.
+	 */
 	private final EList<EClass> identityTypes;
 	
 	// Cached post-processor:
 	private final ModelPostProcessor postProcessor;
-	
-	// Cached flag determining whether to collect missing roots:
+
+	/**
+	 * Cached state validator for deciding whether a state is a goal state.
+	 */
+	private StateValidator goalStateValidator;	
+
+	/** 
+	 * Cached flag determining whether to collect missing roots.
+	 */
 	private final boolean collectMissingRoots;
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -112,6 +152,30 @@ public class StateExplorer {
 
 		// Create a rule application:
 		application = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		
+		// Set-up the goal state validator:
+		goalStateValidator = null;
+		String goalProperty = stateSpace.getProperties().get(StateSpace.PROPERTY_GOAL_PROPERTY);
+		if (goalProperty!=null && goalProperty.trim().length()>0) {
+			String type = null;
+			if (goalProperty.indexOf(':')>0) {
+				type = goalProperty.substring(0, goalProperty.indexOf(':')).trim();
+				goalProperty = goalProperty.substring(goalProperty.indexOf(':')+1).trim();
+			}
+			for (Validator validator : StateSpacePlugin.INSTANCE.getValidators().values()) {
+				if (validator instanceof StateValidator && (type==null || type.equalsIgnoreCase(validator.getName()))) {
+					try {
+						goalStateValidator = (StateValidator) validator.getClass().newInstance();
+						goalStateValidator.setStateSpaceIndex(index);
+						goalStateValidator.setProperty(goalProperty);
+						break;
+					} catch (Exception e) {}
+				}
+			}
+			if (goalStateValidator==null) {
+				StateSpacePlugin.INSTANCE.logError("Error loading goal state validator: " + type, null);
+			}
+		}
 		
 		// Post-processor:
 		postProcessor = new ModelPostProcessor(stateSpace);
@@ -211,7 +275,24 @@ public class StateExplorer {
 		return result;
 		
 	}
-
+	
+	
+	/**
+	 * Check whether a state is a goal state.
+	 * @param state State to be checked.
+	 * @result <code>true</code> if it is a goal state.
+	 */
+	public boolean isGoalState(State state) throws StateSpaceException {
+		if (goalStateValidator==null) {
+			return false;
+		}
+		try {
+			return goalStateValidator.validate(state, NULL_PROGRESS_MONITOR).isValid();
+		} catch (Throwable e) {
+			throw new StateSpaceException(e);
+		}
+	}
+	
 	/**
 	 * Derive a model.
 	 * @param State state.
@@ -369,5 +450,57 @@ public class StateExplorer {
 		
 	}
 */	
+	
+	/**
+	 * Model post processor implementation.
+	 * @author Chrstian Krause
+	 */
+	class ModelPostProcessor {
+		
+		// Script engine:
+		private ScriptEngine engine;
+		
+		// Cached post processing script:
+		private String script;
+		
+		/**
+		 * Constructor.
+		 * @param statepace State space.
+		 */
+		public ModelPostProcessor(StateSpace stateSpace) {
+			ScriptEngineManager manager = new ScriptEngineManager();
+		    engine = manager.getEngineByName("JavaScript");
+		    script = stateSpace.getProperties().get("postProcessor");
+		    if (script!=null && script.trim().length()==0) {
+		    	script = null;
+		    }
+		    if (script!=null) {
+		    	String imports = "importPackage(java.lang);\n" +
+		    					 "importPackage(java.util);\n" +
+		    					 "importPackage(org.eclipse.emf.ecore);\n" ;
+			    script = imports + script;
+		    }
+		}
+		
+		/**
+		 * Do the post processing for a model.
+		 * @param model Model.
+		 * @throws StateSpaceException On execution errors.
+		 */
+		public void process(Model model) throws StateSpaceException {
+			if (script!=null) {
+				EObject root = model.getResource().getContents().get(0);
+				synchronized (engine) {
+					engine.put("model", root);
+					try {
+						engine.eval(script);
+					} catch (ScriptException e) {
+						throw new StateSpaceException(e);
+					}
+				}
+			}
+		}
+		
+	}
 
 }

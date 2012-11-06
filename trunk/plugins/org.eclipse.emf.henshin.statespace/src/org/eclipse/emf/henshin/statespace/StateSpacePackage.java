@@ -337,13 +337,31 @@ public interface StateSpacePackage extends EPackage {
 	int STATE__OPEN = STORAGE_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Goal</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__GOAL = STORAGE_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Pruned</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__PRUNED = STORAGE_FEATURE_COUNT + 8;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__LOCATION = STORAGE_FEATURE_COUNT + 7;
+	int STATE__LOCATION = STORAGE_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Object Count</b></em>' attribute.
@@ -352,7 +370,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__OBJECT_COUNT = STORAGE_FEATURE_COUNT + 8;
+	int STATE__OBJECT_COUNT = STORAGE_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Object Keys</b></em>' attribute.
@@ -361,7 +379,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__OBJECT_KEYS = STORAGE_FEATURE_COUNT + 9;
+	int STATE__OBJECT_KEYS = STORAGE_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Model</b></em>' containment reference.
@@ -370,7 +388,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__MODEL = STORAGE_FEATURE_COUNT + 10;
+	int STATE__MODEL = STORAGE_FEATURE_COUNT + 12;
 
 	/**
 	 * The number of structural features of the '<em>State</em>' class.
@@ -379,7 +397,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 11;
+	int STATE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 13;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.ModelImpl <em>Model</em>}' class.
@@ -1009,6 +1027,28 @@ public interface StateSpacePackage extends EPackage {
 	EAttribute getState_Open();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#isGoal <em>Goal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Goal</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#isGoal()
+	 * @see #getState()
+	 * @generated
+	 */
+	EAttribute getState_Goal();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#isPruned <em>Pruned</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Pruned</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#isPruned()
+	 * @see #getState()
+	 * @generated
+	 */
+	EAttribute getState_Pruned();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getHashCode <em>Hash Code</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1540,6 +1580,22 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE__OPEN = eINSTANCE.getState_Open();
+
+		/**
+		 * The meta object literal for the '<em><b>Goal</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE__GOAL = eINSTANCE.getState_Goal();
+
+		/**
+		 * The meta object literal for the '<em><b>Pruned</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE__PRUNED = eINSTANCE.getState_Pruned();
 
 		/**
 		 * The meta object literal for the '<em><b>Hash Code</b></em>' attribute feature.

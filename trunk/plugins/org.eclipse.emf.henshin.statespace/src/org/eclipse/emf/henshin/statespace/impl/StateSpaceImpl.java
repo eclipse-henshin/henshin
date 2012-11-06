@@ -59,6 +59,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		props.put(StateSpace.PROPERTY_IDENTITY_TYPES, "");
 		props.put(StateSpace.PROPERTY_IGNORED_ATTRIBUTES, "");
 		props.put(StateSpace.PROPERTY_CLOCK_DECLARATIONS, "");
+		props.put(StateSpace.PROPERTY_GOAL_PROPERTY, "");
 		
 		// Create a default equality helper:
 		setEqualityHelper(new EqualityHelperImpl());
@@ -106,44 +107,55 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 */
 	public boolean removeState(State state) {
 		
-		// Try to remove the state:
-		if (getStates().remove(state)) {
-			
-			// Detach incoming transitions:
-			for (Transition transition : state.getIncoming()) {
-				
-				// Mark the predecessor state as open!
-				State source = transition.getSource();
-				if (source!=null) {
-					source.setOpen(true);
-					if (!getOpenStates().contains(source)) {
-						getOpenStates().add(source);
-					}
-				}
-				
-				// Detach...
-				transition.setSource(null);
-				
-			}
-			
-			// Detach outgoing transitions:
-			for (Transition transition : state.getOutgoing()) {
-				transition.setTarget(null);
-			}
-			
-			// Reset the indizes of all states:
-			int index = 0;
-			for (State current : getStates()) {
-				current.setIndex(index++);
-			}
-			
-			// Done.
-			return true;
-			
-		} else {
-			return false;
+		int index = state.getIndex();
+		if (getStates().get(index)!=state) {
+			throw new RuntimeException("State index incorrect (is: " + index + ", expected: " + getStates().indexOf(state));
 		}
 		
+		// Remove the state:
+		getStates().remove(index); 
+		getOpenStates().remove(state);
+		getInitialStates().remove(state);
+
+		// Detach incoming transitions:
+		for (Transition transition : state.getIncoming()) {
+
+			// Mark the predecessor state as open!
+			State source = transition.getSource();
+			if (source!=null) {
+				source.setOpen(true);
+				if (!getOpenStates().contains(source)) {
+					getOpenStates().add(source);
+				}
+			}
+
+			// Detach...
+			transition.setSource(null);
+
+		}
+
+		// Detach outgoing transitions:
+		for (Transition transition : state.getOutgoing()) {
+			transition.setTarget(null);
+		}
+
+		// Update the derived state property and reset the indizes of all states:
+		int i = 0;
+		int derivedFrom;
+		for (State current : getStates()) {
+			current.setIndex(i++);
+			derivedFrom = current.getDerivedFrom();
+			if (derivedFrom==index) {
+				current.setDerivedFrom(-1);
+			}
+			else if (derivedFrom>index) {
+				current.setDerivedFrom(derivedFrom-1);
+			}
+		}
+
+		// Done.
+		return true;
+
 	}
 
 	/**

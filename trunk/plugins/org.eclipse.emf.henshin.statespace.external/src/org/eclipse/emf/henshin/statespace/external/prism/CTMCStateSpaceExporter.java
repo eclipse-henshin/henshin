@@ -104,7 +104,7 @@ public class CTMCStateSpaceExporter extends AbstractStateSpaceExporter {
 		// State labels:		
 		if (parameters!=null) {
 			try {
-				String expanded = PRISMUtil.expandLabels(parameters, index, new SubProgressMonitor(monitor, stateCount));
+				String expanded = PRISMUtil.expandLabels(parameters, stateSpaceIndex, new SubProgressMonitor(monitor, stateCount));
 				if (explicit) {
 					OutputStreamWriter labelsWriter = createWriter(new File(uri.toFileString().replaceAll(".tra", ".lab")));
 					labelsWriter.write(expanded);

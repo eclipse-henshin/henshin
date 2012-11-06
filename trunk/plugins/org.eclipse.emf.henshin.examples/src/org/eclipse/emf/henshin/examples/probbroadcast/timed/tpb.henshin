@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_T_r_QB3iEeKZAa5I_0HbuQ" name="">
+  <imports href="tpb.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_T_smUB3iEeKZAa5I_0HbuQ" name="send">
+    <parameters xmi:id="_T_smUR3iEeKZAa5I_0HbuQ" name="m"/>
+    <parameters xmi:id="_T_smUh3iEeKZAa5I_0HbuQ" name="u"/>
+    <lhs xmi:id="_T_smUx3iEeKZAa5I_0HbuQ" name="Lhs">
+      <nodes xmi:id="_T_smVB3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_t0cR3iEeKZAa5I_0HbuQ _T_t0ch3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_T_smVR3iEeKZAa5I_0HbuQ" name="m" incoming="_T_t0cR3iEeKZAa5I_0HbuQ" outgoing="_T_t0cx3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_T_smVh3iEeKZAa5I_0HbuQ" value="true">
+          <type href="tpb.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_T_t0cB3iEeKZAa5I_0HbuQ" name="u" incoming="_T_t0ch3iEeKZAa5I_0HbuQ _T_t0cx3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Message"/>
+      </nodes>
+      <edges xmi:id="_T_t0cR3iEeKZAa5I_0HbuQ" source="_T_smVB3iEeKZAa5I_0HbuQ" target="_T_smVR3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_T_t0ch3iEeKZAa5I_0HbuQ" source="_T_smVB3iEeKZAa5I_0HbuQ" target="_T_t0cB3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/messages"/>
+      </edges>
+      <edges xmi:id="_T_t0cx3iEeKZAa5I_0HbuQ" source="_T_smVR3iEeKZAa5I_0HbuQ" target="_T_t0cB3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node/knows"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_T_t0dB3iEeKZAa5I_0HbuQ" name="Rhs">
+      <nodes xmi:id="_T_t0dR3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_t0eB3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_T_t0dh3iEeKZAa5I_0HbuQ" name="m" incoming="_T_t0eB3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_T_t0dx3iEeKZAa5I_0HbuQ" value="false">
+          <type href="tpb.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_T_t0eB3iEeKZAa5I_0HbuQ" source="_T_t0dR3iEeKZAa5I_0HbuQ" target="_T_t0dh3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/nodes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_T_t0eR3iEeKZAa5I_0HbuQ" origin="_T_smVB3iEeKZAa5I_0HbuQ" image="_T_t0dR3iEeKZAa5I_0HbuQ"/>
+    <mappings xmi:id="_T_ubgB3iEeKZAa5I_0HbuQ" origin="_T_smVR3iEeKZAa5I_0HbuQ" image="_T_t0dh3iEeKZAa5I_0HbuQ"/>
+    <multiRules xmi:id="_T_ubgR3iEeKZAa5I_0HbuQ" name="messages">
+      <lhs xmi:id="_T_ubgh3iEeKZAa5I_0HbuQ" name="Lhs">
+        <nodes xmi:id="_T_ubgx3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_ubiB3iEeKZAa5I_0HbuQ _T_ubiR3iEeKZAa5I_0HbuQ _T_ubix3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_T_ubhB3iEeKZAa5I_0HbuQ" name="m" incoming="_T_ubiB3iEeKZAa5I_0HbuQ" outgoing="_T_ubih3iEeKZAa5I_0HbuQ _T_ubjB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node"/>
+          <attributes xmi:id="_T_ubhR3iEeKZAa5I_0HbuQ" value="true">
+            <type href="tpb.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_T_ubhh3iEeKZAa5I_0HbuQ" name="u" incoming="_T_ubiR3iEeKZAa5I_0HbuQ _T_ubih3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_T_ubhx3iEeKZAa5I_0HbuQ" name="v" incoming="_T_ubix3iEeKZAa5I_0HbuQ _T_ubjB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Message"/>
+        </nodes>
+        <edges xmi:id="_T_ubiB3iEeKZAa5I_0HbuQ" source="_T_ubgx3iEeKZAa5I_0HbuQ" target="_T_ubhB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_T_ubiR3iEeKZAa5I_0HbuQ" source="_T_ubgx3iEeKZAa5I_0HbuQ" target="_T_ubhh3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_T_ubih3iEeKZAa5I_0HbuQ" source="_T_ubhB3iEeKZAa5I_0HbuQ" target="_T_ubhh3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_T_ubix3iEeKZAa5I_0HbuQ" source="_T_ubgx3iEeKZAa5I_0HbuQ" target="_T_ubhx3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_T_ubjB3iEeKZAa5I_0HbuQ" source="_T_ubhB3iEeKZAa5I_0HbuQ" target="_T_ubhx3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node/knows"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_T_ubjR3iEeKZAa5I_0HbuQ" name="Rhs">
+        <nodes xmi:id="_T_ubjh3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_vCkB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_T_ubjx3iEeKZAa5I_0HbuQ" name="m" incoming="_T_vCkB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node"/>
+          <attributes xmi:id="_T_ubkB3iEeKZAa5I_0HbuQ" value="false">
+            <type href="tpb.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <edges xmi:id="_T_vCkB3iEeKZAa5I_0HbuQ" source="_T_ubjh3iEeKZAa5I_0HbuQ" target="_T_ubjx3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/nodes"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_T_vCkx3iEeKZAa5I_0HbuQ" origin="_T_ubgx3iEeKZAa5I_0HbuQ" image="_T_ubjh3iEeKZAa5I_0HbuQ"/>
+      <mappings xmi:id="_T_vClB3iEeKZAa5I_0HbuQ" origin="_T_ubhB3iEeKZAa5I_0HbuQ" image="_T_ubjx3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_vClh3iEeKZAa5I_0HbuQ" origin="_T_t0dR3iEeKZAa5I_0HbuQ" image="_T_ubjh3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_vClx3iEeKZAa5I_0HbuQ" origin="_T_t0dh3iEeKZAa5I_0HbuQ" image="_T_ubjx3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_vCmB3iEeKZAa5I_0HbuQ" origin="_T_smVB3iEeKZAa5I_0HbuQ" image="_T_ubgx3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_vCmR3iEeKZAa5I_0HbuQ" origin="_T_smVR3iEeKZAa5I_0HbuQ" image="_T_ubhB3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_vCmh3iEeKZAa5I_0HbuQ" origin="_T_t0cB3iEeKZAa5I_0HbuQ" image="_T_ubhh3iEeKZAa5I_0HbuQ"/>
+    </multiRules>
+    <multiRules xmi:id="_T_vCmx3iEeKZAa5I_0HbuQ" name="neighbors">
+      <lhs xmi:id="_T_vCnB3iEeKZAa5I_0HbuQ" name="Lhs">
+        <nodes xmi:id="_T_vCnR3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_vpoR3iEeKZAa5I_0HbuQ _T_vpoh3iEeKZAa5I_0HbuQ _T_vppB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_T_vCnh3iEeKZAa5I_0HbuQ" name="m" incoming="_T_vpoR3iEeKZAa5I_0HbuQ" outgoing="_T_vpox3iEeKZAa5I_0HbuQ _T_vppR3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node"/>
+          <attributes xmi:id="_T_vCnx3iEeKZAa5I_0HbuQ" value="true">
+            <type href="tpb.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_T_vCoB3iEeKZAa5I_0HbuQ" incoming="_T_vppB3iEeKZAa5I_0HbuQ _T_vppR3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node"/>
+          <attributes xmi:id="_T_vCoR3iEeKZAa5I_0HbuQ" value="true">
+            <type href="tpb.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_T_vpoB3iEeKZAa5I_0HbuQ" name="u" incoming="_T_vpoh3iEeKZAa5I_0HbuQ _T_vpox3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Message"/>
+        </nodes>
+        <edges xmi:id="_T_vpoR3iEeKZAa5I_0HbuQ" source="_T_vCnR3iEeKZAa5I_0HbuQ" target="_T_vCnh3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_T_vpoh3iEeKZAa5I_0HbuQ" source="_T_vCnR3iEeKZAa5I_0HbuQ" target="_T_vpoB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_T_vpox3iEeKZAa5I_0HbuQ" source="_T_vCnh3iEeKZAa5I_0HbuQ" target="_T_vpoB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_T_vppB3iEeKZAa5I_0HbuQ" source="_T_vCnR3iEeKZAa5I_0HbuQ" target="_T_vCoB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_T_vppR3iEeKZAa5I_0HbuQ" source="_T_vCnh3iEeKZAa5I_0HbuQ" target="_T_vCoB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node/connected"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_T_vpph3iEeKZAa5I_0HbuQ" name="Rhs">
+        <nodes xmi:id="_T_vppx3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_vprR3iEeKZAa5I_0HbuQ _T_vprh3iEeKZAa5I_0HbuQ _T_vpsB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_T_vpqB3iEeKZAa5I_0HbuQ" name="m" incoming="_T_vprR3iEeKZAa5I_0HbuQ" outgoing="_T_vprx3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node"/>
+          <attributes xmi:id="_T_vpqR3iEeKZAa5I_0HbuQ" value="false">
+            <type href="tpb.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_T_vpqh3iEeKZAa5I_0HbuQ" incoming="_T_vprh3iEeKZAa5I_0HbuQ _T_vprx3iEeKZAa5I_0HbuQ" outgoing="_T_wQsB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node"/>
+          <attributes xmi:id="_T_vpqx3iEeKZAa5I_0HbuQ" value="true">
+            <type href="tpb.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_T_vprB3iEeKZAa5I_0HbuQ" name="w" incoming="_T_vpsB3iEeKZAa5I_0HbuQ _T_wQsB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Message"/>
+        </nodes>
+        <edges xmi:id="_T_vprR3iEeKZAa5I_0HbuQ" source="_T_vppx3iEeKZAa5I_0HbuQ" target="_T_vpqB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_T_vprh3iEeKZAa5I_0HbuQ" source="_T_vppx3iEeKZAa5I_0HbuQ" target="_T_vpqh3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_T_vprx3iEeKZAa5I_0HbuQ" source="_T_vpqB3iEeKZAa5I_0HbuQ" target="_T_vpqh3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node/connected"/>
+        </edges>
+        <edges xmi:id="_T_vpsB3iEeKZAa5I_0HbuQ" source="_T_vppx3iEeKZAa5I_0HbuQ" target="_T_vprB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_T_wQsB3iEeKZAa5I_0HbuQ" source="_T_vpqh3iEeKZAa5I_0HbuQ" target="_T_vprB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node/knows"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_T_wQsR3iEeKZAa5I_0HbuQ" origin="_T_vCnR3iEeKZAa5I_0HbuQ" image="_T_vppx3iEeKZAa5I_0HbuQ"/>
+      <mappings xmi:id="_T_wQsh3iEeKZAa5I_0HbuQ" origin="_T_vCnh3iEeKZAa5I_0HbuQ" image="_T_vpqB3iEeKZAa5I_0HbuQ"/>
+      <mappings xmi:id="_T_wQsx3iEeKZAa5I_0HbuQ" origin="_T_vCoB3iEeKZAa5I_0HbuQ" image="_T_vpqh3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_wQtB3iEeKZAa5I_0HbuQ" origin="_T_t0dR3iEeKZAa5I_0HbuQ" image="_T_vppx3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_wQtR3iEeKZAa5I_0HbuQ" origin="_T_t0dh3iEeKZAa5I_0HbuQ" image="_T_vpqB3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_wQth3iEeKZAa5I_0HbuQ" origin="_T_smVB3iEeKZAa5I_0HbuQ" image="_T_vCnR3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_wQtx3iEeKZAa5I_0HbuQ" origin="_T_smVR3iEeKZAa5I_0HbuQ" image="_T_vCnh3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_wQuB3iEeKZAa5I_0HbuQ" origin="_T_t0cB3iEeKZAa5I_0HbuQ" image="_T_vpoB3iEeKZAa5I_0HbuQ"/>
+    </multiRules>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_T_wQuR3iEeKZAa5I_0HbuQ" name="send">
+    <parameters xmi:id="_T_wQuh3iEeKZAa5I_0HbuQ" name="m"/>
+    <parameters xmi:id="_T_wQux3iEeKZAa5I_0HbuQ" name="u"/>
+    <lhs xmi:id="_T_wQvB3iEeKZAa5I_0HbuQ" name="Lhs">
+      <nodes xmi:id="_T_wQvR3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_wQwR3iEeKZAa5I_0HbuQ _T_wQwh3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_T_wQvh3iEeKZAa5I_0HbuQ" name="u" incoming="_T_wQwR3iEeKZAa5I_0HbuQ _T_wQwx3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Message"/>
+      </nodes>
+      <nodes xmi:id="_T_wQvx3iEeKZAa5I_0HbuQ" name="m" incoming="_T_wQwh3iEeKZAa5I_0HbuQ" outgoing="_T_wQwx3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_T_wQwB3iEeKZAa5I_0HbuQ" value="true">
+          <type href="tpb.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_T_wQwR3iEeKZAa5I_0HbuQ" source="_T_wQvR3iEeKZAa5I_0HbuQ" target="_T_wQvh3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/messages"/>
+      </edges>
+      <edges xmi:id="_T_wQwh3iEeKZAa5I_0HbuQ" source="_T_wQvR3iEeKZAa5I_0HbuQ" target="_T_wQvx3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_T_wQwx3iEeKZAa5I_0HbuQ" source="_T_wQvx3iEeKZAa5I_0HbuQ" target="_T_wQvh3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node/knows"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_T_wQxB3iEeKZAa5I_0HbuQ" name="Rhs">
+      <nodes xmi:id="_T_wQxR3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_w3wh3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_T_w3wB3iEeKZAa5I_0HbuQ" name="m" incoming="_T_w3wh3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_T_w3wR3iEeKZAa5I_0HbuQ" value="false">
+          <type href="tpb.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_T_w3wh3iEeKZAa5I_0HbuQ" source="_T_wQxR3iEeKZAa5I_0HbuQ" target="_T_w3wB3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/nodes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_T_w3wx3iEeKZAa5I_0HbuQ" origin="_T_wQvR3iEeKZAa5I_0HbuQ" image="_T_wQxR3iEeKZAa5I_0HbuQ"/>
+    <mappings xmi:id="_T_w3xB3iEeKZAa5I_0HbuQ" origin="_T_wQvx3iEeKZAa5I_0HbuQ" image="_T_w3wB3iEeKZAa5I_0HbuQ"/>
+    <multiRules xmi:id="_T_w3xR3iEeKZAa5I_0HbuQ" name="messages">
+      <lhs xmi:id="_T_w3xh3iEeKZAa5I_0HbuQ" name="Lhs">
+        <nodes xmi:id="_T_w3xx3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_w3zB3iEeKZAa5I_0HbuQ _T_w3zR3iEeKZAa5I_0HbuQ _T_w3zx3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_T_w3yB3iEeKZAa5I_0HbuQ" name="u" incoming="_T_w3zB3iEeKZAa5I_0HbuQ _T_w3zh3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_T_w3yR3iEeKZAa5I_0HbuQ" name="v" incoming="_T_w3zx3iEeKZAa5I_0HbuQ _T_w30B3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Message"/>
+        </nodes>
+        <nodes xmi:id="_T_w3yh3iEeKZAa5I_0HbuQ" name="m" incoming="_T_w3zR3iEeKZAa5I_0HbuQ" outgoing="_T_w3zh3iEeKZAa5I_0HbuQ _T_w30B3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node"/>
+          <attributes xmi:id="_T_w3yx3iEeKZAa5I_0HbuQ" value="true">
+            <type href="tpb.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <edges xmi:id="_T_w3zB3iEeKZAa5I_0HbuQ" source="_T_w3xx3iEeKZAa5I_0HbuQ" target="_T_w3yB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_T_w3zR3iEeKZAa5I_0HbuQ" source="_T_w3xx3iEeKZAa5I_0HbuQ" target="_T_w3yh3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/nodes"/>
+        </edges>
+        <edges xmi:id="_T_w3zh3iEeKZAa5I_0HbuQ" source="_T_w3yh3iEeKZAa5I_0HbuQ" target="_T_w3yB3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node/knows"/>
+        </edges>
+        <edges xmi:id="_T_w3zx3iEeKZAa5I_0HbuQ" source="_T_w3xx3iEeKZAa5I_0HbuQ" target="_T_w3yR3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/messages"/>
+        </edges>
+        <edges xmi:id="_T_w30B3iEeKZAa5I_0HbuQ" source="_T_w3yh3iEeKZAa5I_0HbuQ" target="_T_w3yR3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node/knows"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_T_w30R3iEeKZAa5I_0HbuQ" name="Rhs">
+        <nodes xmi:id="_T_w30h3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_xe0x3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network"/>
+        </nodes>
+        <nodes xmi:id="_T_xe0R3iEeKZAa5I_0HbuQ" name="m" incoming="_T_xe0x3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Node"/>
+          <attributes xmi:id="_T_xe0h3iEeKZAa5I_0HbuQ" value="false">
+            <type href="tpb.ecore#//Node/active"/>
+          </attributes>
+        </nodes>
+        <edges xmi:id="_T_xe0x3iEeKZAa5I_0HbuQ" source="_T_w30h3iEeKZAa5I_0HbuQ" target="_T_xe0R3iEeKZAa5I_0HbuQ">
+          <type href="tpb.ecore#//Network/nodes"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_T_xe1h3iEeKZAa5I_0HbuQ" origin="_T_w3xx3iEeKZAa5I_0HbuQ" image="_T_w30h3iEeKZAa5I_0HbuQ"/>
+      <mappings xmi:id="_T_xe1x3iEeKZAa5I_0HbuQ" origin="_T_w3yh3iEeKZAa5I_0HbuQ" image="_T_xe0R3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_xe2R3iEeKZAa5I_0HbuQ" origin="_T_wQxR3iEeKZAa5I_0HbuQ" image="_T_w30h3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_xe2h3iEeKZAa5I_0HbuQ" origin="_T_w3wB3iEeKZAa5I_0HbuQ" image="_T_xe0R3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_xe2x3iEeKZAa5I_0HbuQ" origin="_T_wQvR3iEeKZAa5I_0HbuQ" image="_T_w3xx3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_xe3B3iEeKZAa5I_0HbuQ" origin="_T_wQvh3iEeKZAa5I_0HbuQ" image="_T_w3yB3iEeKZAa5I_0HbuQ"/>
+      <multiMappings xmi:id="_T_xe3R3iEeKZAa5I_0HbuQ" origin="_T_wQvx3iEeKZAa5I_0HbuQ" image="_T_w3yh3iEeKZAa5I_0HbuQ"/>
+    </multiRules>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_T_xe3h3iEeKZAa5I_0HbuQ" name="delete1">
+    <parameters xmi:id="_T_xe3x3iEeKZAa5I_0HbuQ" name="m"/>
+    <parameters xmi:id="_T_xe4B3iEeKZAa5I_0HbuQ" name="u"/>
+    <lhs xmi:id="_T_xe4R3iEeKZAa5I_0HbuQ" name="Lhs">
+      <nodes xmi:id="_T_xe4h3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_yF4x3iEeKZAa5I_0HbuQ _T_yF5B3iEeKZAa5I_0HbuQ _T_yF5R3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_T_xe4x3iEeKZAa5I_0HbuQ" name="u" incoming="_T_yF4x3iEeKZAa5I_0HbuQ _T_yF5h3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Message"/>
+      </nodes>
+      <nodes xmi:id="_T_yF4B3iEeKZAa5I_0HbuQ" name="v" incoming="_T_yF5B3iEeKZAa5I_0HbuQ _T_yF5x3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Message"/>
+      </nodes>
+      <nodes xmi:id="_T_yF4R3iEeKZAa5I_0HbuQ" name="m" incoming="_T_yF5R3iEeKZAa5I_0HbuQ" outgoing="_T_yF5h3iEeKZAa5I_0HbuQ _T_yF5x3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_T_yF4h3iEeKZAa5I_0HbuQ" value="true">
+          <type href="tpb.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_T_yF4x3iEeKZAa5I_0HbuQ" source="_T_xe4h3iEeKZAa5I_0HbuQ" target="_T_xe4x3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/messages"/>
+      </edges>
+      <edges xmi:id="_T_yF5B3iEeKZAa5I_0HbuQ" source="_T_xe4h3iEeKZAa5I_0HbuQ" target="_T_yF4B3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/messages"/>
+      </edges>
+      <edges xmi:id="_T_yF5R3iEeKZAa5I_0HbuQ" source="_T_xe4h3iEeKZAa5I_0HbuQ" target="_T_yF4R3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_T_yF5h3iEeKZAa5I_0HbuQ" source="_T_yF4R3iEeKZAa5I_0HbuQ" target="_T_xe4x3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node/knows"/>
+      </edges>
+      <edges xmi:id="_T_yF5x3iEeKZAa5I_0HbuQ" source="_T_yF4R3iEeKZAa5I_0HbuQ" target="_T_yF4B3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node/knows"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_T_yF6B3iEeKZAa5I_0HbuQ" name="Rhs">
+      <nodes xmi:id="_T_yF6R3iEeKZAa5I_0HbuQ" name="root" outgoing="_T_yF7R3iEeKZAa5I_0HbuQ _T_yF7h3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_T_yF6h3iEeKZAa5I_0HbuQ" name="v" incoming="_T_yF7R3iEeKZAa5I_0HbuQ _T_yF7x3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Message"/>
+      </nodes>
+      <nodes xmi:id="_T_yF6x3iEeKZAa5I_0HbuQ" name="m" incoming="_T_yF7h3iEeKZAa5I_0HbuQ" outgoing="_T_yF7x3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_T_yF7B3iEeKZAa5I_0HbuQ" value="true">
+          <type href="tpb.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_T_yF7R3iEeKZAa5I_0HbuQ" source="_T_yF6R3iEeKZAa5I_0HbuQ" target="_T_yF6h3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/messages"/>
+      </edges>
+      <edges xmi:id="_T_yF7h3iEeKZAa5I_0HbuQ" source="_T_yF6R3iEeKZAa5I_0HbuQ" target="_T_yF6x3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_T_yF7x3iEeKZAa5I_0HbuQ" source="_T_yF6x3iEeKZAa5I_0HbuQ" target="_T_yF6h3iEeKZAa5I_0HbuQ">
+        <type href="tpb.ecore#//Node/knows"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_T_yF8B3iEeKZAa5I_0HbuQ" origin="_T_xe4h3iEeKZAa5I_0HbuQ" image="_T_yF6R3iEeKZAa5I_0HbuQ"/>
+    <mappings xmi:id="_T_yF8R3iEeKZAa5I_0HbuQ" origin="_T_yF4B3iEeKZAa5I_0HbuQ" image="_T_yF6h3iEeKZAa5I_0HbuQ"/>
+    <mappings xmi:id="_T_yF8h3iEeKZAa5I_0HbuQ" origin="_T_yF4R3iEeKZAa5I_0HbuQ" image="_T_yF6x3iEeKZAa5I_0HbuQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_eHtqsCJtEeKNxcFLL9xZ5g" name="delete2">
+    <parameters xmi:id="_eHtqsSJtEeKNxcFLL9xZ5g" name="m"/>
+    <parameters xmi:id="_eHtqsiJtEeKNxcFLL9xZ5g" name="u"/>
+    <lhs xmi:id="_eHtqsyJtEeKNxcFLL9xZ5g" name="Lhs">
+      <nodes xmi:id="_gJZOkCJtEeKNxcFLL9xZ5g" name="root" outgoing="_gJiYgCJtEeKNxcFLL9xZ5g _gJmp8CJtEeKNxcFLL9xZ5g _gJswkCJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_eHtqtSJtEeKNxcFLL9xZ5g" name="u" incoming="_eHtqvCJtEeKNxcFLL9xZ5g _gJiYgCJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Message"/>
+      </nodes>
+      <nodes xmi:id="_eHtqtiJtEeKNxcFLL9xZ5g" name="v" incoming="_eHtqvSJtEeKNxcFLL9xZ5g _gJmp8CJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Message"/>
+      </nodes>
+      <nodes xmi:id="_eHtqtyJtEeKNxcFLL9xZ5g" name="m" incoming="_gJswkCJtEeKNxcFLL9xZ5g" outgoing="_eHtqvCJtEeKNxcFLL9xZ5g _eHtqvSJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_eHtquCJtEeKNxcFLL9xZ5g" value="true">
+          <type href="tpb.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_eHtqvCJtEeKNxcFLL9xZ5g" source="_eHtqtyJtEeKNxcFLL9xZ5g" target="_eHtqtSJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Node/knows"/>
+      </edges>
+      <edges xmi:id="_eHtqvSJtEeKNxcFLL9xZ5g" source="_eHtqtyJtEeKNxcFLL9xZ5g" target="_eHtqtiJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Node/knows"/>
+      </edges>
+      <edges xmi:id="_gJiYgCJtEeKNxcFLL9xZ5g" source="_gJZOkCJtEeKNxcFLL9xZ5g" target="_eHtqtSJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Network/messages"/>
+      </edges>
+      <edges xmi:id="_gJmp8CJtEeKNxcFLL9xZ5g" source="_gJZOkCJtEeKNxcFLL9xZ5g" target="_eHtqtiJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Network/messages"/>
+      </edges>
+      <edges xmi:id="_gJswkCJtEeKNxcFLL9xZ5g" source="_gJZOkCJtEeKNxcFLL9xZ5g" target="_eHtqtyJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Network/nodes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_eHtqviJtEeKNxcFLL9xZ5g" name="Rhs">
+      <nodes xmi:id="_eHtqwSJtEeKNxcFLL9xZ5g" name="m" incoming="_gJvz4CJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_eHtqwiJtEeKNxcFLL9xZ5g" value="true">
+          <type href="tpb.ecore#//Node/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_gJacsCJtEeKNxcFLL9xZ5g" name="root" outgoing="_gJvz4CJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Network"/>
+      </nodes>
+      <edges xmi:id="_gJvz4CJtEeKNxcFLL9xZ5g" source="_gJacsCJtEeKNxcFLL9xZ5g" target="_eHtqwSJtEeKNxcFLL9xZ5g">
+        <type href="tpb.ecore#//Network/nodes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_eHtqyCJtEeKNxcFLL9xZ5g" origin="_eHtqtyJtEeKNxcFLL9xZ5g" image="_eHtqwSJtEeKNxcFLL9xZ5g"/>
+    <mappings xmi:id="_gJbDwCJtEeKNxcFLL9xZ5g" origin="_gJZOkCJtEeKNxcFLL9xZ5g" image="_gJacsCJtEeKNxcFLL9xZ5g"/>
+  </units>
+</henshin:Module>

@@ -26,7 +26,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 public abstract class AbstractStateSpaceExporter implements StateSpaceExporter {
 
 	// The state space index:
-	protected StateSpaceIndex index;
+	protected StateSpaceIndex stateSpaceIndex;
 
 	/*
 	 * (non-Javadoc)
@@ -34,7 +34,7 @@ public abstract class AbstractStateSpaceExporter implements StateSpaceExporter {
 	 */
 	@Override
 	public void setStateSpaceIndex(StateSpaceIndex index) {
-		this.index = index;
+		this.stateSpaceIndex = index;
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public abstract class AbstractStateSpaceExporter implements StateSpaceExporter {
 	 * @throws IOException On errors.
 	 */
 	protected static OutputStreamWriter createWriter(File file) throws IOException {
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(file), 65536);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(file), 32768);
 		OutputStreamWriter writer = new OutputStreamWriter(out);
 		return writer;
 	}

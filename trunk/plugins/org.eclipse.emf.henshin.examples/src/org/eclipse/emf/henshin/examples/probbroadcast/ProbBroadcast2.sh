@@ -67,5 +67,5 @@ done
 
 sync
 cd $WORKSPACE/org.eclipse.emf.henshin.examples
-java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.probbroadcast.ProbBroadcast
+java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.probbroadcast.ProbBroadcast2
 cd - > /dev/null

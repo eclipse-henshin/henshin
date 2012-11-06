@@ -59,6 +59,9 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	// Color to be used for open states.
 	public final static Color COLOR_OPEN = RGB2Color(State.COLOR_OPEN);
 
+	// Color to be used for pruned states.
+	public final static Color COLOR_PRUNED = RGB2Color(State.COLOR_PRUNED);
+
 	// Connection anchor:
 	private ConnectionAnchor anchor;
 	
@@ -233,18 +236,31 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	private void refreshColor() {
 		State state = getState();
-		if (state.isInitial()) {
-			getFigure().setBackgroundColor(COLOR_INITIAL);	
+		StateFigure figure = (StateFigure) getFigure();
+		
+		if (state.isGoal()) {
+			figure.setLineWidth(2);
+		} else {
+			figure.setLineWidth(1);
 		}
-		else if (state.isTerminal()) {
-			getFigure().setBackgroundColor(COLOR_TERMINAL);	
+		
+		// TODO: move this to State class
+		if (state.isInitial()) {
+			figure.setBackgroundColor(COLOR_INITIAL);	
 		}
 		else if (state.isOpen()) {
-			getFigure().setBackgroundColor(COLOR_OPEN);
+			figure.setBackgroundColor(COLOR_OPEN);
+		}
+		else if (state.getOutgoing().isEmpty()) {
+			if (state.isPruned()) {
+				figure.setBackgroundColor(COLOR_PRUNED);				
+			} else {
+				figure.setBackgroundColor(COLOR_TERMINAL);
+			}
 		}
 		else {
 			getFigure().setBackgroundColor(COLOR_DEFAULT);			
-		}		
+		}
 	}
 	
 	/*

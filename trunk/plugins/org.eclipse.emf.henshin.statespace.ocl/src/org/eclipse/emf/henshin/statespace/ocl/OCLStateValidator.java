@@ -86,7 +86,11 @@ public class OCLStateValidator implements StateValidator {
 			if (constraint==null || classifier!=root.eClass()) {
 				classifier = root.eClass();
 			  	helper.setContext(classifier);
-				constraint = helper.createInvariant(property);
+			  	try {
+			  		constraint = helper.createInvariant(property);
+			  	} catch (Exception e) {
+			  		throw new RuntimeException("Problem in property \"" + property + "\": " + e.getMessage(), e);
+			  	}
 			}
 			
 			// Check the constraint:

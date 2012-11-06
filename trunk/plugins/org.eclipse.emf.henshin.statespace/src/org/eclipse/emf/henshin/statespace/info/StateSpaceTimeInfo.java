@@ -1,10 +1,11 @@
 package org.eclipse.emf.henshin.statespace.info;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class StateSpaceTimeInfo {
 	
 	private final Map<EClass,List<String>> clockDeclarations;
 	
-	private final int clockCount;
+	private final Set<String> usedClocks;
 	
 	private final Map<EClass,Integer> maxObjectIds;
 	
@@ -41,7 +42,7 @@ public class StateSpaceTimeInfo {
 	private final Map<Rule,Vector<String>> ruleResets;
 	
 	private final Map<Rule,Vector<String>> ruleInvariants;
-	
+		
 	/**
 	 * Default constructor.
 	 * @param index State space index.
@@ -80,11 +81,11 @@ public class StateSpaceTimeInfo {
 		}
 		int[] objectKeys;
 		for (State state : stateSpace.getStates()) {
-			//Model model = index.getModel(state);
 			objectKeys = state.getObjectKeys();
 			for (int i=0; i<objectKeys.length; i++) {
 				EClass type = ObjectKeyHelper.getObjectType(objectKeys[i], identityTypes);
-				if (identityTypes.contains(type)) {
+				List<String> dec = clockDeclarations.get(type);
+				if (dec!=null && !dec.isEmpty()) {
 					int id = ObjectKeyHelper.getObjectID(objectKeys[i]);
 					if (maxObjectIds.get(type) < id) {
 						maxObjectIds.put(type, id);
@@ -93,12 +94,21 @@ public class StateSpaceTimeInfo {
 			}
 		}
 		
-		// Now we can compute the required number of clocks:
-		int clocks = 0;
-		for (EClass type : identityTypes) {
-			clocks += maxObjectIds.get(type) * clockDeclarations.get(type).size();
+		// Now we can cache the used clocks:
+		usedClocks = new LinkedHashSet<String>();
+		for (State state : stateSpace.getStates()) {
+			objectKeys = state.getObjectKeys();
+			for (int i=0; i<objectKeys.length; i++) {
+				EClass type = ObjectKeyHelper.getObjectType(objectKeys[i], identityTypes);
+				int objectId = ObjectKeyHelper.getObjectID(objectKeys[i]);
+				List<String> dec = clockDeclarations.get(type);
+				if (dec!=null) {
+					for (String clockName : dec) {
+						usedClocks.add(getClock(type, objectId, clockName));
+					}
+				}
+			}
 		}
-		clockCount = clocks;
 		
 		// Extract the rule guards and resets:
 		ruleGuards = getRuleProperties(stateSpace, "guard");
@@ -158,17 +168,16 @@ public class StateSpaceTimeInfo {
 	 * @return The total number of required clocks.
 	 */
 	public int getClockCount() {
-		return clockCount;
+		return usedClocks.size();
 	}
-	
-	public String getClock(Model model, EObject object, String clockName) {
-		int objectId = ObjectKeyHelper.getObjectID(model.getObjectKeysMap().get(object));
+
+	public String getClock(EClass type, int objectId, String clockName) {
 		if (objectId<1) {
-			throw new IllegalArgumentException("Class '" + object.eClass().getName() + "' must be an identity type to have clocks.");
+			throw new IllegalArgumentException("Class '" + type.getName() + "' must be an identity type to have clocks.");
 		}
 		int clock = 0;
-		for (EClass type : identityTypes) {
-			if (type==object.eClass()) {
+		for (EClass t : identityTypes) {
+			if (t==type) {
 				clock += objectId;
 				break;
 			} else {
@@ -177,28 +186,14 @@ public class StateSpaceTimeInfo {
 		}
 		return "c" + clock;
 	}
+
+	public String getClock(Model model, EObject object, String clockName) {
+		int objectId = ObjectKeyHelper.getObjectID(model.getObjectKeysMap().get(object));
+		return getClock(object.eClass(), objectId, clockName);
+	}
 	
 	public Iterable<String> getClocks() {
-		return new Iterable<String>() {
-			@Override
-			public Iterator<String> iterator() {
-				return new Iterator<String>() {
-					int clock = 1;
-					@Override
-					public boolean hasNext() {
-						return clock<=clockCount;
-					}
-					@Override
-					public String next() {
-						return "c" + clock++;
-					}
-					@Override
-					public void remove() {
-						throw new UnsupportedOperationException();
-					}
-				};
-			}
-		};
+		return usedClocks;
 	}
 	
 	public String getGuard(TransitionInfo transitionInfo) {
@@ -211,17 +206,20 @@ public class StateSpaceTimeInfo {
 	
 	public String getInvariant(StateInfo stateInfo) {
 		int index = 0;
-		String r = "";
-		Set<String> atoms = new HashSet<String>();
+		List<String> atoms = new Vector<String>();
 		for (Transition t : stateInfo.getState().getOutgoing()) {
 			String s = getNestedMatchProperty(ruleInvariants.get(t.getRule()), stateInfo.getOutgoing().get(index++));
 			if (s!=null && !atoms.contains(s)) {
-				if (r.length()>0) r = r + " & ";
-				r = r + s;
 				atoms.add(s);
 			}
 		}
-		if (r.length()==0) return null;
+		if (atoms.isEmpty()) return null;
+		Collections.sort(atoms);
+		String r = "";
+		for (int i=0; i<atoms.size(); i++) {
+			if (i>0) r = r + "&";
+			r = r + atoms.get(i);
+		}
 		return r;
 	}
 	

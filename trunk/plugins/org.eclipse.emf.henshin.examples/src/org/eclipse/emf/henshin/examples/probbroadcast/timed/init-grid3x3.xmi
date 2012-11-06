@@ -4,7 +4,7 @@
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:timedprob="http://www.eclipse.org/emf/henshin/2012/timedprobbroadcast"
-    xsi:schemaLocation="http://www.eclipse.org/emf/henshin/2012/timedprobbroadcast timedprobbroadcast.ecore">
+    xsi:schemaLocation="http://www.eclipse.org/emf/henshin/2012/timedprobbroadcast tpb.ecore">
   <nodes connected="//@nodes.1 //@nodes.3"
       knows="//@messages.0"/>
   <nodes id="1"

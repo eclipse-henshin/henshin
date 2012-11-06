@@ -42,7 +42,6 @@ public class PRISMUtil {
 	
 	public static final String STATE_VARIABLE = "s";
 	
-	
 	/**
 	 * Data class for ranges (and constants).
 	 */
@@ -219,16 +218,21 @@ public class PRISMUtil {
 		if (end<0) end = template.length();
 		else end = end + 3;
 
-		// Get the type: <<<TYPE ... >>>
+		// Get the type: <<<TYPE: ... >>>
 		String toReplace = template.substring(start, end);
 		String type = "";
-		for (int i=3; i<toReplace.length(); i++) {
+		int propStart = 3;
+		for (int i=propStart; i<toReplace.length(); i++) {
 			if (Character.isWhitespace(toReplace.charAt(i))) {
 				break;
 			}
 			type = type + toReplace.charAt(i);
 		}
-
+		if (type.endsWith(":")) {
+			type = type.substring(0, type.length()-1);
+			propStart++;
+		}
+		
 		// Find the state validator:
 		StateValidator validator = null;
 		for (Validator v : StateSpacePlugin.INSTANCE.getValidators().values()) {
@@ -242,7 +246,7 @@ public class PRISMUtil {
 		}
 
 		// Find all states which satisfy the property:
-		String theProperty = toReplace.substring(3+type.length(), toReplace.length()-3).trim();
+		String theProperty = toReplace.substring(propStart+type.length(), toReplace.length()-3).trim();
 		validator.setStateSpaceIndex(index);
 		validator.setProperty(theProperty);
 		String result = "";

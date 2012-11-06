@@ -12,8 +12,10 @@ package org.eclipse.emf.henshin.statespace.external.prism;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -61,7 +63,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 		// Get the time info:
 		StateSpaceTimeInfo timeInfo;
 		try {
-			timeInfo = new StateSpaceTimeInfo(index);
+			timeInfo = new StateSpaceTimeInfo(stateSpaceIndex);
 		} catch (StateSpaceException e) {
 			throw new IOException(e);
 		}
@@ -70,7 +72,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 		// For timed cases, we need an explorer to find matches:
 		StateExplorer explorer = null;
 		if (timed) {
-			explorer = new StateExplorer(index);
+			explorer = new StateExplorer(stateSpaceIndex);
 		}
 		
 		// Shall we produce an explicit model?
@@ -111,6 +113,8 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 			writer.write("\nmodule " + uri.trimFileExtension().lastSegment() + "\n\n");
 		}
 
+		int[] invariants = null;
+		
 		if (explicit) {
 			// State and transition count:
 			writer.write(stateCount + " " + stateSpace.getTransitionCount() + "\n");
@@ -118,31 +122,44 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 			// State variables:
 			writer.write(PRISMUtil.getVariableDeclarations(stateSpace.getStateCount(), false));
 			if (timed) {
+							
+				// Variable for clock invariants:
+				Map<String,Integer> invariantIndizes = new LinkedHashMap<String,Integer>();
+				invariants = new int[stateSpace.getStateCount()];
+				steps = 0;
+				int lastIndex = 0;
+				for (State s : stateSpace.getStates()) {
+					StateInfo info = new StateInfo(s, stateSpaceIndex.getModel(s), explorer);
+					String inv = timeInfo.getInvariant(info);
+					if (inv==null) {
+						inv = "true";
+					}
+					Integer invIndex = invariantIndizes.get(inv);
+					if (invIndex==null) {
+						invIndex = lastIndex++;
+						invariantIndizes.put(inv, invIndex);
+					}
+					invariants[s.getIndex()] = invIndex;
+					if (steps++ % CLEAN_UP_INTERVAL==0) {
+						stateSpaceIndex.clearCache();
+					}
+				}
+				writer.write("\ti : [0.." + Math.max(lastIndex-1,0) + "];\n");
 				
-				// Clock variables:
+				// The clock variables:
 				for (String clock : timeInfo.getClocks()) {
 					writer.write("\t" + clock + " : clock;\n");
 				}
 				
-				// Clock invariants:
-				boolean first = true;
-				steps = 0;
-				for (State s : stateSpace.getStates()) {
-					StateInfo info = new StateInfo(s, index.getModel(s), explorer);
-					String inv = timeInfo.getInvariant(info);
-					if (inv!=null) {
-						if (first) {
-							writer.write("\n\tinvariant\n");
-						}
-						writer.write(first ? "\t\t  (s=" : "\t\t& (s=");
-						writer.write(s.getIndex() + " => " + inv + ")\n");
+				// The clock invariants:
+				if (!invariantIndizes.isEmpty()) {
+					writer.write("\n\tinvariant\n");
+					boolean first = true;
+					for (Entry<String,Integer> entry : invariantIndizes.entrySet()) {
+						writer.write(first ? "\t\t  (i=" : "\t\t& (i=");
+						writer.write(entry.getValue() + " => " + entry.getKey() + ")\n");
 						first = false;
 					}
-					if (steps++ % CLEAN_UP_INTERVAL==0) {
-						index.clearCache();
-					}
-				}
-				if (!first) {
 					writer.write("\tendinvariant\n\n");
 				}
 				
@@ -187,7 +204,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 				if (!explicit) {
 					String guard = null;
 					if (timed) {
-						TransitionInfo info = new TransitionInfo(l.getTransition(), index.getModel(l.getTransition().getSource()), explorer);
+						TransitionInfo info = new TransitionInfo(l.getTransition(), stateSpaceIndex.getModel(l.getTransition().getSource()), explorer);
 						guard = timeInfo.getGuard(info);
 					}
 					writer.write("\t[" + label + "] " + PRISMUtil.getPRISMState(s.getIndex(), guard, false) + " -> ");
@@ -204,12 +221,16 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 						writer.write(s.getIndex() + " " + transitionIndex + " " + t.getTarget().getIndex() + " " + prob);
 					} else {
 						String prob = (rules.size()>1) ? probKey+":" : "";
-						String resets = null;
+						String extra = null;
 						if (timed) {
-							TransitionInfo info = new TransitionInfo(t, index.getModel(t.getSource()), explorer);
-							resets = timeInfo.getResets(info);
+							TransitionInfo info = new TransitionInfo(t, stateSpaceIndex.getModel(t.getSource()), explorer);
+							extra = "(i'=" + invariants[t.getTarget().getIndex()] + ")";
+							String resets = timeInfo.getResets(info);
+							if (resets!=null) {
+								extra = extra + "&" + resets;
+							}
 						}
-						writer.write(prob + PRISMUtil.getPRISMState(t.getTarget().getIndex(), resets, true));
+						writer.write(prob + PRISMUtil.getPRISMState(t.getTarget().getIndex(), extra, true));
 					}
 					first = false;
 				}
@@ -224,7 +245,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 
 			// Clean up regularly:
 			if (steps++ % CLEAN_UP_INTERVAL==0) {
-				index.clearCache();
+				stateSpaceIndex.clearCache();
 			}
 
 			// Update the monitor:
@@ -253,7 +274,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 		// State labels:		
 		if (parameters!=null) {
 			try {
-				String expanded = PRISMUtil.expandLabels(parameters, index, new SubProgressMonitor(monitor, stateCount));
+				String expanded = PRISMUtil.expandLabels(parameters, stateSpaceIndex, new SubProgressMonitor(monitor, stateCount));
 				if (explicit) {
 					OutputStreamWriter labelsWriter = createWriter(new File(uri.toFileString().replaceAll(".tra", ".lab")));
 					labelsWriter.write(expanded);

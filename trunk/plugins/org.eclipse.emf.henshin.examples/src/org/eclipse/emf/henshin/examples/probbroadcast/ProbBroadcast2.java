@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.examples.probbroadcast.revised;
+package org.eclipse.emf.henshin.examples.probbroadcast;
 
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -25,12 +25,12 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
  * 
  * @author Christian Krause
  */
-public class ProbBroadcast {
+public class ProbBroadcast2 {
 	
 	/**
 	 * Relative path to the example files.
 	 */
-	public static final String PATH = "src/org/eclipse/emf/henshin/examples/probbroadcast/revised";
+	public static final String PATH = "src/org/eclipse/emf/henshin/examples/probbroadcast";
 	
 	// State space manager used to generate state spaces:
 	public final StateSpaceManager manager;
@@ -41,9 +41,9 @@ public class ProbBroadcast {
 	/**
 	 * Default constructor.
 	 */
-	public ProbBroadcast(String path) {
+	public ProbBroadcast2(String path) {
 		resourceSet = new StateSpaceResourceSet(path);
-		Module module = resourceSet.getModule("probbroadcast.henshin", false); // load the transformation module
+		Module module = resourceSet.getModule("probbroadcast2.henshin", false); // load the transformation module
 		StateSpace stateSpace = new StateSpaceImpl(module);
 		manager = new ParallelStateSpaceManager(stateSpace); // create a state space manager
 	}
@@ -93,7 +93,7 @@ public class ProbBroadcast {
 	 * @param path Relative path to the model files.
 	 */
 	public static void run(String path) {
-		ProbBroadcast main = new ProbBroadcast(path);
+		ProbBroadcast2 main = new ProbBroadcast2(path);
 		try {
 			OCLStateValidator.register(); // we need the OCL validator
 			main.generate("init-grid3x3.xmi");

@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
@@ -27,7 +25,6 @@ import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
@@ -41,16 +38,29 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
  */
 public class BasicStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
-	// State exploration helpers:
+	/** 
+	 * State exploration helpers.
+	 */
 	protected final Stack<StateExplorer> explorers = new Stack<StateExplorer>();
 	
-	// A lock used when accessing the state space:
+	/** 
+	 * A lock used when accessing the state space.
+	 */
 	protected final Object stateSpaceLock = new Object();
 
-	// State distance monitor:
+	/** 
+	 * State distance monitor.
+	 */
 	protected StateDistanceMonitor stateDistanceMonitor;
 	
-	// Flag indicating whether duplicate transitions with the same label should be ignored:
+	/**
+	 * Maximum state distance.
+	 */
+	protected int maxStateDistance;
+	
+	/** 
+	 * Flag indicating whether duplicate transitions with the same label should be ignored.
+	 */
 	protected boolean ignoreDuplicateTransitions;
 	
 	/**
@@ -69,89 +79,13 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 		getStateSpace().updateEqualityHelper();
 		String ign = getStateSpace().getProperties().get(StateSpace.PROPERTY_IGNORE_DUPLICATE_TRANSITIONS);
 		ignoreDuplicateTransitions = (ign!=null) && (ign.trim().equalsIgnoreCase("true") || ign.trim().equalsIgnoreCase("yes"));
-		if (getStateSpace().getMaxStateDistance()>=0) {
+		maxStateDistance = getStateSpace().getMaxStateDistance();
+		if (maxStateDistance>=0) {
 			stateDistanceMonitor = new StateDistanceMonitor(getStateSpace());
 		} else {
 			stateDistanceMonitor = null;
 		}
 		clearCache();
-	}
-		
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#reload(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void reload(IProgressMonitor monitor) throws StateSpaceException {
-		
-		monitor.beginTask("Reload models", getStateSpace().getStates().size() + 3);
-		
-		// We need some info:
-		StateSpace stateSpace = getStateSpace();
-		EqualityHelper equalityHelper = stateSpace.getEqualityHelper();
-
-		// Refresh helpers:
-		refreshHelpers();	
-		monitor.worked(1);
-		
-		try {
-			
-			// Reset state index:
-			resetIndex();
-			monitor.worked(1);
-			
-			// Reset all derived state models:
-			for (State state : stateSpace.getStates()) {
-				if (state.isInitial()) {
-					state.setDerivedFrom(-1);
-				} else {
-					state.setModel(null);					
-				}
-			}
-			monitor.worked(1);
-
-			// Whether we need to compute keys:
-			boolean useObjectKeys = !equalityHelper.getIdentityTypes().isEmpty();
-
-			// Compute state models, update the hash code and the index:
-			for (State state : stateSpace.getStates()) {
-				
-				// Get the model first:
-				Model model = getModel(state);
-				
-				// Update the object keys if necessary:
-				if (useObjectKeys) {
-					model.updateObjectKeys(equalityHelper.getIdentityTypes());
-					state.setObjectKeys(model.getObjectKeys());
-				}
-				
-				// Update object count:
-				state.setObjectCount(model.getEGraph().size());
-				
-				// Now compute the total hash code (also updates the object hash codes):
-				int hash = equalityHelper.hashCode(model);
-				
-				// Check if it exists already: 
-				if (getState(model,hash)!=null) {
-					throw new StateSpaceException("Duplicate state: " + state.getIndex());
-				}
-				
-				// Update the hash code. Model is set by subclasses in getModel().
-				state.setHashCode(hash);
-				
-				// Set the open-flag.
-				state.setOpen(isOpen(state));
-				
-				// Add the state to the index:
-				addToIndex(state);
-				monitor.worked(1);
-				
-			}
-		} catch (Throwable t) {
-			throw new StateSpaceException(t);
-		} finally {
-			monitor.done();
-		}
-		
 	}
 	
 	/*
@@ -205,7 +139,7 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 	protected final State createOpenState(Model model, int hash, State derivedFrom, int[] location) {
 		
 		// Create a new state instance:
-		State state = StateSpaceFactory.eINSTANCE.createState();
+		State state = new StateImpl();
 		state.setIndex(getStateSpace().getStates().size());
 		state.setHashCode(hash);
 		state.setDerivedFrom(derivedFrom!=null ? derivedFrom.getIndex() : -1);
@@ -294,10 +228,6 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 				removed.add(state);
 			}
 			
-			// Update list of open and initial states:
-			getStateSpace().getOpenStates().removeAll(removed);
-			getStateSpace().getInitialStates().removeAll(removed);
-			
 			// Remove the states from the index and adjust the transition count:
 			Set<Transition> transitions = new HashSet<Transition>();
 			for (State current : removed) {
@@ -324,6 +254,63 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#mergeTerminalState()
+	 */
+	@Override
+	public List<State> mergeTerminalStates() throws StateSpaceException {
+
+		List<State> removed = new ArrayList<State>();
+
+		synchronized (stateSpaceLock) {
+			List<State> states = getStateSpace().getStates();
+			
+			// Sort of terminal state:
+			State goal = null, pruned = null, deadlock = null;
+			
+			for (int i=0; i<states.size(); i++) {
+				State state = states.get(i);
+				
+				// We need to update the index:
+				state.setIndex(i);
+				
+				// Must be closed and terminal:
+				if (!state.isOpen() && state.getOutgoing().isEmpty()) { 
+					if (state.isGoal()) {
+						goal = mergeTerminalStates(goal, state);
+					}
+					else if (state.isPruned()) {
+						pruned = mergeTerminalStates(pruned, state);
+					}
+					else {
+						deadlock = mergeTerminalStates(deadlock, state);	
+					}
+					if (i>=states.size() || states.get(i)!=state) {
+						i--;
+					}
+				}
+			}
+		}
+		return removed;
+		
+	}
+	
+	/*
+	 * Private helper for merging terminal states.
+	 */
+	private State mergeTerminalStates(State base, State state) {
+		if (base==null) {
+			return state;
+		}
+		if (!state.isInitial()) {
+			base.getIncoming().addAll(state.getIncoming());
+			getStateSpace().removeState(state);
+			removeFromIndex(state);
+		}
+		return base;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#resetStateSpace(boolean)
 	 */
 	public final void resetStateSpace(boolean removeInitial) throws StateSpaceException {
@@ -331,36 +318,65 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 		// Remove derived states and all transitions:
 		synchronized (stateSpaceLock) {
 			
-			// Recompute the supported types:
-			getStateSpace().updateEqualityHelper();
-			
 			// Remove all states except the initial ones:
-			getStateSpace().getStates().clear();
-			getStateSpace().getOpenStates().clear();
+			StateSpace stateSpace = getStateSpace();
+			stateSpace.getStates().clear();
+			stateSpace.getOpenStates().clear();
 			if (removeInitial) {
-				getStateSpace().getInitialStates().clear();
+				stateSpace.getInitialStates().clear();
 			} else {
-				getStateSpace().getStates().addAll(getStateSpace().getInitialStates());
+				stateSpace.getStates().addAll(stateSpace.getInitialStates());
 			}
-			// Remove all transitions:
-			for (State state : getStateSpace().getStates()) {
+
+			// Refresh the helpers:
+			refreshHelpers();
+
+			// Reset the state index:
+			resetIndex();
+			
+			EqualityHelper equalityHelper = stateSpace.getEqualityHelper();
+			int stateIndex = 0;
+			for (State state : stateSpace.getStates()) {
+				
+				// Reset the state index:
+				state.setIndex(stateIndex++);
+				
+				// Remove transitions:
 				state.getOutgoing().clear();
 				state.getIncoming().clear();
-			}
-			getStateSpace().setTransitionCount(0);
-
-			// Reset the object keys for the initial states:
-			for (State state : getStateSpace().getStates()) {
+				
+				// Default flags:
+				state.setOpen(true);
+				state.setPruned(false);
+				state.setGoal(false);
+				
+				// Derived from nowhere:
+				state.setDerivedFrom(-1);
+				
+				// Reset the object keys:
 				Model model = state.getModel();
 				model.setObjectKeys(StorageImpl.EMPTY_DATA);
-				if (!getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty()) {
-					model.updateObjectKeys(getStateSpace().getEqualityHelper().getIdentityTypes());
+				if (!equalityHelper.getIdentityTypes().isEmpty()) {
+					model.updateObjectKeys(equalityHelper.getIdentityTypes());
 				}
 				state.setObjectKeys(model.getObjectKeys());
-			}
+				
+				// Update object count:
+				state.setObjectCount(model.getEGraph().size());
 
-			// Reload the manager:
-			reload(new NullProgressMonitor());
+				// Update the hash code (also updates the object hash codes):
+				int hash = equalityHelper.hashCode(model);
+				if (getState(model,hash)!=null) {
+					throw new StateSpaceException("Duplicate state: " + state.getIndex());
+				}
+				state.setHashCode(hash);
+
+				// Add the state to the index:
+				addToIndex(state);
+			}
+			
+			// Reset the transition count:
+			stateSpace.setTransitionCount(0);
 
 		}
 		
@@ -438,8 +454,30 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 	protected List<State> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
 		// Check if we exceeded the maximum state distance:
-		int maxDistance = getStateSpace().getMaxStateDistance();
-		if (maxDistance>=0 && getStateDistance(state)>=maxDistance) {
+		if (maxStateDistance>=0 && getStateDistance(state)>=maxStateDistance) {
+			
+			// START OF STATE SPACE LOCK
+			synchronized (stateSpaceLock) {
+				state.setOpen(false);
+				state.setPruned(true);
+			}
+			// END OF STATE SPACE LOCK
+			return Collections.emptyList();
+		}
+
+		// We need an explorer now:
+		StateExplorer explorer = acquireExplorer();
+
+		// Check if it is a goal state:
+		if (explorer.isGoalState(state)) {
+			
+			// START OF STATE SPACE LOCK
+			synchronized (stateSpaceLock) {
+				state.setOpen(false);
+				state.setPruned(true);
+				state.setGoal(true);
+			}
+			// END OF STATE SPACE LOCK
 			return Collections.emptyList();
 		}
 		
@@ -448,7 +486,6 @@ public class BasicStateSpaceManager extends StateSpaceIndexImpl implements State
 		
 		// Explore the state without changing the state space.
 		// This can take some time. So no lock here.
-		StateExplorer explorer = acquireExplorer();
 		List<Transition> transitions = explorer.doExplore(state);
 		
 		if (transitions.isEmpty()) {
