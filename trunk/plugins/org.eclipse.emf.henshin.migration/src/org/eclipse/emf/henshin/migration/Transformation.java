@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -39,6 +40,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
@@ -46,7 +48,6 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
@@ -57,8 +58,13 @@ import org.eclipse.emf.henshin.testframework.Tools;
 /**
  * @author Felix Rieger
  */
+@Deprecated
 public class Transformation {
 
+	private static final Map<String, String> CLASSMAPPING = new HashMap<String, String>();
+	static {
+		CLASSMAPPING.put("TransformationSystem", "Module");		
+	}
 	private Map<EObject, EObject> newElements = new HashMap<EObject, EObject>();		// map from old element to new element
 	private ArrayList<EObject> createdElements = new ArrayList<EObject>();	// list of newly created elements
 	
@@ -136,8 +142,13 @@ public class Transformation {
 	private ArrayList<AmalgamationUnitHelper> amuList = new ArrayList<AmalgamationUnitHelper>();	// List of amalgamation units
 	private ArrayList<CountedUnitHelper> cuList = new ArrayList<CountedUnitHelper>();	// List of counted units
 	
-	private TransformationSystem newRoot;	// root object of the new Transformation System
+	private Module newRoot;	// root object of the new Transformation System
 			
+	private String getNewClassString(String oldClassString) {
+		if (CLASSMAPPING.get(oldClassString) != null) 
+			return CLASSMAPPING.get(oldClassString);
+		return oldClassString;
+	}
 	
 	public void migrate(java.net.URI henshinFileUri, boolean optimizeNcs, boolean retainRules, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {
 		migrate(henshinFileUri, null, optimizeNcs, retainRules, pm);
@@ -230,7 +241,7 @@ public class Transformation {
 		pm.worked(10);
 		
 		System.out.println("\n ****** \n");
-		newRoot = (TransformationSystem) newElements.get(graphRoot);
+		newRoot = (Module) newElements.get(graphRoot);
 		
 		Resource newHenshinResource = new HenshinResourceFactory().createResource(null);
 		newHenshinResource.getContents().add(newRoot);
@@ -238,6 +249,8 @@ public class Transformation {
 		
 		updateReferences();						// update references between objects
 		pm.worked(20);
+		updateTransformationSystemReferences(graphRoot, newRoot);	// update references from transformation system
+		
 		buildAmalgamationUnits();				// create copies of the rules used in AmalgamationUnits and modify existing kernel rules to contain the multi rules
 		pm.worked(10);
 		wrapNACs();								// wrap NACs
@@ -246,7 +259,7 @@ public class Transformation {
 			cleanUpNotFormulas();				// clean up not formulas (consolidate multiple negations)
 			pm.worked(2);
 		}
-		moveRulesToRulesReference();			// move Rules (i.e. former amalgamation units) from "TransformationUnits" to "Rules" reference
+//		moveRulesToRulesReference();			// move Rules (i.e. former amalgamation units) from "TransformationUnits" to "Rules" reference
 		pm.worked(2);
 		
 		for (TransformationUnit tu : newRoot.getTransformationUnits()) {
@@ -400,6 +413,26 @@ public class Transformation {
 	 */
 	private void updateAmalgamationUnitReferences(TransformationUnit tu) {
 		updateAmalgamationUnitReferences(new ArrayList<TransformationUnit>(), tu);
+	}
+	
+	private void updateTransformationSystemReferences(EObject oldRoot, Module newRoot) {
+		//newElements
+		EReference unitReference = getEReferenceByName("transformationUnits", oldRoot.eClass());
+		EReference ruleReference = getEReferenceByName("rules", oldRoot.eClass());
+
+		
+		for (EObject eo : (EList<EObject>) oldRoot.eGet(unitReference)) {
+			newRoot.getUnits().add((Unit) newElements.get(eo));
+		}
+		for (EObject eo : (EList<EObject>) oldRoot.eGet(ruleReference)) {
+			newRoot.getUnits().add((Rule) newElements.get(eo));
+		}
+		
+		/*
+		 * if (((EObject) e.getKey()).eGet(oldErefType) instanceof EList) {
+		EList<EObject> oldReferencedObjects = (EList<EObject>) ((EObject) e.getKey()).eGet(oldErefType);
+
+		 */
 	}
 	
 	/**
@@ -833,13 +866,12 @@ public class Transformation {
 				continue;
 			}
 			
-			
-
-			
-			EClass ec = (EClass) henshinNew.getEClassifier(type); 
-			
+						
+			//EClass ec = (EClass) henshinNew.getEClassifier(type); 
+			EClass ec = (EClass) henshinNew.getEClassifier(getNewClassString(type));
 			EObject newObject = HenshinFactoryImpl.eINSTANCE.create(ec);
-
+			System.out.println("created: " + ec);
+			
 			for (Iterator<EAttribute> iter = eo.eClass().getEAllAttributes().iterator(); iter.hasNext(); ) {
 				EAttribute attr = (EAttribute) iter.next();
 				Object val = eo.eGet(attr);
@@ -892,16 +924,16 @@ public class Transformation {
 		
 			
 		String type = eo.eClass().getName();
-		System.out.println(type);
+		System.out.println(type + " -> " + getNewClassString(type));
 	
 		if ("AmalgamationUnit".equals(type)) {
 			return;
 		}
 		
-	
-		EClass ec = (EClass) henshinNew.getEClassifier(type); 
+		EClass ec = (EClass) henshinNew.getEClassifier(getNewClassString(type));
 		
 		EObject newObject = HenshinFactoryImpl.eINSTANCE.create(ec);
+		System.out.println("Created: " + ec);
 
 		for (Iterator<EAttribute> iter = eo.eClass().getEAllAttributes().iterator(); iter.hasNext(); ) {
 			EAttribute attr = (EAttribute) iter.next();
