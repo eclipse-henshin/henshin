@@ -9,6 +9,11 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -86,13 +91,29 @@ public class AttributeCreateCommand extends EditElementCommand {
 
 		// Initialize the attribute type and value (guessing):
 		if (node.getType() != null) {
-			for (EAttribute type : node.getType().getEAllAttributes()) {
+			
+			// Sort the attributes by name:
+			List<EAttribute> types = new ArrayList<EAttribute>();
+			types.addAll(node.getType().getEAllAttributes());
+			Collections.sort(types, new Comparator<EAttribute>() {
+				@Override
+				public int compare(EAttribute a1, EAttribute a2) {
+					if (a1.getName()!=null && a2.getName()!=null) {
+						return a1.getName().compareTo(a2.getName());
+					}
+					return 0;
+				}
+			});
+			
+			// Find the first one that is not used yet:
+			for (EAttribute type : types) {
 				if (node.getAttribute(type) == null) {
 					attribute.setType(type);
 					attribute.setValue(String.valueOf(type.getDefaultValue()));
 					break;
 				}
 			}
+			
 		}
 
 		// Add the attribute to the node:
