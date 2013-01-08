@@ -22,22 +22,33 @@ import org.eclipse.emf.henshin.trace.Trace;
  */
 public class TraceUtil {
 
+	/**
+	 * Get the target of a trace.
+	 * @param source The source of the trace.
+	 * @param objects A collection of objects containing traces.
+	 * @return The target if found, <code>null</code> otherwise.
+	 */
 	@SuppressWarnings("unchecked")
 	public static <S extends EObject,T extends EObject> T getTarget(S source, Collection<T> objects) {
 		for (T object : objects) {
 			if (object instanceof Trace) {
 				Trace trace = (Trace) object;
 				if (trace.getSource().contains(source)) {
-					if (trace.getTarget().size()!=1) {
-						throw new RuntimeException("Unexpected number of targets: " + trace.getTarget().size() + " (expected 1)");
+					if (!trace.getTarget().isEmpty()) {
+						return (T) trace.getTarget().get(0);
 					}
-					return (T) trace.getTarget().get(0);
 				}
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * Get the targets of a set of traces.
+	 * @param sources The sources of the traces.
+	 * @param objects A collection of objects containing traces.
+	 * @return The found target objects.
+	 */
 	public static <S extends EObject,T extends EObject> List<T> getTargets(List<S> sources, Collection<T> objects) {
 		List<T> targets = new ArrayList<T>();
 		for (S source : sources) {
