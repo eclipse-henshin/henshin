@@ -37,7 +37,11 @@ org.eclipse.emf.henshin.statespace.external.tikz
 org.eclipse.emf.henshin.statespace.ocl
 org.eclipse.emf.henshin.testframework
 org.eclipse.emf.henshin.trace
-org.eclipse.emf.henshin.trace.impl"
+org.eclipse.emf.henshin.trace.impl
+org.eclipse.emf.henshin.trace.util
+org.eclipse.emf.henshin.wrap
+org.eclipse.emf.henshin.wrap.impl
+org.eclipse.emf.henshin.wrap.util"
 
 # DEPENDENCIES:
 DEPS="org.eclipse.core.runtime
