@@ -67,14 +67,22 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	}
 
 	/**
+	 * Convenience constructor. Adds a collection of objects and all reachable objects to this graph.
+	 * @param collection A collection of objects.
+	 */
+	public EGraphImpl(Collection<? extends EObject> collection) {
+		this();
+		for (EObject object : collection) {
+			addGraph(object);
+		}
+	}
+
+	/**
 	 * Convenience constructor. Adds the contents of a resource and all reachable objects to this graph.
-	 * @param resource Some resource.
+	 * @param resource A resource.
 	 */
 	public EGraphImpl(Resource resource) {
-		this();
-		for (EObject root : resource.getContents()) {
-			addGraph(root);
-		}
+		this(resource.getContents());
 	}
 	
 	/**
