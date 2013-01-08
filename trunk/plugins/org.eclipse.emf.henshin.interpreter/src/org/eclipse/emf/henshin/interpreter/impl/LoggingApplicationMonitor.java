@@ -138,7 +138,12 @@ public class LoggingApplicationMonitor extends BasicApplicationMonitor {
 		logStream.println("=== (" + step + ") " + stepKind +  
 				((application instanceof RuleApplication) ? " RULE " : " UNIT ") + 
 				"'" + application.getUnit().getName() + "' [" + String.valueOf(success).toUpperCase() + "] ===\n");
-		logStream.println("Graph size: " + graph.size() + " nodes, " + InterpreterUtil.countEdges(graph) + " edges\n");
+		String edges = "?";
+		try {
+			edges = String.valueOf(InterpreterUtil.countEdges(graph));
+		} catch (Throwable t) {} 
+		
+		logStream.println("Graph size: " + graph.size() + " nodes, " + edges + " edges\n");
 		if (application instanceof RuleApplication) {
 			RuleApplication ruleApp = (RuleApplication) application;
 			if (success) {
