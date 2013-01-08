@@ -502,7 +502,7 @@ public class EngineImpl implements Engine {
 				}
 				if (node.getType().getEPackage()==null || 
 					node.getType().getEPackage().getEFactoryInstance()==null) {
-					throw new RuntimeException("Missing factory for type '" + node.getType().getName() + 
+					throw new RuntimeException("Missing factory for '" + node + 
 							"'. Register the corresponding package, e.g. using PackageName.eINSTANCE.getName().");
 				}
 			}
@@ -692,8 +692,19 @@ public class EngineImpl implements Engine {
 			}
 		}
 		
-		// Generic attribute value creation:
-		return EcoreUtil.createFromString(type, value.toString());		
+		// Just a string?
+		if (type==ECORE.getEString()) {
+			if (value!=null) value = value.toString();
+			return value;
+		}
+		
+		// A plain Java object?
+		if (type==ECORE.getEJavaObject() || type==ECORE.getEJavaClass()) {
+			return value;
+		}
+		
+		// Generic attribute value creation as fall-back.
+		return EcoreUtil.createFromString(type, value.toString());
 		
 	}
 	
