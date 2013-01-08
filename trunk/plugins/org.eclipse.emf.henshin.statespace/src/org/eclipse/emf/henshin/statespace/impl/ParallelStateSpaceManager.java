@@ -9,8 +9,9 @@
  */
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -86,8 +87,8 @@ public class ParallelStateSpaceManager extends BasicStateSpaceManager {
 		
 		// We use a new list for the states:
 		this.generateLocations = generateLocations;
-		this.states = new Vector<State>(states);
-		this.result = new Vector<State>();
+		this.states = Collections.synchronizedList(new LinkedList<State>(states));
+		this.result = Collections.synchronizedList(new LinkedList<State>());
 		
 		try {
 			// Launch the workers:

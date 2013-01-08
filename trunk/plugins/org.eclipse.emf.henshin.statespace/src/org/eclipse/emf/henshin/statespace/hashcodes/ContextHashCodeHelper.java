@@ -32,7 +32,7 @@ class ContextHashCodeHelper {
 	// Target model:
 	private final Model model;
 	
-	// Eauality helper:
+	// Equality helper:
 	private final EqualityHelper equalityHelper;
 	
 	// The objects in the model:
@@ -210,7 +210,10 @@ class ContextHashCodeHelper {
 		}
 		
 		// Update the hash codes with the new values:
-		System.arraycopy(newHashCodes, 0, hashCodes, 0, hashCodes.length);
+		int[] dummy = newHashCodes;
+		newHashCodes = hashCodes;
+		hashCodes = dummy;
+		//System.arraycopy(newHashCodes, 0, hashCodes, 0, hashCodes.length);
 		
 	}
 	
