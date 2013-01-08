@@ -115,7 +115,7 @@ public class DiningPhilsBenchmark {
 		System.out.println("\n******* WARMUP PHASE ********\n");
 		run(PATH, 8);
 		System.out.println("\n******* BENCHMARK ********\n");
-		run(PATH, 13);
+		run(PATH, 12);
 	}
 
 }

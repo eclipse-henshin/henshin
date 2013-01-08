@@ -182,9 +182,9 @@ public class WrapFactoryImpl extends EFactoryImpl implements WrapFactory {
 		// Activate synchronization if necessary:
 		if (activateSync) {
 			for (WObject wObject : map.values()) {
-				wObject.setSynchronize(activateSync);
+				wObject.setSynchronize(true);
 				for (WMember wMember : wObject.getWMembers()) {
-					wMember.setSynchronize(activateSync);
+					wMember.setSynchronize(true);
 				}
 			}
 		}

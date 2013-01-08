@@ -14,7 +14,7 @@ fi
 # WORKSPACE:
 WORKSPACE=`cd ../../../../../../../../..; pwd`
 
-MAX_MEMORY="512m"
+MAX_MEMORY="2048m"
 
 echo "ECLIPSE_HOME : $ECLIPSE_HOME"
 echo "WORKSPACE    : $WORKSPACE"
@@ -62,3 +62,4 @@ sync
 cd $WORKSPACE/org.eclipse.emf.henshin.examples
 java -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.probbroadcast.timed.TimedProbBroadcast2
 cd - > /dev/null
+

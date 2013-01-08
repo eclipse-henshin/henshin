@@ -6,7 +6,8 @@
     xmlns:timedprob="http://www.eclipse.org/emf/henshin/2012/timedprobbroadcast"
     xsi:schemaLocation="http://www.eclipse.org/emf/henshin/2012/timedprobbroadcast tpb.ecore">
   <nodes connected="//@nodes.1 //@nodes.3"
-      knows="//@messages.0"/>
+      knows="//@messages.0"
+      state="SENDING"/>
   <nodes id="1"
       connected="//@nodes.0 //@nodes.2 //@nodes.4"/>
   <nodes id="2"

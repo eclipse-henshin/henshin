@@ -8,6 +8,8 @@ import org.eclipse.emf.henshin.examples.ecore2rdb.Ecore2Rdb;
 import org.eclipse.emf.henshin.examples.gossipinggirls.GossipingGirls;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
+import org.eclipse.emf.henshin.examples.wrap.copy.CopyExample;
+import org.eclipse.emf.henshin.examples.wrap.mme.PetriNetMME;
 import org.junit.Test;
 
 /**
@@ -93,6 +95,24 @@ public class ExampleTests {
 	public void testGossingGirls() {
 		System.out.println();
 		GossipingGirls.run(EXAMPLES_PATH + GossipingGirls.PATH, 6);
+	}
+
+	/**
+	 * Wrap example: copy.
+	 */
+	@Test
+	public void testWrapCopy() {
+		System.out.println();
+		CopyExample.run(EXAMPLES_PATH + CopyExample.PATH);
+	}
+
+	/**
+	 * Wrap example: copy.
+	 */
+	@Test
+	public void testWrapPetriMME() {
+		System.out.println();
+		PetriNetMME.run(EXAMPLES_PATH + PetriNetMME.PATH, false);
 	}
 
 }

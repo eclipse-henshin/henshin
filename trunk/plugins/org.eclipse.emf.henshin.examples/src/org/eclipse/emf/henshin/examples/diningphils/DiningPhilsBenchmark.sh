@@ -64,5 +64,5 @@ done
 
 sync
 cd $WORKSPACE/org.eclipse.emf.henshin.examples
-java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark
+java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP $@ org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark
 cd - > /dev/null

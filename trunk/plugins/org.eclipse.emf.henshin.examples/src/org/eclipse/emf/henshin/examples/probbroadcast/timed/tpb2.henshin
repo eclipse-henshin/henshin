@@ -1,433 +1,299 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_zkjwMD7cEeKKWqhVoj_eZQ" name="">
   <imports href="tpb.ecore#/"/>
-  <units xsi:type="henshin:Rule" name="prep">
-    <parameters name="m"/>
-    <parameters name="u"/>
-    <lhs name="Lhs">
-      <nodes name="root" outgoing="//@units.0/@lhs/@edges.0 //@units.0/@lhs/@edges.1">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.2">
+  <units xsi:type="henshin:Rule" xmi:id="_zkjwMT7cEeKKWqhVoj_eZQ" name="receive">
+    <parameters xmi:id="_zkjwMj7cEeKKWqhVoj_eZQ" name="m">
+      <type xsi:type="ecore:EClass" href="tpb.ecore#//Node"/>
+    </parameters>
+    <lhs xmi:id="_zkkXQD7cEeKKWqhVoj_eZQ" name="Lhs">
+      <nodes xmi:id="_zkkXQT7cEeKKWqhVoj_eZQ" name="m" incoming="_zkllYT7cEeKKWqhVoj_eZQ">
         <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/ready"/>
+        <attributes xmi:id="_zkkXQj7cEeKKWqhVoj_eZQ" value="IDLE">
+          <type href="tpb.ecore#//Node/state"/>
         </attributes>
       </nodes>
-      <nodes name="u" incoming="//@units.0/@lhs/@edges.1 //@units.0/@lhs/@edges.2">
-        <type href="tpb.ecore#//Message"/>
+      <nodes xmi:id="_zkllYD7cEeKKWqhVoj_eZQ" name="s" outgoing="_zkllYT7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.2">
-        <type href="tpb.ecore#//Network/messages"/>
-      </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
-        <type href="tpb.ecore#//Node/knows"/>
+      <edges xmi:id="_zkllYT7cEeKKWqhVoj_eZQ" source="_zkllYD7cEeKKWqhVoj_eZQ" target="_zkkXQT7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node/sentTo"/>
       </edges>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="root" outgoing="//@units.0/@rhs/@edges.0">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_zkllYj7cEeKKWqhVoj_eZQ" name="Rhs">
+      <nodes xmi:id="_zkllYz7cEeKKWqhVoj_eZQ" name="m">
         <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/ready"/>
+        <attributes xmi:id="_zkllZD7cEeKKWqhVoj_eZQ" value="SENDING">
+          <type href="tpb.ecore#//Node/state"/>
         </attributes>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
+      <nodes xmi:id="_zkllZT7cEeKKWqhVoj_eZQ" name="s">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
-    <multiRules name="messages">
-      <lhs name="Lhs">
-        <nodes name="root" outgoing="//@units.0/@multiRules.0/@lhs/@edges.0 //@units.0/@multiRules.0/@lhs/@edges.1 //@units.0/@multiRules.0/@lhs/@edges.3">
-          <type href="tpb.ecore#//Network"/>
-        </nodes>
-        <nodes name="m" incoming="//@units.0/@multiRules.0/@lhs/@edges.0" outgoing="//@units.0/@multiRules.0/@lhs/@edges.2 //@units.0/@multiRules.0/@lhs/@edges.4">
+    <mappings xmi:id="_zkllZj7cEeKKWqhVoj_eZQ" origin="_zkkXQT7cEeKKWqhVoj_eZQ" image="_zkllYz7cEeKKWqhVoj_eZQ"/>
+    <mappings xmi:id="_zkllZz7cEeKKWqhVoj_eZQ" origin="_zkllYD7cEeKKWqhVoj_eZQ" image="_zkllZT7cEeKKWqhVoj_eZQ"/>
+    <multiRules xmi:id="_zkllaD7cEeKKWqhVoj_eZQ">
+      <lhs xmi:id="_zkllaT7cEeKKWqhVoj_eZQ" name="Lhs">
+        <nodes xmi:id="_zkllaj7cEeKKWqhVoj_eZQ" name="m" incoming="_zkmMcj7cEeKKWqhVoj_eZQ _zkmMcz7cEeKKWqhVoj_eZQ">
           <type href="tpb.ecore#//Node"/>
-          <attributes value="true">
-            <type href="tpb.ecore#//Node/active"/>
+          <attributes xmi:id="_zkllaz7cEeKKWqhVoj_eZQ" value="IDLE">
+            <type href="tpb.ecore#//Node/state"/>
           </attributes>
         </nodes>
-        <nodes name="u" incoming="//@units.0/@multiRules.0/@lhs/@edges.1 //@units.0/@multiRules.0/@lhs/@edges.2">
-          <type href="tpb.ecore#//Message"/>
+        <nodes xmi:id="_zkmMcD7cEeKKWqhVoj_eZQ" name="s" outgoing="_zkmMcj7cEeKKWqhVoj_eZQ">
+          <type href="tpb.ecore#//Node"/>
         </nodes>
-        <nodes name="v" incoming="//@units.0/@multiRules.0/@lhs/@edges.3 //@units.0/@multiRules.0/@lhs/@edges.4">
-          <type href="tpb.ecore#//Message"/>
+        <nodes xmi:id="_zkmMcT7cEeKKWqhVoj_eZQ" name="t" outgoing="_zkmMcz7cEeKKWqhVoj_eZQ">
+          <type href="tpb.ecore#//Node"/>
         </nodes>
-        <edges source="//@units.0/@multiRules.0/@lhs/@nodes.0" target="//@units.0/@multiRules.0/@lhs/@nodes.1">
-          <type href="tpb.ecore#//Network/nodes"/>
+        <edges xmi:id="_zkmMcj7cEeKKWqhVoj_eZQ" source="_zkmMcD7cEeKKWqhVoj_eZQ" target="_zkllaj7cEeKKWqhVoj_eZQ">
+          <type href="tpb.ecore#//Node/sentTo"/>
         </edges>
-        <edges source="//@units.0/@multiRules.0/@lhs/@nodes.0" target="//@units.0/@multiRules.0/@lhs/@nodes.2">
-          <type href="tpb.ecore#//Network/messages"/>
-        </edges>
-        <edges source="//@units.0/@multiRules.0/@lhs/@nodes.1" target="//@units.0/@multiRules.0/@lhs/@nodes.2">
-          <type href="tpb.ecore#//Node/knows"/>
-        </edges>
-        <edges source="//@units.0/@multiRules.0/@lhs/@nodes.0" target="//@units.0/@multiRules.0/@lhs/@nodes.3">
-          <type href="tpb.ecore#//Network/messages"/>
-        </edges>
-        <edges source="//@units.0/@multiRules.0/@lhs/@nodes.1" target="//@units.0/@multiRules.0/@lhs/@nodes.3">
-          <type href="tpb.ecore#//Node/knows"/>
+        <edges xmi:id="_zkmMcz7cEeKKWqhVoj_eZQ" source="_zkmMcT7cEeKKWqhVoj_eZQ" target="_zkllaj7cEeKKWqhVoj_eZQ">
+          <type href="tpb.ecore#//Node/sentTo"/>
         </edges>
       </lhs>
-      <rhs name="Rhs">
-        <nodes name="root" outgoing="//@units.0/@multiRules.0/@rhs/@edges.0">
-          <type href="tpb.ecore#//Network"/>
-        </nodes>
-        <nodes name="m" incoming="//@units.0/@multiRules.0/@rhs/@edges.0">
+      <rhs xmi:id="_zkmMdD7cEeKKWqhVoj_eZQ" name="Rhs">
+        <nodes xmi:id="_zkmMdT7cEeKKWqhVoj_eZQ" name="m">
           <type href="tpb.ecore#//Node"/>
-          <attributes value="false">
-            <type href="tpb.ecore#//Node/active"/>
+          <attributes xmi:id="_zkmMdj7cEeKKWqhVoj_eZQ" value="SENDING">
+            <type href="tpb.ecore#//Node/state"/>
           </attributes>
         </nodes>
-        <edges source="//@units.0/@multiRules.0/@rhs/@nodes.0" target="//@units.0/@multiRules.0/@rhs/@nodes.1">
-          <type href="tpb.ecore#//Network/nodes"/>
-        </edges>
+        <nodes xmi:id="_zkmMdz7cEeKKWqhVoj_eZQ" name="s">
+          <type href="tpb.ecore#//Node"/>
+        </nodes>
+        <nodes xmi:id="_zkmMeD7cEeKKWqhVoj_eZQ" name="t">
+          <type href="tpb.ecore#//Node"/>
+        </nodes>
       </rhs>
-      <mappings origin="//@units.0/@multiRules.0/@lhs/@nodes.0" image="//@units.0/@multiRules.0/@rhs/@nodes.0"/>
-      <mappings origin="//@units.0/@multiRules.0/@lhs/@nodes.1" image="//@units.0/@multiRules.0/@rhs/@nodes.1"/>
-      <multiMappings origin="//@units.0/@rhs/@nodes.0" image="//@units.0/@multiRules.0/@rhs/@nodes.0"/>
-      <multiMappings origin="//@units.0/@rhs/@nodes.1" image="//@units.0/@multiRules.0/@rhs/@nodes.1"/>
-      <multiMappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@multiRules.0/@lhs/@nodes.0"/>
-      <multiMappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@multiRules.0/@lhs/@nodes.1"/>
-      <multiMappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@multiRules.0/@lhs/@nodes.2"/>
+      <mappings xmi:id="_zkmMeT7cEeKKWqhVoj_eZQ" origin="_zkllaj7cEeKKWqhVoj_eZQ" image="_zkmMdT7cEeKKWqhVoj_eZQ"/>
+      <mappings xmi:id="_zkmMej7cEeKKWqhVoj_eZQ" origin="_zkmMcD7cEeKKWqhVoj_eZQ" image="_zkmMdz7cEeKKWqhVoj_eZQ"/>
+      <mappings xmi:id="_zkmMez7cEeKKWqhVoj_eZQ" origin="_zkmMcT7cEeKKWqhVoj_eZQ" image="_zkmMeD7cEeKKWqhVoj_eZQ"/>
+      <multiMappings xmi:id="_zkmMfD7cEeKKWqhVoj_eZQ" origin="_zkllYz7cEeKKWqhVoj_eZQ" image="_zkmMdT7cEeKKWqhVoj_eZQ"/>
+      <multiMappings xmi:id="_zkmMfT7cEeKKWqhVoj_eZQ" origin="_zkkXQT7cEeKKWqhVoj_eZQ" image="_zkllaj7cEeKKWqhVoj_eZQ"/>
+      <multiMappings xmi:id="_zkmMfj7cEeKKWqhVoj_eZQ" origin="_zkllYD7cEeKKWqhVoj_eZQ" image="_zkmMcD7cEeKKWqhVoj_eZQ"/>
+      <multiMappings xmi:id="_zkmMfz7cEeKKWqhVoj_eZQ" origin="_zkllZT7cEeKKWqhVoj_eZQ" image="_zkmMdz7cEeKKWqhVoj_eZQ"/>
     </multiRules>
   </units>
-  <units xsi:type="henshin:Rule" name="send">
-    <parameters name="m">
+  <units xsi:type="henshin:Rule" xmi:id="_zkmMgD7cEeKKWqhVoj_eZQ" name="send">
+    <parameters xmi:id="_zkmMgT7cEeKKWqhVoj_eZQ" name="m">
       <type xsi:type="ecore:EClass" href="tpb.ecore#//Node"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="root" outgoing="//@units.1/@lhs/@edges.0">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.1/@lhs/@edges.0">
-        <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/ready"/>
-        </attributes>
-      </nodes>
-      <edges source="//@units.1/@lhs/@nodes.0" target="//@units.1/@lhs/@nodes.1">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
-    </lhs>
-    <rhs name="Rhs">
-      <nodes name="root" outgoing="//@units.1/@rhs/@edges.0">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.1/@rhs/@edges.0">
-        <type href="tpb.ecore#//Node"/>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/ready"/>
-        </attributes>
-      </nodes>
-      <edges source="//@units.1/@rhs/@nodes.0" target="//@units.1/@rhs/@nodes.1">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
-    </rhs>
-    <mappings origin="//@units.1/@lhs/@nodes.0" image="//@units.1/@rhs/@nodes.0"/>
-    <mappings origin="//@units.1/@lhs/@nodes.1" image="//@units.1/@rhs/@nodes.1"/>
-  </units>
-  <units xsi:type="henshin:Rule" name="del1">
-    <parameters name="m"/>
-    <parameters name="u"/>
-    <lhs name="Lhs">
-      <nodes name="root" outgoing="//@units.2/@lhs/@edges.0 //@units.2/@lhs/@edges.1 //@units.2/@lhs/@edges.2">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="u" incoming="//@units.2/@lhs/@edges.0 //@units.2/@lhs/@edges.3">
-        <type href="tpb.ecore#//Message"/>
-      </nodes>
-      <nodes name="v" incoming="//@units.2/@lhs/@edges.1 //@units.2/@lhs/@edges.4">
-        <type href="tpb.ecore#//Message"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.2/@lhs/@edges.2" outgoing="//@units.2/@lhs/@edges.3 //@units.2/@lhs/@edges.4">
-        <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/ready"/>
-        </attributes>
-      </nodes>
-      <edges source="//@units.2/@lhs/@nodes.0" target="//@units.2/@lhs/@nodes.1">
-        <type href="tpb.ecore#//Network/messages"/>
-      </edges>
-      <edges source="//@units.2/@lhs/@nodes.0" target="//@units.2/@lhs/@nodes.2">
-        <type href="tpb.ecore#//Network/messages"/>
-      </edges>
-      <edges source="//@units.2/@lhs/@nodes.0" target="//@units.2/@lhs/@nodes.3">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
-      <edges source="//@units.2/@lhs/@nodes.3" target="//@units.2/@lhs/@nodes.1">
-        <type href="tpb.ecore#//Node/knows"/>
-      </edges>
-      <edges source="//@units.2/@lhs/@nodes.3" target="//@units.2/@lhs/@nodes.2">
-        <type href="tpb.ecore#//Node/knows"/>
-      </edges>
-    </lhs>
-    <rhs name="Rhs">
-      <nodes name="root" outgoing="//@units.2/@rhs/@edges.0 //@units.2/@rhs/@edges.1">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="v" incoming="//@units.2/@rhs/@edges.0 //@units.2/@rhs/@edges.2">
-        <type href="tpb.ecore#//Message"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.2/@rhs/@edges.1" outgoing="//@units.2/@rhs/@edges.2">
-        <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/ready"/>
-        </attributes>
-      </nodes>
-      <edges source="//@units.2/@rhs/@nodes.0" target="//@units.2/@rhs/@nodes.1">
-        <type href="tpb.ecore#//Network/messages"/>
-      </edges>
-      <edges source="//@units.2/@rhs/@nodes.0" target="//@units.2/@rhs/@nodes.2">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
-      <edges source="//@units.2/@rhs/@nodes.2" target="//@units.2/@rhs/@nodes.1">
-        <type href="tpb.ecore#//Node/knows"/>
-      </edges>
-    </rhs>
-    <mappings origin="//@units.2/@lhs/@nodes.0" image="//@units.2/@rhs/@nodes.0"/>
-    <mappings origin="//@units.2/@lhs/@nodes.2" image="//@units.2/@rhs/@nodes.1"/>
-    <mappings origin="//@units.2/@lhs/@nodes.3" image="//@units.2/@rhs/@nodes.2"/>
-  </units>
-  <units xsi:type="henshin:Rule" name="del2">
-    <parameters name="m"/>
-    <parameters name="u"/>
-    <lhs name="Lhs">
-      <nodes name="root" outgoing="//@units.3/@lhs/@edges.2 //@units.3/@lhs/@edges.3 //@units.3/@lhs/@edges.4">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="u" incoming="//@units.3/@lhs/@edges.0 //@units.3/@lhs/@edges.2">
-        <type href="tpb.ecore#//Message"/>
-      </nodes>
-      <nodes name="v" incoming="//@units.3/@lhs/@edges.1 //@units.3/@lhs/@edges.3">
-        <type href="tpb.ecore#//Message"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.3/@lhs/@edges.4" outgoing="//@units.3/@lhs/@edges.0 //@units.3/@lhs/@edges.1">
-        <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/ready"/>
-        </attributes>
-      </nodes>
-      <edges source="//@units.3/@lhs/@nodes.3" target="//@units.3/@lhs/@nodes.1">
-        <type href="tpb.ecore#//Node/knows"/>
-      </edges>
-      <edges source="//@units.3/@lhs/@nodes.3" target="//@units.3/@lhs/@nodes.2">
-        <type href="tpb.ecore#//Node/knows"/>
-      </edges>
-      <edges source="//@units.3/@lhs/@nodes.0" target="//@units.3/@lhs/@nodes.1">
-        <type href="tpb.ecore#//Network/messages"/>
-      </edges>
-      <edges source="//@units.3/@lhs/@nodes.0" target="//@units.3/@lhs/@nodes.2">
-        <type href="tpb.ecore#//Network/messages"/>
-      </edges>
-      <edges source="//@units.3/@lhs/@nodes.0" target="//@units.3/@lhs/@nodes.3">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
-    </lhs>
-    <rhs name="Rhs">
-      <nodes name="m" incoming="//@units.3/@rhs/@edges.0">
-        <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/ready"/>
-        </attributes>
-      </nodes>
-      <nodes name="root" outgoing="//@units.3/@rhs/@edges.0">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <edges source="//@units.3/@rhs/@nodes.1" target="//@units.3/@rhs/@nodes.0">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
-    </rhs>
-    <mappings origin="//@units.3/@lhs/@nodes.3" image="//@units.3/@rhs/@nodes.0"/>
-    <mappings origin="//@units.3/@lhs/@nodes.0" image="//@units.3/@rhs/@nodes.1"/>
-  </units>
-  <units xsi:type="henshin:Rule" name="send">
-    <parameters name="m">
-      <type xsi:type="ecore:EClass" href="tpb.ecore#//Node"/>
+    <parameters xmi:id="_zkmMgj7cEeKKWqhVoj_eZQ" name="x">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="root" outgoing="//@units.4/@lhs/@edges.0">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.4/@lhs/@edges.0">
+    <lhs xmi:id="_zkmzgD7cEeKKWqhVoj_eZQ" name="Lhs">
+      <nodes xmi:id="_zkmzgT7cEeKKWqhVoj_eZQ" name="m">
         <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
+        <attributes xmi:id="_zkmzgj7cEeKKWqhVoj_eZQ" value="SENDING">
+          <type href="tpb.ecore#//Node/state"/>
         </attributes>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/ready"/>
+        <attributes xmi:id="_zkmzgz7cEeKKWqhVoj_eZQ" value="x">
+          <type href="tpb.ecore#//Node/attempts"/>
         </attributes>
       </nodes>
-      <edges source="//@units.4/@lhs/@nodes.0" target="//@units.4/@lhs/@nodes.1">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="m" incoming="//@units.4/@rhs/@edges.0">
+    <rhs xmi:id="_zkmzhD7cEeKKWqhVoj_eZQ" name="Rhs">
+      <nodes xmi:id="_zkmzhT7cEeKKWqhVoj_eZQ" name="m">
         <type href="tpb.ecore#//Node"/>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/active"/>
+        <attributes xmi:id="_zkmzhj7cEeKKWqhVoj_eZQ" value="FINISHED">
+          <type href="tpb.ecore#//Node/state"/>
         </attributes>
-        <attributes value="false">
-          <type href="tpb.ecore#//Node/ready"/>
+        <attributes xmi:id="_zkmzhz7cEeKKWqhVoj_eZQ" value="0">
+          <type href="tpb.ecore#//Node/attempts"/>
         </attributes>
       </nodes>
-      <nodes name="root" outgoing="//@units.4/@rhs/@edges.0">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <edges source="//@units.4/@rhs/@nodes.1" target="//@units.4/@rhs/@nodes.0">
-        <type href="tpb.ecore#//Network/nodes"/>
-      </edges>
     </rhs>
-    <mappings origin="//@units.4/@lhs/@nodes.1" image="//@units.4/@rhs/@nodes.0"/>
-    <mappings origin="//@units.4/@lhs/@nodes.0" image="//@units.4/@rhs/@nodes.1"/>
-    <multiRules name="neighbors">
-      <lhs name="Lhs">
-        <nodes name="m" incoming="//@units.4/@multiRules.0/@lhs/@edges.1" outgoing="//@units.4/@multiRules.0/@lhs/@edges.0">
+    <attributeConditions xmi:id="_1GA74D7cEeKKWqhVoj_eZQ" name="x>0" conditionText="x>0"/>
+    <mappings xmi:id="_zkmziD7cEeKKWqhVoj_eZQ" origin="_zkmzgT7cEeKKWqhVoj_eZQ" image="_zkmzhT7cEeKKWqhVoj_eZQ"/>
+    <multiRules xmi:id="_zkmziT7cEeKKWqhVoj_eZQ">
+      <lhs xmi:id="_zkmzij7cEeKKWqhVoj_eZQ" name="Lhs">
+        <nodes xmi:id="_zkmziz7cEeKKWqhVoj_eZQ" name="m" outgoing="_zknakD7cEeKKWqhVoj_eZQ">
           <type href="tpb.ecore#//Node"/>
-          <attributes value="true">
-            <type href="tpb.ecore#//Node/active"/>
-          </attributes>
         </nodes>
-        <nodes incoming="//@units.4/@multiRules.0/@lhs/@edges.0 //@units.4/@multiRules.0/@lhs/@edges.2">
+        <nodes xmi:id="_zkmzjD7cEeKKWqhVoj_eZQ" incoming="_zknakD7cEeKKWqhVoj_eZQ">
           <type href="tpb.ecore#//Node"/>
-          <attributes value="true">
-            <type href="tpb.ecore#//Node/active"/>
-          </attributes>
-          <attributes value="false">
-            <type href="tpb.ecore#//Node/ready"/>
+          <attributes xmi:id="_zkmzjT7cEeKKWqhVoj_eZQ" value="IDLE">
+            <type href="tpb.ecore#//Node/state"/>
           </attributes>
         </nodes>
-        <nodes name="root" outgoing="//@units.4/@multiRules.0/@lhs/@edges.1 //@units.4/@multiRules.0/@lhs/@edges.2">
-          <type href="tpb.ecore#//Network"/>
-        </nodes>
-        <edges source="//@units.4/@multiRules.0/@lhs/@nodes.0" target="//@units.4/@multiRules.0/@lhs/@nodes.1">
+        <edges xmi:id="_zknakD7cEeKKWqhVoj_eZQ" source="_zkmziz7cEeKKWqhVoj_eZQ" target="_zkmzjD7cEeKKWqhVoj_eZQ">
           <type href="tpb.ecore#//Node/connected"/>
-        </edges>
-        <edges source="//@units.4/@multiRules.0/@lhs/@nodes.2" target="//@units.4/@multiRules.0/@lhs/@nodes.0">
-          <type href="tpb.ecore#//Network/nodes"/>
-        </edges>
-        <edges source="//@units.4/@multiRules.0/@lhs/@nodes.2" target="//@units.4/@multiRules.0/@lhs/@nodes.1">
-          <type href="tpb.ecore#//Network/nodes"/>
         </edges>
       </lhs>
-      <rhs name="Rhs">
-        <nodes name="m" incoming="//@units.4/@multiRules.0/@rhs/@edges.2" outgoing="//@units.4/@multiRules.0/@rhs/@edges.0">
+      <rhs xmi:id="_zknakT7cEeKKWqhVoj_eZQ" name="Rhs">
+        <nodes xmi:id="_zknakj7cEeKKWqhVoj_eZQ" name="m" outgoing="_zknalT7cEeKKWqhVoj_eZQ _zknalj7cEeKKWqhVoj_eZQ">
           <type href="tpb.ecore#//Node"/>
-          <attributes value="false">
-            <type href="tpb.ecore#//Node/active"/>
-          </attributes>
         </nodes>
-        <nodes incoming="//@units.4/@multiRules.0/@rhs/@edges.0 //@units.4/@multiRules.0/@rhs/@edges.3" outgoing="//@units.4/@multiRules.0/@rhs/@edges.1">
+        <nodes xmi:id="_zknakz7cEeKKWqhVoj_eZQ" incoming="_zknalT7cEeKKWqhVoj_eZQ _zknalj7cEeKKWqhVoj_eZQ">
           <type href="tpb.ecore#//Node"/>
-          <attributes value="true">
-            <type href="tpb.ecore#//Node/active"/>
-          </attributes>
-          <attributes value="false">
-            <type href="tpb.ecore#//Node/ready"/>
+          <attributes xmi:id="_zknalD7cEeKKWqhVoj_eZQ" value="IDLE">
+            <type href="tpb.ecore#//Node/state"/>
           </attributes>
         </nodes>
-        <nodes name="w" incoming="//@units.4/@multiRules.0/@rhs/@edges.1 //@units.4/@multiRules.0/@rhs/@edges.4">
-          <type href="tpb.ecore#//Message"/>
-        </nodes>
-        <nodes name="root" outgoing="//@units.4/@multiRules.0/@rhs/@edges.2 //@units.4/@multiRules.0/@rhs/@edges.3 //@units.4/@multiRules.0/@rhs/@edges.4">
-          <type href="tpb.ecore#//Network"/>
-        </nodes>
-        <edges source="//@units.4/@multiRules.0/@rhs/@nodes.0" target="//@units.4/@multiRules.0/@rhs/@nodes.1">
+        <edges xmi:id="_zknalT7cEeKKWqhVoj_eZQ" source="_zknakj7cEeKKWqhVoj_eZQ" target="_zknakz7cEeKKWqhVoj_eZQ">
           <type href="tpb.ecore#//Node/connected"/>
         </edges>
-        <edges source="//@units.4/@multiRules.0/@rhs/@nodes.1" target="//@units.4/@multiRules.0/@rhs/@nodes.2">
-          <type href="tpb.ecore#//Node/knows"/>
-        </edges>
-        <edges source="//@units.4/@multiRules.0/@rhs/@nodes.3" target="//@units.4/@multiRules.0/@rhs/@nodes.0">
-          <type href="tpb.ecore#//Network/nodes"/>
-        </edges>
-        <edges source="//@units.4/@multiRules.0/@rhs/@nodes.3" target="//@units.4/@multiRules.0/@rhs/@nodes.1">
-          <type href="tpb.ecore#//Network/nodes"/>
-        </edges>
-        <edges source="//@units.4/@multiRules.0/@rhs/@nodes.3" target="//@units.4/@multiRules.0/@rhs/@nodes.2">
-          <type href="tpb.ecore#//Network/messages"/>
+        <edges xmi:id="_zknalj7cEeKKWqhVoj_eZQ" source="_zknakj7cEeKKWqhVoj_eZQ" target="_zknakz7cEeKKWqhVoj_eZQ">
+          <type href="tpb.ecore#//Node/sentTo"/>
         </edges>
       </rhs>
-      <mappings origin="//@units.4/@multiRules.0/@lhs/@nodes.0" image="//@units.4/@multiRules.0/@rhs/@nodes.0"/>
-      <mappings origin="//@units.4/@multiRules.0/@lhs/@nodes.1" image="//@units.4/@multiRules.0/@rhs/@nodes.1"/>
-      <mappings origin="//@units.4/@multiRules.0/@lhs/@nodes.2" image="//@units.4/@multiRules.0/@rhs/@nodes.3"/>
-      <multiMappings origin="//@units.4/@rhs/@nodes.0" image="//@units.4/@multiRules.0/@rhs/@nodes.0"/>
-      <multiMappings origin="//@units.4/@lhs/@nodes.1" image="//@units.4/@multiRules.0/@lhs/@nodes.0"/>
-      <multiMappings origin="//@units.4/@rhs/@nodes.1" image="//@units.4/@multiRules.0/@rhs/@nodes.3"/>
-      <multiMappings origin="//@units.4/@lhs/@nodes.0" image="//@units.4/@multiRules.0/@lhs/@nodes.2"/>
+      <mappings xmi:id="_zknalz7cEeKKWqhVoj_eZQ" origin="_zkmziz7cEeKKWqhVoj_eZQ" image="_zknakj7cEeKKWqhVoj_eZQ"/>
+      <mappings xmi:id="_zknamD7cEeKKWqhVoj_eZQ" origin="_zkmzjD7cEeKKWqhVoj_eZQ" image="_zknakz7cEeKKWqhVoj_eZQ"/>
+      <multiMappings xmi:id="_zknamT7cEeKKWqhVoj_eZQ" origin="_zkmzhT7cEeKKWqhVoj_eZQ" image="_zknakj7cEeKKWqhVoj_eZQ"/>
+      <multiMappings xmi:id="_zknamj7cEeKKWqhVoj_eZQ" origin="_zkmzgT7cEeKKWqhVoj_eZQ" image="_zkmziz7cEeKKWqhVoj_eZQ"/>
     </multiRules>
   </units>
-  <units xsi:type="henshin:Rule" name="send">
-    <parameters name="m">
+  <units xsi:type="henshin:Rule" xmi:id="_zknamz7cEeKKWqhVoj_eZQ" name="resolve1">
+    <parameters xmi:id="_zknanD7cEeKKWqhVoj_eZQ" name="m">
       <type xsi:type="ecore:EClass" href="tpb.ecore#//Node"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="root" outgoing="//@units.5/@lhs/@edges.0">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.5/@lhs/@edges.0">
+    <lhs xmi:id="_zknanT7cEeKKWqhVoj_eZQ" name="Lhs">
+      <nodes xmi:id="_zknanj7cEeKKWqhVoj_eZQ" name="m" incoming="_zkoBoj7cEeKKWqhVoj_eZQ _zkoBoz7cEeKKWqhVoj_eZQ">
         <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/ready"/>
+        <attributes xmi:id="_zknanz7cEeKKWqhVoj_eZQ" value="IDLE">
+          <type href="tpb.ecore#//Node/state"/>
         </attributes>
       </nodes>
-      <edges source="//@units.5/@lhs/@nodes.0" target="//@units.5/@lhs/@nodes.1">
-        <type href="tpb.ecore#//Network/nodes"/>
+      <nodes xmi:id="_zkoBoD7cEeKKWqhVoj_eZQ" name="s" outgoing="_zkoBoj7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_zkoBoT7cEeKKWqhVoj_eZQ" name="t" outgoing="_zkoBoz7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_zkoBoj7cEeKKWqhVoj_eZQ" source="_zkoBoD7cEeKKWqhVoj_eZQ" target="_zknanj7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node/sentTo"/>
+      </edges>
+      <edges xmi:id="_zkoBoz7cEeKKWqhVoj_eZQ" source="_zkoBoT7cEeKKWqhVoj_eZQ" target="_zknanj7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node/sentTo"/>
       </edges>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="root" outgoing="//@units.5/@rhs/@edges.0">
-        <type href="tpb.ecore#//Network"/>
-      </nodes>
-      <nodes name="m" incoming="//@units.5/@rhs/@edges.0">
+    <rhs xmi:id="_zkoBpD7cEeKKWqhVoj_eZQ" name="Rhs">
+      <nodes xmi:id="_zkoBpT7cEeKKWqhVoj_eZQ" name="m">
         <type href="tpb.ecore#//Node"/>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/active"/>
-        </attributes>
-        <attributes value="true">
-          <type href="tpb.ecore#//Node/ready"/>
+        <attributes xmi:id="_zkoBpj7cEeKKWqhVoj_eZQ" value="IDLE">
+          <type href="tpb.ecore#//Node/state"/>
         </attributes>
       </nodes>
-      <edges source="//@units.5/@rhs/@nodes.0" target="//@units.5/@rhs/@nodes.1">
-        <type href="tpb.ecore#//Network/nodes"/>
+      <nodes xmi:id="_zkoBpz7cEeKKWqhVoj_eZQ" name="s">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_zkoBqD7cEeKKWqhVoj_eZQ" name="t">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_zkoBqT7cEeKKWqhVoj_eZQ" origin="_zknanj7cEeKKWqhVoj_eZQ" image="_zkoBpT7cEeKKWqhVoj_eZQ"/>
+    <mappings xmi:id="_zkoBqj7cEeKKWqhVoj_eZQ" origin="_zkoBoD7cEeKKWqhVoj_eZQ" image="_zkoBpz7cEeKKWqhVoj_eZQ"/>
+    <mappings xmi:id="_zkoBqz7cEeKKWqhVoj_eZQ" origin="_zkoBoT7cEeKKWqhVoj_eZQ" image="_zkoBqD7cEeKKWqhVoj_eZQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_zkoBrD7cEeKKWqhVoj_eZQ" name="resolve2">
+    <parameters xmi:id="_zkoBrT7cEeKKWqhVoj_eZQ" name="m">
+      <type xsi:type="ecore:EClass" href="tpb.ecore#//Node"/>
+    </parameters>
+    <lhs xmi:id="_zkoBrj7cEeKKWqhVoj_eZQ" name="Lhs">
+      <nodes xmi:id="_zkoBrz7cEeKKWqhVoj_eZQ" name="m" incoming="_zkoosj7cEeKKWqhVoj_eZQ _zkoosz7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_zkoBsD7cEeKKWqhVoj_eZQ" value="IDLE">
+          <type href="tpb.ecore#//Node/state"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_zkoosD7cEeKKWqhVoj_eZQ" name="s" outgoing="_zkoosj7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_zkoosT7cEeKKWqhVoj_eZQ" name="t" outgoing="_zkoosz7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_zkoosj7cEeKKWqhVoj_eZQ" source="_zkoosD7cEeKKWqhVoj_eZQ" target="_zkoBrz7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node/sentTo"/>
+      </edges>
+      <edges xmi:id="_zkoosz7cEeKKWqhVoj_eZQ" source="_zkoosT7cEeKKWqhVoj_eZQ" target="_zkoBrz7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node/sentTo"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_zkootD7cEeKKWqhVoj_eZQ" name="Rhs">
+      <nodes xmi:id="_zkootT7cEeKKWqhVoj_eZQ" name="m" incoming="_zkoouT7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_zkootj7cEeKKWqhVoj_eZQ" value="IDLE">
+          <type href="tpb.ecore#//Node/state"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_zkootz7cEeKKWqhVoj_eZQ" name="s">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_zkoouD7cEeKKWqhVoj_eZQ" name="t" outgoing="_zkoouT7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_zkoouT7cEeKKWqhVoj_eZQ" source="_zkoouD7cEeKKWqhVoj_eZQ" target="_zkootT7cEeKKWqhVoj_eZQ">
+        <type href="tpb.ecore#//Node/sentTo"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.5/@lhs/@nodes.0" image="//@units.5/@rhs/@nodes.0"/>
-    <mappings origin="//@units.5/@lhs/@nodes.1" image="//@units.5/@rhs/@nodes.1"/>
+    <mappings xmi:id="_zkoouj7cEeKKWqhVoj_eZQ" origin="_zkoBrz7cEeKKWqhVoj_eZQ" image="_zkootT7cEeKKWqhVoj_eZQ"/>
+    <mappings xmi:id="_zkoouz7cEeKKWqhVoj_eZQ" origin="_zkoosD7cEeKKWqhVoj_eZQ" image="_zkootz7cEeKKWqhVoj_eZQ"/>
+    <mappings xmi:id="_zkoovD7cEeKKWqhVoj_eZQ" origin="_zkoosT7cEeKKWqhVoj_eZQ" image="_zkoouD7cEeKKWqhVoj_eZQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_zkoovT7cEeKKWqhVoj_eZQ" name="send">
+    <parameters xmi:id="_zkoovj7cEeKKWqhVoj_eZQ" name="m">
+      <type xsi:type="ecore:EClass" href="tpb.ecore#//Node"/>
+    </parameters>
+    <parameters xmi:id="_zkoovz7cEeKKWqhVoj_eZQ" name="x">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_zkoowD7cEeKKWqhVoj_eZQ" name="Lhs">
+      <nodes xmi:id="_zkpPwD7cEeKKWqhVoj_eZQ" name="m">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_zkpPwT7cEeKKWqhVoj_eZQ" value="SENDING">
+          <type href="tpb.ecore#//Node/state"/>
+        </attributes>
+        <attributes xmi:id="_zkpPwj7cEeKKWqhVoj_eZQ" value="x">
+          <type href="tpb.ecore#//Node/attempts"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_zkpPwz7cEeKKWqhVoj_eZQ" name="Rhs">
+      <nodes xmi:id="_zkpPxD7cEeKKWqhVoj_eZQ" name="m">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_zkpPxT7cEeKKWqhVoj_eZQ" value="FINISHED">
+          <type href="tpb.ecore#//Node/state"/>
+        </attributes>
+        <attributes xmi:id="_zkpPxj7cEeKKWqhVoj_eZQ" value="0">
+          <type href="tpb.ecore#//Node/attempts"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <attributeConditions xmi:id="_4e9NoD7cEeKKWqhVoj_eZQ" name="x>0" conditionText="x>0"/>
+    <mappings xmi:id="_zkpPxz7cEeKKWqhVoj_eZQ" origin="_zkpPwD7cEeKKWqhVoj_eZQ" image="_zkpPxD7cEeKKWqhVoj_eZQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_zkpPyD7cEeKKWqhVoj_eZQ" name="send">
+    <parameters xmi:id="_zkpPyT7cEeKKWqhVoj_eZQ" name="m">
+      <type xsi:type="ecore:EClass" href="tpb.ecore#//Node"/>
+    </parameters>
+    <parameters xmi:id="_zkpPyj7cEeKKWqhVoj_eZQ" name="x">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_zkpPyz7cEeKKWqhVoj_eZQ" name="Lhs">
+      <nodes xmi:id="_zkpPzD7cEeKKWqhVoj_eZQ" name="m">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_zkpPzT7cEeKKWqhVoj_eZQ" value="SENDING">
+          <type href="tpb.ecore#//Node/state"/>
+        </attributes>
+        <attributes xmi:id="_zkpPzj7cEeKKWqhVoj_eZQ" value="x">
+          <type href="tpb.ecore#//Node/attempts"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_zkp20D7cEeKKWqhVoj_eZQ" name="Rhs">
+      <nodes xmi:id="_zkp20T7cEeKKWqhVoj_eZQ" name="m">
+        <type href="tpb.ecore#//Node"/>
+        <attributes xmi:id="_zkp20j7cEeKKWqhVoj_eZQ" value="x>1 ? 'SENDING' : 'FINISHED'">
+          <type href="tpb.ecore#//Node/state"/>
+        </attributes>
+        <attributes xmi:id="_zkp20z7cEeKKWqhVoj_eZQ" value="x-1">
+          <type href="tpb.ecore#//Node/attempts"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <attributeConditions xmi:id="_4yzWsD7cEeKKWqhVoj_eZQ" name="x>0" conditionText="x>0"/>
+    <mappings xmi:id="_zkp21D7cEeKKWqhVoj_eZQ" origin="_zkpPzD7cEeKKWqhVoj_eZQ" image="_zkp20T7cEeKKWqhVoj_eZQ"/>
   </units>
 </henshin:Module>

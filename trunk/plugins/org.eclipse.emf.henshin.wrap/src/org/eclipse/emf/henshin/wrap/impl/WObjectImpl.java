@@ -166,7 +166,7 @@ public class WObjectImpl extends WSynchronizerImpl implements WObject {
 	@SuppressWarnings("unchecked")
 	int removeEValue(EStructuralFeature eFeature, Object eValue) {
 		int index = -1;
-		if (synchronize && eObject!=null && eFeature!=null && eValue!=null && eObject.eClass().getEStructuralFeatures().contains(eFeature)) {			
+		if (synchronize && eObject!=null && eFeature!=null && eValue!=null && eObject.eClass().getEAllStructuralFeatures().contains(eFeature)) {			
 			if (eFeature.isMany()) {
 				EList<?> eValues = ((EList<Object>) eObject.eGet(eFeature));
 				index = eValues.indexOf(eValue);
@@ -181,8 +181,7 @@ public class WObjectImpl extends WSynchronizerImpl implements WObject {
 
 	@SuppressWarnings("unchecked")
 	void addEValue(EStructuralFeature eFeature, Object eValue, int index) {
-		if (synchronize && eObject!=null && eFeature!=null && eValue!=null && eObject.eClass().getEStructuralFeatures().contains(eFeature)) {
-//			System.out.println("Adding to " + eFeature.getEContainingClass().getName() + "."+  eFeature.getName() + "\n");
+		if (synchronize && eObject!=null && eFeature!=null && eValue!=null && eObject.eClass().getEAllStructuralFeatures().contains(eFeature)) {
 			if (eFeature.isMany()) {
 				EList<Object> eValues = ((EList<Object>) eObject.eGet(eFeature));
 				if (index<0 || index>eValues.size()) index = eValues.size();

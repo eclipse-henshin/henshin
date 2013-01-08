@@ -84,17 +84,11 @@ public class WValueImpl extends WMemberImpl implements WValue {
 	 * @see org.eclipse.emf.common.notify.impl.BasicNotifierImpl#eNotify(org.eclipse.emf.common.notify.Notification)
 	 */
 	@Override
-	public void eNotify(Notification notification) {
-		super.eNotify(notification);
-		int featureID = notification.getFeatureID(WValue.class);
-		int eventType = notification.getEventType();
-		if (featureID==WrapPackage.WVALUE__EVALUE) {
-			switch (eventType) {
-			case Notification.SET:
-				int index = removeEValueFromWObject(getEStructuralFeature(), notification.getOldValue());
-				addEValueToWObject(getEStructuralFeature(), notification.getNewValue(), index);
-				break;
-			}
+	public void eNotify(Notification message) {
+		super.eNotify(message);
+		if (message.getFeature()==WrapPackage.eINSTANCE.getWValue_EValue()) {
+			int index = removeEValueFromWObject(getEStructuralFeature(), message.getOldValue());
+			addEValueToWObject(getEStructuralFeature(), message.getNewValue(), index);
 		}
 	}
 

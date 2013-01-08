@@ -80,6 +80,7 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		EcorePackage.eINSTANCE.getName();
 		HenshinPackage.eINSTANCE.getName();
 		initPackageImplementation("org.eclipse.emf.henshin.trace.TracePackage");
+		initPackageImplementation("org.eclipse.emf.henshin.wrap.WrapPackage");
 		
 		// Register common XMI file resource factories:
 		registerXMIResourceFactories(HenshinResource.FILE_EXTENSION, "ecore", "xmi");

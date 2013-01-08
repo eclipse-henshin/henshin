@@ -16,8 +16,18 @@
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="connected" upperBound="-1"
         eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sentTo" upperBound="-1"
+        eType="#//Node"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="knows" upperBound="-1"
         eType="#//Message"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attempts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="2"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="#//State"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Message"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="State">
+    <eLiterals name="IDLE"/>
+    <eLiterals name="SENDING" value="1"/>
+    <eLiterals name="FINISHED" value="2"/>
+  </eClassifiers>
 </ecore:EPackage>
