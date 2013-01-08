@@ -73,7 +73,9 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	public EGraphImpl(Collection<? extends EObject> collection) {
 		this();
 		for (EObject object : collection) {
-			addGraph(object);
+			if (!contains(object)) { // omit computing the transitive closure if possible
+				addGraph(object);
+			}
 		}
 	}
 
