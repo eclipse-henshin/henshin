@@ -9,7 +9,10 @@
  */
 package org.eclipse.emf.henshin.statespace.external.prism;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -175,8 +178,18 @@ public class PRISMUtil {
 			command.add(cons);
 		}
 		
+		// Save the command to a script so that it can be manually re-run later:
+		File script = new File(modelFile.getParentFile().getAbsolutePath() + File.separator + "last-prism-command.sh");
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(script)));
+		writer.write("#!/bin/bash\n\n");
+		for (String item : command) {
+			writer.write(item + " ");
+		}
+		writer.write("\n");
+		writer.close();
+		script.setExecutable(true);
+		
 		// Now we can invoke the PRISM tool:
-		//System.out.println(command);
 		return Runtime.getRuntime().exec(command.toArray(new String[] {}), null, path);
 		
 	}

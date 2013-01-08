@@ -10,10 +10,12 @@
 package org.eclipse.emf.henshin.statespace.external;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,7 +148,7 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		// Temporary file.
 		String filename = stateSpace.eResource()!=null ? 
 				stateSpace.eResource().getURI().trimFileExtension().lastSegment() : "statespace";
-		File tmp = File.createTempFile(filename, "." + fileext);
+		File tmp = createTempFile(filename, "." + fileext, null);
 		URI uri = URI.createFileURI(tmp.getAbsolutePath());
 		
 		// Do the export:
@@ -235,7 +237,7 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		monitor.done();
 		
 	}
-	
+
 	/**
 	 * Simple helper method for creating temporary files. 
 	 * @param content Content.
@@ -243,9 +245,11 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 	 */
 	protected File createTempFile(String prefix, String suffix, String content) throws IOException {
 		File temp = File.createTempFile(prefix, suffix);
-		FileWriter writer = new FileWriter(temp);
-		writer.write(content);
-		writer.close();
+		if (content!=null) {
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp)));
+			writer.write(content);
+			writer.close();
+		}
 		return temp;
 	}
 	
