@@ -7,12 +7,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.impl.LoggingApplicationMonitor;
+import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.wrap.WObject;
 import org.eclipse.emf.henshin.wrap.WrapFactory;
@@ -61,12 +62,12 @@ public class PetriNetMME {
 		
 		// Initialize the interpreter:
 		Engine engine = new EngineImpl();
-		Rule rule = (Rule) module.getUnit("createArcPT");
-		RuleApplication app = new RuleApplicationImpl(engine, graph, rule, null);
+		Unit main = module.getUnit("main");
+		UnitApplication app = new UnitApplicationImpl(engine, graph, main, null);
 		
 		// Execute the transformation:
-		if (!app.execute(null)) { // new LoggingApplicationMonitor()
-			throw new RuntimeException("Cannot apply rule \"createArcPT\"");
+		if (!app.execute(new LoggingApplicationMonitor())) { // new LoggingApplicationMonitor()
+			throw new RuntimeException("Cannot apply transformation");
 		} else {
 			System.out.println("Petri net meta-model evolution finished.");
 		}

@@ -256,8 +256,12 @@ public class WObjectImpl extends WSynchronizerImpl implements WObject {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void setEClass(EClass newEClass) {
-		setEObject(newEClass!=null ? newEClass.getEPackage().getEFactoryInstance().create(newEClass) : null);
+	public void setEClass(EClass eClass) {
+		if (eClass!=null && !eClass.isAbstract() && !eClass.isInterface()) {
+			setEObject(eClass.getEPackage().getEFactoryInstance().create(eClass));	
+		} else {
+			setEObject(null);
+		}		
 	}
 
 	/**

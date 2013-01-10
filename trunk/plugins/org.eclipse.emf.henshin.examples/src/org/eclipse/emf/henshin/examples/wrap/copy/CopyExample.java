@@ -66,7 +66,7 @@ public class CopyExample {
 							 WrapUtil.getWObjects(model, wrappers), graph));
 		
 		// Check if it is correct:
-		if (EcoreUtil.equals(model, copy)) {
+		if (EcoreUtil.equals(model.get(0), copy.get(0))) {
 			System.out.println("Successfully copied bank model.");
 		} else {
 			resourceSet.saveEObject(copy.get(0), "invalid-copy.xmi");

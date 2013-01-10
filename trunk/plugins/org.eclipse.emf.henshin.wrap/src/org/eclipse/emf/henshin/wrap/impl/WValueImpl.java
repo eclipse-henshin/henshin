@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.wrap.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.henshin.wrap.WValue;
 import org.eclipse.emf.henshin.wrap.WrapPackage;
@@ -87,8 +88,11 @@ public class WValueImpl extends WMemberImpl implements WValue {
 	public void eNotify(Notification message) {
 		super.eNotify(message);
 		if (message.getFeature()==WrapPackage.eINSTANCE.getWValue_EValue()) {
-			int index = removeEValueFromWObject(getEStructuralFeature(), message.getOldValue());
-			addEValueToWObject(getEStructuralFeature(), message.getNewValue(), index);
+			Object oldValue = message.getOldValue();
+			Object newValue = message.getNewValue();
+			EStructuralFeature feature = getEStructuralFeature();
+			int index = removeEValueFromWObject(feature, oldValue);
+			addEValueToWObject(feature, newValue, index);
 		}
 	}
 
