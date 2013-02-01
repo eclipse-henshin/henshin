@@ -27,13 +27,11 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.util.HenshinEGraph;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.query.conditions.Condition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
 import org.eclipse.emf.query.ocl.conditions.BooleanOCLCondition;
@@ -88,8 +86,8 @@ public class Tools {
 	 * @return {@link TransformationUnit}
 	 */
 	@Deprecated
-	public static TransformationUnit createTUFromRule(Rule r) {
-		return (TransformationUnit) r;
+	public static Unit createTUFromRule(Rule r) {
+		return (Unit) r;
 	}
 	
 	/**

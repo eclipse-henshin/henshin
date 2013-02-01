@@ -102,4 +102,5 @@ public class CreateNodes extends HenshinTest {
 		loadRule("edgeCtest");
 		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_edgeCtest")), htEngine, 0.9);
 	}
+	
 }

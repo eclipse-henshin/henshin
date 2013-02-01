@@ -31,23 +31,18 @@ import org.eclipse.emf.henshin.tests.testmodel.cont;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.emf.henshin.tests.testmodel.impl.contImpl#getContainsNode
- * <em>Contains Node</em>}</li>
- * <li>
- * {@link org.eclipse.emf.henshin.tests.testmodel.impl.contImpl#getContainsVal
- * <em>Contains Val</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.impl.contImpl#getContainsNode <em>Contains Node</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.impl.contImpl#getContainsVal <em>Contains Val</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class contImpl extends EObjectImpl implements cont {
 	/**
-	 * The cached value of the '{@link #getContainsNode()
-	 * <em>Contains Node</em>}' containment reference list. <!-- begin-user-doc
+	 * The cached value of the '{@link #getContainsNode() <em>Contains Node</em>}' containment reference list.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #getContainsNode()
 	 * @generated
 	 * @ordered
@@ -55,9 +50,8 @@ public class contImpl extends EObjectImpl implements cont {
 	protected EList<Node> containsNode;
 	
 	/**
-	 * The cached value of the '{@link #getContainsVal() <em>Contains Val</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getContainsVal() <em>Contains Val</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getContainsVal()
 	 * @generated
 	 * @ordered
@@ -66,7 +60,6 @@ public class contImpl extends EObjectImpl implements cont {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected contImpl() {
@@ -75,7 +68,6 @@ public class contImpl extends EObjectImpl implements cont {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -85,33 +77,28 @@ public class contImpl extends EObjectImpl implements cont {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Node> getContainsNode() {
 		if (containsNode == null) {
-			containsNode = new EObjectContainmentEList<Node>(Node.class, this,
-					TestmodelPackage.CONT__CONTAINS_NODE);
+			containsNode = new EObjectContainmentEList<Node>(Node.class, this, TestmodelPackage.CONT__CONTAINS_NODE);
 		}
 		return containsNode;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Val> getContainsVal() {
 		if (containsVal == null) {
-			containsVal = new EObjectContainmentEList<Val>(Val.class, this,
-					TestmodelPackage.CONT__CONTAINS_VAL);
+			containsVal = new EObjectContainmentEList<Val>(Val.class, this, TestmodelPackage.CONT__CONTAINS_VAL);
 		}
 		return containsVal;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -119,16 +106,15 @@ public class contImpl extends EObjectImpl implements cont {
 			NotificationChain msgs) {
 		switch (featureID) {
 			case TestmodelPackage.CONT__CONTAINS_NODE:
-				return ((InternalEList<?>) getContainsNode()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getContainsNode()).basicRemove(otherEnd, msgs);
 			case TestmodelPackage.CONT__CONTAINS_VAL:
-				return ((InternalEList<?>) getContainsVal()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getContainsVal()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -144,7 +130,6 @@ public class contImpl extends EObjectImpl implements cont {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -153,11 +138,11 @@ public class contImpl extends EObjectImpl implements cont {
 		switch (featureID) {
 			case TestmodelPackage.CONT__CONTAINS_NODE:
 				getContainsNode().clear();
-				getContainsNode().addAll((Collection<? extends Node>) newValue);
+				getContainsNode().addAll((Collection<? extends Node>)newValue);
 				return;
 			case TestmodelPackage.CONT__CONTAINS_VAL:
 				getContainsVal().clear();
-				getContainsVal().addAll((Collection<? extends Val>) newValue);
+				getContainsVal().addAll((Collection<? extends Val>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -165,7 +150,6 @@ public class contImpl extends EObjectImpl implements cont {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -183,7 +167,6 @@ public class contImpl extends EObjectImpl implements cont {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

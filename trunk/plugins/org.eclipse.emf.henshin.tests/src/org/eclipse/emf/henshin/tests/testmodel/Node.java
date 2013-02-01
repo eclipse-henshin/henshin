@@ -17,37 +17,32 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '
  * <em><b>Node</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.emf.henshin.tests.testmodel.Node#getHasVals <em>Has
- * Vals</em>}</li>
- * <li>{@link org.eclipse.emf.henshin.tests.testmodel.Node#getParentNode <em>
- * Parent Node</em>}</li>
- * <li>{@link org.eclipse.emf.henshin.tests.testmodel.Node#getChildNodes <em>
- * Child Nodes</em>}</li>
- * <li>{@link org.eclipse.emf.henshin.tests.testmodel.Node#getNodename <em>
- * Nodename</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.Node#getHasVals <em>Has Vals</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.Node#getParentNode <em>Parent Node</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.Node#getChildNodes <em>Child Nodes</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.Node#getNodename <em>Nodename</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getNode()
  * @model
  * @generated
  */
 public interface Node extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Has Vals</b></em>' reference list. The
-	 * list contents are of type
-	 * {@link org.eclipse.emf.henshin.tests.testmodel.Val}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Has Vals</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.tests.testmodel.Val}.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>Has Vals</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Has Vals</em>' reference list.
 	 * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getNode_HasVals()
 	 * @model
@@ -56,16 +51,14 @@ public interface Node extends EObject {
 	EList<Val> getHasVals();
 	
 	/**
-	 * Returns the value of the '<em><b>Parent Node</b></em>' reference. It is
-	 * bidirectional and its opposite is '
-	 * {@link org.eclipse.emf.henshin.tests.testmodel.Node#getChildNodes
-	 * <em>Child Nodes</em>}'. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Parent Node</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.tests.testmodel.Node#getChildNodes <em>Child Nodes</em>}'.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Parent Node</em>' reference isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Parent Node</em>' reference.
 	 * @see #setParentNode(Node)
 	 * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getNode_ParentNode()
@@ -76,13 +69,10 @@ public interface Node extends EObject {
 	Node getParentNode();
 	
 	/**
-	 * Sets the value of the '
-	 * {@link org.eclipse.emf.henshin.tests.testmodel.Node#getParentNode
-	 * <em>Parent Node</em>}' reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.testmodel.Node#getParentNode <em>Parent Node</em>}' reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Parent Node</em>' reference.
+	 * @param value the new value of the '<em>Parent Node</em>' reference.
 	 * @see #getParentNode()
 	 * @generated
 	 */
@@ -90,17 +80,14 @@ public interface Node extends EObject {
 	
 	/**
 	 * Returns the value of the '<em><b>Child Nodes</b></em>' reference list.
-	 * The list contents are of type
-	 * {@link org.eclipse.emf.henshin.tests.testmodel.Node}. It is bidirectional
-	 * and its opposite is '
-	 * {@link org.eclipse.emf.henshin.tests.testmodel.Node#getParentNode
-	 * <em>Parent Node</em>}'. <!-- begin-user-doc -->
+	 * The list contents are of type {@link org.eclipse.emf.henshin.tests.testmodel.Node}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.tests.testmodel.Node#getParentNode <em>Parent Node</em>}'.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Child Nodes</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Child Nodes</em>' reference list.
 	 * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getNode_ChildNodes()
 	 * @see org.eclipse.emf.henshin.tests.testmodel.Node#getParentNode

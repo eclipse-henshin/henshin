@@ -16,51 +16,49 @@ import org.eclipse.emf.ecore.EFactory;
 /**
  * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a
  * create method for each non-abstract class of the model. <!-- end-user-doc -->
- * 
  * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage
  * @generated
  */
 public interface TestmodelFactory extends EFactory {
 	/**
-	 * The singleton instance of the factory. <!-- begin-user-doc --> <!--
+	 * The singleton instance of the factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	TestmodelFactory eINSTANCE = org.eclipse.emf.henshin.tests.testmodel.impl.TestmodelFactoryImpl
-			.init();
+	TestmodelFactory eINSTANCE = org.eclipse.emf.henshin.tests.testmodel.impl.TestmodelFactoryImpl.init();
 	
 	/**
-	 * Returns a new object of class '<em>cont</em>'. <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>cont</em>'.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return a new object of class '<em>cont</em>'.
 	 * @generated
 	 */
 	cont createcont();
 	
 	/**
-	 * Returns a new object of class '<em>Node</em>'. <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Node</em>'.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return a new object of class '<em>Node</em>'.
 	 * @generated
 	 */
 	Node createNode();
 	
 	/**
-	 * Returns a new object of class '<em>Val</em>'. <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Val</em>'.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return a new object of class '<em>Val</em>'.
 	 * @generated
 	 */
 	Val createVal();
 	
 	/**
-	 * Returns the package supported by this factory. <!-- begin-user-doc -->
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the package supported by this factory.
 	 * @generated
 	 */

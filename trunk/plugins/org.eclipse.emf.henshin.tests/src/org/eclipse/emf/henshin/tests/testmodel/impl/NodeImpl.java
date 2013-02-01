@@ -33,26 +33,19 @@ import org.eclipse.emf.henshin.tests.testmodel.Val;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.emf.henshin.tests.testmodel.impl.NodeImpl#getHasVals
- * <em>Has Vals</em>}</li>
- * <li>
- * {@link org.eclipse.emf.henshin.tests.testmodel.impl.NodeImpl#getParentNode
- * <em>Parent Node</em>}</li>
- * <li>
- * {@link org.eclipse.emf.henshin.tests.testmodel.impl.NodeImpl#getChildNodes
- * <em>Child Nodes</em>}</li>
- * <li>{@link org.eclipse.emf.henshin.tests.testmodel.impl.NodeImpl#getNodename
- * <em>Nodename</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.impl.NodeImpl#getHasVals <em>Has Vals</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.impl.NodeImpl#getParentNode <em>Parent Node</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.impl.NodeImpl#getChildNodes <em>Child Nodes</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.impl.NodeImpl#getNodename <em>Nodename</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class NodeImpl extends EObjectImpl implements Node {
 	/**
-	 * The cached value of the '{@link #getHasVals() <em>Has Vals</em>}'
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getHasVals() <em>Has Vals</em>}' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHasVals()
 	 * @generated
 	 * @ordered
@@ -60,9 +53,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 	protected EList<Val> hasVals;
 	
 	/**
-	 * The cached value of the '{@link #getParentNode() <em>Parent Node</em>}'
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getParentNode() <em>Parent Node</em>}' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getParentNode()
 	 * @generated
 	 * @ordered
@@ -70,9 +62,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 	protected Node parentNode;
 	
 	/**
-	 * The cached value of the '{@link #getChildNodes() <em>Child Nodes</em>}'
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getChildNodes() <em>Child Nodes</em>}' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getChildNodes()
 	 * @generated
 	 * @ordered
@@ -80,9 +71,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 	protected EList<Node> childNodes;
 	
 	/**
-	 * The default value of the '{@link #getNodename() <em>Nodename</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getNodename() <em>Nodename</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNodename()
 	 * @generated
 	 * @ordered
@@ -90,9 +80,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 	protected static final String NODENAME_EDEFAULT = null;
 	
 	/**
-	 * The cached value of the '{@link #getNodename() <em>Nodename</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getNodename() <em>Nodename</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNodename()
 	 * @generated
 	 * @ordered
@@ -101,7 +90,6 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected NodeImpl() {
@@ -110,7 +98,6 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -120,30 +107,26 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Val> getHasVals() {
 		if (hasVals == null) {
-			hasVals = new EObjectResolvingEList<Val>(Val.class, this,
-					TestmodelPackage.NODE__HAS_VALS);
+			hasVals = new EObjectResolvingEList<Val>(Val.class, this, TestmodelPackage.NODE__HAS_VALS);
 		}
 		return hasVals;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Node getParentNode() {
 		if (parentNode != null && parentNode.eIsProxy()) {
-			InternalEObject oldParentNode = (InternalEObject) parentNode;
-			parentNode = (Node) eResolveProxy(oldParentNode);
+			InternalEObject oldParentNode = (InternalEObject)parentNode;
+			parentNode = (Node)eResolveProxy(oldParentNode);
 			if (parentNode != oldParentNode) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							TestmodelPackage.NODE__PARENT_NODE, oldParentNode, parentNode));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TestmodelPackage.NODE__PARENT_NODE, oldParentNode, parentNode));
 			}
 		}
 		return parentNode;
@@ -151,7 +134,6 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Node basicGetParentNode() {
@@ -160,60 +142,49 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetParentNode(Node newParentNode, NotificationChain msgs) {
 		Node oldParentNode = parentNode;
 		parentNode = newParentNode;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-					TestmodelPackage.NODE__PARENT_NODE, oldParentNode, newParentNode);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TestmodelPackage.NODE__PARENT_NODE, oldParentNode, newParentNode);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setParentNode(Node newParentNode) {
 		if (newParentNode != parentNode) {
 			NotificationChain msgs = null;
 			if (parentNode != null)
-				msgs = ((InternalEObject) parentNode).eInverseRemove(this,
-						TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
+				msgs = ((InternalEObject)parentNode).eInverseRemove(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
 			if (newParentNode != null)
-				msgs = ((InternalEObject) newParentNode).eInverseAdd(this,
-						TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
+				msgs = ((InternalEObject)newParentNode).eInverseAdd(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
 			msgs = basicSetParentNode(newParentNode, msgs);
 			if (msgs != null) msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TestmodelPackage.NODE__PARENT_NODE, newParentNode, newParentNode));
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TestmodelPackage.NODE__PARENT_NODE, newParentNode, newParentNode));
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Node> getChildNodes() {
 		if (childNodes == null) {
-			childNodes = new EObjectWithInverseResolvingEList<Node>(Node.class, this,
-					TestmodelPackage.NODE__CHILD_NODES, TestmodelPackage.NODE__PARENT_NODE);
+			childNodes = new EObjectWithInverseResolvingEList<Node>(Node.class, this, TestmodelPackage.NODE__CHILD_NODES, TestmodelPackage.NODE__PARENT_NODE);
 		}
 		return childNodes;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getNodename() {
@@ -222,20 +193,17 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setNodename(String newNodename) {
 		String oldNodename = nodename;
 		nodename = newNodename;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TestmodelPackage.NODE__NODENAME,
-					oldNodename, nodename));
+			eNotify(new ENotificationImpl(this, Notification.SET, TestmodelPackage.NODE__NODENAME, oldNodename, nodename));
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -245,19 +213,16 @@ public class NodeImpl extends EObjectImpl implements Node {
 		switch (featureID) {
 			case TestmodelPackage.NODE__PARENT_NODE:
 				if (parentNode != null)
-					msgs = ((InternalEObject) parentNode).eInverseRemove(this,
-							TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
-				return basicSetParentNode((Node) otherEnd, msgs);
+					msgs = ((InternalEObject)parentNode).eInverseRemove(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
+				return basicSetParentNode((Node)otherEnd, msgs);
 			case TestmodelPackage.NODE__CHILD_NODES:
-				return ((InternalEList<InternalEObject>) (InternalEList<?>) getChildNodes())
-						.basicAdd(otherEnd, msgs);
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildNodes()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -267,14 +232,13 @@ public class NodeImpl extends EObjectImpl implements Node {
 			case TestmodelPackage.NODE__PARENT_NODE:
 				return basicSetParentNode(null, msgs);
 			case TestmodelPackage.NODE__CHILD_NODES:
-				return ((InternalEList<?>) getChildNodes()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getChildNodes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -295,7 +259,6 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -304,17 +267,17 @@ public class NodeImpl extends EObjectImpl implements Node {
 		switch (featureID) {
 			case TestmodelPackage.NODE__HAS_VALS:
 				getHasVals().clear();
-				getHasVals().addAll((Collection<? extends Val>) newValue);
+				getHasVals().addAll((Collection<? extends Val>)newValue);
 				return;
 			case TestmodelPackage.NODE__PARENT_NODE:
-				setParentNode((Node) newValue);
+				setParentNode((Node)newValue);
 				return;
 			case TestmodelPackage.NODE__CHILD_NODES:
 				getChildNodes().clear();
-				getChildNodes().addAll((Collection<? extends Node>) newValue);
+				getChildNodes().addAll((Collection<? extends Node>)newValue);
 				return;
 			case TestmodelPackage.NODE__NODENAME:
-				setNodename((String) newValue);
+				setNodename((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -322,7 +285,6 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -332,7 +294,7 @@ public class NodeImpl extends EObjectImpl implements Node {
 				getHasVals().clear();
 				return;
 			case TestmodelPackage.NODE__PARENT_NODE:
-				setParentNode((Node) null);
+				setParentNode((Node)null);
 				return;
 			case TestmodelPackage.NODE__CHILD_NODES:
 				getChildNodes().clear();
@@ -346,7 +308,6 @@ public class NodeImpl extends EObjectImpl implements Node {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -359,21 +320,19 @@ public class NodeImpl extends EObjectImpl implements Node {
 			case TestmodelPackage.NODE__CHILD_NODES:
 				return childNodes != null && !childNodes.isEmpty();
 			case TestmodelPackage.NODE__NODENAME:
-				return NODENAME_EDEFAULT == null ? nodename != null : !NODENAME_EDEFAULT
-						.equals(nodename);
+				return NODENAME_EDEFAULT == null ? nodename != null : !NODENAME_EDEFAULT.equals(nodename);
 		}
 		return super.eIsSet(featureID);
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
-		
+
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (nodename: ");
 		result.append(nodename);

@@ -25,6 +25,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -101,6 +103,15 @@ public class EngineImpl implements Engine {
 		options = new EngineOptions();
 		sortVariables = true;
 		scriptEngine = new ScriptEngineManager().getEngineByName("JavaScript");
+		if (scriptEngine==null) {
+			System.err.println("Warning: cannot find JavaScript engine");
+		} else {
+			try {
+				scriptEngine.eval("importPackage(java.lang)");
+			} catch (Throwable t) {
+				System.err.println("Warning: error importing java.lang package in JavaScript engine");
+			}
+		}
 	}
 
 	/*
@@ -609,7 +620,10 @@ public class EngineImpl implements Engine {
 			Object value;
 			Parameter param = rule.getParameter(attribute.getValue());
 			if (param!=null) {
-				value = castValueToDataType(resultMatch.getParameterValue(param), attribute.getType().getEAttributeType());
+				value = castValueToDataType(
+						resultMatch.getParameterValue(param), 
+						attribute.getType().getEAttributeType(),
+						attribute.getType().isMany());
 			} else {
 				value = evalAttributeExpression(attribute);	// casting done here automatically
 			}			
@@ -651,7 +665,10 @@ public class EngineImpl implements Engine {
 		
 		// Try to evaluate the expression and cast it to the correct type:
 		try {
-			return castValueToDataType(scriptEngine.eval(attribute.getValue()), attribute.getType().getEAttributeType());
+			return castValueToDataType(
+					scriptEngine.eval(attribute.getValue()), 
+					attribute.getType().getEAttributeType(),
+					attribute.getType().isMany());
 		} catch (ScriptException e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -666,7 +683,21 @@ public class EngineImpl implements Engine {
 	/*
 	 * Cast a data value into a given data type.
 	 */
-	private static Object castValueToDataType(Object value, EDataType type) {
+	private static Object castValueToDataType(Object value, EDataType type, boolean isMany) {
+		
+		// List of values?
+		if (isMany) {
+			EList<Object> list = new BasicEList<Object>();
+			if (value instanceof Collection) {
+				for (Object elem : ((Collection<?>) value)) {
+					list.add(castValueToDataType(elem, type, false));
+				}
+			}
+			else if (value!=null) {
+				list.add(value);
+			}
+			return list;
+		}
 		
 		// Null?
 		if (value==null) {

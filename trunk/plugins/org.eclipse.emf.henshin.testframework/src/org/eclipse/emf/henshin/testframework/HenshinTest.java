@@ -25,7 +25,6 @@ import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.junit.After;
@@ -50,10 +49,10 @@ import org.junit.After;
 public class HenshinTest {
 	
 	/**
-	 * TransformationSystem which has been automatically loaded and set-up for
+	 * Module which has been automatically loaded and set-up for
 	 * you to use.
 	 */
-	protected Module htTransformationSystem; // Module
+	protected Module htModule; // Module
 	
 	/**
 	 * Engine which has been automatically loaded and set-up for you to use.
@@ -79,7 +78,7 @@ public class HenshinTest {
 	/**
 	 * When calling loadTu(), this will be the loaded {@link Unit}
 	 */
-	protected Unit htTransUnit; // Unit
+	protected Unit htUnit; // Unit
 	
 	/**
 	 * When calling loadTu(), this will be the {@link UnitApplication} created
@@ -96,12 +95,12 @@ public class HenshinTest {
 	
 	@After
 	public void tearDown() {
-		htTransformationSystem = null;
+		htModule = null;
 		htEngine = null;
 		htEGraph = null;	
 		htRule = null;
 		htRuleApp = null;
-		htTransUnit = null;
+		htUnit = null;
 		htUnitApp = null;
 	}
 	
@@ -118,7 +117,7 @@ public class HenshinTest {
 	 * @throws Exception
 	 */
 	protected void init(String henshinFile) throws Exception {
-		htTransformationSystem = (Module) HenshinLoaders.loadHenshin(henshinFile);
+		htModule = (Module) HenshinLoaders.loadHenshin(henshinFile);
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
@@ -137,9 +136,8 @@ public class HenshinTest {
 	 */
 
 	protected void init(String henshinFile, String modelFile, String modelFileExt) throws Exception {
-		htTransformationSystem = (Module) HenshinLoaders.loadHenshin(henshinFile);
+		init(henshinFile);
 		htEGraph = HenshinLoaders.loadGraph(modelFile, modelFileExt);
-		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
 	/**
@@ -168,7 +166,7 @@ public class HenshinTest {
 	 * Initialize the tests. This should be called at the start of your JUnit
 	 * setUp() method.<br />
 	 * <strong>Attention:</strong> This method will not load a
-	 * {@link TransformationSystem}, which has to be loaded manually (don't
+	 * {@link Module}, which has to be loaded manually (don't
 	 * forget to set <em>htTransformationSystem</em> to the loaded {@link TransformationSystem}).
 	 * Otherwise, other methods will not work (especially loadRule and loadTu).
 	 * 
@@ -215,7 +213,7 @@ public class HenshinTest {
 	 * @param ruleName
 	 */
 	protected void loadRule(String ruleName) {
-		htRule = (Rule) htTransformationSystem.getUnit(ruleName);
+		htRule = (Rule) htModule.getUnit(ruleName);
 		htRuleApp = InterpreterFactory.INSTANCE.createRuleApplication(htEngine);
 		htRuleApp.setRule(htRule);
 		htRuleApp.setEGraph(htEGraph);
@@ -269,9 +267,9 @@ public class HenshinTest {
 	 *            {@link Unit} to be loaded
 	 */
 	protected void loadTu(String unitName) {
-		htTransUnit = htTransformationSystem.getUnit(unitName);
+		htUnit = htModule.getUnit(unitName);
 		htUnitApp = InterpreterFactory.INSTANCE.createUnitApplication(htEngine);
-		htUnitApp.setUnit(htTransUnit);
+		htUnitApp.setUnit(htUnit);
 		htUnitApp.setEGraph(htEGraph);
 	}
 	

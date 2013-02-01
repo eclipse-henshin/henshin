@@ -13,6 +13,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -164,7 +166,7 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 		constant = null;
 		
 		// Supposed to be null?
-		if (value!=null && value.trim().equalsIgnoreCase("null")) {
+		if (isNull(value)) {
 			null_ = true;
 			return;
 		}
@@ -182,19 +184,64 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 			EcoreUtil.resolveAll(this);
 		}
 		
-		// Enum?
-		if (type.getEType() instanceof EEnum) {
-			try {
-				constant = ((EEnum) type.getEType()).getEEnumLiteral(value);
-			} catch (Throwable t) {}
-			return;
-		}
-		
 		// Package and factory must be known:
 		if (type.getEType()==null || 
 			type.getEType().getEPackage()==null || 
 			type.getEType().getEPackage().getEFactoryInstance()==null) {
 			return;
+		}
+		
+		// Get a trimmed version of the value:
+		String v = value.trim();
+		
+		// Multiple values?
+		if (type.isMany()) {
+			if (v.startsWith("[") && v.endsWith("]")) {
+				v = v.substring(1, v.length()-1);
+				EList<Object> list = new BasicEList<Object>();
+				for (String e : v.split(",")) {
+					if (isNull(e)) {
+						list.add(null);
+					} else {
+						Object c = getConstant(e, type);
+						if (c!=null) {
+							list.add(c);
+						} else {
+							list = null;
+							break;
+						}
+					}
+				}
+				constant = list;
+			}
+		} else {
+			constant = getConstant(v, type);
+		}
+		
+	}
+	
+	/**
+	 * Check whether a string value is "null".
+	 * @param value String value.
+	 * @return <code>true</code> if it is null.
+	 */
+	private static boolean isNull(String value) {
+		return (value!=null) && (value.trim().equalsIgnoreCase("null"));
+	}
+	
+	/**
+	 * Try to cast a string value into a constant.
+	 * @param value String value.
+	 * @param type Attribute type.
+	 * @return The constant or <code>null</code>.
+	 */
+	private static Object getConstant(String value, EAttribute type) {
+
+		// Enum?
+		if (type.getEType() instanceof EEnum) {
+			try {
+				return ((EEnum) type.getEType()).getEEnumLiteral(value);
+			} catch (Throwable t) {}
 		}
 		
 		// Special treatment for strings:
@@ -203,28 +250,29 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 			if (v.startsWith("\"") && v.endsWith("\"")) {	// double quotes
 				v = v.substring(1, v.length()-1);
 				if (v.indexOf("\"")<0) {
-					constant = v;
-					return;
+					return v;
 				}
 			}
 			if (v.startsWith("'") && v.endsWith("'")) {		// single quotes
-				constant = v.substring(1, v.length()-1);
+				v = v.substring(1, v.length()-1);
 				if (v.indexOf("'")<0) {
-					constant = v;
-					return;					
+					return v;
 				}
 			}
-			return;
+			return null;
 		}
 		
 		// Last chance: try to load it using the factory:
 		try {
 			EFactory factory = type.getEType().getEPackage().getEFactoryInstance();
-			constant = factory.createFromString(type.getEAttributeType(), value);
+			return factory.createFromString(type.getEAttributeType(), value);
 		} catch (Throwable t) {}
 		
+		// Seems not to be a constant:
+		return null;
+		
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

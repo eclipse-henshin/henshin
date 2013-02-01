@@ -17,35 +17,31 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '
  * <em><b>cont</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.emf.henshin.tests.testmodel.cont#getContainsNode <em>
- * Contains Node</em>}</li>
- * <li>{@link org.eclipse.emf.henshin.tests.testmodel.cont#getContainsVal <em>
- * Contains Val</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.cont#getContainsNode <em>Contains Node</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.cont#getContainsVal <em>Contains Val</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getcont()
  * @model
  * @generated
  */
 public interface cont extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Contains Node</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.emf.henshin.tests.testmodel.Node}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Contains Node</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.tests.testmodel.Node}.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>Contains Node</em>' containment reference list
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Contains Node</em>' containment reference
-	 *         list.
+	 * @return the value of the '<em>Contains Node</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getcont_ContainsNode()
 	 * @model containment="true"
 	 * @generated
@@ -53,18 +49,16 @@ public interface cont extends EObject {
 	EList<Node> getContainsNode();
 	
 	/**
-	 * Returns the value of the '<em><b>Contains Val</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.emf.henshin.tests.testmodel.Val}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Contains Val</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.tests.testmodel.Val}.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>Contains Val</em>' containment reference list
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Contains Val</em>' containment reference
-	 *         list.
+	 * @return the value of the '<em>Contains Val</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getcont_ContainsVal()
 	 * @model containment="true"
 	 * @generated

@@ -10,17 +10,14 @@
 package org.eclipse.emf.henshin.testframework;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
-import org.eclipse.emf.henshin.interpreter.util.HenshinEGraph;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
  * Methods for loading henshin files, models and graphs.
@@ -43,11 +40,11 @@ public class HenshinLoaders {
 	 * 
 	 * @param fileName
 	 *            Path to the henshin file
-	 * @return EObject (TransformationSystem)
+	 * @return Module
 	 */
-	public static TransformationSystem loadHenshin(String fileName) {
-		ModelHelper.registerFileExtension(HENSHIN_FILE_EXTENSION);
-		return (TransformationSystem) (ModelHelper.loadFile(fileName));
+	public static Module loadHenshin(String fileName) {
+		HenshinResourceSet resourceSet = new HenshinResourceSet();
+		return resourceSet.getModule(fileName, false);
 	}
 	
 	/**
@@ -60,13 +57,10 @@ public class HenshinLoaders {
 	 * @return EmfGraph
 	 */
 	public static EGraph loadGraph(String modelFileName, String modelFileExt) {
-		ModelHelper.registerFileExtension(modelFileExt);
-		EObject graphRoot = ModelHelper.loadFile(modelFileName);
-		
-		EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
-		graph.addTree(graphRoot);
-		
-		return graph;
+		HenshinResourceSet resourceSet = new HenshinResourceSet();
+		resourceSet.registerXMIResourceFactories(modelFileExt);
+		Resource resource = resourceSet.getResource(modelFileName);
+		return new EGraphImpl(resource);
 	}
 	
 	public static EGraph loadGraph(URI graphUri) {

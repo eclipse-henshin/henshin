@@ -14,13 +14,17 @@ package org.eclipse.emf.henshin.tests.basicTests;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
 import org.eclipse.emf.henshin.testframework.Matches;
 import org.eclipse.emf.henshin.testframework.Rules;
 import org.eclipse.emf.henshin.testframework.Tools;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
+import org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage;
 import org.eclipse.emf.henshin.tests.testmodel.Val;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -308,4 +312,32 @@ public class MatchTests extends HenshinTest {
 
 	}
 	
+	@Test
+	public void intListConstTest() {
+		loadGraph("intList");
+		loadRule("intListConstTest");
+		Rules.assertRuleCanBeApplied(htRuleApp);
+		Val val = (Val) htEGraph.getDomain(TestmodelPackage.eINSTANCE.getVal(), true).get(0);
+		EList<Integer> result = new BasicEList<Integer>();
+		result.add(1);
+		result.add(2);
+		result.add(3);
+		result.add(4);
+		Assert.assertEquals("Unexpected integer list result: " + val.getIntlist(), val.getIntlist(), result);
+	}
+
+	@Test
+	public void intListVarTest() {
+		loadGraph("intList");
+		loadRule("intListVarTest");
+		Rules.assertRuleCanBeApplied(htRuleApp);
+		Val val = (Val) htEGraph.getDomain(TestmodelPackage.eINSTANCE.getVal(), true).get(0);
+		EList<Integer> result = new BasicEList<Integer>();
+		result.add(1);
+		result.add(2);
+		result.add(3);
+		result.add(4);
+		Assert.assertEquals("Unexpected integer list result: " + val.getIntlist(), val.getIntlist(), result);
+	}
+
 }
