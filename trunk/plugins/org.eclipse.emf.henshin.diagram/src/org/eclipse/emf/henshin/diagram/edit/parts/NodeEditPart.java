@@ -24,16 +24,17 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeGraphicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -150,12 +151,24 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	@Override
 	public void refreshForegroundColor() {
-		Action action = getNodeAction();
-		if (action != null) {
-			Color color = HenshinDiagramColorProvider.getActionColor(action);
-			setForegroundColor(color);
+		HenshinColorMode.Color color = ColorModeHelper.getActionColor(getNotationView(), true);
+		if (color!=null) {
+			setForegroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
-			super.refreshForegroundColor();
+			super.refreshForegroundColor();			
+		}
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void refreshBackgroundColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getActionColor(getNotationView(), false);
+		if (color!=null) {
+			setBackgroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			super.refreshBackgroundColor();
 		}
 	}
 

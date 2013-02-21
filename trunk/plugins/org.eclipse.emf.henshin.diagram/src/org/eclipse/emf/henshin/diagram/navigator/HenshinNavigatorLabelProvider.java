@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.diagram.navigator;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
@@ -28,7 +29,6 @@ import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.henshin.model.Action;
@@ -36,6 +36,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
@@ -411,20 +412,25 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 			HenshinNavigatorItem item = (HenshinNavigatorItem) element;
 			if (isOwnView(item.getView())) {
 				View view = item.getView();
+				Action action = null;
 				if (view.getElement() instanceof Node) {
-					Action action = ((Node) view.getElement()).getAction();
-					if (action != null) {
-						return HenshinDiagramColorProvider
-								.getActionColor(action);
-					}
+					action = ((Node) view.getElement()).getAction();
 				}
-				if (view.getElement() instanceof Edge) {
-					Action action = ((Edge) view.getElement()).getAction();
-					if (action != null) {
-						return HenshinDiagramColorProvider
-								.getActionColor(action);
-					}
+				else if (view.getElement() instanceof Edge) {
+					action = ((Edge) view.getElement()).getAction();
+				}			
+				if (action == null) {
+					return null;
 				}
+				HenshinColorMode colorMode = ColorModeHelper.getColorMode(view);
+				if (colorMode == null) {
+					return null;
+				}
+				HenshinColorMode.Color color = colorMode.getActionColor(action, true);
+				if (color == null) {
+					return null;
+				}
+				return ColorModeHelper.getSWTColor(color);
 			}
 		}
 		return null;

@@ -16,8 +16,10 @@ import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.UnitItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -223,6 +225,19 @@ public class UnitEditPart extends ShapeNodeEditPart {
 		return super.getContentPane();
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void refreshBackgroundColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.BG_UNIT);
+		if (color!=null) {
+			setBackgroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			super.refreshBackgroundColor();
+		}
+	}
+	
 	/**
 	 * @generated
 	 */

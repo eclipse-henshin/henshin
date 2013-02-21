@@ -60,7 +60,7 @@ public class CreateStateSpacePage extends WizardNewFileCreationPage {
 	 * @see CreateStateSpaceWizard#init(IWorkbench, IStructuredSelection)
 	 */
 	public CreateStateSpacePage(ResourceSet resourceSet, IWorkbench workbench, IStructuredSelection selection) {
-		super("Create Statespace", selection);
+		super("Create State Space", selection);
 		this.workbench = workbench;
 		this.resourceSet = resourceSet;
 		this.rules = new ArrayList<Rule>();

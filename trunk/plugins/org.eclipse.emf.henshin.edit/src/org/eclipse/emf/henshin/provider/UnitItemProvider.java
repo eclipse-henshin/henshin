@@ -34,7 +34,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.provider.filter.IFilterProvider;
 import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvider;
-import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Unit} object.
@@ -315,7 +315,18 @@ public class UnitItemProvider extends NamedElementItemProvider implements
 	 */
 	@Override
 	public Object getBackground(Object object) {
-		return HenshinColorProvider.COLOR_TRANSFORMATION_UNIT.toURI();
+		
+		// Get the default color mode:
+		HenshinColorMode colorMode = HenshinColorMode.getDefaultColorMode();
+		if (colorMode==null) {
+			return super.getBackground(object);
+		}
+		HenshinColorMode.Color background = colorMode.getColor(HenshinColorMode.BG_UNIT);
+		if (background!=null) {
+			return background.toURI();
+		}
+		return super.getBackground(object);
+		
 	}
 	
 }

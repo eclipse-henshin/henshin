@@ -17,7 +17,7 @@ import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.GraphElement;
-import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.emf.henshin.provider.util.IItemToolTipProvider;
 
 /**
@@ -58,16 +58,39 @@ public class HenshinItemProviderAdapter extends ItemProviderAdapter implements I
 	 */
 	@Override
 	public Object getForeground(Object object) {
+		
+		// A GraphElement?
 		if (object instanceof GraphElement) {
-			Action action = ((GraphElement) object).getAction();
-			if (action==null) {
-				return HenshinColorProvider.COLOR_ACTION_PRESERVE.toURI();  // gray for elements without an action
-			} if (action.getType()==PRESERVE) {
-				return super.getForeground(object);  // default color for preserve-elements
+			
+			// Get the default color mode:
+			HenshinColorMode colorMode = HenshinColorMode.getDefaultColorMode();
+			if (colorMode==null) {
+				return super.getForeground(object);
 			}
-			return HenshinColorProvider.getActionColor(action).toURI();  // otherwise take the suggested color			
+			
+			// Get the action of the element:
+			Action action = ((GraphElement) object).getAction();
+			
+			// Default color for preserve-elements:
+			if (action!=null && action.getType()==PRESERVE) {
+				return super.getForeground(object);
+			}
+			
+			HenshinColorMode.Color foreground;
+			if (action==null) {
+				foreground = colorMode.getActionColor(new Action(PRESERVE), true);
+			} else {
+				foreground = colorMode.getActionColor(action, true);
+			}
+			if (foreground==null) {
+				return super.getForeground(object);
+			}
+			return foreground.toURI();
 		}
+		
+		// Default color:
 		return super.getForeground(object);
+		
 	}
 
 }

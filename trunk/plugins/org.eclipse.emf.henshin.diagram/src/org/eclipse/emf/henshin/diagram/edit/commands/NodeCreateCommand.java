@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.EClassComparator;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
@@ -27,7 +28,6 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
-import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -268,12 +269,22 @@ public class NodeCreateCommand extends EditElementCommand {
 			Composite buttons = new Composite(group, SWT.NONE);
 			buttons.setLayout(new RowLayout(SWT.HORIZONTAL));
 
+			// Get the default color mode:
+			HenshinColorMode colorMode = HenshinColorMode.getDefaultColorMode();
+			
 			// Action types as radio buttons:
 			for (final Type type : Type.values()) {
 				Button button = new Button(buttons, SWT.RADIO);
 				button.setText(type.toString());
-				button.setForeground(HenshinDiagramColorProvider
-						.getActionColor(new Action(type)));
+				
+				// Set the action color:
+				if (colorMode!=null) {
+					HenshinColorMode.Color color = colorMode.getActionColor(new Action(type), true);
+					if (color!=null) {
+						button.setForeground(ColorModeHelper.getSWTColor(color));						
+					}
+				}
+				
 				if (type==action.getType()) {
 					button.setSelection(true);
 				}

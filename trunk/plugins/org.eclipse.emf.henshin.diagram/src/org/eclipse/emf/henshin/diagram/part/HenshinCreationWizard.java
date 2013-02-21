@@ -9,11 +9,25 @@
  */
 package org.eclipse.emf.henshin.diagram.part;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.presentation.ImportPackagesWizardPage;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.gmf.runtime.common.core.command.CommandResult;
+import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -105,11 +119,22 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 				.getBundledImageDescriptor("icons/wizban/NewHenshinWizard.gif")); //$NON-NLS-1$
 		setNeedsProgressMonitor(true);
 	}
+	
+	private ImportPackagesWizardPage importPackagesPage;
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void addPages() {
+		addPagesGen();
+		addPage(importPackagesPage = new ImportPackagesWizardPage("importPackages"));
+	}
 
 	/**
 	 * @generated
 	 */
-	public void addPages() {
+	public void addPagesGen() {
 		diagramModelFilePage = new HenshinCreationWizardPage(
 				"DiagramModelFile", getSelection(), "henshin_diagram"); //$NON-NLS-1$ //$NON-NLS-2$
 		diagramModelFilePage
@@ -140,16 +165,55 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean performFinish() {
+		
+		// Create a workspace operation:
 		IRunnableWithProgress op = new WorkspaceModifyOperation(null) {
 
 			protected void execute(IProgressMonitor monitor)
 					throws CoreException, InterruptedException {
+				
+				// Create the diagram and model resources:
 				diagram = HenshinDiagramEditorUtil.createDiagram(
 						diagramModelFilePage.getURI(),
-						domainModelFilePage.getURI(), monitor);
+						domainModelFilePage.getURI(), 
+						monitor);
+				
+				// Add the imported packages:
+				final ResourceSet resourceSet = diagram.getResourceSet();
+				final Diagram theDiagram = (Diagram) diagram.getContents().get(0);
+				final Module module = (Module) theDiagram.getElement();
+				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(theDiagram);
+				if (editingDomain != null) {
+					AbstractTransactionalCommand command = new AbstractTransactionalCommand(editingDomain, "Import Packages", null) {
+						protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+							for (URI uri : importPackagesPage.getPackageURIs()) {
+								EObject object = resourceSet.getEObject(uri, true);
+								if (object instanceof EPackage) {
+									module.getImports().add((EPackage) object);
+								}
+							}
+							// Save again:
+							try {
+								module.eResource().save(null);
+								diagram.save(null);
+							} catch (IOException e) {
+								throw new ExecutionException("Error saving Henshin model/diagram", e);
+							}
+							return CommandResult.newOKCommandResult();
+						}
+					};
+					try {
+						command.execute(null, null);
+					} catch (ExecutionException e) {
+						HenshinDiagramEditorPlugin.getInstance().logError(
+								"Error creating diagram", e); //$NON-NLS-1$
+					}
+				}
+				
+				// Open in editor:
 				if (isOpenNewlyCreatedDiagramEditor() && diagram != null) {
 					try {
 						HenshinDiagramEditorUtil.openDiagram(diagram);
@@ -161,6 +225,8 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 				}
 			}
 		};
+		
+		// Execute the operation:
 		try {
 			getContainer().run(false, true, op);
 		} catch (InterruptedException e) {
@@ -176,6 +242,9 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 			}
 			return false;
 		}
+		
+		// Done.
 		return diagram != null;
+		
 	}
 }

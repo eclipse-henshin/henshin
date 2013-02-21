@@ -86,7 +86,7 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		
-		setWindowTitle("Export Transformation Model");
+		setWindowTitle("Export Henshin Model");
 		this.workbench = workbench;
 		this.selection = selection;
 		

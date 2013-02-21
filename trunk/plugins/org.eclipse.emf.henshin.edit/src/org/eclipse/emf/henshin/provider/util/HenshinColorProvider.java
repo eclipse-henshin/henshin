@@ -1,26 +1,24 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.provider.util;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
+
+import static org.eclipse.emf.henshin.provider.util.HenshinColorMode.Color;
 
 /**
  * Henshin color provider class.
  * @author Christian Krause
  */
-public class HenshinColorProvider {
-
-	public static class Color {
-		public final int red, green, blue;
-		public Color(int red, int green, int blue) {
-			this.red = red;
-			this.green = green;
-			this.blue = blue;
-		}
-		public URI toURI() {
-			return URI.createURI("color://rgb/" + red + "/" + green + "/" + blue);
-		}
-	}
+class HenshinColorProvider {
 
 	public static Color COLOR_BLACK = new Color(0, 0, 0);
 
@@ -33,8 +31,8 @@ public class HenshinColorProvider {
 	// default background color for rules:
 	public static Color COLOR_RULE = new Color(215, 225, 245);
 	
-	// default background color for transformation units:
-	public static Color COLOR_TRANSFORMATION_UNIT = new Color(215, 245, 225);
+	// default background color for units:
+	public static Color COLOR_UNIT = new Color(215, 245, 225);
 
 	public static Color getActionColor(Action action) {
 		if (action==null) {

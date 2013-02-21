@@ -142,7 +142,7 @@
            class="org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinModelExportWizard"
            icon="icons/HenshinModelFile.gif"
            id="org.eclipse.emf.henshin.exportTransformationModel"
-           name="Transformation Model">
+           name="Henshin Model">
      </wizard>
   </extension>
 

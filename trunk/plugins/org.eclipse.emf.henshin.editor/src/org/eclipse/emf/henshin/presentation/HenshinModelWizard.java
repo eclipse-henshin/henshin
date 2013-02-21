@@ -19,75 +19,52 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
-import org.eclipse.emf.common.CommonPlugin;
-
-import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-
-import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.ecore.xmi.XMLResource;
-
-import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-
 import org.eclipse.core.runtime.IProgressMonitor;
-
-import org.eclipse.jface.dialogs.MessageDialog;
-
-import org.eclipse.jface.viewers.IStructuredSelection;
-
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardPage;
-
-import org.eclipse.swt.SWT;
-
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.ModifyEvent;
-
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
-
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
-
-import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-
-import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.ISetSelectionTarget;
-
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.provider.HenshinEditPlugin;
-
-import org.eclipse.core.runtime.Path;
-
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-
+import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.ISetSelectionTarget;
 
 /**
  * This is a simple wizard for creating a new model file.
@@ -182,8 +159,9 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 	
 	/**
 	 * Returns the names of the types that can be created as the root object.
-	 * <!-- begin-user-doc --> We override this method to restrict the possible
-	 * root elements. <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * We override this method to restrict the possible root elements.
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -198,7 +176,8 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 	
 	/**
 	 * Returns the names of the types that can be created as the root object.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected Collection<String> getInitialObjectNamesGen() {
@@ -219,15 +198,14 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 	
 	/**
 	 * Create a new model.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	protected EObject createInitialModel() {
-		EClass eClass = (EClass)henshinPackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
-		EObject rootObject = henshinFactory.create(eClass);
-		return rootObject;
+		return importPackagesPage.createModule();
 	}
-	
+
 	/**
 	 * Do the work after everything is specified.
 	 * <!-- begin-user-doc --> <!--
@@ -356,7 +334,8 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 		}
 		
 		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		public IFile getModelFile() {
@@ -371,26 +350,32 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	public class HenshinModelWizardInitialObjectCreationPage extends WizardPage {
+		
 		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		protected Combo initialObjectField;
 		
 		/**
-		 * @generated <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated 
 		 */
 		protected List<String> encodings;
 		
 		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		protected Combo encodingField;
 		
 		/**
 		 * Pass in the selection.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		public HenshinModelWizardInitialObjectCreationPage(String pageId) {
@@ -398,7 +383,8 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 		}
 		
 		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		public void createControl(Composite parent) {
@@ -559,14 +545,42 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 		}
 	}
 	
+	private ImportPackagesWizardPage importPackagesPage;
+
 	/**
-	 * The framework calls this to create the contents of the wizard. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void addPages() {
+		addPagesGen();
+		addPage(importPackagesPage = new ImportPackagesWizardPage("importPackages"));
+	}
+
+	@Override
+	public IWizardPage getNextPage(IWizardPage page) {
+		if (page==newFileCreationPage) {
+			return importPackagesPage;
+		}
+		return null;
+    }
+
+	@Override
+    public IWizardPage getPreviousPage(IWizardPage page) {
+		if (page==importPackagesPage) {
+			return newFileCreationPage;
+		}
+		return null;
+    }
+
+	
+	/**
+	 * The framework calls this to create the contents of the wizard. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void addPagesGen() {
 		// Create a page, set the title, and the initial model file name.
 		//
 		newFileCreationPage = new HenshinModelWizardNewFileCreationPage("Whatever", selection);

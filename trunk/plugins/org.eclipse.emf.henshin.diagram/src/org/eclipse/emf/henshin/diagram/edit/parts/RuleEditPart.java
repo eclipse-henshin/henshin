@@ -16,8 +16,10 @@ import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -220,6 +222,19 @@ public class RuleEditPart extends ShapeNodeEditPart {
 			return contentPane;
 		}
 		return super.getContentPane();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void refreshBackgroundColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.BG_RULE);
+		if (color!=null) {
+			setBackgroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			super.refreshBackgroundColor();
+		}
 	}
 
 	/**

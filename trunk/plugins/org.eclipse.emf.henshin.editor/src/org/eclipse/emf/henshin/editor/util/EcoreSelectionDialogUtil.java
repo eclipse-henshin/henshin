@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.editor.actions;
+package org.eclipse.emf.henshin.editor.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +39,9 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
@@ -94,7 +97,7 @@ public class EcoreSelectionDialogUtil {
 	 */
 	public static EPackage selectRegisteredPackage(Shell shell, ResourceSet resourceSet) {
 		
-		RegisteredPackageDialog dialog = new RegisteredPackageDialog(shell);
+		CustomRegisteredPackageDialog dialog = new CustomRegisteredPackageDialog(shell);
 		dialog.setMultipleSelection(false);
 		dialog.open();
 		EPackage epackage = null;
@@ -102,7 +105,6 @@ public class EcoreSelectionDialogUtil {
 		Object[] result = dialog.getResult();
 		if (result != null) {
 			List<?> nsURIs = Arrays.asList(result);
-			
 			if (dialog.isDevelopmentTimeVersion()) {
 				resourceSet.getURIConverter().getURIMap()
 						.putAll(EcorePlugin.computePlatformURIMap());
@@ -113,7 +115,7 @@ public class EcoreSelectionDialogUtil {
 					EcoreUtil.resolveAll(resource);
 				}
 				for (Resource resource : resourceSet.getResources()) {
-					for (EPackage current : getAllPackages(resource)) {
+					for (EPackage current : EcoreSelectionDialogUtil.getAllPackages(resource)) {
 						if (nsURIs.contains(current.getNsURI())) {
 							epackage = current;
 							break;
@@ -131,6 +133,42 @@ public class EcoreSelectionDialogUtil {
 		return epackage;
 		
 	}
+
+	protected static class CustomRegisteredPackageDialog extends RegisteredPackageDialog {
+
+		public CustomRegisteredPackageDialog(Shell shell) {
+			super(shell);
+			setMessage("Select the package to import. In most cases you need the runtime version.");
+			super.isDevelopmentTimeVersion = false; // we want the runtime version
+		}
+	
+		@Override
+		protected Control createDialogArea(Composite parent) {
+			Control result = super.createDialogArea(parent);
+			updateButtons(result);
+			return result;
+		}
+		
+		private void updateButtons(Control control) {
+			if (control instanceof Button) {
+				Button button = (Button) control;
+				// button.setEnabled(false);
+				String text = button.getText().toLowerCase();
+				if (text.indexOf("runtime")>=0) {
+					button.setSelection(true);
+				} else {
+					button.setSelection(false);
+				}
+			}
+			if (control instanceof Composite) {
+				for (Control child : ((Composite) control).getChildren()) {
+					updateButtons(child);
+				}
+			}
+		}
+
+	}
+
 	
 	/*
 	 * Find all packages in a resource.

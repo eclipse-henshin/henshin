@@ -18,16 +18,17 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.AttributeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextNonResizableEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.parsers.NodeActionParser;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
@@ -433,12 +434,13 @@ public class AttributeEditPart extends CompartmentEditPart implements
 	protected void refreshFontColor() {
 		String text = getLabelText();
 		if (text.startsWith("" + NodeActionParser.ACTION_QUOTE_LEFT)) { // with action?
-			Attribute attribute = (Attribute) getNotationView().getElement();
-			Action action = attribute.getAction();
-			setFontColor(HenshinDiagramColorProvider.getActionColor(action));
-		} else {
-			setFontColor(ColorConstants.black);
+			HenshinColorMode.Color color = ColorModeHelper.getActionColor(getNotationView(), true);
+			if (color!=null) {
+				setFontColor(ColorModeHelper.getSWTColor(color));
+				return;
+			}
 		}
+		super.refreshFontColor();
 	}
 
 	/**

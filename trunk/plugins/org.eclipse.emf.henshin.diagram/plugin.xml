@@ -224,6 +224,19 @@
       </propertySections>
    </extension>
 
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections" id="propsections">
+      <?gmfgen generated="false"?>   
+      <propertySections contributorId="org.eclipse.emf.henshin.diagram">
+         <propertySection
+               afterSection="property.section.DiagramColorsAndFontsPropertySection"
+               class="org.eclipse.emf.henshin.diagram.sheet.ColorModePropertySection"
+               filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter"
+               id="property.section.ColorMode"
+               tab="property.tab.AppearancePropertySection">
+         </propertySection> 
+      </propertySections>
+   </extension>
+
    <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders" id="view-provider">
       <?gmfgen generated="true"?>
       <viewProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider">
@@ -559,7 +572,7 @@
    <extension point="org.eclipse.ui.popupMenus" id="custom-popup-menues">
       <?gmfgen generated="false"?>
       <objectContribution
-            id="org.eclipse.emf.henshin.diagram.custom.systems"
+            id="org.eclipse.emf.henshin.diagram.custom.modules"
             objectClass="org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart">
          <menu
                icon="../org.eclipse.emf.henshin.editor/icons/full/ctool16/CreateEPackage.gif"

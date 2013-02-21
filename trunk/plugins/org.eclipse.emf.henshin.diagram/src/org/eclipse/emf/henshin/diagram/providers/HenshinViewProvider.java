@@ -16,6 +16,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
@@ -38,6 +39,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinLinkUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinSymbolUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
 import org.eclipse.gmf.runtime.common.core.service.IOperation;
@@ -345,10 +347,15 @@ public class HenshinViewProvider extends AbstractProvider implements
 				persisted, preferencesHint);
 
 		// Set the default background color:
-		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
-				.getFillStyle_FillColor(), FigureUtilities
-				.colorToInteger(HenshinDiagramColorProvider.COLOR_RULE));
-
+		HenshinColorMode defaultColorMode = HenshinColorMode.getDefaultColorMode();
+		if (defaultColorMode!=null) {
+			HenshinColorMode.Color color = defaultColorMode.getColor(HenshinColorMode.BG_RULE);
+			if (color!=null) {
+				ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+						.getFillStyle_FillColor(), ColorModeHelper.getIntegerColor(color));
+			}
+		}
+		
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFontStyle_Italic(), true);
@@ -411,11 +418,14 @@ public class HenshinViewProvider extends AbstractProvider implements
 				persisted, preferencesHint);
 
 		// Set the default background color:
-		ViewUtil.setStructuralFeatureValue(
-				node,
-				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
-				FigureUtilities
-						.colorToInteger(HenshinDiagramColorProvider.COLOR_TRANSFORMATION_UNIT));
+		HenshinColorMode defaultColorMode = HenshinColorMode.getDefaultColorMode();
+		if (defaultColorMode!=null) {
+			HenshinColorMode.Color color = defaultColorMode.getColor(HenshinColorMode.BG_UNIT);
+			if (color!=null) {
+				ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+						.getFillStyle_FillColor(), ColorModeHelper.getIntegerColor(color));
+			}
+		}
 
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,

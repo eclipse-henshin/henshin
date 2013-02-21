@@ -18,14 +18,15 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.ActionLabelDirectEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -475,13 +476,12 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	 */
 	@Override
 	protected void refreshFontColor() {
-		Node node = (Node) getNotationView().getElement();
-		Action action = node.getAction();
-		Color color = ColorConstants.gray;
-		if (action != null) {
-			color = HenshinDiagramColorProvider.getActionColor(action);
+		HenshinColorMode.Color color = ColorModeHelper.getActionColor(getNotationView(), true);
+		if (color!=null) {
+			setForegroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			setForegroundColor(ColorConstants.gray);
 		}
-		setForegroundColor(color);
 	}
 
 	/**

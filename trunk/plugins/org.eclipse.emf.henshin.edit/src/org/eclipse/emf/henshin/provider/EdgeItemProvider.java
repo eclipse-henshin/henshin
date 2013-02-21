@@ -35,7 +35,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTargetPropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTypePropertyDescriptor;
-import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
