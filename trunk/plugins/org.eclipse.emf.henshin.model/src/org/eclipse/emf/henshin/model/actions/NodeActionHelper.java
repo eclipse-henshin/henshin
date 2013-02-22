@@ -15,6 +15,7 @@ import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.MappingList;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
@@ -77,6 +78,21 @@ public class NodeActionHelper extends GenericActionHelper<Node,Rule> {
 		}
 		// No corresponding Lhs node:
 		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.actions.GenericActionHelper#getOrCreateAC(org.eclipse.emf.henshin.model.Action, org.eclipse.emf.henshin.model.Rule)
+	 */
+	@Override
+	protected NestedCondition getOrCreateAC(Action action, Rule rule) {
+		// Ensure node completeness of the nested condition:
+		NestedCondition nestedCond = super.getOrCreateAC(action, rule);
+		MapEditor<Node> editor = getMapEditor(rule.getLhs(), nestedCond.getConclusion(), nestedCond.getMappings());
+		for (Node node : rule.getLhs().getNodes()) {
+			editor.copy(node);
+		}
+		return nestedCond;
 	}
 	
 }

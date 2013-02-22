@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.EClassComparator;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
@@ -30,10 +31,12 @@ import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
-import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
+import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -145,10 +148,9 @@ public class NodeCreateCommand extends EditElementCommand {
 			return CommandResult.newCancelledCommandResult();
 		}
 
-		// Update the root containment for the new node:
-		View ruleView = RuleEditHelper.findRuleView(rule);
-		RootObjectEditHelper.updateRootContainment(ruleView, node);
-
+		// Update containment:
+		updateContainment(rule, node);
+		
 		// Finally, we set the user-defined action:
 		if (dialog != null) {
 			action = dialog.getAction();
@@ -160,20 +162,50 @@ public class NodeCreateCommand extends EditElementCommand {
 		catch (Throwable t) {
 			HenshinDiagramEditorPlugin.getInstance().logError("Error setting node action", t);
 		}
-
+		
 		// Complete multi-rules:
 		HenshinModelCleaner.completeMultiRules(rule.getRootRule());
 
 		// Clean up:
 		HenshinModelCleaner.cleanRule(rule.getRootRule());
 
-		// Configure and return:
+		// Configure the new node:
 		doConfigure(node, monitor, info);
 		request.setNewElement(node);
 		return CommandResult.newOKCommandResult(node);
 
 	}
+	
+	/*
+	 * Update containment for the new node.
+	 */
+	private void updateContainment(Rule rule, Node newNode) throws ExecutionException {
+		
+		// Update the root containment for the new node:
+		View ruleView = RuleEditHelper.findRuleView(rule);
+		RootObjectEditHelper.updateRootContainment(ruleView, newNode);
 
+		// Check if it makes sense to create a containment edge to the new node:		
+		if (!newNode.getIncoming().isEmpty()) {
+			return;
+		}
+		for (Node container : rule.getActionNodes(null)) {
+			if (container.getType()==null) {
+				continue;
+			}
+			for (EReference ref : container.getType().getEAllContainments()) {
+				EClass refType = ref.getEReferenceType();
+				if (refType!=null && (refType.isSuperTypeOf(newNode.getType())) 
+						|| (newNode.getType()).isSuperTypeOf(refType)) {
+					if (rule.canCreateEdge(container, newNode, ref)) {
+						rule.createEdge(container, newNode, ref);
+						return;
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 * @generated
 	 */

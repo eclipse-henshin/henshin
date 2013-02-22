@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinNodeDescriptor;
@@ -30,6 +31,7 @@ import org.eclipse.gmf.runtime.diagram.ui.commands.DeferredLayoutCommand;
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.commands.SetViewMutabilityCommand;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CanonicalEditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.notation.Node;
@@ -92,9 +94,19 @@ public class RuleCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void refreshSemantic() {
+		refreshSemanticGen();
+		ModuleEditPart mp = (ModuleEditPart) getHost().getParent().getParent();
+		ModuleCanonicalEditPolicy cep = (ModuleCanonicalEditPolicy) mp.getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
+		cep.refreshSemantic();
+	}
+	
+	/**
+	 * @generated
+	 */
+	protected void refreshSemanticGen() {
 		if (resolveSemanticElement() == null) {
 			return;
 		}

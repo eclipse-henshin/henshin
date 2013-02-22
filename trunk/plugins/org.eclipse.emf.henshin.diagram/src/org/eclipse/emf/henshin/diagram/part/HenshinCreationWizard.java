@@ -127,14 +127,8 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public void addPages() {
-		addPagesGen();
-		addPage(importPackagesPage = new ImportPackagesWizardPage("importPackages"));
-	}
-
-	/**
-	 * @generated
-	 */
-	public void addPagesGen() {
+		
+		// Diagram file page:
 		diagramModelFilePage = new HenshinCreationWizardPage(
 				"DiagramModelFile", getSelection(), "henshin_diagram"); //$NON-NLS-1$ //$NON-NLS-2$
 		diagramModelFilePage
@@ -143,25 +137,36 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 				.setDescription(Messages.HenshinCreationWizard_DiagramModelFilePageDescription);
 		addPage(diagramModelFilePage);
 
+		// Domain file page:
 		domainModelFilePage = new HenshinCreationWizardPage(
 				"DomainModelFile", getSelection(), "henshin") { //$NON-NLS-1$ //$NON-NLS-2$
-
+			private boolean activated = false;
+			@Override
+			public boolean isPageComplete() {
+				return activated && super.isPageComplete();
+			}
+			@Override
 			public void setVisible(boolean visible) {
 				if (visible) {
+					activated = true;
 					String fileName = diagramModelFilePage.getFileName();
-					fileName = fileName.substring(0, fileName.length()
-							- ".henshin_diagram".length()); //$NON-NLS-1$
+					fileName = fileName.substring(0, fileName.length() - ".henshin_diagram".length()); //$NON-NLS-1$
 					setFileName(HenshinDiagramEditorUtil.getUniqueFileName(
 							getContainerFullPath(), fileName, "henshin")); //$NON-NLS-1$
 				}
 				super.setVisible(visible);
 			}
 		};
-		domainModelFilePage
-				.setTitle(Messages.HenshinCreationWizard_DomainModelFilePageTitle);
-		domainModelFilePage
-				.setDescription(Messages.HenshinCreationWizard_DomainModelFilePageDescription);
+		domainModelFilePage.setTitle(
+				Messages.HenshinCreationWizard_DomainModelFilePageTitle);
+		domainModelFilePage.setDescription(
+				Messages.HenshinCreationWizard_DomainModelFilePageDescription);
 		addPage(domainModelFilePage);
+		
+		// Import packages page:
+		importPackagesPage = new ImportPackagesWizardPage("importPackages");
+		addPage(importPackagesPage);
+
 	}
 
 	/**

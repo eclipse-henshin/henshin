@@ -64,8 +64,8 @@ public class CreateStateSpacePage extends WizardNewFileCreationPage {
 		this.workbench = workbench;
 		this.resourceSet = resourceSet;
 		this.rules = new ArrayList<Rule>();
-		setTitle("Create a new " + StateSpaceResource.FILE_EXTENSION + " file");
-		setDescription("Create a new " + StateSpaceResource.FILE_EXTENSION + " file");
+		setTitle("Create Henshin State Space");
+		setDescription("Select the file that will contain the Henshin state space.");
 	}
 	
 	/* 

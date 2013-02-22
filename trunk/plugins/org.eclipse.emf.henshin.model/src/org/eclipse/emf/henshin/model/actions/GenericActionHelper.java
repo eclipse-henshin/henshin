@@ -548,12 +548,12 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 	 * @param rule		Rule
 	 * @return the application condition.
 	 */
-	private NestedCondition getOrCreateAC(Action action, Rule rule) {
+	protected NestedCondition getOrCreateAC(Action action, Rule rule) {
 		
 		// Check if the action type is ok:
 		if (action.getType() != FORBID && action.getType() != REQUIRE) {
 			throw new IllegalArgumentException("Application conditions can be created only for REQUIRE/FORBID actions");
-		}	
+		}
 		
 		// Get the name of the application condition:
 		String name = action.getFragment();
@@ -563,7 +563,7 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 		
 	}
 
-	private NestedCondition getOrCreateAC(Rule rule, String name, boolean isPAC) {
+	protected NestedCondition getOrCreateAC(Rule rule, String name, boolean isPAC) {
 		NestedCondition ac = isPAC ? rule.getLhs().getPAC(name) : rule.getLhs().getNAC(name);
 		if (ac==null) {
 			ac = isPAC ? rule.getLhs().createPAC(name) : rule.getLhs().createNAC(name);

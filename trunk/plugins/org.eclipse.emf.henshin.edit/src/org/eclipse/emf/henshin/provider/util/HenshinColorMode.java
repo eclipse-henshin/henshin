@@ -24,6 +24,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Action;
 import org.osgi.framework.Bundle;
 
+/**
+ * Color modes for Henshin models and diagrams. It has no dependencies
+ * to UI plug-ins, but to the platform. Maybe this dependency can be
+ * removed in the future.
+ * 
+ * @author Christian Krause
+ *
+ */
 public class HenshinColorMode {
 	
 	public static class Color {
@@ -57,7 +65,9 @@ public class HenshinColorMode {
 	}
 	
 	public static final List<HenshinColorMode> REGISTRY;
-	
+
+	private static HenshinColorMode DEFAULT;
+
 	static {
 		REGISTRY = new ArrayList<HenshinColorMode>();
 		Bundle bundle = Platform.getBundle("org.eclipse.emf.henshin.edit");
@@ -96,15 +106,18 @@ public class HenshinColorMode {
 	 * @return The default color mode.
 	 */
 	public static HenshinColorMode getDefaultColorMode() {
-		for (HenshinColorMode mode : HenshinColorMode.REGISTRY) {
-			if ("default".equalsIgnoreCase(mode.getName())) {
-				return mode;
+		if (DEFAULT==null) {
+			for (HenshinColorMode mode : HenshinColorMode.REGISTRY) {
+				if ("default".equalsIgnoreCase(mode.getName())) {
+					DEFAULT = mode;
+					break;
+				}
+			}
+			if (DEFAULT==null && !HenshinColorMode.REGISTRY.isEmpty()) {
+				DEFAULT = HenshinColorMode.REGISTRY.get(0);
 			}
 		}
-		if (!HenshinColorMode.REGISTRY.isEmpty()) {
-			return HenshinColorMode.REGISTRY.get(0);
-		}
-		return null;
+		return DEFAULT;
 	}
 	
 	private Properties properties;

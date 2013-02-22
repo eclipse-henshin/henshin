@@ -19,7 +19,6 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.FillStyle;
 import org.eclipse.gmf.runtime.notation.LineStyle;
-import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Color;
@@ -158,7 +157,7 @@ public class ColorModeHelper extends HenshinBaseEditHelper {
 		// Get the custom and the default colors:
 		HenshinColorMode.Color customColor = null;
 		HenshinColorMode.Color defaultColor = null;
-		if (view instanceof Node) {
+		if (!foreground) {
 			customColor = getCustomColor(view, foreground);
 		}
 		HenshinColorMode mode = getColorMode(view);

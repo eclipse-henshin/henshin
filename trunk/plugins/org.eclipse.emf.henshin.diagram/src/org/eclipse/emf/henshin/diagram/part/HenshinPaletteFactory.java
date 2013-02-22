@@ -19,6 +19,7 @@ import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.ToolEntry;
+import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 
 /**
@@ -197,7 +198,14 @@ public class HenshinPaletteFactory {
 		 * @generated NOT
 		 */
 		public Tool createTool() {
-			Tool tool = new HenshinPaletteTools.LongLivingCreationTool(elementTypes);
+			Tool tool;
+			if (elementTypes.contains(HenshinElementTypes.Node_3001) ||
+				elementTypes.contains(HenshinElementTypes.Edge_4001) ||
+				elementTypes.contains(HenshinElementTypes.Unit_3003)) {
+				tool = new HenshinPaletteTools.LongLivingCreationTool(elementTypes);
+			} else {
+				tool = new UnspecifiedTypeCreationTool(elementTypes);
+			}
 			tool.setProperties(getToolProperties());
 			return tool;
 		}
