@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -493,6 +494,42 @@ public class RuleImpl extends UnitImpl implements Rule {
 	}
 
 	/**
+	 * Get all mappings referring to a node. Can also do it transitively.
+	 * @param nodes Nodes for which we want to find mappings.
+	 * @param mappings Collected mappings.
+	 * @param transitive if <code>true</code>, mapped nodes are added.
+	 */
+	private void getNodeMappings(Set<Node> nodes, Set<Mapping> mappings, boolean transitive) {
+		boolean changed;
+		do {
+			changed = false;
+			// Add all mappings that refer to the nodes:
+			for (Mapping m : getAllMappings()) {
+				if (!mappings.contains(m)) {
+					for (Node n : nodes) {
+						if (m.getOrigin()==n || m.getImage()==n) {
+							mappings.add(m);
+							changed = true;
+							break;
+						}
+					}
+				}
+			}
+			// Add all mapped nodes if necessary:
+			if (changed && transitive) {
+				for (Mapping m : mappings) {
+					if (m.getOrigin()!=null) {
+						nodes.add(m.getOrigin());
+					}
+					if (m.getImage()!=null) {
+						nodes.add(m.getImage());
+					}
+				}
+			}
+		} while (changed);
+	}
+	
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
@@ -508,35 +545,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		Set<Mapping> mappings = new HashSet<Mapping>();
 		Set<Node> nodes = new HashSet<Node>();
 		nodes.add(node);
-		boolean changed;
-		do {
-			changed = false;
-			
-			// Add all mappings that refer to the nodes:
-			for (Mapping m : getAllMappings()) {
-				if (!mappings.contains(m)) {
-					for (Node n : nodes) {
-						if (m.getOrigin()==n || m.getImage()==n) {
-							mappings.add(m);
-							changed = true;
-							break;
-						}
-					}
-				}
-			}
-			
-			// Add all mapped nodes if necessary:
-			if (changed && removeMapped) {
-				for (Mapping m : mappings) {
-					if (m.getOrigin()!=null) {
-						nodes.add(m.getOrigin());
-					}
-					if (m.getImage()!=null) {
-						nodes.add(m.getImage());
-					}
-				}
-			}
-		} while (changed);
+		getNodeMappings(nodes, mappings, removeMapped);
 		
 		// Now remove the collected mappings and nodes:
 		for (Mapping m : mappings) {
@@ -796,6 +805,35 @@ public class RuleImpl extends UnitImpl implements Rule {
 		}
 		return true;
 		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean removeAttribute(Attribute attribute, boolean removeMapped) {
+		// Node must be set:
+		if (attribute.getNode()==null) {
+			return false;
+		}
+		// Must be invoked from the root kernel rule:
+		if (getRootRule()!=this) {
+			return getRootRule().removeAttribute(attribute, removeMapped);
+		}
+		if (removeMapped && attribute.getType()!=null) {
+			Set<Node> nodes = new HashSet<Node>();
+			Set<Mapping> mappings = new HashSet<Mapping>();
+			nodes.add(attribute.getNode());
+			getNodeMappings(nodes, mappings, true);
+			for (Node n : nodes) {
+				Attribute a = n.getAttribute(attribute.getType());
+				if (a!=null) n.getAttributes().remove(a);
+			}
+		} else {
+			attribute.setNode(null);
+		}
+		return true;
 	}
 
 	/**

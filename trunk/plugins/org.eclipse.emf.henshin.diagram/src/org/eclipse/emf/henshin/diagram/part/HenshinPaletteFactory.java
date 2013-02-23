@@ -201,6 +201,7 @@ public class HenshinPaletteFactory {
 			Tool tool;
 			if (elementTypes.contains(HenshinElementTypes.Node_3001) ||
 				elementTypes.contains(HenshinElementTypes.Edge_4001) ||
+				elementTypes.contains(HenshinElementTypes.Attribute_3002) ||
 				elementTypes.contains(HenshinElementTypes.Unit_3003)) {
 				tool = new HenshinPaletteTools.LongLivingCreationTool(elementTypes);
 			} else {

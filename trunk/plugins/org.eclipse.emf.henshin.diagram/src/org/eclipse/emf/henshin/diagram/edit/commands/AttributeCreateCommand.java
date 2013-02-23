@@ -20,31 +20,48 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
+import org.eclipse.gmf.runtime.diagram.ui.menus.PopupMenu;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.type.core.commands.EditElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.ConfigureRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * @generated
  */
 public class AttributeCreateCommand extends EditElementCommand {
 
+	// Parent shell to be used for displaying the menu.
+	private Shell shell;
+
 	/**
 	 * @generated
 	 */
 	public AttributeCreateCommand(CreateElementRequest req) {
 		super(req.getLabel(), null, req);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public AttributeCreateCommand(CreateElementRequest req, Shell shell) {
+		this(req);
+		this.shell = shell;
 	}
 
 	/**
@@ -67,7 +84,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 		Node node = (Node) getElementToEdit();
 		// The type must be set and there must be at least one attribute type.
 		if (node.getType() == null
-				|| node.getType().getEAllAttributes().isEmpty()) {
+				|| getCandidateAttributes(node).isEmpty()) {
 			return false;
 		}
 		return true;
@@ -79,47 +96,40 @@ public class AttributeCreateCommand extends EditElementCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 
-		// The node:
+		// The node and the rule:
 		Node node = (Node) getElementToEdit();
 		Rule rule = node.getGraph().getRule();
 
-		// Find the corresponding LHS node:
-		Node lhsNode = getLhsNode(node);
+		List<EAttribute> attributes = getCandidateAttributes(node);
+		EAttribute type = null;
+
+		// Display the pop-up menu:
+		if (shell!=null && attributes.size()>1) {
+			PopupMenu menu = getPopupMenu(attributes);
+			if (menu.show(shell) == false) {
+				monitor.setCanceled(true);
+				return CommandResult.newCancelledCommandResult();
+			}
+			type = (EAttribute) menu.getResult();
+		} else {
+			type = attributes.get(0);
+		}
 
 		// Create the attribute.
 		Attribute attribute = HenshinFactory.eINSTANCE.createAttribute();
-
-		// Initialize the attribute type and value (guessing):
-		if (node.getType() != null) {
-			
-			// Sort the attributes by name:
-			List<EAttribute> types = new ArrayList<EAttribute>();
-			types.addAll(node.getType().getEAllAttributes());
-			Collections.sort(types, new Comparator<EAttribute>() {
-				@Override
-				public int compare(EAttribute a1, EAttribute a2) {
-					if (a1.getName()!=null && a2.getName()!=null) {
-						return a1.getName().compareTo(a2.getName());
-					}
-					return 0;
-				}
-			});
-			
-			// Find the first one that is not used yet:
-			for (EAttribute type : types) {
-				if (node.getAttribute(type) == null) {
-					attribute.setType(type);
-					attribute.setValue(String.valueOf(type.getDefaultValue()));
-					break;
-				}
+		attribute.setType(type);
+		Parameter param = null;
+		for (Parameter p : rule.getParameters()) {
+			if (p.getType()==null || p.getType()==type.getEAttributeType()) {
+				param = p;
+				break;
 			}
-			
 		}
-
-		// Add the attribute to the node:
+		attribute.setValue(param!=null ? param.getName() : String.valueOf(type.getDefaultValue()));
 		node.getAttributes().add(attribute);
 
 		// and to all mapped nodes...
+		Node lhsNode = getLhsNode(node);
 		if (lhsNode != null) {
 			Node rhsNode = rule.getMappings().getImage(lhsNode, rule.getRhs());
 			if (rhsNode != null) {
@@ -140,6 +150,43 @@ public class AttributeCreateCommand extends EditElementCommand {
 		doConfigure(attribute, monitor, info);
 		((CreateElementRequest) getRequest()).setNewElement(attribute);
 		return CommandResult.newOKCommandResult(attribute);
+	}
+
+	
+	protected List<EAttribute> getCandidateAttributes(Node node) {
+		List<EAttribute> attrs = new ArrayList<EAttribute>();
+		for (EAttribute attr : node.getType().getEAllAttributes()) {
+			if (node.getAttribute(attr)==null) {
+				attrs.add(attr);
+			}
+		}
+		Collections.sort(attrs, new Comparator<EAttribute>() {
+			@Override
+			public int compare(EAttribute a1, EAttribute a2) {
+				return String.valueOf(a1.getName()).compareTo(String.valueOf(a2.getName()));
+			}
+		});
+		return attrs;
+	}
+	
+	/**
+	 * Create a pop-up menu for choosing the unit type.
+	 * @return Pop-up menu instance.
+	 * @generated NOT
+	 */
+	protected PopupMenu getPopupMenu(List<EAttribute> attributes) {
+		ILabelProvider labelProvider = new org.eclipse.jface.viewers.LabelProvider() {
+			@Override
+			public Image getImage(Object element) {
+				return HenshinElementTypes
+						.getImage(HenshinElementTypes.Attribute_3002);
+			}
+			@Override
+			public String getText(Object element) {
+				return ((EAttribute) element).getName();
+			}
+		};
+		return new PopupMenu(attributes, labelProvider);
 	}
 
 	private void addAttribute(Node node, Attribute attribute) {

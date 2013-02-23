@@ -33,7 +33,7 @@ public class HenshinIcons {
 	
 	// Henshin icons:
 	public static final Image RULE = load(HENSHIN_EDIT, "icons/full/obj16/Rule.gif");
-	public static final Image NOE = load(HENSHIN_EDIT, "icons/full/obj16/Node.gif");
+	public static final Image NODE = load(HENSHIN_EDIT, "icons/full/obj16/Node.gif");
 	public static final Image EDGE = load(HENSHIN_EDIT, "icons/full/obj16/Edge.gif");
 	
 	/*

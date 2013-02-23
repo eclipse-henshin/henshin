@@ -28,11 +28,11 @@ public class NodeCompartmentItemSemanticEditPolicy extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected Command getCreateCommand(CreateElementRequest req) {
 		if (HenshinElementTypes.Attribute_3002 == req.getElementType()) {
-			return getGEFWrapper(new AttributeCreateCommand(req));
+			return getGEFWrapper(new AttributeCreateCommand(req, getHost().getViewer().getControl().getShell()));
 		}
 		return super.getCreateCommand(req);
 	}
