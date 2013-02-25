@@ -81,8 +81,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.henshin.edit"
          download-size="0"
          install-size="0"
-         version="0.9.5.qualifier"
-         unpack="false"/>
+         version="0.9.5.qualifier"/>
 
    <plugin
          id="org.eclipse.emf.henshin.editor"
