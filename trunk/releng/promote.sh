@@ -53,3 +53,10 @@ if [ ! "$(ls --hide=index.php $DROPS/../../updates/$TARGET/plugins)" ]; then
 	echo "Check out https://hudson.eclipse.org/hudson/job/$JOB" | mail -s "Possible build problem for $JOB" henshin.ck@gmail.com
 fi
 
+if [ -e "$HOME/releng/scripts/add-mirrors.sh" ]; then
+    echo
+    echo "Adding mirrors and configuring download stats..."
+    cd "$DROPS/../../updates/$TARGET"
+    $HOME/releng/scripts/add-mirrors.sh emft/henshin/$TARGET
+    cd - > /dev/null
+fi
