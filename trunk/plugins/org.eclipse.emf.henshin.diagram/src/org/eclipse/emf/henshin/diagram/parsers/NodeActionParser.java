@@ -26,6 +26,7 @@ import org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 
 /**
  * @generated NOT
@@ -111,9 +112,9 @@ public class NodeActionParser extends AbstractParser {
 			return CommandResult.newOKCommandResult();
 		}
 		catch (Throwable t) {
-			HenshinDiagramEditorPlugin.getInstance().logError("Error occurred when trying to set an edge action", t);
+			HenshinDiagramEditorPlugin.getInstance().logError("Error occurred when trying to set a node action", t);
 			return CommandResult.newErrorCommandResult(t);
-		}		
+		}
 	}
 	
 	/*
@@ -122,6 +123,15 @@ public class NodeActionParser extends AbstractParser {
 	 */
 	public IParserEditStatus isValidEditString(IAdaptable element, String editString) {
 		return ParserEditStatus.EDITABLE_STATUS;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.AbstractParser#getCompletionProcessor(org.eclipse.core.runtime.IAdaptable)
+	 */
+	public IContentAssistProcessor getCompletionProcessor(IAdaptable element) {
+		//return new ActionCompletionProcessor();
+		return null;
 	}
 
 }

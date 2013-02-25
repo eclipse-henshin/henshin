@@ -28,6 +28,7 @@ import org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 
 /**
  * Parser for edge action labels.
@@ -130,4 +131,13 @@ public class EdgeActionParser extends AbstractParser {
 		return ParserEditStatus.EDITABLE_STATUS;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.AbstractParser#getCompletionProcessor(org.eclipse.core.runtime.IAdaptable)
+	 */
+	public IContentAssistProcessor getCompletionProcessor(IAdaptable element) {
+		//return new ActionCompletionProcessor();
+		return null;
+	}
+	
 }

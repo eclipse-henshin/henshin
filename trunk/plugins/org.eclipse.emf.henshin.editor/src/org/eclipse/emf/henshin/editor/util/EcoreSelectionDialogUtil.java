@@ -71,7 +71,7 @@ public class EcoreSelectionDialogUtil {
 		dialog.setTitle("Select EPackage");
 		dialog.setMessage("Please select the EPackage to import:");
 		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		dialog.addFilter(new EcoreViewFilter());
+		dialog.addFilter(new EPackageViewFilter());
 		dialog.setValidator(new EcoreSelectionValidator());
 		dialog.setAllowMultiple(false);
 		dialog.open();
@@ -204,9 +204,9 @@ public class EcoreSelectionDialogUtil {
 	}
 	
 	/*
-	 * A view filter for ecore files.
+	 * A view filter for Ecore packages.
 	 */
-	static class EcoreViewFilter extends ViewerFilter {
+	static class EPackageViewFilter extends ViewerFilter {
 		
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -220,7 +220,7 @@ public class EcoreSelectionDialogUtil {
 					}
 				}
 			}
-			return element instanceof EObject;
+			return (element instanceof EPackage);
 		}
 		
 	}
