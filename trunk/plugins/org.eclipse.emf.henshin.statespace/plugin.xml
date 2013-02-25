@@ -27,5 +27,12 @@
             type="statespace">
       </parser>
    </extension>
+   <extension
+         point="org.eclipse.emf.henshin.statespace.validators">
+      <validator
+            class="org.eclipse.emf.henshin.statespace.impl.OCLStateValidator"
+            id="org.eclipse.emf.henshin.statespace.validators.ocl">
+      </validator>
+   </extension>
 
 </plugin>

@@ -14,7 +14,6 @@ plugin@org.eclipse.emf.henshin.migration=SVN,,svn://dev.eclipse.org/svnroot/mode
 plugin@org.eclipse.emf.henshin.statespace=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace
 plugin@org.eclipse.emf.henshin.statespace.explorer=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.explorer
 plugin@org.eclipse.emf.henshin.statespace.external=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.external
-plugin@org.eclipse.emf.henshin.statespace.ocl=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.ocl
 plugin@org.eclipse.emf.henshin.testframework=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.testframework
 plugin@org.eclipse.emf.henshin.trace=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.trace
 plugin@org.eclipse.emf.henshin.wrap=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.wrap

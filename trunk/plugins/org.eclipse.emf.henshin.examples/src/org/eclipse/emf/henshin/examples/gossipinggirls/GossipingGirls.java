@@ -19,9 +19,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.ocl.OCLStateValidator;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
+import org.eclipse.emf.henshin.statespace.impl.OCLStateValidator;
 import org.eclipse.emf.henshin.statespace.impl.ParallelStateSpaceManager;
 import org.eclipse.emf.henshin.statespace.impl.ShortestPathStateSpaceValidator;
 

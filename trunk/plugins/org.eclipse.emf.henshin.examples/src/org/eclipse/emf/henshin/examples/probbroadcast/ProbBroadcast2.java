@@ -14,9 +14,9 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.external.prism.MDPStateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.impl.OCLStateValidator;
 import org.eclipse.emf.henshin.statespace.impl.ParallelStateSpaceManager;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceImpl;
-import org.eclipse.emf.henshin.statespace.ocl.OCLStateValidator;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 
