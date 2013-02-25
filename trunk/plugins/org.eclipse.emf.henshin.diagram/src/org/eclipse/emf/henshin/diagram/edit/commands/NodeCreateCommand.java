@@ -188,7 +188,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			return;
 		}
 		for (Node container : rule.getActionNodes(null)) {
-			if (container.getType()==null) {
+			if (container==newNode || container.getType()==null) {
 				continue;
 			}
 			for (EReference ref : container.getType().getEAllContainments()) {
