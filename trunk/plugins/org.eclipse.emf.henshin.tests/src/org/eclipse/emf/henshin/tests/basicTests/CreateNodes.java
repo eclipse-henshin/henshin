@@ -12,11 +12,11 @@
 package org.eclipse.emf.henshin.tests.basicTests;
 
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
-import org.eclipse.emf.henshin.testframework.GraphTransformations;
-import org.eclipse.emf.henshin.testframework.HenshinLoaders;
-import org.eclipse.emf.henshin.testframework.HenshinTest;
-import org.eclipse.emf.henshin.testframework.Rules;
-import org.eclipse.emf.henshin.testframework.Tools;
+import org.eclipse.emf.henshin.tests.framework.GraphTransformations;
+import org.eclipse.emf.henshin.tests.framework.HenshinLoaders;
+import org.eclipse.emf.henshin.tests.framework.HenshinTest;
+import org.eclipse.emf.henshin.tests.framework.Rules;
+import org.eclipse.emf.henshin.tests.framework.Tools;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
 import org.junit.Before;
 import org.junit.Test;

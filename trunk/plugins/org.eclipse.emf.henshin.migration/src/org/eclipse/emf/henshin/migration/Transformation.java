@@ -53,7 +53,7 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
-import org.eclipse.emf.henshin.testframework.Tools;
+//import org.eclipse.emf.henshin.tests.framework.Tools;
 
 /**
  * @author Felix Rieger
@@ -276,7 +276,7 @@ public class Transformation {
 
 		System.out.println("\n\n####################");
 		System.out.println(newRoot);
-		Tools.printCollection(newRoot.getRules());
+		//Tools.printCollection(newRoot.getRules());
 		
 		pm.subTask("creating backup");
 		
@@ -313,7 +313,7 @@ public class Transformation {
 		
 		
 		System.out.println("naclist:");
-		Tools.printCollection(nacList);
+		//Tools.printCollection(nacList);
 		
 		if (nacList.size() != 0) {
 			addError("Some NACs couldn't be converted.");

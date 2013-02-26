@@ -17,10 +17,10 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
-import org.eclipse.emf.henshin.testframework.HenshinTest;
-import org.eclipse.emf.henshin.testframework.Matches;
-import org.eclipse.emf.henshin.testframework.Rules;
-import org.eclipse.emf.henshin.testframework.Tools;
+import org.eclipse.emf.henshin.tests.framework.HenshinTest;
+import org.eclipse.emf.henshin.tests.framework.Matches;
+import org.eclipse.emf.henshin.tests.framework.Rules;
+import org.eclipse.emf.henshin.tests.framework.Tools;
 import org.junit.Before;
 import org.junit.Test;
 

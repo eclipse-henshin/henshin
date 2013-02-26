@@ -11,9 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.tests.basicTests;
 
-import org.eclipse.emf.henshin.testframework.GraphTransformations;
-import org.eclipse.emf.henshin.testframework.HenshinLoaders;
-import org.eclipse.emf.henshin.testframework.HenshinTest;
+import org.eclipse.emf.henshin.tests.framework.GraphTransformations;
+import org.eclipse.emf.henshin.tests.framework.HenshinLoaders;
+import org.eclipse.emf.henshin.tests.framework.HenshinTest;
 import org.junit.Before;
 import org.junit.Test;
 

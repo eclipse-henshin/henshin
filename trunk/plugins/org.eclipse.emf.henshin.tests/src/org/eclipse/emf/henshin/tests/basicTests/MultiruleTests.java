@@ -1,8 +1,8 @@
 package org.eclipse.emf.henshin.tests.basicTests;
 
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.testframework.HenshinTest;
-import org.eclipse.emf.henshin.testframework.Rules;
+import org.eclipse.emf.henshin.tests.framework.HenshinTest;
+import org.eclipse.emf.henshin.tests.framework.Rules;
 import org.junit.Before;
 import org.junit.Test;
 

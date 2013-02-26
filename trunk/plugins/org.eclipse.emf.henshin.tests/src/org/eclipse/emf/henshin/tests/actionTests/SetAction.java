@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
-import org.eclipse.emf.henshin.testframework.HenshinTest;
+import org.eclipse.emf.henshin.tests.framework.HenshinTest;
 import org.junit.Before;
 import org.junit.Test;
 

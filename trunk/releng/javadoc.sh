@@ -34,8 +34,6 @@ org.eclipse.emf.henshin.statespace.external.cadp
 org.eclipse.emf.henshin.statespace.external.mcrl2
 org.eclipse.emf.henshin.statespace.external.prism
 org.eclipse.emf.henshin.statespace.external.tikz
-org.eclipse.emf.henshin.statespace.ocl
-org.eclipse.emf.henshin.testframework
 org.eclipse.emf.henshin.trace
 org.eclipse.emf.henshin.trace.impl
 org.eclipse.emf.henshin.trace.util
