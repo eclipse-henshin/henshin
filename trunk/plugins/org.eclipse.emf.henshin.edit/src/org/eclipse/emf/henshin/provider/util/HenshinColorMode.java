@@ -12,9 +12,8 @@ package org.eclipse.emf.henshin.provider.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -64,12 +63,22 @@ public class HenshinColorMode {
 		
 	}
 	
-	public static final List<HenshinColorMode> REGISTRY;
+	public static final Map<String,HenshinColorMode> REGISTRY;
 
 	private static HenshinColorMode DEFAULT;
 
 	static {
-		REGISTRY = new ArrayList<HenshinColorMode>();
+		REGISTRY = new LinkedHashMap<String,HenshinColorMode>() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public HenshinColorMode get(Object v) {
+				return super.get(String.valueOf(v).toLowerCase());
+			}
+			@Override
+			public HenshinColorMode put(String v, HenshinColorMode mode) {
+				return super.put(String.valueOf(v).toLowerCase(), mode);
+			}
+		};
 		Bundle bundle = Platform.getBundle("org.eclipse.emf.henshin.edit");
 		URL colorModesURL = bundle.getEntry("colorModes");
 		try {
@@ -78,7 +87,8 @@ public class HenshinColorMode {
 		    	if (file.getAbsolutePath().endsWith(".properties")) {
 		    		Properties properties = new Properties();
 		    		properties.load(new FileInputStream(file));
-		    		REGISTRY.add(new HenshinColorMode(properties));
+		    		HenshinColorMode mode = new HenshinColorMode(properties);
+		    		REGISTRY.put(mode.getName(), mode);
 		    	}
 		    }
 		} catch (Throwable t) {
@@ -107,12 +117,7 @@ public class HenshinColorMode {
 	 */
 	public static HenshinColorMode getDefaultColorMode() {
 		if (DEFAULT==null) {
-			for (HenshinColorMode mode : HenshinColorMode.REGISTRY) {
-				if ("default".equalsIgnoreCase(mode.getName())) {
-					DEFAULT = mode;
-					break;
-				}
-			}
+			DEFAULT = REGISTRY.get("default");
 			if (DEFAULT==null && !HenshinColorMode.REGISTRY.isEmpty()) {
 				DEFAULT = HenshinColorMode.REGISTRY.get(0);
 			}

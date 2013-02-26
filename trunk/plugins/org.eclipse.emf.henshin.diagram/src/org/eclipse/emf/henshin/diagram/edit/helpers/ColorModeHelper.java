@@ -68,10 +68,9 @@ public class ColorModeHelper extends HenshinBaseEditHelper {
 		}
 		
 		// Find the color mode:
-		for (HenshinColorMode mode : HenshinColorMode.REGISTRY) {
-			if (value.equalsIgnoreCase(mode.getName())) {
-				return mode;
-			}
+		HenshinColorMode mode = HenshinColorMode.REGISTRY.get(value);
+		if (mode!=null) {
+			return mode;
 		}
 		
 		// Fall-back:
@@ -164,21 +163,16 @@ public class ColorModeHelper extends HenshinBaseEditHelper {
 		if (mode!=null) {
 			defaultColor = mode.getColor(type);
 		}
-		
-		// If we are not in the default mode, we use custom colors 
-		// only if they are different from the default mode:
-		if (customColor != null && mode != HenshinColorMode.getDefaultColorMode()) {
-			HenshinColorMode.Color basic = HenshinColorMode.getDefaultColorMode().getColor(type);
-			if (!customColor.equals(basic)) {
+		// Use custom color?
+		HenshinColorMode classic = HenshinColorMode.REGISTRY.get("classic");
+		if (customColor!=null && classic!=null) {
+			int sum = customColor.red + customColor.green + customColor.blue;
+			if (sum!=0 && sum!=765 && !customColor.equals(classic.getColor(type))) {
 				return customColor;
 			}
-		} else if (customColor!=null) {
-			return customColor;
 		}
-		
 		// Otherwise the default one:
 		return defaultColor;
-		
 	}
 
 	

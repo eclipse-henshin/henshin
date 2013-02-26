@@ -70,7 +70,7 @@ public class ColorModePropertySection extends AbstractNotationPropertiesSection 
 		modeList = getWidgetFactory().createList(colorModeGroup, SWT.SINGLE);
 
 		// Sort the color modes by name:
-		modes = new ArrayList<HenshinColorMode>(HenshinColorMode.REGISTRY);
+		modes = new ArrayList<HenshinColorMode>(HenshinColorMode.REGISTRY.values());
 		Collections.sort(modes, new Comparator<HenshinColorMode>() {
 			public int compare(HenshinColorMode m1, HenshinColorMode m2) {
 				return String.valueOf(m1.getName()).compareToIgnoreCase(String.valueOf(m2.getName()));
