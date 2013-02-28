@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_bcD0UQdZEd-l9fE4S3UNLA">
+  <rules xmi:id="_ltExIAdZEd-l9fE4S3UNLA" name="left">
+    <lhs xmi:id="_ltExIQdZEd-l9fE4S3UNLA" name="LHS">
+      <nodes xmi:id="_ogeF0AdZEd-l9fE4S3UNLA" name="table" outgoing="_3_9jkAxEEd-NSqR1D2XGHA _5MqAMAxEEd-NSqR1D2XGHA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes xmi:id="_qYKAMAdZEd-l9fE4S3UNLA" name="phil" incoming="_3_9jkAxEEd-NSqR1D2XGHA" outgoing="_2NEpoAxEEd-NSqR1D2XGHA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher"/>
+      </nodes>
+      <nodes xmi:id="_rKc_0AdZEd-l9fE4S3UNLA" name="fork" incoming="_y8x9kAxEEd-NSqR1D2XGHA _5MqAMAxEEd-NSqR1D2XGHA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+      </nodes>
+      <nodes xmi:id="_aylkEAdaEd-aOuJFyPztjA" name="plate" incoming="_2NEpoAxEEd-NSqR1D2XGHA" outgoing="_y8x9kAxEEd-NSqR1D2XGHA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <edges xmi:id="_y8x9kAxEEd-NSqR1D2XGHA" source="_aylkEAdaEd-aOuJFyPztjA" target="_rKc_0AdZEd-l9fE4S3UNLA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate/left"/>
+      </edges>
+      <edges xmi:id="_2NEpoAxEEd-NSqR1D2XGHA" source="_qYKAMAdZEd-l9fE4S3UNLA" target="_aylkEAdaEd-aOuJFyPztjA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/plate"/>
+      </edges>
+      <edges xmi:id="_3_9jkAxEEd-NSqR1D2XGHA" source="_ogeF0AdZEd-l9fE4S3UNLA" target="_qYKAMAdZEd-l9fE4S3UNLA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/philosophers"/>
+      </edges>
+      <edges xmi:id="_5MqAMAxEEd-NSqR1D2XGHA" source="_ogeF0AdZEd-l9fE4S3UNLA" target="_rKc_0AdZEd-l9fE4S3UNLA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/forks"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_Tx2oEBRIEeGj2_k2PaA1-w">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_V-wosBRBEeGj2_k2PaA1-w" negated="true">
+          <conclusion xmi:id="_V-wosRRBEeGj2_k2PaA1-w" name="ncGraph">
+            <nodes xmi:id="_Wq25sBRBEeGj2_k2PaA1-w" name="myNode" incoming="_ayXhoBRBEeGj2_k2PaA1-w">
+              <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+            </nodes>
+            <nodes xmi:id="_ZBDVABRBEeGj2_k2PaA1-w" name="myPhil" outgoing="_ayXhoBRBEeGj2_k2PaA1-w">
+              <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher"/>
+            </nodes>
+            <edges xmi:id="_ayXhoBRBEeGj2_k2PaA1-w" source="_ZBDVABRBEeGj2_k2PaA1-w" target="_Wq25sBRBEeGj2_k2PaA1-w">
+              <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/left"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_b0JuwBRBEeGj2_k2PaA1-w" origin="_qYKAMAdZEd-l9fE4S3UNLA" image="_ZBDVABRBEeGj2_k2PaA1-w"/>
+        </left>
+        <right xsi:type="henshin:Or" xmi:id="_U5hawBRIEeGj2_k2PaA1-w">
+          <left xsi:type="henshin:NestedCondition" xmi:id="_ViopMBRIEeGj2_k2PaA1-w" negated="true">
+            <conclusion xmi:id="_YrEZwBRIEeGj2_k2PaA1-w" name="nc2graph">
+              <nodes xmi:id="_bm_YUBRIEeGj2_k2PaA1-w" name="nc2gPlate" incoming="_gv3WoBRIEeGj2_k2PaA1-w">
+                <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+              </nodes>
+              <nodes xmi:id="_eijxkBRIEeGj2_k2PaA1-w" name="nc2gPhil" outgoing="_gv3WoBRIEeGj2_k2PaA1-w">
+                <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher"/>
+              </nodes>
+              <edges xmi:id="_gv3WoBRIEeGj2_k2PaA1-w" source="_eijxkBRIEeGj2_k2PaA1-w" target="_bm_YUBRIEeGj2_k2PaA1-w">
+                <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/plate"/>
+              </edges>
+            </conclusion>
+          </left>
+          <right xsi:type="henshin:Not" xmi:id="_WXWqsBRIEeGj2_k2PaA1-w">
+            <child xsi:type="henshin:NestedCondition" xmi:id="_XHBNEBRIEeGj2_k2PaA1-w" negated="true">
+              <conclusion xmi:id="_aR3YcBRIEeGj2_k2PaA1-w" name="nc3graph">
+                <nodes xmi:id="_b9vrcBRIEeGj2_k2PaA1-w" name="nc3gTable" outgoing="_l0H6sBRIEeGj2_k2PaA1-w">
+                  <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+                </nodes>
+                <nodes xmi:id="_jTbfkBRIEeGj2_k2PaA1-w" name="nc3gFork" incoming="_l0H6sBRIEeGj2_k2PaA1-w">
+                  <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+                </nodes>
+                <edges xmi:id="_l0H6sBRIEeGj2_k2PaA1-w" source="_b9vrcBRIEeGj2_k2PaA1-w" target="_jTbfkBRIEeGj2_k2PaA1-w">
+                  <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/forks"/>
+                </edges>
+              </conclusion>
+            </child>
+          </right>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_ltExIgdZEd-l9fE4S3UNLA" name="RHS">
+      <nodes xmi:id="_qYKAMQdZEd-l9fE4S3UNLA" name="phil" incoming="_4ABN8AxEEd-NSqR1D2XGHA" outgoing="_0chSAAxEEd-NSqR1D2XGHA _2NHs8AxEEd-NSqR1D2XGHA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher"/>
+      </nodes>
+      <nodes xmi:id="_rKdm4AdZEd-l9fE4S3UNLA" name="fork" incoming="_y81A4AxEEd-NSqR1D2XGHA _0chSAAxEEd-NSqR1D2XGHA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+      </nodes>
+      <nodes xmi:id="_aymyMAdaEd-aOuJFyPztjA" name="plate" incoming="_2NHs8AxEEd-NSqR1D2XGHA" outgoing="_y81A4AxEEd-NSqR1D2XGHA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <nodes xmi:id="_niiogQdaEd-aOuJFyPztjA" name="table" outgoing="_4ABN8AxEEd-NSqR1D2XGHA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <edges xmi:id="_y81A4AxEEd-NSqR1D2XGHA" source="_aymyMAdaEd-aOuJFyPztjA" target="_rKdm4AdZEd-l9fE4S3UNLA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate/left"/>
+      </edges>
+      <edges xmi:id="_0chSAAxEEd-NSqR1D2XGHA" source="_qYKAMQdZEd-l9fE4S3UNLA" target="_rKdm4AdZEd-l9fE4S3UNLA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/left"/>
+      </edges>
+      <edges xmi:id="_2NHs8AxEEd-NSqR1D2XGHA" source="_qYKAMQdZEd-l9fE4S3UNLA" target="_aymyMAdaEd-aOuJFyPztjA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/plate"/>
+      </edges>
+      <edges xmi:id="_4ABN8AxEEd-NSqR1D2XGHA" source="_niiogQdaEd-aOuJFyPztjA" target="_qYKAMQdZEd-l9fE4S3UNLA">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/philosophers"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qYKnQAdZEd-l9fE4S3UNLA" origin="_qYKAMAdZEd-l9fE4S3UNLA" image="_qYKAMQdZEd-l9fE4S3UNLA"/>
+    <mappings xmi:id="_rKdm4QdZEd-l9fE4S3UNLA" origin="_rKc_0AdZEd-l9fE4S3UNLA" image="_rKdm4AdZEd-l9fE4S3UNLA"/>
+    <mappings xmi:id="_aynZQAdaEd-aOuJFyPztjA" origin="_aylkEAdaEd-aOuJFyPztjA" image="_aymyMAdaEd-aOuJFyPztjA"/>
+    <mappings xmi:id="_niiogAdaEd-aOuJFyPztjA" origin="_ogeF0AdZEd-l9fE4S3UNLA" image="_niiogQdaEd-aOuJFyPztjA"/>
+  </rules>
+  <rules xmi:id="_hgZi0BnGEeGndc7Cj1c_Dw" description="amalgamationUnitKernelRule" name="amUkrl">
+    <lhs xmi:id="_hgZi0RnGEeGndc7Cj1c_Dw" name="LHS">
+      <nodes xmi:id="_ApJY8Bw3EeGias0OxKlucw" name="someNode">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes xmi:id="_uGYy8BnGEeGndc7Cj1c_Dw" name="plate">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_hgZi0hnGEeGndc7Cj1c_Dw" name="RHS">
+      <nodes xmi:id="_v7xnQBnGEeGndc7Cj1c_Dw" name="plate">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xJBdgBnGEeGndc7Cj1c_Dw" origin="_uGYy8BnGEeGndc7Cj1c_Dw" image="_v7xnQBnGEeGndc7Cj1c_Dw"/>
+  </rules>
+  <rules xmi:id="_ir2CQBnGEeGndc7Cj1c_Dw" name="amUmul1">
+    <lhs xmi:id="_ir2CQRnGEeGndc7Cj1c_Dw" name="LHS">
+      <nodes xmi:id="_qDj2sBnGEeGndc7Cj1c_Dw" name="node_1" outgoing="_qDj2sRnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes xmi:id="_qDkdwBnGEeGndc7Cj1c_Dw" name="node_2" incoming="_qDj2sRnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <edges xmi:id="_qDj2sRnGEeGndc7Cj1c_Dw" source="_qDj2sBnGEeGndc7Cj1c_Dw" target="_qDkdwBnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/plates"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_ir2CQhnGEeGndc7Cj1c_Dw" name="RHS">
+      <nodes xmi:id="_rn3iEBnGEeGndc7Cj1c_Dw" name="node_1" outgoing="_rn3iEhnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes xmi:id="_rn3iERnGEeGndc7Cj1c_Dw" name="node_2" incoming="_rn3iEhnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <edges xmi:id="_rn3iEhnGEeGndc7Cj1c_Dw" source="_rn3iEBnGEeGndc7Cj1c_Dw" target="_rn3iERnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/plates"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_sN8qoBnGEeGndc7Cj1c_Dw" origin="_qDj2sBnGEeGndc7Cj1c_Dw" image="_rn3iEBnGEeGndc7Cj1c_Dw"/>
+    <mappings xmi:id="_tAtkUBnGEeGndc7Cj1c_Dw" origin="_qDkdwBnGEeGndc7Cj1c_Dw" image="_rn3iERnGEeGndc7Cj1c_Dw"/>
+  </rules>
+  <rules xmi:id="_j05VABnGEeGndc7Cj1c_Dw" name="amUmul2">
+    <lhs xmi:id="_j05VARnGEeGndc7Cj1c_Dw" name="LHS">
+      <nodes xmi:id="_yKe6gBnGEeGndc7Cj1c_Dw" name="plate">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_j05VAhnGEeGndc7Cj1c_Dw" name="RHS">
+      <nodes xmi:id="_zeW9MBnGEeGndc7Cj1c_Dw" name="plate" outgoing="_2ltvsBnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <nodes xmi:id="_1VNKEBnGEeGndc7Cj1c_Dw" name="fork" incoming="_2ltvsBnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+      </nodes>
+      <edges xmi:id="_2ltvsBnGEeGndc7Cj1c_Dw" source="_zeW9MBnGEeGndc7Cj1c_Dw" target="_1VNKEBnGEeGndc7Cj1c_Dw">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate/left"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_06OeQBnGEeGndc7Cj1c_Dw" origin="_yKe6gBnGEeGndc7Cj1c_Dw" image="_zeW9MBnGEeGndc7Cj1c_Dw"/>
+  </rules>
+  <imports href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#/"/>
+  <transformationUnits xsi:type="henshin:AmalgamationUnit" xmi:id="_g9Ah4BnGEeGndc7Cj1c_Dw" name="amu" kernelRule="_hgZi0BnGEeGndc7Cj1c_Dw" multiRules="_ir2CQBnGEeGndc7Cj1c_Dw _j05VABnGEeGndc7Cj1c_Dw">
+    <lhsMappings xmi:id="_5HZCQBnGEeGndc7Cj1c_Dw" origin="_uGYy8BnGEeGndc7Cj1c_Dw" image="_qDkdwBnGEeGndc7Cj1c_Dw"/>
+    <lhsMappings xmi:id="_8TbgcBnGEeGndc7Cj1c_Dw" origin="_uGYy8BnGEeGndc7Cj1c_Dw" image="_yKe6gBnGEeGndc7Cj1c_Dw"/>
+    <rhsMappings xmi:id="_y32_0BzlEeGjqeNH6ASVLg" origin="_v7xnQBnGEeGndc7Cj1c_Dw" image="_1VNKEBnGEeGndc7Cj1c_Dw"/>
+    <rhsMappings xmi:id="_0VPj0BzlEeGjqeNH6ASVLg" origin="_v7xnQBnGEeGndc7Cj1c_Dw" image="_rn3iERnGEeGndc7Cj1c_Dw"/>
+  </transformationUnits>
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_k84CABw9EeGias0OxKlucw" name="mySq" subUnits="_ltExIAdZEd-l9fE4S3UNLA _g9Ah4BnGEeGndc7Cj1c_Dw _BYu8oBxUEeGias0OxKlucw"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_BYu8oBxUEeGias0OxKlucw" subUnits="_k84CABw9EeGias0OxKlucw"/>
+</henshin:TransformationSystem>
