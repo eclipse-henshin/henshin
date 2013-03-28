@@ -31,6 +31,7 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
@@ -52,6 +53,24 @@ public class InterpreterUtil {
 		List<Match> matches = new ArrayList<Match>();
 		for (Match match : engine.findMatches(rule, graph, partialMatch)) {
 			matches.add(match);
+		}
+		return matches;
+	}
+
+	/**
+	 * Find all matches of all rules in a module. This does not consider
+	 * submodules.
+	 * @param engine Engine to be used.
+	 * @param module Module to be used.
+	 * @param graph Target graph.
+	 * @return List of matches.
+	 */
+	public static List<Match> findAllMatches(Engine engine, Module module, EGraph graph) {
+		List<Match> matches = new ArrayList<Match>();
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof Rule) {
+				matches.addAll(findAllMatches(engine, (Rule) unit, graph, null));
+			}
 		}
 		return matches;
 	}

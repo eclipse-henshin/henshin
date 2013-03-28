@@ -20,7 +20,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditionHandler;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
 
 public class DomainSlot {
 	
@@ -74,10 +74,10 @@ public class DomainSlot {
 	final List<String> initializedParameters;
 	
 	/**
-	 * The handler for all attribute conditions. If a parameter constraints
+	 * The handler for all attribute and index conditions. If a parameter constraints
 	 * fixes the value of a parameter, the handler checks all conditions.
 	 */
-	final AttributeConditionHandler conditionHandler;
+	final ConditionHandler conditionHandler;
 	
 	/**
 	 * A collection of variables whose constraints were already validated
@@ -101,13 +101,13 @@ public class DomainSlot {
 	final boolean deterministic;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
-	 * @param conditionHandler
-	 * @param usedObjects
-	 * @param options
+	 * @param conditionHandler Condition handler to be used.
+	 * @param usedObjects Used objects.
+	 * @param options Options.
 	 */
-	public DomainSlot(AttributeConditionHandler conditionHandler, Set<EObject> usedObjects,
+	public DomainSlot(ConditionHandler conditionHandler, Set<EObject> usedObjects,
 			boolean injective, boolean dangling, boolean deterministic) {
 		
 		this.locked = false;

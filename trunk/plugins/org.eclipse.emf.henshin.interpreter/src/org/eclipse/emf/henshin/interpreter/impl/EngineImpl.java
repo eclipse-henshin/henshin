@@ -49,7 +49,7 @@ import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
 import org.eclipse.emf.henshin.interpreter.info.VariableInfo;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.AndFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditionHandler;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.NotFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.OrFormula;
@@ -317,7 +317,7 @@ public class EngineImpl implements Engine {
 			final VariableInfo varInfo = ruleInfo.getVariableInfo();
 
 			// Evaluates attribute conditions of the rule:
-			AttributeConditionHandler conditionHandler = new AttributeConditionHandler(conditionInfo.getConditionParameters(), scriptEngine);
+			ConditionHandler conditionHandler = new ConditionHandler(conditionInfo.getConditionParameters(), scriptEngine);
 
 			/* The set "usedObjects" ensures injective matching by removing *
 			 * already matched objects from other DomainSlots               */

@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditionHandler;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
@@ -39,12 +39,12 @@ import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 public class EGraphIsomorphyChecker {
 	
 	// Attribute condition handles (used internally for the match finding):
-	private static final AttributeConditionHandler ATTRIBUTE_CONDITION_HANDLER;
+	private static final ConditionHandler ATTRIBUTE_CONDITION_HANDLER;
 
 	// Initialize static members:
 	static {
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
-		ATTRIBUTE_CONDITION_HANDLER = new AttributeConditionHandler(new HashMap<String, Collection<String>>(), engine);
+		ATTRIBUTE_CONDITION_HANDLER = new ConditionHandler(new HashMap<String, Collection<String>>(), engine);
 	}
 	
 	// The source graph:

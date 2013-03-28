@@ -18,11 +18,11 @@ import java.util.Map;
 import javax.script.ScriptEngine;
 
 /**
- * Attribute condition handler.
+ * Condition handler.
  * 
  * @author Enrico Biermann, Christian Krause
  */
-public class AttributeConditionHandler {
+public class ConditionHandler {
 	
 	// Attribute conditions:
 	final Collection<AttributeCondition> attributeConditions;
@@ -39,9 +39,9 @@ public class AttributeConditionHandler {
 	/**
 	 * Default constructor.
 	 * @param conditionParameters Condition parameters.
-	 * @param scriptEngine Script engine-
+	 * @param scriptEngine Script engine,
 	 */
-	public AttributeConditionHandler(
+	public ConditionHandler(
 			Map<String, Collection<String>> conditionParameters,
 			ScriptEngine scriptEngine) {
 		

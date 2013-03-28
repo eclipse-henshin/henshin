@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditionHandler;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
 
 /**
  * Solution finder. This is the internal realization of the match finder.
@@ -25,7 +25,7 @@ import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditio
 public class SolutionFinder extends ApplicationCondition {
 	
 	// Attribute condition handler:
-	protected final AttributeConditionHandler conditionHandler;
+	protected final ConditionHandler conditionHandler;
 
 	// List of solutions:
 	protected List<Solution> solutions;
@@ -38,7 +38,7 @@ public class SolutionFinder extends ApplicationCondition {
 	 */
 	public SolutionFinder(EGraph graph, 
 			Map<Variable, DomainSlot> variableDomainMap,
-			AttributeConditionHandler conditionHandler) {
+			ConditionHandler conditionHandler) {
 		super(graph, variableDomainMap);
 		this.conditionHandler = conditionHandler;
 	}

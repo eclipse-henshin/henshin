@@ -292,6 +292,20 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 
 	/**
+	 * Load a {@link Module} from a Henshin file given as a 
+	 * path and file name. If the path is relative, it will be 
+	 * resolved using the base directory of this resource set.
+	 * This does not fix imports.
+	 * 
+	 * @see #getModule(String, boolean)
+	 * @param path Possibly relative path to a Henshin file.
+	 * @return The contained {@link Module}.
+	 */
+	public Module getModule(String path) {
+		return getModule(path, false);
+	}
+
+	/**
 	 * Get the real package that should be used. This checks whether there is
 	 * a different {@link EPackage} registered in this resource set's package registry
 	 * under the same namespace URI as the given used package. If yes, this package
@@ -361,11 +375,4 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		return (TransformationSystem) getEObject(path);
 	}
 	
-	/**
-	 * @deprecated Use {@link #getModule(String, boolean)} with <code>fixImports=false</code> instead.
-	 */
-	public Module getModule(String path) {
-		return getModule(path, false);
-	}
-
 }
