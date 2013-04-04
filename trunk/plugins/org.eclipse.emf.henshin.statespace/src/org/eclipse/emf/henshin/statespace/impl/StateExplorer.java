@@ -10,7 +10,9 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +56,7 @@ import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
  *
  */
 public class StateExplorer {
-	
+
 	/**
 	 * Dummy progress monitor.
 	 */
@@ -69,48 +71,50 @@ public class StateExplorer {
 	 * Cached state space.
 	 */
 	private final StateSpace stateSpace;
-	
+
 	/** 
 	 * Cached equality helper.
 	 */
 	private final EqualityHelper equalityHelper;
-	
+
 	/** 
 	 * Cached engine.
 	 */
 	private Engine engine;
-	
+
 	/**
 	 * Cached result.
 	 */
 	private final List<Transition> result;
-	
+
 	/** 
 	 * Whether to use object keys.
 	 */
 	private final boolean useObjectKeys;
-	
+
 	/** 
-	 * Cached rules.
+	 * Cached rules sorted by priority.
 	 */
-	private final Rule[] rules;
-	
+	private final Rule[][] rules;
+
 	/** 
 	 * Cached rule parameters.
 	 */
 	private final Map<Rule,List<Node>> ruleParameters;
-	
+
 	/** 
 	 * Cached rule application.
 	 */
 	private final RuleApplication application;
-	
+
 	/** 
 	 * Cached identity types.
 	 */
 	private final EList<EClass> identityTypes;
-	
-	// Cached post-processor:
+
+	/**
+	 * Cached post-processor.
+	 */
 	private final ModelPostProcessor postProcessor;
 
 	/**
@@ -127,32 +131,63 @@ public class StateExplorer {
 	 * Default constructor.
 	 */
 	public StateExplorer(StateSpaceIndex index) {
-		
+
+		// Set the index:
 		this.index = index;
-		
-		// Cache data:
+
+		// Cache basic data:
 		stateSpace = index.getStateSpace();
 		equalityHelper = stateSpace.getEqualityHelper();
 		result = new ArrayList<Transition>();
 		identityTypes = equalityHelper.getIdentityTypes();
 		useObjectKeys = !identityTypes.isEmpty();
-		rules = stateSpace.getRules().toArray(new Rule[0]);
+
+		// Sort the rules by their priorities:
+		Map<Integer,List<Rule>> prioritizedRules = new LinkedHashMap<Integer,List<Rule>>();
+		for (Rule rule : stateSpace.getRules()) {
+			int priority = 0;
+			String key = getRulePriorityKey(rule);
+			String val = stateSpace.getProperties().get(key);
+			if (val==null) val = stateSpace.getProperties().get(key.toLowerCase());
+			if (val!=null && val.trim().length()!=0) {
+				try {
+					priority = Integer.parseInt(val.trim());
+				} catch (Throwable t) {
+					StateSpacePlugin.INSTANCE.logError("Error parsing priority of rule " + rule.getName(), t);
+				}
+			}
+			if (!prioritizedRules.containsKey(priority)) {
+				prioritizedRules.put(priority, new ArrayList<Rule>());
+			}
+			prioritizedRules.get(priority).add(rule);
+		}
+		List<Integer> priorities = new ArrayList<Integer>(prioritizedRules.keySet());
+		Collections.sort(priorities);
+		Collections.reverse(priorities);
+
+		// Cache rule data:
+		rules = new Rule[priorities.size()][];
+		for (int i=0; i<rules.length; i++) {
+			rules[i] = prioritizedRules.get(priorities.get(i)).toArray(new Rule[0]);
+		}
 		ruleParameters = new HashMap<Rule,List<Node>>();
 		if (useObjectKeys) {
-			for (Rule rule : rules) {
+			for (Rule rule : stateSpace.getRules()) {
 				ruleParameters.put(rule, rule.getParameterNodes());
 			}
 		}
+
+		// Collect missing roots flag:
 		String collect = stateSpace.getProperties().get(StateSpace.PROPERTY_COLLECT_MISSING_ROOTS);
 		collectMissingRoots = (collect!=null) && ("true".equalsIgnoreCase(collect) || "yes".equalsIgnoreCase(collect));
-		
+
 		// Set-up the engine:
 		engine = InterpreterFactory.INSTANCE.createEngine();
 		engine.getOptions().put(Engine.OPTION_DETERMINISTIC, Boolean.TRUE); // really make sure it is deterministic
 
 		// Create a rule application:
 		application = InterpreterFactory.INSTANCE.createRuleApplication(engine);
-		
+
 		// Set-up the goal state validator:
 		goalStateValidator = null;
 		String goalProperty = stateSpace.getProperties().get(StateSpace.PROPERTY_GOAL_PROPERTY);
@@ -176,12 +211,27 @@ public class StateExplorer {
 				StateSpacePlugin.INSTANCE.logError("Error loading goal state validator: " + type, null);
 			}
 		}
-		
+
 		// Post-processor:
 		postProcessor = new ModelPostProcessor(stateSpace);
-		
+
 	}
-	
+
+	/*
+	 * Get the priority property key for a rule.
+	 */
+	private static String getRulePriorityKey(Rule rule) {
+		String key = rule.getName();
+		if (key==null) key = "";
+		key = key.replaceAll(" ", "_");
+		key = key.replaceAll("\t", "_");
+		key = key.replaceAll("\n", "_");
+		String first = key.substring(0,1).toUpperCase();
+		if (key.length()==1) key = first;
+		else key = first + key.substring(1);
+		return "priority" + key;
+	}
+
 	/**
 	 * Explore a state without actually changing the state space.
 	 * This method does not check if the state is explored already
@@ -190,93 +240,110 @@ public class StateExplorer {
 	 * @throws StateSpaceException On explore errors.
 	 */
 	public List<Transition> doExplore(State state) throws StateSpaceException {
-		
+
 		// Clear the result:
 		result.clear();
-		
+
 		// Get the state model and create an engine for it:
 		Model model = index.getModel(state);
 		EGraph graph = model.getEGraph();
-		
-		// Apply all rules:
-		for (int i=0; i<rules.length; i++) {
 
-			// Get the parameters of the rule:
-			List<Node> parameters = ruleParameters.get(rules[i]);
+		// Find the first layer with an applicable rule and apply all its rules:
+		for (int l=0; l<rules.length; l++) {
+			
+			// Remember whether we applied at least one rule in the layer:
+			boolean applicable = false;
 
-			// Iterate over all matches:
-			int matchIndex = 0;
-			for (Match match : engine.findMatches(rules[i], graph, null)) {
-				
-				// Transform the model:
-				Model transformed = model.getCopy(match);
-				application.setRule(rules[i]);
-				application.setEGraph(transformed.getEGraph());
-				application.setCompleteMatch(match);
-				if (!application.execute(null)) {
-					throw new StateSpaceException("Error applying rule \"" + rules[i].getName() + "\" to found match in state " + state.getIndex());
-				}
-				postProcessor.process(transformed);
-				if (collectMissingRoots) {
-					transformed.collectMissingRootObjects();
-				}
-				
-				// Create a new state:
-				State newState = StateSpaceFactory.eINSTANCE.createState();
-				newState.setModel(transformed);
-				
-				// Update object keys if necessary:
-				if (useObjectKeys) {
-					transformed.updateObjectKeys(identityTypes);
-					int[] objectKeys = transformed.getObjectKeys();
-					newState.setObjectKeys(objectKeys);
-					newState.setObjectCount(objectKeys.length);
-				}
-				
-				// Now compute and set the hash code (after the node IDs have been updated!):
-				int newHashCode = equalityHelper.hashCode(transformed);
-				newState.setHashCode(newHashCode);
-				newState.setDerivedFrom(state.getIndex());
-				
-				// Create a new transition:
-				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
-				newTransition.setRule(rules[i]);
-				newTransition.setMatch(matchIndex);
-				newTransition.setTarget(newState);
-				
-				// Set the parameters if necessary:
-				if (useObjectKeys) {
-					int[] params = new int[parameters.size()];
-					for (int p=0; p<params.length; p++) {
-						Node node = parameters.get(p);
-						EObject matched = match.getNodeTarget(node);
-						if (matched==null) {
-							matched = application.getResultMatch().getNodeTarget(node);
-						}
-						int objectKey = transformed.getObjectKeysMap().get(matched);
-						params[p] = ObjectKeyHelper.createObjectKey(
-								matched.eClass(), 
-								objectKey, 
-								identityTypes);
+			// Try all rules in the current layer:
+			for (int i=0; i<rules[l].length; i++) {
+
+				// Get the parameters of the rule:
+				List<Node> parameters = ruleParameters.get(rules[l][i]);
+
+				// Iterate over all matches:
+				int matchIndex = 0;
+				for (Match match : engine.findMatches(rules[l][i], graph, null)) {
+					
+					// We know it is applicable:
+					applicable = true;
+					
+					// Transform the model:
+					Model transformed = model.getCopy(match);
+					application.setRule(rules[l][i]);
+					application.setEGraph(transformed.getEGraph());
+					application.setCompleteMatch(match);
+					if (!application.execute(null)) {
+						throw new StateSpaceException("Error applying rule \"" + rules[l][i].getName() + "\" to found match in state " + state.getIndex());
 					}
-					newTransition.setParameterKeys(params);
-					newTransition.setParameterCount(params.length);
+					postProcessor.process(transformed);
+					if (collectMissingRoots) {
+						transformed.collectMissingRootObjects();
+					}
+
+					// Create a new state:
+					State newState = StateSpaceFactory.eINSTANCE.createState();
+					newState.setModel(transformed);
+
+					// Update object keys if necessary:
+					if (useObjectKeys) {
+						transformed.updateObjectKeys(identityTypes);
+						int[] objectKeys = transformed.getObjectKeys();
+						newState.setObjectKeys(objectKeys);
+						newState.setObjectCount(objectKeys.length);
+					}
+
+					// Now compute and set the hash code (after the node IDs have been updated!):
+					int newHashCode = equalityHelper.hashCode(transformed);
+					newState.setHashCode(newHashCode);
+					newState.setDerivedFrom(state.getIndex());
+
+					// Create a new transition:
+					Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
+					newTransition.setRule(rules[l][i]);
+					newTransition.setMatch(matchIndex);
+					newTransition.setTarget(newState);
+
+					// Set the parameters if necessary:
+					if (useObjectKeys) {
+						int[] params = new int[parameters.size()];
+						for (int p=0; p<params.length; p++) {
+							Node node = parameters.get(p);
+							EObject matched = match.getNodeTarget(node);
+							if (matched==null) {
+								matched = application.getResultMatch().getNodeTarget(node);
+							}
+							int objectKey = transformed.getObjectKeysMap().get(matched);
+							params[p] = ObjectKeyHelper.createObjectKey(
+									matched.eClass(), 
+									objectKey, 
+									identityTypes);
+						}
+						newTransition.setParameterKeys(params);
+						newTransition.setParameterCount(params.length);
+					}
+
+					// Remember the transition:
+					result.add(newTransition);
+
+					// Increase the match index:
+					matchIndex++;
+
 				}
-				
-				// Remember the transition:
-				result.add(newTransition);
-				
-				// Increase the match index:
-				matchIndex++;
-								
 			}
+			
+			// If at least one rule in the layer was applicable, we stop:
+			if (applicable) {
+				break;
+			}
+			
 		}
-		
+
+		// Done.
 		return result;
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Check whether a state is a goal state.
 	 * @param state State to be checked.
@@ -292,7 +359,7 @@ public class StateExplorer {
 			throw new StateSpaceException(e);
 		}
 	}
-	
+
 	/**
 	 * Derive a model.
 	 * @param State state.
@@ -301,7 +368,7 @@ public class StateExplorer {
 	 * @throws StateSpaceException On errors.
 	 */
 	public Model deriveModel(State state, boolean fromInitial) throws StateSpaceException {
-		
+
 		// Find a path from one of the states predecessors:
 		Path trace = new Path();
 		State source = state;
@@ -324,9 +391,9 @@ public class StateExplorer {
 
 		// Now derive the model:
 		return deriveModel(trace, start);
-		
+
 	}
-	
+
 	/**
 	 * Derive a model using a path and a given start model.
 	 * @param path Path.
@@ -335,18 +402,18 @@ public class StateExplorer {
 	 * @throws StateSpaceException On errors.
 	 */
 	public Model deriveModel(Path path, Model sourceModel) throws StateSpaceException {
-		
+
 		// We need to copy the start model!!!
 		sourceModel = sourceModel.getCopy(null);
 		application.setEGraph(sourceModel.getEGraph());
 		Match match;
-		
+
 		// Derive the model for the current state:
 		for (Transition transition : path) {
-			
+
 			// Find the match:
 			match = getMatch(transition, sourceModel);
-			
+
 			// Apply the rule with the found match:
 			application.setCompleteMatch(match);
 			if (!application.execute(null)) {
@@ -356,7 +423,7 @@ public class StateExplorer {
 			if (collectMissingRoots) {
 				sourceModel.collectMissingRootObjects();
 			}
-			
+
 			// Debug: Validate model if necessary:
 			//int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
 			//if (transition.getTarget().getHashCode()!=hashCode) {
@@ -375,15 +442,15 @@ public class StateExplorer {
 		//if (useObjectKeys) {
 		//	model.setObjectKeys(path.getTarget().getObjectKeys());
 		//}
-		
+
 		// Update the object hash codes:
 		StateSpaceHashCodeUtil.computeHashCode(sourceModel, equalityHelper);
-		
+
 		// Done.
 		return sourceModel;
-		
+
 	}
-	
+
 	/**
 	 * Get the match for a given transition.
 	 * @param transition The transition.
@@ -404,7 +471,7 @@ public class StateExplorer {
 		}
 		throw new StateSpaceException("Illegal transition in state " + transition.getSource());
 	}
-	
+
 	/**
 	 * Get the last result match used during the derivation of a model.
 	 * @return The last used result match.
@@ -418,12 +485,12 @@ public class StateExplorer {
 	 * This check if doExplore() really yields equal results when invoked
 	 * more than once on the same state.
 	 */
-/*	protected void checkEngineDeterminism(State state) throws StateSpaceException {
-		
+	/*	protected void checkEngineDeterminism(State state) throws StateSpaceException {
+
 		// Explore the state without changing the state space:
 		List<Transition> transitions = acquireTransitionList();
 		doExplore(state, transitions);
-		
+
 		// Do it again and compare the results.
 		for (int i=0; i<25; i++) {
 			List<Transition> transitions2 = acquireTransitionList();
@@ -447,41 +514,41 @@ public class StateExplorer {
 				}
 			}
 		}
-		
+
 	}
-*/	
-	
+	 */	
+
 	/**
 	 * Model post processor implementation.
 	 * @author Chrstian Krause
 	 */
 	class ModelPostProcessor {
-		
+
 		// Script engine:
 		private ScriptEngine engine;
-		
+
 		// Cached post processing script:
 		private String script;
-		
+
 		/**
 		 * Constructor.
 		 * @param statepace State space.
 		 */
 		public ModelPostProcessor(StateSpace stateSpace) {
 			ScriptEngineManager manager = new ScriptEngineManager();
-		    engine = manager.getEngineByName("JavaScript");
-		    script = stateSpace.getProperties().get("postProcessor");
-		    if (script!=null && script.trim().length()==0) {
-		    	script = null;
-		    }
-		    if (script!=null) {
-		    	String imports = "importPackage(java.lang);\n" +
-		    					 "importPackage(java.util);\n" +
-		    					 "importPackage(org.eclipse.emf.ecore);\n" ;
-			    script = imports + script;
-		    }
+			engine = manager.getEngineByName("JavaScript");
+			script = stateSpace.getProperties().get("postProcessor");
+			if (script!=null && script.trim().length()==0) {
+				script = null;
+			}
+			if (script!=null) {
+				String imports = "importPackage(java.lang);\n" +
+						"importPackage(java.util);\n" +
+						"importPackage(org.eclipse.emf.ecore);\n" ;
+				script = imports + script;
+			}
 		}
-		
+
 		/**
 		 * Do the post processing for a model.
 		 * @param model Model.
@@ -500,7 +567,7 @@ public class StateExplorer {
 				}
 			}
 		}
-		
+
 	}
 
 }
