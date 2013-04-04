@@ -23,9 +23,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.layout.TransitionBendpointHelper;
-import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 /**
  * Edit part for transitions.
@@ -42,8 +40,8 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 	 */
 	@Override
 	protected void createEditPolicies() {
-		// Makes the connection show a feedback, when selected by the user.
-		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
+		// Makes the connection show a feedback when selected by the user. We don't need that.
+		//installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
 	}
 
 	/* 
@@ -68,6 +66,15 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#isSelectable()
+	 */
+	@Override
+	public boolean isSelectable() {
+		return false;
+	}
+
 	/**
 	 * Refresh the label on the this transition.
 	 * @param hideLabel Whether to hide it.
