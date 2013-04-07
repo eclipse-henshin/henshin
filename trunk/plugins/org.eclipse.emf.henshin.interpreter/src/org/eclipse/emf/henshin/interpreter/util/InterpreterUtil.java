@@ -84,9 +84,9 @@ public class InterpreterUtil {
 	public static void executeOrDie(UnitApplication application) {
 		if (!application.execute(null)) {
 			if (application instanceof RuleApplication) {
-				throw new AssertionError("Error executing transformation rule '" + application.getUnit().getName() + "'");								
+				throw new AssertionError("Error executing rule '" + application.getUnit().getName() + "'");								
 			} else {
-				throw new AssertionError("Error executing transformation unit '" + application.getUnit().getName() + "'");				
+				throw new AssertionError("Error executing unit '" + application.getUnit().getName() + "'");				
 			}
 		}
 	}
