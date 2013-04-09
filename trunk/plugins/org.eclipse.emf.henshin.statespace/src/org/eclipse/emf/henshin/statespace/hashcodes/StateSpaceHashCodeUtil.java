@@ -34,16 +34,19 @@ public class StateSpaceHashCodeUtil {
 
 		// Do some basic checks first:
 		if (model==null) {
-			throw new NullPointerException("Cannot compute hashcode for null model");
+			throw new NullPointerException("Cannot compute hashcode for null model.");
 		}
 		if (model.getResource()==null) {
-			throw new NullPointerException("Cannot compute hashcode for without model resource");
+			throw new NullPointerException("Cannot compute hashcode for without model resource.");
 		}
 		
 		// Compute the total hash code of the model (updates the object hash codes too):
 		TotalHashCodeHelper hashCodeHelper = new TotalHashCodeHelper(equalityHelper);
-		return hashCodeHelper.hashCode(model);
-		
+		try {
+			return hashCodeHelper.hashCode(model);
+		} catch (Throwable t) {
+			throw new RuntimeException("Error computing hash code. Try setting property collectMissingRoots=true.", t);
+		}
 	}
 	
 	/**

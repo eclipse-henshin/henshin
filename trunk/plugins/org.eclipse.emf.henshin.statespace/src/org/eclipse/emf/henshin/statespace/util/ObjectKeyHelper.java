@@ -35,6 +35,8 @@ public class ObjectKeyHelper {
 	 */
 	public static String getObjectTypePrefix(int objectKey) {
 		int index = ((objectKey >>> 24) & 0xFF)-1;
+		if (index<0) index = 0;
+		index = index % 26; // must be an index of a letter in the alphabet
 		return String.valueOf((char) ('a'+index));
 	}
 
