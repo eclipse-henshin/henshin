@@ -78,7 +78,7 @@ import org.eclipse.emf.henshin.model.Xor;
  * @author Christian Krause, Gregor Bonifer, Enrico Biermann
  */
 public class EngineImpl implements Engine {
-		
+
 	// Options to be used:
 	protected final Map<String,Object> options;
 
@@ -90,7 +90,7 @@ public class EngineImpl implements Engine {
 
 	// Cached graph options:
 	protected final Map<Graph,MatchingOptions> graphOptions;
-	
+
 	// Whether to sort variables.
 	protected boolean sortVariables;
 
@@ -173,10 +173,10 @@ public class EngineImpl implements Engine {
 
 		// The next match:
 		private Match nextMatch;
-		
+
 		// Flag indicating whether the next match was computed:
 		private boolean computedNextMatch;
-		
+
 		// Target graph:
 		private final EGraph graph;
 
@@ -185,7 +185,7 @@ public class EngineImpl implements Engine {
 
 		// Rule to be matched:
 		private final Rule rule;
-		
+
 		// Cached rule info:
 		private final RuleInfo ruleInfo;
 
@@ -262,7 +262,7 @@ public class EngineImpl implements Engine {
 			// Create the new match:
 			nextMatch = new MatchImpl(rule);
 			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
-			
+
 			// Parameter values:
 			for (Entry<String,Object> entry : solution.parameterValues.entrySet()) {
 				Parameter param = nextMatch.getUnit().getParameter(entry.getKey());
@@ -270,7 +270,7 @@ public class EngineImpl implements Engine {
 					nextMatch.setParameterValue(param, entry.getValue());
 				}
 			}
-			
+
 			// LHS node targets:
 			for (Node node : rule.getLhs().getNodes()) {
 				nextMatch.setNodeTarget(node, solution.objectMatches.get(node2var.get(node)));
@@ -327,7 +327,7 @@ public class EngineImpl implements Engine {
 			 * mapping between the nodes of the variables.                  */
 
 			Map<Variable,DomainSlot> domainMap = new HashMap<Variable,DomainSlot>();
-			
+
 			for (Variable mainVariable : varInfo.getMainVariables()) {
 				Node node = varInfo.getVariableForNode(mainVariable);
 				MatchingOptions opt = getGraphOptions(node.getGraph());
@@ -419,21 +419,21 @@ public class EngineImpl implements Engine {
 		}
 
 	} // MatchFinder
-	
+
 	/**
 	 * Comparator for variables. Used to sort variables for optimal matching order.
 	 */
 	private class VariableComparator implements Comparator<Variable> {
-		
+
 		// Target graph:
 		private final EGraph graph;
-		
+
 		// Variable info:
 		private final VariableInfo varInfo;
-		
+
 		// Partial match:
 		private final Match partialMatch;
-		
+
 		/**
 		 * Constructor.
 		 * @param graph Target graph
@@ -445,14 +445,14 @@ public class EngineImpl implements Engine {
 			this.varInfo = varInfo;
 			this.partialMatch = partialMatch;
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
 		@Override
 		public int compare(Variable v1, Variable v2) {
-			
+
 			// Get the corresponding nodes:
 			Node n1 = varInfo.getVariableForNode(v1);
 			if (n1==null) return 1;
@@ -461,28 +461,34 @@ public class EngineImpl implements Engine {
 
 			// One of the nodes already matched or an attribute given as a parameter?
 			if (partialMatch!=null) {
-				if (isNodeMatched(n1)) return -1;
-				if (isNodeMatched(n2)) return 1;
+				if (isNodeObjectMatched(n1)) return -1;
+				if (isNodeObjectMatched(n2)) return 1;
+				if (isNodeAttributeMatched(n1)) return -1;
+				if (isNodeAttributeMatched(n2)) return 1;
 			}
-			
+
 			// Get the domain sizes (smaller number wins):
 			int s = (graph.getDomainSize(v1.typeConstraint.type, v1.typeConstraint.strictTyping) - 
-					 graph.getDomainSize(v2.typeConstraint.type, v2.typeConstraint.strictTyping));
+					graph.getDomainSize(v2.typeConstraint.type, v2.typeConstraint.strictTyping));
 			if (s!=0) return s;
-			
+
 			// Attribute count (larger number wins):
 			int a = (n2.getAttributes().size() - n1.getAttributes().size());
 			if (a!=0) return a;
-			
+
 			// Outgoing edge count (larger number wins):
 			return n2.getOutgoing().size() - n1.getOutgoing().size();
-			
+
 		}
-		
-		private boolean isNodeMatched(Node node) {
+
+		private boolean isNodeObjectMatched(Node node) {
 			if (partialMatch.getNodeTarget(node)!=null) {
 				return true;
 			}
+			return false;
+		}
+
+		private boolean isNodeAttributeMatched(Node node) {
 			for (Attribute attribute : node.getAttributes()) {
 				String value = attribute.getValue();
 				if (value!=null) {
@@ -494,10 +500,10 @@ public class EngineImpl implements Engine {
 			}
 			return false;
 		}
-		
+
 	} // VariableComparator
 
-	
+
 	/*
 	 * Get the cached rule info for a given rule.
 	 */
@@ -512,7 +518,7 @@ public class EngineImpl implements Engine {
 					throw new RuntimeException("Missing type for " + node);
 				}
 				if (node.getType().getEPackage()==null || 
-					node.getType().getEPackage().getEFactoryInstance()==null) {
+						node.getType().getEPackage().getEFactoryInstance()==null) {
 					throw new RuntimeException("Missing factory for '" + node + 
 							"'. Register the corresponding package, e.g. using PackageName.eINSTANCE.getName().");
 				}
@@ -520,7 +526,7 @@ public class EngineImpl implements Engine {
 		}
 		return ruleInfo;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Engine#createChange(org.eclipse.emf.henshin.model.Rule, org.eclipse.emf.henshin.interpreter.EGraph, org.eclipse.emf.henshin.interpreter.Match, org.eclipse.emf.henshin.interpreter.Match)
@@ -637,7 +643,7 @@ public class EngineImpl implements Engine {
 				for (Mapping mapping : multiRule.getMultiMappings()) {
 					if (mapping.getImage().getGraph().isRhs()) {
 						multiResultMatch.setNodeTarget(mapping.getImage(), 
-							 resultMatch.getNodeTarget(mapping.getOrigin()));
+								resultMatch.getNodeTarget(mapping.getOrigin()));
 					}
 				}
 				createChanges(multiRule, graph, multiMatch, multiResultMatch, complexChange);
@@ -646,7 +652,7 @@ public class EngineImpl implements Engine {
 		}
 
 	}
-	
+
 	/**
 	 * Evaluates a given attribute expression using the JavaScript engine.
 	 * @param attribute Attribute to be interpreted.
@@ -662,7 +668,7 @@ public class EngineImpl implements Engine {
 		if (attribute.isNull()) {
 			return null;
 		}
-		
+
 		// Try to evaluate the expression and cast it to the correct type:
 		try {
 			return castValueToDataType(
@@ -674,17 +680,17 @@ public class EngineImpl implements Engine {
 		}
 
 	}
-	
+
 	/*
 	 * Ecore package.
 	 */
 	private static final EcorePackage ECORE = EcorePackage.eINSTANCE;
-	
+
 	/*
 	 * Cast a data value into a given data type.
 	 */
 	private static Object castValueToDataType(Object value, EDataType type, boolean isMany) {
-		
+
 		// List of values?
 		if (isMany) {
 			EList<Object> list = new BasicEList<Object>();
@@ -698,12 +704,12 @@ public class EngineImpl implements Engine {
 			}
 			return list;
 		}
-		
+
 		// Null?
 		if (value==null) {
 			return null;
 		}
-		
+
 		// Number format conversions:
 		if (value instanceof Number) {
 			if (type==ECORE.getEInt() || type==ECORE.getEIntegerObject()) {
@@ -722,23 +728,23 @@ public class EngineImpl implements Engine {
 				return ((Number) value).floatValue();
 			}
 		}
-		
+
 		// Just a string?
 		if (type==ECORE.getEString()) {
 			if (value!=null) value = value.toString();
 			return value;
 		}
-		
+
 		// A plain Java object?
 		if (type==ECORE.getEJavaObject() || type==ECORE.getEJavaClass()) {
 			return value;
 		}
-		
+
 		// Generic attribute value creation as fall-back.
 		return EcoreUtil.createFromString(type, value.toString());
-		
+
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Engine#getOptions()
@@ -747,7 +753,7 @@ public class EngineImpl implements Engine {
 	public Map<String,Object> getOptions() {
 		return options;
 	}
-	
+
 	/*
 	 * Data class for storing matching options.
 	 */
@@ -756,7 +762,7 @@ public class EngineImpl implements Engine {
 		boolean dangling;
 		boolean deterministic;
 	}
-	
+
 	/*
 	 * Get the options for a specific rule graph.
 	 * The graph should be either the LHS or a nested condition.
@@ -825,7 +831,7 @@ public class EngineImpl implements Engine {
 			updateSortVariablsFlag();			
 			return result;
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * @see java.util.HashMap#clear()
@@ -836,7 +842,7 @@ public class EngineImpl implements Engine {
 			graphOptions.clear();
 			updateSortVariablsFlag();
 		}
-		
+
 		private void updateSortVariablsFlag() {
 			Boolean sort = (Boolean) get(OPTION_SORT_VARIABLES);
 			sortVariables = (sort!=null) ? sort.booleanValue() : true;
