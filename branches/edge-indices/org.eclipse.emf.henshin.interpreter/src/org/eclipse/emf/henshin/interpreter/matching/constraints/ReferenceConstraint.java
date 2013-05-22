@@ -10,7 +10,6 @@
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,14 +30,27 @@ public class ReferenceConstraint implements BinaryConstraint {
 	// Reference:
 	final EReference reference;
 	
+	// Index:
+	final Integer index;
+
 	/**
 	 * Default constructor.
 	 * @param target Target variable.
 	 * @param reference Reference.
 	 */
-	public ReferenceConstraint(Variable target, EReference reference) {
+	public ReferenceConstraint(Variable target, EReference reference, Integer index) {
 		this.targetVariable = target;
 		this.reference = reference;
+		this.index = index;
+	}
+
+	/**
+	 * Convenience constructor.
+	 * @param target Target variable.
+	 * @param reference Reference.
+	 */
+	public ReferenceConstraint(Variable target, EReference reference) {
+		this(target, reference, null);
 	}
 	
 	/*
@@ -55,7 +67,7 @@ public class ReferenceConstraint implements BinaryConstraint {
 		}
 		
 		// Get the target objects:
-		Collection<EObject> targetObjects;
+		List<EObject> targetObjects;
 		if (reference.isMany()) {
 			targetObjects = (List<EObject>) source.value.eGet(reference);
 			if (targetObjects.isEmpty()) {
@@ -66,17 +78,35 @@ public class ReferenceConstraint implements BinaryConstraint {
 			if (obj==null) {
 				return false;
 			}
-			targetObjects = Collections.singleton(obj);
+			targetObjects = Collections.singletonList(obj);
+		}
+		
+		// Calculation for negative indices:
+		Integer calculatedIndex = index;
+		if (index!=null && index<0) {
+			calculatedIndex = targetObjects.size() + index;
 		}
 		
 		// Target domain slot locked?
 		if (target.locked) {
-			return targetObjects.contains(target.value);
+			if (calculatedIndex!=null) {
+				return targetObjects.indexOf(target.value)==calculatedIndex;
+			} else {
+				return targetObjects.contains(target.value);
+			}
 		} else {
 			// Create a domain change to restrict the target domain:
 			DomainChange change = new DomainChange(target, target.temporaryDomain);
 			source.remoteChangeMap.put(this, change);
-			target.temporaryDomain = new ArrayList<EObject>(targetObjects);
+			if (calculatedIndex!=null) {
+				if (calculatedIndex>=0 && calculatedIndex<targetObjects.size()) {
+					target.temporaryDomain = Collections.singletonList(targetObjects.get(calculatedIndex));
+				} else {
+					target.temporaryDomain = Collections.emptyList();
+				}
+			} else {
+				target.temporaryDomain = new ArrayList<EObject>(targetObjects);
+			}
 			if (change.originalValues!=null) {
 				target.temporaryDomain.retainAll(change.originalValues);
 			}

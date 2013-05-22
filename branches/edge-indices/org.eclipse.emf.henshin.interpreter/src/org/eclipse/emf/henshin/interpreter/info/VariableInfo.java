@@ -129,7 +129,7 @@ public class VariableInfo {
 		
 		for (Edge edge : node.getOutgoing()) {
 			Variable targetVariable = node2variable.get(edge.getTarget());
-			ReferenceConstraint constraint = new ReferenceConstraint(targetVariable, edge.getType());
+			ReferenceConstraint constraint = new ReferenceConstraint(targetVariable, edge.getType(), edge.getIndexConstant());
 			var.referenceConstraints.add(constraint);
 		}
 		

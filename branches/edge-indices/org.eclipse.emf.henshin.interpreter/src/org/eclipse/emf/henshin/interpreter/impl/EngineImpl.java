@@ -526,7 +526,11 @@ public class EngineImpl implements Engine {
 		}
 		return ruleInfo;
 	}
-
+	
+	public void clearCache() {
+		ruleInfos.clear();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Engine#createChange(org.eclipse.emf.henshin.model.Rule, org.eclipse.emf.henshin.interpreter.EGraph, org.eclipse.emf.henshin.interpreter.Match, org.eclipse.emf.henshin.interpreter.Match)

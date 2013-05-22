@@ -26,6 +26,25 @@ public class EdgeIndexTests extends HenshinTest {
 		htEngine = new EngineImpl();
 		tm = TestmodelPackage.eINSTANCE;
 	}
+
+	private void checkEdgeIndex(Edge edge, int index, boolean hasMatch) {
+		edge.setIndex(""+index);
+		((EngineImpl) htEngine).clearCache();
+		if (hasMatch) {
+			Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 1);
+			Match match = htEngine.findMatches(htRule, htEGraph, null).iterator().next();
+			cont srcMatch = (cont) match.getNodeTarget(edge.getSource());
+			EObject trgMatch = match.getNodeTarget(edge.getTarget());
+			if (index<0) {
+				index = srcMatch.getContainsNode().size()+index;
+			}
+			int theIndex = srcMatch.getContainsNode().indexOf(trgMatch);
+			Assert.assertTrue("Unexpected target node matched (edge index is " + theIndex + 
+					" but should be " + index, theIndex==index);
+		} else {
+			Rules.assertRuleHasNoMatch(htRule, htEGraph, null, htEngine);
+		}
+	}
 	
 	@Test
 	public void testConstantEdgeIndexMatch() {
@@ -44,23 +63,15 @@ public class EdgeIndexTests extends HenshinTest {
 		// If we do not specify the edge index, we should get all matches:
 		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, nodeCount);
 
-		// Test constant edge indices:
+		// Test constant edge indices (also with negative constants):
 		for (int i=0; i<nodeCount; i++) {
-			edge.setIndex(""+i);
-			Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 1);
-			Match match = htEngine.findMatches(htRule, htEGraph, null).iterator().next();
-			cont srcMatch = (cont) match.getNodeTarget(source);
-			EObject trgMatch = match.getNodeTarget(target);
-			int index = srcMatch.getContainsNode().indexOf(trgMatch);
-			Assert.assertTrue("Unexpected target node matched (edge index is " + index + 
-					" but should be " + i, index==i);
+			checkEdgeIndex(edge, i, true);
+			checkEdgeIndex(edge, -i-1, true);
 		}
 		
-		// No matches if the index is out of range:
-		edge.setIndex("-1");
-		Rules.assertRuleHasNoMatch(htRule, htEGraph, null, htEngine);
-		edge.setIndex("" + (nodeCount+1));
-		Rules.assertRuleHasNoMatch(htRule, htEGraph, null, htEngine);
+		// Test out of range indices:
+		checkEdgeIndex(edge, nodeCount, false);
+		checkEdgeIndex(edge, -nodeCount-1, false);
 		
 	}
 
