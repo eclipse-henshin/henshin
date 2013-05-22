@@ -904,13 +904,31 @@ public interface HenshinPackage extends EPackage {
 	int EDGE__GRAPH = GRAPH_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Index</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDGE__INDEX = GRAPH_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Index Constant</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDGE__INDEX_CONSTANT = GRAPH_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Edge</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EDGE_FEATURE_COUNT = GRAPH_ELEMENT_FEATURE_COUNT + 4;
+	int EDGE_FEATURE_COUNT = GRAPH_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Action</b></em>' attribute.
@@ -2369,6 +2387,28 @@ public interface HenshinPackage extends EPackage {
 	EReference getEdge_Graph();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Edge#getIndex <em>Index</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Index</em>'.
+	 * @see org.eclipse.emf.henshin.model.Edge#getIndex()
+	 * @see #getEdge()
+	 * @generated
+	 */
+	EAttribute getEdge_Index();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Edge#getIndexConstant <em>Index Constant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Index Constant</em>'.
+	 * @see org.eclipse.emf.henshin.model.Edge#getIndexConstant()
+	 * @see #getEdge()
+	 * @generated
+	 */
+	EAttribute getEdge_IndexConstant();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.UnaryUnit <em>Unary Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3191,6 +3231,22 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EDGE__GRAPH = eINSTANCE.getEdge_Graph();
+
+		/**
+		 * The meta object literal for the '<em><b>Index</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EDGE__INDEX = eINSTANCE.getEdge_Index();
+
+		/**
+		 * The meta object literal for the '<em><b>Index Constant</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EDGE__INDEX_CONSTANT = eINSTANCE.getEdge_IndexConstant();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.UnaryUnitImpl <em>Unary Unit</em>}' class.

@@ -65,8 +65,6 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 			addActionPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
 			addValuePropertyDescriptor(object);
-			addConstantPropertyDescriptor(object);
-			addNullPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -139,50 +137,6 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 				 null));
 	}
 	
-	/**
-	 * This adds a property descriptor for the Constant feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addConstantPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Attribute_constant_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Attribute_constant_feature", "_UI_Attribute_type"),
-				 HenshinPackage.Literals.ATTRIBUTE__CONSTANT,
-				 false,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Null feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNullPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Attribute_null_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Attribute_null_feature", "_UI_Attribute_type"),
-				 HenshinPackage.Literals.ATTRIBUTE__NULL,
-				 false,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
 	/**
 	 * This returns Attribute.gif.
 	 * <!-- begin-user-doc --> 
