@@ -118,6 +118,17 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public NodeImpl(String name, EClass type, Graph graph) {
+		setName(name);
+		setType(type);
+		setGraph(graph);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

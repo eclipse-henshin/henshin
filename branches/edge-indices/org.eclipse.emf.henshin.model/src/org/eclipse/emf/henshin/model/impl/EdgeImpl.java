@@ -142,6 +142,22 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EdgeImpl(Node source, Node target, EReference type) {
+		setType(type);
+		setSource(source);
+		setTarget(target);
+		if (source!=null && source.getGraph()!=null) {
+			setGraph(source.getGraph());
+		} else if (target!=null && target.getGraph()!=null) {
+			setGraph(target.getGraph());
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
