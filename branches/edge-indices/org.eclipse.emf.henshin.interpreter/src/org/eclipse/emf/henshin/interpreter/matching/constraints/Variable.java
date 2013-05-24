@@ -33,11 +33,11 @@ public class Variable {
 	// Reference constraints:
 	public final List<ReferenceConstraint> referenceConstraints;
 	
-	// Parameter constraints:
-	public final List<ParameterConstraint> parameterConstraints;
-	
 	// Containment constraints:
 	public final List<ContainmentConstraint> containmentConstraints;
+	
+	// Whether this variable requires a final re-check:
+	public boolean requiresFinalCheck;
 	
 	/**
 	 * Constructor. Creates the related {@link TypeConstraint} already.
@@ -57,8 +57,8 @@ public class Variable {
 		attributeConstraints = new ArrayList<AttributeConstraint>();
 		danglingConstraints = new ArrayList<DanglingConstraint>();
 		referenceConstraints = new ArrayList<ReferenceConstraint>();
-		parameterConstraints = new ArrayList<ParameterConstraint>();
 		containmentConstraints = new ArrayList<ContainmentConstraint>();
+		requiresFinalCheck = false;
 	}
 	
 }

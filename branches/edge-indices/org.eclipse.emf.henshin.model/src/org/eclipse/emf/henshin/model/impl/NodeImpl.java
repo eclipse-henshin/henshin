@@ -120,10 +120,9 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public NodeImpl(String name, EClass type, Graph graph) {
+	public NodeImpl(String name, EClass type) {
 		setName(name);
 		setType(type);
-		setGraph(graph);
 	}
 
 	/**

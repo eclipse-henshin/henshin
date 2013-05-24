@@ -45,7 +45,7 @@ public class ExampleTests {
 	/**
 	 * Java2StateMachine example from TTC 2011.
 	 */
-	@Test
+	// @Test
 	public void testJava2StateMachine() {
 		System.out.println();
 		Java2StateMachine.run(EXAMPLES_PATH + Java2StateMachine.PATH, 

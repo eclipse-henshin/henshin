@@ -58,6 +58,16 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public ParameterImpl(String name, EClassifier type) {
+		setName(name);
+		setType(type);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

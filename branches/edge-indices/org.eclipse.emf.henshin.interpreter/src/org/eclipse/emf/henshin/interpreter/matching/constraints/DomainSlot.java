@@ -102,7 +102,6 @@ public class DomainSlot {
 
 	/**
 	 * Constructor.
-	 * 
 	 * @param conditionHandler Condition handler to be used.
 	 * @param usedObjects Used objects.
 	 * @param options Options.
@@ -124,11 +123,10 @@ public class DomainSlot {
 	
 	/**
 	 * Sets the value of the domain slot.
-	 * 
-	 * @param variable
-	 * @param domainMap
-	 * @param graph
-	 * @return
+	 * @param variable Variable to be set.
+	 * @param domainMap The domain map to be used.
+	 * @param graph The target graph.
+	 * @return <code>true</code> if the instantiation was successful.
 	 */
 	public boolean instantiate(Variable variable, Map<Variable, DomainSlot> domainMap, EGraph graph) {
 		
@@ -176,14 +174,7 @@ public class DomainSlot {
 			if (!variable.typeConstraint.check(this)) {
 				return false;
 			}
-			
-			// Check the attribute constraints:
-			for (AttributeConstraint constraint : variable.attributeConstraints) {
-				if (!constraint.check(this)) {
-					return false;
-				}
-			}
-			
+
 			// Check the dangling constraints:
 			if (dangling) {
 				for (DanglingConstraint constraint : variable.danglingConstraints) {
@@ -192,11 +183,13 @@ public class DomainSlot {
 					}
 				}
 			}
-			
-			// Check the parameter constraints:
-			for (ParameterConstraint constraint : variable.parameterConstraints) {
-				if (!conditionHandler.isSet(constraint.parameterName)) {
-					initializedParameters.add(constraint.parameterName);
+
+			// Check the attribute constraints:
+			for (AttributeConstraint constraint : variable.attributeConstraints) {
+				if (!constraint.isConstantValue) {
+					if (!conditionHandler.isSet((String) constraint.value)) {
+						initializedParameters.add((String) constraint.value);
+					}
 				}
 				if (!constraint.check(this)) {
 					return false;
@@ -233,13 +226,11 @@ public class DomainSlot {
 	 * Removes the lock on this domain slot. If the domain contains additional
 	 * objects {@link #instantiate(Variable, Map, EGraphImpl)} may be called
 	 * again.
-	 * 
 	 * @param sender
 	 *            The variable which uses this domain slot. Only the variable
 	 *            which originally initialized this domain slot is able to
 	 *            unlock it.
-	 * 
-	 * @return true, if another instantiation is possible.
+	 * @return <code>true</code> if another instantiation is possible.
 	 */
 	public boolean unlock(Variable sender) {
 		
@@ -305,6 +296,18 @@ public class DomainSlot {
 			temporaryDomain = null;
 		}
 		clear(sender);		
+	}
+
+	/**
+	 * Re-check the constraint of a variable. It is assumed that this 
+	 * slot is initialized and locked.
+	 * @param variable Variable to be re-checked.
+	 * @param domainMap The domain map.
+	 * @return <code>true</code> if all constraint were successfully checked.
+	 */
+	public boolean recheck(Variable variable, Map<Variable, DomainSlot> domainMap) {
+		checkedVariables.remove(variable);
+		return instantiate(variable, domainMap, null);
 	}
 	
 	/**

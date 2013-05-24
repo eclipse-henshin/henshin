@@ -64,7 +64,20 @@ public class ApplicationCondition implements IFormula {
 		
 		// Matched all variables?
 		if (index==variables.size()) {
+			
+			// Final variable re-checks:
+			for (Variable variable : variables) {
+				if (variable.requiresFinalCheck) {
+					DomainSlot slot = domainMap.get(variable);
+					if (!slot.recheck(variable, domainMap)) {
+						return false;
+					}
+				}
+			}
+			
+			// Evaluate formula:
 			return formula.eval();
+			
 		}
 		
 		// Otherwise try to match the last variable:

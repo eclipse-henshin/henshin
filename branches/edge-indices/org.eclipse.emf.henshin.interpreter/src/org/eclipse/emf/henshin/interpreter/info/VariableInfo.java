@@ -22,7 +22,6 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstraint;
-import org.eclipse.emf.henshin.interpreter.matching.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -127,37 +126,57 @@ public class VariableInfo {
 	private void createConstraints(Node node) {
 		Variable var = node2variable.get(node);
 		
+		// Outgoing edges:
 		for (Edge edge : node.getOutgoing()) {
-			Variable targetVariable = node2variable.get(edge.getTarget());
-			ReferenceConstraint constraint = new ReferenceConstraint(targetVariable, edge.getType(), edge.getIndexConstant());
+			Variable target = node2variable.get(edge.getTarget());
+			ReferenceConstraint constraint;
+			String index = edge.getIndex();
+			if (index!=null && index.length()>0) {
+				if (rule.getParameter(index)!=null) {
+					constraint = new ReferenceConstraint(target, edge.getType(), index, false);
+					var.requiresFinalCheck = true;
+				} else {
+					try {
+						Number constant = (Number) engine.getScriptEngine().eval(index);
+						constraint = new ReferenceConstraint(target, edge.getType(), constant, true);
+					} catch (Exception e) {
+						throw new RuntimeException("Error evaluating index expression: " + index);
+					}
+				}
+			} else {
+				constraint = new ReferenceConstraint(target, edge.getType(), null, true);
+			}
 			var.referenceConstraints.add(constraint);
 		}
 		
+		// Incoming edges:
 		for (Edge edge : node.getIncoming()) {
 			if (edge.getType().isContainment()) {
-				Variable targetVariable = node2variable.get(edge.getSource());
-				ContainmentConstraint constraint = new ContainmentConstraint(targetVariable);
+				Variable target = node2variable.get(edge.getSource());
+				ContainmentConstraint constraint = new ContainmentConstraint(target);
 				var.containmentConstraints.add(constraint);
 			}
 		}
 		
+		// Attributes:
 		for (Attribute attribute : node.getAttributes()) {
-			String val = attribute.getValue();
-			if (rule.getParameter(val)!=null) {
-				ParameterConstraint constraint = new ParameterConstraint(val, attribute.getType());
-				var.parameterConstraints.add(constraint);
+			String value = attribute.getValue();
+			AttributeConstraint constraint;
+			if (rule.getParameter(value)!=null) {
+				constraint = new AttributeConstraint(attribute.getType(), value, false);
 			} else {
-				Object value = engine.evalAttributeExpression(attribute);
-				AttributeConstraint constraint = new AttributeConstraint(attribute.getType(), value);
-				var.attributeConstraints.add(constraint);
+				Object constant = engine.evalAttributeExpression(attribute);
+				constraint = new AttributeConstraint(attribute.getType(), constant, true);
 			}
+			var.attributeConstraints.add(constraint);
 		}
+		
 	}
 	
 	private void createDanglingConstraints(Node node) {
 		Variable var = node2variable.get(node);
-		DanglingConstraint constraint = new DanglingConstraint(getEdgeCounts(node, false),
-				getEdgeCounts(node, true));
+		DanglingConstraint constraint = 
+				new DanglingConstraint(getEdgeCounts(node, false), getEdgeCounts(node, true));
 		var.danglingConstraints.add(constraint);
 	}
 	
