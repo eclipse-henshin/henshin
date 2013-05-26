@@ -122,7 +122,7 @@ public class EdgeTypeParser extends AbstractParser {
 	 */
 	private CommandResult doParsing(String value, Edge edge) {
 		
-		Rule rule = (Rule) edge.getGraph().eContainer();
+		Rule rule = (Rule) edge.getGraph().getRule();
 		Node source = edge.getSource();
 		
 		if (source.getType()==null) {

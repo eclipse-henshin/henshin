@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Rule;
@@ -24,6 +25,31 @@ import org.eclipse.gmf.runtime.notation.View;
  * @generated
  */
 public class RuleEditHelper extends HenshinBaseEditHelper {
+	
+	public static class RuleListener extends EContentAdapter {
+		
+		private Rule rule;
+		
+		/**
+		 * Default constructor.
+		 */
+		public RuleListener(EObject ruleElement) {
+			while (ruleElement!=null && !(ruleElement instanceof Rule)) {
+				ruleElement = ruleElement.eContainer();
+			}
+			if (ruleElement==null) {
+				throw new IllegalArgumentException();
+			}
+			this.rule = (Rule) ruleElement;
+		}
+		
+		/**
+		 * Dispose this listener.
+		 */
+		public void dispose() {
+			rule.eAdapters().remove(rule);
+		}
+	}
 	
 	/*
 	 * Keys for default action eAnnotations.

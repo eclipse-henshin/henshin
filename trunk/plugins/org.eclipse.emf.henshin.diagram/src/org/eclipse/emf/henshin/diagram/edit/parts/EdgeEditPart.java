@@ -9,21 +9,17 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper.RuleListener;
 import org.eclipse.emf.henshin.diagram.edit.policies.EdgeItemSemanticEditPolicy;
-import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
@@ -47,7 +43,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	/**
 	 * @generated NOT
 	 */
-	private ModuleListener moduleListener;
+	private RuleListener ruleListener;
 
 	/**
 	 * @generated
@@ -63,17 +59,20 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	protected void addSemanticListeners() {
 		super.addSemanticListeners();
 		View view = getNotationView();
-		if (view == null)
+		if (view == null) {
 			return;
+		}
 		Edge edge = (Edge) (getNotationView().getElement());
-		if (edge == null)
+		if (edge == null) {
 			return;
-		Rule rule = edge.getGraph().getRule();
-		if (rule == null)
-			return;
-		Module module = rule.getModule();
-		moduleListener = new ModuleListener(module, new AdapterImpl() {
+		}
+		ruleListener = new RuleListener(edge) {
+			@Override
 			public void notifyChanged(Notification event) {
+				super.notifyChanged(event);
+				if (event.getEventType()==Notification.REMOVING_ADAPTER) {
+					return;
+				}
 				// Really make sure that the edit part is still valid.
 				if (isActive()
 						&& getNotationView().getElement() instanceof Edge
@@ -81,7 +80,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 					refreshVisuals();
 				}
 			}
-		});
+		};
 	}
 
 	/**
@@ -90,9 +89,9 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void removeSemanticListeners() {
 		super.removeSemanticListeners();
-		if (moduleListener != null) {
-			moduleListener.dispose();
-			moduleListener = null;
+		if (ruleListener != null) {
+			ruleListener.dispose();
+			ruleListener = null;
 		}
 	}
 

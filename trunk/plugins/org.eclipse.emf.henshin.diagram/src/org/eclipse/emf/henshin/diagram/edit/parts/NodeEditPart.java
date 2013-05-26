@@ -23,8 +23,8 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper.RuleListener;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeGraphicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
@@ -32,8 +32,6 @@ import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -77,7 +75,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated NOT
 	 */
-	private ModuleListener moduleListener;
+	private RuleListener ruleListener;
 
 	/**
 	 * @generated
@@ -93,10 +91,13 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	public void addSemanticListeners() {
 		super.addSemanticListeners();
 		Node node = (Node) (getNotationView().getElement());
-		Rule rule = node.getGraph().getRule();
-		Module module = rule.getModule();
-		moduleListener = new ModuleListener(module, new AdapterImpl() {
+		ruleListener = new RuleListener(node) {
+			@Override
 			public void notifyChanged(Notification event) {
+				super.notifyChanged(event);
+				if (event.getEventType()==Notification.REMOVING_ADAPTER) {
+					return;
+				}
 				// Really make sure that the edit part is still valid.
 				if (isActive()
 						&& getNotationView().getElement() instanceof Node
@@ -104,7 +105,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 					refreshVisuals();
 				}
 			}
-		});
+		};
 	}
 
 	/**
@@ -113,9 +114,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void removeSemanticListeners() {
 		super.removeSemanticListeners();
-		if (moduleListener != null) {
-			moduleListener.dispose();
-			moduleListener = null;
+		if (ruleListener != null) {
+			ruleListener.dispose();
+			ruleListener = null;
 		}
 	}
 

@@ -760,7 +760,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		}
 		
 		// Done.
-		return result.isEmpty() ? null : result;
+		return (result==null || result.isEmpty()) ? null : result;
 		
 	}
 	
