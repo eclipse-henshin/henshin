@@ -25,6 +25,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -33,6 +34,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.Change;
 import org.eclipse.emf.henshin.interpreter.Change.CompoundChange;
@@ -90,6 +92,9 @@ public class EngineImpl implements Engine {
 
 	// Cached graph options:
 	protected final Map<Graph,MatchingOptions> graphOptions;
+	
+	// Listen for rule changes:
+	protected final EContentAdapter ruleListener;
 
 	// Whether to sort variables.
 	protected boolean sortVariables;
@@ -98,10 +103,14 @@ public class EngineImpl implements Engine {
 	 * Default constructor.
 	 */
 	public EngineImpl() {
+		
+		// Initialize fields:
 		ruleInfos = new HashMap<Rule, RuleInfo>();
 		graphOptions = new HashMap<Graph,MatchingOptions>();
 		options = new EngineOptions();
 		sortVariables = true;
+		
+		// Initialize the script engine:
 		scriptEngine = new ScriptEngineManager().getEngineByName("JavaScript");
 		if (scriptEngine==null) {
 			System.err.println("Warning: cannot find JavaScript engine");
@@ -112,6 +121,32 @@ public class EngineImpl implements Engine {
 				System.err.println("Warning: error importing java.lang package in JavaScript engine");
 			}
 		}
+		
+		// Rule listener for automatically clearing caches when rules are changed at run-time:
+		ruleListener = new EContentAdapter() {
+			  @Override
+			  public void notifyChanged(Notification notification) {
+				  super.notifyChanged(notification);
+				  int eventType = notification.getEventType();
+				  if (eventType==Notification.RESOLVE ||
+					  eventType==Notification.REMOVING_ADAPTER) {
+					  return;
+				  }
+				  if (notification.getNotifier() instanceof EObject) {
+					  EObject object = (EObject) notification.getNotifier();
+					  while (object!=null) {
+						  if (object instanceof Rule) {
+							  ruleInfos.remove(object);
+							  object.eAdapters().remove(ruleListener);
+						  }
+						  if (object instanceof Graph) {
+							  graphOptions.remove(object);
+						  }						  
+						  object = object.eContainer();
+					  }
+				  }
+			  }
+		};
 	}
 
 	/*
@@ -510,8 +545,11 @@ public class EngineImpl implements Engine {
 	protected RuleInfo getRuleInfo(Rule rule) {
 		RuleInfo ruleInfo = ruleInfos.get(rule);
 		if (ruleInfo == null) {
+			// Create the rule info:
 			ruleInfo = new RuleInfo(rule, this);
 			ruleInfos.put(rule, ruleInfo);
+			// Listen to changes:
+			rule.eAdapters().add(ruleListener);
 			// Check for missing factories:			
 			for (Node node : ruleInfo.getChangeInfo().getCreatedNodes()) {
 				if (node.getType()==null) {

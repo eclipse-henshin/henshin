@@ -61,7 +61,6 @@ public class EdgeIndexTests extends HenshinTest {
 
 	private void checkEdgeIndex(Edge edge, String indexExpr, int index, Match partialMatch) {
 		edge.setIndex(indexExpr);
-		((EngineImpl) htEngine).clearCache();
 		if (index>=0) {
 			Rules.assertRuleHasNMatches(htRule, htEGraph, partialMatch, htEngine, 1);
 			Match match = htEngine.findMatches(htRule, htEGraph, partialMatch).iterator().next();
@@ -80,7 +79,6 @@ public class EdgeIndexTests extends HenshinTest {
 		
 		// If we do not specify the edge index, we should get all matches:
 		edge.setIndex(null);
-		((EngineImpl) htEngine).clearCache();
 		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, nodeCount);
 
 		// Test constant edge indices (also with negative constants):
@@ -101,7 +99,6 @@ public class EdgeIndexTests extends HenshinTest {
 		
 		// If we do not specify the edge index, we should get all matches:
 		edge.setIndex(param.getName());
-		((EngineImpl) htEngine).clearCache();
 
 		// Test constant edge indices (also with negative constants):
 		Match partialMatch = new MatchImpl(htRule);
@@ -117,7 +114,6 @@ public class EdgeIndexTests extends HenshinTest {
 		
 		// If we do not specify the edge index, we should get all matches:
 		edge.setIndex(param.getName());
-		((EngineImpl) htEngine).clearCache();
 
 		// Test constant edge indices (also with negative constants):
 		List<Match> matches = InterpreterUtil.findAllMatches(htEngine, htRule, htEGraph, null);
