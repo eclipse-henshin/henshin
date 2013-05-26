@@ -15,6 +15,7 @@ import static org.eclipse.emf.henshin.model.Action.Type.PRESERVE;
 import static org.eclipse.emf.henshin.model.Action.Type.REQUIRE;
 
 import java.text.ParseException;
+import java.util.Iterator;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -26,6 +27,7 @@ import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -209,12 +211,24 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// Check if there is are image in the RHS that we need to updated:
+		Rule rule = node.getGraph().getRule();
 		if (action.getType()==PRESERVE) {
-			Rule rule = node.getGraph().getRule();
 			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
 			if (image!=null) {
 				image.setValue((newVal!=null && newVal.length()>0) ? newVal : val);
 				image.setType(attr);
+			}
+		}
+		// Check for nested conditions:
+		Iterator<EObject> it = rule.getLhs().eAllContents();
+		while (it.hasNext()) {
+			EObject next = it.next();
+			if (next instanceof NestedCondition) {
+				NestedCondition nc = (NestedCondition) next;
+				Attribute image = nc.getMappings().getImage(attribute, nc.getConclusion());
+				if (image!=null) {
+					image.setValue(val);
+				}
 			}
 		}
 
