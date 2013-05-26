@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.eclipse.emf.henshin.model.Edge#getTarget <em>Target</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Edge#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Edge#getGraph <em>Graph</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Edge#getIndex <em>Index</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Edge#getIndexConstant <em>Index Constant</em>}</li>
  * </ul>
  * </p>
  *
@@ -125,6 +127,39 @@ public interface Edge extends GraphElement {
 	 * @generated
 	 */
 	void setGraph(Graph value);
+
+	/**
+	 * Returns the value of the '<em><b>Index</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Index</em>' attribute.
+	 * @see #setIndex(String)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge_Index()
+	 * @model
+	 * @generated
+	 */
+	String getIndex();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Edge#getIndex <em>Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Index</em>' attribute.
+	 * @see #getIndex()
+	 * @generated
+	 */
+	void setIndex(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Index Constant</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Index Constant</em>' attribute.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge_IndexConstant()
+	 * @model transient="true" changeable="false" derived="true"
+	 * @generated
+	 */
+	Integer getIndexConstant();
 
 	/**
 	 * <!-- begin-user-doc -->

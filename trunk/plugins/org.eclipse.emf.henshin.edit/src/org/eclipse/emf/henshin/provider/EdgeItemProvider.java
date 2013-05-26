@@ -48,7 +48,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
-	 * This constructs an instance from a factory and a notifier. 
+	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -58,7 +58,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. 
+	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -72,6 +72,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 			addSourcePropertyDescriptor(object);
 			addTargetPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
+			addIndexPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -141,6 +142,28 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 						"_UI_Edge_type"), HenshinPackage.Literals.EDGE__TYPE));
 	}
 	
+	/**
+	 * This adds a property descriptor for the Index feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIndexPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Edge_index_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Edge_index_feature", "_UI_Edge_type"),
+				 HenshinPackage.Literals.EDGE__INDEX,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
 	/**
 	 * This returns Edge.gif. 
 	 * <!-- begin-user-doc --> 
@@ -222,8 +245,8 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -234,7 +257,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * Return the resource locator for this item provider's resources. 
+	 * Return the resource locator for this item provider's resources.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated

@@ -75,8 +75,7 @@ public class ConditionHandler {
 	 */
 	public boolean setParameter(String paramName, Object value) {
 		boolean result = true;
-		if (!assignedParameters.contains(paramName)) {
-			assignedParameters.add(paramName);
+		if (assignedParameters.add(paramName)) {
 			scriptEngine.put(paramName, value);
 			Collection<AttributeCondition> conditionList = involvedConditions.get(paramName);
 			if (conditionList != null) {
@@ -94,8 +93,7 @@ public class ConditionHandler {
 	 * @param paramName Parameter name.
 	 */
 	public void unsetParameter(String paramName) {
-		if (assignedParameters.contains(paramName)) {
-			assignedParameters.remove(paramName);
+		if (assignedParameters.remove(paramName)) {
 			Collection<AttributeCondition> conditionList = involvedConditions.get(paramName);
 			if (conditionList != null) {
 				for (AttributeCondition condition : involvedConditions.get(paramName)) {

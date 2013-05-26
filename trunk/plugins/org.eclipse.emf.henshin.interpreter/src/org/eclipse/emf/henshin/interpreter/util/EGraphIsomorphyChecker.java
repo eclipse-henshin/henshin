@@ -99,7 +99,7 @@ public class EGraphIsomorphyChecker {
 			// Create attribute constraints if necessary:
 			for (EAttribute attr : object.eClass().getEAllAttributes()) {
 				if (ignoredAttributes==null || !ignoredAttributes.contains(attr)) {
-					variable.attributeConstraints.add(new AttributeConstraint(attr, object.eGet(attr)));
+					variable.attributeConstraints.add(new AttributeConstraint(attr, object.eGet(attr), true));
 				}
 			}
 			

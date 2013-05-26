@@ -41,6 +41,8 @@ import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getGraph <em>Graph</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getIndex <em>Index</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getIndexConstant <em>Index Constant</em>}</li>
  * </ul>
  * </p>
  *
@@ -89,12 +91,68 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	protected EReference type;
 
 	/**
+	 * The default value of the '{@link #getIndex() <em>Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String INDEX_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getIndex() <em>Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected String index = INDEX_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getIndexConstant() <em>Index Constant</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndexConstant()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Integer INDEX_CONSTANT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getIndexConstant() <em>Index Constant</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndexConstant()
+	 * @generated
+	 * @ordered
+	 */
+	protected Integer indexConstant = INDEX_CONSTANT_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EdgeImpl() {
 		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EdgeImpl(Node source, Node target, EReference type) {
+		setType(type);
+		setSource(source);
+		setTarget(target);
+		if (source!=null && source.getGraph()!=null) {
+			setGraph(source.getGraph());
+		} else if (target!=null && target.getGraph()!=null) {
+			setGraph(target.getGraph());
+		}
 	}
 
 	/**
@@ -327,6 +385,55 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getIndex() {
+		return index;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setIndex(String newIndex) {
+		// Update the index constant first:
+		indexConstant = null;
+		if (newIndex!=null) {
+			try {
+				indexConstant = Integer.parseInt(newIndex);
+			} catch (Exception e) {
+				// not a constant
+			}
+		}
+		// Now set the index value as well:
+		setIndexGen(newIndex);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIndexGen(String newIndex) {
+		String oldIndex = index;
+		index = newIndex;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.EDGE__INDEX, oldIndex, index));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Integer getIndexConstant() {
+		return indexConstant;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public Edge getActionEdge() {
@@ -410,6 +517,10 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 				return basicGetType();
 			case HenshinPackage.EDGE__GRAPH:
 				return getGraph();
+			case HenshinPackage.EDGE__INDEX:
+				return getIndex();
+			case HenshinPackage.EDGE__INDEX_CONSTANT:
+				return getIndexConstant();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -436,6 +547,9 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 				return;
 			case HenshinPackage.EDGE__GRAPH:
 				setGraph((Graph)newValue);
+				return;
+			case HenshinPackage.EDGE__INDEX:
+				setIndex((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -464,6 +578,9 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 			case HenshinPackage.EDGE__GRAPH:
 				setGraph((Graph)null);
 				return;
+			case HenshinPackage.EDGE__INDEX:
+				setIndex(INDEX_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -485,6 +602,10 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 				return type != null;
 			case HenshinPackage.EDGE__GRAPH:
 				return getGraph() != null;
+			case HenshinPackage.EDGE__INDEX:
+				return INDEX_EDEFAULT == null ? index != null : !INDEX_EDEFAULT.equals(index);
+			case HenshinPackage.EDGE__INDEX_CONSTANT:
+				return INDEX_CONSTANT_EDEFAULT == null ? indexConstant != null : !INDEX_CONSTANT_EDEFAULT.equals(indexConstant);
 		}
 		return super.eIsSet(featureID);
 	}

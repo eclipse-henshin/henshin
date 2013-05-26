@@ -41,7 +41,7 @@ public class EdgeTypeParser extends AbstractParser {
 	 * Default constructor.
 	 */
 	public EdgeTypeParser() {
-		super(new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() });
+		super(new EAttribute[] { HenshinPackage.eINSTANCE.getEdge_Index() });
 	}
 
 	/*
@@ -50,7 +50,38 @@ public class EdgeTypeParser extends AbstractParser {
 	 */
 	public String getPrintString(IAdaptable element, int flags) {
 		Edge edge = (Edge) element.getAdapter(EObject.class);
-		return edge.getType()!=null ? edge.getType().getName() : "?";
+		Rule rule = edge.getGraph().getRule();
+		String type = (edge.getType()!=null) ? edge.getType().getName() : "?";
+		String lhsIndex = edge.getIndex();
+		String rhsIndex = lhsIndex;
+		if (edge.getGraph().isLhs()) {
+			Edge rhsEdge = rule.getMappings().getImage(edge, rule.getRhs());
+			if (rhsEdge!=null) {
+				rhsIndex = rhsEdge.getIndex();
+			}
+		}
+		else if (edge.getGraph().isRhs()) {
+			Edge lhsEdge = rule.getMappings().getOrigin(edge);
+			if (lhsEdge!=null) {
+				lhsIndex = lhsEdge.getIndex();
+			}
+		}
+		lhsIndex = lhsIndex==null ? "" : lhsIndex.trim(); 
+		rhsIndex = rhsIndex==null ? "" : rhsIndex.trim(); 
+		String index;
+		if (rhsIndex.length()==0) {
+			index = lhsIndex;
+		} else if (lhsIndex.length()==0) {
+			index = rhsIndex;
+		} else if (!lhsIndex.equals(rhsIndex)) {
+			index = lhsIndex + "->" + rhsIndex;
+		} else {
+			index = lhsIndex;
+		}
+		if (index.length()>0) {
+			return type + "[" + index.trim() + "]";
+		}
+		return type;
 	}
 	
 	/*
@@ -98,13 +129,28 @@ public class EdgeTypeParser extends AbstractParser {
 			return CommandResult.newErrorCommandResult("Source type must be set");
 		}
 		
+		// Separate type name and index:
+		String typeName = value;
+		String lhsIndex = null;
+		String rhsIndex = null;
+		if (value.indexOf('[')>=0) {
+			typeName = value.substring(0, value.indexOf('['));
+			lhsIndex = value.substring(value.indexOf('[')+1, value.indexOf(']'));
+			rhsIndex = lhsIndex;
+		}
+		if (lhsIndex!=null && lhsIndex.indexOf("->")>=0) {
+			rhsIndex = lhsIndex.substring(lhsIndex.indexOf("->")+2);
+			lhsIndex = lhsIndex.substring(0, lhsIndex.indexOf("->"));
+		}
+		
+		// Find the corresponding EReference:
 		EReference type = null;
-		for (EReference reference : source.getType().getEReferences()) {
-			if (value.equalsIgnoreCase(reference.getName())) {
+		for (EReference reference : source.getType().getEAllReferences()) {
+			if (typeName.equalsIgnoreCase(reference.getName())) {
 				type = reference;
+				break;
 			}
 		}
-
 		if (type==null) {
 			return CommandResult.newErrorCommandResult("Unknown reference: " + value);
 		}
@@ -119,15 +165,19 @@ public class EdgeTypeParser extends AbstractParser {
 		Edge origin = rule.getMappings().getOrigin(edge);
 		if (origin!=null) edges.add(origin);
 		
-		// Set the type:
+		// Update the edges:
 		for (Edge current : edges) {
 			current.setType(type);
+			if (current.getGraph().isRhs()) {
+				current.setIndex(rhsIndex);
+			} else {
+				current.setIndex(lhsIndex);
+			}
 		}
-		
 		
 		// ---
 		// Bidirectional edges:
-		if (edge.getType().getEOpposite() != null) {
+		/*if (edge.getType().getEOpposite() != null) {
 			List<Edge> oppositeEdges = new ArrayList<Edge>();
 			
 			for (Edge imageTargetOutgoingEdge : image.getTarget().getOutgoing()) {
@@ -146,7 +196,7 @@ public class EdgeTypeParser extends AbstractParser {
 				}
 			}
 		}
-		
+		*/
 		
 		// Done.
 		return CommandResult.newOKCommandResult();
@@ -159,7 +209,9 @@ public class EdgeTypeParser extends AbstractParser {
 	 */
 	@Override
 	protected boolean isAffectingFeature(Object feature) {
-		return (feature==HenshinPackage.eINSTANCE.getEdge_Type());
+		if (feature==HenshinPackage.eINSTANCE.getEdge_Type()) return true;
+		if (feature==HenshinPackage.eINSTANCE.getEdge_Index()) return true;
+		return false;
 	}
 
 	/*
