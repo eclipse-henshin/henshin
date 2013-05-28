@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.emf.henshin.interpreter.ui;singleton:=true
-Bundle-Version: 0.9.8.qualifier
+Bundle-Version: 0.9.9.qualifier
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin$Activator
