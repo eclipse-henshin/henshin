@@ -31,5 +31,6 @@ Export-Package: org.eclipse.emf.henshin.examples.bank,
  org.eclipse.emf.henshin.examples.mutualexclusion,
  org.eclipse.emf.henshin.examples.probbroadcast,
  org.eclipse.emf.henshin.examples.sierpinski,
+ org.eclipse.emf.henshin.examples.sort,
  org.eclipse.emf.henshin.examples.wrap.copy,
  org.eclipse.emf.henshin.examples.wrap.mme

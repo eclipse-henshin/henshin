@@ -66,6 +66,23 @@ public interface Change {
 	}
 
 	/**
+	 * Change for modifying the index of a reference (link) between two objects.
+	 */
+	public interface IndexChange extends Change {
+		
+		EObject getSource();
+		
+		EObject getTarget();
+		
+		EReference getReference();
+		
+		int getOldIndex();
+
+		int getNewIndex();
+
+	}
+
+	/**
 	 * Compound change (an ordered list of {@link Change}s).
 	 */
 	public interface CompoundChange extends Change {

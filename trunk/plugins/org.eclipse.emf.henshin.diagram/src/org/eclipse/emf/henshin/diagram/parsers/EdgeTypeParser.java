@@ -165,6 +165,11 @@ public class EdgeTypeParser extends AbstractParser {
 		Edge origin = rule.getMappings().getOrigin(edge);
 		if (origin!=null) edges.add(origin);
 		
+		// Make a dummy change:
+		String oldIndex = edge.getIndex();
+		edge.setIndex("xyz123");
+		edge.setIndex(oldIndex);
+		
 		// Update the edges:
 		for (Edge current : edges) {
 			current.setType(type);

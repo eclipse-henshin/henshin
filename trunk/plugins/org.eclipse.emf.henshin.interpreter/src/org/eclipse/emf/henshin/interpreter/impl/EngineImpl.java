@@ -43,6 +43,7 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.AttributeChangeImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.CompoundChangeImpl;
+import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.IndexChangeImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.ObjectChangeImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.ReferenceChangeImpl;
 import org.eclipse.emf.henshin.interpreter.info.ConditionInfo;
@@ -605,29 +606,23 @@ public class EngineImpl implements Engine {
 
 		// Created objects:
 		for (Node node : ruleChange.getCreatedNodes()) {
-			// We should not create objects that are already created by the kernel rule:
-			if (rule.getMultiMappings().getOrigin(node)==null) {
-				EClass type = node.getType();
-				EObject createdObject = type.getEPackage().getEFactoryInstance().create(type);
-				changes.add(new ObjectChangeImpl(graph, createdObject, true));
-				resultMatch.setNodeTarget(node, createdObject);
-			}
+			EClass type = node.getType();
+			EObject createdObject = type.getEPackage().getEFactoryInstance().create(type);
+			changes.add(new ObjectChangeImpl(graph, createdObject, true));
+			resultMatch.setNodeTarget(node, createdObject);
 		}
 
 		// Deleted objects:
-		for (Node node : ruleChange.getDeletedNodes()) {	
-			// We should not delete objects that are already deleted by the kernel rule:
-			if (rule.getMultiMappings().getOrigin(node)==null) {
-				EObject deletedObject = completeMatch.getNodeTarget(node);
-				changes.add(new ObjectChangeImpl(graph, deletedObject, false));
-				// TODO: Shouldn't we check the rule options?
-				if (!rule.isCheckDangling()) {
-					Collection<Setting> removedEdges = graph.getCrossReferenceAdapter().getInverseReferences(deletedObject);
-					for (Setting edge : removedEdges) {
-						changes.add(new ReferenceChangeImpl(graph, 
-								edge.getEObject(), deletedObject, 
-								(EReference) edge.getEStructuralFeature(), false));
-					}
+		for (Node node : ruleChange.getDeletedNodes()) {
+			EObject deletedObject = completeMatch.getNodeTarget(node);
+			changes.add(new ObjectChangeImpl(graph, deletedObject, false));
+			// TODO: Shouldn't we check the rule options?
+			if (!rule.isCheckDangling()) {
+				Collection<Setting> removedEdges = graph.getCrossReferenceAdapter().getInverseReferences(deletedObject);
+				for (Setting edge : removedEdges) {
+					changes.add(new ReferenceChangeImpl(graph, 
+							edge.getEObject(), deletedObject, 
+							(EReference) edge.getEStructuralFeature(), false));
 				}
 			}
 		}
@@ -640,26 +635,42 @@ public class EngineImpl implements Engine {
 
 		// Deleted edges:
 		for (Edge edge : ruleChange.getDeletedEdges()) {
-			// We should not delete edges that are already deleted by the kernel rule:
-			if (rule.getMultiMappings().getOrigin(edge)==null) {			
-				changes.add(new ReferenceChangeImpl(graph,
-						completeMatch.getNodeTarget(edge.getSource()), 
-						completeMatch.getNodeTarget(edge.getTarget()), 
-						edge.getType(),
-						false));
-			}
+			changes.add(new ReferenceChangeImpl(graph,
+					completeMatch.getNodeTarget(edge.getSource()), 
+					completeMatch.getNodeTarget(edge.getTarget()), 
+					edge.getType(),
+					false));
 		}
 
 		// Created edges:
 		for (Edge edge : ruleChange.getCreatedEdges()) {
-			// We should not create edges that are already created by the kernel rule:
-			if (rule.getMultiMappings().getOrigin(edge)==null) {
-				changes.add(new ReferenceChangeImpl(graph,
-						resultMatch.getNodeTarget(edge.getSource()),
-						resultMatch.getNodeTarget(edge.getTarget()), 
-						edge.getType(), 
-						true));
+			changes.add(new ReferenceChangeImpl(graph,
+					resultMatch.getNodeTarget(edge.getSource()),
+					resultMatch.getNodeTarget(edge.getTarget()), 
+					edge.getType(), 
+					true));
+		}
+
+		// Edge index changes:
+		for (Edge edge : ruleChange.getIndexChanges()) {
+			Integer newIndex = edge.getIndexConstant();
+			if (newIndex==null) {
+				Parameter param = rule.getParameter(edge.getIndex());
+				if (param!=null) {
+					newIndex = ((Number) resultMatch.getParameterValue(param)).intValue();
+				} else {
+					try {
+						newIndex = ((Number) scriptEngine.eval(edge.getIndex())).intValue();
+					} catch (ScriptException e) {
+						throw new RuntimeException("Error evaluating edge index expression \""
+								+ edge.getIndex() + "\": " + e.getMessage(), e);
+					}
+				}			
 			}
+			changes.add(new IndexChangeImpl(graph,
+					resultMatch.getNodeTarget(edge.getSource()),
+					resultMatch.getNodeTarget(edge.getTarget()), 
+					edge.getType(), newIndex));
 		}
 
 		// Attribute changes:

@@ -19,31 +19,38 @@ import org.eclipse.emf.henshin.model.Rule;
 
 public class RuleChangeInfo {
 	
-	private Collection<Node> createdNodes;
-	private Collection<Node> deletedNodes;
-	private Collection<Node> preservedNodes;
-	private Collection<Edge> createdEdges;
-	private Collection<Edge> deletedEdges;
-	private Collection<Attribute> attributeChanges;
+	private final Collection<Node> createdNodes;
+	private final Collection<Node> deletedNodes;
+	private final Collection<Node> preservedNodes;
+	private final Collection<Edge> createdEdges;
+	private final Collection<Edge> deletedEdges;
+	private final Collection<Attribute> attributeChanges;
+	private final Collection<Edge> indexChanges;
 	
 	public RuleChangeInfo(Rule rule) {
 		createdNodes = new ArrayList<Node>();
+		deletedNodes = new ArrayList<Node>();
+		preservedNodes = new ArrayList<Node>();		
 		createdEdges = new ArrayList<Edge>();
 		deletedEdges = new ArrayList<Edge>();
-		deletedNodes = new ArrayList<Node>();
 		attributeChanges = new ArrayList<Attribute>();
-		preservedNodes = new ArrayList<Node>();		
+		indexChanges = new ArrayList<Edge>();
 		
+		// Deleted nodes:
 		for (Node node : rule.getLhs().getNodes()) {
-			if (rule.getMultiMappings().getOrigin(node)!=null)
+			if (rule.getMultiMappings().getOrigin(node)!=null) {
 				continue;
-			if (rule.getMappings().getImage(node, rule.getRhs())==null)
+			}
+			if (rule.getMappings().getImage(node, rule.getRhs())==null) {
 				deletedNodes.add(node);
+			}
 		}
 		
+		// Created, preserved nodes; attribute changes:
 		for (Node node : rule.getRhs().getNodes()) {
-			if (rule.getMultiMappings().getOrigin(node)!=null)
+			if (rule.getMultiMappings().getOrigin(node)!=null) {
 				continue;
+			}
 			if (rule.getMappings().getOrigin(node)==null) {
 				createdNodes.add(node);
 			} else {
@@ -54,19 +61,26 @@ public class RuleChangeInfo {
 			}
 		}
 		
+		// Deleted edges:
 		for (Edge edge : rule.getLhs().getEdges()) {
-			if (rule.getMultiMappings().getOrigin(edge)!=null)
+			if (rule.getMultiMappings().getOrigin(edge)!=null) {
 				continue;
+			}
 			if (rule.getMappings().getImage(edge, rule.getRhs())==null) {
 				deletedEdges.add(edge);
 			}
 		}
 		
+		// Created edges and index changes:
 		for (Edge edge : rule.getRhs().getEdges()) {
-			if (rule.getMultiMappings().getOrigin(edge)!=null)
+			if (rule.getMultiMappings().getOrigin(edge)!=null) {
 				continue;
+			}
 			if (rule.getMappings().getOrigin(edge)==null) {
 				createdEdges.add(edge);
+			}
+			if (edge.getIndex()!=null && edge.getIndex().trim().length()>0) {
+				indexChanges.add(edge);
 			}
 		}
 		
@@ -113,4 +127,12 @@ public class RuleChangeInfo {
 	public Collection<Node> getDeletedNodes() {
 		return deletedNodes;
 	}
+		
+	/**
+	 * @return the index changes
+	 */
+	public Collection<Edge> getIndexChanges() {
+		return indexChanges;
+	}
+	
 }

@@ -8,6 +8,7 @@ import org.eclipse.emf.henshin.examples.ecore2rdb.Ecore2Rdb;
 import org.eclipse.emf.henshin.examples.gossipinggirls.GossipingGirls;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
+import org.eclipse.emf.henshin.examples.sort.SortExample;
 import org.eclipse.emf.henshin.examples.wrap.copy.CopyExample;
 import org.eclipse.emf.henshin.examples.wrap.mme.PetriNetMME;
 import org.junit.Test;
@@ -113,6 +114,15 @@ public class ExampleTests {
 	public void testWrapPetriMME() {
 		System.out.println();
 		PetriNetMME.run(EXAMPLES_PATH + PetriNetMME.PATH, false);
+	}
+
+	/**
+	 * Sort example.
+	 */
+	@Test
+	public void testSort() {
+		System.out.println();
+		SortExample.run(EXAMPLES_PATH + SortExample.PATH);
 	}
 
 }

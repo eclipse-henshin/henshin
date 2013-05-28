@@ -5,9 +5,12 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
+import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.impl.EdgeImpl;
@@ -45,7 +48,6 @@ public class EdgeIndexTests extends HenshinTest {
 		
 		// Create the test rule:
 		htRule = new RuleImpl("edgeIndexTest");
-		htRule.setCheckDangling(false);
 		
 		Node source = new NodeImpl("source", tm.getcont());
 		Node target = new NodeImpl("target", tm.getNode());
@@ -56,6 +58,8 @@ public class EdgeIndexTests extends HenshinTest {
 		htRule.getLhs().getNodes().add(target);
 		htRule.getLhs().getEdges().add(edge);
 		htRule.getParameters().add(param);
+		
+		edge.setAction(new Action(Action.Type.PRESERVE));
 		
 	}
 
@@ -126,8 +130,32 @@ public class EdgeIndexTests extends HenshinTest {
 			EObject trgMatch = match.getNodeTarget(edge.getTarget());
 			Assert.assertTrue(paramIndex==srcMatch.getContainsNode().indexOf(trgMatch));
 		}
-				
+		
 	}
 
+	@Test
+	public void testChangeConstantEdgeIndex() {
+		for (int i=0; i<nodeCount; i++) {
+			int j = nodeCount-i-1;
+			edge.setIndex(""+i);
+			htRule.getMappings().getImage(edge, htRule.getRhs()).setIndex(""+j);
+			Match match = htEngine.findMatches(htRule, htEGraph, null).iterator().next();
+			cont srcMatch = (cont) match.getNodeTarget(edge.getSource());
+			EObject iTarget = srcMatch.getContainsNode().get(i);
+			RuleApplication app = new RuleApplicationImpl(htEngine, htEGraph, htRule, match);
+			app.setCompleteMatch(match);
+			app.execute(null);
+			assertIndexIs(srcMatch.getContainsNode(), iTarget, j);
+			app.undo(null);
+			assertIndexIs(srcMatch.getContainsNode(), iTarget, i);
+		}
+	}
+
+	private void assertIndexIs(List<?> list, Object obj, int index) {
+		int realIndex = list.indexOf(obj);
+		if (index!=realIndex) {
+			throw new AssertionError("Expected object at index " + index + " but it is at " + realIndex);
+		}
+	}
 
 }
