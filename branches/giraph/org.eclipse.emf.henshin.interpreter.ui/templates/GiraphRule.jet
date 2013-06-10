@@ -15,7 +15,8 @@ List<MatchingStep> matchingSteps = GiraphUtil.getMatchingSteps(rule);
 %>
 import org.apache.log4j.Logger;
 
-public class <%= className %> extends BasicComputation {
+public class <%= className %> extends BasicComputation
+	<LongWritable, IntegerWritable, IntegerWritable, BytesWritable> {
 
 <%
 int value = 0;
@@ -30,30 +31,45 @@ for (ENamedElement type : typeConstants.keySet()) {
 
 	@Override
 	public void compute(
-      Vertex<LongWritable, DoubleWritable, FloatWritable> vertex,
-      Iterable<DoubleWritable> messages) throws IOException {		
+			Vertex<LongWritable, IntegerWritable, IntegerWritable> vertex,
+			Iterable<BytesWritable> matches) throws IOException {
+
+
 <% 
 		for (int i=0; i<matchingSteps.size(); i++) {
 			MatchingStep step = matchingSteps.get(i);
-%>		
-		<%= i>0 ? "else " : "" %>if (getSuperStep()==<%= i %>) {
 
-			// Check whether this vertex is a possible match for node <%= GiraphUtil.getNodeName(step.node) %>:
+%>		<%= i>0 ? "else " : "" %>if (getSuperStep()==<%= i %>) {
+
+<% if (step.verify) { %>
+			// Verify that there exists an edge:
+			boolean ok = true;
+<% } else { %>
+			// Check whether this vertex is of type "<%= step.node.getType().getName() %>":
+			boolean ok = (vertex.getValue().get()==<%= typeConstants.get(step.node.getType()) %>);
 			
-			<% if (i==0) { %>
-			// Create a new partial match:
-			<% } else { %>
-			// For every partial match (incoming message) do:
-			<% } %>
-			
-				<% if (step.edge!=null) { %>
-			    // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
-			    
+<% } %>
+			if (ok) {
+				<% if (i==0) { %>
+				// Create a new partial match:
+				BytesWritable match = addInt(null, vertex.getId());
+				<% } else { %>
+				// Extend all partial matches and forward them to the next nodes:
+				for (BytesWritable match : matches) {
+					match = addInt(match, vertex.getId());
+				<% } 
+				if (step.edge!=null) { %>
+					// Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
+					for (Edge edge : getEdges()) {
+						if (edge.getValue().get()==<%= typeConstants.get(step.edge.getType()) %>) {
+							sendMessage(edge.getTargetVertexId(), match);
+						}
+					}
+				<% } 
+				if (i>0) { %>
+				}
 				<% } %>
-				
-			<% if (i>0) { %>
-			<% } else { %>
-			<% } %>
+			} // end if ok
 			
 		}
 
@@ -65,6 +81,25 @@ for (ENamedElement type : typeConstants.keySet()) {
 	
 	}
 
+	private static int getInt(BytesWritable message, int index) {
+		byte[] b = message.getBytes();
+		int x = index*4;
+		return (((int)b[x]) << 24) + 
+			  ((((int)b[x+1]) & 0xFF) << 16) + 
+			  ((((int)b[x+2]) & 0xFF) << 8) + 
+			  (((int)b[x+3]) & 0xFF);
+	}
 
+	private static BytesWritable addInt(BytesWritable message, int value) {
+		byte[] b = (message!=null) ? message.getBytes() : EMPTY_BYTE_ARRAY;
+		b = Arrays.copyOf(b, b.length+4);
+		b[b.length-4] = value >>> 24;
+		b[b.length-3] = value >>> 16;
+		b[b.length-2] = value >>> 8;
+		b[b.length-1] = value;
+		return new BytesWritable(b);
+	}
 
+	private static byte[] EMPTY_BYTE_ARRAY = new byte[0];
+	
 }

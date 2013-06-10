@@ -26,10 +26,13 @@ public class GiraphUtil {
 		public final Node node;
 		
 		public final Edge edge;
-		
-		public MatchingStep(Node node, Edge edge) {
+
+		public final boolean verify;
+
+		public MatchingStep(Node node, Edge edge, boolean verify) {
 			this.node = node;
 			this.edge = edge;
+			this.verify = verify;
 		}
 		
 	}
@@ -56,7 +59,8 @@ public class GiraphUtil {
 		while (!edgeQueue.isEmpty()) {
 			Edge edge = edgeQueue.pop();
 			
-			matchingSteps.add(new MatchingStep(edge.getSource(), edge));
+			matchingSteps.add(new MatchingStep(edge.getSource(), 
+					edge, lockedNodes.contains(edge.getTarget())));
 			
 			visitedEdges.add(edge);
 			lockedNodes.add(edge.getSource());
@@ -65,7 +69,8 @@ public class GiraphUtil {
 			if (edge.getTarget().getOutgoing().isEmpty()) {
 				
 				// Leaf:
-				matchingSteps.add(new MatchingStep(edge.getTarget(), null));
+				matchingSteps.add(new MatchingStep(edge.getTarget(), 
+						null, lockedNodes.contains(edge.getTarget())));
 				
 			} else {
 				
