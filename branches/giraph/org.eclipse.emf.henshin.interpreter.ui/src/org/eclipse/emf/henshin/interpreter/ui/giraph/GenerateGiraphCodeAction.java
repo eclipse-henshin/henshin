@@ -43,19 +43,33 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 		IContainer container = file.getParent();
 		for (Rule rule : rules) {
 			try {
+				
+				// Rule code:
 				String className = getClassName(rule.getName());
 				String giraphCode = getGiraphCode(rule, className);
-				IFile javaFile = container.getFile(new Path(className + ".java"));
-				if (javaFile.exists()) {
-					javaFile.setContents(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
+				IFile javaRuleFile = container.getFile(new Path(className + ".java"));
+				if (javaRuleFile.exists()) {
+					javaRuleFile.setContents(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
 				} else {
-					javaFile.create(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
+					javaRuleFile.create(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
 				}
+				
+				// Format code:
+				String formatCode = new InputFormatTemplate().generate(null);
+				className = formatCode.substring(formatCode.indexOf("public class") + 13);
+				className = className.substring(0, className.indexOf("extends")).trim();
+				IFile javaFormatFile = container.getFile(new Path(className + ".java"));
+				if (javaFormatFile.exists()) {
+					javaFormatFile.setContents(new ByteArrayInputStream(formatCode.getBytes()), IResource.FORCE, null);
+				} else {
+					javaFormatFile.create(new ByteArrayInputStream(formatCode.getBytes()), IResource.FORCE, null);
+				}
+
 				container.refreshLocal(IResource.DEPTH_INFINITE, null);
 				
 				IWorkbench wb = PlatformUI.getWorkbench();
-				IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaFile.getName());
-				wb.getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput(javaFile), desc.getId());
+				IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaRuleFile.getName());
+				wb.getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput(javaRuleFile), desc.getId());
 				
 			} catch (CoreException e) {
 				e.printStackTrace();
