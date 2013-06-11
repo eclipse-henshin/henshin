@@ -27,12 +27,15 @@ public class GiraphUtil {
 		
 		public final Edge edge;
 
-		public final boolean verify;
+		public final int verifyEdgeTo;
 
-		public MatchingStep(Node node, Edge edge, boolean verify) {
+		public final int sendBackTo;
+
+		public MatchingStep(Node node, Edge edge, int sendBackTo, int verifyEdgeTo) {
 			this.node = node;
 			this.edge = edge;
-			this.verify = verify;
+			this.verifyEdgeTo = verifyEdgeTo;
+			this.sendBackTo = sendBackTo;
 		}
 		
 	}
@@ -60,7 +63,7 @@ public class GiraphUtil {
 			Edge edge = edgeQueue.pop();
 			
 			matchingSteps.add(new MatchingStep(edge.getSource(), 
-					edge, lockedNodes.contains(edge.getTarget())));
+					edge, -1, getMatchingStepIndex(matchingSteps, edge.getTarget())));
 			
 			visitedEdges.add(edge);
 			lockedNodes.add(edge.getSource());
@@ -69,8 +72,10 @@ public class GiraphUtil {
 			if (edge.getTarget().getOutgoing().isEmpty()) {
 				
 				// Leaf:
-				matchingSteps.add(new MatchingStep(edge.getTarget(), 
-						null, lockedNodes.contains(edge.getTarget())));
+				if (!edgeQueue.isEmpty()) {
+					int sendBackTo = getMatchingStepIndex(matchingSteps, edgeQueue.getFirst().getSource());
+					matchingSteps.add(new MatchingStep(edge.getTarget(), null, sendBackTo, -1));
+				}
 				
 			} else {
 				
@@ -84,11 +89,20 @@ public class GiraphUtil {
 			}
 		}
 		if (rule.getLhs().getNodes().size()==lockedNodes.size()) {
-			return matchingSteps;			
+			return matchingSteps;
 		}
 		return null;
 	}
 
+	private static int getMatchingStepIndex(List<MatchingStep> matchingSteps, Node node) {
+		for (int i=0; i<matchingSteps.size(); i++) {
+			if (matchingSteps.get(i).node==node) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	public static String getNodeName(Node node) {
 		return node.getName()!=null && node.getName().trim().length()>0 ? 
 				"\""+node.getName()+"\"" : 

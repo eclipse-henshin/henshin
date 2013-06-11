@@ -13,6 +13,8 @@ Map<ENamedElement,String> typeConstants = GiraphUtil.getTypeConstants(rule.getMo
 List<MatchingStep> matchingSteps = GiraphUtil.getMatchingSteps(rule);
 
 %>
+import org.apache.giraph.graph.*;
+import org.apache.hadoop.io.*;
 import org.apache.log4j.Logger;
 
 public class <%= className %> extends BasicComputation
@@ -34,27 +36,41 @@ for (ENamedElement type : typeConstants.keySet()) {
 			Vertex<LongWritable, IntegerWritable, IntegerWritable> vertex,
 			Iterable<BytesWritable> matches) throws IOException {
 
-
+		int superStep = getSuperStep();
+		
 <% 
 		for (int i=0; i<matchingSteps.size(); i++) {
 			MatchingStep step = matchingSteps.get(i);
 
-%>		<%= i>0 ? "else " : "" %>if (getSuperStep()==<%= i %>) {
+%>		<%= i>0 ? "else " : "" %>if (superStep==<%= i %>) {
 
-<% if (step.verify) { %>
-			// Verify that there exists an edge:
-			boolean ok = true;
-<% } else { %>
-			// Check whether this vertex is of type "<%= step.node.getType().getName() %>":
-			boolean ok = (vertex.getValue().get()==<%= typeConstants.get(step.node.getType()) %>);
+<% 			if (step.verifyEdgeTo>=0) { %>
+			// Node <%= GiraphUtil.getNodeName(step.edge.getSource()) %>: check for edge to match of <%= GiraphUtil.getNodeName(step.edge.getTarget()) %> of type "<%= step.edge.getType().getName() %>":
+			Iterator<BytesWritable> it = matches.iterator();
+			while (filteredMatches.hasNext()) {
+				BytesWritable match = it.next();
+				int target = getInt(match, <%= step.verifyEdgeTo %>);
+				for (Edge edge : getEdges()) {
+					if (edge.getValue().get()==<%= typeConstants.get(step.edge.getType()) %> && edge.getTargetVertexId()==target) {
+						target = -1;
+						break; // Ok, we found it.
+					}
+				}
+				// If no edge found, remove this partial match:
+				if (target>=0) {
+					it.remove();
+				}
+			}
 			
-<% } %>
+<%			} else { %>
+			// Matching node <%= GiraphUtil.getNodeName(step.node) %>. Type must be "<%= step.node.getType().getName() %>":
+			boolean ok = (vertex.getValue().get()==<%= typeConstants.get(step.node.getType()) %>);
 			if (ok) {
 				<% if (i==0) { %>
 				// Create a new partial match:
 				BytesWritable match = addInt(null, vertex.getId());
 				<% } else { %>
-				// Extend all partial matches and forward them to the next nodes:
+				// Extend all partial matches:
 				for (BytesWritable match : matches) {
 					match = addInt(match, vertex.getId());
 				<% } 
@@ -65,19 +81,29 @@ for (ENamedElement type : typeConstants.keySet()) {
 							sendMessage(edge.getTargetVertexId(), match);
 						}
 					}
-				<% } 
+				<% } else if (step.sendBackTo>=0) { %>
+					// Send the message back to matches of node <%= GiraphUtil.getNodeName(matchingSteps.get(step.sendBackTo).node) %>:
+					for (ByteWritable match : matches) {
+						sendMessage(getInt(match, <%= step.sendBackTo %>), match);
+					}
+				<% }
 				if (i>0) { %>
 				}
 				<% } %>
 			} // end if ok
 			
+<%			}
+			if (i==matchingSteps.size()-1) { %>
+			LOG.debug("Found " + matches.size() + " for rule <%= className %>");
+			
+<%          } %>						
 		}
 
 <% 
 		} // end for
 %>		
-		// Next nodes are activated by a message, so we can stop:
-		voteForHalt();		
+		// Next nodes are activated by a message, so we can sleep:
+		voteForHalt();
 	
 	}
 
