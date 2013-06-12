@@ -12,6 +12,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.jface.action.IAction;
@@ -53,7 +56,16 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 				} else {
 					javaRuleFile.create(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
 				}
-				
+
+				// Instance code:
+				String instanceCode = getInstanceCode(rule);
+				IFile jsonFile = container.getFile(new Path(className + ".json"));
+				if (jsonFile.exists()) {
+					jsonFile.setContents(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
+				} else {
+					jsonFile.create(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
+				}
+
 				// Format code:
 				String formatCode = new InputFormatTemplate().generate(null);
 				className = formatCode.substring(formatCode.indexOf("public class") + 13);
@@ -64,7 +76,7 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 				} else {
 					javaFormatFile.create(new ByteArrayInputStream(formatCode.getBytes()), IResource.FORCE, null);
 				}
-
+				
 				container.refreshLocal(IResource.DEPTH_INFINITE, null);
 				
 				IWorkbench wb = PlatformUI.getWorkbench();
@@ -85,6 +97,23 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 		args.put("className", className);
 		GiraphRuleTemplate template = new GiraphRuleTemplate();
 		return template.generate(args);
+	}
+	
+	private static String getInstanceCode(Rule rule) {
+		StringBuffer json = new StringBuffer();
+		List<ENamedElement> types = new ArrayList<ENamedElement>(GiraphUtil.getTypeConstants(rule.getModule()).keySet());
+		for (int i=0; i<rule.getLhs().getNodes().size(); i++) {
+			Node n = rule.getLhs().getNodes().get(i);
+			json.append("[" + i + "," + types.indexOf(n.getType()) + ",[");
+			for (int j=0; j<n.getOutgoing().size(); j++) {
+				Edge e = n.getOutgoing().get(j);
+				int trg = rule.getLhs().getNodes().indexOf(e.getTarget());
+				json.append("[" + trg + "," + types.indexOf(e.getType()) + "]");
+				if (j<n.getOutgoing().size()-1) json.append(",");
+			}
+			json.append("]]\n");
+		}
+		return json.toString();
 	}
 	
 	private static String getClassName(String string) {
