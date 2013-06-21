@@ -307,7 +307,7 @@ for (ENamedElement type : typeConstants.keySet()) {
     byte[] b = (match != null) ? match.getBytes() : EMPTY_BYTE_ARRAY;
     byte[] v = vertexId.getBytes();
     byte[] r = Arrays.copyOf(b, b.length + 1 + v.length);
-    r[b.length] = v.length;
+    r[b.length] = (byte) v.length;
     System.arraycopy(v, 0, r, b.length + 1, v.length);
     return new BytesWritable(r);
   }
