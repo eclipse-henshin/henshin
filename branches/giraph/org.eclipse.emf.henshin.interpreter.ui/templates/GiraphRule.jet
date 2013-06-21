@@ -1,131 +1,435 @@
 <%@ jet package="org.eclipse.emf.henshin.interpreter.ui.giraph" class="GiraphRuleTemplate" 
-imports="java.util.* org.eclipse.emf.henshin.model.* org.eclipse.emf.henshin.interpreter.ui.giraph.GiraphUtil org.eclipse.emf.henshin.interpreter.ui.giraph.GiraphUtil.MatchingStep org.eclipse.emf.ecore.*" %>
-
+imports="java.util.* org.eclipse.emf.henshin.model.* org.eclipse.emf.henshin.interpreter.info.* org.eclipse.emf.henshin.interpreter.ui.giraph.GiraphUtil org.eclipse.emf.henshin.interpreter.ui.giraph.GiraphUtil.MatchingStep org.eclipse.emf.ecore.*" %>
 <%
 
 @SuppressWarnings("unchecked")
 Map<String,Object> args = (Map<String,Object>) argument;
 
 Rule rule = (Rule) args.get("rule");
+RuleChangeInfo changeInfo = new RuleChangeInfo(rule);
+
 String className = (String) args.get("className");
 
 Map<ENamedElement,String> typeConstants = GiraphUtil.getTypeConstants(rule.getModule());
 List<MatchingStep> matchingSteps = GiraphUtil.getMatchingSteps(rule);
 
+List<Node> orderedLhsNodes = new ArrayList<Node>();
+for (MatchingStep step : matchingSteps) {
+  if (step.node!=null && !orderedLhsNodes.contains(step.node)) {
+    orderedLhsNodes.add(step.node);
+  }
+}
+
 %>
-import org.apache.giraph.graph.*;
-import org.apache.hadoop.io.*;
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.giraph.examples;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
+
+import org.apache.giraph.edge.Edge;
+import org.apache.giraph.edge.EdgeFactory;
+import org.apache.giraph.graph.BasicComputation;
+import org.apache.giraph.graph.Vertex;
+import org.apache.giraph.io.formats.TextVertexInputFormat;
+import org.apache.giraph.io.formats.TextVertexOutputFormat;
+import org.apache.hadoop.io.BytesWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.InputSplit;
+import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-public class <%= className %> extends BasicComputation
-	<LongWritable, IntegerWritable, IntegerWritable, BytesWritable> {
+import com.google.common.collect.Lists;
 
+/**
+ * Generated implementation of the Henshin rule "<%= rule.getName() %>".
+ */
+@Algorithm(
+    name = "<%= rule.getName() %>"
+)
+public class <%= className %> extends
+  BasicComputation<BytesWritable, IntWritable, IntWritable, BytesWritable> {
 <%
 int value = 0;
 for (ENamedElement type : typeConstants.keySet()) {
-	%>
-	public static final int <%= typeConstants.get(type) %> = <%= value++ %>;
-	<%
+  %>
+
+  /**
+   * Type constant for "<%= type.getName() %>"
+   */
+  public static final int <%= typeConstants.get(type) %> = <%= value++ %>;
+<%
 }
 %>
-	private static Logger LOG = Logger.getLogger(<%= className %>.class);
 
+  /**
+   * Logging support
+   */
+  private static final Logger LOG = Logger.getLogger(<%= className %>.class);
 
-	@Override
-	public void compute(
-			Vertex<LongWritable, IntegerWritable, IntegerWritable> vertex,
-			Iterable<BytesWritable> matches) throws IOException {
+  /**
+   * Empty byte array
+   */
+  private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
-		int superStep = getSuperStep();
-		
-<% 
-		for (int i=0; i<matchingSteps.size(); i++) {
-			MatchingStep step = matchingSteps.get(i);
+  /*
+   * (non-Javadoc)
+   * @see org.apache.giraph.graph.Computation#compute(
+   *        org.apache.giraph.graph.Vertex, java.lang.Iterable)
+   */
+  @Override
+  public void compute(
+      Vertex<BytesWritable, IntWritable, IntWritable> vertex,
+      Iterable<BytesWritable> matches) throws IOException {
 
-%>		<%= i>0 ? "else " : "" %>if (superStep==<%= i %>) {
+    long superstep = getSuperstep();
 
-<% 			if (step.verifyEdgeTo>=0) { %>
-			// Node <%= GiraphUtil.getNodeName(step.edge.getSource()) %>: check for edge to match of <%= GiraphUtil.getNodeName(step.edge.getTarget()) %> of type "<%= step.edge.getType().getName() %>":
-			Iterator<BytesWritable> it = matches.iterator();
-			while (filteredMatches.hasNext()) {
-				BytesWritable match = it.next();
-				int target = getInt(match, <%= step.verifyEdgeTo %>);
-				for (Edge edge : getEdges()) {
-					if (edge.getValue().get()==<%= typeConstants.get(step.edge.getType()) %> && edge.getTargetVertexId()==target) {
-						target = -1;
-						break; // Ok, we found it.
-					}
-				}
-				// If no edge found, remove this partial match:
-				if (target>=0) {
-					it.remove();
-				}
-			}
-			
-<%			} else { %>
-			// Matching node <%= GiraphUtil.getNodeName(step.node) %>. Type must be "<%= step.node.getType().getName() %>":
-			boolean ok = (vertex.getValue().get()==<%= typeConstants.get(step.node.getType()) %>);
-			if (ok) {
-				<% if (i==0) { %>
-				// Create a new partial match:
-				BytesWritable match = addInt(null, vertex.getId());
-				<% } else { %>
-				// Extend all partial matches:
-				for (BytesWritable match : matches) {
-					match = addInt(match, vertex.getId());
-				<% } 
-				if (step.edge!=null) { %>
-					// Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
-					for (Edge edge : getEdges()) {
-						if (edge.getValue().get()==<%= typeConstants.get(step.edge.getType()) %>) {
-							sendMessage(edge.getTargetVertexId(), match);
-						}
-					}
-				<% } else if (step.sendBackTo>=0) { %>
-					// Send the message back to matches of node <%= GiraphUtil.getNodeName(matchingSteps.get(step.sendBackTo).node) %>:
-					for (ByteWritable match : matches) {
-						sendMessage(getInt(match, <%= step.sendBackTo %>), match);
-					}
-				<% }
-				if (i>0) { %>
-				}
-				<% } %>
-			} // end if ok
-			
-<%			}
-			if (i==matchingSteps.size()-1) { %>
-			LOG.debug("Found " + matches.size() + " for rule <%= className %>");
-			
-<%          } %>						
-		}
+    // Log partial matches:
+    LOG.info("Superstep " + superstep + ": current partial matches are...");
+    for (BytesWritable match : matches) {
+      LOG.info("  " + matchToString(match));
+    }
+
 
 <% 
-		} // end for
-%>		
-		// Next nodes are activated by a message, so we can sleep:
-		voteForHalt();
-	
-	}
+    for (int i=0; i<matchingSteps.size(); i++) {
+      MatchingStep step = matchingSteps.get(i);
+%><%= i>0 ? " else" : "   " %> if (superstep == <%= i %>) {
 
-	private static int getInt(BytesWritable message, int index) {
-		byte[] b = message.getBytes();
-		int x = index*4;
-		return (((int)b[x]) << 24) + 
-			  ((((int)b[x+1]) & 0xFF) << 16) + 
-			  ((((int)b[x+2]) & 0xFF) << 8) + 
-			  (((int)b[x+3]) & 0xFF);
-	}
+<%    if (step.verifyEdgeTo >= 0) {%>
+      // Node <%= GiraphUtil.getNodeName(step.edge.getSource()) %>: check for edge to match of <%= GiraphUtil.getNodeName(step.edge.getTarget()) %> of type "<%= step.edge.getType().getName() %>":
+      List<BytesWritable> validMatches = new ArrayList<BytesWritable>();
+      Iterator<BytesWritable> it = matches.iterator();
+      while (it.hasNext()) {
+        BytesWritable match = it.next();
+        BytesWritable targetId = getMatchVertexId(match, <%= step.verifyEdgeTo %>);
+        for (Edge<BytesWritable, IntWritable> edge : vertex.getEdges()) {
+          if (edge.getValue().get() == <%= typeConstants.get(step.edge.getType()) %> &&
+              edge.getTargetVertexId().equals(targetId)) {
+            validMatches.add(match);
+            break;
+          }
+        }
+      }
+      matches = validMatches;
 
-	private static BytesWritable addInt(BytesWritable message, int value) {
-		byte[] b = (message!=null) ? message.getBytes() : EMPTY_BYTE_ARRAY;
-		b = Arrays.copyOf(b, b.length+4);
-		b[b.length-4] = value >>> 24;
-		b[b.length-3] = value >>> 16;
-		b[b.length-2] = value >>> 8;
-		b[b.length-1] = value;
-		return new BytesWritable(b);
-	}
+<%    } else {%>
+      // Matching node <%= GiraphUtil.getNodeName(step.node) %>. Type must be "<%= step.node.getType().getName() %>":
+      boolean ok = vertex.getValue().get() == <%= typeConstants.get(step.node.getType()) %>;
+      if (ok) {
+<%    if (i == 0) {%>
+        // Create a new partial match:
+        BytesWritable match = addMatchVertex(null, vertex.getId());
+        <% } else {%>
+        // Extend all partial matches:
+        for (BytesWritable match : matches) {
+          match = addMatchVertex(match, vertex.getId());
+<%    }
+      if (step.edge != null) {%>
+<%= i > 0 ? "  " : ""%>        // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
+<%= i > 0 ? "  " : ""%>        for (Edge<BytesWritable, IntWritable> edge : vertex.getEdges()) {
+<%= i > 0 ? "  " : ""%>          if (edge.getValue().get() == <%= typeConstants.get(step.edge.getType()) %>) {
+<%= i > 0 ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
+<%= i > 0 ? "  " : ""%>          }
+<%= i > 0 ? "  " : ""%>        }
+<%    } else if (step.sendBackTo >= 0) {%>
+          // Send the message back to matches of node <%= GiraphUtil.getNodeName(matchingSteps.get(step.sendBackTo).node) %>:
+          for (BytesWritable m : matches) {
+            sendMessage(getMatchVertexId(m, <%= step.sendBackTo %>), match);
+          }
+<%    }
+      if (i>0) {%>
+        }<%
+       }%>
+      } // end if ok
 
-	private static byte[] EMPTY_BYTE_ARRAY = new byte[0];
-	
+<%    }
+      if (i == matchingSteps.size()-1) {%>
+
+      // Apply rule for all matches:
+      for (BytesWritable match : matches) {
+        applyRule(vertex, match);
+      }
+<%
+      }%>
+    }<% 
+    } // end for
+%>
+    // Next nodes are activated by a message, so we can put this one to sleep:
+    vertex.voteToHalt();
+
+  }
+
+  /**
+   * Apply the rule to a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @throws IOException On I/O errors.
+   */
+  private void applyRule(Vertex<BytesWritable, IntWritable,
+    IntWritable> vertex, BytesWritable match) throws IOException {
+
+    LOG.info("Applying rule <%= className %> with match " + matchToString(match));
+<%  for (Edge edge : changeInfo.getDeletedEdges()) {%>
+
+    // Remove edge <%= GiraphUtil.getNodeName(edge.getSource()) %> -> <%= GiraphUtil.getNodeName(edge.getTarget()) %>:
+    removeEdgesRequest(
+      getMatchVertexId(match, <%= orderedLhsNodes.indexOf(edge.getSource()) %>),
+      getMatchVertexId(match, <%= orderedLhsNodes.indexOf(edge.getTarget()) %>)
+    );
+<%  }
+    for (Node node : changeInfo.getDeletedNodes()) {%>
+
+    // Remove vertex <%= GiraphUtil.getNodeName(node) %>:
+    removeVertexRequest(
+      getMatchVertexId(match, <%= orderedLhsNodes.indexOf(node) %>)
+    );
+<%  } 
+
+    if (!changeInfo.getCreatedNodes().isEmpty()) {
+%>
+    byte[] thisVertexId = vertex.getId().getBytes();
+    byte[] newVertexId;
+<%	}
+    int n = 0;
+    for (Node node : changeInfo.getCreatedNodes()) {%>
+
+    // Create vertex <%= GiraphUtil.getNodeName(node) %>:
+    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);
+    newVertexId[newVertexId.length - 1] = <%= n++ %>;
+    addVertexRequest(new BytesWritable(newVertexId),
+      new IntWritable(<%= typeConstants.get(node.getType()) %>));
+<%  }
+
+    int e = 0;
+    for (Edge edge : changeInfo.getCreatedEdges()) { %>
+
+    // Create edge <%= GiraphUtil.getNodeName(edge.getSource()) %> -> <%= GiraphUtil.getNodeName(edge.getTarget()) %>:
+<%	// THE SOURCE OF THE NEW EDGE:
+   	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { %>
+    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);
+    newVertexId[newVertexId.length - 1] = <%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>;
+    BytesWritable src<%= e %> = new BytesWritable(newVertexId);
+<%	} else { %>
+    BytesWritable src<%= e %> = getMatchVertexId(match, <%= orderedLhsNodes.indexOf(
+                                  rule.getMappings().getOrigin(edge.getSource())) %>);
+<%	}
+	// THE TARGET OF THE NEW EDGE:
+   	if (changeInfo.getCreatedNodes().contains(edge.getTarget())) { %>
+    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);
+    newVertexId[newVertexId.length - 1] = <%= changeInfo.getCreatedNodes().indexOf(edge.getTarget()) %>;
+    BytesWritable trg<%= e %> = new BytesWritable(newVertexId);
+<%	} else { %>
+    BytesWritable trg<%= e %> = getMatchVertexId(match, <%= orderedLhsNodes.indexOf(
+                                  rule.getMappings().getOrigin(edge.getTarget())) %>);
+<%	} %>
+    Edge<BytesWritable, IntWritable> edge<%= e %> =
+      EdgeFactory.create(trg<%= e %>, new IntWritable(<%= typeConstants.get(edge.getType()) %>));
+    addEdgeRequest(src<%= e %>, edge<%= e %>);
+<%  e++;
+    } %>
+  }
+
+  /**
+   * Pretty-print a match.
+   * @param match The Match to be printed.
+   * @return The printed string.
+   */
+  private String matchToString(BytesWritable match) {
+    byte[] bytes = match.getBytes();
+    String r = "";
+    int d = 0, e = 0;
+    while (d < bytes.length) {
+      int len = bytes[d++];
+      r = r + "[";
+      for (e = 0; e < len; e++) {
+        r = r + bytes[d + e];
+        if (e < len-1) {
+          r = r + ",";
+        }
+      }
+      r = r + "] ";
+      d += len;
+    }
+    return r;
+  }
+
+  /**
+   * Get the vertex ID of a matched node.
+   * @param match The match oject.
+   * @param vertexIndex Index of the next vertex.
+   * @return The vertex ID.
+   */
+  private static BytesWritable getMatchVertexId(BytesWritable match,
+    int vertexIndex) {
+    byte[] bytes = match.getBytes();
+    int d = 0;
+    for (int i = 0; i <= vertexIndex; i++) {
+      int len = bytes[d++];
+      if (i == vertexIndex) {
+        return new BytesWritable(Arrays.copyOfRange(bytes, d, d + len));
+      }
+      d += len;
+    }
+    return null;
+  }
+
+  /**
+   * Extend a partial match.
+   * @param match The match object.
+   * @param vertexId The ID of the next matched vertex.
+   * @return The extended match object.
+   */
+  private static BytesWritable addMatchVertex(BytesWritable match,
+    BytesWritable vertexId) {
+    byte[] b = (match != null) ? match.getBytes() : EMPTY_BYTE_ARRAY;
+    byte[] v = vertexId.getBytes();
+    byte[] r = Arrays.copyOf(b, b.length + 1 + v.length);
+    r[b.length] = v.length;
+    System.arraycopy(v, 0, r, b.length + 1, v.length);
+    return new BytesWritable(r);
+  }
+
+  /**
+   * Henshin input format.
+   */
+  public static class HenshinInputFormat extends
+    TextVertexInputFormat<BytesWritable, IntWritable, IntWritable> {
+
+    @Override
+    public TextVertexReader createVertexReader(InputSplit split,
+      TaskAttemptContext context) {
+      return new HenshinInputReader();
+    }
+
+    /**
+     * Henshin input reader.
+     */
+    class HenshinInputReader extends
+      TextVertexReaderFromEachLineProcessedHandlingExceptions<JSONArray,
+        JSONException> {
+
+      @Override
+      protected JSONArray preprocessLine(Text line) throws JSONException {
+        return new JSONArray(line.toString());
+      }
+
+      @Override
+      protected BytesWritable getId(JSONArray jsonVertex)
+        throws JSONException, IOException {
+        return jsonArrayToBytesWritable(jsonVertex.getJSONArray(0));
+      }
+
+      /**
+       * Convert a JSON array to a BytesWritable object.
+       * @param jsonArray The JSON array to be converted.
+       * @return The corresponding BytesWritable.
+       */
+      private BytesWritable jsonArrayToBytesWritable(JSONArray jsonArray)
+        throws JSONException {
+        byte[] bytes = new byte[jsonArray.length()];
+        for (int i = 0; i < bytes.length; i++) {
+          bytes[i] = (byte) jsonArray.getInt(i);
+        }
+        return new BytesWritable(bytes);
+      }
+
+      @Override
+      protected IntWritable getValue(JSONArray jsonVertex)
+        throws JSONException, IOException {
+        return new IntWritable(jsonVertex.getInt(1));
+      }
+
+      @Override
+      protected Iterable<Edge<BytesWritable, IntWritable>> getEdges(
+        JSONArray jsonVertex) throws JSONException, IOException {
+        JSONArray jsonEdgeArray = jsonVertex.getJSONArray(2);
+        List<Edge<BytesWritable, IntWritable>> edges =
+          Lists.newArrayListWithCapacity(jsonEdgeArray.length());
+        for (int i = 0; i < jsonEdgeArray.length(); ++i) {
+          JSONArray jsonEdge = jsonEdgeArray.getJSONArray(i);
+          edges.add(EdgeFactory.create(jsonArrayToBytesWritable(
+            jsonEdge.getJSONArray(0)), new IntWritable(jsonEdge.getInt(1))));
+        }
+        return edges;
+      }
+
+      @Override
+      protected Vertex<BytesWritable, IntWritable, IntWritable>
+      handleException(Text line, JSONArray jsonVertex, JSONException e) {
+        throw new IllegalArgumentException(
+          "Couldn't get vertex from line " + line, e);
+      }
+    }
+  }
+
+  /**
+   * Henshin output format.
+   */
+  public static class HenshinOutputFormat extends
+    TextVertexOutputFormat<BytesWritable, IntWritable, IntWritable> {
+
+    @Override
+    public TextVertexWriter createVertexWriter(TaskAttemptContext context)
+      throws IOException, InterruptedException {
+      return new HenshinOutputWriter();
+    }
+
+    /**
+     * Henshin output writer.
+     */
+    class HenshinOutputWriter extends TextVertexWriterToEachLine {
+
+      @Override
+      protected Text convertVertexToLine(
+        Vertex<BytesWritable, IntWritable, IntWritable> vertex)
+        throws IOException {
+
+        JSONArray vertexArray = new JSONArray();
+        JSONArray idArray = new JSONArray();
+        byte[] id = vertex.getId().getBytes();
+        for (int i = 0; i < id.length; i++) {
+          idArray.put(id[i]);
+        }
+        vertexArray.put(idArray);
+        vertexArray.put(vertex.getValue().get());
+        JSONArray allEdgesArray = new JSONArray();
+        for (Edge<BytesWritable, IntWritable> edge : vertex.getEdges()) {
+          JSONArray edgeArray = new JSONArray();
+          JSONArray targetIdArray = new JSONArray();
+          byte[] targetId = edge.getTargetVertexId().getBytes();
+          for (int i = 0; i < targetId.length; i++) {
+            targetIdArray.put(targetId[i]);
+          }
+          edgeArray.put(targetIdArray);
+          edgeArray.put(edge.getValue().get());
+          allEdgesArray.put(edgeArray);
+        }
+        vertexArray.put(allEdgesArray);
+        return new Text(vertexArray.toString());
+      }
+    }
+  }
 }

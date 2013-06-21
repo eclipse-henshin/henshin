@@ -66,17 +66,6 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 					jsonFile.create(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
 				}
 
-				// Format code:
-				String formatCode = new InputFormatTemplate().generate(null);
-				className = formatCode.substring(formatCode.indexOf("public class") + 13);
-				className = className.substring(0, className.indexOf("extends")).trim();
-				IFile javaFormatFile = container.getFile(new Path(className + ".java"));
-				if (javaFormatFile.exists()) {
-					javaFormatFile.setContents(new ByteArrayInputStream(formatCode.getBytes()), IResource.FORCE, null);
-				} else {
-					javaFormatFile.create(new ByteArrayInputStream(formatCode.getBytes()), IResource.FORCE, null);
-				}
-				
 				container.refreshLocal(IResource.DEPTH_INFINITE, null);
 				
 				IWorkbench wb = PlatformUI.getWorkbench();
@@ -104,11 +93,11 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 		List<ENamedElement> types = new ArrayList<ENamedElement>(GiraphUtil.getTypeConstants(rule.getModule()).keySet());
 		for (int i=0; i<rule.getLhs().getNodes().size(); i++) {
 			Node n = rule.getLhs().getNodes().get(i);
-			json.append("[" + i + "," + types.indexOf(n.getType()) + ",[");
+			json.append("[[" + i + "]," + types.indexOf(n.getType()) + ",[");
 			for (int j=0; j<n.getOutgoing().size(); j++) {
 				Edge e = n.getOutgoing().get(j);
 				int trg = rule.getLhs().getNodes().indexOf(e.getTarget());
-				json.append("[" + trg + "," + types.indexOf(e.getType()) + "]");
+				json.append("[[" + trg + "]," + types.indexOf(e.getType()) + "]");
 				if (j<n.getOutgoing().size()-1) json.append(",");
 			}
 			json.append("]]\n");

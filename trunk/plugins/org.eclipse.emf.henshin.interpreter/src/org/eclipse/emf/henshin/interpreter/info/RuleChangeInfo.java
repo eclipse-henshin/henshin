@@ -10,7 +10,7 @@
 package org.eclipse.emf.henshin.interpreter.info;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
@@ -19,13 +19,13 @@ import org.eclipse.emf.henshin.model.Rule;
 
 public class RuleChangeInfo {
 	
-	private final Collection<Node> createdNodes;
-	private final Collection<Node> deletedNodes;
-	private final Collection<Node> preservedNodes;
-	private final Collection<Edge> createdEdges;
-	private final Collection<Edge> deletedEdges;
-	private final Collection<Attribute> attributeChanges;
-	private final Collection<Edge> indexChanges;
+	private final List<Node> createdNodes;
+	private final List<Node> deletedNodes;
+	private final List<Node> preservedNodes;
+	private final List<Edge> createdEdges;
+	private final List<Edge> deletedEdges;
+	private final List<Attribute> attributeChanges;
+	private final List<Edge> indexChanges;
 	
 	public RuleChangeInfo(Rule rule) {
 		createdNodes = new ArrayList<Node>();
@@ -89,49 +89,49 @@ public class RuleChangeInfo {
 	/**
 	 * @return the createdNodes
 	 */
-	public Collection<Node> getCreatedNodes() {
+	public List<Node> getCreatedNodes() {
 		return createdNodes;
 	}
 	
 	/**
 	 * @return the preservedNodes
 	 */
-	public Collection<Node> getPreservedNodes() {
+	public List<Node> getPreservedNodes() {
 		return preservedNodes;
 	}
 	
 	/**
 	 * @return the createdEdges
 	 */
-	public Collection<Edge> getCreatedEdges() {
+	public List<Edge> getCreatedEdges() {
 		return createdEdges;
 	}
 	
 	/**
 	 * @return the deletedEdges
 	 */
-	public Collection<Edge> getDeletedEdges() {
+	public List<Edge> getDeletedEdges() {
 		return deletedEdges;
 	}
 	
 	/**
 	 * @return the attributeChanges
 	 */
-	public Collection<Attribute> getAttributeChanges() {
+	public List<Attribute> getAttributeChanges() {
 		return attributeChanges;
 	}
 	
 	/**
 	 * @return the deletedNodes
 	 */
-	public Collection<Node> getDeletedNodes() {
+	public List<Node> getDeletedNodes() {
 		return deletedNodes;
 	}
 		
 	/**
 	 * @return the index changes
 	 */
-	public Collection<Edge> getIndexChanges() {
+	public List<Edge> getIndexChanges() {
 		return indexChanges;
 	}
 	
