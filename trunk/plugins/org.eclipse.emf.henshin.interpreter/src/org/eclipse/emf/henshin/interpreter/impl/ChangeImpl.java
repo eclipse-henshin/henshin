@@ -238,13 +238,26 @@ public abstract class ChangeImpl implements Change {
 					// TODO: add a warning for containment side effects
 				} else {
 					oldTarget = (EObject) source.eGet(reference);
-					if ((create && target==oldTarget) || (!create && target!=oldTarget)) {
+					// reference is redirected to the same target
+					if (((create && target==oldTarget) || (!create && target!=oldTarget))) {
+						if (PRINT_WARNINGS){
+							System.out.println("WARNING (Hidden step): recreating '" + reference.getName() + "'-edge from " +
+									InterpreterUtil.objectToString(source) + " to " +
+									InterpreterUtil.objectToString(oldTarget));
+						}
 						reference = null; // nothing to do
 					}
+					// reference is redirected to a new target
 					if (create && oldTarget!=null && reference!=null && PRINT_WARNINGS) {
-						System.out.println("Side effect warning: deleting '" + reference.getName() + "'-edge from " +
+						System.out.println("WARNING (Side effect):  deleting '" + reference.getName() + "'-edge from " +
 											InterpreterUtil.objectToString(source) + " to " +
 											InterpreterUtil.objectToString(oldTarget));
+					}
+					// reference is containment and new child (target) already has a parent
+					if (create && reference!=null && reference.isContainment() && target.eContainer()!=null && PRINT_WARNINGS) {
+						System.out.println("WARNING (Side effect):  deleting '" + reference.getName() + "'-edge from " +
+											InterpreterUtil.objectToString(target.eContainer()) + " to " +
+											InterpreterUtil.objectToString(target));
 					}
 					if (!create) {
 						target = null; // we want to remove it

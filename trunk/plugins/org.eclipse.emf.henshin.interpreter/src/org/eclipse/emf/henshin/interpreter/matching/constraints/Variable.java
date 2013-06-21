@@ -36,9 +36,12 @@ public class Variable {
 	// Containment constraints:
 	public final List<ContainmentConstraint> containmentConstraints;
 	
+	// User defined constraints:
+	public final List<UserConstraint> userConstraints;
+
 	// Whether this variable requires a final re-check:
 	public boolean requiresFinalCheck;
-	
+
 	/**
 	 * Constructor. Creates the related {@link TypeConstraint} already.
 	 * @param type Type of the node to be matched.
@@ -58,7 +61,8 @@ public class Variable {
 		danglingConstraints = new ArrayList<DanglingConstraint>();
 		referenceConstraints = new ArrayList<ReferenceConstraint>();
 		containmentConstraints = new ArrayList<ContainmentConstraint>();
-		requiresFinalCheck = false;
+		userConstraints = new ArrayList<UserConstraint>();
+		requiresFinalCheck = false;		
 	}
 	
 }

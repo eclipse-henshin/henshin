@@ -551,13 +551,18 @@ public class EngineImpl implements Engine {
 			ruleInfos.put(rule, ruleInfo);
 			// Listen to changes:
 			rule.eAdapters().add(ruleListener);
+			
+			for (Node node : rule.getLhs().getNodes()){
+				this.createUserConstraints(ruleInfo, node);
+			}
+			
 			// Check for missing factories:			
 			for (Node node : ruleInfo.getChangeInfo().getCreatedNodes()) {
 				if (node.getType()==null) {
 					throw new RuntimeException("Missing type for " + node);
 				}
 				if (node.getType().getEPackage()==null || 
-						node.getType().getEPackage().getEFactoryInstance()==null) {
+					node.getType().getEPackage().getEFactoryInstance()==null) {
 					throw new RuntimeException("Missing factory for '" + node + 
 							"'. Register the corresponding package, e.g. using PackageName.eINSTANCE.getName().");
 				}
@@ -912,4 +917,12 @@ public class EngineImpl implements Engine {
 		return scriptEngine;
 	}
 
+
+  	
+	protected void createUserConstraints(RuleInfo var,Node node){
+		
+		
+	}
+  
+  
 }

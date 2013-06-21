@@ -212,6 +212,12 @@ public class DomainSlot {
 				}
 			}
 			
+			// Check the user constraints:
+			for (UserConstraint constraint : variable.userConstraints){
+				if (!constraint.check(this,variable, domainMap, graph)) {
+					return false;
+				}
+			}
 			// All checks were successful:
 			checkedVariables.add(variable);
 			
@@ -247,6 +253,10 @@ public class DomainSlot {
 				remoteChangeMap.remove(constraint);
 			}
 		}				
+		
+		for (UserConstraint userConstraint : sender.userConstraints) {
+			userConstraint.unlock(sender,this);
+		}
 		
 		// Unlock the variable:
 		if (locked && sender == owner) {
@@ -338,5 +348,50 @@ public class DomainSlot {
 		this.usedObjects.add(value);
 		this.owner = null;
 	}
+	
+		
+	/**
+	 * @return the locked
+	 */
+	public boolean isLocked() {
+		return locked;
+	}
+
+	/**
+	 * @return the locked
+	 */
+	public EObject getValue(){
+		return this.value;
+	}
+	
+	/**
+	 * @return the domain
+	 */
+	public List<EObject> getDomain() {
+		return domain;
+	}
+	
+	/**
+	 * @param temporaryDomain the temporaryDomain to set
+	 */
+	public void setTemporaryDomain(List<EObject> temporaryDomain) {
+		this.temporaryDomain = temporaryDomain;
+	}
+
+	/**
+	 * @return the temporaryDomain
+	 */
+	public List<EObject> getTemporaryDomain() {
+		return temporaryDomain;
+	}
+	
+	/**
+	 * @return the remoteChangeMap
+	 */
+	public Map<BinaryConstraint, DomainChange> getRemoteChangeMap() {
+		return remoteChangeMap;
+	}
+	
+	
 	
 }
