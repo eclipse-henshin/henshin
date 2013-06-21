@@ -22,4 +22,13 @@ public class DomainChange {
 		this.slot = slot;
 		this.originalValues = originalValues;
 	}
+	
+	/**
+	 * Get the original values of this domain change.
+	 * @return the originalValues The original values.
+	 */
+	public List<EObject> getOriginalValues() {
+		return originalValues;
+	}
+
 }
