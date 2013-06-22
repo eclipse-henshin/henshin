@@ -77,7 +77,7 @@ for (ENamedElement type : typeConstants.keySet()) {
   %>
 
   /**
-   * Type constant for "<%= type.getName() %>"
+   * Type constant for "<%= type.getName() %>".
    */
   public static final int <%= typeConstants.get(type) %> = <%= value++ %>;
 <%
@@ -85,12 +85,12 @@ for (ENamedElement type : typeConstants.keySet()) {
 %>
 
   /**
-   * Logging support
+   * Logging support.
    */
   private static final Logger LOG = Logger.getLogger(<%= className %>.class);
 
   /**
-   * Empty byte array
+   * Empty byte array.
    */
   private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
@@ -183,6 +183,63 @@ for (ENamedElement type : typeConstants.keySet()) {
   }
 
   /**
+   * Pretty-print a match.
+   * @param match The Match to be printed.
+   * @return The printed string.
+   */
+  private static String matchToString(BytesWritable match) {
+    if (match == null) {
+      return "empty";
+    }
+    byte[] bytes = match.getBytes();
+    StringBuffer r = new StringBuffer();
+    for (int e = 0; e < bytes.length; e++) {
+      r.append(bytes[e] + " ");
+    }
+    return r.toString();
+  }
+
+  /**
+   * Get the vertex ID of a matched node.
+   * @param match The match oject.
+   * @param vertexIndex Index of the next vertex.
+   * @return The vertex ID.
+   */
+  private static BytesWritable getMatchVertexId(BytesWritable match,
+    int vertexIndex) {
+    byte[] bytes = match.getBytes();
+    int d = 0;
+    for (int i = 0; i < vertexIndex; i++) {
+      d += bytes[d] + 1;
+    }
+    return new BytesWritable(Arrays.copyOfRange(bytes, d + 1, bytes[d]));
+  }
+
+  /**
+   * Extend a partial match.
+   * @param match The match object.
+   * @param vertexId The ID of the next matched vertex.
+   * @return The extended match object.
+   */
+  private BytesWritable addMatchVertex(BytesWritable match,
+    BytesWritable vertexId) {
+    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_BYTE_ARRAY;
+    byte[] id = vertexId.getBytes();
+    int superstep = (int) getSuperstep();
+    int d = 0;
+    for (int i = 0; i < superstep; i++) {
+      d += bytes[d] + 1;
+    }
+    byte[] result = Arrays.copyOf(bytes, d + 1 + id.length);
+    result[d] = (byte) id.length;
+    System.arraycopy(id, 0, result, d + 1, id.length);
+    BytesWritable theResult = new BytesWritable(result);
+    LOG.info("Extending match: " + matchToString(match) +
+      " -> " + matchToString(theResult));
+    return theResult;
+  }
+
+  /**
    * Apply the rule to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
@@ -250,66 +307,6 @@ for (ENamedElement type : typeConstants.keySet()) {
     addEdgeRequest(src<%= e %>, edge<%= e %>);
 <%  e++;
     } %>
-  }
-
-  /**
-   * Pretty-print a match.
-   * @param match The Match to be printed.
-   * @return The printed string.
-   */
-  private String matchToString(BytesWritable match) {
-    byte[] bytes = match.getBytes();
-    String r = "";
-    int d = 0, e = 0;
-    while (d < bytes.length) {
-      int len = bytes[d++];
-      r = r + "[";
-      for (e = 0; e < len; e++) {
-        r = r + bytes[d + e];
-        if (e < len-1) {
-          r = r + ",";
-        }
-      }
-      r = r + "] ";
-      d += len;
-    }
-    return r;
-  }
-
-  /**
-   * Get the vertex ID of a matched node.
-   * @param match The match oject.
-   * @param vertexIndex Index of the next vertex.
-   * @return The vertex ID.
-   */
-  private static BytesWritable getMatchVertexId(BytesWritable match,
-    int vertexIndex) {
-    byte[] bytes = match.getBytes();
-    int d = 0;
-    for (int i = 0; i <= vertexIndex; i++) {
-      int len = bytes[d++];
-      if (i == vertexIndex) {
-        return new BytesWritable(Arrays.copyOfRange(bytes, d, d + len));
-      }
-      d += len;
-    }
-    return null;
-  }
-
-  /**
-   * Extend a partial match.
-   * @param match The match object.
-   * @param vertexId The ID of the next matched vertex.
-   * @return The extended match object.
-   */
-  private static BytesWritable addMatchVertex(BytesWritable match,
-    BytesWritable vertexId) {
-    byte[] b = (match != null) ? match.getBytes() : EMPTY_BYTE_ARRAY;
-    byte[] v = vertexId.getBytes();
-    byte[] r = Arrays.copyOf(b, b.length + 1 + v.length);
-    r[b.length] = (byte) v.length;
-    System.arraycopy(v, 0, r, b.length + 1, v.length);
-    return new BytesWritable(r);
   }
 
   /**
