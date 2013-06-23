@@ -28,7 +28,7 @@ public class GiraphRuleTemplate
   protected final String TEXT_7 = " = ";
   protected final String TEXT_8 = ";";
   protected final String TEXT_9 = NL + NL + "  /**" + NL + "   * Logging support." + NL + "   */" + NL + "  private static final Logger LOG = Logger.getLogger(";
-  protected final String TEXT_10 = ".class);" + NL + "" + NL + "  /**" + NL + "   * Empty match." + NL + "   */" + NL + "  private static final byte[] EMPTY_MATCH = new byte[] { 0 };" + NL + "" + NL + "  /*" + NL + "   * (non-Javadoc)" + NL + "   * @see org.apache.giraph.graph.Computation#compute(" + NL + "   *        org.apache.giraph.graph.Vertex, java.lang.Iterable)" + NL + "   */" + NL + "  @Override" + NL + "  public void compute(" + NL + "      Vertex<BytesWritable, IntWritable, IntWritable> vertex," + NL + "      Iterable<BytesWritable> matches) throws IOException {" + NL + "" + NL + "    long superstep = getSuperstep();" + NL + "" + NL + "    // Log partial matches:" + NL + "    LOG.info(\"Superstep \" + superstep + \": current partial matches are...\");" + NL + "    for (BytesWritable match : matches) {" + NL + "      LOG.info(\"  \" + matchToString(match));" + NL + "    }" + NL + NL;
+  protected final String TEXT_10 = ".class);" + NL + "" + NL + "  /**" + NL + "   * Empty match." + NL + "   */" + NL + "  private static final byte[] EMPTY_MATCH = new byte[] { 0 };" + NL + "" + NL + "  /*" + NL + "   * (non-Javadoc)" + NL + "   * @see org.apache.giraph.graph.Computation#compute(" + NL + "   *        org.apache.giraph.graph.Vertex, java.lang.Iterable)" + NL + "   */" + NL + "  @Override" + NL + "  public void compute(" + NL + "      Vertex<BytesWritable, IntWritable, IntWritable> vertex," + NL + "      Iterable<BytesWritable> matches) throws IOException {" + NL + "" + NL + "    long superstep = getSuperstep();" + NL + "" + NL + "    // Log partial matches:" + NL + "    LOG.info(\"Executing superstep \" + superstep);" + NL + "    for (BytesWritable match : matches) {" + NL + "      LOG.info(\"Received partial match: \" + matchToString(match));" + NL + "    }" + NL + NL;
   protected final String TEXT_11 = " if (superstep == ";
   protected final String TEXT_12 = ") {" + NL;
   protected final String TEXT_13 = NL + "      // Node ";
@@ -52,56 +52,59 @@ public class GiraphRuleTemplate
   protected final String TEXT_31 = "          if (edge.getValue().get() == ";
   protected final String TEXT_32 = ") {";
   protected final String TEXT_33 = NL;
-  protected final String TEXT_34 = "            sendMessage(edge.getTargetVertexId(), match);";
+  protected final String TEXT_34 = "            LOG.info(\"Sending partial match: \" + matchToString(match));";
   protected final String TEXT_35 = NL;
-  protected final String TEXT_36 = "          }";
+  protected final String TEXT_36 = "            sendMessage(edge.getTargetVertexId(), match);";
   protected final String TEXT_37 = NL;
-  protected final String TEXT_38 = "        }";
-  protected final String TEXT_39 = NL + "          // Send the message back to matches of node ";
-  protected final String TEXT_40 = ":" + NL + "          for (BytesWritable m : matches) {" + NL + "            sendMessage(getMatchVertexId(m, ";
-  protected final String TEXT_41 = "), match);" + NL + "          }";
-  protected final String TEXT_42 = NL + "        }";
-  protected final String TEXT_43 = NL + "      } // end if ok" + NL;
-  protected final String TEXT_44 = NL + NL + "      // Apply rule for all matches:" + NL + "      for (BytesWritable match : matches) {" + NL + "        applyRule(vertex, match);" + NL + "      }";
-  protected final String TEXT_45 = NL + "    }";
-  protected final String TEXT_46 = NL + "    // Next nodes are activated by a message, so we can put this one to sleep:" + NL + "    vertex.voteToHalt();" + NL + "" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Pretty-print a match." + NL + "   * @param match The Match to be printed." + NL + "   * @return The printed string." + NL + "   */" + NL + "  private static String matchToString(BytesWritable match) {" + NL + "    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;" + NL + "    StringBuffer r = new StringBuffer();" + NL + "    int d = 1;    " + NL + "    for (int i = 0; i < bytes[0]; i++) {" + NL + "      r.append(\"[\");" + NL + "      for (int j = 1; j <= bytes[d]; j++) {" + NL + "        r.append(bytes[d + j]);" + NL + "        if (j < bytes[d]) {" + NL + "          r.append(\",\");" + NL + "        }" + NL + "      }" + NL + "      r.append(\"]\");" + NL + "      if (i < bytes[0] - 1) {" + NL + "        r.append(\",\");" + NL + "      }" + NL + "    }" + NL + "    return \"[\" + r.toString() + \"]\";" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Get the vertex ID of a matched node." + NL + "   * @param match The match oject." + NL + "   * @param vertexIndex Index of the next vertex." + NL + "   * @return The vertex ID." + NL + "   */" + NL + "  private static BytesWritable getMatchVertexId(BytesWritable match," + NL + "    int vertexIndex) {" + NL + "    byte[] bytes = match.getBytes();" + NL + "    int d = 1;" + NL + "    for (int i = 0; i < vertexIndex; i++) {" + NL + "      d += bytes[d] + 1;" + NL + "    }" + NL + "    return new BytesWritable(" + NL + "      Arrays.copyOfRange(bytes, d + 1, d + 1 + bytes[d]));" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Extend a partial match." + NL + "   * @param match The match object." + NL + "   * @param vertexId The ID of the next matched vertex." + NL + "   * @return The extended match object." + NL + "   */" + NL + "  private BytesWritable addMatchVertex(BytesWritable match," + NL + "    BytesWritable vertexId) {" + NL + "    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;" + NL + "    byte[] id = vertexId.getBytes();" + NL + "    int d = 1;" + NL + "    for (byte i = 0; i < bytes[0]; i++) {" + NL + "      d += bytes[d] + 1;" + NL + "    }" + NL + "    byte[] result = Arrays.copyOf(bytes, d + 1 + id.length);" + NL + "    result[0]++;" + NL + "    result[d] = (byte) id.length;" + NL + "    System.arraycopy(id, 0, result, d + 1, id.length);" + NL + "    BytesWritable theResult = new BytesWritable(result);" + NL + "    LOG.info(\"Extending match: \" + matchToString(match) +" + NL + "      \" -> \" + matchToString(theResult));" + NL + "    return theResult;" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Apply the rule to a given match." + NL + "   * @param vertex The base vertex." + NL + "   * @param match The match object." + NL + "   * @throws IOException On I/O errors." + NL + "   */" + NL + "  private void applyRule(Vertex<BytesWritable, IntWritable," + NL + "    IntWritable> vertex, BytesWritable match) throws IOException {" + NL + "" + NL + "    LOG.info(\"Applying rule ";
-  protected final String TEXT_47 = " with match \" + matchToString(match));";
-  protected final String TEXT_48 = NL + NL + "    // Remove edge ";
-  protected final String TEXT_49 = " -> ";
-  protected final String TEXT_50 = ":" + NL + "    removeEdgesRequest(" + NL + "      getMatchVertexId(match, ";
-  protected final String TEXT_51 = ")," + NL + "      getMatchVertexId(match, ";
-  protected final String TEXT_52 = ")" + NL + "    );";
-  protected final String TEXT_53 = NL + NL + "    // Remove vertex ";
-  protected final String TEXT_54 = ":" + NL + "    removeVertexRequest(" + NL + "      getMatchVertexId(match, ";
+  protected final String TEXT_38 = "          }";
+  protected final String TEXT_39 = NL;
+  protected final String TEXT_40 = "        }";
+  protected final String TEXT_41 = NL + "          // Send the message back to matches of node ";
+  protected final String TEXT_42 = ":" + NL + "          for (BytesWritable m : matches) {" + NL + "            LOG.info(\"Sending partial match: \" + matchToString(match));" + NL + "            sendMessage(getMatchVertexId(m, ";
+  protected final String TEXT_43 = "), match);" + NL + "          }";
+  protected final String TEXT_44 = NL + "        }";
+  protected final String TEXT_45 = NL + "      } // end if ok" + NL;
+  protected final String TEXT_46 = NL + "      // Apply rule for all matches:" + NL + "      for (BytesWritable match : matches) {" + NL + "        applyRule(vertex, match);" + NL + "      }";
+  protected final String TEXT_47 = NL + "      // Next vertices are activated by a message, so we sleep:" + NL + "      vertex.voteToHalt();";
+  protected final String TEXT_48 = NL + NL + "    }";
+  protected final String TEXT_49 = " else if (superstep == ";
+  protected final String TEXT_50 = ") {" + NL + "" + NL + "      // Rule application finished. So we halt:" + NL + "      vertex.voteToHalt();" + NL + "" + NL + "    }" + NL + "" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Pretty-print a match." + NL + "   * @param match The Match to be printed." + NL + "   * @return The printed string." + NL + "   */" + NL + "  private static String matchToString(BytesWritable match) {" + NL + "    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;" + NL + "    StringBuffer r = new StringBuffer();" + NL + "    int d = 1;    " + NL + "    for (int i = 0; i < bytes[0]; i++) {" + NL + "      r.append(\"[\");" + NL + "      for (int j = 1; j <= bytes[d]; j++) {" + NL + "        r.append(bytes[d + j]);" + NL + "        if (j < bytes[d]) {" + NL + "          r.append(\",\");" + NL + "        }" + NL + "      }" + NL + "      r.append(\"]\");" + NL + "      if (i < bytes[0] - 1) {" + NL + "        r.append(\",\");" + NL + "      }" + NL + "    }" + NL + "    return \"[\" + r.toString() + \"]\";" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Get the vertex ID of a matched node." + NL + "   * @param match The match oject." + NL + "   * @param vertexIndex Index of the next vertex." + NL + "   * @return The vertex ID." + NL + "   */" + NL + "  private static BytesWritable getMatchVertexId(BytesWritable match," + NL + "    int vertexIndex) {" + NL + "    byte[] bytes = match.getBytes();" + NL + "    int d = 1;" + NL + "    for (int i = 0; i < vertexIndex; i++) {" + NL + "      d += bytes[d] + 1;" + NL + "    }" + NL + "    return new BytesWritable(" + NL + "      Arrays.copyOfRange(bytes, d + 1, d + 1 + bytes[d]));" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Extend a partial match." + NL + "   * @param match The match object." + NL + "   * @param vertexId The ID of the next matched vertex." + NL + "   * @return The extended match object." + NL + "   */" + NL + "  private BytesWritable addMatchVertex(BytesWritable match," + NL + "    BytesWritable vertexId) {" + NL + "    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;" + NL + "    byte[] id = vertexId.getBytes();" + NL + "    int d = 1;" + NL + "    for (byte i = 0; i < bytes[0]; i++) {" + NL + "      d += bytes[d] + 1;" + NL + "    }" + NL + "    byte[] result = Arrays.copyOf(bytes, d + 1 + id.length);" + NL + "    result[0]++;" + NL + "    result[d] = (byte) id.length;" + NL + "    System.arraycopy(id, 0, result, d + 1, id.length);" + NL + "    return new BytesWritable(result);" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Apply the rule to a given match." + NL + "   * @param vertex The base vertex." + NL + "   * @param match The match object." + NL + "   * @throws IOException On I/O errors." + NL + "   */" + NL + "  private void applyRule(Vertex<BytesWritable, IntWritable," + NL + "    IntWritable> vertex, BytesWritable match) throws IOException {" + NL + "" + NL + "    LOG.info(\"Applying rule with match \" + matchToString(match));";
+  protected final String TEXT_51 = NL + NL + "    // Remove edge ";
+  protected final String TEXT_52 = " -> ";
+  protected final String TEXT_53 = ":" + NL + "    removeEdgesRequest(" + NL + "      getMatchVertexId(match, ";
+  protected final String TEXT_54 = ")," + NL + "      getMatchVertexId(match, ";
   protected final String TEXT_55 = ")" + NL + "    );";
-  protected final String TEXT_56 = NL + "    byte[] thisVertexId = vertex.getId().getBytes();" + NL + "    byte[] newVertexId;";
-  protected final String TEXT_57 = NL + NL + "    // Create vertex ";
-  protected final String TEXT_58 = ":" + NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
-  protected final String TEXT_59 = ";" + NL + "    addVertexRequest(new BytesWritable(newVertexId)," + NL + "      new IntWritable(";
-  protected final String TEXT_60 = "));";
-  protected final String TEXT_61 = NL + NL + "    // Create edge ";
-  protected final String TEXT_62 = " -> ";
-  protected final String TEXT_63 = ":";
-  protected final String TEXT_64 = NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
-  protected final String TEXT_65 = ";" + NL + "    BytesWritable src";
-  protected final String TEXT_66 = " = new BytesWritable(newVertexId);";
-  protected final String TEXT_67 = NL + "    BytesWritable src";
-  protected final String TEXT_68 = " = getMatchVertexId(match, ";
-  protected final String TEXT_69 = ");";
-  protected final String TEXT_70 = NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
-  protected final String TEXT_71 = ";" + NL + "    BytesWritable trg";
-  protected final String TEXT_72 = " = new BytesWritable(newVertexId);";
-  protected final String TEXT_73 = NL + "    BytesWritable trg";
-  protected final String TEXT_74 = " = getMatchVertexId(match, ";
-  protected final String TEXT_75 = ");";
-  protected final String TEXT_76 = NL + "    Edge<BytesWritable, IntWritable> edge";
-  protected final String TEXT_77 = " =" + NL + "      EdgeFactory.create(trg";
-  protected final String TEXT_78 = ", new IntWritable(";
-  protected final String TEXT_79 = "));" + NL + "    addEdgeRequest(src";
-  protected final String TEXT_80 = ", edge";
-  protected final String TEXT_81 = ");";
-  protected final String TEXT_82 = NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Henshin input format." + NL + "   */" + NL + "  public static class HenshinInputFormat extends" + NL + "    TextVertexInputFormat<BytesWritable, IntWritable, IntWritable> {" + NL + "" + NL + "    @Override" + NL + "    public TextVertexReader createVertexReader(InputSplit split," + NL + "      TaskAttemptContext context) {" + NL + "      return new HenshinInputReader();" + NL + "    }" + NL + "" + NL + "    /**" + NL + "     * Henshin input reader." + NL + "     */" + NL + "    class HenshinInputReader extends" + NL + "      TextVertexReaderFromEachLineProcessedHandlingExceptions<JSONArray," + NL + "        JSONException> {" + NL + "" + NL + "      @Override" + NL + "      protected JSONArray preprocessLine(Text line) throws JSONException {" + NL + "        return new JSONArray(line.toString());" + NL + "      }" + NL + "" + NL + "      @Override" + NL + "      protected BytesWritable getId(JSONArray jsonVertex)" + NL + "        throws JSONException, IOException {" + NL + "        return jsonArrayToBytesWritable(jsonVertex.getJSONArray(0));" + NL + "      }" + NL + "" + NL + "      /**" + NL + "       * Convert a JSON array to a BytesWritable object." + NL + "       * @param jsonArray The JSON array to be converted." + NL + "       * @return The corresponding BytesWritable." + NL + "       */" + NL + "      private BytesWritable jsonArrayToBytesWritable(JSONArray jsonArray)" + NL + "        throws JSONException {" + NL + "        byte[] bytes = new byte[jsonArray.length()];" + NL + "        for (int i = 0; i < bytes.length; i++) {" + NL + "          bytes[i] = (byte) jsonArray.getInt(i);" + NL + "        }" + NL + "        return new BytesWritable(bytes);" + NL + "      }" + NL + "" + NL + "      @Override" + NL + "      protected IntWritable getValue(JSONArray jsonVertex)" + NL + "        throws JSONException, IOException {" + NL + "        return new IntWritable(jsonVertex.getInt(1));" + NL + "      }" + NL + "" + NL + "      @Override" + NL + "      protected Iterable<Edge<BytesWritable, IntWritable>> getEdges(" + NL + "        JSONArray jsonVertex) throws JSONException, IOException {" + NL + "        JSONArray jsonEdgeArray = jsonVertex.getJSONArray(2);" + NL + "        List<Edge<BytesWritable, IntWritable>> edges =" + NL + "          Lists.newArrayListWithCapacity(jsonEdgeArray.length());" + NL + "        for (int i = 0; i < jsonEdgeArray.length(); ++i) {" + NL + "          JSONArray jsonEdge = jsonEdgeArray.getJSONArray(i);" + NL + "          edges.add(EdgeFactory.create(jsonArrayToBytesWritable(" + NL + "            jsonEdge.getJSONArray(0)), new IntWritable(jsonEdge.getInt(1))));" + NL + "        }" + NL + "        return edges;" + NL + "      }" + NL + "" + NL + "      @Override" + NL + "      protected Vertex<BytesWritable, IntWritable, IntWritable>" + NL + "      handleException(Text line, JSONArray jsonVertex, JSONException e) {" + NL + "        throw new IllegalArgumentException(" + NL + "          \"Couldn't get vertex from line \" + line, e);" + NL + "      }" + NL + "    }" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Henshin output format." + NL + "   */" + NL + "  public static class HenshinOutputFormat extends" + NL + "    TextVertexOutputFormat<BytesWritable, IntWritable, IntWritable> {" + NL + "" + NL + "    @Override" + NL + "    public TextVertexWriter createVertexWriter(TaskAttemptContext context)" + NL + "      throws IOException, InterruptedException {" + NL + "      return new HenshinOutputWriter();" + NL + "    }" + NL + "" + NL + "    /**" + NL + "     * Henshin output writer." + NL + "     */" + NL + "    class HenshinOutputWriter extends TextVertexWriterToEachLine {" + NL + "" + NL + "      @Override" + NL + "      protected Text convertVertexToLine(" + NL + "        Vertex<BytesWritable, IntWritable, IntWritable> vertex)" + NL + "        throws IOException {" + NL + "" + NL + "        JSONArray vertexArray = new JSONArray();" + NL + "        JSONArray idArray = new JSONArray();" + NL + "        byte[] id = vertex.getId().getBytes();" + NL + "        for (int i = 0; i < id.length; i++) {" + NL + "          idArray.put(id[i]);" + NL + "        }" + NL + "        vertexArray.put(idArray);" + NL + "        vertexArray.put(vertex.getValue().get());" + NL + "        JSONArray allEdgesArray = new JSONArray();" + NL + "        for (Edge<BytesWritable, IntWritable> edge : vertex.getEdges()) {" + NL + "          JSONArray edgeArray = new JSONArray();" + NL + "          JSONArray targetIdArray = new JSONArray();" + NL + "          byte[] targetId = edge.getTargetVertexId().getBytes();" + NL + "          for (int i = 0; i < targetId.length; i++) {" + NL + "            targetIdArray.put(targetId[i]);" + NL + "          }" + NL + "          edgeArray.put(targetIdArray);" + NL + "          edgeArray.put(edge.getValue().get());" + NL + "          allEdgesArray.put(edgeArray);" + NL + "        }" + NL + "        vertexArray.put(allEdgesArray);" + NL + "        return new Text(vertexArray.toString());" + NL + "      }" + NL + "    }" + NL + "  }" + NL + "}";
-  protected final String TEXT_83 = NL;
+  protected final String TEXT_56 = NL + NL + "    // Remove vertex ";
+  protected final String TEXT_57 = ":" + NL + "    removeVertexRequest(" + NL + "      getMatchVertexId(match, ";
+  protected final String TEXT_58 = ")" + NL + "    );";
+  protected final String TEXT_59 = NL + "    byte[] thisVertexId = vertex.getId().getBytes();" + NL + "    byte[] newVertexId;";
+  protected final String TEXT_60 = NL + NL + "    // Create vertex ";
+  protected final String TEXT_61 = ":" + NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
+  protected final String TEXT_62 = ";" + NL + "    addVertexRequest(new BytesWritable(newVertexId)," + NL + "      new IntWritable(";
+  protected final String TEXT_63 = "));";
+  protected final String TEXT_64 = NL + NL + "    // Create edge ";
+  protected final String TEXT_65 = " -> ";
+  protected final String TEXT_66 = ":";
+  protected final String TEXT_67 = NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
+  protected final String TEXT_68 = ";" + NL + "    BytesWritable src";
+  protected final String TEXT_69 = " = new BytesWritable(newVertexId);";
+  protected final String TEXT_70 = NL + "    BytesWritable src";
+  protected final String TEXT_71 = " = getMatchVertexId(match, ";
+  protected final String TEXT_72 = ");";
+  protected final String TEXT_73 = NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
+  protected final String TEXT_74 = ";" + NL + "    BytesWritable trg";
+  protected final String TEXT_75 = " = new BytesWritable(newVertexId);";
+  protected final String TEXT_76 = NL + "    BytesWritable trg";
+  protected final String TEXT_77 = " = getMatchVertexId(match, ";
+  protected final String TEXT_78 = ");";
+  protected final String TEXT_79 = NL + "    Edge<BytesWritable, IntWritable> edge";
+  protected final String TEXT_80 = " =" + NL + "      EdgeFactory.create(trg";
+  protected final String TEXT_81 = ", new IntWritable(";
+  protected final String TEXT_82 = "));" + NL + "    addEdgeRequest(src";
+  protected final String TEXT_83 = ", edge";
+  protected final String TEXT_84 = ");";
+  protected final String TEXT_85 = NL + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Henshin input format." + NL + "   */" + NL + "  public static class HenshinInputFormat extends" + NL + "    TextVertexInputFormat<BytesWritable, IntWritable, IntWritable> {" + NL + "" + NL + "    @Override" + NL + "    public TextVertexReader createVertexReader(InputSplit split," + NL + "      TaskAttemptContext context) {" + NL + "      return new HenshinInputReader();" + NL + "    }" + NL + "" + NL + "    /**" + NL + "     * Henshin input reader." + NL + "     */" + NL + "    class HenshinInputReader extends" + NL + "      TextVertexReaderFromEachLineProcessedHandlingExceptions<JSONArray," + NL + "        JSONException> {" + NL + "" + NL + "      @Override" + NL + "      protected JSONArray preprocessLine(Text line) throws JSONException {" + NL + "        return new JSONArray(line.toString());" + NL + "      }" + NL + "" + NL + "      @Override" + NL + "      protected BytesWritable getId(JSONArray jsonVertex)" + NL + "        throws JSONException, IOException {" + NL + "        return jsonArrayToBytesWritable(jsonVertex.getJSONArray(0));" + NL + "      }" + NL + "" + NL + "      /**" + NL + "       * Convert a JSON array to a BytesWritable object." + NL + "       * @param jsonArray The JSON array to be converted." + NL + "       * @return The corresponding BytesWritable." + NL + "       */" + NL + "      private BytesWritable jsonArrayToBytesWritable(JSONArray jsonArray)" + NL + "        throws JSONException {" + NL + "        byte[] bytes = new byte[jsonArray.length()];" + NL + "        for (int i = 0; i < bytes.length; i++) {" + NL + "          bytes[i] = (byte) jsonArray.getInt(i);" + NL + "        }" + NL + "        return new BytesWritable(bytes);" + NL + "      }" + NL + "" + NL + "      @Override" + NL + "      protected IntWritable getValue(JSONArray jsonVertex)" + NL + "        throws JSONException, IOException {" + NL + "        return new IntWritable(jsonVertex.getInt(1));" + NL + "      }" + NL + "" + NL + "      @Override" + NL + "      protected Iterable<Edge<BytesWritable, IntWritable>> getEdges(" + NL + "        JSONArray jsonVertex) throws JSONException, IOException {" + NL + "        JSONArray jsonEdgeArray = jsonVertex.getJSONArray(2);" + NL + "        List<Edge<BytesWritable, IntWritable>> edges =" + NL + "          Lists.newArrayListWithCapacity(jsonEdgeArray.length());" + NL + "        for (int i = 0; i < jsonEdgeArray.length(); ++i) {" + NL + "          JSONArray jsonEdge = jsonEdgeArray.getJSONArray(i);" + NL + "          edges.add(EdgeFactory.create(jsonArrayToBytesWritable(" + NL + "            jsonEdge.getJSONArray(0)), new IntWritable(jsonEdge.getInt(1))));" + NL + "        }" + NL + "        return edges;" + NL + "      }" + NL + "" + NL + "      @Override" + NL + "      protected Vertex<BytesWritable, IntWritable, IntWritable>" + NL + "      handleException(Text line, JSONArray jsonVertex, JSONException e) {" + NL + "        throw new IllegalArgumentException(" + NL + "          \"Couldn't get vertex from line \" + line, e);" + NL + "      }" + NL + "    }" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Henshin output format." + NL + "   */" + NL + "  public static class HenshinOutputFormat extends" + NL + "    TextVertexOutputFormat<BytesWritable, IntWritable, IntWritable> {" + NL + "" + NL + "    @Override" + NL + "    public TextVertexWriter createVertexWriter(TaskAttemptContext context)" + NL + "      throws IOException, InterruptedException {" + NL + "      return new HenshinOutputWriter();" + NL + "    }" + NL + "" + NL + "    /**" + NL + "     * Henshin output writer." + NL + "     */" + NL + "    class HenshinOutputWriter extends TextVertexWriterToEachLine {" + NL + "" + NL + "      @Override" + NL + "      protected Text convertVertexToLine(" + NL + "        Vertex<BytesWritable, IntWritable, IntWritable> vertex)" + NL + "        throws IOException {" + NL + "" + NL + "        JSONArray vertexArray = new JSONArray();" + NL + "        JSONArray idArray = new JSONArray();" + NL + "        byte[] id = vertex.getId().getBytes();" + NL + "        for (int i = 0; i < id.length; i++) {" + NL + "          idArray.put(id[i]);" + NL + "        }" + NL + "        vertexArray.put(idArray);" + NL + "        vertexArray.put(vertex.getValue().get());" + NL + "        JSONArray allEdgesArray = new JSONArray();" + NL + "        for (Edge<BytesWritable, IntWritable> edge : vertex.getEdges()) {" + NL + "          JSONArray edgeArray = new JSONArray();" + NL + "          JSONArray targetIdArray = new JSONArray();" + NL + "          byte[] targetId = edge.getTargetVertexId().getBytes();" + NL + "          for (int i = 0; i < targetId.length; i++) {" + NL + "            targetIdArray.put(targetId[i]);" + NL + "          }" + NL + "          edgeArray.put(targetIdArray);" + NL + "          edgeArray.put(edge.getValue().get());" + NL + "          allEdgesArray.put(edgeArray);" + NL + "        }" + NL + "        vertexArray.put(allEdgesArray);" + NL + "        return new Text(vertexArray.toString());" + NL + "      }" + NL + "    }" + NL + "  }" + NL + "}";
+  protected final String TEXT_86 = NL;
 
   public String generate(Object argument)
   {
@@ -207,116 +210,124 @@ for (ENamedElement type : typeConstants.keySet()) {
     stringBuffer.append(TEXT_37);
     stringBuffer.append( i > 0 ? "  " : "");
     stringBuffer.append(TEXT_38);
-        } else if (step.sendBackTo >= 0) {
     stringBuffer.append(TEXT_39);
-    stringBuffer.append( GiraphUtil.getNodeName(matchingSteps.get(step.sendBackTo).node) );
+    stringBuffer.append( i > 0 ? "  " : "");
     stringBuffer.append(TEXT_40);
-    stringBuffer.append( step.sendBackTo );
+        } else if (step.sendBackTo >= 0) {
     stringBuffer.append(TEXT_41);
-        }
-      if (i>0) {
+    stringBuffer.append( GiraphUtil.getNodeName(matchingSteps.get(step.sendBackTo).node) );
     stringBuffer.append(TEXT_42);
-    
-       }
+    stringBuffer.append( step.sendBackTo );
     stringBuffer.append(TEXT_43);
         }
-      if (i == matchingSteps.size()-1) {
+      if (i>0) {
     stringBuffer.append(TEXT_44);
     
-      }
+       }
     stringBuffer.append(TEXT_45);
+        }
+      if (i == matchingSteps.size()-1) {
+    stringBuffer.append(TEXT_46);
+    
+      } else {
+    stringBuffer.append(TEXT_47);
+    
+      }
+    stringBuffer.append(TEXT_48);
      
+
     } // end for
 
-    stringBuffer.append(TEXT_46);
-    stringBuffer.append( className );
-    stringBuffer.append(TEXT_47);
-      for (Edge edge : changeInfo.getDeletedEdges()) {
-    stringBuffer.append(TEXT_48);
-    stringBuffer.append( GiraphUtil.getNodeName(edge.getSource()) );
+
     stringBuffer.append(TEXT_49);
-    stringBuffer.append( GiraphUtil.getNodeName(edge.getTarget()) );
+    stringBuffer.append( matchingSteps.size() );
     stringBuffer.append(TEXT_50);
-    stringBuffer.append( orderedLhsNodes.indexOf(edge.getSource()) );
+      for (Edge edge : changeInfo.getDeletedEdges()) {
     stringBuffer.append(TEXT_51);
-    stringBuffer.append( orderedLhsNodes.indexOf(edge.getTarget()) );
+    stringBuffer.append( GiraphUtil.getNodeName(edge.getSource()) );
     stringBuffer.append(TEXT_52);
+    stringBuffer.append( GiraphUtil.getNodeName(edge.getTarget()) );
+    stringBuffer.append(TEXT_53);
+    stringBuffer.append( orderedLhsNodes.indexOf(edge.getSource()) );
+    stringBuffer.append(TEXT_54);
+    stringBuffer.append( orderedLhsNodes.indexOf(edge.getTarget()) );
+    stringBuffer.append(TEXT_55);
       }
     for (Node node : changeInfo.getDeletedNodes()) {
-    stringBuffer.append(TEXT_53);
+    stringBuffer.append(TEXT_56);
     stringBuffer.append( GiraphUtil.getNodeName(node) );
-    stringBuffer.append(TEXT_54);
+    stringBuffer.append(TEXT_57);
     stringBuffer.append( orderedLhsNodes.indexOf(node) );
-    stringBuffer.append(TEXT_55);
+    stringBuffer.append(TEXT_58);
       } 
 
     if (!changeInfo.getCreatedNodes().isEmpty()) {
 
-    stringBuffer.append(TEXT_56);
+    stringBuffer.append(TEXT_59);
     	}
     int n = 0;
     for (Node node : changeInfo.getCreatedNodes()) {
-    stringBuffer.append(TEXT_57);
-    stringBuffer.append( GiraphUtil.getNodeName(node) );
-    stringBuffer.append(TEXT_58);
-    stringBuffer.append( n++ );
-    stringBuffer.append(TEXT_59);
-    stringBuffer.append( typeConstants.get(node.getType()) );
     stringBuffer.append(TEXT_60);
+    stringBuffer.append( GiraphUtil.getNodeName(node) );
+    stringBuffer.append(TEXT_61);
+    stringBuffer.append( n++ );
+    stringBuffer.append(TEXT_62);
+    stringBuffer.append( typeConstants.get(node.getType()) );
+    stringBuffer.append(TEXT_63);
       }
 
     int e = 0;
     for (Edge edge : changeInfo.getCreatedEdges()) { 
-    stringBuffer.append(TEXT_61);
+    stringBuffer.append(TEXT_64);
     stringBuffer.append( GiraphUtil.getNodeName(edge.getSource()) );
-    stringBuffer.append(TEXT_62);
+    stringBuffer.append(TEXT_65);
     stringBuffer.append( GiraphUtil.getNodeName(edge.getTarget()) );
-    stringBuffer.append(TEXT_63);
+    stringBuffer.append(TEXT_66);
     	// THE SOURCE OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { 
-    stringBuffer.append(TEXT_64);
-    stringBuffer.append( changeInfo.getCreatedNodes().indexOf(edge.getSource()) );
-    stringBuffer.append(TEXT_65);
-    stringBuffer.append( e );
-    stringBuffer.append(TEXT_66);
-    	} else { 
     stringBuffer.append(TEXT_67);
-    stringBuffer.append( e );
+    stringBuffer.append( changeInfo.getCreatedNodes().indexOf(edge.getSource()) );
     stringBuffer.append(TEXT_68);
+    stringBuffer.append( e );
+    stringBuffer.append(TEXT_69);
+    	} else { 
+    stringBuffer.append(TEXT_70);
+    stringBuffer.append( e );
+    stringBuffer.append(TEXT_71);
     stringBuffer.append( orderedLhsNodes.indexOf(
                                   rule.getMappings().getOrigin(edge.getSource())) );
-    stringBuffer.append(TEXT_69);
+    stringBuffer.append(TEXT_72);
     	}
 	// THE TARGET OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getTarget())) { 
-    stringBuffer.append(TEXT_70);
-    stringBuffer.append( changeInfo.getCreatedNodes().indexOf(edge.getTarget()) );
-    stringBuffer.append(TEXT_71);
-    stringBuffer.append( e );
-    stringBuffer.append(TEXT_72);
-    	} else { 
     stringBuffer.append(TEXT_73);
-    stringBuffer.append( e );
+    stringBuffer.append( changeInfo.getCreatedNodes().indexOf(edge.getTarget()) );
     stringBuffer.append(TEXT_74);
-    stringBuffer.append( orderedLhsNodes.indexOf(
-                                  rule.getMappings().getOrigin(edge.getTarget())) );
+    stringBuffer.append( e );
     stringBuffer.append(TEXT_75);
-    	} 
+    	} else { 
     stringBuffer.append(TEXT_76);
     stringBuffer.append( e );
     stringBuffer.append(TEXT_77);
-    stringBuffer.append( e );
+    stringBuffer.append( orderedLhsNodes.indexOf(
+                                  rule.getMappings().getOrigin(edge.getTarget())) );
     stringBuffer.append(TEXT_78);
-    stringBuffer.append( typeConstants.get(edge.getType()) );
+    	} 
     stringBuffer.append(TEXT_79);
     stringBuffer.append( e );
     stringBuffer.append(TEXT_80);
     stringBuffer.append( e );
     stringBuffer.append(TEXT_81);
+    stringBuffer.append( typeConstants.get(edge.getType()) );
+    stringBuffer.append(TEXT_82);
+    stringBuffer.append( e );
+    stringBuffer.append(TEXT_83);
+    stringBuffer.append( e );
+    stringBuffer.append(TEXT_84);
       e++;
     } 
-    stringBuffer.append(TEXT_82);
-    stringBuffer.append(TEXT_83);
+    stringBuffer.append(TEXT_85);
+    stringBuffer.append(TEXT_86);
     return stringBuffer.toString();
   }
 }

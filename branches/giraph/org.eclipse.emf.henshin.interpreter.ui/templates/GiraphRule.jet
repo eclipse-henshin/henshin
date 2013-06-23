@@ -107,9 +107,9 @@ for (ENamedElement type : typeConstants.keySet()) {
     long superstep = getSuperstep();
 
     // Log partial matches:
-    LOG.info("Superstep " + superstep + ": current partial matches are...");
+    LOG.info("Executing superstep " + superstep);
     for (BytesWritable match : matches) {
-      LOG.info("  " + matchToString(match));
+      LOG.info("Received partial match: " + matchToString(match));
     }
 
 
@@ -151,12 +151,14 @@ for (ENamedElement type : typeConstants.keySet()) {
 <%= i > 0 ? "  " : ""%>        // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
 <%= i > 0 ? "  " : ""%>        for (Edge<BytesWritable, IntWritable> edge : vertex.getEdges()) {
 <%= i > 0 ? "  " : ""%>          if (edge.getValue().get() == <%= typeConstants.get(step.edge.getType()) %>) {
+<%= i > 0 ? "  " : ""%>            LOG.info("Sending partial match: " + matchToString(match));
 <%= i > 0 ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
 <%= i > 0 ? "  " : ""%>          }
 <%= i > 0 ? "  " : ""%>        }
 <%    } else if (step.sendBackTo >= 0) {%>
           // Send the message back to matches of node <%= GiraphUtil.getNodeName(matchingSteps.get(step.sendBackTo).node) %>:
           for (BytesWritable m : matches) {
+            LOG.info("Sending partial match: " + matchToString(match));
             sendMessage(getMatchVertexId(m, <%= step.sendBackTo %>), match);
           }
 <%    }
@@ -167,18 +169,27 @@ for (ENamedElement type : typeConstants.keySet()) {
 
 <%    }
       if (i == matchingSteps.size()-1) {%>
-
       // Apply rule for all matches:
       for (BytesWritable match : matches) {
         applyRule(vertex, match);
       }
 <%
+      } else {%>
+      // Next vertices are activated by a message, so we sleep:
+      vertex.voteToHalt();
+<%
       }%>
+
     }<% 
+
     } // end for
-%>
-    // Next nodes are activated by a message, so we can put this one to sleep:
-    vertex.voteToHalt();
+
+%> else if (superstep == <%= matchingSteps.size() %>) {
+
+      // Rule application finished. So we halt:
+      vertex.voteToHalt();
+
+    }
 
   }
 
@@ -242,10 +253,7 @@ for (ENamedElement type : typeConstants.keySet()) {
     result[0]++;
     result[d] = (byte) id.length;
     System.arraycopy(id, 0, result, d + 1, id.length);
-    BytesWritable theResult = new BytesWritable(result);
-    LOG.info("Extending match: " + matchToString(match) +
-      " -> " + matchToString(theResult));
-    return theResult;
+    return new BytesWritable(result);
   }
 
   /**
@@ -257,7 +265,7 @@ for (ENamedElement type : typeConstants.keySet()) {
   private void applyRule(Vertex<BytesWritable, IntWritable,
     IntWritable> vertex, BytesWritable match) throws IOException {
 
-    LOG.info("Applying rule <%= className %> with match " + matchToString(match));
+    LOG.info("Applying rule with match " + matchToString(match));
 <%  for (Edge edge : changeInfo.getDeletedEdges()) {%>
 
     // Remove edge <%= GiraphUtil.getNodeName(edge.getSource()) %> -> <%= GiraphUtil.getNodeName(edge.getTarget()) %>:
@@ -316,6 +324,7 @@ for (ENamedElement type : typeConstants.keySet()) {
     addEdgeRequest(src<%= e %>, edge<%= e %>);
 <%  e++;
     } %>
+
   }
 
   /**
