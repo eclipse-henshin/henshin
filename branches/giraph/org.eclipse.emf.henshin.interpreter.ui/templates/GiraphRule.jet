@@ -90,9 +90,9 @@ for (ENamedElement type : typeConstants.keySet()) {
   private static final Logger LOG = Logger.getLogger(<%= className %>.class);
 
   /**
-   * Empty byte array.
+   * Empty match.
    */
-  private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
+  private static final byte[] EMPTY_MATCH = new byte[] { 0 };
 
   /*
    * (non-Javadoc)
@@ -188,15 +188,23 @@ for (ENamedElement type : typeConstants.keySet()) {
    * @return The printed string.
    */
   private static String matchToString(BytesWritable match) {
-    if (match == null) {
-      return "empty";
-    }
-    byte[] bytes = match.getBytes();
+    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;
     StringBuffer r = new StringBuffer();
-    for (int e = 0; e < bytes.length; e++) {
-      r.append(bytes[e] + " ");
+    int d = 1;    
+    for (int i = 0; i < bytes[0]; i++) {
+      r.append("[");
+      for (int j = 1; j <= bytes[d]; j++) {
+        r.append(bytes[d + j]);
+        if (j < bytes[d]) {
+          r.append(",");
+        }
+      }
+      r.append("]");
+      if (i < bytes[0] - 1) {
+        r.append(",");
+      }
     }
-    return r.toString();
+    return "[" + r.toString() + "]";
   }
 
   /**
@@ -208,11 +216,12 @@ for (ENamedElement type : typeConstants.keySet()) {
   private static BytesWritable getMatchVertexId(BytesWritable match,
     int vertexIndex) {
     byte[] bytes = match.getBytes();
-    int d = 0;
+    int d = 1;
     for (int i = 0; i < vertexIndex; i++) {
       d += bytes[d] + 1;
     }
-    return new BytesWritable(Arrays.copyOfRange(bytes, d + 1, bytes[d]));
+    return new BytesWritable(
+      Arrays.copyOfRange(bytes, d + 1, d + 1 + bytes[d]));
   }
 
   /**
@@ -223,14 +232,14 @@ for (ENamedElement type : typeConstants.keySet()) {
    */
   private BytesWritable addMatchVertex(BytesWritable match,
     BytesWritable vertexId) {
-    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_BYTE_ARRAY;
+    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;
     byte[] id = vertexId.getBytes();
-    int superstep = (int) getSuperstep();
-    int d = 0;
-    for (int i = 0; i < superstep; i++) {
+    int d = 1;
+    for (byte i = 0; i < bytes[0]; i++) {
       d += bytes[d] + 1;
     }
     byte[] result = Arrays.copyOf(bytes, d + 1 + id.length);
+    result[0]++;
     result[d] = (byte) id.length;
     System.arraycopy(id, 0, result, d + 1, id.length);
     BytesWritable theResult = new BytesWritable(result);
