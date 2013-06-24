@@ -57,9 +57,11 @@ import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.NotFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.OrFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.XorFormula;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.SolutionFinder;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -552,10 +554,7 @@ public class EngineImpl implements Engine {
 			// Listen to changes:
 			rule.eAdapters().add(ruleListener);
 			
-			for (Node node : rule.getLhs().getNodes()){
-				this.createUserConstraints(ruleInfo, node);
-			}
-			
+	
 			// Check for missing factories:			
 			for (Node node : ruleInfo.getChangeInfo().getCreatedNodes()) {
 				if (node.getType()==null) {
@@ -919,9 +918,19 @@ public class EngineImpl implements Engine {
 
 
   	
-	protected void createUserConstraints(RuleInfo var,Node node){
+	public UnaryConstraint createUserConstraints(Node node){
 		
+		return null;
+	}
+	
+	public BinaryConstraint createUserConstraints(Edge edge){
 		
+		return null;
+	}
+	
+	public UnaryConstraint createUserConstraints(Attribute attribute){
+		
+		return null;
 	}
   
   

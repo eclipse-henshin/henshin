@@ -174,7 +174,7 @@ public class DomainSlot {
 			if (!variable.typeConstraint.check(this)) {
 				return false;
 			}
-
+			
 			// Check the dangling constraints:
 			if (dangling) {
 				for (DanglingConstraint constraint : variable.danglingConstraints) {
@@ -194,14 +194,21 @@ public class DomainSlot {
 				if (!constraint.check(this)) {
 					return false;
 				}
+				UnaryConstraint unaryUserConstraint = variable.attributeUserConstraints.get(constraint);
+				if (unaryUserConstraint != null){
+					if (!unaryUserConstraint.check(this)){
+						return false;
+					}
+				}
 			}
-			
+
 			// Check the containment constraints:
 			for (ContainmentConstraint constraint : variable.containmentConstraints) {
 				DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
 				if (!constraint.check(this, targetSlot)) {
 					return false;
 				}
+
 			}
 			
 			// Check the reference constraints:
@@ -210,11 +217,18 @@ public class DomainSlot {
 				if (!constraint.check(this, target)) {
 					return false;
 				}
+				BinaryConstraint binaryUserConstraint = variable.binaryUserConstraints.get(constraint);
+				if (binaryUserConstraint != null){
+					if (!binaryUserConstraint.check(this, target)){
+						return false;
+					}
+				}
+					
 			}
 			
 			// Check the user constraints:
-			for (UserConstraint constraint : variable.userConstraints){
-				if (!constraint.check(this,variable, domainMap, graph)) {
+			for (UnaryConstraint constraint : variable.userConstraints){
+				if (!constraint.check(this)) {
 					return false;
 				}
 			}
@@ -253,10 +267,6 @@ public class DomainSlot {
 				remoteChangeMap.remove(constraint);
 			}
 		}				
-		
-		for (UserConstraint userConstraint : sender.userConstraints) {
-			userConstraint.unlock(sender,this);
-		}
 		
 		// Unlock the variable:
 		if (locked && sender == owner) {

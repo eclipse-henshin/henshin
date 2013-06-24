@@ -1,0 +1,276 @@
+<%@ jet package="org.eclipse.emf.henshin.interpreter.ui.giraph" class="HenshinUtilTemplate"
+%>
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.giraph.examples;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.giraph.edge.Edge;
+import org.apache.giraph.edge.EdgeFactory;
+import org.apache.giraph.graph.Vertex;
+import org.apache.giraph.io.formats.TextVertexInputFormat;
+import org.apache.giraph.io.formats.TextVertexOutputFormat;
+import org.apache.hadoop.io.BytesWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.InputSplit;
+import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import com.google.common.collect.Lists;
+
+/**
+ * Henshin utility classes and methods.
+ */
+public class HenshinUtil {
+
+  /**
+   * Private constructor.
+   */
+  private HenshinUtil() {
+    // Prevent instantiation
+  }
+
+  /**
+   * Henshin data.
+   */
+  public static class Bytes extends BytesWritable {
+
+    /**
+     * Default constructor.
+     */
+    public Bytes() {
+      super();
+    }
+
+    /**
+     * Extra constructor.
+     * @param data The data.
+     */
+    public Bytes(byte[] data) {
+      super(data);
+    }
+
+    /**
+     * Set the size.
+     * @param size The new size.
+     */
+    @Override
+    public void setSize(int size) {
+      boolean resize = size > getCapacity();
+      super.setSize(size);
+      if (resize) {
+        setCapacity(size);
+      }
+    }
+  }
+
+  /**
+   * Henshin input format.
+   */
+  public static class HenshinInputFormat extends
+    TextVertexInputFormat<Bytes, IntWritable, IntWritable> {
+
+    @Override
+    public TextVertexReader createVertexReader(InputSplit split,
+      TaskAttemptContext context) {
+      return new HenshinInputReader();
+    }
+
+    /**
+     * Henshin input reader.
+     */
+    class HenshinInputReader extends
+      TextVertexReaderFromEachLineProcessedHandlingExceptions<JSONArray,
+        JSONException> {
+
+      @Override
+      protected JSONArray preprocessLine(Text line) throws JSONException {
+        return new JSONArray(line.toString());
+      }
+
+      @Override
+      protected Bytes getId(JSONArray jsonVertex)
+        throws JSONException, IOException {
+        return jsonArrayToBytes(jsonVertex.getJSONArray(0));
+      }
+
+      /**
+       * Convert a JSON array to a Bytes object.
+       * @param jsonArray The JSON array to be converted.
+       * @return The corresponding Bytes.
+       */
+      private Bytes jsonArrayToBytes(JSONArray jsonArray)
+        throws JSONException {
+        byte[] bytes = new byte[jsonArray.length()];
+        for (int i = 0; i < bytes.length; i++) {
+          bytes[i] = (byte) jsonArray.getInt(i);
+        }
+        return new Bytes(bytes);
+      }
+
+      @Override
+      protected IntWritable getValue(JSONArray jsonVertex)
+        throws JSONException, IOException {
+        return new IntWritable(jsonVertex.getInt(1));
+      }
+
+      @Override
+      protected Iterable<Edge<Bytes, IntWritable>> getEdges(
+        JSONArray jsonVertex) throws JSONException, IOException {
+        JSONArray jsonEdgeArray = jsonVertex.getJSONArray(2);
+        List<Edge<Bytes, IntWritable>> edges =
+          Lists.newArrayListWithCapacity(jsonEdgeArray.length());
+        for (int i = 0; i < jsonEdgeArray.length(); ++i) {
+          JSONArray jsonEdge = jsonEdgeArray.getJSONArray(i);
+          edges.add(EdgeFactory.create(jsonArrayToBytes(
+            jsonEdge.getJSONArray(0)), new IntWritable(jsonEdge.getInt(1))));
+        }
+        return edges;
+      }
+
+      @Override
+      protected Vertex<Bytes, IntWritable, IntWritable>
+      handleException(Text line, JSONArray jsonVertex, JSONException e) {
+        throw new IllegalArgumentException(
+          "Couldn't get vertex from line " + line, e);
+      }
+    }
+  }
+
+  /**
+   * Henshin output format.
+   */
+  public static class HenshinOutputFormat extends
+    TextVertexOutputFormat<Bytes, IntWritable, IntWritable> {
+
+    @Override
+    public TextVertexWriter createVertexWriter(TaskAttemptContext context)
+      throws IOException, InterruptedException {
+      return new HenshinOutputWriter();
+    }
+
+    /**
+     * Henshin output writer.
+     */
+    class HenshinOutputWriter extends TextVertexWriterToEachLine {
+
+      @Override
+      protected Text convertVertexToLine(
+        Vertex<Bytes, IntWritable, IntWritable> vertex)
+        throws IOException {
+
+        JSONArray vertexArray = new JSONArray();
+        JSONArray idArray = new JSONArray();
+        byte[] id = vertex.getId().getBytes();
+        for (int i = 0; i < id.length; i++) {
+          idArray.put(id[i]);
+        }
+        vertexArray.put(idArray);
+        vertexArray.put(vertex.getValue().get());
+        JSONArray allEdgesArray = new JSONArray();
+        for (Edge<Bytes, IntWritable> edge : vertex.getEdges()) {
+          JSONArray edgeArray = new JSONArray();
+          JSONArray targetIdArray = new JSONArray();
+          byte[] targetId = edge.getTargetVertexId().getBytes();
+          for (int i = 0; i < targetId.length; i++) {
+            targetIdArray.put(targetId[i]);
+          }
+          edgeArray.put(targetIdArray);
+          edgeArray.put(edge.getValue().get());
+          allEdgesArray.put(edgeArray);
+        }
+        vertexArray.put(allEdgesArray);
+        return new Text(vertexArray.toString());
+      }
+    }
+  }
+
+  /**
+   * Empty match.
+   */
+  private static final byte[] EMPTY_MATCH = new byte[] { 0 };
+
+  /**
+   * Pretty-print a match.
+   * @param match The Match to be printed.
+   * @return The printed string.
+   */
+  public static String matchToString(Bytes match) {
+    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;
+    StringBuffer r = new StringBuffer();
+    int d = 1;
+    for (int i = 0; i < bytes[0]; i++) {
+      r.append("[");
+      for (int j = 1; j <= bytes[d]; j++) {
+        r.append(bytes[d + j]);
+        if (j < bytes[d]) {
+          r.append(",");
+        }
+      }
+      r.append("]");
+      if (i < bytes[0] - 1) {
+        r.append(",");
+      }
+    }
+    return "[" + r.toString() + "]";
+  }
+
+  /**
+   * Get the vertex ID of a matched node.
+   * @param match The match oject.
+   * @param vertexIndex Index of the next vertex.
+   * @return The vertex ID.
+   */
+  public static Bytes getMatchVertexId(Bytes match,
+    int vertexIndex) {
+    byte[] bytes = match.getBytes();
+    int d = 1;
+    for (int i = 0; i < vertexIndex; i++) {
+      d += bytes[d] + 1;
+    }
+    return new Bytes(
+      Arrays.copyOfRange(bytes, d + 1, d + 1 + bytes[d]));
+  }
+
+  /**
+   * Extend a partial match.
+   * @param match The match object.
+   * @param vertexId The ID of the next matched vertex.
+   * @return The extended match object.
+   */
+  public static Bytes addMatchVertex(Bytes match,
+    Bytes vertexId) {
+    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;
+    byte[] id = vertexId.getBytes();
+    int d = 1;
+    for (byte i = 0; i < bytes[0]; i++) {
+      d += bytes[d] + 1;
+    }
+    byte[] result = Arrays.copyOf(bytes, d + 1 + id.length);
+    result[0]++;
+    result[d] = (byte) id.length;
+    System.arraycopy(id, 0, result, d + 1, id.length);
+    return new Bytes(result);
+  }
+
+}

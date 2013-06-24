@@ -57,6 +57,15 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 					javaRuleFile.create(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
 				}
 
+				// Data code:
+				String dataCode = new HenshinUtilTemplate().generate(null);
+				IFile javaDataFile = container.getFile(new Path("HenshinUtil.java"));
+				if (javaDataFile.exists()) {
+					javaDataFile.setContents(new ByteArrayInputStream(dataCode.getBytes()), IResource.FORCE, null);
+				} else {
+					javaDataFile.create(new ByteArrayInputStream(dataCode.getBytes()), IResource.FORCE, null);
+				}
+
 				// Instance code:
 				String instanceCode = getInstanceCode(rule);
 				IFile jsonFile = container.getFile(new Path(className + ".json"));

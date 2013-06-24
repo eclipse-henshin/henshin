@@ -20,9 +20,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
@@ -126,6 +128,12 @@ public class VariableInfo {
 	private void createConstraints(Node node) {
 		Variable var = node2variable.get(node);
 		
+		UnaryConstraint userConstraint = engine.createUserConstraints(node);
+		if (userConstraint != null){
+			
+			var.userConstraints.add(userConstraint);
+		}
+		
 		// Outgoing edges:
 		for (Edge edge : node.getOutgoing()) {
 			Variable target = node2variable.get(edge.getTarget());
@@ -147,6 +155,11 @@ public class VariableInfo {
 				constraint = new ReferenceConstraint(target, edge.getType(), null, true);
 			}
 			var.referenceConstraints.add(constraint);
+			BinaryConstraint binaryUserConstraint = engine.createUserConstraints(edge);
+			if (binaryUserConstraint != null){
+				var.binaryUserConstraints.put(constraint, binaryUserConstraint);
+			}
+			
 		}
 		
 		// Incoming edges:
@@ -169,6 +182,10 @@ public class VariableInfo {
 				constraint = new AttributeConstraint(attribute.getType(), constant, true);
 			}
 			var.attributeConstraints.add(constraint);
+			UnaryConstraint unaryUserConstraint = engine.createUserConstraints(attribute);
+			if (unaryUserConstraint != null){
+				var.attributeUserConstraints.put(constraint, unaryUserConstraint);
+			}
 		}
 		
 	}
