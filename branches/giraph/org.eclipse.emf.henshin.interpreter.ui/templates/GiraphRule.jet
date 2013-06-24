@@ -107,7 +107,14 @@ for (ENamedElement type : data.typeConstants.keySet()) {
       Vertex<HenshinUtil.VertexId, IntWritable, IntWritable> vertex,
       Iterable<HenshinUtil.Match> matches) throws IOException {
 
+    // Get the current superstep:
     long superstep = getSuperstep();
+
+    // Check if we should we stop:
+    if (superstep >= applicationCount * <%= data.matchingSteps.size() %>) {
+      vertex.voteToHalt();
+      return;
+    }
 
     // Log partial matches:
     LOG.info("Executing superstep " + superstep);
@@ -119,7 +126,7 @@ for (ENamedElement type : data.typeConstants.keySet()) {
 <% 
     for (int i=0; i<data.matchingSteps.size(); i++) {
       GiraphRuleData.MatchingStep step = data.matchingSteps.get(i);
-%><%= i>0 ? " else" : "   " %> if (superstep == <%= i %>) {
+%><%= i>0 ? " else" : "   " %> if (superstep % <%= data.matchingSteps.size() %> == <%= i %>) {
 
 <%    if (step.verifyEdgeTo >= 0) {%>
       // Node <%= data.getNodeName(step.edge.getSource()) %>: check for edge to match of <%= data.getNodeName(step.edge.getTarget()) %> of type "<%= step.edge.getType().getName() %>":
@@ -181,8 +188,10 @@ for (ENamedElement type : data.typeConstants.keySet()) {
       }
 <%
       } else {%>
-      // Next vertices are activated by a message, so we sleep:
-      vertex.voteToHalt();
+      // In the last iteration the vertex can be made inactive:
+      if (superstep / <%= data.matchingSteps.size() %> == applicationCount - 1) {
+        vertex.voteToHalt();
+      }
 <%
       }%>
 
@@ -190,12 +199,7 @@ for (ENamedElement type : data.typeConstants.keySet()) {
 
     } // end for
 
-%> else if (superstep == <%= data.matchingSteps.size() %>) {
-
-      // Rule application finished. So we halt:
-      vertex.voteToHalt();
-
-    }
+%>
 
   }
 
