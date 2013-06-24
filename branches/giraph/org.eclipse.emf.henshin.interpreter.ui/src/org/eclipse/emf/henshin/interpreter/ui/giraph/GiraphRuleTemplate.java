@@ -3,8 +3,6 @@ package org.eclipse.emf.henshin.interpreter.ui.giraph;
 import java.util.*;
 import org.eclipse.emf.henshin.model.*;
 import org.eclipse.emf.henshin.interpreter.info.*;
-import org.eclipse.emf.henshin.interpreter.ui.giraph.GiraphUtil;
-import org.eclipse.emf.henshin.interpreter.ui.giraph.GiraphUtil.MatchingStep;
 import org.eclipse.emf.ecore.*;
 
 public class GiraphRuleTemplate
@@ -22,32 +20,32 @@ public class GiraphRuleTemplate
   protected final String TEXT_1 = "/*" + NL + " * Licensed to the Apache Software Foundation (ASF) under one" + NL + " * or more contributor license agreements.  See the NOTICE file" + NL + " * distributed with this work for additional information" + NL + " * regarding copyright ownership.  The ASF licenses this file" + NL + " * to you under the Apache License, Version 2.0 (the" + NL + " * \"License\"); you may not use this file except in compliance" + NL + " * with the License.  You may obtain a copy of the License at" + NL + " *" + NL + " *     http://www.apache.org/licenses/LICENSE-2.0" + NL + " *" + NL + " * Unless required by applicable law or agreed to in writing, software" + NL + " * distributed under the License is distributed on an \"AS IS\" BASIS," + NL + " * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied." + NL + " * See the License for the specific language governing permissions and" + NL + " * limitations under the License." + NL + " */" + NL + "package org.apache.giraph.examples;" + NL + "" + NL + "import java.io.IOException;" + NL + "import java.util.Arrays;" + NL + "import java.util.Iterator;" + NL + "import java.util.List;" + NL + "import java.util.ArrayList;" + NL + "" + NL + "import org.apache.giraph.edge.Edge;" + NL + "import org.apache.giraph.edge.EdgeFactory;" + NL + "import org.apache.giraph.graph.BasicComputation;" + NL + "import org.apache.giraph.graph.Vertex;" + NL + "import org.apache.hadoop.io.IntWritable;" + NL + "import org.apache.log4j.Logger;" + NL + "" + NL + "/**" + NL + " * Generated implementation of the Henshin rule \"";
   protected final String TEXT_2 = "\"." + NL + " */" + NL + "@Algorithm(" + NL + "    name = \"";
   protected final String TEXT_3 = "\"" + NL + ")" + NL + "public class ";
-  protected final String TEXT_4 = " extends" + NL + "  BasicComputation<HenshinUtil.Bytes, IntWritable," + NL + "  IntWritable, HenshinUtil.Bytes> {";
+  protected final String TEXT_4 = " extends" + NL + "  BasicComputation<HenshinUtil.VertexId, IntWritable," + NL + "  IntWritable, HenshinUtil.Match> {" + NL + "" + NL + "  /**" + NL + "   * Default number of applications of this rule." + NL + "   */" + NL + "  public static final int DEFAULT_APPLICATION_COUNT = 1;";
   protected final String TEXT_5 = NL + NL + "  /**" + NL + "   * Type constant for \"";
   protected final String TEXT_6 = "\"." + NL + "   */" + NL + "  public static final int ";
   protected final String TEXT_7 = " = ";
   protected final String TEXT_8 = ";";
   protected final String TEXT_9 = NL + NL + "  /**" + NL + "   * Logging support." + NL + "   */" + NL + "  private static final Logger LOG = Logger.getLogger(";
-  protected final String TEXT_10 = ".class);" + NL + "" + NL + "  /*" + NL + "   * (non-Javadoc)" + NL + "   * @see org.apache.giraph.graph.Computation#compute(" + NL + "   *        org.apache.giraph.graph.Vertex, java.lang.Iterable)" + NL + "   */" + NL + "  @Override" + NL + "  public void compute(" + NL + "      Vertex<HenshinUtil.Bytes, IntWritable, IntWritable> vertex," + NL + "      Iterable<HenshinUtil.Bytes> matches) throws IOException {" + NL + "" + NL + "    long superstep = getSuperstep();" + NL + "" + NL + "    // Log partial matches:" + NL + "    LOG.info(\"Executing superstep \" + superstep);" + NL + "    for (HenshinUtil.Bytes match : matches) {" + NL + "      LOG.info(\"Received partial match: \" + HenshinUtil.matchToString(match));" + NL + "    }" + NL + NL;
+  protected final String TEXT_10 = ".class);" + NL + "" + NL + "  /**" + NL + "   * Number of applications of this rule." + NL + "   */" + NL + "  private int applicationCount = DEFAULT_APPLICATION_COUNT;" + NL + "" + NL + "  /**" + NL + "   * Get the number of application to be executed for this rule." + NL + "   * @return the number of rule applications." + NL + "   */" + NL + "  public int getApplicationCount() {" + NL + "    return applicationCount;" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Set the number of application to be executed for this rule." + NL + "   * @param applicationCount The new number of rule applications." + NL + "   */" + NL + "  public void setApplicationCount(int applicationCount) {" + NL + "    this.applicationCount = applicationCount;" + NL + "  }" + NL + "" + NL + "  /*" + NL + "   * (non-Javadoc)" + NL + "   * @see org.apache.giraph.graph.Computation#compute(" + NL + "   *        org.apache.giraph.graph.Vertex, java.lang.Iterable)" + NL + "   */" + NL + "  @Override" + NL + "  public void compute(" + NL + "      Vertex<HenshinUtil.VertexId, IntWritable, IntWritable> vertex," + NL + "      Iterable<HenshinUtil.Match> matches) throws IOException {" + NL + "" + NL + "    long superstep = getSuperstep();" + NL + "" + NL + "    // Log partial matches:" + NL + "    LOG.info(\"Executing superstep \" + superstep);" + NL + "    for (HenshinUtil.Match match : matches) {" + NL + "      LOG.info(\"Received partial match: \" + HenshinUtil.matchToString(match));" + NL + "    }" + NL + NL;
   protected final String TEXT_11 = " if (superstep == ";
   protected final String TEXT_12 = ") {" + NL;
   protected final String TEXT_13 = NL + "      // Node ";
   protected final String TEXT_14 = ": check for edge to match of ";
   protected final String TEXT_15 = " of type \"";
-  protected final String TEXT_16 = "\":" + NL + "      List<HenshinUtil.Bytes> validMatches = new ArrayList<HenshinUtil.Bytes>();" + NL + "      Iterator<HenshinUtil.Bytes> it = matches.iterator();" + NL + "      while (it.hasNext()) {" + NL + "        HenshinUtil.Bytes match = it.next();" + NL + "        HenshinUtil.Bytes targetId = HenshinUtil.getMatchVertexId(match, ";
-  protected final String TEXT_17 = ");" + NL + "        for (Edge<HenshinUtil.Bytes, IntWritable> edge : vertex.getEdges()) {" + NL + "          if (edge.getValue().get() == ";
+  protected final String TEXT_16 = "\":" + NL + "      List<HenshinUtil.Match> validMatches = new ArrayList<HenshinUtil.Match>();" + NL + "      Iterator<HenshinUtil.Match> it = matches.iterator();" + NL + "      while (it.hasNext()) {" + NL + "        HenshinUtil.Match match = it.next();" + NL + "        HenshinUtil.VertexId targetId = HenshinUtil.getMatchVertexId(match, ";
+  protected final String TEXT_17 = ");" + NL + "        for (Edge<HenshinUtil.VertexId, IntWritable> edge : vertex.getEdges()) {" + NL + "          if (edge.getValue().get() == ";
   protected final String TEXT_18 = " &&" + NL + "              edge.getTargetVertexId().equals(targetId)) {" + NL + "            validMatches.add(match);" + NL + "            break;" + NL + "          }" + NL + "        }" + NL + "      }" + NL + "      matches = validMatches;" + NL;
   protected final String TEXT_19 = NL + "      // Matching node ";
   protected final String TEXT_20 = ". Type must be \"";
   protected final String TEXT_21 = "\":" + NL + "      boolean ok = vertex.getValue().get() == ";
   protected final String TEXT_22 = ";" + NL + "      if (ok) {";
-  protected final String TEXT_23 = NL + "        // Create a new partial match:" + NL + "        HenshinUtil.Bytes match =" + NL + "          HenshinUtil.addMatchVertex(null, vertex.getId());";
-  protected final String TEXT_24 = NL + "        // Extend all partial matches:" + NL + "        for (HenshinUtil.Bytes match : matches) {" + NL + "          match = HenshinUtil.addMatchVertex(match, vertex.getId());";
+  protected final String TEXT_23 = NL + "        // Create a new partial match:" + NL + "        HenshinUtil.Match match =" + NL + "          HenshinUtil.addMatchVertex(null, vertex.getId());";
+  protected final String TEXT_24 = NL + "        // Extend all partial matches:" + NL + "        for (HenshinUtil.Match match : matches) {" + NL + "          match = HenshinUtil.addMatchVertex(match, vertex.getId());";
   protected final String TEXT_25 = NL;
   protected final String TEXT_26 = "        // Send a match request to all outgoing edges of type \"";
   protected final String TEXT_27 = "\":";
   protected final String TEXT_28 = NL;
-  protected final String TEXT_29 = "        for (Edge<HenshinUtil.Bytes, IntWritable> edge : vertex.getEdges()) {";
+  protected final String TEXT_29 = "        for (Edge<HenshinUtil.VertexId, IntWritable> edge : vertex.getEdges()) {";
   protected final String TEXT_30 = NL;
   protected final String TEXT_31 = "          if (edge.getValue().get() == ";
   protected final String TEXT_32 = ") {";
@@ -62,15 +60,15 @@ public class GiraphRuleTemplate
   protected final String TEXT_41 = NL;
   protected final String TEXT_42 = "        }";
   protected final String TEXT_43 = NL + "          // Send the message back to matches of node ";
-  protected final String TEXT_44 = ":" + NL + "          for (HenshinUtil.Bytes m : matches) {" + NL + "            LOG.info(\"Sending partial match: \" +" + NL + "              HenshinUtil.matchToString(match));" + NL + "            sendMessage(HenshinUtil.getMatchVertexId(m, ";
+  protected final String TEXT_44 = ":" + NL + "          for (HenshinUtil.Match m : matches) {" + NL + "            LOG.info(\"Sending partial match: \" +" + NL + "              HenshinUtil.matchToString(match));" + NL + "            sendMessage(HenshinUtil.getMatchVertexId(m, ";
   protected final String TEXT_45 = "), match);" + NL + "          }";
   protected final String TEXT_46 = NL + "        }";
   protected final String TEXT_47 = NL + "      } // end if ok" + NL;
-  protected final String TEXT_48 = NL + "      // Apply rule for all matches:" + NL + "      for (HenshinUtil.Bytes match : matches) {" + NL + "        applyRule(vertex, match);" + NL + "      }";
+  protected final String TEXT_48 = NL + "      // Apply rule for all matches:" + NL + "      for (HenshinUtil.Match match : matches) {" + NL + "        applyRule(vertex, match);" + NL + "      }";
   protected final String TEXT_49 = NL + "      // Next vertices are activated by a message, so we sleep:" + NL + "      vertex.voteToHalt();";
   protected final String TEXT_50 = NL + NL + "    }";
   protected final String TEXT_51 = " else if (superstep == ";
-  protected final String TEXT_52 = ") {" + NL + "" + NL + "      // Rule application finished. So we halt:" + NL + "      vertex.voteToHalt();" + NL + "" + NL + "    }" + NL + "" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Apply the rule to a given match." + NL + "   * @param vertex The base vertex." + NL + "   * @param match The match object." + NL + "   * @throws IOException On I/O errors." + NL + "   */" + NL + "  private void applyRule(Vertex<HenshinUtil.Bytes, IntWritable," + NL + "    IntWritable> vertex, HenshinUtil.Bytes match) throws IOException {" + NL + "" + NL + "    LOG.info(\"Applying rule with match \" + HenshinUtil.matchToString(match));";
+  protected final String TEXT_52 = ") {" + NL + "" + NL + "      // Rule application finished. So we halt:" + NL + "      vertex.voteToHalt();" + NL + "" + NL + "    }" + NL + "" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Apply the rule to a given match." + NL + "   * @param vertex The base vertex." + NL + "   * @param match The match object." + NL + "   * @throws IOException On I/O errors." + NL + "   */" + NL + "  private void applyRule(Vertex<HenshinUtil.VertexId, IntWritable," + NL + "    IntWritable> vertex, HenshinUtil.Match match) throws IOException {" + NL + "" + NL + "    LOG.info(\"Applying rule with match \" + HenshinUtil.matchToString(match));";
   protected final String TEXT_53 = NL + NL + "    // Remove edge ";
   protected final String TEXT_54 = " -> ";
   protected final String TEXT_55 = ":" + NL + "    removeEdgesRequest(" + NL + "      HenshinUtil.getMatchVertexId(match, ";
@@ -82,24 +80,24 @@ public class GiraphRuleTemplate
   protected final String TEXT_61 = NL + "    byte[] thisVertexId = vertex.getId().getBytes();" + NL + "    byte[] newVertexId;";
   protected final String TEXT_62 = NL + NL + "    // Create vertex ";
   protected final String TEXT_63 = ":" + NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
-  protected final String TEXT_64 = ";" + NL + "    addVertexRequest(new HenshinUtil.Bytes(newVertexId)," + NL + "      new IntWritable(";
+  protected final String TEXT_64 = ";" + NL + "    addVertexRequest(new HenshinUtil.VertexId(newVertexId)," + NL + "      new IntWritable(";
   protected final String TEXT_65 = "));";
   protected final String TEXT_66 = NL + NL + "    // Create edge ";
   protected final String TEXT_67 = " -> ";
   protected final String TEXT_68 = ":";
   protected final String TEXT_69 = NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
-  protected final String TEXT_70 = ";" + NL + "    HenshinUtil.Bytes src";
-  protected final String TEXT_71 = " = new HenshinUtil.Bytes(newVertexId);";
-  protected final String TEXT_72 = NL + "    HenshinUtil.Bytes src";
+  protected final String TEXT_70 = ";" + NL + "    HenshinUtil.VertexId src";
+  protected final String TEXT_71 = " = new HenshinUtil.VertexId(newVertexId);";
+  protected final String TEXT_72 = NL + "    HenshinUtil.VertexId src";
   protected final String TEXT_73 = " = HenshinUtil.getMatchVertexId(match, ";
   protected final String TEXT_74 = ");";
   protected final String TEXT_75 = NL + "    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);" + NL + "    newVertexId[newVertexId.length - 1] = ";
-  protected final String TEXT_76 = ";" + NL + "    HenshinUtil.Bytes trg";
-  protected final String TEXT_77 = " = new HenshinUtil.Bytes(newVertexId);";
-  protected final String TEXT_78 = NL + "    HenshinUtil.Bytes trg";
+  protected final String TEXT_76 = ";" + NL + "    HenshinUtil.VertexId trg";
+  protected final String TEXT_77 = " = new HenshinUtil.VertexId(newVertexId);";
+  protected final String TEXT_78 = NL + "    HenshinUtil.VertexId trg";
   protected final String TEXT_79 = " = HenshinUtil.getMatchVertexId(match, ";
   protected final String TEXT_80 = ");";
-  protected final String TEXT_81 = NL + "    Edge<HenshinUtil.Bytes, IntWritable> edge";
+  protected final String TEXT_81 = NL + "    Edge<HenshinUtil.VertexId, IntWritable> edge";
   protected final String TEXT_82 = " =" + NL + "      EdgeFactory.create(trg";
   protected final String TEXT_83 = ", new IntWritable(";
   protected final String TEXT_84 = "));" + NL + "    addEdgeRequest(src";
@@ -116,37 +114,28 @@ public class GiraphRuleTemplate
 @SuppressWarnings("unchecked")
 Map<String,Object> args = (Map<String,Object>) argument;
 
-Rule rule = (Rule) args.get("rule");
-RuleChangeInfo changeInfo = new RuleChangeInfo(rule);
+GiraphRuleData data = (GiraphRuleData) args.get("data");
+
+RuleChangeInfo changeInfo = new RuleChangeInfo(data.rule);
 
 String className = (String) args.get("className");
 
-Map<ENamedElement,String> typeConstants = GiraphUtil.getTypeConstants(rule.getModule());
-List<MatchingStep> matchingSteps = GiraphUtil.getMatchingSteps(rule);
-
-List<Node> orderedLhsNodes = new ArrayList<Node>();
-for (MatchingStep step : matchingSteps) {
-  if (step.node!=null && !orderedLhsNodes.contains(step.node)) {
-    orderedLhsNodes.add(step.node);
-  }
-}
-
 
     stringBuffer.append(TEXT_1);
-    stringBuffer.append( rule.getName() );
+    stringBuffer.append( data.rule.getName() );
     stringBuffer.append(TEXT_2);
-    stringBuffer.append( rule.getName() );
+    stringBuffer.append( data.rule.getName() );
     stringBuffer.append(TEXT_3);
     stringBuffer.append( className );
     stringBuffer.append(TEXT_4);
     
 int value = 0;
-for (ENamedElement type : typeConstants.keySet()) {
+for (ENamedElement type : data.typeConstants.keySet()) {
   
     stringBuffer.append(TEXT_5);
     stringBuffer.append( type.getName() );
     stringBuffer.append(TEXT_6);
-    stringBuffer.append( typeConstants.get(type) );
+    stringBuffer.append( data.typeConstants.get(type) );
     stringBuffer.append(TEXT_7);
     stringBuffer.append( value++ );
     stringBuffer.append(TEXT_8);
@@ -157,8 +146,8 @@ for (ENamedElement type : typeConstants.keySet()) {
     stringBuffer.append( className );
     stringBuffer.append(TEXT_10);
      
-    for (int i=0; i<matchingSteps.size(); i++) {
-      MatchingStep step = matchingSteps.get(i);
+    for (int i=0; i<data.matchingSteps.size(); i++) {
+      GiraphRuleData.MatchingStep step = data.matchingSteps.get(i);
 
     stringBuffer.append( i>0 ? " else" : "   " );
     stringBuffer.append(TEXT_11);
@@ -166,23 +155,23 @@ for (ENamedElement type : typeConstants.keySet()) {
     stringBuffer.append(TEXT_12);
         if (step.verifyEdgeTo >= 0) {
     stringBuffer.append(TEXT_13);
-    stringBuffer.append( GiraphUtil.getNodeName(step.edge.getSource()) );
+    stringBuffer.append( data.getNodeName(step.edge.getSource()) );
     stringBuffer.append(TEXT_14);
-    stringBuffer.append( GiraphUtil.getNodeName(step.edge.getTarget()) );
+    stringBuffer.append( data.getNodeName(step.edge.getTarget()) );
     stringBuffer.append(TEXT_15);
     stringBuffer.append( step.edge.getType().getName() );
     stringBuffer.append(TEXT_16);
     stringBuffer.append( step.verifyEdgeTo );
     stringBuffer.append(TEXT_17);
-    stringBuffer.append( typeConstants.get(step.edge.getType()) );
+    stringBuffer.append( data.typeConstants.get(step.edge.getType()) );
     stringBuffer.append(TEXT_18);
         } else {
     stringBuffer.append(TEXT_19);
-    stringBuffer.append( GiraphUtil.getNodeName(step.node) );
+    stringBuffer.append( data.getNodeName(step.node) );
     stringBuffer.append(TEXT_20);
     stringBuffer.append( step.node.getType().getName() );
     stringBuffer.append(TEXT_21);
-    stringBuffer.append( typeConstants.get(step.node.getType()) );
+    stringBuffer.append( data.typeConstants.get(step.node.getType()) );
     stringBuffer.append(TEXT_22);
         if (i == 0) {
     stringBuffer.append(TEXT_23);
@@ -201,7 +190,7 @@ for (ENamedElement type : typeConstants.keySet()) {
     stringBuffer.append(TEXT_30);
     stringBuffer.append( i > 0 ? "  " : "");
     stringBuffer.append(TEXT_31);
-    stringBuffer.append( typeConstants.get(step.edge.getType()) );
+    stringBuffer.append( data.typeConstants.get(step.edge.getType()) );
     stringBuffer.append(TEXT_32);
     stringBuffer.append(TEXT_33);
     stringBuffer.append( i > 0 ? "  " : "");
@@ -220,7 +209,7 @@ for (ENamedElement type : typeConstants.keySet()) {
     stringBuffer.append(TEXT_42);
         } else if (step.sendBackTo >= 0) {
     stringBuffer.append(TEXT_43);
-    stringBuffer.append( GiraphUtil.getNodeName(matchingSteps.get(step.sendBackTo).node) );
+    stringBuffer.append( data.getNodeName(data.matchingSteps.get(step.sendBackTo).node) );
     stringBuffer.append(TEXT_44);
     stringBuffer.append( step.sendBackTo );
     stringBuffer.append(TEXT_45);
@@ -231,7 +220,7 @@ for (ENamedElement type : typeConstants.keySet()) {
        }
     stringBuffer.append(TEXT_47);
         }
-      if (i == matchingSteps.size()-1) {
+      if (i == data.matchingSteps.size()-1) {
     stringBuffer.append(TEXT_48);
     
       } else {
@@ -245,24 +234,24 @@ for (ENamedElement type : typeConstants.keySet()) {
 
 
     stringBuffer.append(TEXT_51);
-    stringBuffer.append( matchingSteps.size() );
+    stringBuffer.append( data.matchingSteps.size() );
     stringBuffer.append(TEXT_52);
       for (Edge edge : changeInfo.getDeletedEdges()) {
     stringBuffer.append(TEXT_53);
-    stringBuffer.append( GiraphUtil.getNodeName(edge.getSource()) );
+    stringBuffer.append( data.getNodeName(edge.getSource()) );
     stringBuffer.append(TEXT_54);
-    stringBuffer.append( GiraphUtil.getNodeName(edge.getTarget()) );
+    stringBuffer.append( data.getNodeName(edge.getTarget()) );
     stringBuffer.append(TEXT_55);
-    stringBuffer.append( orderedLhsNodes.indexOf(edge.getSource()) );
+    stringBuffer.append( data.orderedLhsNodes.indexOf(edge.getSource()) );
     stringBuffer.append(TEXT_56);
-    stringBuffer.append( orderedLhsNodes.indexOf(edge.getTarget()) );
+    stringBuffer.append( data.orderedLhsNodes.indexOf(edge.getTarget()) );
     stringBuffer.append(TEXT_57);
       }
     for (Node node : changeInfo.getDeletedNodes()) {
     stringBuffer.append(TEXT_58);
-    stringBuffer.append( GiraphUtil.getNodeName(node) );
+    stringBuffer.append( data.getNodeName(node) );
     stringBuffer.append(TEXT_59);
-    stringBuffer.append( orderedLhsNodes.indexOf(node) );
+    stringBuffer.append( data.orderedLhsNodes.indexOf(node) );
     stringBuffer.append(TEXT_60);
       } 
 
@@ -273,20 +262,20 @@ for (ENamedElement type : typeConstants.keySet()) {
     int n = 0;
     for (Node node : changeInfo.getCreatedNodes()) {
     stringBuffer.append(TEXT_62);
-    stringBuffer.append( GiraphUtil.getNodeName(node) );
+    stringBuffer.append( data.getNodeName(node) );
     stringBuffer.append(TEXT_63);
     stringBuffer.append( n++ );
     stringBuffer.append(TEXT_64);
-    stringBuffer.append( typeConstants.get(node.getType()) );
+    stringBuffer.append( data.typeConstants.get(node.getType()) );
     stringBuffer.append(TEXT_65);
       }
 
     int e = 0;
     for (Edge edge : changeInfo.getCreatedEdges()) { 
     stringBuffer.append(TEXT_66);
-    stringBuffer.append( GiraphUtil.getNodeName(edge.getSource()) );
+    stringBuffer.append( data.getNodeName(edge.getSource()) );
     stringBuffer.append(TEXT_67);
-    stringBuffer.append( GiraphUtil.getNodeName(edge.getTarget()) );
+    stringBuffer.append( data.getNodeName(edge.getTarget()) );
     stringBuffer.append(TEXT_68);
     	// THE SOURCE OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { 
@@ -299,8 +288,8 @@ for (ENamedElement type : typeConstants.keySet()) {
     stringBuffer.append(TEXT_72);
     stringBuffer.append( e );
     stringBuffer.append(TEXT_73);
-    stringBuffer.append( orderedLhsNodes.indexOf(
-                                  rule.getMappings().getOrigin(edge.getSource())) );
+    stringBuffer.append( data.orderedLhsNodes.indexOf(
+                              data.rule.getMappings().getOrigin(edge.getSource())) );
     stringBuffer.append(TEXT_74);
     	}
 	// THE TARGET OF THE NEW EDGE:
@@ -314,8 +303,8 @@ for (ENamedElement type : typeConstants.keySet()) {
     stringBuffer.append(TEXT_78);
     stringBuffer.append( e );
     stringBuffer.append(TEXT_79);
-    stringBuffer.append( orderedLhsNodes.indexOf(
-                                  rule.getMappings().getOrigin(edge.getTarget())) );
+    stringBuffer.append( data.orderedLhsNodes.indexOf(
+                              data.rule.getMappings().getOrigin(edge.getTarget())) );
     stringBuffer.append(TEXT_80);
     	} 
     stringBuffer.append(TEXT_81);
@@ -323,7 +312,7 @@ for (ENamedElement type : typeConstants.keySet()) {
     stringBuffer.append(TEXT_82);
     stringBuffer.append( e );
     stringBuffer.append(TEXT_83);
-    stringBuffer.append( typeConstants.get(edge.getType()) );
+    stringBuffer.append( data.typeConstants.get(edge.getType()) );
     stringBuffer.append(TEXT_84);
     stringBuffer.append( e );
     stringBuffer.append(TEXT_85);

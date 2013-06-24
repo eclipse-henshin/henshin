@@ -91,7 +91,7 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 
 	private static String getGiraphCode(Rule rule, String className) {
 		Map<String,Object> args = new HashMap<String,Object>();
-		args.put("rule", rule);
+		args.put("data", new GiraphRuleData(rule));
 		args.put("className", className);
 		GiraphRuleTemplate template = new GiraphRuleTemplate();
 		return template.generate(args);
@@ -99,7 +99,8 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 	
 	private static String getInstanceCode(Rule rule) {
 		StringBuffer json = new StringBuffer();
-		List<ENamedElement> types = new ArrayList<ENamedElement>(GiraphUtil.getTypeConstants(rule.getModule()).keySet());
+		GiraphRuleData data = new GiraphRuleData(rule);
+		List<ENamedElement> types = new ArrayList<ENamedElement>(data.typeConstants.keySet());
 		for (int i=0; i<rule.getLhs().getNodes().size(); i++) {
 			Node n = rule.getLhs().getNodes().get(i);
 			json.append("[[" + i + "]," + types.indexOf(n.getType()) + ",[");
