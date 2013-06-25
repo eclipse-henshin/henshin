@@ -112,11 +112,13 @@ for (ENamedElement type : data.typeConstants.keySet()) {
     LOG.info("Vertex " + vertex.getId() + " executing superstep " + superstep);
 
     // Check if we should we stop:
-    if (superstep >= applicationCount * <%= data.matchingSteps.size() %>) {
+    if (superstep > applicationCount * <%= data.matchingSteps.size() %>) {
       LOG.info("Vertex " + vertex.getId() + " finished with " +
         getTotalNumVertices() + " vertices and " +
         getTotalNumEdges() + " edges");
       vertex.voteToHalt();
+      return;
+    } else if (superstep == applicationCount * <%= data.matchingSteps.size() %>) {
       return;
     }
 
