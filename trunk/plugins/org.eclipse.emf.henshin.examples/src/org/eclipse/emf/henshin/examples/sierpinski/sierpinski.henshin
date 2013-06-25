@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="ASCII"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_O4BkAGK4EeGEopi1QdEPhA">
-  <rules xmi:id="_O4jIcGK4EeGEopi1QdEPhA" description="" name="AddTriangle">
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_O4BkAGK4EeGEopi1QdEPhA">
+  <imports href="sierpinski.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_O4jIcGK4EeGEopi1QdEPhA" name="AddTriangle" description="">
     <lhs xmi:id="_O4jIcWK4EeGEopi1QdEPhA">
       <nodes xmi:id="_O4jIcmK4EeGEopi1QdEPhA" outgoing="_O4jIdWK4EeGEopi1QdEPhA _O4jIdGK4EeGEopi1QdEPhA">
         <type href="sierpinski.ecore#//Vertex"/>
@@ -71,6 +72,5 @@
     <mappings xmi:id="_O4jIhmK4EeGEopi1QdEPhA" origin="_O4jIcmK4EeGEopi1QdEPhA" image="_O4jId2K4EeGEopi1QdEPhA"/>
     <mappings xmi:id="_O4jIh2K4EeGEopi1QdEPhA" origin="_O4kWkGK4EeGEopi1QdEPhA" image="_O4jIeGK4EeGEopi1QdEPhA"/>
     <mappings xmi:id="_O4jIiGK4EeGEopi1QdEPhA" origin="_O4kWkWK4EeGEopi1QdEPhA" image="_O4jIeWK4EeGEopi1QdEPhA"/>
-  </rules>
-  <imports href="sierpinski.ecore#/"/>
-</henshin:TransformationSystem>
+  </units>
+</henshin:Module>

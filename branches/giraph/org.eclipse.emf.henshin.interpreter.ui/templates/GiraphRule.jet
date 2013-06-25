@@ -109,17 +109,21 @@ for (ENamedElement type : data.typeConstants.keySet()) {
 
     // Get the current superstep:
     long superstep = getSuperstep();
+    LOG.info("Vertex " + vertex.getId() + " executing superstep " + superstep);
 
     // Check if we should we stop:
     if (superstep >= applicationCount * <%= data.matchingSteps.size() %>) {
+      LOG.info("Vertex " + vertex.getId() + " finished with " +
+        getTotalNumVertices() + " vertices and " +
+        getTotalNumEdges() + " edges");
       vertex.voteToHalt();
       return;
     }
 
     // Log partial matches:
-    LOG.info("Executing superstep " + superstep);
     for (HenshinUtil.Match match : matches) {
-      LOG.info("Received partial match: " + HenshinUtil.matchToString(match));
+      LOG.info("Vertex " + vertex.getId() +
+        " received (partial) match: " + match);
     }
 
 
@@ -135,7 +139,8 @@ for (ENamedElement type : data.typeConstants.keySet()) {
       while (it.hasNext()) {
         HenshinUtil.Match match = it.next();
         HenshinUtil.VertexId targetId = HenshinUtil.getMatchVertexId(match, <%= step.verifyEdgeTo %>);
-        for (Edge<HenshinUtil.VertexId, IntWritable> edge : vertex.getEdges()) {
+        for (Edge<HenshinUtil.VertexId, IntWritable> edge :
+          vertex.getEdges()) {
           if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %> &&
               edge.getTargetVertexId().equals(targetId)) {
             validMatches.add(match);
@@ -160,19 +165,24 @@ for (ENamedElement type : data.typeConstants.keySet()) {
 <%    }
       if (step.edge != null) {%>
 <%= i > 0 ? "  " : ""%>        // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
-<%= i > 0 ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, IntWritable> edge : vertex.getEdges()) {
+<%= i > 0 ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, IntWritable> edge :
+<%= i > 0 ? "  " : ""%>          vertex.getEdges()) {
 <%= i > 0 ? "  " : ""%>          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %>) {
-<%= i > 0 ? "  " : ""%>            LOG.info("Sending partial match: " +
-<%= i > 0 ? "  " : ""%>              HenshinUtil.matchToString(match));
+<%= i > 0 ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
+<%= i > 0 ? "  " : ""%>              " sending (partial) match " + match +
+<%= i > 0 ? "  " : ""%>              " to vertex " + edge.getTargetVertexId());
 <%= i > 0 ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
 <%= i > 0 ? "  " : ""%>          }
 <%= i > 0 ? "  " : ""%>        }
 <%    } else if (step.sendBackTo >= 0) {%>
           // Send the message back to matches of node <%= data.getNodeName(data.matchingSteps.get(step.sendBackTo).node) %>:
           for (HenshinUtil.Match m : matches) {
-            LOG.info("Sending partial match: " +
-              HenshinUtil.matchToString(match));
-            sendMessage(HenshinUtil.getMatchVertexId(m, <%= step.sendBackTo %>), match);
+            HenshinUtil.VertexId targetVertexId =
+              HenshinUtil.getMatchVertexId(m, <%= step.sendBackTo %>);
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " to vertex " + targetVertexId);
+            sendMessage(targetVertexId, match);
           }
 <%    }
       if (i>0) {%>
@@ -212,7 +222,8 @@ for (ENamedElement type : data.typeConstants.keySet()) {
   private void applyRule(Vertex<HenshinUtil.VertexId, IntWritable,
     IntWritable> vertex, HenshinUtil.Match match) throws IOException {
 
-    LOG.info("Applying rule with match " + HenshinUtil.matchToString(match));
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule with match " + match);
 <%  for (Edge edge : changeInfo.getDeletedEdges()) {%>
 
     // Remove edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:

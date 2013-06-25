@@ -44,6 +44,11 @@ import com.google.common.collect.Lists;
 public class HenshinUtil {
 
   /**
+   * Empty match.
+   */
+  private static final byte[] EMPTY_MATCH = new byte[] { 0 };
+
+  /**
    * Private constructor.
    */
   private HenshinUtil() {
@@ -53,7 +58,7 @@ public class HenshinUtil {
   /**
    * Henshin data.
    */
-  public static abstract class Bytes extends BytesWritable {
+  public abstract static class Bytes extends BytesWritable {
 
     /**
      * Default constructor.
@@ -104,6 +109,31 @@ public class HenshinUtil {
       super(data);
     }
 
+    /**
+     * Pretty-print this match.
+     * @return The printed string.
+     */
+    @Override
+    public String toString() {
+      byte[] bytes = getBytes();
+      StringBuffer r = new StringBuffer();
+      int d = 1;
+      for (int i = 0; i < bytes[0]; i++) {
+        r.append("[");
+        for (int j = 1; j <= bytes[d]; j++) {
+          r.append(bytes[d + j]);
+          if (j < bytes[d]) {
+            r.append(",");
+          }
+        }
+        r.append("]");
+        if (i < bytes[0] - 1) {
+          r.append(",");
+        }
+      }
+      return "[" + r.toString() + "]";
+    }
+
   }
 
   /**
@@ -126,24 +156,41 @@ public class HenshinUtil {
       super(data);
     }
 
+    /**
+     * Pretty-print this vertex ID.
+     * @return The printed string.
+     */
+    @Override
+    public String toString() {
+      byte[] bytes = getBytes();
+      StringBuffer r = new StringBuffer();
+      for (int i = 0; i < bytes.length; i++) {
+        r.append(bytes[i]);
+        if (i < bytes.length - 1) {
+          r.append(",");
+        }
+      }
+      return "[" + r.toString() + "]";
+    }
+
   }
 
   /**
    * Henshin input format.
    */
-  public static class HenshinInputFormat extends
+  public static class InputFormat extends
     TextVertexInputFormat<VertexId, IntWritable, IntWritable> {
 
     @Override
     public TextVertexReader createVertexReader(InputSplit split,
       TaskAttemptContext context) {
-      return new HenshinInputReader();
+      return new InputReader();
     }
 
     /**
      * Henshin input reader.
      */
-    class HenshinInputReader extends
+    class InputReader extends
       TextVertexReaderFromEachLineProcessedHandlingExceptions<JSONArray,
         JSONException> {
 
@@ -204,19 +251,19 @@ public class HenshinUtil {
   /**
    * Henshin output format.
    */
-  public static class HenshinOutputFormat extends
+  public static class OutputFormat extends
     TextVertexOutputFormat<VertexId, IntWritable, IntWritable> {
 
     @Override
     public TextVertexWriter createVertexWriter(TaskAttemptContext context)
       throws IOException, InterruptedException {
-      return new HenshinOutputWriter();
+      return new OutputWriter();
     }
 
     /**
      * Henshin output writer.
      */
-    class HenshinOutputWriter extends TextVertexWriterToEachLine {
+    class OutputWriter extends TextVertexWriterToEachLine {
 
       @Override
       protected Text convertVertexToLine(
@@ -247,36 +294,6 @@ public class HenshinUtil {
         return new Text(vertexArray.toString());
       }
     }
-  }
-
-  /**
-   * Empty match.
-   */
-  private static final byte[] EMPTY_MATCH = new byte[] { 0 };
-
-  /**
-   * Pretty-print a match.
-   * @param match The Match to be printed.
-   * @return The printed string.
-   */
-  public static String matchToString(Match match) {
-    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;
-    StringBuffer r = new StringBuffer();
-    int d = 1;
-    for (int i = 0; i < bytes[0]; i++) {
-      r.append("[");
-      for (int j = 1; j <= bytes[d]; j++) {
-        r.append(bytes[d + j]);
-        if (j < bytes[d]) {
-          r.append(",");
-        }
-      }
-      r.append("]");
-      if (i < bytes[0] - 1) {
-        r.append(",");
-      }
-    }
-    return "[" + r.toString() + "]";
   }
 
   /**
