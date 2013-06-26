@@ -32,7 +32,6 @@ String className = (String) args.get("className");
 package org.apache.giraph.examples;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -112,13 +111,11 @@ for (ENamedElement type : data.typeConstants.keySet()) {
     LOG.info("Vertex " + vertex.getId() + " executing superstep " + superstep);
 
     // Check if we should we stop:
-    if (superstep > applicationCount * <%= data.matchingSteps.size() %>) {
+    if (superstep >= applicationCount * <%= data.matchingSteps.size() %>) {
       LOG.info("Vertex " + vertex.getId() + " finished with " +
         getTotalNumVertices() + " vertices and " +
         getTotalNumEdges() + " edges");
       vertex.voteToHalt();
-      return;
-    } else if (superstep == applicationCount * <%= data.matchingSteps.size() %>) {
       return;
     }
 
@@ -140,7 +137,7 @@ for (ENamedElement type : data.typeConstants.keySet()) {
       Iterator<HenshinUtil.Match> it = matches.iterator();
       while (it.hasNext()) {
         HenshinUtil.Match match = it.next();
-        HenshinUtil.VertexId targetId = HenshinUtil.getMatchVertexId(match, <%= step.verifyEdgeTo %>);
+        HenshinUtil.VertexId targetId = match.getVertexId(<%= step.verifyEdgeTo %>);
         for (Edge<HenshinUtil.VertexId, IntWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %> &&
@@ -159,11 +156,11 @@ for (ENamedElement type : data.typeConstants.keySet()) {
 <%    if (i == 0) {%>
         // Create a new partial match:
         HenshinUtil.Match match =
-          HenshinUtil.addMatchVertex(null, vertex.getId());
+          new HenshinUtil.Match().extend(vertex.getId());
         <% } else {%>
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
-          match = HenshinUtil.addMatchVertex(match, vertex.getId());
+          match = match.extend(vertex.getId());
 <%    }
       if (step.edge != null) {%>
 <%= i > 0 ? "  " : ""%>        // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
@@ -180,7 +177,7 @@ for (ENamedElement type : data.typeConstants.keySet()) {
           // Send the message back to matches of node <%= data.getNodeName(data.matchingSteps.get(step.sendBackTo).node) %>:
           for (HenshinUtil.Match m : matches) {
             HenshinUtil.VertexId targetVertexId =
-              HenshinUtil.getMatchVertexId(m, <%= step.sendBackTo %>);
+              m.getVertexId(<%= step.sendBackTo %>);
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " to vertex " + targetVertexId);
@@ -230,30 +227,23 @@ for (ENamedElement type : data.typeConstants.keySet()) {
 
     // Remove edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:
     removeEdgesRequest(
-      HenshinUtil.getMatchVertexId(match, <%= data.orderedLhsNodes.indexOf(edge.getSource()) %>),
-      HenshinUtil.getMatchVertexId(match, <%= data.orderedLhsNodes.indexOf(edge.getTarget()) %>)
+      match.getVertexId(<%= data.orderedLhsNodes.indexOf(edge.getSource()) %>),
+      match.getVertexId(<%= data.orderedLhsNodes.indexOf(edge.getTarget()) %>)
     );
 <%  }
     for (Node node : changeInfo.getDeletedNodes()) {%>
 
     // Remove vertex <%= data.getNodeName(node) %>:
     removeVertexRequest(
-      HenshinUtil.getMatchVertexId(match, <%= data.orderedLhsNodes.indexOf(node) %>)
+      match.getVertexId(<%= data.orderedLhsNodes.indexOf(node) %>)
     );
 <%  } 
 
-    if (!changeInfo.getCreatedNodes().isEmpty()) {
-%>
-    byte[] thisVertexId = vertex.getId().getBytes();
-    byte[] newVertexId;
-<%	}
     int n = 0;
     for (Node node : changeInfo.getCreatedNodes()) {%>
 
     // Create vertex <%= data.getNodeName(node) %>:
-    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);
-    newVertexId[newVertexId.length - 1] = <%= n++ %>;
-    addVertexRequest(new HenshinUtil.VertexId(newVertexId),
+    addVertexRequest(vertex.getId().extend((byte) <%= n++ %>),
       new IntWritable(<%= data.typeConstants.get(node.getType()) %>));
 <%  }
 
@@ -263,20 +253,16 @@ for (ENamedElement type : data.typeConstants.keySet()) {
     // Create edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:
 <%	// THE SOURCE OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { %>
-    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);
-    newVertexId[newVertexId.length - 1] = <%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>;
-    HenshinUtil.VertexId src<%= e %> = new HenshinUtil.VertexId(newVertexId);
+    HenshinUtil.VertexId src<%= e %> = vertex.getId().extend((byte) <%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>);
 <%	} else { %>
-    HenshinUtil.VertexId src<%= e %> = HenshinUtil.getMatchVertexId(match, <%= data.orderedLhsNodes.indexOf(
+    HenshinUtil.VertexId src<%= e %> = match.getVertexId(<%= data.orderedLhsNodes.indexOf(
                               data.rule.getMappings().getOrigin(edge.getSource())) %>);
 <%	}
 	// THE TARGET OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getTarget())) { %>
-    newVertexId = Arrays.copyOf(thisVertexId, thisVertexId.length + 1);
-    newVertexId[newVertexId.length - 1] = <%= changeInfo.getCreatedNodes().indexOf(edge.getTarget()) %>;
-    HenshinUtil.VertexId trg<%= e %> = new HenshinUtil.VertexId(newVertexId);
+    HenshinUtil.VertexId trg<%= e %> = vertex.getId().extend((byte) <%= changeInfo.getCreatedNodes().indexOf(edge.getTarget()) %>);
 <%	} else { %>
-    HenshinUtil.VertexId trg<%= e %> = HenshinUtil.getMatchVertexId(match, <%= data.orderedLhsNodes.indexOf(
+    HenshinUtil.VertexId trg<%= e %> = match.getVertexId(<%= data.orderedLhsNodes.indexOf(
                               data.rule.getMappings().getOrigin(edge.getTarget())) %>);
 <%	} %>
     Edge<HenshinUtil.VertexId, IntWritable> edge<%= e %> =

@@ -44,11 +44,6 @@ import com.google.common.collect.Lists;
 public class HenshinUtil {
 
   /**
-   * Empty match.
-   */
-  private static final byte[] EMPTY_MATCH = new byte[] { 0 };
-
-  /**
    * Private constructor.
    */
   private HenshinUtil() {
@@ -81,18 +76,40 @@ public class HenshinUtil {
      */
     @Override
     public void setSize(int size) {
-      boolean resize = size > getCapacity();
-      super.setSize(size);
-      if (resize) {
+      if (size != getCapacity()) {
         setCapacity(size);
       }
+      super.setSize(size);
     }
+
+    /**
+     * Pretty-print this bytes object.
+     * @return The printed string.
+     */
+    @Override
+    public String toString() {
+      byte[] bytes = getBytes();
+      StringBuffer result = new StringBuffer();
+      for (int i = 0; i < bytes.length; i++) {
+        result.append(bytes[i]);
+        if (i < bytes.length - 1) {
+          result.append(",");
+        }
+      }
+      return "[" + result + "]";
+    }
+
   }
 
   /**
    * Henshin match object.
    */
   public static class Match extends Bytes {
+
+    /**
+     * Empty match.
+     */
+    public static final Match EMPTY = new Match();
 
     /**
      * Default constructor.
@@ -110,28 +127,59 @@ public class HenshinUtil {
     }
 
     /**
+     * Get the vertex ID of a matched node.
+     * @param vertexIndex Index of the next vertex.
+     * @return The vertex ID.
+     */
+    public VertexId getVertexId(int vertexIndex) {
+      byte[] bytes = getBytes();
+      int d = 0;
+      for (int i = 0; i < vertexIndex; i++) {
+        d += bytes[d] + 1;
+      }
+      return new VertexId(
+        Arrays.copyOfRange(bytes, d + 1, d + 1 + bytes[d]));
+    }
+
+    /**
+     * Create an extended version of this (partial) match.
+     * @param vertexId The ID of the next matched vertex.
+     * @return The extended match object.
+     */
+    public Match extend(VertexId vertexId) {
+      byte[] bytes = getBytes();
+      byte[] id = vertexId.getBytes();
+      byte[] result = Arrays.copyOf(bytes, bytes.length + 1 + id.length);
+      result[bytes.length] = (byte) id.length;
+      System.arraycopy(id, 0, result, bytes.length + 1, id.length);
+      return new Match(result);
+    }
+
+    /**
      * Pretty-print this match.
      * @return The printed string.
      */
     @Override
     public String toString() {
       byte[] bytes = getBytes();
-      StringBuffer r = new StringBuffer();
-      int d = 1;
-      for (int i = 0; i < bytes[0]; i++) {
-        r.append("[");
-        for (int j = 1; j <= bytes[d]; j++) {
-          r.append(bytes[d + j]);
-          if (j < bytes[d]) {
-            r.append(",");
+      StringBuffer result = new StringBuffer();
+      int i = 0;
+      while (i < bytes.length) {
+        int len = bytes[i++];
+        result.append("[");
+        for (int j = 0; j < len; j++) {
+          result.append(bytes[i + j]);
+          if (j < len - 1) {
+            result.append(",");
           }
         }
-        r.append("]");
-        if (i < bytes[0] - 1) {
-          r.append(",");
+        result.append("]");
+        if (i < bytes.length - 1) {
+          result.append(",");
         }
+        i += len;
       }
-      return "[" + r.toString() + "]";
+      return "[" + result + "]";
     }
 
   }
@@ -157,20 +205,15 @@ public class HenshinUtil {
     }
 
     /**
-     * Pretty-print this vertex ID.
-     * @return The printed string.
+     * Create an extended version of this vertex ID.
+     * @param value The value to be appended to this vertex ID.
+     * @return The extended version of this vertex ID.
      */
-    @Override
-    public String toString() {
+    public VertexId extend(byte value) {
       byte[] bytes = getBytes();
-      StringBuffer r = new StringBuffer();
-      for (int i = 0; i < bytes.length; i++) {
-        r.append(bytes[i]);
-        if (i < bytes.length - 1) {
-          r.append(",");
-        }
-      }
-      return "[" + r.toString() + "]";
+      bytes = Arrays.copyOf(bytes, bytes.length + 1);
+      bytes[bytes.length - 1] = value;
+      return new VertexId(bytes);
     }
 
   }
@@ -294,44 +337,6 @@ public class HenshinUtil {
         return new Text(vertexArray.toString());
       }
     }
-  }
-
-  /**
-   * Get the vertex ID of a matched node.
-   * @param match The match oject.
-   * @param vertexIndex Index of the next vertex.
-   * @return The vertex ID.
-   */
-  public static VertexId getMatchVertexId(Match match,
-    int vertexIndex) {
-    byte[] bytes = match.getBytes();
-    int d = 1;
-    for (int i = 0; i < vertexIndex; i++) {
-      d += bytes[d] + 1;
-    }
-    return new VertexId(
-      Arrays.copyOfRange(bytes, d + 1, d + 1 + bytes[d]));
-  }
-
-  /**
-   * Extend a partial match.
-   * @param match The match object.
-   * @param vertexId The ID of the next matched vertex.
-   * @return The extended match object.
-   */
-  public static Match addMatchVertex(Match match,
-    VertexId vertexId) {
-    byte[] bytes = (match != null) ? match.getBytes() : EMPTY_MATCH;
-    byte[] id = vertexId.getBytes();
-    int d = 1;
-    for (byte i = 0; i < bytes[0]; i++) {
-      d += bytes[d] + 1;
-    }
-    byte[] result = Arrays.copyOf(bytes, d + 1 + id.length);
-    result[0]++;
-    result[d] = (byte) id.length;
-    System.arraycopy(id, 0, result, d + 1, id.length);
-    return new Match(result);
   }
 
 }
