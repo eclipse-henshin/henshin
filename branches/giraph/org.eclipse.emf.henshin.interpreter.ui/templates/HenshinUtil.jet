@@ -1,4 +1,12 @@
-<%@ jet package="org.eclipse.emf.henshin.interpreter.ui.giraph" class="HenshinUtilTemplate"
+<%@ jet package="org.eclipse.emf.henshin.interpreter.ui.giraph" class="HenshinUtilTemplate" imports="java.util.*"%>
+<%
+
+@SuppressWarnings("unchecked")
+Map<String,Object> args = (Map<String,Object>) argument;
+
+String packageName = (String) args.get("packageName");
+//boolean logging = (Boolean) args.get("logging");
+
 %>
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -17,7 +25,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.giraph.examples;
+package <%= packageName %>;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -174,10 +182,10 @@ public class HenshinUtil {
           }
         }
         result.append("]");
+        i += len;
         if (i < bytes.length - 1) {
           result.append(",");
         }
-        i += len;
       }
       return "[" + result + "]";
     }

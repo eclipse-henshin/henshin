@@ -10,6 +10,9 @@ GiraphRuleData data = (GiraphRuleData) args.get("data");
 RuleChangeInfo changeInfo = new RuleChangeInfo(data.rule);
 
 String className = (String) args.get("className");
+String packageName = (String) args.get("packageName");
+boolean logging = (Boolean) args.get("logging");
+int applicationCount = (Integer) args.get("applicationCount");
 
 %>
 /*
@@ -29,7 +32,7 @@ String className = (String) args.get("className");
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.giraph.examples;
+package <%= packageName %>;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -41,7 +44,9 @@ import org.apache.giraph.edge.EdgeFactory;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
 import org.apache.hadoop.io.IntWritable;
+<%if (logging) { %>
 import org.apache.log4j.Logger;
+<%} %>
 
 /**
  * Generated implementation of the Henshin rule "<%= data.rule.getName() %>".
@@ -56,7 +61,7 @@ public class <%= className %> extends
   /**
    * Default number of applications of this rule.
    */
-  public static final int DEFAULT_APPLICATION_COUNT = 1;
+  public static final int DEFAULT_APPLICATION_COUNT = <%= applicationCount %>;
 <%
 int value = 0;
 for (ENamedElement type : data.typeConstants.keySet()) {
@@ -68,12 +73,15 @@ for (ENamedElement type : data.typeConstants.keySet()) {
   public static final int <%= data.typeConstants.get(type) %> = <%= value++ %>;
 <%
 }
+
+if (logging) {
 %>
 
   /**
    * Logging support.
    */
   private static final Logger LOG = Logger.getLogger(<%= className %>.class);
+<% } %>
 
   /**
    * Number of applications of this rule.
@@ -108,23 +116,31 @@ for (ENamedElement type : data.typeConstants.keySet()) {
 
     // Get the current superstep:
     long superstep = getSuperstep();
+<%if (logging) { %>
     LOG.info("Vertex " + vertex.getId() + " executing superstep " + superstep);
+<%} %>
 
-    // Check if we should we stop:
-    if (superstep >= applicationCount * <%= data.matchingSteps.size() %>) {
+    // Check if we can stop:
+    if (superstep == applicationCount * <%= data.matchingSteps.size() %>) {
+      // We need to wait one more superstep to see the changes:
+      return;
+    } else if (superstep > applicationCount * <%= data.matchingSteps.size() %>) {
+<%if (logging) { %>
       LOG.info("Vertex " + vertex.getId() + " finished with " +
         getTotalNumVertices() + " vertices and " +
         getTotalNumEdges() + " edges");
+<%} %>
       vertex.voteToHalt();
       return;
     }
 
-    // Log partial matches:
+<%if (logging) { %>
+    // Log received (partial) matches:
     for (HenshinUtil.Match match : matches) {
       LOG.info("Vertex " + vertex.getId() +
-        " received (partial) match: " + match);
+        " received (partial) match " + match);
     }
-
+<%} %>
 
 <% 
     for (int i=0; i<data.matchingSteps.size(); i++) {
@@ -167,9 +183,11 @@ for (ENamedElement type : data.typeConstants.keySet()) {
 <%= i > 0 ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, IntWritable> edge :
 <%= i > 0 ? "  " : ""%>          vertex.getEdges()) {
 <%= i > 0 ? "  " : ""%>          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %>) {
+<%if (logging) { %>
 <%= i > 0 ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
 <%= i > 0 ? "  " : ""%>              " sending (partial) match " + match +
 <%= i > 0 ? "  " : ""%>              " to vertex " + edge.getTargetVertexId());
+<%} %>
 <%= i > 0 ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
 <%= i > 0 ? "  " : ""%>          }
 <%= i > 0 ? "  " : ""%>        }
@@ -178,9 +196,11 @@ for (ENamedElement type : data.typeConstants.keySet()) {
           for (HenshinUtil.Match m : matches) {
             HenshinUtil.VertexId targetVertexId =
               m.getVertexId(<%= step.sendBackTo %>);
+<%if (logging) { %>
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " to vertex " + targetVertexId);
+<%} %>
             sendMessage(targetVertexId, match);
           }
 <%    }
@@ -221,9 +241,11 @@ for (ENamedElement type : data.typeConstants.keySet()) {
   private void applyRule(Vertex<HenshinUtil.VertexId, IntWritable,
     IntWritable> vertex, HenshinUtil.Match match) throws IOException {
 
+<%if (logging) { %>
     LOG.info("Vertex " + vertex.getId() +
       " applying rule with match " + match);
-<%  for (Edge edge : changeInfo.getDeletedEdges()) {%>
+<%}
+  for (Edge edge : changeInfo.getDeletedEdges()) {%>
 
     // Remove edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:
     removeEdgesRequest(
@@ -237,13 +259,20 @@ for (ENamedElement type : data.typeConstants.keySet()) {
     removeVertexRequest(
       match.getVertexId(<%= data.orderedLhsNodes.indexOf(node) %>)
     );
-<%  } 
+<%  }
+
+    if (!changeInfo.getCreatedNodes().isEmpty()) {%>
+
+    // Base Id for new vertices:
+    HenshinUtil.VertexId newBaseId =
+      vertex.getId().extend((byte) getSuperstep());
+<%  }
 
     int n = 0;
     for (Node node : changeInfo.getCreatedNodes()) {%>
 
     // Create vertex <%= data.getNodeName(node) %>:
-    addVertexRequest(vertex.getId().extend((byte) <%= n++ %>),
+    addVertexRequest(newBaseId.extend((byte) <%= n++ %>),
       new IntWritable(<%= data.typeConstants.get(node.getType()) %>));
 <%  }
 
@@ -253,17 +282,17 @@ for (ENamedElement type : data.typeConstants.keySet()) {
     // Create edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:
 <%	// THE SOURCE OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { %>
-    HenshinUtil.VertexId src<%= e %> = vertex.getId().extend((byte) <%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>);
+    HenshinUtil.VertexId src<%= e %> = newBaseId.extend((byte) <%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>);
 <%	} else { %>
     HenshinUtil.VertexId src<%= e %> = match.getVertexId(<%= data.orderedLhsNodes.indexOf(
-                              data.rule.getMappings().getOrigin(edge.getSource())) %>);
+                                         data.rule.getMappings().getOrigin(edge.getSource())) %>);
 <%	}
 	// THE TARGET OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getTarget())) { %>
-    HenshinUtil.VertexId trg<%= e %> = vertex.getId().extend((byte) <%= changeInfo.getCreatedNodes().indexOf(edge.getTarget()) %>);
+    HenshinUtil.VertexId trg<%= e %> = newBaseId.extend((byte) <%= changeInfo.getCreatedNodes().indexOf(edge.getTarget()) %>);
 <%	} else { %>
     HenshinUtil.VertexId trg<%= e %> = match.getVertexId(<%= data.orderedLhsNodes.indexOf(
-                              data.rule.getMappings().getOrigin(edge.getTarget())) %>);
+                                         data.rule.getMappings().getOrigin(edge.getTarget())) %>);
 <%	} %>
     Edge<HenshinUtil.VertexId, IntWritable> edge<%= e %> =
       EdgeFactory.create(trg<%= e %>, new IntWritable(<%= data.typeConstants.get(edge.getType()) %>));

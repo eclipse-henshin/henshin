@@ -23,29 +23,3 @@
     bytes[i + 2] = (byte) (value >>> 8);
     bytes[i + 3] = (byte) value;
   }
-
-    /**
-   * Pretty-print a match.
-   * @param match The Match to be printed.
-   * @return The printed string.
-   */
-  private String matchToString(BytesWritable match) {
-    byte[] bytes = match.getBytes();
-    StringBuffer r = new StringBuffer();
-    int d = 0;
-    int e = 0;
-    while (d < bytes.length) {
-      int len = bytes[d++];
-      r.append("[");
-      for (e = 0; e < len; e++) {
-        r.append(bytes[d + e]);
-        if (e < len - 1) {
-          r.append(",");
-        }
-      }
-      r.append("] ");
-      d += len;
-    }
-    return r.toString();
-  }
-  
