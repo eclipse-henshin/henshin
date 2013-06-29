@@ -10,7 +10,6 @@
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +64,6 @@ public class Variable {
 	 * @param type Type of the node to be matched.
 	 * @param strictTyping Whether to use strict typing.
 	 */
-	@SuppressWarnings("unchecked")
 	public Variable(EClass type, boolean strictTyping) {
 		typeConstraint = new TypeConstraint(type, strictTyping);
 		attributeConstraints = new ArrayList<AttributeConstraint>();
@@ -75,7 +73,6 @@ public class Variable {
 		userConstraints = new ArrayList<UnaryConstraint>();
 		binaryUserConstraints = new LinkedHashMap<ReferenceConstraint,BinaryConstraint>();
 		attributeUserConstraints = new LinkedHashMap<AttributeConstraint,UnaryConstraint>();
-				
 		requiresFinalCheck = false;		
 	}
 	
