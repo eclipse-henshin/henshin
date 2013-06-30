@@ -16,7 +16,21 @@ int applicationCount = (Integer) args.get("applicationCount");
 
 %>
 /*
- * Generated implementation of the Henshin rule "<%= data.rule.getName() %>".
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package <%= packageName %>;
 
@@ -27,9 +41,10 @@ import java.util.ArrayList;
 
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.edge.EdgeFactory;
+import org.apache.giraph.edge.MutableEdge;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.ByteWritable;
 <%if (logging) { %>
 import org.apache.log4j.Logger;
 <%} %>
@@ -41,8 +56,8 @@ import org.apache.log4j.Logger;
     name = "<%= data.rule.getName() %>"
 )
 public class <%= className %> extends
-  BasicComputation<HenshinUtil.VertexId, IntWritable,
-  IntWritable, HenshinUtil.Match> {
+  BasicComputation<HenshinUtil.VertexId, ByteWritable,
+  ByteWritable, HenshinUtil.Match> {
 
   /**
    * Default number of applications of this rule.
@@ -56,7 +71,8 @@ for (ENamedElement type : data.typeConstants.keySet()) {
   /**
    * Type constant for "<%= type.getName() %>".
    */
-  public static final int <%= data.typeConstants.get(type) %> = <%= value++ %>;
+  public static final ByteWritable <%= data.typeConstants.get(type) %>
+    = new ByteWritable((byte) <%= value++ %>);
 <%
 }
 
@@ -81,7 +97,7 @@ if (logging) {
    */
   @Override
   public void compute(
-      Vertex<HenshinUtil.VertexId, IntWritable, IntWritable> vertex,
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<HenshinUtil.Match> matches) throws IOException {
 
     // Get the current superstep:
@@ -91,15 +107,7 @@ if (logging) {
 <%} %>
 
     // Check if we can stop:
-    if (superstep == applicationCount * <%= data.matchingSteps.size() %>) {
-      // We need to wait one more superstep to see the changes:
-      return;
-    } else if (superstep > applicationCount * <%= data.matchingSteps.size() %>) {
-<%if (logging) { %>
-      LOG.info("Vertex " + vertex.getId() + " finished with " +
-        getTotalNumVertices() + " vertices and " +
-        getTotalNumEdges() + " edges");
-<%} %>
+    if (superstep >= applicationCount * <%= data.matchingSteps.size() %>) {
       vertex.voteToHalt();
       return;
     }
@@ -124,9 +132,9 @@ if (logging) {
       while (it.hasNext()) {
         HenshinUtil.Match match = it.next();
         HenshinUtil.VertexId targetId = match.getVertexId(<%= step.verifyEdgeTo %>);
-        for (Edge<HenshinUtil.VertexId, IntWritable> edge :
+        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
-          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %> &&
+          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %>.get() &&
               edge.getTargetVertexId().equals(targetId)) {
             validMatches.add(match);
             break;
@@ -137,8 +145,12 @@ if (logging) {
 
 <%    } else {%>
       // Matching node <%= data.getNodeName(step.node) %>. Type must be "<%= step.node.getType().getName() %>":
-      boolean ok = vertex.getValue().get() == <%= data.typeConstants.get(step.node.getType()) %>;
+      boolean ok = vertex.getValue().get() == <%= data.typeConstants.get(step.node.getType()) %>.get();
       if (ok) {
+        // Optimize memory usage:
+        if (vertex.getValue() != <%= data.typeConstants.get(step.node.getType()) %>) {
+          vertex.setValue(<%= data.typeConstants.get(step.node.getType()) %>);
+        }
 <%    if (i == 0) {%>
         // Create a new partial match:
         HenshinUtil.Match match =
@@ -150,9 +162,15 @@ if (logging) {
 <%    }
       if (step.edge != null) {%>
 <%= i > 0 ? "  " : ""%>        // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
-<%= i > 0 ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, IntWritable> edge :
+<%= i > 0 ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
 <%= i > 0 ? "  " : ""%>          vertex.getEdges()) {
-<%= i > 0 ? "  " : ""%>          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %>) {
+<%= i > 0 ? "  " : ""%>          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %>.get()) {
+<%= i > 0 ? "  " : ""%>            // Optimize memory usage:
+<%= i > 0 ? "  " : ""%>            if (edge.getValue() != <%= data.typeConstants.get(step.edge.getType()) %> &&
+<%= i > 0 ? "  " : ""%>              edge instanceof MutableEdge) {
+<%= i > 0 ? "  " : ""%>              ((MutableEdge<HenshinUtil.VertexId, ByteWritable>)
+<%= i > 0 ? "  " : ""%>                edge).setValue(<%= data.typeConstants.get(step.edge.getType()) %>);
+<%= i > 0 ? "  " : ""%>            }
 <%if (logging) { %>
 <%= i > 0 ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
 <%= i > 0 ? "  " : ""%>              " sending (partial) match " + match +
@@ -208,20 +226,24 @@ if (logging) {
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  private void applyRule(Vertex<HenshinUtil.VertexId, IntWritable,
-    IntWritable> vertex, HenshinUtil.Match match) throws IOException {
+  private void applyRule(Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex, HenshinUtil.Match match) throws IOException {
 
 <%if (logging) { %>
     LOG.info("Vertex " + vertex.getId() +
       " applying rule with match " + match);
+
 <%}
+  int j = 0;
+  for (Node node : data.orderedLhsNodes) {
+%>
+    HenshinUtil.VertexId cur<%= j %> = match.getVertexId(<%= j++ %>);
+<%}
+
   for (Edge edge : changeInfo.getDeletedEdges()) {%>
 
     // Remove edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:
-    removeEdgesRequest(
-      match.getVertexId(<%= data.orderedLhsNodes.indexOf(edge.getSource()) %>),
-      match.getVertexId(<%= data.orderedLhsNodes.indexOf(edge.getTarget()) %>)
-    );
+    removeEdgesRequest(cur<%= data.orderedLhsNodes.indexOf(edge.getSource()) %>, cur<%= data.orderedLhsNodes.indexOf(edge.getTarget()) %>);
 <%  }
     for (Node node : changeInfo.getDeletedNodes()) {%>
 
@@ -235,15 +257,15 @@ if (logging) {
 
     // Base Id for new vertices:
     HenshinUtil.VertexId newBaseId =
-      vertex.getId().extend((byte) getSuperstep());
+      vertex.getId().extend((byte) ((getSuperstep() + 1) / <%= data.matchingSteps.size() %>));
 <%  }
 
     int n = 0;
     for (Node node : changeInfo.getCreatedNodes()) {%>
 
     // Create vertex <%= data.getNodeName(node) %>:
-    addVertexRequest(newBaseId.extend((byte) <%= n++ %>),
-      new IntWritable(<%= data.typeConstants.get(node.getType()) %>));
+    HenshinUtil.VertexId new<%= n %> = newBaseId.extend((byte) <%= n %>);
+    addVertexRequest(new<%= n++ %>, <%= data.typeConstants.get(node.getType()) %>);
 <%  }
 
     int e = 0;
@@ -252,20 +274,18 @@ if (logging) {
     // Create edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:
 <%	// THE SOURCE OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { %>
-    HenshinUtil.VertexId src<%= e %> = newBaseId.extend((byte) <%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>);
+    HenshinUtil.VertexId src<%= e %> = new<%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>;
 <%	} else { %>
-    HenshinUtil.VertexId src<%= e %> = match.getVertexId(<%= data.orderedLhsNodes.indexOf(
-                                         data.rule.getMappings().getOrigin(edge.getSource())) %>);
+    HenshinUtil.VertexId src<%= e %> = cur<%= data.orderedLhsNodes.indexOf(data.rule.getMappings().getOrigin(edge.getSource())) %>;
 <%	}
 	// THE TARGET OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getTarget())) { %>
-    HenshinUtil.VertexId trg<%= e %> = newBaseId.extend((byte) <%= changeInfo.getCreatedNodes().indexOf(edge.getTarget()) %>);
+    HenshinUtil.VertexId trg<%= e %> = new<%= changeInfo.getCreatedNodes().indexOf(edge.getTarget()) %>;
 <%	} else { %>
-    HenshinUtil.VertexId trg<%= e %> = match.getVertexId(<%= data.orderedLhsNodes.indexOf(
-                                         data.rule.getMappings().getOrigin(edge.getTarget())) %>);
+    HenshinUtil.VertexId trg<%= e %> = cur<%= data.orderedLhsNodes.indexOf(data.rule.getMappings().getOrigin(edge.getTarget())) %>;
 <%	} %>
-    Edge<HenshinUtil.VertexId, IntWritable> edge<%= e %> =
-      EdgeFactory.create(trg<%= e %>, new IntWritable(<%= data.typeConstants.get(edge.getType()) %>));
+    Edge<HenshinUtil.VertexId, ByteWritable> edge<%= e %> =
+      EdgeFactory.create(trg<%= e %>, <%= data.typeConstants.get(edge.getType()) %>);
     addEdgeRequest(src<%= e %>, edge<%= e %>);
 <%  e++;
     } %>

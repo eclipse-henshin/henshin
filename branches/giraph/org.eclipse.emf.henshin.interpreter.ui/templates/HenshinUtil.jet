@@ -37,7 +37,7 @@ import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.io.formats.TextVertexInputFormat;
 import org.apache.giraph.io.formats.TextVertexOutputFormat;
 import org.apache.hadoop.io.BytesWritable;
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.ByteWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
@@ -230,7 +230,7 @@ public class HenshinUtil {
    * Henshin input format.
    */
   public static class InputFormat extends
-    TextVertexInputFormat<VertexId, IntWritable, IntWritable> {
+    TextVertexInputFormat<VertexId, ByteWritable, ByteWritable> {
 
     @Override
     public TextVertexReader createVertexReader(InputSplit split,
@@ -271,27 +271,28 @@ public class HenshinUtil {
       }
 
       @Override
-      protected IntWritable getValue(JSONArray jsonVertex)
+      protected ByteWritable getValue(JSONArray jsonVertex)
         throws JSONException, IOException {
-        return new IntWritable(jsonVertex.getInt(1));
+        return new ByteWritable((byte) jsonVertex.getInt(1));
       }
 
       @Override
-      protected Iterable<Edge<VertexId, IntWritable>> getEdges(
+      protected Iterable<Edge<VertexId, ByteWritable>> getEdges(
         JSONArray jsonVertex) throws JSONException, IOException {
         JSONArray jsonEdgeArray = jsonVertex.getJSONArray(2);
-        List<Edge<VertexId, IntWritable>> edges =
+        List<Edge<VertexId, ByteWritable>> edges =
           Lists.newArrayListWithCapacity(jsonEdgeArray.length());
         for (int i = 0; i < jsonEdgeArray.length(); ++i) {
           JSONArray jsonEdge = jsonEdgeArray.getJSONArray(i);
-          edges.add(EdgeFactory.create(jsonArrayToVertexId(
-            jsonEdge.getJSONArray(0)), new IntWritable(jsonEdge.getInt(1))));
+          edges.add(EdgeFactory.create(
+            jsonArrayToVertexId(jsonEdge.getJSONArray(0)),
+            new ByteWritable((byte) jsonEdge.getInt(1))));
         }
         return edges;
       }
 
       @Override
-      protected Vertex<VertexId, IntWritable, IntWritable>
+      protected Vertex<VertexId, ByteWritable, ByteWritable>
       handleException(Text line, JSONArray jsonVertex, JSONException e) {
         throw new IllegalArgumentException(
           "Couldn't get vertex from line " + line, e);
@@ -303,7 +304,7 @@ public class HenshinUtil {
    * Henshin output format.
    */
   public static class OutputFormat extends
-    TextVertexOutputFormat<VertexId, IntWritable, IntWritable> {
+    TextVertexOutputFormat<VertexId, ByteWritable, ByteWritable> {
 
     @Override
     public TextVertexWriter createVertexWriter(TaskAttemptContext context)
@@ -318,7 +319,7 @@ public class HenshinUtil {
 
       @Override
       protected Text convertVertexToLine(
-        Vertex<VertexId, IntWritable, IntWritable> vertex)
+        Vertex<VertexId, ByteWritable, ByteWritable> vertex)
         throws IOException {
 
         JSONArray vertexArray = new JSONArray();
@@ -330,7 +331,7 @@ public class HenshinUtil {
         vertexArray.put(idArray);
         vertexArray.put(vertex.getValue().get());
         JSONArray allEdgesArray = new JSONArray();
-        for (Edge<VertexId, IntWritable> edge : vertex.getEdges()) {
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           JSONArray edgeArray = new JSONArray();
           JSONArray targetIdArray = new JSONArray();
           byte[] targetId = edge.getTargetVertexId().getBytes();
