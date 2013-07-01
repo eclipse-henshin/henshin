@@ -41,7 +41,6 @@ import java.util.ArrayList;
 
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.edge.EdgeFactory;
-import org.apache.giraph.edge.MutableEdge;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
 import org.apache.hadoop.io.ByteWritable;
@@ -147,10 +146,6 @@ if (logging) {
       // Matching node <%= data.getNodeName(step.node) %>. Type must be "<%= step.node.getType().getName() %>":
       boolean ok = vertex.getValue().get() == <%= data.typeConstants.get(step.node.getType()) %>.get();
       if (ok) {
-        // Optimize memory usage:
-        if (vertex.getValue() != <%= data.typeConstants.get(step.node.getType()) %>) {
-          vertex.setValue(<%= data.typeConstants.get(step.node.getType()) %>);
-        }
 <%    if (i == 0) {%>
         // Create a new partial match:
         HenshinUtil.Match match =
@@ -165,12 +160,6 @@ if (logging) {
 <%= i > 0 ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
 <%= i > 0 ? "  " : ""%>          vertex.getEdges()) {
 <%= i > 0 ? "  " : ""%>          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %>.get()) {
-<%= i > 0 ? "  " : ""%>            // Optimize memory usage:
-<%= i > 0 ? "  " : ""%>            if (edge.getValue() != <%= data.typeConstants.get(step.edge.getType()) %> &&
-<%= i > 0 ? "  " : ""%>              edge instanceof MutableEdge) {
-<%= i > 0 ? "  " : ""%>              ((MutableEdge<HenshinUtil.VertexId, ByteWritable>)
-<%= i > 0 ? "  " : ""%>                edge).setValue(<%= data.typeConstants.get(step.edge.getType()) %>);
-<%= i > 0 ? "  " : ""%>            }
 <%if (logging) { %>
 <%= i > 0 ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
 <%= i > 0 ? "  " : ""%>              " sending (partial) match " + match +
@@ -253,18 +242,12 @@ if (logging) {
     );
 <%  }
 
-    if (!changeInfo.getCreatedNodes().isEmpty()) {%>
-
-    // Base Id for new vertices:
-    HenshinUtil.VertexId newBaseId =
-      vertex.getId().extend((byte) ((getSuperstep() + 1) / <%= data.matchingSteps.size() %>));
-<%  }
-
     int n = 0;
     for (Node node : changeInfo.getCreatedNodes()) {%>
 
     // Create vertex <%= data.getNodeName(node) %>:
-    HenshinUtil.VertexId new<%= n %> = newBaseId.extend((byte) <%= n %>);
+    HenshinUtil.VertexId new<%= n %> =
+      deriveVertexId(vertex.getId(), (byte) <%= n %>);
     addVertexRequest(new<%= n++ %>, <%= data.typeConstants.get(node.getType()) %>);
 <%  }
 
@@ -290,6 +273,37 @@ if (logging) {
 <%  e++;
     } %>
 
+  }
+
+  /**
+   * Derive a new vertex Id from an exiting one.
+   * @param baseId The base vertex Id.
+   * @param vertexIndex The relative index of the new vertex.
+   * @return The derived vertex Id.
+   */
+  private HenshinUtil.VertexId deriveVertexId(
+    HenshinUtil.VertexId baseId, int vertexIndex) {
+<%
+    int createdNodes = changeInfo.getCreatedNodes().size();
+    int bitsNeededForIndex = 0;
+    while (createdNodes > 0) {
+      createdNodes = createdNodes / 2;
+      bitsNeededForIndex++;
+    }
+%>
+    int appCount = applicationCount;
+    int bitsNeededForApp = 0;
+    while (appCount > 0) {
+      appCount = appCount / 2;
+      bitsNeededForApp++;
+    }
+    long code = (getSuperstep() + 1) / <%= data.matchingSteps.size() %>;
+    if (bitsNeededForApp <= <%= 8 - bitsNeededForIndex %>) {
+      code = ((code << <%= bitsNeededForIndex %>)) | vertexIndex;
+      return baseId.extend((byte) code);
+    } else {
+      return baseId.extend((byte) code).extend((byte) vertexIndex);
+    }
   }
 
   /**
