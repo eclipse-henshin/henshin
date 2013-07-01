@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.henshin.interpreter.ui.giraph" class="GiraphRuleTemplate" 
+<%@ jet package="org.eclipse.emf.henshin.interpreter.giraph" class="GiraphRuleTemplate" 
 imports="java.util.* org.eclipse.emf.henshin.model.* org.eclipse.emf.henshin.interpreter.info.* org.eclipse.emf.ecore.*" %>
 <%
 
@@ -223,10 +223,9 @@ if (logging) {
       " applying rule with match " + match);
 
 <%}
-  int j = 0;
-  for (Node node : data.orderedLhsNodes) {
+  for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
 %>
-    HenshinUtil.VertexId cur<%= j %> = match.getVertexId(<%= j++ %>);
+    HenshinUtil.VertexId cur<%= j %> = match.getVertexId(<%= j %>);
 <%}
 
   for (Edge edge : changeInfo.getDeletedEdges()) {%>

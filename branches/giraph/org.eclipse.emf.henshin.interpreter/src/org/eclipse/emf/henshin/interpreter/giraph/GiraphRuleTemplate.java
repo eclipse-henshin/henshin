@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.interpreter.ui.giraph;
+package org.eclipse.emf.henshin.interpreter.giraph;
 
 import java.util.*;
 import org.eclipse.emf.henshin.model.*;
@@ -304,13 +304,12 @@ if (logging) {
     if (logging) { 
     stringBuffer.append(TEXT_70);
     }
-  int j = 0;
-  for (Node node : data.orderedLhsNodes) {
+  for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
 
     stringBuffer.append(TEXT_71);
     stringBuffer.append( j );
     stringBuffer.append(TEXT_72);
-    stringBuffer.append( j++ );
+    stringBuffer.append( j );
     stringBuffer.append(TEXT_73);
     }
 

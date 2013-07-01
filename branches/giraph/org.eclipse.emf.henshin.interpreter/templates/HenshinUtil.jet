@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.henshin.interpreter.ui.giraph" class="HenshinUtilTemplate" imports="java.util.*"%>
+<%@ jet package="org.eclipse.emf.henshin.interpreter.giraph" class="HenshinUtilTemplate" imports="java.util.*"%>
 <%
 
 @SuppressWarnings("unchecked")
