@@ -1,9 +1,7 @@
 package org.eclipse.emf.henshin.interpreter.ui.giraph;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
@@ -11,12 +9,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleData;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleTemplate;
+import org.eclipse.emf.henshin.interpreter.giraph.GiraphUtil;
 import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
-import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
@@ -94,7 +90,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			}
 
 			// Instance code:
-			String instanceCode = getInstanceCode();
+			String instanceCode = GiraphUtil.getInstanceCode(rule);
 			IFile jsonFile = targetContainer.getFile(new Path(className + ".json"));
 			if (jsonFile.exists()) {
 				jsonFile.setContents(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
@@ -114,25 +110,6 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		}
 		
 		return true;
-	}
-	
-	
-	private String getInstanceCode() {
-		StringBuffer json = new StringBuffer();
-		GiraphRuleData data = new GiraphRuleData(rule);
-		List<ENamedElement> types = new ArrayList<ENamedElement>(data.typeConstants.keySet());
-		for (int i=0; i<rule.getLhs().getNodes().size(); i++) {
-			Node n = rule.getLhs().getNodes().get(i);
-			json.append("[[" + i + "]," + types.indexOf(n.getType()) + ",[");
-			for (int j=0; j<n.getOutgoing().size(); j++) {
-				Edge e = n.getOutgoing().get(j);
-				int trg = rule.getLhs().getNodes().indexOf(e.getTarget());
-				json.append("[[" + trg + "]," + types.indexOf(e.getType()) + "]");
-				if (j<n.getOutgoing().size()-1) json.append(",");
-			}
-			json.append("]]\n");
-		}
-		return json.toString();
 	}
 	
 	private class GiraphPage extends WizardPage {
