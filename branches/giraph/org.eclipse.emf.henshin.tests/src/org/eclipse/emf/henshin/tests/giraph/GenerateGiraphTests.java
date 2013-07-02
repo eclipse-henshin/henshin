@@ -50,13 +50,25 @@ public class GenerateGiraphTests {
 	public static void main(String[] args) {
 		HenshinResourceSet resourceSet = new HenshinResourceSet("src/org/eclipse/emf/henshin/tests/giraph");
 		Module module = resourceSet.getModule("GiraphTests.henshin");
-		Rule sierpinski = (Rule) module.getUnit("Sierpinski");
 		try {
+			
+			Rule sierpinski = (Rule) module.getUnit("Sierpinski");
 			generateClass(sierpinski, 1, true);
 			generateClass(sierpinski, 3, true);
 			generateClass(sierpinski, 6, false);
 			generateClass(sierpinski, 9, false);
 			generateGraph(sierpinski);
+			
+			Rule wheel = (Rule) module.getUnit("Wheel");
+			Rule wheelStart = (Rule) module.getUnit("WheelStart");
+			generateClass(wheel, 10, true); // maximum number of applications
+			generateGraph(wheelStart);
+
+			Rule star = (Rule) module.getUnit("Star");
+			Rule starStart = (Rule) module.getUnit("StarStart");
+			generateClass(star, 1, true);
+			generateGraph(starStart);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
