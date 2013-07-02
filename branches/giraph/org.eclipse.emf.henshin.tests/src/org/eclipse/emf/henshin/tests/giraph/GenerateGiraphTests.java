@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleData;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleTemplate;
+import org.eclipse.emf.henshin.interpreter.giraph.GiraphUtil;
 import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
@@ -16,7 +17,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class GenerateGiraphTests {
 
-	public static void generate(Rule rule, int appCount, boolean logging) throws IOException {
+	public static void generateClass(Rule rule, int appCount, boolean logging) throws IOException {
 		String className = rule.getName() + appCount;
 		Map<String,Object> args = new HashMap<String,Object>();
 		args.put("data", new GiraphRuleData(rule));
@@ -24,29 +25,38 @@ public class GenerateGiraphTests {
 		args.put("packageName", "org.apache.giraph.examples");
 		args.put("logging", logging);
 		args.put("applicationCount", appCount);
+		
 		GiraphRuleTemplate ruleTemplate = new GiraphRuleTemplate();
 		String giraphCode = ruleTemplate.generate(args);
-		File file = new File("giraph-tests/classes/" + className + ".java");
-		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-		writer.write(giraphCode);
-		writer.close();
+		save(new File("giraph-tests/classes/" + className + ".java"), giraphCode);
+		
 		HenshinUtilTemplate utilTemplate = new HenshinUtilTemplate();
 		String utilCode = utilTemplate.generate(args);
-		file = new File("giraph-tests/classes/HenshinUtil.java");
-		writer = new BufferedWriter(new FileWriter(file));
-		writer.write(utilCode);
-		writer.close();
+		save(new File("giraph-tests/classes/HenshinUtil.java"), utilCode);
 	}
 
+	public static void generateGraph(Rule rule) throws IOException {
+		String graphCode = GiraphUtil.getInstanceCode(rule);
+		save(new File("giraph-tests/graphs/" + rule.getName() + ".json"), graphCode);
+	}
+
+	private static void save(File file, String content) throws IOException {
+		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		writer.write(content);
+		writer.close();
+	}
+	
+	
 	public static void main(String[] args) {
 		HenshinResourceSet resourceSet = new HenshinResourceSet("src/org/eclipse/emf/henshin/tests/giraph");
 		Module module = resourceSet.getModule("GiraphTests.henshin");
 		Rule sierpinski = (Rule) module.getUnit("Sierpinski");
 		try {
-			generate(sierpinski, 1, true);
-			generate(sierpinski, 3, true);
-			generate(sierpinski, 6, false);
-			generate(sierpinski, 9, false);
+			generateClass(sierpinski, 1, true);
+			generateClass(sierpinski, 3, true);
+			generateClass(sierpinski, 6, false);
+			generateClass(sierpinski, 9, false);
+			generateGraph(sierpinski);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
