@@ -29,11 +29,9 @@ http://www.eclipse.org/legal/epl-v10.html
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore" version="2.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ocl" version="3.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ocl.ecore" version="3.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.edit" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources" version="3.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore.xmi" version="2.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.editor" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.jface"/>
@@ -58,16 +56,18 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.emf.validation"/>
       <import plugin="org.eclipse.emf.ecore.change" version="2.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.common.ui" version="2.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.diff" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.match" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.ui" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.compare" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.ui" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.match" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.diff" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.common.ui" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.codegen.ecore" version="2.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.query.ocl" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.validation.ocl" version="1.3.0" match="greaterOrEqual"/>
-      <import plugin="org.junit4" version="4.8.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore.xmi" version="2.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.forms" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.help" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.common" version="2.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.notation" version="1.4.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
