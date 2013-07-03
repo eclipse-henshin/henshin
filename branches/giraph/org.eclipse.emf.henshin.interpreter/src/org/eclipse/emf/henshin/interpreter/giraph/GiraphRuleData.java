@@ -49,7 +49,7 @@ public class GiraphRuleData {
 
 	public GiraphRuleData(Rule rule) throws Exception {
 		this.rule = rule;
-		generateMatchingSteps();
+		this.matchingSteps = generateMatchingSteps();
 		if (matchingSteps==null) {
 			throw new RuntimeException("Cannot generate matching data for rule " + rule.getName());
 		}
@@ -57,26 +57,31 @@ public class GiraphRuleData {
 		generateOrderedLhsNodes();
 	}
 
-	private void generateMatchingSteps() {
+	private List<MatchingStep> generateMatchingSteps() {
 		List<Node> nodesToMatch = new ArrayList<Node>(rule.getLhs().getNodes());
+		List<MatchingStep> result = new ArrayList<GiraphRuleData.MatchingStep>();
 		while (!nodesToMatch.isEmpty()) {
-			List<MatchingStep> steps = getLongestMatchingSteps(nodesToMatch);
-			if (this.matchingSteps==null) {
-				this.matchingSteps = steps;
-			} else {
-				// Merge matching steps:
-//				while (!steps.isEmpty()) {
-					
-//				}
+			List<MatchingStep> newSteps = getLongestMatchingSteps(nodesToMatch);
+			// Filter duplicate matching steps:
+			for (int i=0; i<newSteps.size(); i++) {
+				for (MatchingStep oldStep : result) {
+					if (oldStep.node==newSteps.get(i).node) {
+						newSteps.remove(i--); // already matched
+						continue;
+					}
+				}
 			}
+			// Add the new matching steps:
+			result.addAll(newSteps);
 			// Remove matched nodes:
-			for (MatchingStep step : steps) {
+			for (MatchingStep step : newSteps) {
 				nodesToMatch.remove(step.node);
 				if (step.edge!=null) {
 					nodesToMatch.remove(step.edge.getTarget());
 				}
 			}
 		}
+		return result;
 	}
 
 	private List<MatchingStep> getLongestMatchingSteps(List<Node> nodes) {
@@ -136,10 +141,7 @@ public class GiraphRuleData {
 			lockedNodes.add(edge.getTarget());
 
 		}
-		if (rule.getLhs().getNodes().size()==lockedNodes.size()) {
-			return matchingSteps;
-		}
-		return null;
+		return matchingSteps;
 	}
 
 	private void generateTypeConstants() {

@@ -75,16 +75,16 @@
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_tqiyUOM_EeKN6veBRtYNZQ" name="Wheel">
     <lhs xmi:id="_trBTcOM_EeKN6veBRtYNZQ" name="Lhs">
-      <nodes xmi:id="_zfkE8OM_EeKN6veBRtYNZQ" outgoing="_0rGrAOM_EeKN6veBRtYNZQ">
+      <nodes xmi:id="_zfkE8OM_EeKN6veBRtYNZQ" name="a" outgoing="_0rGrAOM_EeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//VertexContainer"/>
       </nodes>
-      <nodes xmi:id="_0rE10OM_EeKN6veBRtYNZQ" incoming="_0rGrAOM_EeKN6veBRtYNZQ _7EhrMOM_EeKN6veBRtYNZQ" outgoing="_7oX_IOM_EeKN6veBRtYNZQ">
+      <nodes xmi:id="_0rE10OM_EeKN6veBRtYNZQ" name="b" incoming="_0rGrAOM_EeKN6veBRtYNZQ _7EhrMOM_EeKN6veBRtYNZQ" outgoing="_7oX_IOM_EeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_1QB9AOM_EeKN6veBRtYNZQ" incoming="_7oX_IOM_EeKN6veBRtYNZQ">
+      <nodes xmi:id="_1QB9AOM_EeKN6veBRtYNZQ" name="c" incoming="_7oX_IOM_EeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_1fxCIOM_EeKN6veBRtYNZQ" outgoing="_7EhrMOM_EeKN6veBRtYNZQ">
+      <nodes xmi:id="_1fxCIOM_EeKN6veBRtYNZQ" name="d" outgoing="_7EhrMOM_EeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
       <edges xmi:id="_0rGrAOM_EeKN6veBRtYNZQ" source="_zfkE8OM_EeKN6veBRtYNZQ" target="_0rE10OM_EeKN6veBRtYNZQ">
@@ -98,13 +98,13 @@
       </edges>
     </lhs>
     <rhs xmi:id="_trBTceM_EeKN6veBRtYNZQ" name="Rhs">
-      <nodes xmi:id="_zfkE8eM_EeKN6veBRtYNZQ" outgoing="_1QDLIOM_EeKN6veBRtYNZQ">
+      <nodes xmi:id="_zfkE8eM_EeKN6veBRtYNZQ" name="a" outgoing="_1QDLIOM_EeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//VertexContainer"/>
       </nodes>
-      <nodes xmi:id="_1QCkEOM_EeKN6veBRtYNZQ" incoming="_1QDLIOM_EeKN6veBRtYNZQ _8b3RkOM_EeKN6veBRtYNZQ">
+      <nodes xmi:id="_1QCkEOM_EeKN6veBRtYNZQ" name="c" incoming="_1QDLIOM_EeKN6veBRtYNZQ _8b3RkOM_EeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_1fxpMOM_EeKN6veBRtYNZQ" outgoing="_8b3RkOM_EeKN6veBRtYNZQ">
+      <nodes xmi:id="_1fxpMOM_EeKN6veBRtYNZQ" name="d" outgoing="_8b3RkOM_EeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
       <edges xmi:id="_1QDLIOM_EeKN6veBRtYNZQ" source="_zfkE8eM_EeKN6veBRtYNZQ" target="_1QCkEOM_EeKN6veBRtYNZQ">
