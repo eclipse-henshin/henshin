@@ -10,7 +10,7 @@ import org.eclipse.emf.henshin.model.Rule;
 
 public class GiraphUtil {
 
-	public static String getInstanceCode(Rule rule) {
+	public static String getInstanceCode(Rule rule) throws Exception {
 		StringBuffer json = new StringBuffer();
 		GiraphRuleData data = new GiraphRuleData(rule);
 		List<ENamedElement> types = new ArrayList<ENamedElement>(data.typeConstants.keySet());

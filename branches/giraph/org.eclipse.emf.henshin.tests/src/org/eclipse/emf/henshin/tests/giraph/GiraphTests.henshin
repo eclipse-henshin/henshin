@@ -241,7 +241,7 @@
     <mappings xmi:id="_lcA1MuNAEeKN6veBRtYNZQ" origin="_lcA1MONAEeKN6veBRtYNZQ" image="_lcA1MeNAEeKN6veBRtYNZQ"/>
     <mappings xmi:id="_lmeYweNAEeKN6veBRtYNZQ" origin="_lmdxsONAEeKN6veBRtYNZQ" image="_lmeYwONAEeKN6veBRtYNZQ"/>
   </units>
-  <units xsi:type="henshin:Rule" xmi:id="_Wq9w0ONCEeKN6veBRtYNZQ" name="Star">
+  <units xsi:type="henshin:Rule" xmi:id="_Wq9w0ONCEeKN6veBRtYNZQ" name="DeleteStar">
     <lhs xmi:id="_WrII4ONCEeKN6veBRtYNZQ" name="Lhs">
       <nodes xmi:id="_ZGuBkONCEeKN6veBRtYNZQ" outgoing="_Z1nH4ONCEeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//VertexContainer"/>

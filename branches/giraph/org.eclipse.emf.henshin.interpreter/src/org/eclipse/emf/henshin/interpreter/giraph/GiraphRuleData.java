@@ -47,9 +47,12 @@ public class GiraphRuleData {
 
 	public List<Node> orderedLhsNodes;
 
-	public GiraphRuleData(Rule rule) {
+	public GiraphRuleData(Rule rule) throws Exception {
 		this.rule = rule;
 		generateMatchingSteps();
+		if (matchingSteps==null) {
+			throw new RuntimeException("Cannot generate matching data for rule " + rule.getName());
+		}
 		generateTypeConstants();
 		generateOrderedLhsNodes();
 	}
@@ -67,7 +70,7 @@ public class GiraphRuleData {
 	private List<MatchingStep> getMatchingSteps(Rule rule, Node start) {
 		List<MatchingStep> matchingSteps = new ArrayList<MatchingStep>();
 		if (start.getOutgoing().isEmpty()) {
-			return matchingSteps;
+			return null;
 		}
 		Deque<Edge> edgeQueue = new ArrayDeque<Edge>();
 		edgeQueue.addAll(start.getOutgoing());
@@ -80,16 +83,17 @@ public class GiraphRuleData {
 					edge, -1, getMatchingStepIndex(matchingSteps, edge.getTarget())));
 
 			visitedEdges.add(edge);
-			lockedNodes.add(edge.getSource());
-			lockedNodes.add(edge.getTarget());
 
 			if (edge.getTarget().getOutgoing().isEmpty()) {
 
 				// Leaf:
+				if (!lockedNodes.contains(edge.getTarget())) {
+					int sendBackTo = -1;
 					if (!edgeQueue.isEmpty()) {
-						int sendBackTo = getMatchingStepIndex(matchingSteps, edgeQueue.getFirst().getSource());
-						matchingSteps.add(new MatchingStep(edge.getTarget(), null, sendBackTo, -1));
+						sendBackTo = getMatchingStepIndex(matchingSteps, edgeQueue.getFirst().getSource());
 					}
+					matchingSteps.add(new MatchingStep(edge.getTarget(), null, sendBackTo, -1));
+				}
 
 			} else {
 
@@ -101,6 +105,10 @@ public class GiraphRuleData {
 				}
 
 			}
+
+			lockedNodes.add(edge.getSource());
+			lockedNodes.add(edge.getTarget());
+
 		}
 		if (rule.getLhs().getNodes().size()==lockedNodes.size()) {
 			return matchingSteps;

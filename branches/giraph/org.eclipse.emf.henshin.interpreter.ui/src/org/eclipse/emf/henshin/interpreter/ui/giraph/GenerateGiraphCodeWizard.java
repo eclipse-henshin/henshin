@@ -7,13 +7,13 @@ import java.util.Map;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleData;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphUtil;
 import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -104,7 +104,8 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaRuleFile.getName());
 			wb.getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput(javaRuleFile), desc.getId());
 			
-		} catch (CoreException e) {
+		} catch (Exception e) {
+			MessageDialog.openError(getShell(), "Error", "Error generating Giraph code: " + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}

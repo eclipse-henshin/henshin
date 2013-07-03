@@ -35,12 +35,11 @@ int applicationCount = (Integer) args.get("applicationCount");
 package <%= packageName %>;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.apache.giraph.edge.Edge;
+<% if (!changeInfo.getCreatedEdges().isEmpty()) { %>
 import org.apache.giraph.edge.EdgeFactory;
+<% } %>
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
 import org.apache.hadoop.io.ByteWritable;
@@ -126,25 +125,25 @@ if (logging) {
 
 <%    if (step.verifyEdgeTo >= 0) {%>
       // Node <%= data.getNodeName(step.edge.getSource()) %>: check for edge to match of <%= data.getNodeName(step.edge.getTarget()) %> of type "<%= step.edge.getType().getName() %>":
-      List<HenshinUtil.Match> validMatches = new ArrayList<HenshinUtil.Match>();
-      Iterator<HenshinUtil.Match> it = matches.iterator();
-      while (it.hasNext()) {
-        HenshinUtil.Match match = it.next();
+      for (HenshinUtil.Match match : matches) {
         HenshinUtil.VertexId targetId = match.getVertexId(<%= step.verifyEdgeTo %>);
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
-          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %>.get() &&
-              edge.getTargetVertexId().equals(targetId)) {
-            validMatches.add(match);
-            break;
+          if (edge.getValue().get() ==
+            <%= data.typeConstants.get(step.edge.getType()) %>.get() &&
+            edge.getTargetVertexId().equals(targetId)) {
+<%        if (i == data.matchingSteps.size()-1) {%>
+            // Apply the rule:
+            applyRule(vertex, match);
+<%        } %>
           }
         }
       }
-      matches = validMatches;
 
 <%    } else {%>
       // Matching node <%= data.getNodeName(step.node) %>. Type must be "<%= step.node.getType().getName() %>":
-      boolean ok = vertex.getValue().get() == <%= data.typeConstants.get(step.node.getType()) %>.get();
+      boolean ok = vertex.getValue().get() ==
+        <%= data.typeConstants.get(step.node.getType()) %>.get();
       if (ok) {
 <%    if (i == 0) {%>
         // Create a new partial match:
@@ -159,7 +158,8 @@ if (logging) {
 <%= i > 0 ? "  " : ""%>        // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
 <%= i > 0 ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
 <%= i > 0 ? "  " : ""%>          vertex.getEdges()) {
-<%= i > 0 ? "  " : ""%>          if (edge.getValue().get() == <%= data.typeConstants.get(step.edge.getType()) %>.get()) {
+<%= i > 0 ? "  " : ""%>          if (edge.getValue().get() ==
+<%= i > 0 ? "  " : ""%>            <%= data.typeConstants.get(step.edge.getType()) %>.get()) {
 <%if (logging) { %>
 <%= i > 0 ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
 <%= i > 0 ? "  " : ""%>              " sending (partial) match " + match +
@@ -168,7 +168,8 @@ if (logging) {
 <%= i > 0 ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
 <%= i > 0 ? "  " : ""%>          }
 <%= i > 0 ? "  " : ""%>        }
-<%    } else if (step.sendBackTo >= 0) {%>
+<%
+      } else if (step.sendBackTo >= 0) {%>
           // Send the message back to matches of node <%= data.getNodeName(data.matchingSteps.get(step.sendBackTo).node) %>:
           for (HenshinUtil.Match m : matches) {
             HenshinUtil.VertexId targetVertexId =
@@ -180,25 +181,23 @@ if (logging) {
 <%} %>
             sendMessage(targetVertexId, match);
           }
+<%
+      } else if (i == data.matchingSteps.size()-1) {%>
+          // Apply the rule:
+          applyRule(vertex, match);
 <%    }
       if (i>0) {%>
         }<%
        }%>
       } // end if ok
-
-<%    }
-      if (i == data.matchingSteps.size()-1) {%>
-      // Apply rule for all matches:
-      for (HenshinUtil.Match match : matches) {
-        applyRule(vertex, match);
-      }
 <%
-      } else {%>
+      if (i < data.matchingSteps.size()-1) {%>
+
       // In the last iteration the vertex can be made inactive:
       if (superstep / <%= data.matchingSteps.size() %> == applicationCount - 1) {
         vertex.voteToHalt();
       }
-<%
+<%    }
       }%>
 
     }<% 
@@ -236,9 +235,7 @@ if (logging) {
     for (Node node : changeInfo.getDeletedNodes()) {%>
 
     // Remove vertex <%= data.getNodeName(node) %>:
-    removeVertexRequest(
-      match.getVertexId(<%= data.orderedLhsNodes.indexOf(node) %>)
-    );
+    removeVertexRequest(cur<%= data.orderedLhsNodes.indexOf(node) %>);
 <%  }
 
     int n = 0;

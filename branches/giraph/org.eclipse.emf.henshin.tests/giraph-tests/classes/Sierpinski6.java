@@ -18,9 +18,6 @@
 package org.apache.giraph.examples;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.edge.EdgeFactory;
@@ -106,7 +103,8 @@ public class Sierpinski6 extends
     if (superstep % 4 == 0) {
 
       // Matching node 0. Type must be "Vertex":
-      boolean ok = vertex.getValue().get() == SIERPINSKI_VERTEX.get();
+      boolean ok = vertex.getValue().get() ==
+        SIERPINSKI_VERTEX.get();
       if (ok) {
         // Create a new partial match:
         HenshinUtil.Match match =
@@ -114,7 +112,8 @@ public class Sierpinski6 extends
         // Send a match request to all outgoing edges of type "left":
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
-          if (edge.getValue().get() == SIERPINSKI_VERTEX_LEFT.get()) {
+          if (edge.getValue().get() ==
+            SIERPINSKI_VERTEX_LEFT.get()) {
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
@@ -128,7 +127,8 @@ public class Sierpinski6 extends
     } else if (superstep % 4 == 1) {
 
       // Matching node 1. Type must be "Vertex":
-      boolean ok = vertex.getValue().get() == SIERPINSKI_VERTEX.get();
+      boolean ok = vertex.getValue().get() ==
+        SIERPINSKI_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
@@ -136,7 +136,8 @@ public class Sierpinski6 extends
           // Send a match request to all outgoing edges of type "conn":
           for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
             vertex.getEdges()) {
-            if (edge.getValue().get() == SIERPINSKI_VERTEX_CONN.get()) {
+            if (edge.getValue().get() ==
+              SIERPINSKI_VERTEX_CONN.get()) {
               sendMessage(edge.getTargetVertexId(), match);
             }
           }
@@ -151,7 +152,8 @@ public class Sierpinski6 extends
     } else if (superstep % 4 == 2) {
 
       // Matching node 2. Type must be "Vertex":
-      boolean ok = vertex.getValue().get() == SIERPINSKI_VERTEX.get();
+      boolean ok = vertex.getValue().get() ==
+        SIERPINSKI_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
@@ -173,26 +175,19 @@ public class Sierpinski6 extends
     } else if (superstep % 4 == 3) {
 
       // Node 0: check for edge to match of 2 of type "right":
-      List<HenshinUtil.Match> validMatches = new ArrayList<HenshinUtil.Match>();
-      Iterator<HenshinUtil.Match> it = matches.iterator();
-      while (it.hasNext()) {
-        HenshinUtil.Match match = it.next();
+      for (HenshinUtil.Match match : matches) {
         HenshinUtil.VertexId targetId = match.getVertexId(2);
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
-          if (edge.getValue().get() == SIERPINSKI_VERTEX_RIGHT.get() &&
-              edge.getTargetVertexId().equals(targetId)) {
-            validMatches.add(match);
-            break;
+          if (edge.getValue().get() ==
+            SIERPINSKI_VERTEX_RIGHT.get() &&
+            edge.getTargetVertexId().equals(targetId)) {
+            // Apply the rule:
+            applyRule(vertex, match);
           }
         }
       }
-      matches = validMatches;
 
-      // Apply rule for all matches:
-      for (HenshinUtil.Match match : matches) {
-        applyRule(vertex, match);
-      }
 
     }
 
