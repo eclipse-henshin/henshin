@@ -218,7 +218,7 @@ if (logging) {
     stringBuffer.append(TEXT_24);
     stringBuffer.append( i );
     stringBuffer.append(TEXT_25);
-        if (step.verifyEdgeTo >= 0) {
+        if (step.verifyEdgeTo != null) {
     stringBuffer.append(TEXT_26);
     stringBuffer.append( data.getNodeName(step.edge.getSource()) );
     stringBuffer.append(TEXT_27);
@@ -226,7 +226,7 @@ if (logging) {
     stringBuffer.append(TEXT_28);
     stringBuffer.append( step.edge.getType().getName() );
     stringBuffer.append(TEXT_29);
-    stringBuffer.append( step.verifyEdgeTo );
+    stringBuffer.append( data.orderedLhsNodes.indexOf(step.verifyEdgeTo) );
     stringBuffer.append(TEXT_30);
     stringBuffer.append(TEXT_31);
     stringBuffer.append( data.typeConstants.get(step.edge.getType()) );
@@ -290,11 +290,11 @@ if (logging) {
     stringBuffer.append( i > 0 ? "  " : "");
     stringBuffer.append(TEXT_65);
     
-      } else if (step.sendBackTo >= 0) {
+      } else if (step.sendBackTo != null) {
     stringBuffer.append(TEXT_66);
-    stringBuffer.append( data.getNodeName(data.matchingSteps.get(step.sendBackTo).node) );
+    stringBuffer.append( data.getNodeName(step.sendBackTo) );
     stringBuffer.append(TEXT_67);
-    stringBuffer.append( step.sendBackTo );
+    stringBuffer.append( data.orderedLhsNodes.indexOf(step.sendBackTo) );
     stringBuffer.append(TEXT_68);
     if (logging) { 
     stringBuffer.append(TEXT_69);

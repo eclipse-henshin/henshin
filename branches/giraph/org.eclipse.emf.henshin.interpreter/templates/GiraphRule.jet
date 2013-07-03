@@ -123,10 +123,10 @@ if (logging) {
       GiraphRuleData.MatchingStep step = data.matchingSteps.get(i);
 %><%= i>0 ? " else" : "   " %> if (superstep % <%= data.matchingSteps.size() %> == <%= i %>) {
 
-<%    if (step.verifyEdgeTo >= 0) {%>
+<%    if (step.verifyEdgeTo != null) {%>
       // Node <%= data.getNodeName(step.edge.getSource()) %>: check for edge to match of <%= data.getNodeName(step.edge.getTarget()) %> of type "<%= step.edge.getType().getName() %>":
       for (HenshinUtil.Match match : matches) {
-        HenshinUtil.VertexId targetId = match.getVertexId(<%= step.verifyEdgeTo %>);
+        HenshinUtil.VertexId targetId = match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.verifyEdgeTo) %>);
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -169,11 +169,11 @@ if (logging) {
 <%= i > 0 ? "  " : ""%>          }
 <%= i > 0 ? "  " : ""%>        }
 <%
-      } else if (step.sendBackTo >= 0) {%>
-          // Send the message back to matches of node <%= data.getNodeName(data.matchingSteps.get(step.sendBackTo).node) %>:
+      } else if (step.sendBackTo != null) {%>
+          // Send the message back to matches of node <%= data.getNodeName(step.sendBackTo) %>:
           for (HenshinUtil.Match m : matches) {
             HenshinUtil.VertexId targetVertexId =
-              m.getVertexId(<%= step.sendBackTo %>);
+              m.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
 <%if (logging) { %>
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +

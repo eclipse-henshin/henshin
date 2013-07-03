@@ -26,11 +26,11 @@ public class GiraphRuleData {
 
 		public final Edge edge;
 
-		public final int verifyEdgeTo;
+		public final Node verifyEdgeTo;
 
-		public final int sendBackTo;
+		public final Node sendBackTo;
 
-		public MatchingStep(Node node, Edge edge, int sendBackTo, int verifyEdgeTo) {
+		public MatchingStep(Node node, Edge edge, Node sendBackTo, Node verifyEdgeTo) {
 			this.node = node;
 			this.edge = edge;
 			this.verifyEdgeTo = verifyEdgeTo;
@@ -58,13 +58,38 @@ public class GiraphRuleData {
 	}
 
 	private void generateMatchingSteps() {
-		for (Node start : rule.getLhs().getNodes()) {
-			List<MatchingStep> matchingSteps = getMatchingSteps(rule, start);
-			if (matchingSteps!=null) {
-				this.matchingSteps = matchingSteps;
-				break;
+		List<Node> nodesToMatch = new ArrayList<Node>(rule.getLhs().getNodes());
+		while (!nodesToMatch.isEmpty()) {
+			List<MatchingStep> steps = getLongestMatchingSteps(nodesToMatch);
+			if (this.matchingSteps==null) {
+				this.matchingSteps = steps;
+			} else {
+				// Merge matching steps:
+//				while (!steps.isEmpty()) {
+					
+//				}
+			}
+			// Remove matched nodes:
+			for (MatchingStep step : steps) {
+				nodesToMatch.remove(step.node);
+				if (step.edge!=null) {
+					nodesToMatch.remove(step.edge.getTarget());
+				}
 			}
 		}
+	}
+
+	private List<MatchingStep> getLongestMatchingSteps(List<Node> nodes) {
+		List<MatchingStep> result = null;
+		for (Node start : nodes) {
+			List<MatchingStep> matchingSteps = getMatchingSteps(rule, start);
+			if (matchingSteps!=null) {
+				if (result==null || matchingSteps.size()>result.size()) {
+					result = matchingSteps;
+				}
+			}
+		}
+		return result;
 	}
 
 	private List<MatchingStep> getMatchingSteps(Rule rule, Node start) {
@@ -78,9 +103,10 @@ public class GiraphRuleData {
 		Set<Edge> visitedEdges = new HashSet<Edge>();
 		while (!edgeQueue.isEmpty()) {
 			Edge edge = edgeQueue.pop();
-
-			matchingSteps.add(new MatchingStep(edge.getSource(), 
-					edge, -1, getMatchingStepIndex(matchingSteps, edge.getTarget())));
+			
+			// Add the next matching step:
+			matchingSteps.add(new MatchingStep(edge.getSource(), edge, null, 
+					lockedNodes.contains(edge.getTarget()) ? edge.getTarget() : null));
 
 			visitedEdges.add(edge);
 
@@ -88,11 +114,11 @@ public class GiraphRuleData {
 
 				// Leaf:
 				if (!lockedNodes.contains(edge.getTarget())) {
-					int sendBackTo = -1;
+					Node sendBackTo = null;
 					if (!edgeQueue.isEmpty()) {
-						sendBackTo = getMatchingStepIndex(matchingSteps, edgeQueue.getFirst().getSource());
+						sendBackTo = edgeQueue.getFirst().getSource();
 					}
-					matchingSteps.add(new MatchingStep(edge.getTarget(), null, sendBackTo, -1));
+					matchingSteps.add(new MatchingStep(edge.getTarget(), null, sendBackTo, null));
 				}
 
 			} else {
@@ -114,15 +140,6 @@ public class GiraphRuleData {
 			return matchingSteps;
 		}
 		return null;
-	}
-
-	private static int getMatchingStepIndex(List<MatchingStep> matchingSteps, Node node) {
-		for (int i=0; i<matchingSteps.size(); i++) {
-			if (matchingSteps.get(i).node==node) {
-				return i;
-			}
-		}
-		return -1;
 	}
 
 	private void generateTypeConstants() {
