@@ -17,7 +17,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class GenerateGiraphTests {
 
-	public static void generateClass(Rule rule, int appCount, boolean logging) {
+	public static void generateClass(Rule rule, int appCount, boolean logging, boolean useUUIDs) {
 		try {
 			String className = rule.getName() + appCount;
 			Map<String,Object> args = new HashMap<String,Object>();
@@ -25,6 +25,7 @@ public class GenerateGiraphTests {
 			args.put("className", className);
 			args.put("packageName", "org.apache.giraph.examples");
 			args.put("logging", logging);
+			args.put("useUUIDs", useUUIDs);
 			args.put("applicationCount", appCount);
 
 			GiraphRuleTemplate ruleTemplate = new GiraphRuleTemplate();
@@ -60,20 +61,20 @@ public class GenerateGiraphTests {
 		Module module = resourceSet.getModule("GiraphTests.henshin");
 
 		Rule sierpinski = (Rule) module.getUnit("Sierpinski");
-		generateClass(sierpinski, 1, true);
-		generateClass(sierpinski, 3, true);
-		generateClass(sierpinski, 6, false);
-		generateClass(sierpinski, 9, false);
+		generateClass(sierpinski, 1, true, false);
+		generateClass(sierpinski, 3, true, false);
+		generateClass(sierpinski, 6, false, false);
+		generateClass(sierpinski, 9, false, true);
 		generateGraph(sierpinski);
 
 		Rule wheel = (Rule) module.getUnit("Wheel");
 		Rule wheelStart = (Rule) module.getUnit("WheelStart");
-		generateClass(wheel, 10, true); // maximum number of applications
+		generateClass(wheel, 10, true, false); // maximum number of applications
 		generateGraph(wheelStart);
 
 		Rule deleteStar = (Rule) module.getUnit("DeleteStar");
 		Rule starStart = (Rule) module.getUnit("StarStart");
-		generateClass(deleteStar, 1, true);
+		generateClass(deleteStar, 1, true, false);
 		generateGraph(starStart);
 
 	}

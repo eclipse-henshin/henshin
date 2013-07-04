@@ -113,13 +113,13 @@ public class DeleteStar1 extends
     }
     if (superstep % 2 == 0) {
 
-      // Matching node 0. Type must be "VertexContainer":
+      // Matching node "a". Type must be "VertexContainer":
       boolean ok = vertex.getValue().get() ==
         SIERPINSKI_VERTEX_CONTAINER.get();
       if (ok) {
         // Create a new partial match:
         HenshinUtil.Match match =
-          new HenshinUtil.Match().extend(vertex.getId());
+          new HenshinUtil.Match().append(vertex.getId());
         // Send a match request to all outgoing edges of type "vertices":
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
@@ -140,13 +140,13 @@ public class DeleteStar1 extends
 
     } else if (superstep % 2 == 1) {
 
-      // Matching node 1. Type must be "Vertex":
+      // Matching node "b". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
         SIERPINSKI_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
-          match = match.extend(vertex.getId());
+          match = match.append(vertex.getId());
           // Apply the rule:
           applyRule(vertex, match);
         }
@@ -171,10 +171,10 @@ public class DeleteStar1 extends
     HenshinUtil.VertexId cur0 = match.getVertexId(0);
     HenshinUtil.VertexId cur1 = match.getVertexId(1);
 
-    // Remove edge 0 -> 1:
+    // Remove edge "a" -> "b":
     removeEdgesRequest(cur0, cur1);
 
-    // Remove vertex 1:
+    // Remove vertex "b":
     removeVertexRequest(cur1);
 
   }
@@ -196,9 +196,9 @@ public class DeleteStar1 extends
     long code = (getSuperstep() + 1) / 2;
     if (bitsNeededForApp <= 8) {
       code = ((code << 0)) | vertexIndex;
-      return baseId.extend((byte) code);
+      return baseId.append((byte) code);
     } else {
-      return baseId.extend((byte) code).extend((byte) vertexIndex);
+      return baseId.append((byte) code).append((byte) vertexIndex);
     }
   }
 

@@ -3,13 +3,13 @@
   <imports href="sierpinski.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_O4jIcGK4EeGEopi1QdEPhA" name="Sierpinski" description="">
     <lhs xmi:id="_O4jIcWK4EeGEopi1QdEPhA">
-      <nodes xmi:id="_O4jIcmK4EeGEopi1QdEPhA" outgoing="_O4jIdWK4EeGEopi1QdEPhA _O4jIdGK4EeGEopi1QdEPhA">
+      <nodes xmi:id="_O4jIcmK4EeGEopi1QdEPhA" name="a" outgoing="_O4jIdWK4EeGEopi1QdEPhA _O4jIdGK4EeGEopi1QdEPhA">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_O4kWkGK4EeGEopi1QdEPhA" incoming="_O4jIdWK4EeGEopi1QdEPhA" outgoing="_O4jIc2K4EeGEopi1QdEPhA">
+      <nodes xmi:id="_O4kWkGK4EeGEopi1QdEPhA" name="b" incoming="_O4jIdWK4EeGEopi1QdEPhA" outgoing="_O4jIc2K4EeGEopi1QdEPhA">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_O4kWkWK4EeGEopi1QdEPhA" incoming="_O4jIdGK4EeGEopi1QdEPhA _O4jIc2K4EeGEopi1QdEPhA">
+      <nodes xmi:id="_O4kWkWK4EeGEopi1QdEPhA" name="c" incoming="_O4jIdGK4EeGEopi1QdEPhA _O4jIc2K4EeGEopi1QdEPhA">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
       <edges xmi:id="_O4jIdWK4EeGEopi1QdEPhA" source="_O4jIcmK4EeGEopi1QdEPhA" target="_O4kWkGK4EeGEopi1QdEPhA">
@@ -23,13 +23,13 @@
       </edges>
     </lhs>
     <rhs xmi:id="_O4jIdmK4EeGEopi1QdEPhA">
-      <nodes xmi:id="_O4jId2K4EeGEopi1QdEPhA" outgoing="_O4jIfWK4EeGEopi1QdEPhA _O4jIfmK4EeGEopi1QdEPhA">
+      <nodes xmi:id="_O4jId2K4EeGEopi1QdEPhA" name="a" outgoing="_O4jIfWK4EeGEopi1QdEPhA _O4jIfmK4EeGEopi1QdEPhA">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_O4jIeGK4EeGEopi1QdEPhA" incoming="_O4jIgGK4EeGEopi1QdEPhA" outgoing="_O4jIf2K4EeGEopi1QdEPhA">
+      <nodes xmi:id="_O4jIeGK4EeGEopi1QdEPhA" name="b" incoming="_O4jIgGK4EeGEopi1QdEPhA" outgoing="_O4jIf2K4EeGEopi1QdEPhA">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_O4jIeWK4EeGEopi1QdEPhA" incoming="_O4jIhGK4EeGEopi1QdEPhA _O4jIhWK4EeGEopi1QdEPhA">
+      <nodes xmi:id="_O4jIeWK4EeGEopi1QdEPhA" name="c" incoming="_O4jIhGK4EeGEopi1QdEPhA _O4jIhWK4EeGEopi1QdEPhA">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
       <nodes xmi:id="_O4jIemK4EeGEopi1QdEPhA" incoming="_O4jIfWK4EeGEopi1QdEPhA" outgoing="_O4jIgGK4EeGEopi1QdEPhA _O4jIgWK4EeGEopi1QdEPhA _O4jIgmK4EeGEopi1QdEPhA">
@@ -243,10 +243,10 @@
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_Wq9w0ONCEeKN6veBRtYNZQ" name="DeleteStar">
     <lhs xmi:id="_WrII4ONCEeKN6veBRtYNZQ" name="Lhs">
-      <nodes xmi:id="_ZGuBkONCEeKN6veBRtYNZQ" outgoing="_Z1nH4ONCEeKN6veBRtYNZQ">
+      <nodes xmi:id="_ZGuBkONCEeKN6veBRtYNZQ" name="a" outgoing="_Z1nH4ONCEeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//VertexContainer"/>
       </nodes>
-      <nodes xmi:id="_Z1l5wONCEeKN6veBRtYNZQ" incoming="_Z1nH4ONCEeKN6veBRtYNZQ">
+      <nodes xmi:id="_Z1l5wONCEeKN6veBRtYNZQ" name="b" incoming="_Z1nH4ONCEeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
       <edges xmi:id="_Z1nH4ONCEeKN6veBRtYNZQ" source="_ZGuBkONCEeKN6veBRtYNZQ" target="_Z1l5wONCEeKN6veBRtYNZQ">
@@ -254,7 +254,7 @@
       </edges>
     </lhs>
     <rhs xmi:id="_WrII4eNCEeKN6veBRtYNZQ" name="Rhs">
-      <nodes xmi:id="_ZGuBkeNCEeKN6veBRtYNZQ">
+      <nodes xmi:id="_ZGuBkeNCEeKN6veBRtYNZQ" name="a">
         <type href="sierpinski.ecore#//VertexContainer"/>
       </nodes>
     </rhs>

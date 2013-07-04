@@ -102,7 +102,7 @@ public class Wheel10 extends
     LOG.info("Vertex " + vertex.getId() + " executing superstep " + superstep);
 
     // Check if we can stop:
-    if (superstep >= applicationCount * 4) {
+    if (superstep >= applicationCount * 5) {
       vertex.voteToHalt();
       return;
     }
@@ -112,7 +112,7 @@ public class Wheel10 extends
       LOG.info("Vertex " + vertex.getId() +
         " received (partial) match " + match);
     }
-    if (superstep % 4 == 0) {
+    if (superstep % 5 == 0) {
 
       // Matching node "a". Type must be "VertexContainer":
       boolean ok = vertex.getValue().get() ==
@@ -120,7 +120,7 @@ public class Wheel10 extends
       if (ok) {
         // Create a new partial match:
         HenshinUtil.Match match =
-          new HenshinUtil.Match().extend(vertex.getId());
+          new HenshinUtil.Match().append(vertex.getId());
         // Send a match request to all outgoing edges of type "vertices":
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
@@ -135,11 +135,11 @@ public class Wheel10 extends
       } // end if ok
 
       // In the last iteration the vertex can be made inactive:
-      if (superstep / 4 == applicationCount - 1) {
+      if (superstep / 5 == applicationCount - 1) {
         vertex.voteToHalt();
       }
 
-    } else if (superstep % 4 == 1) {
+    } else if (superstep % 5 == 1) {
 
       // Matching node "b". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
@@ -147,7 +147,7 @@ public class Wheel10 extends
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
-          match = match.extend(vertex.getId());
+          match = match.append(vertex.getId());
           // Send a match request to all outgoing edges of type "right":
           for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
             vertex.getEdges()) {
@@ -163,11 +163,11 @@ public class Wheel10 extends
       } // end if ok
 
       // In the last iteration the vertex can be made inactive:
-      if (superstep / 4 == applicationCount - 1) {
+      if (superstep / 5 == applicationCount - 1) {
         vertex.voteToHalt();
       }
 
-    } else if (superstep % 4 == 2) {
+    } else if (superstep % 5 == 2) {
 
       // Matching node "c". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
@@ -175,35 +175,62 @@ public class Wheel10 extends
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
-          match = match.extend(vertex.getId());
+          match = match.append(vertex.getId());
+          // Send the message back to matches of node "b":
+          for (HenshinUtil.Match m : matches) {
+            HenshinUtil.VertexId targetVertexId =
+              m.getVertexId(1);
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " to vertex " + targetVertexId);
+            sendMessage(targetVertexId, match);
+          }
         }
       } // end if ok
 
       // In the last iteration the vertex can be made inactive:
-      if (superstep / 4 == applicationCount - 1) {
+      if (superstep / 5 == applicationCount - 1) {
         vertex.voteToHalt();
       }
 
-    } else if (superstep % 4 == 3) {
+    } else if (superstep % 5 == 3) {
 
       // Matching node "d". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
         SIERPINSKI_VERTEX.get();
       if (ok) {
+        // Create a new partial match:
+        HenshinUtil.Match match =
+          new HenshinUtil.Match().append(vertex.getId());
+        // Send a match request to all outgoing edges of type "right":
+        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
+          vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            SIERPINSKI_VERTEX_RIGHT.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      } // end if ok
+
+      // In the last iteration the vertex can be made inactive:
+      if (superstep / 5 == applicationCount - 1) {
+        vertex.voteToHalt();
+      }
+
+    } else if (superstep % 5 == 4) {
+
+      // Matching node "b". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        SIERPINSKI_VERTEX.get();
+      if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
-          match = match.extend(vertex.getId());
-          // Send a match request to all outgoing edges of type "right":
-          for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-            vertex.getEdges()) {
-            if (edge.getValue().get() ==
-              SIERPINSKI_VERTEX_RIGHT.get()) {
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + match +
-                " to vertex " + edge.getTargetVertexId());
-              sendMessage(edge.getTargetVertexId(), match);
-            }
-          }
+          match = match.append(vertex.getId());
+          // Apply the rule:
+          applyRule(vertex, match);
         }
       } // end if ok
 
@@ -270,12 +297,12 @@ public class Wheel10 extends
       appCount = appCount / 2;
       bitsNeededForApp++;
     }
-    long code = (getSuperstep() + 1) / 4;
+    long code = (getSuperstep() + 1) / 5;
     if (bitsNeededForApp <= 8) {
       code = ((code << 0)) | vertexIndex;
-      return baseId.extend((byte) code);
+      return baseId.append((byte) code);
     } else {
-      return baseId.extend((byte) code).extend((byte) vertexIndex);
+      return baseId.append((byte) code).append((byte) vertexIndex);
     }
   }
 

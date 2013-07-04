@@ -69,6 +69,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			args.put("className", className);
 			args.put("packageName", packageName);
 			args.put("logging", new Boolean(page.loggingCheckBox.getSelection()));
+			args.put("useUUIDs", new Boolean(page.uuidsCheckBox.getSelection()));
 			args.put("applicationCount", Integer.parseInt(page.applicationsText.getText()));
 			GiraphRuleTemplate template = new GiraphRuleTemplate();
 			String giraphCode = template.generate(args);
@@ -122,7 +123,9 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		Text applicationsText;
 
 		Button loggingCheckBox;
-		
+
+		Button uuidsCheckBox;
+
 		public GiraphPage() {
 			super("Giraph");
 			setTitle("Giraph Code Generator");
@@ -163,7 +166,13 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			loggingCheckBox = new Button(comp, SWT.CHECK);
 			loggingCheckBox.setSelection(true);
-		
+
+			label = new Label(comp, SWT.NONE);
+			label.setText("Use Java UUIDs:");
+			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+			uuidsCheckBox = new Button(comp, SWT.CHECK);
+			uuidsCheckBox.setSelection(true);
+
 			setControl(comp);
 		}
 		

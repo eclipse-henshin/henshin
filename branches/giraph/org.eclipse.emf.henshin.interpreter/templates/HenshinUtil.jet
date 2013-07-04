@@ -28,8 +28,11 @@ String packageName = (String) args.get("packageName");
 package <%= packageName %>;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.LongBuffer;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.edge.EdgeFactory;
@@ -154,13 +157,26 @@ public class HenshinUtil {
      * @param vertexId The ID of the next matched vertex.
      * @return The extended match object.
      */
-    public Match extend(VertexId vertexId) {
+    public Match append(VertexId vertexId) {
       byte[] bytes = getBytes();
       byte[] id = vertexId.getBytes();
       byte[] result = Arrays.copyOf(bytes, bytes.length + 1 + id.length);
       result[bytes.length] = (byte) id.length;
       System.arraycopy(id, 0, result, bytes.length + 1, id.length);
       return new Match(result);
+    }
+
+    /**
+     * Create an extended version of this (partial) match.
+     * @param match Another partial match for the next matched vertices.
+     * @return The extended match object.
+     */
+    public Match append(Match match) {
+      byte[] bytes1 = getBytes();
+      byte[] bytes2 = match.getBytes();
+      bytes1 = Arrays.copyOf(bytes1, bytes1.length + bytes2.length);
+      System.arraycopy(bytes2, 0, bytes1, bytes1.length, bytes2.length);
+      return new Match(bytes1);
     }
 
     /**
@@ -213,11 +229,28 @@ public class HenshinUtil {
     }
 
     /**
+     * Create a new random vertex ID.
+     * The vertex ID is derived from a random UUID.
+     * @return The new vertex ID.
+     */
+    public static VertexId randomVertexId() {
+      UUID uuid = UUID.randomUUID();
+      byte[] bytes = new byte[(Long.SIZE / Byte.SIZE) * 2];
+      ByteBuffer buffer = ByteBuffer.wrap(bytes);
+      LongBuffer longBuffer = buffer.asLongBuffer();
+      longBuffer.put(new long[] {
+        uuid.getMostSignificantBits(),
+        uuid.getLeastSignificantBits()
+      });
+      return new VertexId(bytes);
+    }
+
+    /**
      * Create an extended version of this vertex ID.
      * @param value The value to be appended to this vertex ID.
      * @return The extended version of this vertex ID.
      */
-    public VertexId extend(byte value) {
+    public VertexId append(byte value) {
       byte[] bytes = getBytes();
       bytes = Arrays.copyOf(bytes, bytes.length + 1);
       bytes[bytes.length - 1] = value;

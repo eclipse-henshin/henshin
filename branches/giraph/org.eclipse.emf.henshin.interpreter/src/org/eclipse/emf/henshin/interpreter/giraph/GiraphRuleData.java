@@ -22,19 +22,25 @@ public class GiraphRuleData {
 
 	public static class MatchingStep {
 
-		public final Node node;
+		public Node node;
 
-		public final Edge edge;
+		public Edge edge;
 
-		public final Node verifyEdgeTo;
+		public Node verifyEdgeTo;
 
-		public final Node sendBackTo;
+		public Node sendBackTo;
+		
+		public boolean isStart;
 
-		public MatchingStep(Node node, Edge edge, Node sendBackTo, Node verifyEdgeTo) {
+		public boolean isJoin;
+
+		public MatchingStep(Node node, Edge edge, Node sendBackTo, Node verifyEdgeTo, boolean isStart, boolean isJoin) {
 			this.node = node;
 			this.edge = edge;
 			this.verifyEdgeTo = verifyEdgeTo;
 			this.sendBackTo = sendBackTo;
+			this.isStart = isStart;
+			this.isJoin = isJoin;
 		}
 
 	}
@@ -61,23 +67,42 @@ public class GiraphRuleData {
 		List<Node> nodesToMatch = new ArrayList<Node>(rule.getLhs().getNodes());
 		List<MatchingStep> result = new ArrayList<GiraphRuleData.MatchingStep>();
 		while (!nodesToMatch.isEmpty()) {
+			
+			// The next matching steps:
 			List<MatchingStep> newSteps = getLongestMatchingSteps(nodesToMatch);
-			// Filter duplicate matching steps:
+			
+			// Find the join node:
+			Node joinNode = null;
 			for (int i=0; i<newSteps.size(); i++) {
 				for (MatchingStep oldStep : result) {
 					if (oldStep.node==newSteps.get(i).node) {
-						newSteps.remove(i--); // already matched
-						continue;
+						joinNode = oldStep.node;
+						break;
 					}
 				}
+				if (joinNode!=null) {
+					break;
+				}
 			}
-			// Add the new matching steps:
-			result.addAll(newSteps);
-			// Remove matched nodes:
+			
+			// In the last old matching step, send the matches to the join node:
+			if (joinNode!=null && !result.isEmpty()) {
+				result.get(result.size()-1).sendBackTo = joinNode;
+			}
+			
+			// Add all new matching steps until the join node is reached:
 			for (MatchingStep step : newSteps) {
+				result.add(step);
+				// Remember new matched nodes:
 				nodesToMatch.remove(step.node);
 				if (step.edge!=null) {
 					nodesToMatch.remove(step.edge.getTarget());
+				}
+				// Stop if we reached the join node:
+				if (step.node==joinNode) {
+					step.edge = null;
+					step.isJoin = true;
+					break;
 				}
 			}
 		}
@@ -111,7 +136,8 @@ public class GiraphRuleData {
 			
 			// Add the next matching step:
 			matchingSteps.add(new MatchingStep(edge.getSource(), edge, null, 
-					lockedNodes.contains(edge.getTarget()) ? edge.getTarget() : null));
+					lockedNodes.contains(edge.getTarget()) ? edge.getTarget() : null, 
+					lockedNodes.isEmpty(), false));
 
 			visitedEdges.add(edge);
 
@@ -123,7 +149,7 @@ public class GiraphRuleData {
 					if (!edgeQueue.isEmpty()) {
 						sendBackTo = edgeQueue.getFirst().getSource();
 					}
-					matchingSteps.add(new MatchingStep(edge.getTarget(), null, sendBackTo, null));
+					matchingSteps.add(new MatchingStep(edge.getTarget(), null, sendBackTo, null, false, false));
 				}
 
 			} else {

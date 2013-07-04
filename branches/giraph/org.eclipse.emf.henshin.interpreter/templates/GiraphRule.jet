@@ -12,6 +12,7 @@ RuleChangeInfo changeInfo = new RuleChangeInfo(data.rule);
 String className = (String) args.get("className");
 String packageName = (String) args.get("packageName");
 boolean logging = (Boolean) args.get("logging");
+boolean useUUIDs = (Boolean) args.get("useUUIDs");
 int applicationCount = (Integer) args.get("applicationCount");
 
 %>
@@ -145,29 +146,29 @@ if (logging) {
       boolean ok = vertex.getValue().get() ==
         <%= data.typeConstants.get(step.node.getType()) %>.get();
       if (ok) {
-<%    if (i == 0) {%>
+<%    if (step.isStart) {%>
         // Create a new partial match:
         HenshinUtil.Match match =
-          new HenshinUtil.Match().extend(vertex.getId());
+          new HenshinUtil.Match().append(vertex.getId());
         <% } else {%>
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
-          match = match.extend(vertex.getId());
+          match = match.append(vertex.getId());
 <%    }
       if (step.edge != null) {%>
-<%= i > 0 ? "  " : ""%>        // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
-<%= i > 0 ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-<%= i > 0 ? "  " : ""%>          vertex.getEdges()) {
-<%= i > 0 ? "  " : ""%>          if (edge.getValue().get() ==
-<%= i > 0 ? "  " : ""%>            <%= data.typeConstants.get(step.edge.getType()) %>.get()) {
+<%= !step.isStart ? "  " : ""%>        // Send a match request to all outgoing edges of type "<%= step.edge.getType().getName() %>":
+<%= !step.isStart ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
+<%= !step.isStart ? "  " : ""%>          vertex.getEdges()) {
+<%= !step.isStart ? "  " : ""%>          if (edge.getValue().get() ==
+<%= !step.isStart ? "  " : ""%>            <%= data.typeConstants.get(step.edge.getType()) %>.get()) {
 <%if (logging) { %>
-<%= i > 0 ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
-<%= i > 0 ? "  " : ""%>              " sending (partial) match " + match +
-<%= i > 0 ? "  " : ""%>              " to vertex " + edge.getTargetVertexId());
+<%= !step.isStart ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
+<%= !step.isStart ? "  " : ""%>              " sending (partial) match " + match +
+<%= !step.isStart ? "  " : ""%>              " to vertex " + edge.getTargetVertexId());
 <%} %>
-<%= i > 0 ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
-<%= i > 0 ? "  " : ""%>          }
-<%= i > 0 ? "  " : ""%>        }
+<%= !step.isStart ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
+<%= !step.isStart ? "  " : ""%>          }
+<%= !step.isStart ? "  " : ""%>        }
 <%
       } else if (step.sendBackTo != null) {%>
           // Send the message back to matches of node <%= data.getNodeName(step.sendBackTo) %>:
@@ -186,7 +187,7 @@ if (logging) {
           // Apply the rule:
           applyRule(vertex, match);
 <%    }
-      if (i>0) {%>
+      if (!step.isStart) {%>
         }<%
        }%>
       } // end if ok
@@ -243,7 +244,11 @@ if (logging) {
 
     // Create vertex <%= data.getNodeName(node) %>:
     HenshinUtil.VertexId new<%= n %> =
+<% if (useUUIDs) { %>
+      HenshinUtil.VertexId.randomVertexId();
+<% } else { %>
       deriveVertexId(vertex.getId(), (byte) <%= n %>);
+<% } %>
     addVertexRequest(new<%= n++ %>, <%= data.typeConstants.get(node.getType()) %>);
 <%  }
 
@@ -271,6 +276,7 @@ if (logging) {
 
   }
 
+<% if (!useUUIDs) { %>
   /**
    * Derive a new vertex Id from an exiting one.
    * @param baseId The base vertex Id.
@@ -296,11 +302,12 @@ if (logging) {
     long code = (getSuperstep() + 1) / <%= data.matchingSteps.size() %>;
     if (bitsNeededForApp <= <%= 8 - bitsNeededForIndex %>) {
       code = ((code << <%= bitsNeededForIndex %>)) | vertexIndex;
-      return baseId.extend((byte) code);
+      return baseId.append((byte) code);
     } else {
-      return baseId.extend((byte) code).extend((byte) vertexIndex);
+      return baseId.append((byte) code).append((byte) vertexIndex);
     }
   }
+<% } %>
 
   /**
    * Get the number of application to be executed for this rule.

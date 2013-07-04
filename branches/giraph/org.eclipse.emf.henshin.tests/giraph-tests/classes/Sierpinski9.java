@@ -102,13 +102,13 @@ public class Sierpinski9 extends
 
     if (superstep % 4 == 0) {
 
-      // Matching node 0. Type must be "Vertex":
+      // Matching node "a". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
         SIERPINSKI_VERTEX.get();
       if (ok) {
         // Create a new partial match:
         HenshinUtil.Match match =
-          new HenshinUtil.Match().extend(vertex.getId());
+          new HenshinUtil.Match().append(vertex.getId());
         // Send a match request to all outgoing edges of type "left":
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
@@ -126,13 +126,13 @@ public class Sierpinski9 extends
 
     } else if (superstep % 4 == 1) {
 
-      // Matching node 1. Type must be "Vertex":
+      // Matching node "b". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
         SIERPINSKI_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
-          match = match.extend(vertex.getId());
+          match = match.append(vertex.getId());
           // Send a match request to all outgoing edges of type "conn":
           for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
             vertex.getEdges()) {
@@ -151,14 +151,14 @@ public class Sierpinski9 extends
 
     } else if (superstep % 4 == 2) {
 
-      // Matching node 2. Type must be "Vertex":
+      // Matching node "c". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
         SIERPINSKI_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
-          match = match.extend(vertex.getId());
-          // Send the message back to matches of node 0:
+          match = match.append(vertex.getId());
+          // Send the message back to matches of node "a":
           for (HenshinUtil.Match m : matches) {
             HenshinUtil.VertexId targetVertexId =
               m.getVertexId(0);
@@ -174,7 +174,7 @@ public class Sierpinski9 extends
 
     } else if (superstep % 4 == 3) {
 
-      // Node 0: check for edge to match of 2 of type "right":
+      // Node "a": check for edge to match of "c" of type "right":
       for (HenshinUtil.Match match : matches) {
         HenshinUtil.VertexId targetId = match.getVertexId(2);
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
@@ -206,52 +206,52 @@ public class Sierpinski9 extends
     HenshinUtil.VertexId cur1 = match.getVertexId(1);
     HenshinUtil.VertexId cur2 = match.getVertexId(2);
 
-    // Remove edge 0 -> 1:
+    // Remove edge "a" -> "b":
     removeEdgesRequest(cur0, cur1);
 
-    // Remove edge 0 -> 2:
+    // Remove edge "a" -> "c":
     removeEdgesRequest(cur0, cur2);
 
-    // Remove edge 1 -> 2:
+    // Remove edge "b" -> "c":
     removeEdgesRequest(cur1, cur2);
 
     // Create vertex 3:
     HenshinUtil.VertexId new0 =
-      deriveVertexId(vertex.getId(), (byte) 0);
+      HenshinUtil.VertexId.randomVertexId();
     addVertexRequest(new0, SIERPINSKI_VERTEX);
 
     // Create vertex 4:
     HenshinUtil.VertexId new1 =
-      deriveVertexId(vertex.getId(), (byte) 1);
+      HenshinUtil.VertexId.randomVertexId();
     addVertexRequest(new1, SIERPINSKI_VERTEX);
 
     // Create vertex 5:
     HenshinUtil.VertexId new2 =
-      deriveVertexId(vertex.getId(), (byte) 2);
+      HenshinUtil.VertexId.randomVertexId();
     addVertexRequest(new2, SIERPINSKI_VERTEX);
 
-    // Create edge 0 -> 3:
+    // Create edge "a" -> 3:
     HenshinUtil.VertexId src0 = cur0;
     HenshinUtil.VertexId trg0 = new0;
     Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
       EdgeFactory.create(trg0, SIERPINSKI_VERTEX_LEFT);
     addEdgeRequest(src0, edge0);
 
-    // Create edge 0 -> 4:
+    // Create edge "a" -> 4:
     HenshinUtil.VertexId src1 = cur0;
     HenshinUtil.VertexId trg1 = new1;
     Edge<HenshinUtil.VertexId, ByteWritable> edge1 =
       EdgeFactory.create(trg1, SIERPINSKI_VERTEX_RIGHT);
     addEdgeRequest(src1, edge1);
 
-    // Create edge 1 -> 5:
+    // Create edge "b" -> 5:
     HenshinUtil.VertexId src2 = cur1;
     HenshinUtil.VertexId trg2 = new2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge2 =
       EdgeFactory.create(trg2, SIERPINSKI_VERTEX_CONN);
     addEdgeRequest(src2, edge2);
 
-    // Create edge 3 -> 1:
+    // Create edge 3 -> "b":
     HenshinUtil.VertexId src3 = new0;
     HenshinUtil.VertexId trg3 = cur1;
     Edge<HenshinUtil.VertexId, ByteWritable> edge3 =
@@ -279,14 +279,14 @@ public class Sierpinski9 extends
       EdgeFactory.create(trg6, SIERPINSKI_VERTEX_LEFT);
     addEdgeRequest(src6, edge6);
 
-    // Create edge 4 -> 2:
+    // Create edge 4 -> "c":
     HenshinUtil.VertexId src7 = new1;
     HenshinUtil.VertexId trg7 = cur2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge7 =
       EdgeFactory.create(trg7, SIERPINSKI_VERTEX_RIGHT);
     addEdgeRequest(src7, edge7);
 
-    // Create edge 5 -> 2:
+    // Create edge 5 -> "c":
     HenshinUtil.VertexId src8 = new2;
     HenshinUtil.VertexId trg8 = cur2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge8 =
@@ -295,28 +295,6 @@ public class Sierpinski9 extends
 
   }
 
-  /**
-   * Derive a new vertex Id from an exiting one.
-   * @param baseId The base vertex Id.
-   * @param vertexIndex The relative index of the new vertex.
-   * @return The derived vertex Id.
-   */
-  private HenshinUtil.VertexId deriveVertexId(
-    HenshinUtil.VertexId baseId, int vertexIndex) {
-    int appCount = applicationCount;
-    int bitsNeededForApp = 0;
-    while (appCount > 0) {
-      appCount = appCount / 2;
-      bitsNeededForApp++;
-    }
-    long code = (getSuperstep() + 1) / 4;
-    if (bitsNeededForApp <= 6) {
-      code = ((code << 2)) | vertexIndex;
-      return baseId.extend((byte) code);
-    } else {
-      return baseId.extend((byte) code).extend((byte) vertexIndex);
-    }
-  }
 
   /**
    * Get the number of application to be executed for this rule.

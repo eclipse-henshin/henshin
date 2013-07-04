@@ -77,5 +77,4 @@ run_test Sierpinski6 Sierpinski 1095 2187
 run_test Sierpinski9 Sierpinski 29526 59049
 #run_test Wheel10 WheelStart 3 3
 
-echo
 echo All tests successful.
