@@ -71,6 +71,7 @@ copy_tests
 compile_tests
 
 run_test DeleteStar1 StarStart 1 0
+run_test ExtendStar3 StarStart 17 16
 run_test Sierpinski1 Sierpinski 6 9
 run_test Sierpinski3 Sierpinski 42 81
 run_test Sierpinski6 Sierpinski 1095 2187

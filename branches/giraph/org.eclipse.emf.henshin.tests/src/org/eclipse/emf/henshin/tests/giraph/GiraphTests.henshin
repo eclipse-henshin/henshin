@@ -325,4 +325,36 @@
     <mappings xmi:id="_kxSLQONCEeKN6veBRtYNZQ" origin="_kxRkMONCEeKN6veBRtYNZQ" image="_kxRkMeNCEeKN6veBRtYNZQ"/>
     <mappings xmi:id="_lCpBAONCEeKN6veBRtYNZQ" origin="_lCoZ8ONCEeKN6veBRtYNZQ" image="_lCoZ8eNCEeKN6veBRtYNZQ"/>
   </units>
+  <units xsi:type="henshin:Rule" xmi:id="_a0DQgOTLEeKfY_qjECFEAQ" name="ExtendStar">
+    <lhs xmi:id="_a0DQgeTLEeKfY_qjECFEAQ" name="Lhs">
+      <nodes xmi:id="_a0DQguTLEeKfY_qjECFEAQ" name="a" outgoing="_a0DQhOTLEeKfY_qjECFEAQ">
+        <type href="sierpinski.ecore#//VertexContainer"/>
+      </nodes>
+      <nodes xmi:id="_a0DQg-TLEeKfY_qjECFEAQ" name="b" incoming="_a0DQhOTLEeKfY_qjECFEAQ">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_a0DQhOTLEeKfY_qjECFEAQ" source="_a0DQguTLEeKfY_qjECFEAQ" target="_a0DQg-TLEeKfY_qjECFEAQ">
+        <type href="sierpinski.ecore#//VertexContainer/vertices"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_a0DQheTLEeKfY_qjECFEAQ" name="Rhs">
+      <nodes xmi:id="_a0DQhuTLEeKfY_qjECFEAQ" name="a" outgoing="_dgzxsOTLEeKfY_qjECFEAQ">
+        <type href="sierpinski.ecore#//VertexContainer"/>
+      </nodes>
+      <nodes xmi:id="_dgzKoOTLEeKfY_qjECFEAQ" name="b" incoming="_dgzxsOTLEeKfY_qjECFEAQ" outgoing="_jLjuAOTLEeKfY_qjECFEAQ">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_gcJhcOTLEeKfY_qjECFEAQ" name="c" incoming="_jLjuAOTLEeKfY_qjECFEAQ">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_dgzxsOTLEeKfY_qjECFEAQ" source="_a0DQhuTLEeKfY_qjECFEAQ" target="_dgzKoOTLEeKfY_qjECFEAQ">
+        <type href="sierpinski.ecore#//VertexContainer/vertices"/>
+      </edges>
+      <edges xmi:id="_jLjuAOTLEeKfY_qjECFEAQ" source="_dgzKoOTLEeKfY_qjECFEAQ" target="_gcJhcOTLEeKfY_qjECFEAQ">
+        <type href="sierpinski.ecore#//Vertex/left"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_a0DQh-TLEeKfY_qjECFEAQ" origin="_a0DQguTLEeKfY_qjECFEAQ" image="_a0DQhuTLEeKfY_qjECFEAQ"/>
+    <mappings xmi:id="_dgzKoeTLEeKfY_qjECFEAQ" origin="_a0DQg-TLEeKfY_qjECFEAQ" image="_dgzKoOTLEeKfY_qjECFEAQ"/>
+  </units>
 </henshin:Module>

@@ -224,9 +224,21 @@ if (logging) {
 
 <%}
   for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
-%>
+    Node lhsNode = data.orderedLhsNodes.get(j);
+    Node rhsNode = data.rule.getMappings().getImage(lhsNode, data.rule.getRhs());
+    boolean needed = changeInfo.getDeletedNodes().contains(lhsNode);
+    for (Edge edge : lhsNode.getAllEdges()) {
+      needed = needed || changeInfo.getDeletedEdges().contains(edge);
+    }
+    if (rhsNode!=null) {
+      for (Edge edge : rhsNode.getAllEdges()) {
+        needed = needed || changeInfo.getCreatedEdges().contains(edge);
+      }
+    }
+    if (needed) { %>
     HenshinUtil.VertexId cur<%= j %> = match.getVertexId(<%= j %>);
-<%}
+<%  }
+  }
 
   for (Edge edge : changeInfo.getDeletedEdges()) {%>
 

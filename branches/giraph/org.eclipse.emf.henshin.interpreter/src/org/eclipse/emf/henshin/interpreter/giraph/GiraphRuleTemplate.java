@@ -333,13 +333,25 @@ if (logging) {
     stringBuffer.append(TEXT_78);
     }
   for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
-
+    Node lhsNode = data.orderedLhsNodes.get(j);
+    Node rhsNode = data.rule.getMappings().getImage(lhsNode, data.rule.getRhs());
+    boolean needed = changeInfo.getDeletedNodes().contains(lhsNode);
+    for (Edge edge : lhsNode.getAllEdges()) {
+      needed = needed || changeInfo.getDeletedEdges().contains(edge);
+    }
+    if (rhsNode!=null) {
+      for (Edge edge : rhsNode.getAllEdges()) {
+        needed = needed || changeInfo.getCreatedEdges().contains(edge);
+      }
+    }
+    if (needed) { 
     stringBuffer.append(TEXT_79);
     stringBuffer.append( j );
     stringBuffer.append(TEXT_80);
     stringBuffer.append( j );
     stringBuffer.append(TEXT_81);
-    }
+      }
+  }
 
   for (Edge edge : changeInfo.getDeletedEdges()) {
     stringBuffer.append(TEXT_82);

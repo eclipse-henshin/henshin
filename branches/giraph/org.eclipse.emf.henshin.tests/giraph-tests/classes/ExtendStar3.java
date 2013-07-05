@@ -20,25 +20,26 @@ package org.apache.giraph.examples;
 import java.io.IOException;
 
 import org.apache.giraph.edge.Edge;
+import org.apache.giraph.edge.EdgeFactory;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
 import org.apache.hadoop.io.ByteWritable;
 import org.apache.log4j.Logger;
 
 /**
- * Generated implementation of the Henshin rule "DeleteStar".
+ * Generated implementation of the Henshin rule "ExtendStar".
  */
 @Algorithm(
-    name = "DeleteStar"
+    name = "ExtendStar"
 )
-public class DeleteStar1 extends
+public class ExtendStar3 extends
   BasicComputation<HenshinUtil.VertexId, ByteWritable,
   ByteWritable, HenshinUtil.Match> {
 
   /**
    * Default number of applications of this rule.
    */
-  public static final int DEFAULT_APPLICATION_COUNT = 1;
+  public static final int DEFAULT_APPLICATION_COUNT = 3;
 
   /**
    * Type constant for "Vertex".
@@ -79,7 +80,7 @@ public class DeleteStar1 extends
   /**
    * Logging support.
    */
-  private static final Logger LOG = Logger.getLogger(DeleteStar1.class);
+  private static final Logger LOG = Logger.getLogger(ExtendStar3.class);
 
   /**
    * Number of applications of this rule.
@@ -168,39 +169,22 @@ public class DeleteStar1 extends
     LOG.info("Vertex " + vertex.getId() +
       " applying rule with match " + match);
 
-    HenshinUtil.VertexId cur0 = match.getVertexId(0);
     HenshinUtil.VertexId cur1 = match.getVertexId(1);
 
-    // Remove edge "a" -> "b":
-    removeEdgesRequest(cur0, cur1);
+    // Create vertex "c":
+    HenshinUtil.VertexId new0 =
+      HenshinUtil.VertexId.randomVertexId();
+    addVertexRequest(new0, SIERPINSKI_VERTEX);
 
-    // Remove vertex "b":
-    removeVertexRequest(cur1);
+    // Create edge "b" -> "c":
+    HenshinUtil.VertexId src0 = cur1;
+    HenshinUtil.VertexId trg0 = new0;
+    Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
+      EdgeFactory.create(trg0, SIERPINSKI_VERTEX_LEFT);
+    addEdgeRequest(src0, edge0);
 
   }
 
-  /**
-   * Derive a new vertex Id from an exiting one.
-   * @param baseId The base vertex Id.
-   * @param vertexIndex The relative index of the new vertex.
-   * @return The derived vertex Id.
-   */
-  private HenshinUtil.VertexId deriveVertexId(
-    HenshinUtil.VertexId baseId, int vertexIndex) {
-    int appCount = applicationCount;
-    int bitsNeededForApp = 0;
-    while (appCount > 0) {
-      appCount = appCount / 2;
-      bitsNeededForApp++;
-    }
-    long code = (getSuperstep() + 1) / 2;
-    if (bitsNeededForApp <= 8) {
-      code = ((code << 0)) | vertexIndex;
-      return baseId.append((byte) code);
-    } else {
-      return baseId.append((byte) code).append((byte) vertexIndex);
-    }
-  }
 
   /**
    * Get the number of application to be executed for this rule.
