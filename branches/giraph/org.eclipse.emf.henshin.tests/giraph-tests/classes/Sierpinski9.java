@@ -19,14 +19,17 @@ package org.apache.giraph.examples;
 
 import java.io.IOException;
 
+import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.edge.EdgeFactory;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
+import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
+import org.apache.hadoop.io.LongWritable;
 
 /**
- * Generated implementation of the Henshin rule "Sierpinski".
+ * Generated implementation of the Henshin unit "Sierpinski".
  */
 @Algorithm(
     name = "Sierpinski"
@@ -36,6 +39,21 @@ public class Sierpinski9 extends
   ByteWritable, HenshinUtil.Match> {
 
   /**
+   * Name of the rule application count aggregator.
+   */
+  public static final String AGGREGATOR_RULE_APPLICATIONS = "ruleApps";
+
+  /**
+   * Name of the node generation aggregator.
+   */
+  public static final String AGGREGATOR_NODE_GENERATION = "nodeGen";
+
+  /**
+   * Name of the application stack aggregator.
+   */
+  public static final String AGGREGATOR_APPLICATION_STACK = "appStack";
+
+  /**
    * Default number of applications of this rule.
    */
   public static final int DEFAULT_APPLICATION_COUNT = 9;
@@ -43,43 +61,44 @@ public class Sierpinski9 extends
   /**
    * Type constant for "Vertex".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX
+  public static final ByteWritable TYPE_VERTEX
     = new ByteWritable((byte) 0);
 
   /**
    * Type constant for "left".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_LEFT
+  public static final ByteWritable TYPE_VERTEX_LEFT
     = new ByteWritable((byte) 1);
 
   /**
    * Type constant for "conn".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_CONN
+  public static final ByteWritable TYPE_VERTEX_CONN
     = new ByteWritable((byte) 2);
 
   /**
    * Type constant for "right".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_RIGHT
+  public static final ByteWritable TYPE_VERTEX_RIGHT
     = new ByteWritable((byte) 3);
 
   /**
    * Type constant for "VertexContainer".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_CONTAINER
+  public static final ByteWritable TYPE_VERTEX_CONTAINER
     = new ByteWritable((byte) 4);
 
   /**
    * Type constant for "vertices".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_CONTAINER_VERTICES
+  public static final ByteWritable TYPE_VERTEX_CONTAINER_VERTICES
     = new ByteWritable((byte) 5);
 
   /**
    * Number of applications of this rule.
    */
   private int applicationCount = DEFAULT_APPLICATION_COUNT;
+
 
   /*
    * (non-Javadoc)
@@ -100,11 +119,28 @@ public class Sierpinski9 extends
       return;
     }
 
-    if (superstep % 4 == 0) {
+
+    matchSierpinski(vertex, matches, (int) (superstep % 4));
+
+  }
+
+  /**
+   * Match (and apply) the rule "Sierpinski".
+   * This takes 4 supersteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchSierpinski(
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<HenshinUtil.Match> matches,
+      int microstep) throws IOException {
+
+    if (microstep == 0) {
 
       // Matching node "a". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
-        SIERPINSKI_VERTEX.get();
+        TYPE_VERTEX.get();
       if (ok) {
         // Create a new partial match:
         HenshinUtil.Match match =
@@ -113,22 +149,17 @@ public class Sierpinski9 extends
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
-            SIERPINSKI_VERTEX_LEFT.get()) {
+            TYPE_VERTEX_LEFT.get()) {
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
       } // end if ok
 
-      // In the last iteration the vertex can be made inactive:
-      if (superstep / 4 == applicationCount - 1) {
-        vertex.voteToHalt();
-      }
-
-    } else if (superstep % 4 == 1) {
+    } else if (microstep == 1) {
 
       // Matching node "b". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
-        SIERPINSKI_VERTEX.get();
+        TYPE_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
@@ -137,23 +168,18 @@ public class Sierpinski9 extends
           for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
             vertex.getEdges()) {
             if (edge.getValue().get() ==
-              SIERPINSKI_VERTEX_CONN.get()) {
+              TYPE_VERTEX_CONN.get()) {
               sendMessage(edge.getTargetVertexId(), match);
             }
           }
         }
       } // end if ok
 
-      // In the last iteration the vertex can be made inactive:
-      if (superstep / 4 == applicationCount - 1) {
-        vertex.voteToHalt();
-      }
-
-    } else if (superstep % 4 == 2) {
+    } else if (microstep == 2) {
 
       // Matching node "c". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
-        SIERPINSKI_VERTEX.get();
+        TYPE_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
@@ -167,12 +193,7 @@ public class Sierpinski9 extends
         }
       } // end if ok
 
-      // In the last iteration the vertex can be made inactive:
-      if (superstep / 4 == applicationCount - 1) {
-        vertex.voteToHalt();
-      }
-
-    } else if (superstep % 4 == 3) {
+    } else if (microstep == 3) {
 
       // Node "a": check for edge to match of "c" of type "right":
       for (HenshinUtil.Match match : matches) {
@@ -180,10 +201,10 @@ public class Sierpinski9 extends
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
-            SIERPINSKI_VERTEX_RIGHT.get() &&
+            TYPE_VERTEX_RIGHT.get() &&
             edge.getTargetVertexId().equals(targetId)) {
             // Apply the rule:
-            applyRule(vertex, match);
+            applySierpinski(vertex, match);
           }
         }
       }
@@ -194,13 +215,15 @@ public class Sierpinski9 extends
   }
 
   /**
-   * Apply the rule to a given match.
+   * Apply the rule Sierpinskito a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  private void applyRule(Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex, HenshinUtil.Match match) throws IOException {
+  protected void applySierpinski(
+    Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex,
+    HenshinUtil.Match match) throws IOException {
 
     HenshinUtil.VertexId cur0 = match.getVertexId(0);
     HenshinUtil.VertexId cur1 = match.getVertexId(1);
@@ -218,98 +241,121 @@ public class Sierpinski9 extends
     // Create vertex 3:
     HenshinUtil.VertexId new0 =
       HenshinUtil.VertexId.randomVertexId();
-    addVertexRequest(new0, SIERPINSKI_VERTEX);
+    addVertexRequest(new0, TYPE_VERTEX);
 
     // Create vertex 4:
     HenshinUtil.VertexId new1 =
       HenshinUtil.VertexId.randomVertexId();
-    addVertexRequest(new1, SIERPINSKI_VERTEX);
+    addVertexRequest(new1, TYPE_VERTEX);
 
     // Create vertex 5:
     HenshinUtil.VertexId new2 =
       HenshinUtil.VertexId.randomVertexId();
-    addVertexRequest(new2, SIERPINSKI_VERTEX);
+    addVertexRequest(new2, TYPE_VERTEX);
 
     // Create edge "a" -> 3:
     HenshinUtil.VertexId src0 = cur0;
     HenshinUtil.VertexId trg0 = new0;
     Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0, SIERPINSKI_VERTEX_LEFT);
+      EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
     addEdgeRequest(src0, edge0);
 
     // Create edge "a" -> 4:
     HenshinUtil.VertexId src1 = cur0;
     HenshinUtil.VertexId trg1 = new1;
     Edge<HenshinUtil.VertexId, ByteWritable> edge1 =
-      EdgeFactory.create(trg1, SIERPINSKI_VERTEX_RIGHT);
+      EdgeFactory.create(trg1, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src1, edge1);
 
     // Create edge "b" -> 5:
     HenshinUtil.VertexId src2 = cur1;
     HenshinUtil.VertexId trg2 = new2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge2 =
-      EdgeFactory.create(trg2, SIERPINSKI_VERTEX_CONN);
+      EdgeFactory.create(trg2, TYPE_VERTEX_CONN);
     addEdgeRequest(src2, edge2);
 
     // Create edge 3 -> "b":
     HenshinUtil.VertexId src3 = new0;
     HenshinUtil.VertexId trg3 = cur1;
     Edge<HenshinUtil.VertexId, ByteWritable> edge3 =
-      EdgeFactory.create(trg3, SIERPINSKI_VERTEX_LEFT);
+      EdgeFactory.create(trg3, TYPE_VERTEX_LEFT);
     addEdgeRequest(src3, edge3);
 
     // Create edge 3 -> 4:
     HenshinUtil.VertexId src4 = new0;
     HenshinUtil.VertexId trg4 = new1;
     Edge<HenshinUtil.VertexId, ByteWritable> edge4 =
-      EdgeFactory.create(trg4, SIERPINSKI_VERTEX_CONN);
+      EdgeFactory.create(trg4, TYPE_VERTEX_CONN);
     addEdgeRequest(src4, edge4);
 
     // Create edge 3 -> 5:
     HenshinUtil.VertexId src5 = new0;
     HenshinUtil.VertexId trg5 = new2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge5 =
-      EdgeFactory.create(trg5, SIERPINSKI_VERTEX_RIGHT);
+      EdgeFactory.create(trg5, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src5, edge5);
 
     // Create edge 4 -> 5:
     HenshinUtil.VertexId src6 = new1;
     HenshinUtil.VertexId trg6 = new2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge6 =
-      EdgeFactory.create(trg6, SIERPINSKI_VERTEX_LEFT);
+      EdgeFactory.create(trg6, TYPE_VERTEX_LEFT);
     addEdgeRequest(src6, edge6);
 
     // Create edge 4 -> "c":
     HenshinUtil.VertexId src7 = new1;
     HenshinUtil.VertexId trg7 = cur2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge7 =
-      EdgeFactory.create(trg7, SIERPINSKI_VERTEX_RIGHT);
+      EdgeFactory.create(trg7, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src7, edge7);
 
     // Create edge 5 -> "c":
     HenshinUtil.VertexId src8 = new2;
     HenshinUtil.VertexId trg8 = cur2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge8 =
-      EdgeFactory.create(trg8, SIERPINSKI_VERTEX_CONN);
+      EdgeFactory.create(trg8, TYPE_VERTEX_CONN);
     addEdgeRequest(src8, edge8);
 
+    // Update the statistics:
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+
   }
+
 
 
   /**
-   * Get the number of application to be executed for this rule.
-   * @return the number of rule applications.
+   * Master compute which registers and updates the required aggregators.
    */
-  public int getApplicationCount() {
-    return applicationCount;
-  }
+  public static class MasterCompute extends DefaultMasterCompute {
 
-  /**
-   * Set the number of application to be executed for this rule.
-   * @param applicationCount The new number of rule applications.
-   */
-  public void setApplicationCount(int applicationCount) {
-    this.applicationCount = applicationCount;
-  }
+    @Override
+    public void compute() {
+//      LongWritable myValue =
+//          new LongWritable(MASTER_VALUE * (1L << superstep));
+//      setAggregatedValue(MASTER_WRITE_AGG, myValue);
 
+      // Update node generation aggregator value:
+      if (getSuperstep() > 0) {
+        LongWritable ruleApps = (LongWritable)
+          getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS);
+        if (ruleApps.get() > 0) {
+          LongWritable nodeGen = (LongWritable)
+            getAggregatedValue(AGGREGATOR_NODE_GENERATION);
+          nodeGen.set(nodeGen.get() + 1);
+          setAggregatedValue(AGGREGATOR_NODE_GENERATION, nodeGen);
+        }
+      }
+    }
+
+    @Override
+    public void initialize() throws InstantiationException,
+        IllegalAccessException {
+      registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
+        LongSumAggregator.class);
+      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,
+        LongSumAggregator.class);
+//      registerPersistentAggregator(PERSISTENT_AGG,
+    }
+
+  }
 }

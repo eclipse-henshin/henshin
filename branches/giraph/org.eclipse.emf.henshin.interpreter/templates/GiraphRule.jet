@@ -5,15 +5,24 @@ imports="java.util.* org.eclipse.emf.henshin.model.* org.eclipse.emf.henshin.int
 @SuppressWarnings("unchecked")
 Map<String,Object> args = (Map<String,Object>) argument;
 
-GiraphRuleData data = (GiraphRuleData) args.get("data");
+@SuppressWarnings("unchecked")
+Map<Rule,GiraphRuleData> ruleData = (Map<Rule,GiraphRuleData>) args.get("ruleData");
 
-RuleChangeInfo changeInfo = new RuleChangeInfo(data.rule);
-
+Unit mainUnit = (Unit) args.get("mainUnit");
 String className = (String) args.get("className");
 String packageName = (String) args.get("packageName");
 boolean logging = (Boolean) args.get("logging");
 boolean useUUIDs = (Boolean) args.get("useUUIDs");
 int applicationCount = (Integer) args.get("applicationCount");
+
+boolean needsEdgeFactory = false;
+int maxCreatedNodes = 0;
+for (GiraphRuleData data : ruleData.values()) {
+  if (!data.changeInfo.getCreatedEdges().isEmpty()) {
+    needsEdgeFactory = true;
+  }
+  maxCreatedNodes = Math.max(maxCreatedNodes, data.changeInfo.getCreatedNodes().size());
+}
 
 %>
 /*
@@ -37,26 +46,44 @@ package <%= packageName %>;
 
 import java.io.IOException;
 
+import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
-<% if (!changeInfo.getCreatedEdges().isEmpty()) { %>
+<% if (needsEdgeFactory) { %>
 import org.apache.giraph.edge.EdgeFactory;
 <% } %>
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
+import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
+import org.apache.hadoop.io.LongWritable;
 <%if (logging) { %>
 import org.apache.log4j.Logger;
 <%} %>
 
 /**
- * Generated implementation of the Henshin rule "<%= data.rule.getName() %>".
+ * Generated implementation of the Henshin unit "<%= mainUnit.getName() %>".
  */
 @Algorithm(
-    name = "<%= data.rule.getName() %>"
+    name = "<%= mainUnit.getName() %>"
 )
 public class <%= className %> extends
   BasicComputation<HenshinUtil.VertexId, ByteWritable,
   ByteWritable, HenshinUtil.Match> {
+
+  /**
+   * Name of the rule application count aggregator.
+   */
+  public static final String AGGREGATOR_RULE_APPLICATIONS = "ruleApps";
+
+  /**
+   * Name of the node generation aggregator.
+   */
+  public static final String AGGREGATOR_NODE_GENERATION = "nodeGen";
+
+  /**
+   * Name of the application stack aggregator.
+   */
+  public static final String AGGREGATOR_APPLICATION_STACK = "appStack";
 
   /**
    * Default number of applications of this rule.
@@ -64,13 +91,14 @@ public class <%= className %> extends
   public static final int DEFAULT_APPLICATION_COUNT = <%= applicationCount %>;
 <%
 int value = 0;
-for (ENamedElement type : data.typeConstants.keySet()) {
+Map<ENamedElement,String> typeConstants = GiraphUtil.getTypeConstants(mainUnit.getModule());
+for (ENamedElement type : typeConstants.keySet()) {
   %>
 
   /**
    * Type constant for "<%= type.getName() %>".
    */
-  public static final ByteWritable <%= data.typeConstants.get(type) %>
+  public static final ByteWritable <%= typeConstants.get(type) %>
     = new ByteWritable((byte) <%= value++ %>);
 <%
 }
@@ -81,13 +109,22 @@ if (logging) {
   /**
    * Logging support.
    */
-  private static final Logger LOG = Logger.getLogger(<%= className %>.class);
+  protected static final Logger LOG = Logger.getLogger(<%= className %>.class);
 <% } %>
 
   /**
    * Number of applications of this rule.
    */
   private int applicationCount = DEFAULT_APPLICATION_COUNT;
+
+<%
+
+// Generate the code for all rules: 
+for (Rule rule : ruleData.keySet()) {
+  GiraphRuleData data = ruleData.get(rule);
+  RuleChangeInfo changeInfo = new RuleChangeInfo(rule);
+
+%>
 
   /*
    * (non-Javadoc)
@@ -119,32 +156,49 @@ if (logging) {
     }
 <%} %>
 
+    match<%= data.rule.getName() %>(vertex, matches, (int) (superstep % <%= data.matchingSteps.size() %>));
+
+  }
+
+  /**
+   * Match (and apply) the rule "<%= data.rule.getName() %>".
+   * This takes <%= data.matchingSteps.size() %> supersteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void match<%= data.rule.getName() %>(
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<HenshinUtil.Match> matches,
+      int microstep) throws IOException {
+
+
 <% 
     for (int i=0; i<data.matchingSteps.size(); i++) {
       GiraphRuleData.MatchingStep step = data.matchingSteps.get(i);
-%><%= i>0 ? " else" : "   " %> if (superstep % <%= data.matchingSteps.size() %> == <%= i %>) {
+%><%= i>0 ? " else" : "   " %> if (microstep == <%= i %>) {
 
 <%    if (step.verifyEdgeTo != null) {%>
-      // Node <%= data.getNodeName(step.edge.getSource()) %>: check for edge to match of <%= data.getNodeName(step.edge.getTarget()) %> of type "<%= step.edge.getType().getName() %>":
+      // Node <%= GiraphUtil.getNodeName(step.edge.getSource()) %>: check for edge to match of <%= GiraphUtil.getNodeName(step.edge.getTarget()) %> of type "<%= step.edge.getType().getName() %>":
       for (HenshinUtil.Match match : matches) {
         HenshinUtil.VertexId targetId = match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.verifyEdgeTo) %>);
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
-            <%= data.typeConstants.get(step.edge.getType()) %>.get() &&
+            <%= typeConstants.get(step.edge.getType()) %>.get() &&
             edge.getTargetVertexId().equals(targetId)) {
 <%        if (i == data.matchingSteps.size()-1) {%>
             // Apply the rule:
-            applyRule(vertex, match);
+            apply<%= data.rule.getName() %>(vertex, match);
 <%        } %>
           }
         }
       }
 
 <%    } else {%>
-      // Matching node <%= data.getNodeName(step.node) %>. Type must be "<%= step.node.getType().getName() %>":
+      // Matching node <%= GiraphUtil.getNodeName(step.node) %>. Type must be "<%= step.node.getType().getName() %>":
       boolean ok = vertex.getValue().get() ==
-        <%= data.typeConstants.get(step.node.getType()) %>.get();
+        <%= typeConstants.get(step.node.getType()) %>.get();
       if (ok) {
 <%    if (step.isStart) {%>
         // Create a new partial match:
@@ -160,7 +214,7 @@ if (logging) {
 <%= !step.isStart ? "  " : ""%>        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
 <%= !step.isStart ? "  " : ""%>          vertex.getEdges()) {
 <%= !step.isStart ? "  " : ""%>          if (edge.getValue().get() ==
-<%= !step.isStart ? "  " : ""%>            <%= data.typeConstants.get(step.edge.getType()) %>.get()) {
+<%= !step.isStart ? "  " : ""%>            <%= typeConstants.get(step.edge.getType()) %>.get()) {
 <%if (logging) { %>
 <%= !step.isStart ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
 <%= !step.isStart ? "  " : ""%>              " sending (partial) match " + match +
@@ -171,7 +225,7 @@ if (logging) {
 <%= !step.isStart ? "  " : ""%>        }
 <%
       } else if (step.sendBackTo != null) {%>
-          // Send the message back to matches of node <%= data.getNodeName(step.sendBackTo) %>:
+          // Send the message back to matches of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
           for (HenshinUtil.Match m : matches) {
             HenshinUtil.VertexId targetVertexId =
               m.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
@@ -185,20 +239,13 @@ if (logging) {
 <%
       } else if (i == data.matchingSteps.size()-1) {%>
           // Apply the rule:
-          applyRule(vertex, match);
+          apply<%= data.rule.getName() %>(vertex, match);
 <%    }
       if (!step.isStart) {%>
         }<%
        }%>
       } // end if ok
 <%
-      if (i < data.matchingSteps.size()-1) {%>
-
-      // In the last iteration the vertex can be made inactive:
-      if (superstep / <%= data.matchingSteps.size() %> == applicationCount - 1) {
-        vertex.voteToHalt();
-      }
-<%    }
       }%>
 
     }<% 
@@ -210,13 +257,15 @@ if (logging) {
   }
 
   /**
-   * Apply the rule to a given match.
+   * Apply the rule <%= data.rule.getName() %>to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  private void applyRule(Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex, HenshinUtil.Match match) throws IOException {
+  protected void apply<%= data.rule.getName() %>(
+    Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex,
+    HenshinUtil.Match match) throws IOException {
 
 <%if (logging) { %>
     LOG.info("Vertex " + vertex.getId() +
@@ -242,32 +291,32 @@ if (logging) {
 
   for (Edge edge : changeInfo.getDeletedEdges()) {%>
 
-    // Remove edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:
+    // Remove edge <%= GiraphUtil.getNodeName(edge.getSource()) %> -> <%= GiraphUtil.getNodeName(edge.getTarget()) %>:
     removeEdgesRequest(cur<%= data.orderedLhsNodes.indexOf(edge.getSource()) %>, cur<%= data.orderedLhsNodes.indexOf(edge.getTarget()) %>);
 <%  }
     for (Node node : changeInfo.getDeletedNodes()) {%>
 
-    // Remove vertex <%= data.getNodeName(node) %>:
+    // Remove vertex <%= GiraphUtil.getNodeName(node) %>:
     removeVertexRequest(cur<%= data.orderedLhsNodes.indexOf(node) %>);
 <%  }
 
     int n = 0;
     for (Node node : changeInfo.getCreatedNodes()) {%>
 
-    // Create vertex <%= data.getNodeName(node) %>:
+    // Create vertex <%= GiraphUtil.getNodeName(node) %>:
     HenshinUtil.VertexId new<%= n %> =
 <% if (useUUIDs) { %>
       HenshinUtil.VertexId.randomVertexId();
 <% } else { %>
       deriveVertexId(vertex.getId(), (byte) <%= n %>);
 <% } %>
-    addVertexRequest(new<%= n++ %>, <%= data.typeConstants.get(node.getType()) %>);
+    addVertexRequest(new<%= n++ %>, <%= typeConstants.get(node.getType()) %>);
 <%  }
 
     int e = 0;
     for (Edge edge : changeInfo.getCreatedEdges()) { %>
 
-    // Create edge <%= data.getNodeName(edge.getSource()) %> -> <%= data.getNodeName(edge.getTarget()) %>:
+    // Create edge <%= GiraphUtil.getNodeName(edge.getSource()) %> -> <%= GiraphUtil.getNodeName(edge.getTarget()) %>:
 <%	// THE SOURCE OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { %>
     HenshinUtil.VertexId src<%= e %> = new<%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>;
@@ -281,12 +330,19 @@ if (logging) {
     HenshinUtil.VertexId trg<%= e %> = cur<%= data.orderedLhsNodes.indexOf(data.rule.getMappings().getOrigin(edge.getTarget())) %>;
 <%	} %>
     Edge<HenshinUtil.VertexId, ByteWritable> edge<%= e %> =
-      EdgeFactory.create(trg<%= e %>, <%= data.typeConstants.get(edge.getType()) %>);
+      EdgeFactory.create(trg<%= e %>, <%= typeConstants.get(edge.getType()) %>);
     addEdgeRequest(src<%= e %>, edge<%= e %>);
 <%  e++;
     } %>
 
+    // Update the statistics:
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+
   }
+
+<%
+} // end of for all rules
+%>
 
 <% if (!useUUIDs) { %>
   /**
@@ -298,7 +354,7 @@ if (logging) {
   private HenshinUtil.VertexId deriveVertexId(
     HenshinUtil.VertexId baseId, int vertexIndex) {
 <%
-    int createdNodes = changeInfo.getCreatedNodes().size();
+    int createdNodes = maxCreatedNodes;
     int bitsNeededForIndex = 0;
     while (createdNodes > 0) {
       createdNodes = createdNodes / 2;
@@ -311,7 +367,8 @@ if (logging) {
       appCount = appCount / 2;
       bitsNeededForApp++;
     }
-    long code = (getSuperstep() + 1) / <%= data.matchingSteps.size() %>;
+    long code = ((LongWritable) getAggregatedValue(
+        AGGREGATOR_NODE_GENERATION)).get();
     if (bitsNeededForApp <= <%= 8 - bitsNeededForIndex %>) {
       code = ((code << <%= bitsNeededForIndex %>)) | vertexIndex;
       return baseId.append((byte) code);
@@ -322,19 +379,42 @@ if (logging) {
 <% } %>
 
   /**
-   * Get the number of application to be executed for this rule.
-   * @return the number of rule applications.
+   * Master compute which registers and updates the required aggregators.
    */
-  public int getApplicationCount() {
-    return applicationCount;
-  }
+  public static class MasterCompute extends DefaultMasterCompute {
 
-  /**
-   * Set the number of application to be executed for this rule.
-   * @param applicationCount The new number of rule applications.
-   */
-  public void setApplicationCount(int applicationCount) {
-    this.applicationCount = applicationCount;
-  }
+    @Override
+    public void compute() {
+//      LongWritable myValue =
+//          new LongWritable(MASTER_VALUE * (1L << superstep));
+//      setAggregatedValue(MASTER_WRITE_AGG, myValue);
 
+      // Update node generation aggregator value:
+      if (getSuperstep() > 0) {
+        LongWritable ruleApps = (LongWritable)
+          getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS);
+<% if (logging) {%>
+        LOG.info(ruleApps.get() + " rule applications in superstep " +
+          (getSuperstep() - 1));
+<% } %>
+        if (ruleApps.get() > 0) {
+          LongWritable nodeGen = (LongWritable)
+            getAggregatedValue(AGGREGATOR_NODE_GENERATION);
+          nodeGen.set(nodeGen.get() + 1);
+          setAggregatedValue(AGGREGATOR_NODE_GENERATION, nodeGen);
+        }
+      }
+    }
+
+    @Override
+    public void initialize() throws InstantiationException,
+        IllegalAccessException {
+      registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
+        LongSumAggregator.class);
+      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,
+        LongSumAggregator.class);
+//      registerPersistentAggregator(PERSISTENT_AGG,
+    }
+
+  }
 }

@@ -64,8 +64,11 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			String className = page.classNameText.getText();
 			String packageName = page.packageNameText.getText();
 			
+			Map<Rule,GiraphRuleData> data = GiraphUtil.generateRuleData(rule);
+			
 			Map<String,Object> args = new HashMap<String,Object>();
-			args.put("data", new GiraphRuleData(rule));
+			args.put("ruleData", data);
+			args.put("mainUnit", rule);
 			args.put("className", className);
 			args.put("packageName", packageName);
 			args.put("logging", new Boolean(page.loggingCheckBox.getSelection()));

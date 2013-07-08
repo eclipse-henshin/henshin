@@ -33,6 +33,7 @@ EOF
 }
 
 function run_test {
+    main="$GIRAPH_TESTS_PACKAGE.$1\\\$"
     util="$GIRAPH_TESTS_PACKAGE.HenshinUtil\\\$"
 	ssh $SSH_ARGS $HADOOP_MASTER << EOF 2>&1 | tee /tmp/output.log
 		cd $WORKING_DIR && \
@@ -48,7 +49,8 @@ function run_test {
 			-vip /testInput/$2.json \
 			-of "$util""OutputFormat" \
 			-op /testOutput \
-			-w $GIRAPH_WORKERS
+			-w $GIRAPH_WORKERS \
+			-mc "$main""MasterCompute"
 EOF
 	VERTICES=$(cat /tmp/output.log | grep "Aggregate vertices" | sed s/^.*\\=//)
 	EDGES=$(cat /tmp/output.log | grep "Aggregate edges" | sed s/^.*\\=//)

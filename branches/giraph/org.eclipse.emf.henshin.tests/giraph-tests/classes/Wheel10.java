@@ -19,15 +19,18 @@ package org.apache.giraph.examples;
 
 import java.io.IOException;
 
+import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.edge.EdgeFactory;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
+import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.log4j.Logger;
 
 /**
- * Generated implementation of the Henshin rule "Wheel".
+ * Generated implementation of the Henshin unit "Wheel".
  */
 @Algorithm(
     name = "Wheel"
@@ -37,6 +40,21 @@ public class Wheel10 extends
   ByteWritable, HenshinUtil.Match> {
 
   /**
+   * Name of the rule application count aggregator.
+   */
+  public static final String AGGREGATOR_RULE_APPLICATIONS = "ruleApps";
+
+  /**
+   * Name of the node generation aggregator.
+   */
+  public static final String AGGREGATOR_NODE_GENERATION = "nodeGen";
+
+  /**
+   * Name of the application stack aggregator.
+   */
+  public static final String AGGREGATOR_APPLICATION_STACK = "appStack";
+
+  /**
    * Default number of applications of this rule.
    */
   public static final int DEFAULT_APPLICATION_COUNT = 10;
@@ -44,48 +62,49 @@ public class Wheel10 extends
   /**
    * Type constant for "Vertex".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX
+  public static final ByteWritable TYPE_VERTEX
     = new ByteWritable((byte) 0);
 
   /**
    * Type constant for "left".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_LEFT
+  public static final ByteWritable TYPE_VERTEX_LEFT
     = new ByteWritable((byte) 1);
 
   /**
    * Type constant for "conn".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_CONN
+  public static final ByteWritable TYPE_VERTEX_CONN
     = new ByteWritable((byte) 2);
 
   /**
    * Type constant for "right".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_RIGHT
+  public static final ByteWritable TYPE_VERTEX_RIGHT
     = new ByteWritable((byte) 3);
 
   /**
    * Type constant for "VertexContainer".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_CONTAINER
+  public static final ByteWritable TYPE_VERTEX_CONTAINER
     = new ByteWritable((byte) 4);
 
   /**
    * Type constant for "vertices".
    */
-  public static final ByteWritable SIERPINSKI_VERTEX_CONTAINER_VERTICES
+  public static final ByteWritable TYPE_VERTEX_CONTAINER_VERTICES
     = new ByteWritable((byte) 5);
 
   /**
    * Logging support.
    */
-  private static final Logger LOG = Logger.getLogger(Wheel10.class);
+  protected static final Logger LOG = Logger.getLogger(Wheel10.class);
 
   /**
    * Number of applications of this rule.
    */
   private int applicationCount = DEFAULT_APPLICATION_COUNT;
+
 
   /*
    * (non-Javadoc)
@@ -112,11 +131,28 @@ public class Wheel10 extends
       LOG.info("Vertex " + vertex.getId() +
         " received (partial) match " + match);
     }
-    if (superstep % 5 == 0) {
+
+    matchWheel(vertex, matches, (int) (superstep % 5));
+
+  }
+
+  /**
+   * Match (and apply) the rule "Wheel".
+   * This takes 5 supersteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchWheel(
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<HenshinUtil.Match> matches,
+      int microstep) throws IOException {
+
+    if (microstep == 0) {
 
       // Matching node "a". Type must be "VertexContainer":
       boolean ok = vertex.getValue().get() ==
-        SIERPINSKI_VERTEX_CONTAINER.get();
+        TYPE_VERTEX_CONTAINER.get();
       if (ok) {
         // Create a new partial match:
         HenshinUtil.Match match =
@@ -125,7 +161,7 @@ public class Wheel10 extends
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
-            SIERPINSKI_VERTEX_CONTAINER_VERTICES.get()) {
+            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " to vertex " + edge.getTargetVertexId());
@@ -134,16 +170,11 @@ public class Wheel10 extends
         }
       } // end if ok
 
-      // In the last iteration the vertex can be made inactive:
-      if (superstep / 5 == applicationCount - 1) {
-        vertex.voteToHalt();
-      }
-
-    } else if (superstep % 5 == 1) {
+    } else if (microstep == 1) {
 
       // Matching node "b". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
-        SIERPINSKI_VERTEX.get();
+        TYPE_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
@@ -152,7 +183,7 @@ public class Wheel10 extends
           for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
             vertex.getEdges()) {
             if (edge.getValue().get() ==
-              SIERPINSKI_VERTEX_RIGHT.get()) {
+              TYPE_VERTEX_RIGHT.get()) {
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
                 " to vertex " + edge.getTargetVertexId());
@@ -162,16 +193,11 @@ public class Wheel10 extends
         }
       } // end if ok
 
-      // In the last iteration the vertex can be made inactive:
-      if (superstep / 5 == applicationCount - 1) {
-        vertex.voteToHalt();
-      }
-
-    } else if (superstep % 5 == 2) {
+    } else if (microstep == 2) {
 
       // Matching node "c". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
-        SIERPINSKI_VERTEX.get();
+        TYPE_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
@@ -188,16 +214,11 @@ public class Wheel10 extends
         }
       } // end if ok
 
-      // In the last iteration the vertex can be made inactive:
-      if (superstep / 5 == applicationCount - 1) {
-        vertex.voteToHalt();
-      }
-
-    } else if (superstep % 5 == 3) {
+    } else if (microstep == 3) {
 
       // Matching node "d". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
-        SIERPINSKI_VERTEX.get();
+        TYPE_VERTEX.get();
       if (ok) {
         // Create a new partial match:
         HenshinUtil.Match match =
@@ -206,7 +227,7 @@ public class Wheel10 extends
         for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
-            SIERPINSKI_VERTEX_RIGHT.get()) {
+            TYPE_VERTEX_RIGHT.get()) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " to vertex " + edge.getTargetVertexId());
@@ -215,22 +236,17 @@ public class Wheel10 extends
         }
       } // end if ok
 
-      // In the last iteration the vertex can be made inactive:
-      if (superstep / 5 == applicationCount - 1) {
-        vertex.voteToHalt();
-      }
-
-    } else if (superstep % 5 == 4) {
+    } else if (microstep == 4) {
 
       // Matching node "b". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
-        SIERPINSKI_VERTEX.get();
+        TYPE_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
           match = match.append(vertex.getId());
           // Apply the rule:
-          applyRule(vertex, match);
+          applyWheel(vertex, match);
         }
       } // end if ok
 
@@ -239,13 +255,15 @@ public class Wheel10 extends
   }
 
   /**
-   * Apply the rule to a given match.
+   * Apply the rule Wheelto a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  private void applyRule(Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex, HenshinUtil.Match match) throws IOException {
+  protected void applyWheel(
+    Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex,
+    HenshinUtil.Match match) throws IOException {
 
     LOG.info("Vertex " + vertex.getId() +
       " applying rule with match " + match);
@@ -271,17 +289,21 @@ public class Wheel10 extends
     HenshinUtil.VertexId src0 = cur0;
     HenshinUtil.VertexId trg0 = cur2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0, SIERPINSKI_VERTEX_CONTAINER_VERTICES);
+      EdgeFactory.create(trg0, TYPE_VERTEX_CONTAINER_VERTICES);
     addEdgeRequest(src0, edge0);
 
     // Create edge "d" -> "c":
     HenshinUtil.VertexId src1 = cur3;
     HenshinUtil.VertexId trg1 = cur2;
     Edge<HenshinUtil.VertexId, ByteWritable> edge1 =
-      EdgeFactory.create(trg1, SIERPINSKI_VERTEX_RIGHT);
+      EdgeFactory.create(trg1, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src1, edge1);
 
+    // Update the statistics:
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+
   }
+
 
   /**
    * Derive a new vertex Id from an exiting one.
@@ -297,7 +319,8 @@ public class Wheel10 extends
       appCount = appCount / 2;
       bitsNeededForApp++;
     }
-    long code = (getSuperstep() + 1) / 5;
+    long code = ((LongWritable) getAggregatedValue(
+        AGGREGATOR_NODE_GENERATION)).get();
     if (bitsNeededForApp <= 8) {
       code = ((code << 0)) | vertexIndex;
       return baseId.append((byte) code);
@@ -307,19 +330,40 @@ public class Wheel10 extends
   }
 
   /**
-   * Get the number of application to be executed for this rule.
-   * @return the number of rule applications.
+   * Master compute which registers and updates the required aggregators.
    */
-  public int getApplicationCount() {
-    return applicationCount;
-  }
+  public static class MasterCompute extends DefaultMasterCompute {
 
-  /**
-   * Set the number of application to be executed for this rule.
-   * @param applicationCount The new number of rule applications.
-   */
-  public void setApplicationCount(int applicationCount) {
-    this.applicationCount = applicationCount;
-  }
+    @Override
+    public void compute() {
+//      LongWritable myValue =
+//          new LongWritable(MASTER_VALUE * (1L << superstep));
+//      setAggregatedValue(MASTER_WRITE_AGG, myValue);
 
+      // Update node generation aggregator value:
+      if (getSuperstep() > 0) {
+        LongWritable ruleApps = (LongWritable)
+          getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS);
+        LOG.info(ruleApps.get() + " rule applications in superstep " +
+          (getSuperstep() - 1));
+        if (ruleApps.get() > 0) {
+          LongWritable nodeGen = (LongWritable)
+            getAggregatedValue(AGGREGATOR_NODE_GENERATION);
+          nodeGen.set(nodeGen.get() + 1);
+          setAggregatedValue(AGGREGATOR_NODE_GENERATION, nodeGen);
+        }
+      }
+    }
+
+    @Override
+    public void initialize() throws InstantiationException,
+        IllegalAccessException {
+      registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
+        LongSumAggregator.class);
+      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,
+        LongSumAggregator.class);
+//      registerPersistentAggregator(PERSISTENT_AGG,
+    }
+
+  }
 }
