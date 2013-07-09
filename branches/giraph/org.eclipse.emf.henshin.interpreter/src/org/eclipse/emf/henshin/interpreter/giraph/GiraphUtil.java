@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -38,6 +39,17 @@ public class GiraphUtil {
 		return json.toString();
 	}
 
+	public static Map<Unit,String> getUnitConstants(Unit mainUnit) {
+		EList<Unit> units = mainUnit.getSubUnits(true);
+		units.add(0, mainUnit);
+		Map<Unit,String> unitConstants = new LinkedHashMap<Unit, String>();
+		for (Unit unit : units) {
+			String name = "UNIT_" + camelCase2Upper(unit.getName());
+			unitConstants.put(unit, name);
+		}
+		return unitConstants;
+	}
+	
 	public static Map<ENamedElement,String> getTypeConstants(Module module) {
 		
 		// Check if we need the package name:

@@ -90,8 +90,9 @@ public class <%= className %> extends
    */
   public static final int DEFAULT_APPLICATION_COUNT = <%= applicationCount %>;
 <%
-int value = 0;
+
 Map<ENamedElement,String> typeConstants = GiraphUtil.getTypeConstants(mainUnit.getModule());
+int value = 0;
 for (ENamedElement type : typeConstants.keySet()) {
   %>
 
@@ -100,6 +101,18 @@ for (ENamedElement type : typeConstants.keySet()) {
    */
   public static final ByteWritable <%= typeConstants.get(type) %>
     = new ByteWritable((byte) <%= value++ %>);
+<%
+}
+
+Map<Unit,String> unitConstants = GiraphUtil.getUnitConstants(mainUnit);
+value = 0;
+for (Unit unit : unitConstants.keySet()) {
+  %>
+
+  /**
+   * Unit constant for "<%= unit.getName() %>".
+   */
+  public static final int <%= unitConstants.get(unit) %> = <%= value++ %>;
 <%
 }
 
