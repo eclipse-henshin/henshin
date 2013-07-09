@@ -413,7 +413,8 @@ for (Rule rule : ruleData.keySet()) {
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,
         LongSumAggregator.class);
-//      registerPersistentAggregator(PERSISTENT_AGG,
+      registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK,
+        HenshinUtil.ApplicationStackAggregator.class);
     }
 
   }
