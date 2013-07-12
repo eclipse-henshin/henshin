@@ -11,26 +11,30 @@ import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleData;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphUtil;
 import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
+import org.eclipse.emf.henshin.model.IteratedUnit;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.SequentialUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class GenerateGiraphTests {
 
-	public static void generateClass(Rule rule, int appCount, boolean logging, boolean useUUIDs) {
+	public static void generateComputeClass(Unit mainUnit, boolean logging, boolean useUUIDs) {
 		try {
-			String className = rule.getName() + appCount;
-			
-			Map<Rule,GiraphRuleData> data = GiraphUtil.generateRuleData(rule);
-			
+			String className = mainUnit.getName();
+			if (mainUnit instanceof IteratedUnit) {
+				className = className + ((IteratedUnit) mainUnit).getIterations();
+			}
+			Map<Rule,GiraphRuleData> data = GiraphUtil.generateRuleData(mainUnit);
 			Map<String,Object> args = new HashMap<String,Object>();
 			args.put("ruleData", data);
-			args.put("mainUnit", rule);
+			args.put("mainUnit", mainUnit);
 			args.put("className", className);
 			args.put("packageName", "org.apache.giraph.examples");
 			args.put("logging", logging);
 			args.put("useUUIDs", useUUIDs);
-			args.put("applicationCount", appCount);
 
 			GiraphRuleTemplate ruleTemplate = new GiraphRuleTemplate();
 			String giraphCode = ruleTemplate.generate(args);
@@ -40,12 +44,12 @@ public class GenerateGiraphTests {
 			String utilCode = utilTemplate.generate(args);
 			save(new File("giraph-tests/classes/HenshinUtil.java"), utilCode);
 		} catch (Exception e) {
-			System.err.println("Error generating class for rule " + rule.getName());
+			System.err.println("Error generating compute class for " + mainUnit);
 			e.printStackTrace();
 		}
 	}
 
-	public static void generateGraph(Rule rule) {
+	public static void generateInputGraph(Rule rule) {
 		try {
 			String graphCode = GiraphUtil.getInstanceCode(rule);
 			save(new File("giraph-tests/graphs/" + rule.getName() + ".json"), graphCode);
@@ -62,27 +66,41 @@ public class GenerateGiraphTests {
 
 
 	public static void main(String[] args) {
+		
 		HenshinResourceSet resourceSet = new HenshinResourceSet("src/org/eclipse/emf/henshin/tests/giraph");
 		Module module = resourceSet.getModule("GiraphTests.henshin");
 
-		Rule sierpinski = (Rule) module.getUnit("Sierpinski");
-		generateClass(sierpinski, 1, true, false);
-		generateClass(sierpinski, 3, true, false);
-		generateClass(sierpinski, 6, false, false);
-		generateClass(sierpinski, 9, false, true);
-		generateGraph(sierpinski);
+		// Sierpinski
+		
+		Rule sierpinskiRule = (Rule) module.getUnit("Sierpinski");
+		generateInputGraph(sierpinskiRule);
+		generateComputeClass(sierpinskiRule, true, false);
+		
+		IteratedUnit sierpinskiMain = (IteratedUnit) module.getUnit("SierpinskiMain");
+		sierpinskiMain.setIterations("1");
+		generateComputeClass(sierpinskiMain, true, false);
+		sierpinskiMain.setIterations("3");
+		generateComputeClass(sierpinskiMain, true, false);
+		sierpinskiMain.setIterations("6");
+		generateComputeClass(sierpinskiMain, false, false);
+		sierpinskiMain.setIterations("9");
+		generateComputeClass(sierpinskiMain, false, true);
 
-		Rule wheel = (Rule) module.getUnit("Wheel");
+		// Wheel
+		/*
 		Rule wheelStart = (Rule) module.getUnit("WheelStart");
-		generateClass(wheel, 10, true, false); // maximum number of applications
-		generateGraph(wheelStart);
+		generateInputGraph(wheelStart);
 
-		Rule deleteStar = (Rule) module.getUnit("DeleteStar");
-		Rule extendStar = (Rule) module.getUnit("ExtendStar");
+		LoopUnit wheel = (LoopUnit) module.getUnit("WheelMain");
+		generateComputeClass(wheel, true, false);
+		 */
+		// Star
+
 		Rule starStart = (Rule) module.getUnit("StarStart");
-		generateClass(deleteStar, 1, true, false);
-		generateClass(extendStar, 3, true, true);
-		generateGraph(starStart);
+		generateInputGraph(starStart);
+
+		SequentialUnit starMain = (SequentialUnit) module.getUnit("StarMain");
+		generateComputeClass(starMain, true, false);
 
 	}
 

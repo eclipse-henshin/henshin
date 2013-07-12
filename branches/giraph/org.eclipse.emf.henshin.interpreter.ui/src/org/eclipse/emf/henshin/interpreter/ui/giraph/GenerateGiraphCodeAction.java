@@ -1,12 +1,10 @@
 package org.eclipse.emf.henshin.interpreter.ui.giraph;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -21,7 +19,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 
-	private final List<Rule> rules = new ArrayList<Rule>();
+	private Unit mainUnit;
 	
 	private IFile file;
 
@@ -33,12 +31,10 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 	 */
 	@Override
 	public void run(IAction action) {
-		IContainer container = file.getParent();
-		for (Rule rule : rules) {
-			GenerateGiraphCodeWizard wizard = new GenerateGiraphCodeWizard(rule, container);
-			WizardDialog dialog = new WizardDialog(shell, wizard);
-			dialog.open();
-		}
+		IContainer container = file.getParent();		
+		GenerateGiraphCodeWizard wizard = new GenerateGiraphCodeWizard(mainUnit, container);
+		WizardDialog dialog = new WizardDialog(shell, wizard);
+		dialog.open();
 	}
 
 	/*
@@ -47,17 +43,18 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 	 */
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
-		rules.clear();
+		mainUnit = null;
 		if (selection instanceof IStructuredSelection) {
 			Iterator<?> it = ((IStructuredSelection) selection).iterator();
 			while (it.hasNext()) {
 				Object next = it.next();
 				if (next instanceof IGraphicalEditPart) {
-					rules.add((Rule) ((IGraphicalEditPart) next).getNotationView().getElement());
+					mainUnit = (Unit) ((IGraphicalEditPart) next).getNotationView().getElement();
+					break;
 				}
 			}
 		}
-		action.setEnabled(!rules.isEmpty());
+		action.setEnabled(mainUnit!=null);
 	}
 
 	/*

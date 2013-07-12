@@ -25,87 +25,87 @@ public class GiraphRuleTemplate
   protected final String TEXT_6 = NL + NL + "/**" + NL + " * Generated implementation of the Henshin unit \"";
   protected final String TEXT_7 = "\"." + NL + " */" + NL + "@Algorithm(" + NL + "    name = \"";
   protected final String TEXT_8 = "\"" + NL + ")" + NL + "public class ";
-  protected final String TEXT_9 = " extends" + NL + "  BasicComputation<HenshinUtil.VertexId, ByteWritable," + NL + "  ByteWritable, HenshinUtil.Match> {" + NL + "" + NL + "  /**" + NL + "   * Name of the rule application count aggregator." + NL + "   */" + NL + "  public static final String AGGREGATOR_RULE_APPLICATIONS = \"ruleApps\";" + NL + "" + NL + "  /**" + NL + "   * Name of the node generation aggregator." + NL + "   */" + NL + "  public static final String AGGREGATOR_NODE_GENERATION = \"nodeGen\";" + NL + "" + NL + "  /**" + NL + "   * Name of the application stack aggregator." + NL + "   */" + NL + "  public static final String AGGREGATOR_APPLICATION_STACK = \"appStack\";" + NL + "" + NL + "  /**" + NL + "   * Default number of applications of this rule." + NL + "   */" + NL + "  public static final int DEFAULT_APPLICATION_COUNT = ";
-  protected final String TEXT_10 = ";";
-  protected final String TEXT_11 = NL + NL + "  /**" + NL + "   * Type constant for \"";
-  protected final String TEXT_12 = "\"." + NL + "   */" + NL + "  public static final ByteWritable ";
-  protected final String TEXT_13 = NL + "    = new ByteWritable((byte) ";
-  protected final String TEXT_14 = ");";
-  protected final String TEXT_15 = NL + NL + "  /**" + NL + "   * Unit constant for \"";
+  protected final String TEXT_9 = " extends" + NL + "  BasicComputation<HenshinUtil.VertexId, ByteWritable," + NL + "  ByteWritable, HenshinUtil.Match> {" + NL + "" + NL + "  /**" + NL + "   * Name of the rule application count aggregator." + NL + "   */" + NL + "  public static final String AGGREGATOR_RULE_APPLICATIONS = \"ruleApps\";" + NL + "" + NL + "  /**" + NL + "   * Name of the node generation aggregator." + NL + "   */" + NL + "  public static final String AGGREGATOR_NODE_GENERATION = \"nodeGen\";" + NL + "" + NL + "  /**" + NL + "   * Name of the application stack aggregator." + NL + "   */" + NL + "  public static final String AGGREGATOR_APPLICATION_STACK = \"appStack\";";
+  protected final String TEXT_10 = NL + NL + "  /**" + NL + "   * Type constant for \"";
+  protected final String TEXT_11 = "\"." + NL + "   */" + NL + "  public static final ByteWritable ";
+  protected final String TEXT_12 = NL + "    = new ByteWritable((byte) ";
+  protected final String TEXT_13 = ");";
+  protected final String TEXT_14 = NL + NL + "  /**" + NL + "   * ";
+  protected final String TEXT_15 = " constant for \"";
   protected final String TEXT_16 = "\"." + NL + "   */" + NL + "  public static final int ";
   protected final String TEXT_17 = " = ";
   protected final String TEXT_18 = ";";
   protected final String TEXT_19 = NL + NL + "  /**" + NL + "   * Logging support." + NL + "   */" + NL + "  protected static final Logger LOG = Logger.getLogger(";
   protected final String TEXT_20 = ".class);";
-  protected final String TEXT_21 = NL + NL + "  /**" + NL + "   * Number of applications of this rule." + NL + "   */" + NL + "  private int applicationCount = DEFAULT_APPLICATION_COUNT;" + NL;
-  protected final String TEXT_22 = NL + NL + "  /*" + NL + "   * (non-Javadoc)" + NL + "   * @see org.apache.giraph.graph.Computation#compute(" + NL + "   *        org.apache.giraph.graph.Vertex, java.lang.Iterable)" + NL + "   */" + NL + "  @Override" + NL + "  public void compute(" + NL + "      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex," + NL + "      Iterable<HenshinUtil.Match> matches) throws IOException {" + NL + "" + NL + "    // Get the current superstep:" + NL + "    long superstep = getSuperstep();";
-  protected final String TEXT_23 = NL + "    LOG.info(\"Vertex \" + vertex.getId() + \" executing superstep \" + superstep);";
-  protected final String TEXT_24 = NL + NL + "    // Check if we can stop:" + NL + "    if (superstep >= applicationCount * ";
-  protected final String TEXT_25 = ") {" + NL + "      vertex.voteToHalt();" + NL + "      return;" + NL + "    }" + NL;
-  protected final String TEXT_26 = NL + "    // Log received (partial) matches:" + NL + "    for (HenshinUtil.Match match : matches) {" + NL + "      LOG.info(\"Vertex \" + vertex.getId() +" + NL + "        \" received (partial) match \" + match);" + NL + "    }";
-  protected final String TEXT_27 = NL + NL + "    match";
-  protected final String TEXT_28 = "(vertex, matches, (int) (superstep % ";
-  protected final String TEXT_29 = "));" + NL + "" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Match (and apply) the rule \"";
-  protected final String TEXT_30 = "\"." + NL + "   * This takes ";
-  protected final String TEXT_31 = " supersteps." + NL + "   * @param vertex The current vertex." + NL + "   * @param matches The current matches." + NL + "   * @param microstep Current microstep." + NL + "   */" + NL + "  protected void match";
-  protected final String TEXT_32 = "(" + NL + "      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex," + NL + "      Iterable<HenshinUtil.Match> matches," + NL + "      int microstep) throws IOException {" + NL + NL;
-  protected final String TEXT_33 = " if (microstep == ";
-  protected final String TEXT_34 = ") {" + NL;
-  protected final String TEXT_35 = NL + "      // Node ";
-  protected final String TEXT_36 = ": check for edge to match of ";
-  protected final String TEXT_37 = " of type \"";
-  protected final String TEXT_38 = "\":" + NL + "      for (HenshinUtil.Match match : matches) {" + NL + "        HenshinUtil.VertexId targetId = match.getVertexId(";
-  protected final String TEXT_39 = ");" + NL + "        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :" + NL + "          vertex.getEdges()) {" + NL + "          if (edge.getValue().get() ==";
-  protected final String TEXT_40 = NL + "            ";
-  protected final String TEXT_41 = ".get() &&" + NL + "            edge.getTargetVertexId().equals(targetId)) {";
-  protected final String TEXT_42 = NL + "            // Apply the rule:" + NL + "            apply";
-  protected final String TEXT_43 = "(vertex, match);";
-  protected final String TEXT_44 = NL + "          }" + NL + "        }" + NL + "      }" + NL;
-  protected final String TEXT_45 = NL + "      // Matching node ";
-  protected final String TEXT_46 = ". Type must be \"";
-  protected final String TEXT_47 = "\":" + NL + "      boolean ok = vertex.getValue().get() ==";
-  protected final String TEXT_48 = NL + "        ";
-  protected final String TEXT_49 = ".get();" + NL + "      if (ok) {";
-  protected final String TEXT_50 = NL + "        // Create a new partial match:" + NL + "        HenshinUtil.Match match =" + NL + "          new HenshinUtil.Match().append(vertex.getId());";
-  protected final String TEXT_51 = NL + "        // Extend all partial matches:" + NL + "        for (HenshinUtil.Match match : matches) {" + NL + "          match = match.append(vertex.getId());";
-  protected final String TEXT_52 = NL;
-  protected final String TEXT_53 = "        // Send a match request to all outgoing edges of type \"";
-  protected final String TEXT_54 = "\":";
-  protected final String TEXT_55 = NL;
-  protected final String TEXT_56 = "        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :";
-  protected final String TEXT_57 = NL;
-  protected final String TEXT_58 = "          vertex.getEdges()) {";
-  protected final String TEXT_59 = NL;
-  protected final String TEXT_60 = "          if (edge.getValue().get() ==";
-  protected final String TEXT_61 = NL;
-  protected final String TEXT_62 = "            ";
-  protected final String TEXT_63 = ".get()) {";
-  protected final String TEXT_64 = NL;
-  protected final String TEXT_65 = "            LOG.info(\"Vertex \" + vertex.getId() +";
-  protected final String TEXT_66 = NL;
-  protected final String TEXT_67 = "              \" sending (partial) match \" + match +";
-  protected final String TEXT_68 = NL;
-  protected final String TEXT_69 = "              \" to vertex \" + edge.getTargetVertexId());";
-  protected final String TEXT_70 = NL;
-  protected final String TEXT_71 = "            sendMessage(edge.getTargetVertexId(), match);";
-  protected final String TEXT_72 = NL;
-  protected final String TEXT_73 = "          }";
-  protected final String TEXT_74 = NL;
-  protected final String TEXT_75 = "        }";
-  protected final String TEXT_76 = NL + "          // Send the message back to matches of node ";
-  protected final String TEXT_77 = ":" + NL + "          for (HenshinUtil.Match m : matches) {" + NL + "            HenshinUtil.VertexId targetVertexId =" + NL + "              m.getVertexId(";
-  protected final String TEXT_78 = ");";
-  protected final String TEXT_79 = NL + "            LOG.info(\"Vertex \" + vertex.getId() +" + NL + "              \" sending (partial) match \" + match +" + NL + "              \" to vertex \" + targetVertexId);";
-  protected final String TEXT_80 = NL + "            sendMessage(targetVertexId, match);" + NL + "          }";
-  protected final String TEXT_81 = NL + "          // Apply the rule:" + NL + "          apply";
-  protected final String TEXT_82 = "(vertex, match);";
-  protected final String TEXT_83 = NL + "        }";
-  protected final String TEXT_84 = NL + "      } // end if ok";
-  protected final String TEXT_85 = NL + NL + "    }";
-  protected final String TEXT_86 = NL + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Apply the rule ";
-  protected final String TEXT_87 = "to a given match." + NL + "   * @param vertex The base vertex." + NL + "   * @param match The match object." + NL + "   * @throws IOException On I/O errors." + NL + "   */" + NL + "  protected void apply";
-  protected final String TEXT_88 = "(" + NL + "    Vertex<HenshinUtil.VertexId, ByteWritable," + NL + "    ByteWritable> vertex," + NL + "    HenshinUtil.Match match) throws IOException {" + NL;
-  protected final String TEXT_89 = NL + "    LOG.info(\"Vertex \" + vertex.getId() +" + NL + "      \" applying rule with match \" + match);" + NL;
+  protected final String TEXT_21 = NL + NL + "  /*" + NL + "   * (non-Javadoc)" + NL + "   * @see org.apache.giraph.graph.Computation#compute(" + NL + "   *        org.apache.giraph.graph.Vertex, java.lang.Iterable)" + NL + "   */" + NL + "  @Override" + NL + "  public void compute(" + NL + "      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex," + NL + "      Iterable<HenshinUtil.Match> matches) throws IOException {" + NL + "" + NL + "    // Get the current application stack:" + NL + "    HenshinUtil.ApplicationStack stack =" + NL + "      getAggregatedValue(AGGREGATOR_APPLICATION_STACK);" + NL + "" + NL + "    // Check if we should stop:" + NL + "    if (stack.getStackSize() == 0) {" + NL + "      vertex.voteToHalt();" + NL + "      return;" + NL + "    }" + NL + "" + NL + "    // Get the last step:" + NL + "    int rule = stack.getLastUnit();" + NL + "    int microstep = stack.getLastMicrostep();" + NL;
+  protected final String TEXT_22 = NL + "    // Log execution info" + NL + "    long superstep = getSuperstep();" + NL + "    LOG.info(\"Vertex \" + vertex.getId() + \" in superstep \" + superstep +" + NL + "      \" executing rule \" + rule + \" in microstep \" + microstep);" + NL + "    for (HenshinUtil.Match match : matches) {" + NL + "      LOG.info(\"Vertex \" + vertex.getId() +" + NL + "        \" received (partial) match \" + match);" + NL + "    }";
+  protected final String TEXT_23 = NL + NL + "    // Find out which rule to apply:" + NL + "    switch (rule) {";
+  protected final String TEXT_24 = NL + "      case ";
+  protected final String TEXT_25 = ":" + NL + "        match";
+  protected final String TEXT_26 = "(vertex, matches, microstep);" + NL + "        break;";
+  protected final String TEXT_27 = NL + "      default:" + NL + "        throw new RuntimeException(\"Unknow rule: \" + rule);" + NL + "    }" + NL + "  }";
+  protected final String TEXT_28 = NL + NL + "  /**" + NL + "   * Match (and apply) the rule \"";
+  protected final String TEXT_29 = "\"." + NL + "   * This takes ";
+  protected final String TEXT_30 = " microsteps." + NL + "   * @param vertex The current vertex." + NL + "   * @param matches The current matches." + NL + "   * @param microstep Current microstep." + NL + "   */" + NL + "  protected void match";
+  protected final String TEXT_31 = "(" + NL + "      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex," + NL + "      Iterable<HenshinUtil.Match> matches," + NL + "      int microstep) throws IOException {" + NL + NL;
+  protected final String TEXT_32 = " if (microstep == ";
+  protected final String TEXT_33 = ") {" + NL;
+  protected final String TEXT_34 = NL + "      // Node ";
+  protected final String TEXT_35 = ": check for edge to match of ";
+  protected final String TEXT_36 = " of type \"";
+  protected final String TEXT_37 = "\":" + NL + "      for (HenshinUtil.Match match : matches) {" + NL + "        HenshinUtil.VertexId targetId = match.getVertexId(";
+  protected final String TEXT_38 = ");" + NL + "        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :" + NL + "          vertex.getEdges()) {" + NL + "          if (edge.getValue().get() ==";
+  protected final String TEXT_39 = NL + "            ";
+  protected final String TEXT_40 = ".get() &&" + NL + "            edge.getTargetVertexId().equals(targetId)) {";
+  protected final String TEXT_41 = NL + "            // Apply the rule:" + NL + "            apply";
+  protected final String TEXT_42 = "(vertex, match);";
+  protected final String TEXT_43 = NL + "          }" + NL + "        }" + NL + "      }" + NL;
+  protected final String TEXT_44 = NL + "      // Matching node ";
+  protected final String TEXT_45 = ". Type must be \"";
+  protected final String TEXT_46 = "\":" + NL + "      boolean ok = vertex.getValue().get() ==";
+  protected final String TEXT_47 = NL + "        ";
+  protected final String TEXT_48 = ".get();" + NL + "      if (ok) {";
+  protected final String TEXT_49 = NL + "        // Create a new partial match:" + NL + "        HenshinUtil.Match match =" + NL + "          new HenshinUtil.Match().append(vertex.getId());";
+  protected final String TEXT_50 = NL + "        // Extend all partial matches:" + NL + "        for (HenshinUtil.Match match : matches) {" + NL + "          match = match.append(vertex.getId());";
+  protected final String TEXT_51 = NL;
+  protected final String TEXT_52 = "        // Send a match request to all outgoing edges of type \"";
+  protected final String TEXT_53 = "\":";
+  protected final String TEXT_54 = NL;
+  protected final String TEXT_55 = "        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :";
+  protected final String TEXT_56 = NL;
+  protected final String TEXT_57 = "          vertex.getEdges()) {";
+  protected final String TEXT_58 = NL;
+  protected final String TEXT_59 = "          if (edge.getValue().get() ==";
+  protected final String TEXT_60 = NL;
+  protected final String TEXT_61 = "            ";
+  protected final String TEXT_62 = ".get()) {";
+  protected final String TEXT_63 = NL;
+  protected final String TEXT_64 = "            LOG.info(\"Vertex \" + vertex.getId() +";
+  protected final String TEXT_65 = NL;
+  protected final String TEXT_66 = "              \" sending (partial) match \" + match +";
+  protected final String TEXT_67 = NL;
+  protected final String TEXT_68 = "              \" to vertex \" + edge.getTargetVertexId());";
+  protected final String TEXT_69 = NL;
+  protected final String TEXT_70 = "            sendMessage(edge.getTargetVertexId(), match);";
+  protected final String TEXT_71 = NL;
+  protected final String TEXT_72 = "          }";
+  protected final String TEXT_73 = NL;
+  protected final String TEXT_74 = "        }";
+  protected final String TEXT_75 = NL + "          // Send the message back to matches of node ";
+  protected final String TEXT_76 = ":" + NL + "          for (HenshinUtil.Match m : matches) {" + NL + "            HenshinUtil.VertexId targetVertexId =" + NL + "              m.getVertexId(";
+  protected final String TEXT_77 = ");";
+  protected final String TEXT_78 = NL + "            LOG.info(\"Vertex \" + vertex.getId() +" + NL + "              \" sending (partial) match \" + match +" + NL + "              \" to vertex \" + targetVertexId);";
+  protected final String TEXT_79 = NL + "            sendMessage(targetVertexId, match);" + NL + "          }";
+  protected final String TEXT_80 = NL + "          // Apply the rule:" + NL + "          apply";
+  protected final String TEXT_81 = "(vertex, match);";
+  protected final String TEXT_82 = NL + "        }";
+  protected final String TEXT_83 = NL + "      } // end if ok";
+  protected final String TEXT_84 = NL + NL + "    }";
+  protected final String TEXT_85 = NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Apply the rule ";
+  protected final String TEXT_86 = "to a given match." + NL + "   * @param vertex The base vertex." + NL + "   * @param match The match object." + NL + "   * @throws IOException On I/O errors." + NL + "   */" + NL + "  protected void apply";
+  protected final String TEXT_87 = "(" + NL + "    Vertex<HenshinUtil.VertexId, ByteWritable," + NL + "    ByteWritable> vertex," + NL + "    HenshinUtil.Match match) throws IOException {" + NL;
+  protected final String TEXT_88 = NL + "    LOG.info(\"Vertex \" + vertex.getId() +" + NL + "      \" applying rule ";
+  protected final String TEXT_89 = " with match \" + match);" + NL;
   protected final String TEXT_90 = NL + "    HenshinUtil.VertexId cur";
   protected final String TEXT_91 = " = match.getVertexId(";
   protected final String TEXT_92 = ");";
@@ -147,16 +147,40 @@ public class GiraphRuleTemplate
   protected final String TEXT_128 = ");" + NL + "    addEdgeRequest(src";
   protected final String TEXT_129 = ", edge";
   protected final String TEXT_130 = ");";
-  protected final String TEXT_131 = NL + NL + "    // Update the statistics:" + NL + "    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));" + NL + "" + NL + "  }" + NL;
+  protected final String TEXT_131 = NL + NL + "    // Update the statistics:" + NL + "    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));" + NL + "" + NL + "  }";
   protected final String TEXT_132 = NL;
-  protected final String TEXT_133 = NL + "  /**" + NL + "   * Derive a new vertex Id from an exiting one." + NL + "   * @param baseId The base vertex Id." + NL + "   * @param vertexIndex The relative index of the new vertex." + NL + "   * @return The derived vertex Id." + NL + "   */" + NL + "  private HenshinUtil.VertexId deriveVertexId(" + NL + "    HenshinUtil.VertexId baseId, int vertexIndex) {";
-  protected final String TEXT_134 = NL + "    int appCount = applicationCount;" + NL + "    int bitsNeededForApp = 0;" + NL + "    while (appCount > 0) {" + NL + "      appCount = appCount / 2;" + NL + "      bitsNeededForApp++;" + NL + "    }" + NL + "    long code = ((LongWritable) getAggregatedValue(" + NL + "        AGGREGATOR_NODE_GENERATION)).get();" + NL + "    if (bitsNeededForApp <= ";
-  protected final String TEXT_135 = ") {" + NL + "      code = ((code << ";
-  protected final String TEXT_136 = ")) | vertexIndex;" + NL + "      return baseId.append((byte) code);" + NL + "    } else {" + NL + "      return baseId.append((byte) code).append((byte) vertexIndex);" + NL + "    }" + NL + "  }";
-  protected final String TEXT_137 = NL + NL + "  /**" + NL + "   * Master compute which registers and updates the required aggregators." + NL + "   */" + NL + "  public static class MasterCompute extends DefaultMasterCompute {" + NL + "" + NL + "    @Override" + NL + "    public void compute() {" + NL + "//      LongWritable myValue =" + NL + "//          new LongWritable(MASTER_VALUE * (1L << superstep));" + NL + "//      setAggregatedValue(MASTER_WRITE_AGG, myValue);" + NL + "" + NL + "      // Update node generation aggregator value:" + NL + "      if (getSuperstep() > 0) {" + NL + "        LongWritable ruleApps = (LongWritable)" + NL + "          getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS);";
-  protected final String TEXT_138 = NL + "        LOG.info(ruleApps.get() + \" rule applications in superstep \" +" + NL + "          (getSuperstep() - 1));";
-  protected final String TEXT_139 = NL + "        if (ruleApps.get() > 0) {" + NL + "          LongWritable nodeGen = (LongWritable)" + NL + "            getAggregatedValue(AGGREGATOR_NODE_GENERATION);" + NL + "          nodeGen.set(nodeGen.get() + 1);" + NL + "          setAggregatedValue(AGGREGATOR_NODE_GENERATION, nodeGen);" + NL + "        }" + NL + "      }" + NL + "    }" + NL + "" + NL + "    @Override" + NL + "    public void initialize() throws InstantiationException," + NL + "        IllegalAccessException {" + NL + "      registerAggregator(AGGREGATOR_RULE_APPLICATIONS," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK," + NL + "        HenshinUtil.ApplicationStackAggregator.class);" + NL + "    }" + NL + "" + NL + "  }" + NL + "}";
-  protected final String TEXT_140 = NL;
+  protected final String TEXT_133 = NL + "  /**" + NL + "   * Derive a new vertex Id from an exiting one." + NL + "   * @param baseId The base vertex Id." + NL + "   * @param vertexIndex The relative index of the new vertex." + NL + "   * @return The derived vertex Id." + NL + "   */" + NL + "  private HenshinUtil.VertexId deriveVertexId(" + NL + "    HenshinUtil.VertexId baseId, int vertexIndex) {" + NL + "    long generation = ((LongWritable) getAggregatedValue(" + NL + "        AGGREGATOR_NODE_GENERATION)).get();" + NL + "    return baseId.append((byte) generation).append((byte) vertexIndex);" + NL + "  }";
+  protected final String TEXT_134 = NL + NL + "  /**" + NL + "   * Master compute which registers and updates the required aggregators." + NL + "   */" + NL + "  public static class MasterCompute extends DefaultMasterCompute {" + NL + "" + NL + "    @Override" + NL + "    public void compute() {" + NL + "" + NL + "      // Get the number of rule applications in the last superstep:" + NL + "      long ruleApps = ((LongWritable)" + NL + "        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();";
+  protected final String TEXT_135 = NL + "      if (getSuperstep() > 0) {" + NL + "        LOG.info(ruleApps + \" rule applications in superstep \" +" + NL + "          (getSuperstep() - 1));" + NL + "      }";
+  protected final String TEXT_136 = NL + NL + "      // Update the application stack:" + NL + "      HenshinUtil.ApplicationStack stack;" + NL + "      if (getSuperstep() == 0) {" + NL + "        stack = new HenshinUtil.ApplicationStack();" + NL + "        stack = stack.append(";
+  protected final String TEXT_137 = ", 0);";
+  protected final String TEXT_138 = NL + "        stack = nextRuleStep(stack, ruleApps);";
+  protected final String TEXT_139 = NL + "      } else {" + NL + "        stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);" + NL + "        stack = nextRuleStep(stack, ruleApps);" + NL + "      }" + NL + "      setAggregatedValue(AGGREGATOR_APPLICATION_STACK, stack);" + NL + "" + NL + "    }" + NL + "" + NL + "    /**" + NL + "     * Compute the next rule application stack." + NL + "     * @param stack Current application stack." + NL + "     * @param ruleApps Number of rule applications in last superstep." + NL + "     * @return the new application stack." + NL + "     */" + NL + "    private HenshinUtil.ApplicationStack nextRuleStep(" + NL + "      HenshinUtil.ApplicationStack stack, long ruleApps) {" + NL + "" + NL + "      // Iteratively update the application stack:" + NL + "      while (stack.getStackSize() > 0) {" + NL + "        int unit = stack.getLastUnit();" + NL + "        int microstep = stack.getLastMicrostep();" + NL + "        stack = stack.removeLast();" + NL + "        switch (unit) {";
+  protected final String TEXT_140 = NL + "          case ";
+  protected final String TEXT_141 = ":";
+  protected final String TEXT_142 = NL + "            if (microstep < ";
+  protected final String TEXT_143 = ") {" + NL + "              stack = stack.append(";
+  protected final String TEXT_144 = ", microstep + 1);" + NL + "              stack = stack.append(";
+  protected final String TEXT_145 = ", 0);" + NL + "            }";
+  protected final String TEXT_146 = NL + "            switch (microstep) {";
+  protected final String TEXT_147 = NL + "              case ";
+  protected final String TEXT_148 = ":" + NL + "                stack = stack.append(";
+  protected final String TEXT_149 = ", ";
+  protected final String TEXT_150 = ");" + NL + "                stack = stack.append(";
+  protected final String TEXT_151 = ", 0);" + NL + "                break;";
+  protected final String TEXT_152 = NL + "              default:" + NL + "                break;" + NL + "            }";
+  protected final String TEXT_153 = NL + "            if (ruleApps > 0) {" + NL + "              stack = stack.append(";
+  protected final String TEXT_154 = ", 0);" + NL + "              stack = stack.append(";
+  protected final String TEXT_155 = ", 0);" + NL + "            }";
+  protected final String TEXT_156 = NL + "            if (microstep < ";
+  protected final String TEXT_157 = ") {" + NL + "              stack = stack.append(";
+  protected final String TEXT_158 = ", microstep + 1);" + NL + "            }";
+  protected final String TEXT_159 = NL + "            break;";
+  protected final String TEXT_160 = NL + "          default:" + NL + "            throw new RuntimeException(\"Unknown unit \" + unit);" + NL + "        }" + NL + "" + NL + "        // If the last unit is a rule, we can stop:" + NL + "        if (stack.getStackSize() > 0) {" + NL + "          unit = stack.getLastUnit();";
+  protected final String TEXT_161 = NL + "          ";
+  protected final String TEXT_162 = "unit == ";
+  protected final String TEXT_163 = NL + "            break;" + NL + "          }" + NL + "        }" + NL + "      }" + NL + "      return stack;" + NL + "    }" + NL + "" + NL + "    @Override" + NL + "    public void initialize() throws InstantiationException," + NL + "        IllegalAccessException {" + NL + "      registerAggregator(AGGREGATOR_RULE_APPLICATIONS," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK," + NL + "        HenshinUtil.ApplicationStackAggregator.class);" + NL + "    }" + NL + "" + NL + "  }" + NL + "}";
+  protected final String TEXT_164 = NL;
 
   public String generate(Object argument)
   {
@@ -174,7 +198,12 @@ String className = (String) args.get("className");
 String packageName = (String) args.get("packageName");
 boolean logging = (Boolean) args.get("logging");
 boolean useUUIDs = (Boolean) args.get("useUUIDs");
-int applicationCount = (Integer) args.get("applicationCount");
+
+List<Unit> allUnits = new ArrayList<Unit>();
+allUnits.add(mainUnit);
+allUnits.addAll(mainUnit.getSubUnits(true));
+
+List<Rule> rules = new ArrayList<Rule>(ruleData.keySet());
 
 boolean needsEdgeFactory = false;
 int maxCreatedNodes = 0;
@@ -203,21 +232,19 @@ for (GiraphRuleData data : ruleData.values()) {
     stringBuffer.append(TEXT_8);
     stringBuffer.append( className );
     stringBuffer.append(TEXT_9);
-    stringBuffer.append( applicationCount );
-    stringBuffer.append(TEXT_10);
     
 
 Map<ENamedElement,String> typeConstants = GiraphUtil.getTypeConstants(mainUnit.getModule());
 int value = 0;
 for (ENamedElement type : typeConstants.keySet()) {
   
-    stringBuffer.append(TEXT_11);
+    stringBuffer.append(TEXT_10);
     stringBuffer.append( type.getName() );
-    stringBuffer.append(TEXT_12);
+    stringBuffer.append(TEXT_11);
     stringBuffer.append( typeConstants.get(type) );
-    stringBuffer.append(TEXT_13);
+    stringBuffer.append(TEXT_12);
     stringBuffer.append( value++ );
-    stringBuffer.append(TEXT_14);
+    stringBuffer.append(TEXT_13);
     
 }
 
@@ -225,6 +252,8 @@ Map<Unit,String> unitConstants = GiraphUtil.getUnitConstants(mainUnit);
 value = 0;
 for (Unit unit : unitConstants.keySet()) {
   
+    stringBuffer.append(TEXT_14);
+    stringBuffer.append( (unit instanceof Rule) ? "Rule" : "Unit" );
     stringBuffer.append(TEXT_15);
     stringBuffer.append( unit.getName() );
     stringBuffer.append(TEXT_16);
@@ -242,6 +271,18 @@ if (logging) {
     stringBuffer.append(TEXT_20);
      } 
     stringBuffer.append(TEXT_21);
+    if (logging) { 
+    stringBuffer.append(TEXT_22);
+    } 
+    stringBuffer.append(TEXT_23);
+     for (Rule rule : rules) { 
+    stringBuffer.append(TEXT_24);
+    stringBuffer.append( unitConstants.get(rule) );
+    stringBuffer.append(TEXT_25);
+    stringBuffer.append( rule.getName() );
+    stringBuffer.append(TEXT_26);
+     } 
+    stringBuffer.append(TEXT_27);
     
 
 // Generate the code for all rules: 
@@ -250,144 +291,132 @@ for (Rule rule : ruleData.keySet()) {
   RuleChangeInfo changeInfo = new RuleChangeInfo(rule);
 
 
-    stringBuffer.append(TEXT_22);
-    if (logging) { 
-    stringBuffer.append(TEXT_23);
-    } 
-    stringBuffer.append(TEXT_24);
-    stringBuffer.append( data.matchingSteps.size() );
-    stringBuffer.append(TEXT_25);
-    if (logging) { 
-    stringBuffer.append(TEXT_26);
-    } 
-    stringBuffer.append(TEXT_27);
-    stringBuffer.append( data.rule.getName() );
     stringBuffer.append(TEXT_28);
-    stringBuffer.append( data.matchingSteps.size() );
+    stringBuffer.append( data.rule.getName() );
     stringBuffer.append(TEXT_29);
-    stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_30);
     stringBuffer.append( data.matchingSteps.size() );
-    stringBuffer.append(TEXT_31);
+    stringBuffer.append(TEXT_30);
     stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_32);
+    stringBuffer.append(TEXT_31);
      
     for (int i=0; i<data.matchingSteps.size(); i++) {
       GiraphRuleData.MatchingStep step = data.matchingSteps.get(i);
 
     stringBuffer.append( i>0 ? " else" : "   " );
-    stringBuffer.append(TEXT_33);
+    stringBuffer.append(TEXT_32);
     stringBuffer.append( i );
-    stringBuffer.append(TEXT_34);
+    stringBuffer.append(TEXT_33);
         if (step.verifyEdgeTo != null) {
-    stringBuffer.append(TEXT_35);
+    stringBuffer.append(TEXT_34);
     stringBuffer.append( GiraphUtil.getNodeName(step.edge.getSource()) );
-    stringBuffer.append(TEXT_36);
+    stringBuffer.append(TEXT_35);
     stringBuffer.append( GiraphUtil.getNodeName(step.edge.getTarget()) );
-    stringBuffer.append(TEXT_37);
+    stringBuffer.append(TEXT_36);
     stringBuffer.append( step.edge.getType().getName() );
-    stringBuffer.append(TEXT_38);
+    stringBuffer.append(TEXT_37);
     stringBuffer.append( data.orderedLhsNodes.indexOf(step.verifyEdgeTo) );
+    stringBuffer.append(TEXT_38);
     stringBuffer.append(TEXT_39);
-    stringBuffer.append(TEXT_40);
     stringBuffer.append( typeConstants.get(step.edge.getType()) );
-    stringBuffer.append(TEXT_41);
+    stringBuffer.append(TEXT_40);
             if (i == data.matchingSteps.size()-1) {
-    stringBuffer.append(TEXT_42);
+    stringBuffer.append(TEXT_41);
     stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_43);
+    stringBuffer.append(TEXT_42);
             } 
-    stringBuffer.append(TEXT_44);
+    stringBuffer.append(TEXT_43);
         } else {
-    stringBuffer.append(TEXT_45);
+    stringBuffer.append(TEXT_44);
     stringBuffer.append( GiraphUtil.getNodeName(step.node) );
-    stringBuffer.append(TEXT_46);
+    stringBuffer.append(TEXT_45);
     stringBuffer.append( step.node.getType().getName() );
+    stringBuffer.append(TEXT_46);
     stringBuffer.append(TEXT_47);
-    stringBuffer.append(TEXT_48);
     stringBuffer.append( typeConstants.get(step.node.getType()) );
-    stringBuffer.append(TEXT_49);
+    stringBuffer.append(TEXT_48);
         if (step.isStart) {
-    stringBuffer.append(TEXT_50);
+    stringBuffer.append(TEXT_49);
      } else {
-    stringBuffer.append(TEXT_51);
+    stringBuffer.append(TEXT_50);
         }
       if (step.edge != null) {
+    stringBuffer.append(TEXT_51);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_52);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_53);
     stringBuffer.append( step.edge.getType().getName() );
+    stringBuffer.append(TEXT_53);
     stringBuffer.append(TEXT_54);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_55);
-    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_56);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_57);
-    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_58);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_59);
-    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_60);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_61);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_62);
     stringBuffer.append( typeConstants.get(step.edge.getType()) );
-    stringBuffer.append(TEXT_63);
+    stringBuffer.append(TEXT_62);
     if (logging) { 
+    stringBuffer.append(TEXT_63);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_64);
-    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_65);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_66);
-    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_67);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_68);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_69);
     } 
+    stringBuffer.append(TEXT_69);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_70);
-    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_71);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_72);
-    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_73);
-    stringBuffer.append(TEXT_74);
     stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_75);
+    stringBuffer.append(TEXT_74);
     
       } else if (step.sendBackTo != null) {
-    stringBuffer.append(TEXT_76);
+    stringBuffer.append(TEXT_75);
     stringBuffer.append( GiraphUtil.getNodeName(step.sendBackTo) );
-    stringBuffer.append(TEXT_77);
+    stringBuffer.append(TEXT_76);
     stringBuffer.append( data.orderedLhsNodes.indexOf(step.sendBackTo) );
-    stringBuffer.append(TEXT_78);
+    stringBuffer.append(TEXT_77);
     if (logging) { 
-    stringBuffer.append(TEXT_79);
+    stringBuffer.append(TEXT_78);
     } 
-    stringBuffer.append(TEXT_80);
+    stringBuffer.append(TEXT_79);
     
       } else if (i == data.matchingSteps.size()-1) {
-    stringBuffer.append(TEXT_81);
+    stringBuffer.append(TEXT_80);
     stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_82);
+    stringBuffer.append(TEXT_81);
         }
       if (!step.isStart) {
-    stringBuffer.append(TEXT_83);
+    stringBuffer.append(TEXT_82);
     
        }
-    stringBuffer.append(TEXT_84);
+    stringBuffer.append(TEXT_83);
     
       }
-    stringBuffer.append(TEXT_85);
+    stringBuffer.append(TEXT_84);
      
 
     } // end for
 
 
+    stringBuffer.append(TEXT_85);
+    stringBuffer.append( data.rule.getName() );
     stringBuffer.append(TEXT_86);
     stringBuffer.append( data.rule.getName() );
     stringBuffer.append(TEXT_87);
-    stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_88);
     if (logging) { 
+    stringBuffer.append(TEXT_88);
+    stringBuffer.append( data.rule.getName() );
     stringBuffer.append(TEXT_89);
     }
   for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
@@ -506,26 +535,69 @@ for (Rule rule : ruleData.keySet()) {
     stringBuffer.append(TEXT_132);
      if (!useUUIDs) { 
     stringBuffer.append(TEXT_133);
-    
-    int createdNodes = maxCreatedNodes;
-    int bitsNeededForIndex = 0;
-    while (createdNodes > 0) {
-      createdNodes = createdNodes / 2;
-      bitsNeededForIndex++;
-    }
-
-    stringBuffer.append(TEXT_134);
-    stringBuffer.append( 8 - bitsNeededForIndex );
-    stringBuffer.append(TEXT_135);
-    stringBuffer.append( bitsNeededForIndex );
-    stringBuffer.append(TEXT_136);
      } 
-    stringBuffer.append(TEXT_137);
+    stringBuffer.append(TEXT_134);
      if (logging) {
+    stringBuffer.append(TEXT_135);
+     } 
+    stringBuffer.append(TEXT_136);
+    stringBuffer.append( unitConstants.get(mainUnit) );
+    stringBuffer.append(TEXT_137);
+     if (!(mainUnit instanceof Rule)) { 
     stringBuffer.append(TEXT_138);
      } 
     stringBuffer.append(TEXT_139);
+     for (Unit unit : allUnits) { 
     stringBuffer.append(TEXT_140);
+    stringBuffer.append( unitConstants.get(unit) );
+    stringBuffer.append(TEXT_141);
+     if (unit instanceof IteratedUnit) { 
+    stringBuffer.append(TEXT_142);
+    stringBuffer.append( Integer.parseInt(((IteratedUnit) unit).getIterations()) );
+    stringBuffer.append(TEXT_143);
+    stringBuffer.append( unitConstants.get(unit) );
+    stringBuffer.append(TEXT_144);
+    stringBuffer.append( unitConstants.get(((IteratedUnit) unit).getSubUnit()) );
+    stringBuffer.append(TEXT_145);
+     } else if (unit instanceof SequentialUnit) { 
+     SequentialUnit seq = (SequentialUnit) unit; 
+    stringBuffer.append(TEXT_146);
+     for (int i=0; i<seq.getSubUnits().size(); i++) { 
+    stringBuffer.append(TEXT_147);
+    stringBuffer.append( i);
+    stringBuffer.append(TEXT_148);
+    stringBuffer.append( unitConstants.get(unit) );
+    stringBuffer.append(TEXT_149);
+    stringBuffer.append( i+1 );
+    stringBuffer.append(TEXT_150);
+    stringBuffer.append( unitConstants.get(seq.getSubUnits().get(i)) );
+    stringBuffer.append(TEXT_151);
+     } 
+    stringBuffer.append(TEXT_152);
+     } else if (unit instanceof LoopUnit) { 
+    stringBuffer.append(TEXT_153);
+    stringBuffer.append( unitConstants.get(unit) );
+    stringBuffer.append(TEXT_154);
+    stringBuffer.append( unitConstants.get(((LoopUnit) unit).getSubUnit()) );
+    stringBuffer.append(TEXT_155);
+     } else if (unit instanceof Rule) { 
+    stringBuffer.append(TEXT_156);
+    stringBuffer.append( ruleData.get(unit).matchingSteps.size() );
+    stringBuffer.append(TEXT_157);
+    stringBuffer.append( unitConstants.get(unit) );
+    stringBuffer.append(TEXT_158);
+     } 
+    stringBuffer.append(TEXT_159);
+     } 
+    stringBuffer.append(TEXT_160);
+     for (int i=0; i<rules.size(); i++) { 
+    stringBuffer.append(TEXT_161);
+    stringBuffer.append( i==0 ? "if (" : "  " );
+    stringBuffer.append(TEXT_162);
+    stringBuffer.append( unitConstants.get(rules.get(i)) + (i<rules.size()-1 ? " ||" : ") {" ) );
+     } 
+    stringBuffer.append(TEXT_163);
+    stringBuffer.append(TEXT_164);
     return stringBuffer.toString();
   }
 }

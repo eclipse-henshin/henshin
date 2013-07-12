@@ -246,11 +246,17 @@
       <nodes xmi:id="_ZGuBkONCEeKN6veBRtYNZQ" name="a" outgoing="_Z1nH4ONCEeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//VertexContainer"/>
       </nodes>
-      <nodes xmi:id="_Z1l5wONCEeKN6veBRtYNZQ" name="b" incoming="_Z1nH4ONCEeKN6veBRtYNZQ">
+      <nodes xmi:id="_Z1l5wONCEeKN6veBRtYNZQ" name="b" incoming="_Z1nH4ONCEeKN6veBRtYNZQ" outgoing="_2ATHoOsnEeKWpp_bhRJ4Kw">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_z44IIOsnEeKWpp_bhRJ4Kw" name="c" incoming="_2ATHoOsnEeKWpp_bhRJ4Kw">
         <type href="sierpinski.ecore#//Vertex"/>
       </nodes>
       <edges xmi:id="_Z1nH4ONCEeKN6veBRtYNZQ" source="_ZGuBkONCEeKN6veBRtYNZQ" target="_Z1l5wONCEeKN6veBRtYNZQ">
         <type href="sierpinski.ecore#//VertexContainer/vertices"/>
+      </edges>
+      <edges xmi:id="_2ATHoOsnEeKWpp_bhRJ4Kw" source="_Z1l5wONCEeKN6veBRtYNZQ" target="_z44IIOsnEeKWpp_bhRJ4Kw">
+        <type href="sierpinski.ecore#//Vertex/left"/>
       </edges>
     </lhs>
     <rhs xmi:id="_WrII4eNCEeKN6veBRtYNZQ" name="Rhs">
@@ -357,4 +363,7 @@
     <mappings xmi:id="_a0DQh-TLEeKfY_qjECFEAQ" origin="_a0DQguTLEeKfY_qjECFEAQ" image="_a0DQhuTLEeKfY_qjECFEAQ"/>
     <mappings xmi:id="_dgzKoeTLEeKfY_qjECFEAQ" origin="_a0DQg-TLEeKfY_qjECFEAQ" image="_dgzKoOTLEeKfY_qjECFEAQ"/>
   </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_8CQfgOsmEeKWpp_bhRJ4Kw" name="SierpinskiMain" subUnit="_O4jIcGK4EeGEopi1QdEPhA" iterations="3"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_pW_dwOsnEeKWpp_bhRJ4Kw" name="StarMain" subUnits="_8Yzh0OsnEeKWpp_bhRJ4Kw _Wq9w0ONCEeKN6veBRtYNZQ"/>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_8Yzh0OsnEeKWpp_bhRJ4Kw" name="ExtendStarLoop" subUnit="_a0DQgOTLEeKfY_qjECFEAQ" iterations="5"/>
 </henshin:Module>

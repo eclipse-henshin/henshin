@@ -13,7 +13,12 @@ String className = (String) args.get("className");
 String packageName = (String) args.get("packageName");
 boolean logging = (Boolean) args.get("logging");
 boolean useUUIDs = (Boolean) args.get("useUUIDs");
-int applicationCount = (Integer) args.get("applicationCount");
+
+List<Unit> allUnits = new ArrayList<Unit>();
+allUnits.add(mainUnit);
+allUnits.addAll(mainUnit.getSubUnits(true));
+
+List<Rule> rules = new ArrayList<Rule>(ruleData.keySet());
 
 boolean needsEdgeFactory = false;
 int maxCreatedNodes = 0;
@@ -84,11 +89,6 @@ public class <%= className %> extends
    * Name of the application stack aggregator.
    */
   public static final String AGGREGATOR_APPLICATION_STACK = "appStack";
-
-  /**
-   * Default number of applications of this rule.
-   */
-  public static final int DEFAULT_APPLICATION_COUNT = <%= applicationCount %>;
 <%
 
 Map<ENamedElement,String> typeConstants = GiraphUtil.getTypeConstants(mainUnit.getModule());
@@ -110,7 +110,7 @@ for (Unit unit : unitConstants.keySet()) {
   %>
 
   /**
-   * Unit constant for "<%= unit.getName() %>".
+   * <%= (unit instanceof Rule) ? "Rule" : "Unit" %> constant for "<%= unit.getName() %>".
    */
   public static final int <%= unitConstants.get(unit) %> = <%= value++ %>;
 <%
@@ -125,20 +125,6 @@ if (logging) {
   protected static final Logger LOG = Logger.getLogger(<%= className %>.class);
 <% } %>
 
-  /**
-   * Number of applications of this rule.
-   */
-  private int applicationCount = DEFAULT_APPLICATION_COUNT;
-
-<%
-
-// Generate the code for all rules: 
-for (Rule rule : ruleData.keySet()) {
-  GiraphRuleData data = ruleData.get(rule);
-  RuleChangeInfo changeInfo = new RuleChangeInfo(rule);
-
-%>
-
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -149,33 +135,54 @@ for (Rule rule : ruleData.keySet()) {
       Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<HenshinUtil.Match> matches) throws IOException {
 
-    // Get the current superstep:
-    long superstep = getSuperstep();
-<%if (logging) { %>
-    LOG.info("Vertex " + vertex.getId() + " executing superstep " + superstep);
-<%} %>
+    // Get the current application stack:
+    HenshinUtil.ApplicationStack stack =
+      getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
 
-    // Check if we can stop:
-    if (superstep >= applicationCount * <%= data.matchingSteps.size() %>) {
+    // Check if we should stop:
+    if (stack.getStackSize() == 0) {
       vertex.voteToHalt();
       return;
     }
 
+    // Get the last step:
+    int rule = stack.getLastUnit();
+    int microstep = stack.getLastMicrostep();
+
 <%if (logging) { %>
-    // Log received (partial) matches:
+    // Log execution info
+    long superstep = getSuperstep();
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + superstep +
+      " executing rule " + rule + " in microstep " + microstep);
     for (HenshinUtil.Match match : matches) {
       LOG.info("Vertex " + vertex.getId() +
         " received (partial) match " + match);
     }
 <%} %>
 
-    match<%= data.rule.getName() %>(vertex, matches, (int) (superstep % <%= data.matchingSteps.size() %>));
-
+    // Find out which rule to apply:
+    switch (rule) {
+<% for (Rule rule : rules) { %>
+      case <%= unitConstants.get(rule) %>:
+        match<%= rule.getName() %>(vertex, matches, microstep);
+        break;
+<% } %>
+      default:
+        throw new RuntimeException("Unknow rule: " + rule);
+    }
   }
+<%
+
+// Generate the code for all rules: 
+for (Rule rule : ruleData.keySet()) {
+  GiraphRuleData data = ruleData.get(rule);
+  RuleChangeInfo changeInfo = new RuleChangeInfo(rule);
+
+%>
 
   /**
    * Match (and apply) the rule "<%= data.rule.getName() %>".
-   * This takes <%= data.matchingSteps.size() %> supersteps.
+   * This takes <%= data.matchingSteps.size() %> microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param microstep Current microstep.
@@ -266,7 +273,6 @@ for (Rule rule : ruleData.keySet()) {
     } // end for
 
 %>
-
   }
 
   /**
@@ -282,7 +288,7 @@ for (Rule rule : ruleData.keySet()) {
 
 <%if (logging) { %>
     LOG.info("Vertex " + vertex.getId() +
-      " applying rule with match " + match);
+      " applying rule <%= data.rule.getName() %> with match " + match);
 
 <%}
   for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
@@ -352,7 +358,6 @@ for (Rule rule : ruleData.keySet()) {
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
 
   }
-
 <%
 } // end of for all rules
 %>
@@ -366,28 +371,9 @@ for (Rule rule : ruleData.keySet()) {
    */
   private HenshinUtil.VertexId deriveVertexId(
     HenshinUtil.VertexId baseId, int vertexIndex) {
-<%
-    int createdNodes = maxCreatedNodes;
-    int bitsNeededForIndex = 0;
-    while (createdNodes > 0) {
-      createdNodes = createdNodes / 2;
-      bitsNeededForIndex++;
-    }
-%>
-    int appCount = applicationCount;
-    int bitsNeededForApp = 0;
-    while (appCount > 0) {
-      appCount = appCount / 2;
-      bitsNeededForApp++;
-    }
-    long code = ((LongWritable) getAggregatedValue(
+    long generation = ((LongWritable) getAggregatedValue(
         AGGREGATOR_NODE_GENERATION)).get();
-    if (bitsNeededForApp <= <%= 8 - bitsNeededForIndex %>) {
-      code = ((code << <%= bitsNeededForIndex %>)) | vertexIndex;
-      return baseId.append((byte) code);
-    } else {
-      return baseId.append((byte) code).append((byte) vertexIndex);
-    }
+    return baseId.append((byte) generation).append((byte) vertexIndex);
   }
 <% } %>
 
@@ -398,25 +384,94 @@ for (Rule rule : ruleData.keySet()) {
 
     @Override
     public void compute() {
-//      LongWritable myValue =
-//          new LongWritable(MASTER_VALUE * (1L << superstep));
-//      setAggregatedValue(MASTER_WRITE_AGG, myValue);
 
-      // Update node generation aggregator value:
-      if (getSuperstep() > 0) {
-        LongWritable ruleApps = (LongWritable)
-          getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS);
+      // Get the number of rule applications in the last superstep:
+      long ruleApps = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
 <% if (logging) {%>
-        LOG.info(ruleApps.get() + " rule applications in superstep " +
+      if (getSuperstep() > 0) {
+        LOG.info(ruleApps + " rule applications in superstep " +
           (getSuperstep() - 1));
+      }
 <% } %>
-        if (ruleApps.get() > 0) {
-          LongWritable nodeGen = (LongWritable)
-            getAggregatedValue(AGGREGATOR_NODE_GENERATION);
-          nodeGen.set(nodeGen.get() + 1);
-          setAggregatedValue(AGGREGATOR_NODE_GENERATION, nodeGen);
+
+      // Update the application stack:
+      HenshinUtil.ApplicationStack stack;
+      if (getSuperstep() == 0) {
+        stack = new HenshinUtil.ApplicationStack();
+        stack = stack.append(<%= unitConstants.get(mainUnit) %>, 0);
+<% if (!(mainUnit instanceof Rule)) { %>
+        stack = nextRuleStep(stack, ruleApps);
+<% } %>
+      } else {
+        stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
+        stack = nextRuleStep(stack, ruleApps);
+      }
+      setAggregatedValue(AGGREGATOR_APPLICATION_STACK, stack);
+
+    }
+
+    /**
+     * Compute the next rule application stack.
+     * @param stack Current application stack.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack nextRuleStep(
+      HenshinUtil.ApplicationStack stack, long ruleApps) {
+
+      // Iteratively update the application stack:
+      while (stack.getStackSize() > 0) {
+        int unit = stack.getLastUnit();
+        int microstep = stack.getLastMicrostep();
+        stack = stack.removeLast();
+        switch (unit) {
+<% for (Unit unit : allUnits) { %>
+          case <%= unitConstants.get(unit) %>:
+<% if (unit instanceof IteratedUnit) { %>
+            if (microstep < <%= Integer.parseInt(((IteratedUnit) unit).getIterations()) %>) {
+              stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
+              stack = stack.append(<%= unitConstants.get(((IteratedUnit) unit).getSubUnit()) %>, 0);
+            }
+<% } else if (unit instanceof SequentialUnit) { 
+     SequentialUnit seq = (SequentialUnit) unit; %>
+            switch (microstep) {
+<% for (int i=0; i<seq.getSubUnits().size(); i++) { %>
+              case <%= i%>:
+                stack = stack.append(<%= unitConstants.get(unit) %>, <%= i+1 %>);
+                stack = stack.append(<%= unitConstants.get(seq.getSubUnits().get(i)) %>, 0);
+                break;
+<% } %>
+              default:
+                break;
+            }
+<% } else if (unit instanceof LoopUnit) { %>
+            if (ruleApps > 0) {
+              stack = stack.append(<%= unitConstants.get(unit) %>, 0);
+              stack = stack.append(<%= unitConstants.get(((LoopUnit) unit).getSubUnit()) %>, 0);
+            }
+<% } else if (unit instanceof Rule) { %>
+            if (microstep < <%= ruleData.get(unit).matchingSteps.size() %>) {
+              stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
+            }
+<% } %>
+            break;
+<% } %>
+          default:
+            throw new RuntimeException("Unknown unit " + unit);
+        }
+
+        // If the last unit is a rule, we can stop:
+        if (stack.getStackSize() > 0) {
+          unit = stack.getLastUnit();
+<% for (int i=0; i<rules.size(); i++) { %>
+          <%= i==0 ? "if (" : "  " %>unit == <%= unitConstants.get(rules.get(i)) + (i<rules.size()-1 ? " ||" : ") {" ) %>
+<% } %>
+            break;
+          }
         }
       }
+      return stack;
     }
 
     @Override

@@ -19,11 +19,13 @@ package org.apache.giraph.examples;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.giraph.aggregators.BasicAggregator;
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.edge.EdgeFactory;
 import org.apache.giraph.graph.Vertex;
@@ -43,6 +45,11 @@ import com.google.common.collect.Lists;
  * Henshin utility classes and methods.
  */
 public class HenshinUtil {
+
+  /**
+   * Length of integers in bytes.
+   */
+  private static final int INT_LENGTH = Integer.SIZE / Byte.SIZE;
 
   /**
    * Private constructor.
@@ -98,6 +105,57 @@ public class HenshinUtil {
         }
       }
       return "[" + result + "]";
+    }
+
+  }
+
+  /**
+   * Henshin vertex ID.
+   */
+  public static class VertexId extends Bytes {
+
+    /**
+     * Default constructor.
+     */
+    public VertexId() {
+      super();
+    }
+
+    /**
+     * Extra constructor.
+     * @param data The data.
+     */
+    public VertexId(byte[] data) {
+      super(data);
+    }
+
+    /**
+     * Create a new random vertex ID.
+     * The vertex ID is derived from a random UUID.
+     * @return The new vertex ID.
+     */
+    public static VertexId randomVertexId() {
+      UUID uuid = UUID.randomUUID();
+      byte[] bytes = new byte[(Long.SIZE / Byte.SIZE) * 2];
+      ByteBuffer buffer = ByteBuffer.wrap(bytes);
+      LongBuffer longBuffer = buffer.asLongBuffer();
+      longBuffer.put(new long[] {
+        uuid.getMostSignificantBits(),
+        uuid.getLeastSignificantBits()
+      });
+      return new VertexId(bytes);
+    }
+
+    /**
+     * Create an extended version of this vertex ID.
+     * @param value The value to be appended to this vertex ID.
+     * @return The extended version of this vertex ID.
+     */
+    public VertexId append(byte value) {
+      byte[] bytes = getBytes();
+      bytes = Arrays.copyOf(bytes, bytes.length + 1);
+      bytes[bytes.length - 1] = value;
+      return new VertexId(bytes);
     }
 
   }
@@ -199,14 +257,14 @@ public class HenshinUtil {
   }
 
   /**
-   * Henshin vertex ID.
+   * Henshin application stack.
    */
-  public static class VertexId extends Bytes {
+  public static class ApplicationStack extends Bytes {
 
     /**
      * Default constructor.
      */
-    public VertexId() {
+    public ApplicationStack() {
       super();
     }
 
@@ -214,37 +272,102 @@ public class HenshinUtil {
      * Extra constructor.
      * @param data The data.
      */
-    public VertexId(byte[] data) {
+    public ApplicationStack(byte[] data) {
       super(data);
     }
 
     /**
-     * Create a new random vertex ID.
-     * The vertex ID is derived from a random UUID.
-     * @return The new vertex ID.
+     * Get the size of this application stack.
+     * @return the size of this application stack.
      */
-    public static VertexId randomVertexId() {
-      UUID uuid = UUID.randomUUID();
-      byte[] bytes = new byte[(Long.SIZE / Byte.SIZE) * 2];
-      ByteBuffer buffer = ByteBuffer.wrap(bytes);
-      LongBuffer longBuffer = buffer.asLongBuffer();
-      longBuffer.put(new long[] {
-        uuid.getMostSignificantBits(),
-        uuid.getLeastSignificantBits()
-      });
-      return new VertexId(bytes);
+    public int getStackSize() {
+      return (getBytes().length / INT_LENGTH) / 2;
     }
 
     /**
-     * Create an extended version of this vertex ID.
-     * @param value The value to be appended to this vertex ID.
-     * @return The extended version of this vertex ID.
+     * Get the unit index at an absolute position.
+     * @param position An absolute position in the stack.
+     * @return the unit index or -1.
      */
-    public VertexId append(byte value) {
+    public int getUnit(int position) {
+      IntBuffer intBuf = ByteBuffer.wrap(getBytes()).asIntBuffer();
+      if (position < 0 || position * 2 >= intBuf.limit()) {
+        return -1;
+      }
+      return intBuf.get(position * 2);
+    }
+
+    /**
+     * Get the microstep at an absolute position.
+     * @param position An absolute position in the stack.
+     * @return the microstp or -1.
+     */
+    public int getMicrostep(int position) {
+      IntBuffer intBuf = ByteBuffer.wrap(getBytes()).asIntBuffer();
+      if (position < 0 || (position * 2) + 1 >= intBuf.limit()) {
+        return -1;
+      }
+      return intBuf.get((position * 2) + 1);
+    }
+
+    /**
+     * Get the unit index at the last position.
+     * @return the unit index or -1.
+     */
+    public int getLastUnit() {
+      return getUnit(getStackSize() - 1);
+    }
+
+    /**
+     * Get the microstep at the last position.
+     * @return the microstep or -1.
+     */
+    public int getLastMicrostep() {
+      return getMicrostep(getStackSize() - 1);
+    }
+
+    /**
+     * Create an extended version of this application stack.
+     * @param unit The new unit index.
+     * @param microstep The new microstep.
+     * @return The extended version of this application stack.
+     */
+    public ApplicationStack append(int unit, int microstep) {
       byte[] bytes = getBytes();
-      bytes = Arrays.copyOf(bytes, bytes.length + 1);
-      bytes[bytes.length - 1] = value;
-      return new VertexId(bytes);
+      bytes = Arrays.copyOf(bytes, bytes.length + (INT_LENGTH * 2));
+      IntBuffer intBuffer = ByteBuffer.wrap(bytes).asIntBuffer();
+      intBuffer.put((bytes.length / INT_LENGTH) - 2, unit);
+      intBuffer.put((bytes.length / INT_LENGTH) - 1, microstep);
+      return new ApplicationStack(bytes);
+    }
+
+    /**
+     * Create a new version of this application stack without the last entry.
+     * @return The new version of this application stack.
+     */
+    public ApplicationStack removeLast() {
+      byte[] bytes = getBytes();
+      bytes = Arrays.copyOf(bytes,
+        Math.max(0, bytes.length - (INT_LENGTH * 2)));
+      return new ApplicationStack(bytes);
+    }
+
+  }
+
+  /**
+   * Aggregator class for application stacks.
+   */
+  public static class ApplicationStackAggregator extends
+    BasicAggregator<ApplicationStack> {
+
+    @Override
+    public void aggregate(ApplicationStack stack) {
+      setAggregatedValue(stack);
+    }
+
+    @Override
+    public ApplicationStack createInitialValue() {
+      return new ApplicationStack();
     }
 
   }

@@ -44,14 +44,14 @@ public class GiraphUtil {
 		units.add(0, mainUnit);
 		Map<Unit,String> unitConstants = new LinkedHashMap<Unit, String>();
 		for (Unit unit : units) {
-			String name = "UNIT_" + camelCase2Upper(unit.getName());
+			String name = (unit instanceof Rule ? "RULE" : "UNIT") + "_" + camelCase2Upper(unit.getName());
 			unitConstants.put(unit, name);
 		}
 		return unitConstants;
 	}
-	
+
 	public static Map<ENamedElement,String> getTypeConstants(Module module) {
-		
+
 		// Check if we need the package name:
 		boolean needPackage = false;
 		Set<String> classNames = new HashSet<String>();
@@ -66,7 +66,7 @@ public class GiraphUtil {
 				}
 			}
 		}
-		
+
 		// Generate the names:
 		Map<ENamedElement,String> typeConstants = new LinkedHashMap<ENamedElement, String>();
 		for (EPackage pack : module.getImports()) {
@@ -86,9 +86,9 @@ public class GiraphUtil {
 			}
 		}		
 		return typeConstants;
-		
+
 	}
-	
+
 	public static Collection<Rule> collectRules(Unit unit) {
 		Set<Rule> rules = new HashSet<Rule>();
 		if (unit instanceof Rule) {
@@ -131,5 +131,5 @@ public class GiraphUtil {
 		}
 		return data;
 	}
-
+	
 }

@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.interpreter.ui.giraph;
 
 import java.io.ByteArrayInputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphUtil;
 import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
@@ -30,14 +32,14 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class GenerateGiraphCodeWizard extends Wizard {
 
-	private Rule rule;
+	private Unit mainUnit;
 
 	private GiraphPage page;
 
 	private IContainer targetContainer;
 	
-	public GenerateGiraphCodeWizard(Rule rule, IContainer targetContainer) {
-		this.rule = rule;
+	public GenerateGiraphCodeWizard(Unit unit, IContainer targetContainer) {
+		this.mainUnit = unit;
 		this.targetContainer = targetContainer;
 		setWindowTitle("Giraph Code Generator");
 	}
@@ -64,16 +66,15 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			String className = page.classNameText.getText();
 			String packageName = page.packageNameText.getText();
 			
-			Map<Rule,GiraphRuleData> data = GiraphUtil.generateRuleData(rule);
+			Map<Rule,GiraphRuleData> data = GiraphUtil.generateRuleData(mainUnit);
 			
 			Map<String,Object> args = new HashMap<String,Object>();
 			args.put("ruleData", data);
-			args.put("mainUnit", rule);
+			args.put("mainUnit", mainUnit);
 			args.put("className", className);
 			args.put("packageName", packageName);
 			args.put("logging", new Boolean(page.loggingCheckBox.getSelection()));
 			args.put("useUUIDs", new Boolean(page.uuidsCheckBox.getSelection()));
-			args.put("applicationCount", Integer.parseInt(page.applicationsText.getText()));
 			GiraphRuleTemplate template = new GiraphRuleTemplate();
 			String giraphCode = template.generate(args);
 			
@@ -94,12 +95,15 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			}
 
 			// Instance code:
-			String instanceCode = GiraphUtil.getInstanceCode(rule);
-			IFile jsonFile = targetContainer.getFile(new Path(className + ".json"));
-			if (jsonFile.exists()) {
-				jsonFile.setContents(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
-			} else {
-				jsonFile.create(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
+			Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
+			if (!rules.isEmpty()) {
+				String instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
+				IFile jsonFile = targetContainer.getFile(new Path(className + ".json"));
+				if (jsonFile.exists()) {
+					jsonFile.setContents(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
+				} else {
+					jsonFile.create(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
+				}
 			}
 
 			targetContainer.refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -122,8 +126,6 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		Text packageNameText;
 		
 		Text classNameText;
-
-		Text applicationsText;
 
 		Button loggingCheckBox;
 
@@ -149,20 +151,13 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			packageNameText.setText("org.apache.giraph.examples");
 			
 			label = new Label(comp, SWT.NONE);
-			label.setText("Rule class name:");
+			label.setText("Compute class name:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			classNameText = new Text(comp, SWT.BORDER);
 			classNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			String className = rule.getName();
+			String className = mainUnit.getName();
 			className = className.substring(0, 1).toUpperCase() + className.substring(1);
 			classNameText.setText(className);
-
-			label = new Label(comp, SWT.NONE);
-			label.setText("Default number of applications:");
-			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			applicationsText = new Text(comp, SWT.BORDER);
-			applicationsText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			applicationsText.setText("1");
 
 			label = new Label(comp, SWT.NONE);
 			label.setText("Enable logging:");
