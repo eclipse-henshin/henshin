@@ -141,15 +141,19 @@ if (logging) {
 
     // Check if we should stop:
     if (stack.getStackSize() == 0) {
-      vertex.voteToHalt();
+      long ruleApps = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      if (ruleApps == 0) {
+        vertex.voteToHalt();
+      }
       return;
     }
 
     // Get the last step:
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
-
 <%if (logging) { %>
+
     // Log execution info
     long superstep = getSuperstep();
     LOG.info("Vertex " + vertex.getId() + " in superstep " + superstep +
@@ -163,12 +167,12 @@ if (logging) {
     // Find out which rule to apply:
     switch (rule) {
 <% for (Rule rule : rules) { %>
-      case <%= unitConstants.get(rule) %>:
-        match<%= rule.getName() %>(vertex, matches, microstep);
-        break;
+    case <%= unitConstants.get(rule) %>:
+      match<%= rule.getName() %>(vertex, matches, microstep);
+      break;
 <% } %>
-      default:
-        throw new RuntimeException("Unknow rule: " + rule);
+    default:
+      throw new RuntimeException("Unknown rule: " + rule);
     }
   }
 <%
@@ -394,6 +398,12 @@ for (Rule rule : ruleData.keySet()) {
           (getSuperstep() - 1));
       }
 <% } %>
+      if (ruleApps > 0) {
+        long nodeGen = ((LongWritable)
+          getAggregatedValue(AGGREGATOR_NODE_GENERATION)).get();
+        setAggregatedValue(AGGREGATOR_NODE_GENERATION,
+          new LongWritable(nodeGen + 1));
+      }
 
       // Update the application stack:
       HenshinUtil.ApplicationStack stack;
@@ -427,38 +437,38 @@ for (Rule rule : ruleData.keySet()) {
         stack = stack.removeLast();
         switch (unit) {
 <% for (Unit unit : allUnits) { %>
-          case <%= unitConstants.get(unit) %>:
+        case <%= unitConstants.get(unit) %>:
 <% if (unit instanceof IteratedUnit) { %>
-            if (microstep < <%= Integer.parseInt(((IteratedUnit) unit).getIterations()) %>) {
-              stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
-              stack = stack.append(<%= unitConstants.get(((IteratedUnit) unit).getSubUnit()) %>, 0);
-            }
+          if (microstep < <%= Integer.parseInt(((IteratedUnit) unit).getIterations()) %>) {
+            stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
+            stack = stack.append(<%= unitConstants.get(((IteratedUnit) unit).getSubUnit()) %>, 0);
+          }
 <% } else if (unit instanceof SequentialUnit) { 
      SequentialUnit seq = (SequentialUnit) unit; %>
-            switch (microstep) {
+          switch (microstep) {
 <% for (int i=0; i<seq.getSubUnits().size(); i++) { %>
-              case <%= i%>:
-                stack = stack.append(<%= unitConstants.get(unit) %>, <%= i+1 %>);
-                stack = stack.append(<%= unitConstants.get(seq.getSubUnits().get(i)) %>, 0);
-                break;
-<% } %>
-              default:
-                break;
-            }
-<% } else if (unit instanceof LoopUnit) { %>
-            if (ruleApps > 0) {
-              stack = stack.append(<%= unitConstants.get(unit) %>, 0);
-              stack = stack.append(<%= unitConstants.get(((LoopUnit) unit).getSubUnit()) %>, 0);
-            }
-<% } else if (unit instanceof Rule) { %>
-            if (microstep < <%= ruleData.get(unit).matchingSteps.size() %>) {
-              stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
-            }
-<% } %>
+          case <%= i%>:
+            stack = stack.append(<%= unitConstants.get(unit) %>, <%= i+1 %>);
+            stack = stack.append(<%= unitConstants.get(seq.getSubUnits().get(i)) %>, 0);
             break;
 <% } %>
           default:
-            throw new RuntimeException("Unknown unit " + unit);
+            break;
+          }
+<% } else if (unit instanceof LoopUnit) { %>
+          if (ruleApps > 0) {
+            stack = stack.append(<%= unitConstants.get(unit) %>, 0);
+            stack = stack.append(<%= unitConstants.get(((LoopUnit) unit).getSubUnit()) %>, 0);
+          }
+<% } else if (unit instanceof Rule) { %>
+          if (microstep < <%= ruleData.get(unit).matchingSteps.size() %>) {
+            stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
+          }
+<% } %>
+          break;
+<% } %>
+        default:
+          throw new RuntimeException("Unknown unit " + unit);
         }
 
         // If the last unit is a rule, we can stop:

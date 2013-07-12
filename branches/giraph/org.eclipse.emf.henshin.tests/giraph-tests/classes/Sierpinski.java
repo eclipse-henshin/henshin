@@ -116,7 +116,11 @@ public class Sierpinski extends
 
     // Check if we should stop:
     if (stack.getStackSize() == 0) {
-      vertex.voteToHalt();
+      long ruleApps = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      if (ruleApps == 0) {
+        vertex.voteToHalt();
+      }
       return;
     }
 
@@ -135,11 +139,11 @@ public class Sierpinski extends
 
     // Find out which rule to apply:
     switch (rule) {
-      case RULE_SIERPINSKI:
-        matchSierpinski(vertex, matches, microstep);
-        break;
-      default:
-        throw new RuntimeException("Unknow rule: " + rule);
+    case RULE_SIERPINSKI:
+      matchSierpinski(vertex, matches, microstep);
+      break;
+    default:
+      throw new RuntimeException("Unknown rule: " + rule);
     }
   }
 
@@ -379,6 +383,12 @@ public class Sierpinski extends
         LOG.info(ruleApps + " rule applications in superstep " +
           (getSuperstep() - 1));
       }
+      if (ruleApps > 0) {
+        long nodeGen = ((LongWritable)
+          getAggregatedValue(AGGREGATOR_NODE_GENERATION)).get();
+        setAggregatedValue(AGGREGATOR_NODE_GENERATION,
+          new LongWritable(nodeGen + 1));
+      }
 
       // Update the application stack:
       HenshinUtil.ApplicationStack stack;
@@ -408,13 +418,13 @@ public class Sierpinski extends
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
-          case RULE_SIERPINSKI:
-            if (microstep < 4) {
-              stack = stack.append(RULE_SIERPINSKI, microstep + 1);
-            }
-            break;
-          default:
-            throw new RuntimeException("Unknown unit " + unit);
+        case RULE_SIERPINSKI:
+          if (microstep < 4) {
+            stack = stack.append(RULE_SIERPINSKI, microstep + 1);
+          }
+          break;
+        default:
+          throw new RuntimeException("Unknown unit " + unit);
         }
 
         // If the last unit is a rule, we can stop:
