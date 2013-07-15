@@ -18,6 +18,11 @@
 package org.apache.giraph.examples;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.List;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
@@ -154,15 +159,99 @@ public class StarMain extends
 
     // Find out which rule to apply:
     switch (rule) {
-    case RULE_DELETE_STAR:
-      matchDeleteStar(vertex, matches, microstep);
-      break;
     case RULE_EXTEND_STAR:
       matchExtendStar(vertex, matches, microstep);
+      break;
+    case RULE_DELETE_STAR:
+      matchDeleteStar(vertex, matches, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
     }
+  }
+
+  /**
+   * Match (and apply) the rule "ExtendStar".
+   * This takes 2 microsteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchExtendStar(
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<HenshinUtil.Match> matches,
+      int microstep) throws IOException {
+
+    if (microstep == 0) {
+
+      // Matching node "a". Type must be "VertexContainer":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX_CONTAINER.get();
+      if (ok) {
+        // Create a new partial match:
+        HenshinUtil.Match match =
+          new HenshinUtil.Match().append(vertex.getId());
+        // Send a match request to all outgoing edges of type "vertices":
+        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
+          vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      } // end if ok
+
+    } else if (microstep == 1) {
+
+      // Matching node "b". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX.get();
+      if (ok) {
+        // Extend all partial matches:
+        for (HenshinUtil.Match match : matches) {
+          match = match.append(vertex.getId());
+          // Apply the rule:
+          applyExtendStar(vertex, match);
+        }
+      } // end if ok
+
+    }
+  }
+
+  /**
+   * Apply the rule ExtendStarto a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @throws IOException On I/O errors.
+   */
+  protected void applyExtendStar(
+    Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex,
+    HenshinUtil.Match match) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule ExtendStar with match " + match);
+
+    HenshinUtil.VertexId cur1 = match.getVertexId(1);
+
+    // Create vertex "c":
+    HenshinUtil.VertexId new0 =
+      deriveVertexId(vertex.getId(), (byte) 0);
+    addVertexRequest(new0, TYPE_VERTEX);
+
+    // Create edge "b" -> "c":
+    HenshinUtil.VertexId src0 = cur1;
+    HenshinUtil.VertexId trg0 = new0;
+    Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
+      EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
+    addEdgeRequest(src0, edge0);
+
+    // Update the statistics:
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+
   }
 
   /**
@@ -275,90 +364,6 @@ public class StarMain extends
   }
 
   /**
-   * Match (and apply) the rule "ExtendStar".
-   * This takes 2 microsteps.
-   * @param vertex The current vertex.
-   * @param matches The current matches.
-   * @param microstep Current microstep.
-   */
-  protected void matchExtendStar(
-      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<HenshinUtil.Match> matches,
-      int microstep) throws IOException {
-
-    if (microstep == 0) {
-
-      // Matching node "a". Type must be "VertexContainer":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX_CONTAINER.get();
-      if (ok) {
-        // Create a new partial match:
-        HenshinUtil.Match match =
-          new HenshinUtil.Match().append(vertex.getId());
-        // Send a match request to all outgoing edges of type "vertices":
-        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-          vertex.getEdges()) {
-          if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " to vertex " + edge.getTargetVertexId());
-            sendMessage(edge.getTargetVertexId(), match);
-          }
-        }
-      } // end if ok
-
-    } else if (microstep == 1) {
-
-      // Matching node "b". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
-      if (ok) {
-        // Extend all partial matches:
-        for (HenshinUtil.Match match : matches) {
-          match = match.append(vertex.getId());
-          // Apply the rule:
-          applyExtendStar(vertex, match);
-        }
-      } // end if ok
-
-    }
-  }
-
-  /**
-   * Apply the rule ExtendStarto a given match.
-   * @param vertex The base vertex.
-   * @param match The match object.
-   * @throws IOException On I/O errors.
-   */
-  protected void applyExtendStar(
-    Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex,
-    HenshinUtil.Match match) throws IOException {
-
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule ExtendStar with match " + match);
-
-    HenshinUtil.VertexId cur1 = match.getVertexId(1);
-
-    // Create vertex "c":
-    HenshinUtil.VertexId new0 =
-      deriveVertexId(vertex.getId(), (byte) 0);
-    addVertexRequest(new0, TYPE_VERTEX);
-
-    // Create edge "b" -> "c":
-    HenshinUtil.VertexId src0 = cur1;
-    HenshinUtil.VertexId trg0 = new0;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
-    addEdgeRequest(src0, edge0);
-
-    // Update the statistics:
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-
-  }
-
-  /**
    * Derive a new vertex Id from an exiting one.
    * @param baseId The base vertex Id.
    * @param vertexIndex The relative index of the new vertex.
@@ -375,6 +380,12 @@ public class StarMain extends
    * Master compute which registers and updates the required aggregators.
    */
   public static class MasterCompute extends DefaultMasterCompute {
+
+    /**
+     * Stack for storing the execution orders of independent units.
+     */
+    private final Deque<List<Integer>> independentUnitOrders =
+      new ArrayDeque<List<Integer>>();
 
     @Override
     public void compute() {
@@ -432,9 +443,6 @@ public class StarMain extends
             stack = stack.append(UNIT_STAR_MAIN, 2);
             stack = stack.append(RULE_DELETE_STAR, 0);
             break;
-          default:
-            break;
-          }
           break;
         case UNIT_EXTEND_STAR_LOOP:
           if (microstep < 5) {
@@ -459,8 +467,8 @@ public class StarMain extends
         // If the last unit is a rule, we can stop:
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_DELETE_STAR ||
-            unit == RULE_EXTEND_STAR) {
+          if (unit == RULE_EXTEND_STAR ||
+            unit == RULE_DELETE_STAR) {
             break;
           }
         }

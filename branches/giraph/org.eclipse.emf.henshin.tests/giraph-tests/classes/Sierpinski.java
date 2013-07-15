@@ -18,6 +18,11 @@
 package org.apache.giraph.examples;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.List;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
@@ -372,6 +377,12 @@ public class Sierpinski extends
    * Master compute which registers and updates the required aggregators.
    */
   public static class MasterCompute extends DefaultMasterCompute {
+
+    /**
+     * Stack for storing the execution orders of independent units.
+     */
+    private final Deque<List<Integer>> independentUnitOrders =
+      new ArrayDeque<List<Integer>>();
 
     @Override
     public void compute() {

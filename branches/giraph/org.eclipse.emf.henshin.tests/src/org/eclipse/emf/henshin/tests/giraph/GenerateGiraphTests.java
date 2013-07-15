@@ -71,11 +71,9 @@ public class GenerateGiraphTests {
 		Module module = resourceSet.getModule("GiraphTests.henshin");
 
 		// Sierpinski
-		
 		Rule sierpinskiRule = (Rule) module.getUnit("Sierpinski");
 		generateInputGraph(sierpinskiRule);
-		generateComputeClass(sierpinskiRule, true, false);
-		
+		generateComputeClass(sierpinskiRule, true, false);		
 		IteratedUnit sierpinskiMain = (IteratedUnit) module.getUnit("SierpinskiMain");
 		sierpinskiMain.setIterations("1");
 		generateComputeClass(sierpinskiMain, true, false);
@@ -90,17 +88,21 @@ public class GenerateGiraphTests {
 		/*
 		Rule wheelStart = (Rule) module.getUnit("WheelStart");
 		generateInputGraph(wheelStart);
-
 		LoopUnit wheel = (LoopUnit) module.getUnit("WheelMain");
 		generateComputeClass(wheel, true, false);
 		 */
+		
 		// Star
-
 		Rule starStart = (Rule) module.getUnit("StarStart");
 		generateInputGraph(starStart);
-
 		SequentialUnit starMain = (SequentialUnit) module.getUnit("StarMain");
 		generateComputeClass(starMain, true, false);
+
+		// Fork
+		Rule forkStart = (Rule) module.getUnit("ForkStart");
+		generateInputGraph(forkStart);
+		LoopUnit forkMain = (LoopUnit) module.getUnit("ForkMain");
+		generateComputeClass(forkMain, true, false);
 
 	}
 

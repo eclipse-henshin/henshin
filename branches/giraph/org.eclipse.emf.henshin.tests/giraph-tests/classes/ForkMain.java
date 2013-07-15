@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
-import org.apache.giraph.edge.EdgeFactory;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.master.DefaultMasterCompute;
@@ -35,12 +34,12 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.log4j.Logger;
 
 /**
- * Generated implementation of the Henshin unit "SierpinskiMain".
+ * Generated implementation of the Henshin unit "ForkMain".
  */
 @Algorithm(
-    name = "SierpinskiMain"
+    name = "ForkMain"
 )
-public class SierpinskiMain1 extends
+public class ForkMain extends
   BasicComputation<HenshinUtil.VertexId, ByteWritable,
   ByteWritable, HenshinUtil.Match> {
 
@@ -96,19 +95,34 @@ public class SierpinskiMain1 extends
     = new ByteWritable((byte) 5);
 
   /**
-   * Unit constant for "SierpinskiMain".
+   * Unit constant for "ForkMain".
    */
-  public static final int UNIT_SIERPINSKI_MAIN = 0;
+  public static final int UNIT_FORK_MAIN = 0;
 
   /**
-   * Rule constant for "Sierpinski".
+   * Unit constant for "ForkChoice".
    */
-  public static final int RULE_SIERPINSKI = 1;
+  public static final int UNIT_FORK_CHOICE = 1;
+
+  /**
+   * Rule constant for "ForkLeft".
+   */
+  public static final int RULE_FORK_LEFT = 2;
+
+  /**
+   * Rule constant for "ForkRight".
+   */
+  public static final int RULE_FORK_RIGHT = 3;
+
+  /**
+   * Rule constant for "ForkConn".
+   */
+  public static final int RULE_FORK_CONN = 4;
 
   /**
    * Logging support.
    */
-  protected static final Logger LOG = Logger.getLogger(SierpinskiMain1.class);
+  protected static final Logger LOG = Logger.getLogger(ForkMain.class);
 
   /*
    * (non-Javadoc)
@@ -149,8 +163,14 @@ public class SierpinskiMain1 extends
 
     // Find out which rule to apply:
     switch (rule) {
-    case RULE_SIERPINSKI:
-      matchSierpinski(vertex, matches, microstep);
+    case RULE_FORK_CONN:
+      matchForkConn(vertex, matches, microstep);
+      break;
+    case RULE_FORK_LEFT:
+      matchForkLeft(vertex, matches, microstep);
+      break;
+    case RULE_FORK_RIGHT:
+      matchForkRight(vertex, matches, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
@@ -158,13 +178,92 @@ public class SierpinskiMain1 extends
   }
 
   /**
-   * Match (and apply) the rule "Sierpinski".
-   * This takes 4 microsteps.
+   * Match (and apply) the rule "ForkConn".
+   * This takes 2 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param microstep Current microstep.
    */
-  protected void matchSierpinski(
+  protected void matchForkConn(
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<HenshinUtil.Match> matches,
+      int microstep) throws IOException {
+
+    if (microstep == 0) {
+
+      // Matching node "a". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX.get();
+      if (ok) {
+        // Create a new partial match:
+        HenshinUtil.Match match =
+          new HenshinUtil.Match().append(vertex.getId());
+        // Send a match request to all outgoing edges of type "conn":
+        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
+          vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_CONN.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      } // end if ok
+
+    } else if (microstep == 1) {
+
+      // Matching node "b". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX.get();
+      if (ok) {
+        // Extend all partial matches:
+        for (HenshinUtil.Match match : matches) {
+          match = match.append(vertex.getId());
+          // Apply the rule:
+          applyForkConn(vertex, match);
+        }
+      } // end if ok
+
+    }
+  }
+
+  /**
+   * Apply the rule ForkConnto a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @throws IOException On I/O errors.
+   */
+  protected void applyForkConn(
+    Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex,
+    HenshinUtil.Match match) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule ForkConn with match " + match);
+
+    HenshinUtil.VertexId cur0 = match.getVertexId(0);
+    HenshinUtil.VertexId cur1 = match.getVertexId(1);
+
+    // Remove edge "a" -> "b":
+    removeEdgesRequest(cur0, cur1);
+
+    // Remove vertex "b":
+    removeVertexRequest(cur1);
+
+    // Update the statistics:
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+
+  }
+
+  /**
+   * Match (and apply) the rule "ForkLeft".
+   * This takes 2 microsteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchForkLeft(
       Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<HenshinUtil.Match> matches,
       int microstep) throws IOException {
@@ -200,165 +299,115 @@ public class SierpinskiMain1 extends
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
           match = match.append(vertex.getId());
-          // Send a match request to all outgoing edges of type "conn":
-          for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-            vertex.getEdges()) {
-            if (edge.getValue().get() ==
-              TYPE_VERTEX_CONN.get()) {
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + match +
-                " to vertex " + edge.getTargetVertexId());
-              sendMessage(edge.getTargetVertexId(), match);
-            }
+          // Apply the rule:
+          applyForkLeft(vertex, match);
+        }
+      } // end if ok
+
+    }
+  }
+
+  /**
+   * Apply the rule ForkLeftto a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @throws IOException On I/O errors.
+   */
+  protected void applyForkLeft(
+    Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex,
+    HenshinUtil.Match match) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule ForkLeft with match " + match);
+
+    HenshinUtil.VertexId cur0 = match.getVertexId(0);
+    HenshinUtil.VertexId cur1 = match.getVertexId(1);
+
+    // Remove edge "a" -> "b":
+    removeEdgesRequest(cur0, cur1);
+
+    // Remove vertex "b":
+    removeVertexRequest(cur1);
+
+    // Update the statistics:
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+
+  }
+
+  /**
+   * Match (and apply) the rule "ForkRight".
+   * This takes 2 microsteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchForkRight(
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<HenshinUtil.Match> matches,
+      int microstep) throws IOException {
+
+    if (microstep == 0) {
+
+      // Matching node "a". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX.get();
+      if (ok) {
+        // Create a new partial match:
+        HenshinUtil.Match match =
+          new HenshinUtil.Match().append(vertex.getId());
+        // Send a match request to all outgoing edges of type "right":
+        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
+          vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_RIGHT.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
           }
         }
       } // end if ok
 
-    } else if (microstep == 2) {
+    } else if (microstep == 1) {
 
-      // Matching node "c". Type must be "Vertex":
+      // Matching node "b". Type must be "Vertex":
       boolean ok = vertex.getValue().get() ==
         TYPE_VERTEX.get();
       if (ok) {
         // Extend all partial matches:
         for (HenshinUtil.Match match : matches) {
           match = match.append(vertex.getId());
-          // Send the message back to matches of node "a":
-          for (HenshinUtil.Match m : matches) {
-            HenshinUtil.VertexId targetVertexId =
-              m.getVertexId(0);
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " to vertex " + targetVertexId);
-            sendMessage(targetVertexId, match);
-          }
+          // Apply the rule:
+          applyForkRight(vertex, match);
         }
       } // end if ok
-
-    } else if (microstep == 3) {
-
-      // Node "a": check for edge to match of "c" of type "right":
-      for (HenshinUtil.Match match : matches) {
-        HenshinUtil.VertexId targetId = match.getVertexId(2);
-        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-          vertex.getEdges()) {
-          if (edge.getValue().get() ==
-            TYPE_VERTEX_RIGHT.get() &&
-            edge.getTargetVertexId().equals(targetId)) {
-            // Apply the rule:
-            applySierpinski(vertex, match);
-          }
-        }
-      }
-
 
     }
   }
 
   /**
-   * Apply the rule Sierpinskito a given match.
+   * Apply the rule ForkRightto a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  protected void applySierpinski(
+  protected void applyForkRight(
     Vertex<HenshinUtil.VertexId, ByteWritable,
     ByteWritable> vertex,
     HenshinUtil.Match match) throws IOException {
 
     LOG.info("Vertex " + vertex.getId() +
-      " applying rule Sierpinski with match " + match);
+      " applying rule ForkRight with match " + match);
 
     HenshinUtil.VertexId cur0 = match.getVertexId(0);
     HenshinUtil.VertexId cur1 = match.getVertexId(1);
-    HenshinUtil.VertexId cur2 = match.getVertexId(2);
 
     // Remove edge "a" -> "b":
     removeEdgesRequest(cur0, cur1);
 
-    // Remove edge "a" -> "c":
-    removeEdgesRequest(cur0, cur2);
-
-    // Remove edge "b" -> "c":
-    removeEdgesRequest(cur1, cur2);
-
-    // Create vertex 3:
-    HenshinUtil.VertexId new0 =
-      deriveVertexId(vertex.getId(), (byte) 0);
-    addVertexRequest(new0, TYPE_VERTEX);
-
-    // Create vertex 4:
-    HenshinUtil.VertexId new1 =
-      deriveVertexId(vertex.getId(), (byte) 1);
-    addVertexRequest(new1, TYPE_VERTEX);
-
-    // Create vertex 5:
-    HenshinUtil.VertexId new2 =
-      deriveVertexId(vertex.getId(), (byte) 2);
-    addVertexRequest(new2, TYPE_VERTEX);
-
-    // Create edge "a" -> 3:
-    HenshinUtil.VertexId src0 = cur0;
-    HenshinUtil.VertexId trg0 = new0;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
-    addEdgeRequest(src0, edge0);
-
-    // Create edge "a" -> 4:
-    HenshinUtil.VertexId src1 = cur0;
-    HenshinUtil.VertexId trg1 = new1;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge1 =
-      EdgeFactory.create(trg1, TYPE_VERTEX_RIGHT);
-    addEdgeRequest(src1, edge1);
-
-    // Create edge "b" -> 5:
-    HenshinUtil.VertexId src2 = cur1;
-    HenshinUtil.VertexId trg2 = new2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge2 =
-      EdgeFactory.create(trg2, TYPE_VERTEX_CONN);
-    addEdgeRequest(src2, edge2);
-
-    // Create edge 3 -> "b":
-    HenshinUtil.VertexId src3 = new0;
-    HenshinUtil.VertexId trg3 = cur1;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge3 =
-      EdgeFactory.create(trg3, TYPE_VERTEX_LEFT);
-    addEdgeRequest(src3, edge3);
-
-    // Create edge 3 -> 4:
-    HenshinUtil.VertexId src4 = new0;
-    HenshinUtil.VertexId trg4 = new1;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge4 =
-      EdgeFactory.create(trg4, TYPE_VERTEX_CONN);
-    addEdgeRequest(src4, edge4);
-
-    // Create edge 3 -> 5:
-    HenshinUtil.VertexId src5 = new0;
-    HenshinUtil.VertexId trg5 = new2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge5 =
-      EdgeFactory.create(trg5, TYPE_VERTEX_RIGHT);
-    addEdgeRequest(src5, edge5);
-
-    // Create edge 4 -> 5:
-    HenshinUtil.VertexId src6 = new1;
-    HenshinUtil.VertexId trg6 = new2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge6 =
-      EdgeFactory.create(trg6, TYPE_VERTEX_LEFT);
-    addEdgeRequest(src6, edge6);
-
-    // Create edge 4 -> "c":
-    HenshinUtil.VertexId src7 = new1;
-    HenshinUtil.VertexId trg7 = cur2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge7 =
-      EdgeFactory.create(trg7, TYPE_VERTEX_RIGHT);
-    addEdgeRequest(src7, edge7);
-
-    // Create edge 5 -> "c":
-    HenshinUtil.VertexId src8 = new2;
-    HenshinUtil.VertexId trg8 = cur2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge8 =
-      EdgeFactory.create(trg8, TYPE_VERTEX_CONN);
-    addEdgeRequest(src8, edge8);
+    // Remove vertex "b":
+    removeVertexRequest(cur1);
 
     // Update the statistics:
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
@@ -410,7 +459,7 @@ public class SierpinskiMain1 extends
       HenshinUtil.ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new HenshinUtil.ApplicationStack();
-        stack = stack.append(UNIT_SIERPINSKI_MAIN, 0);
+        stack = stack.append(UNIT_FORK_MAIN, 0);
         stack = nextRuleStep(stack, ruleApps);
       } else {
         stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
@@ -435,15 +484,61 @@ public class SierpinskiMain1 extends
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
-        case UNIT_SIERPINSKI_MAIN:
-          if (microstep < 1) {
-            stack = stack.append(UNIT_SIERPINSKI_MAIN, microstep + 1);
-            stack = stack.append(RULE_SIERPINSKI, 0);
+        case UNIT_FORK_MAIN:
+          if (microstep == 0 || ruleApps > 0) {
+            stack = stack.append(UNIT_FORK_MAIN, 1);
+            stack = stack.append(UNIT_FORK_CHOICE, 0);
           }
           break;
-        case RULE_SIERPINSKI:
-          if (microstep < 4) {
-            stack = stack.append(RULE_SIERPINSKI, microstep + 1);
+        case UNIT_FORK_CHOICE:
+          if (microstep == 0) {
+            List<Integer> order = new ArrayList<Integer>();
+            for (int i = 0; i < 3; i++) {
+              order.add(i);
+            }
+            Collections.shuffle(order);
+            independentUnitOrders.push(order);
+          }
+          if (microstep > 0 && ruleApps > 0) {
+            independentUnitOrders.pop();
+            break; // success
+          }
+          if (microstep == 3) {
+            independentUnitOrders.pop();
+            break; // no success
+          }
+          // Choose and execute the next subunit:
+          int next = independentUnitOrders.peek().get(microstep);
+          switch (next) {
+          case 0:
+            stack = stack.append(UNIT_FORK_CHOICE, 1);
+            stack = stack.append(RULE_FORK_LEFT, 0);
+            break;
+          case 1:
+            stack = stack.append(UNIT_FORK_CHOICE, 2);
+            stack = stack.append(RULE_FORK_RIGHT, 0);
+            break;
+          case 2:
+            stack = stack.append(UNIT_FORK_CHOICE, 3);
+            stack = stack.append(RULE_FORK_CONN, 0);
+            break;
+          default:
+            break;
+          }
+          break;
+        case RULE_FORK_LEFT:
+          if (microstep < 2) {
+            stack = stack.append(RULE_FORK_LEFT, microstep + 1);
+          }
+          break;
+        case RULE_FORK_RIGHT:
+          if (microstep < 2) {
+            stack = stack.append(RULE_FORK_RIGHT, microstep + 1);
+          }
+          break;
+        case RULE_FORK_CONN:
+          if (microstep < 2) {
+            stack = stack.append(RULE_FORK_CONN, microstep + 1);
           }
           break;
         default:
@@ -453,7 +548,9 @@ public class SierpinskiMain1 extends
         // If the last unit is a rule, we can stop:
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_SIERPINSKI) {
+          if (unit == RULE_FORK_CONN ||
+            unit == RULE_FORK_LEFT ||
+            unit == RULE_FORK_RIGHT) {
             break;
           }
         }
