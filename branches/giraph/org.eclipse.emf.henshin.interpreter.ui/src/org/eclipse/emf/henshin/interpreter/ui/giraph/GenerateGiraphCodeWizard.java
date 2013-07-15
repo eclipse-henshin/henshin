@@ -163,13 +163,13 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			label.setText("Enable logging:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			loggingCheckBox = new Button(comp, SWT.CHECK);
-			loggingCheckBox.setSelection(true);
+			//loggingCheckBox.setSelection(true);
 
 			label = new Label(comp, SWT.NONE);
 			label.setText("Use Java UUIDs:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			uuidsCheckBox = new Button(comp, SWT.CHECK);
-			uuidsCheckBox.setSelection(true);
+			//uuidsCheckBox.setSelection(true);
 
 			setControl(comp);
 		}

@@ -18,7 +18,7 @@ public class GiraphRuleTemplate
 
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "/*" + NL + " * Licensed to the Apache Software Foundation (ASF) under one" + NL + " * or more contributor license agreements.  See the NOTICE file" + NL + " * distributed with this work for additional information" + NL + " * regarding copyright ownership.  The ASF licenses this file" + NL + " * to you under the Apache License, Version 2.0 (the" + NL + " * \"License\"); you may not use this file except in compliance" + NL + " * with the License.  You may obtain a copy of the License at" + NL + " *" + NL + " *     http://www.apache.org/licenses/LICENSE-2.0" + NL + " *" + NL + " * Unless required by applicable law or agreed to in writing, software" + NL + " * distributed under the License is distributed on an \"AS IS\" BASIS," + NL + " * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied." + NL + " * See the License for the specific language governing permissions and" + NL + " * limitations under the License." + NL + " */" + NL + "package ";
-  protected final String TEXT_2 = ";" + NL + "" + NL + "import java.io.IOException;" + NL + "" + NL + "import org.apache.giraph.aggregators.LongSumAggregator;" + NL + "import org.apache.giraph.edge.Edge;";
+  protected final String TEXT_2 = ";" + NL + "" + NL + "import java.io.IOException;" + NL + "import java.util.ArrayDeque;" + NL + "import java.util.ArrayList;" + NL + "import java.util.Collections;" + NL + "import java.util.Deque;" + NL + "import java.util.List;" + NL + "" + NL + "import org.apache.giraph.aggregators.LongSumAggregator;" + NL + "import org.apache.giraph.edge.Edge;";
   protected final String TEXT_3 = NL + "import org.apache.giraph.edge.EdgeFactory;";
   protected final String TEXT_4 = NL + "import org.apache.giraph.graph.BasicComputation;" + NL + "import org.apache.giraph.graph.Vertex;" + NL + "import org.apache.giraph.master.DefaultMasterCompute;" + NL + "import org.apache.hadoop.io.ByteWritable;" + NL + "import org.apache.hadoop.io.LongWritable;";
   protected final String TEXT_5 = NL + "import org.apache.log4j.Logger;";
@@ -150,7 +150,7 @@ public class GiraphRuleTemplate
   protected final String TEXT_131 = NL + NL + "    // Update the statistics:" + NL + "    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));" + NL + "" + NL + "  }";
   protected final String TEXT_132 = NL;
   protected final String TEXT_133 = NL + "  /**" + NL + "   * Derive a new vertex Id from an exiting one." + NL + "   * @param baseId The base vertex Id." + NL + "   * @param vertexIndex The relative index of the new vertex." + NL + "   * @return The derived vertex Id." + NL + "   */" + NL + "  private HenshinUtil.VertexId deriveVertexId(" + NL + "    HenshinUtil.VertexId baseId, int vertexIndex) {" + NL + "    long generation = ((LongWritable) getAggregatedValue(" + NL + "        AGGREGATOR_NODE_GENERATION)).get();" + NL + "    return baseId.append((byte) generation).append((byte) vertexIndex);" + NL + "  }";
-  protected final String TEXT_134 = NL + NL + "  /**" + NL + "   * Master compute which registers and updates the required aggregators." + NL + "   */" + NL + "  public static class MasterCompute extends DefaultMasterCompute {" + NL + "" + NL + "    @Override" + NL + "    public void compute() {" + NL + "" + NL + "      // Get the number of rule applications in the last superstep:" + NL + "      long ruleApps = ((LongWritable)" + NL + "        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();";
+  protected final String TEXT_134 = NL + NL + "  /**" + NL + "   * Master compute which registers and updates the required aggregators." + NL + "   */" + NL + "  public static class MasterCompute extends DefaultMasterCompute {" + NL + "" + NL + "    /**" + NL + "     * Stack for storing the execution orders of independent units." + NL + "     */" + NL + "    private final Deque<List<Integer>> independentUnitOrders =" + NL + "      new ArrayDeque<List<Integer>>();" + NL + "" + NL + "    @Override" + NL + "    public void compute() {" + NL + "" + NL + "      // Get the number of rule applications in the last superstep:" + NL + "      long ruleApps = ((LongWritable)" + NL + "        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();";
   protected final String TEXT_135 = NL + "      if (getSuperstep() > 0) {" + NL + "        LOG.info(ruleApps + \" rule applications in superstep \" +" + NL + "          (getSuperstep() - 1));" + NL + "      }";
   protected final String TEXT_136 = NL + "      if (ruleApps > 0) {" + NL + "        long nodeGen = ((LongWritable)" + NL + "          getAggregatedValue(AGGREGATOR_NODE_GENERATION)).get();" + NL + "        setAggregatedValue(AGGREGATOR_NODE_GENERATION," + NL + "          new LongWritable(nodeGen + 1));" + NL + "      }" + NL + "" + NL + "      // Update the application stack:" + NL + "      HenshinUtil.ApplicationStack stack;" + NL + "      if (getSuperstep() == 0) {" + NL + "        stack = new HenshinUtil.ApplicationStack();" + NL + "        stack = stack.append(";
   protected final String TEXT_137 = ", 0);";
@@ -168,19 +168,27 @@ public class GiraphRuleTemplate
   protected final String TEXT_149 = ", ";
   protected final String TEXT_150 = ");" + NL + "            stack = stack.append(";
   protected final String TEXT_151 = ", 0);" + NL + "            break;";
-  protected final String TEXT_152 = NL + "          default:" + NL + "            break;" + NL + "          }";
-  protected final String TEXT_153 = NL + "          if (ruleApps > 0) {" + NL + "            stack = stack.append(";
-  protected final String TEXT_154 = ", 0);" + NL + "            stack = stack.append(";
-  protected final String TEXT_155 = ", 0);" + NL + "          }";
-  protected final String TEXT_156 = NL + "          if (microstep < ";
-  protected final String TEXT_157 = ") {" + NL + "            stack = stack.append(";
-  protected final String TEXT_158 = ", microstep + 1);" + NL + "          }";
-  protected final String TEXT_159 = NL + "          break;";
-  protected final String TEXT_160 = NL + "        default:" + NL + "          throw new RuntimeException(\"Unknown unit \" + unit);" + NL + "        }" + NL + "" + NL + "        // If the last unit is a rule, we can stop:" + NL + "        if (stack.getStackSize() > 0) {" + NL + "          unit = stack.getLastUnit();";
-  protected final String TEXT_161 = NL + "          ";
-  protected final String TEXT_162 = "unit == ";
-  protected final String TEXT_163 = NL + "            break;" + NL + "          }" + NL + "        }" + NL + "      }" + NL + "      return stack;" + NL + "    }" + NL + "" + NL + "    @Override" + NL + "    public void initialize() throws InstantiationException," + NL + "        IllegalAccessException {" + NL + "      registerAggregator(AGGREGATOR_RULE_APPLICATIONS," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK," + NL + "        HenshinUtil.ApplicationStackAggregator.class);" + NL + "    }" + NL + "" + NL + "  }" + NL + "}";
-  protected final String TEXT_164 = NL;
+  protected final String TEXT_152 = NL + "          if (microstep == 0) {" + NL + "            List<Integer> order = new ArrayList<Integer>();" + NL + "            for (int i = 0; i < ";
+  protected final String TEXT_153 = "; i++) {" + NL + "              order.add(i);" + NL + "            }" + NL + "            Collections.shuffle(order);" + NL + "            independentUnitOrders.push(order);" + NL + "          }" + NL + "          if (microstep > 0 && ruleApps > 0) {" + NL + "            independentUnitOrders.pop();" + NL + "            break; // success" + NL + "          }" + NL + "          if (microstep == ";
+  protected final String TEXT_154 = ") {" + NL + "            independentUnitOrders.pop();" + NL + "            break; // no success" + NL + "          }" + NL + "          // Choose and execute the next subunit:" + NL + "          int next = independentUnitOrders.peek().get(microstep);" + NL + "          switch (next) {";
+  protected final String TEXT_155 = NL + "          case ";
+  protected final String TEXT_156 = ":" + NL + "            stack = stack.append(";
+  protected final String TEXT_157 = ", ";
+  protected final String TEXT_158 = ");" + NL + "            stack = stack.append(";
+  protected final String TEXT_159 = ", 0);" + NL + "            break;";
+  protected final String TEXT_160 = NL + "          default:" + NL + "            break;" + NL + "          }";
+  protected final String TEXT_161 = NL + "          if (microstep == 0 || ruleApps > 0) {" + NL + "            stack = stack.append(";
+  protected final String TEXT_162 = ", 1);" + NL + "            stack = stack.append(";
+  protected final String TEXT_163 = ", 0);" + NL + "          }";
+  protected final String TEXT_164 = NL + "          if (microstep < ";
+  protected final String TEXT_165 = ") {" + NL + "            stack = stack.append(";
+  protected final String TEXT_166 = ", microstep + 1);" + NL + "          }";
+  protected final String TEXT_167 = NL + "          break;";
+  protected final String TEXT_168 = NL + "        default:" + NL + "          throw new RuntimeException(\"Unknown unit \" + unit);" + NL + "        }" + NL + "" + NL + "        // If the last unit is a rule, we can stop:" + NL + "        if (stack.getStackSize() > 0) {" + NL + "          unit = stack.getLastUnit();";
+  protected final String TEXT_169 = NL + "          ";
+  protected final String TEXT_170 = "unit == ";
+  protected final String TEXT_171 = NL + "            break;" + NL + "          }" + NL + "        }" + NL + "      }" + NL + "      return stack;" + NL + "    }" + NL + "" + NL + "    @Override" + NL + "    public void initialize() throws InstantiationException," + NL + "        IllegalAccessException {" + NL + "      registerAggregator(AGGREGATOR_RULE_APPLICATIONS," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK," + NL + "        HenshinUtil.ApplicationStackAggregator.class);" + NL + "    }" + NL + "" + NL + "  }" + NL + "}";
+  protected final String TEXT_172 = NL;
 
   public String generate(Object argument)
   {
@@ -572,32 +580,50 @@ for (Rule rule : ruleData.keySet()) {
     stringBuffer.append(TEXT_150);
     stringBuffer.append( unitConstants.get(seq.getSubUnits().get(i)) );
     stringBuffer.append(TEXT_151);
-     } 
+     } // end for
+   } else if (unit instanceof IndependentUnit) { 
+     IndependentUnit indi = (IndependentUnit) unit; 
     stringBuffer.append(TEXT_152);
-     } else if (unit instanceof LoopUnit) { 
+    stringBuffer.append( indi.getSubUnits().size() );
     stringBuffer.append(TEXT_153);
-    stringBuffer.append( unitConstants.get(unit) );
+    stringBuffer.append( indi.getSubUnits().size() );
     stringBuffer.append(TEXT_154);
-    stringBuffer.append( unitConstants.get(((LoopUnit) unit).getSubUnit()) );
+     for (int i=0; i<indi.getSubUnits().size(); i++) { 
     stringBuffer.append(TEXT_155);
-     } else if (unit instanceof Rule) { 
+    stringBuffer.append( i);
     stringBuffer.append(TEXT_156);
-    stringBuffer.append( ruleData.get(unit).matchingSteps.size() );
-    stringBuffer.append(TEXT_157);
     stringBuffer.append( unitConstants.get(unit) );
+    stringBuffer.append(TEXT_157);
+    stringBuffer.append( i+1 );
     stringBuffer.append(TEXT_158);
-     } 
+    stringBuffer.append( unitConstants.get(indi.getSubUnits().get(i)) );
     stringBuffer.append(TEXT_159);
      } 
     stringBuffer.append(TEXT_160);
-     for (int i=0; i<rules.size(); i++) { 
+     } else if (unit instanceof LoopUnit) { 
     stringBuffer.append(TEXT_161);
-    stringBuffer.append( i==0 ? "if (" : "  " );
+    stringBuffer.append( unitConstants.get(unit) );
     stringBuffer.append(TEXT_162);
+    stringBuffer.append( unitConstants.get(((LoopUnit) unit).getSubUnit()) );
+    stringBuffer.append(TEXT_163);
+     } else if (unit instanceof Rule) { 
+    stringBuffer.append(TEXT_164);
+    stringBuffer.append( ruleData.get(unit).matchingSteps.size() );
+    stringBuffer.append(TEXT_165);
+    stringBuffer.append( unitConstants.get(unit) );
+    stringBuffer.append(TEXT_166);
+     } 
+    stringBuffer.append(TEXT_167);
+     } 
+    stringBuffer.append(TEXT_168);
+     for (int i=0; i<rules.size(); i++) { 
+    stringBuffer.append(TEXT_169);
+    stringBuffer.append( i==0 ? "if (" : "  " );
+    stringBuffer.append(TEXT_170);
     stringBuffer.append( unitConstants.get(rules.get(i)) + (i<rules.size()-1 ? " ||" : ") {" ) );
      } 
-    stringBuffer.append(TEXT_163);
-    stringBuffer.append(TEXT_164);
+    stringBuffer.append(TEXT_171);
+    stringBuffer.append(TEXT_172);
     return stringBuffer.toString();
   }
 }

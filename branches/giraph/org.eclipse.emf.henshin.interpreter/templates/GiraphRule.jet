@@ -50,6 +50,11 @@ for (GiraphRuleData data : ruleData.values()) {
 package <%= packageName %>;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.List;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
@@ -386,6 +391,12 @@ for (Rule rule : ruleData.keySet()) {
    */
   public static class MasterCompute extends DefaultMasterCompute {
 
+    /**
+     * Stack for storing the execution orders of independent units.
+     */
+    private final Deque<List<Integer>> independentUnitOrders =
+      new ArrayDeque<List<Integer>>();
+
     @Override
     public void compute() {
 
@@ -451,13 +462,40 @@ for (Rule rule : ruleData.keySet()) {
             stack = stack.append(<%= unitConstants.get(unit) %>, <%= i+1 %>);
             stack = stack.append(<%= unitConstants.get(seq.getSubUnits().get(i)) %>, 0);
             break;
+<% } // end for
+   } else if (unit instanceof IndependentUnit) { 
+     IndependentUnit indi = (IndependentUnit) unit; %>
+          if (microstep == 0) {
+            List<Integer> order = new ArrayList<Integer>();
+            for (int i = 0; i < <%= indi.getSubUnits().size() %>; i++) {
+              order.add(i);
+            }
+            Collections.shuffle(order);
+            independentUnitOrders.push(order);
+          }
+          if (microstep > 0 && ruleApps > 0) {
+            independentUnitOrders.pop();
+            break; // success
+          }
+          if (microstep == <%= indi.getSubUnits().size() %>) {
+            independentUnitOrders.pop();
+            break; // no success
+          }
+          // Choose and execute the next subunit:
+          int next = independentUnitOrders.peek().get(microstep);
+          switch (next) {
+<% for (int i=0; i<indi.getSubUnits().size(); i++) { %>
+          case <%= i%>:
+            stack = stack.append(<%= unitConstants.get(unit) %>, <%= i+1 %>);
+            stack = stack.append(<%= unitConstants.get(indi.getSubUnits().get(i)) %>, 0);
+            break;
 <% } %>
           default:
             break;
           }
 <% } else if (unit instanceof LoopUnit) { %>
-          if (ruleApps > 0) {
-            stack = stack.append(<%= unitConstants.get(unit) %>, 0);
+          if (microstep == 0 || ruleApps > 0) {
+            stack = stack.append(<%= unitConstants.get(unit) %>, 1);
             stack = stack.append(<%= unitConstants.get(((LoopUnit) unit).getSubUnit()) %>, 0);
           }
 <% } else if (unit instanceof Rule) { %>
