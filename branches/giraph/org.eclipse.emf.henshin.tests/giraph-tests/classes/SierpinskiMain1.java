@@ -19,8 +19,6 @@ package org.apache.giraph.examples;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
@@ -138,15 +136,6 @@ public class SierpinskiMain1 extends
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
 
-    // Log execution info
-    long superstep = getSuperstep();
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + superstep +
-      " executing rule " + rule + " in microstep " + microstep);
-    for (HenshinUtil.Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
-        " received (partial) match " + match);
-    }
-
     // Find out which rule to apply:
     switch (rule) {
     case RULE_SIERPINSKI:
@@ -168,6 +157,13 @@ public class SierpinskiMain1 extends
       Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<HenshinUtil.Match> matches,
       int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule Sierpinski in microstep " + microstep);
+    for (HenshinUtil.Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() +
+        " received (partial) match " + match);
+    }
 
     if (microstep == 0) {
 
@@ -252,11 +248,14 @@ public class SierpinskiMain1 extends
       }
 
 
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "Sierpinski: " + microstep);
     }
   }
 
   /**
-   * Apply the rule Sierpinskito a given match.
+   * Apply the rule "Sierpinski" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
@@ -384,6 +383,12 @@ public class SierpinskiMain1 extends
   public static class MasterCompute extends DefaultMasterCompute {
 
     /**
+     * Stack for storing unit success flags.
+     */
+    private final Deque<Boolean> unitSuccesses =
+      new ArrayDeque<Boolean>();
+
+    /**
      * Stack for storing the execution orders of independent units.
      */
     private final Deque<List<Integer>> independentUnitOrders =
@@ -436,20 +441,16 @@ public class SierpinskiMain1 extends
         stack = stack.removeLast();
         switch (unit) {
         case UNIT_SIERPINSKI_MAIN:
-          if (microstep < 1) {
-            stack = stack.append(UNIT_SIERPINSKI_MAIN, microstep + 1);
-            stack = stack.append(RULE_SIERPINSKI, 0);
-          }
+          stack = processSierpinskiMain(
+            stack, microstep, ruleApps);
           break;
         case RULE_SIERPINSKI:
-          if (microstep < 4) {
-            stack = stack.append(RULE_SIERPINSKI, microstep + 1);
-          }
+          stack = processSierpinski(
+            stack, microstep, ruleApps);
           break;
         default:
           throw new RuntimeException("Unknown unit " + unit);
         }
-
         // If the last unit is a rule, we can stop:
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
@@ -457,6 +458,47 @@ public class SierpinskiMain1 extends
             break;
           }
         }
+      }
+      return stack;
+    }
+
+   /**
+     * Process IteratedUnit "SierpinskiMain".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processSierpinskiMain(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep > 0 && !unitSuccesses.pop()) {
+        unitSuccesses.push(false); // no success
+      } else if (microstep == 1) {
+        unitSuccesses.push(true); // success
+      } else if (microstep < 1) {
+        stack = stack.append(UNIT_SIERPINSKI_MAIN, microstep + 1);
+        stack = stack.append(RULE_SIERPINSKI, 0);
+      }
+      return stack;
+    }
+
+   /**
+     * Process Rule "Sierpinski".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processSierpinski(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep < 3) {
+        stack = stack.append(RULE_SIERPINSKI, microstep + 1);
+      } else {
+        unitSuccesses.push(ruleApps > 0);
       }
       return stack;
     }

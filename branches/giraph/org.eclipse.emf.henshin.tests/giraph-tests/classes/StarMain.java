@@ -19,8 +19,6 @@ package org.apache.giraph.examples;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
@@ -148,15 +146,6 @@ public class StarMain extends
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
 
-    // Log execution info
-    long superstep = getSuperstep();
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + superstep +
-      " executing rule " + rule + " in microstep " + microstep);
-    for (HenshinUtil.Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
-        " received (partial) match " + match);
-    }
-
     // Find out which rule to apply:
     switch (rule) {
     case RULE_EXTEND_STAR:
@@ -181,6 +170,13 @@ public class StarMain extends
       Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<HenshinUtil.Match> matches,
       int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule ExtendStar in microstep " + microstep);
+    for (HenshinUtil.Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() +
+        " received (partial) match " + match);
+    }
 
     if (microstep == 0) {
 
@@ -218,11 +214,14 @@ public class StarMain extends
         }
       } // end if ok
 
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "ExtendStar: " + microstep);
     }
   }
 
   /**
-   * Apply the rule ExtendStarto a given match.
+   * Apply the rule "ExtendStar" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
@@ -265,6 +264,13 @@ public class StarMain extends
       Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<HenshinUtil.Match> matches,
       int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule DeleteStar in microstep " + microstep);
+    for (HenshinUtil.Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() +
+        " received (partial) match " + match);
+    }
 
     if (microstep == 0) {
 
@@ -325,11 +331,14 @@ public class StarMain extends
         }
       } // end if ok
 
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "DeleteStar: " + microstep);
     }
   }
 
   /**
-   * Apply the rule DeleteStarto a given match.
+   * Apply the rule "DeleteStar" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
@@ -380,6 +389,12 @@ public class StarMain extends
    * Master compute which registers and updates the required aggregators.
    */
   public static class MasterCompute extends DefaultMasterCompute {
+
+    /**
+     * Stack for storing unit success flags.
+     */
+    private final Deque<Boolean> unitSuccesses =
+      new ArrayDeque<Boolean>();
 
     /**
      * Stack for storing the execution orders of independent units.
@@ -434,36 +449,24 @@ public class StarMain extends
         stack = stack.removeLast();
         switch (unit) {
         case UNIT_STAR_MAIN:
-          switch (microstep) {
-          case 0:
-            stack = stack.append(UNIT_STAR_MAIN, 1);
-            stack = stack.append(UNIT_EXTEND_STAR_LOOP, 0);
-            break;
-          case 1:
-            stack = stack.append(UNIT_STAR_MAIN, 2);
-            stack = stack.append(RULE_DELETE_STAR, 0);
-            break;
+          stack = processStarMain(
+            stack, microstep, ruleApps);
           break;
         case UNIT_EXTEND_STAR_LOOP:
-          if (microstep < 5) {
-            stack = stack.append(UNIT_EXTEND_STAR_LOOP, microstep + 1);
-            stack = stack.append(RULE_EXTEND_STAR, 0);
-          }
+          stack = processExtendStarLoop(
+            stack, microstep, ruleApps);
           break;
         case RULE_DELETE_STAR:
-          if (microstep < 3) {
-            stack = stack.append(RULE_DELETE_STAR, microstep + 1);
-          }
+          stack = processDeleteStar(
+            stack, microstep, ruleApps);
           break;
         case RULE_EXTEND_STAR:
-          if (microstep < 2) {
-            stack = stack.append(RULE_EXTEND_STAR, microstep + 1);
-          }
+          stack = processExtendStar(
+            stack, microstep, ruleApps);
           break;
         default:
           throw new RuntimeException("Unknown unit " + unit);
         }
-
         // If the last unit is a rule, we can stop:
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
@@ -472,6 +475,98 @@ public class StarMain extends
             break;
           }
         }
+      }
+      return stack;
+    }
+
+   /**
+     * Process SequentialUnit "StarMain".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processStarMain(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep > 0 && !unitSuccesses.pop()) {
+        unitSuccesses.push(false); // no success
+      } else if (microstep == 2) {
+        unitSuccesses.push(true); // success
+      } else {
+        switch (microstep) {
+        case 0:
+          stack = stack.append(UNIT_STAR_MAIN, 1);
+          stack = stack.append(UNIT_EXTEND_STAR_LOOP, 0);
+          break;
+        case 1:
+          stack = stack.append(UNIT_STAR_MAIN, 2);
+          stack = stack.append(RULE_DELETE_STAR, 0);
+          break;
+        default:
+          break;
+        }
+      }
+      return stack;
+    }
+
+   /**
+     * Process IteratedUnit "ExtendStarLoop".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processExtendStarLoop(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep > 0 && !unitSuccesses.pop()) {
+        unitSuccesses.push(false); // no success
+      } else if (microstep == 5) {
+        unitSuccesses.push(true); // success
+      } else if (microstep < 5) {
+        stack = stack.append(UNIT_EXTEND_STAR_LOOP, microstep + 1);
+        stack = stack.append(RULE_EXTEND_STAR, 0);
+      }
+      return stack;
+    }
+
+   /**
+     * Process Rule "DeleteStar".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processDeleteStar(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep < 2) {
+        stack = stack.append(RULE_DELETE_STAR, microstep + 1);
+      } else {
+        unitSuccesses.push(ruleApps > 0);
+      }
+      return stack;
+    }
+
+   /**
+     * Process Rule "ExtendStar".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processExtendStar(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep < 1) {
+        stack = stack.append(RULE_EXTEND_STAR, microstep + 1);
+      } else {
+        unitSuccesses.push(ruleApps > 0);
       }
       return stack;
     }

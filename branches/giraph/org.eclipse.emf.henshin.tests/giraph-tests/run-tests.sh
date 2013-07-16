@@ -33,6 +33,7 @@ EOF
 }
 
 function run_test {
+	echo "Executing test $1/$2..."
     main="$GIRAPH_TESTS_PACKAGE.$1\\\$"
     util="$GIRAPH_TESTS_PACKAGE.HenshinUtil\\\$"
 	ssh $SSH_ARGS $HADOOP_MASTER << EOF 2>&1 | tee /tmp/output.log
@@ -74,6 +75,9 @@ compile_tests
 
 run_test StarMain StarStart 1 0
 
+# Random behavior involved, so we do it more than once:
+run_test ForkMain ForkStart 1 0
+run_test ForkMain ForkStart 1 0
 run_test ForkMain ForkStart 1 0
 
 #run_test Wheel10 WheelStart 3 3
@@ -83,6 +87,5 @@ run_test SierpinskiMain1 Sierpinski 6 9
 run_test SierpinskiMain3 Sierpinski 42 81
 run_test SierpinskiMain6 Sierpinski 1095 2187
 run_test SierpinskiMain9 Sierpinski 29526 59049
-
 
 echo All tests successful.

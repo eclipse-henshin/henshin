@@ -152,187 +152,20 @@ public class ForkMain extends
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
 
-    // Log execution info
-    long superstep = getSuperstep();
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + superstep +
-      " executing rule " + rule + " in microstep " + microstep);
-    for (HenshinUtil.Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
-        " received (partial) match " + match);
-    }
-
     // Find out which rule to apply:
     switch (rule) {
-    case RULE_FORK_CONN:
-      matchForkConn(vertex, matches, microstep);
+    case RULE_FORK_RIGHT:
+      matchForkRight(vertex, matches, microstep);
       break;
     case RULE_FORK_LEFT:
       matchForkLeft(vertex, matches, microstep);
       break;
-    case RULE_FORK_RIGHT:
-      matchForkRight(vertex, matches, microstep);
+    case RULE_FORK_CONN:
+      matchForkConn(vertex, matches, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
     }
-  }
-
-  /**
-   * Match (and apply) the rule "ForkConn".
-   * This takes 2 microsteps.
-   * @param vertex The current vertex.
-   * @param matches The current matches.
-   * @param microstep Current microstep.
-   */
-  protected void matchForkConn(
-      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<HenshinUtil.Match> matches,
-      int microstep) throws IOException {
-
-    if (microstep == 0) {
-
-      // Matching node "a". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
-      if (ok) {
-        // Create a new partial match:
-        HenshinUtil.Match match =
-          new HenshinUtil.Match().append(vertex.getId());
-        // Send a match request to all outgoing edges of type "conn":
-        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-          vertex.getEdges()) {
-          if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " to vertex " + edge.getTargetVertexId());
-            sendMessage(edge.getTargetVertexId(), match);
-          }
-        }
-      } // end if ok
-
-    } else if (microstep == 1) {
-
-      // Matching node "b". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
-      if (ok) {
-        // Extend all partial matches:
-        for (HenshinUtil.Match match : matches) {
-          match = match.append(vertex.getId());
-          // Apply the rule:
-          applyForkConn(vertex, match);
-        }
-      } // end if ok
-
-    }
-  }
-
-  /**
-   * Apply the rule ForkConnto a given match.
-   * @param vertex The base vertex.
-   * @param match The match object.
-   * @throws IOException On I/O errors.
-   */
-  protected void applyForkConn(
-    Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex,
-    HenshinUtil.Match match) throws IOException {
-
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule ForkConn with match " + match);
-
-    HenshinUtil.VertexId cur0 = match.getVertexId(0);
-    HenshinUtil.VertexId cur1 = match.getVertexId(1);
-
-    // Remove edge "a" -> "b":
-    removeEdgesRequest(cur0, cur1);
-
-    // Remove vertex "b":
-    removeVertexRequest(cur1);
-
-    // Update the statistics:
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-
-  }
-
-  /**
-   * Match (and apply) the rule "ForkLeft".
-   * This takes 2 microsteps.
-   * @param vertex The current vertex.
-   * @param matches The current matches.
-   * @param microstep Current microstep.
-   */
-  protected void matchForkLeft(
-      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<HenshinUtil.Match> matches,
-      int microstep) throws IOException {
-
-    if (microstep == 0) {
-
-      // Matching node "a". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
-      if (ok) {
-        // Create a new partial match:
-        HenshinUtil.Match match =
-          new HenshinUtil.Match().append(vertex.getId());
-        // Send a match request to all outgoing edges of type "left":
-        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-          vertex.getEdges()) {
-          if (edge.getValue().get() ==
-            TYPE_VERTEX_LEFT.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " to vertex " + edge.getTargetVertexId());
-            sendMessage(edge.getTargetVertexId(), match);
-          }
-        }
-      } // end if ok
-
-    } else if (microstep == 1) {
-
-      // Matching node "b". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
-      if (ok) {
-        // Extend all partial matches:
-        for (HenshinUtil.Match match : matches) {
-          match = match.append(vertex.getId());
-          // Apply the rule:
-          applyForkLeft(vertex, match);
-        }
-      } // end if ok
-
-    }
-  }
-
-  /**
-   * Apply the rule ForkLeftto a given match.
-   * @param vertex The base vertex.
-   * @param match The match object.
-   * @throws IOException On I/O errors.
-   */
-  protected void applyForkLeft(
-    Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex,
-    HenshinUtil.Match match) throws IOException {
-
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule ForkLeft with match " + match);
-
-    HenshinUtil.VertexId cur0 = match.getVertexId(0);
-    HenshinUtil.VertexId cur1 = match.getVertexId(1);
-
-    // Remove edge "a" -> "b":
-    removeEdgesRequest(cur0, cur1);
-
-    // Remove vertex "b":
-    removeVertexRequest(cur1);
-
-    // Update the statistics:
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-
   }
 
   /**
@@ -346,6 +179,13 @@ public class ForkMain extends
       Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<HenshinUtil.Match> matches,
       int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule ForkRight in microstep " + microstep);
+    for (HenshinUtil.Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() +
+        " received (partial) match " + match);
+    }
 
     if (microstep == 0) {
 
@@ -383,11 +223,14 @@ public class ForkMain extends
         }
       } // end if ok
 
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "ForkRight: " + microstep);
     }
   }
 
   /**
-   * Apply the rule ForkRightto a given match.
+   * Apply the rule "ForkRight" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
@@ -399,6 +242,184 @@ public class ForkMain extends
 
     LOG.info("Vertex " + vertex.getId() +
       " applying rule ForkRight with match " + match);
+
+    HenshinUtil.VertexId cur0 = match.getVertexId(0);
+    HenshinUtil.VertexId cur1 = match.getVertexId(1);
+
+    // Remove edge "a" -> "b":
+    removeEdgesRequest(cur0, cur1);
+
+    // Remove vertex "b":
+    removeVertexRequest(cur1);
+
+    // Update the statistics:
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+
+  }
+
+  /**
+   * Match (and apply) the rule "ForkLeft".
+   * This takes 2 microsteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchForkLeft(
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<HenshinUtil.Match> matches,
+      int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule ForkLeft in microstep " + microstep);
+    for (HenshinUtil.Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() +
+        " received (partial) match " + match);
+    }
+
+    if (microstep == 0) {
+
+      // Matching node "a". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX.get();
+      if (ok) {
+        // Create a new partial match:
+        HenshinUtil.Match match =
+          new HenshinUtil.Match().append(vertex.getId());
+        // Send a match request to all outgoing edges of type "left":
+        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
+          vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_LEFT.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      } // end if ok
+
+    } else if (microstep == 1) {
+
+      // Matching node "b". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX.get();
+      if (ok) {
+        // Extend all partial matches:
+        for (HenshinUtil.Match match : matches) {
+          match = match.append(vertex.getId());
+          // Apply the rule:
+          applyForkLeft(vertex, match);
+        }
+      } // end if ok
+
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "ForkLeft: " + microstep);
+    }
+  }
+
+  /**
+   * Apply the rule "ForkLeft" to a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @throws IOException On I/O errors.
+   */
+  protected void applyForkLeft(
+    Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex,
+    HenshinUtil.Match match) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule ForkLeft with match " + match);
+
+    HenshinUtil.VertexId cur0 = match.getVertexId(0);
+    HenshinUtil.VertexId cur1 = match.getVertexId(1);
+
+    // Remove edge "a" -> "b":
+    removeEdgesRequest(cur0, cur1);
+
+    // Remove vertex "b":
+    removeVertexRequest(cur1);
+
+    // Update the statistics:
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+
+  }
+
+  /**
+   * Match (and apply) the rule "ForkConn".
+   * This takes 2 microsteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchForkConn(
+      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<HenshinUtil.Match> matches,
+      int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule ForkConn in microstep " + microstep);
+    for (HenshinUtil.Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() +
+        " received (partial) match " + match);
+    }
+
+    if (microstep == 0) {
+
+      // Matching node "a". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX.get();
+      if (ok) {
+        // Create a new partial match:
+        HenshinUtil.Match match =
+          new HenshinUtil.Match().append(vertex.getId());
+        // Send a match request to all outgoing edges of type "conn":
+        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
+          vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_CONN.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      } // end if ok
+
+    } else if (microstep == 1) {
+
+      // Matching node "b". Type must be "Vertex":
+      boolean ok = vertex.getValue().get() ==
+        TYPE_VERTEX.get();
+      if (ok) {
+        // Extend all partial matches:
+        for (HenshinUtil.Match match : matches) {
+          match = match.append(vertex.getId());
+          // Apply the rule:
+          applyForkConn(vertex, match);
+        }
+      } // end if ok
+
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "ForkConn: " + microstep);
+    }
+  }
+
+  /**
+   * Apply the rule "ForkConn" to a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @throws IOException On I/O errors.
+   */
+  protected void applyForkConn(
+    Vertex<HenshinUtil.VertexId, ByteWritable,
+    ByteWritable> vertex,
+    HenshinUtil.Match match) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule ForkConn with match " + match);
 
     HenshinUtil.VertexId cur0 = match.getVertexId(0);
     HenshinUtil.VertexId cur1 = match.getVertexId(1);
@@ -431,6 +452,12 @@ public class ForkMain extends
    * Master compute which registers and updates the required aggregators.
    */
   public static class MasterCompute extends DefaultMasterCompute {
+
+    /**
+     * Stack for storing unit success flags.
+     */
+    private final Deque<Boolean> unitSuccesses =
+      new ArrayDeque<Boolean>();
 
     /**
      * Stack for storing the execution orders of independent units.
@@ -485,75 +512,163 @@ public class ForkMain extends
         stack = stack.removeLast();
         switch (unit) {
         case UNIT_FORK_MAIN:
-          if (microstep == 0 || ruleApps > 0) {
-            stack = stack.append(UNIT_FORK_MAIN, 1);
-            stack = stack.append(UNIT_FORK_CHOICE, 0);
-          }
+          stack = processForkMain(
+            stack, microstep, ruleApps);
           break;
         case UNIT_FORK_CHOICE:
-          if (microstep == 0) {
-            List<Integer> order = new ArrayList<Integer>();
-            for (int i = 0; i < 3; i++) {
-              order.add(i);
-            }
-            Collections.shuffle(order);
-            independentUnitOrders.push(order);
-          }
-          if (microstep > 0 && ruleApps > 0) {
-            independentUnitOrders.pop();
-            break; // success
-          }
-          if (microstep == 3) {
-            independentUnitOrders.pop();
-            break; // no success
-          }
-          // Choose and execute the next subunit:
-          int next = independentUnitOrders.peek().get(microstep);
-          switch (next) {
-          case 0:
-            stack = stack.append(UNIT_FORK_CHOICE, 1);
-            stack = stack.append(RULE_FORK_LEFT, 0);
-            break;
-          case 1:
-            stack = stack.append(UNIT_FORK_CHOICE, 2);
-            stack = stack.append(RULE_FORK_RIGHT, 0);
-            break;
-          case 2:
-            stack = stack.append(UNIT_FORK_CHOICE, 3);
-            stack = stack.append(RULE_FORK_CONN, 0);
-            break;
-          default:
-            break;
-          }
+          stack = processForkChoice(
+            stack, microstep, ruleApps);
           break;
         case RULE_FORK_LEFT:
-          if (microstep < 2) {
-            stack = stack.append(RULE_FORK_LEFT, microstep + 1);
-          }
+          stack = processForkLeft(
+            stack, microstep, ruleApps);
           break;
         case RULE_FORK_RIGHT:
-          if (microstep < 2) {
-            stack = stack.append(RULE_FORK_RIGHT, microstep + 1);
-          }
+          stack = processForkRight(
+            stack, microstep, ruleApps);
           break;
         case RULE_FORK_CONN:
-          if (microstep < 2) {
-            stack = stack.append(RULE_FORK_CONN, microstep + 1);
-          }
+          stack = processForkConn(
+            stack, microstep, ruleApps);
           break;
         default:
           throw new RuntimeException("Unknown unit " + unit);
         }
-
         // If the last unit is a rule, we can stop:
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_FORK_CONN ||
+          if (unit == RULE_FORK_RIGHT ||
             unit == RULE_FORK_LEFT ||
-            unit == RULE_FORK_RIGHT) {
+            unit == RULE_FORK_CONN) {
             break;
           }
         }
+      }
+      return stack;
+    }
+
+   /**
+     * Process LoopUnit "ForkMain".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processForkMain(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep == 0 || unitSuccesses.pop()) {
+        stack = stack.append(UNIT_FORK_MAIN, 1);
+        stack = stack.append(UNIT_FORK_CHOICE, 0);
+      } else {
+        unitSuccesses.push(true); // always successful
+      }
+      return stack;
+    }
+
+   /**
+     * Process IndependentUnit "ForkChoice".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processForkChoice(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep == 0) {
+        // Prepare a random execution order:
+        List<Integer> order = new ArrayList<Integer>();
+        for (int i = 0; i < 3; i++) {
+          order.add(i);
+        }
+        Collections.shuffle(order);
+        independentUnitOrders.push(order);
+      }
+      if (microstep > 0 && unitSuccesses.pop()) {
+        independentUnitOrders.pop();
+        unitSuccesses.push(true); // success
+      } else if (microstep == 3) {
+        independentUnitOrders.pop();
+        unitSuccesses.push(false); // no success
+      } else {
+        // Choose and execute the next subunit:
+        int next = independentUnitOrders.peek().get(microstep);
+        switch (next) {
+        case 0:
+          stack = stack.append(UNIT_FORK_CHOICE, microstep + 1);
+          stack = stack.append(RULE_FORK_LEFT, 0);
+          break;
+        case 1:
+          stack = stack.append(UNIT_FORK_CHOICE, microstep + 1);
+          stack = stack.append(RULE_FORK_RIGHT, 0);
+          break;
+        case 2:
+          stack = stack.append(UNIT_FORK_CHOICE, microstep + 1);
+          stack = stack.append(RULE_FORK_CONN, 0);
+          break;
+        default:
+          break;
+        }
+      }
+      return stack;
+    }
+
+   /**
+     * Process Rule "ForkLeft".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processForkLeft(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep < 1) {
+        stack = stack.append(RULE_FORK_LEFT, microstep + 1);
+      } else {
+        unitSuccesses.push(ruleApps > 0);
+      }
+      return stack;
+    }
+
+   /**
+     * Process Rule "ForkRight".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processForkRight(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep < 1) {
+        stack = stack.append(RULE_FORK_RIGHT, microstep + 1);
+      } else {
+        unitSuccesses.push(ruleApps > 0);
+      }
+      return stack;
+    }
+
+   /**
+     * Process Rule "ForkConn".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @param ruleApps Number of rule applications in last superstep.
+     * @return the new application stack.
+     */
+    private HenshinUtil.ApplicationStack processForkConn(
+      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
+
+      // Update the application stack:
+      if (microstep < 1) {
+        stack = stack.append(RULE_FORK_CONN, microstep + 1);
+      } else {
+        unitSuccesses.push(ruleApps > 0);
       }
       return stack;
     }
