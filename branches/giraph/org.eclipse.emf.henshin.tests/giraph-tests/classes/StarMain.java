@@ -31,6 +31,14 @@ import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.log4j.Logger;
+import static org.apache.giraph.examples.HenshinUtil
+  .ApplicationStack;
+import static org.apache.giraph.examples.HenshinUtil
+  .ApplicationStackAggregator;
+import static org.apache.giraph.examples.HenshinUtil
+  .Match;
+import static org.apache.giraph.examples.HenshinUtil
+  .VertexId;
 
 /**
  * Generated implementation of the Henshin unit "StarMain".
@@ -39,8 +47,7 @@ import org.apache.log4j.Logger;
     name = "StarMain"
 )
 public class StarMain extends
-  BasicComputation<HenshinUtil.VertexId, ByteWritable,
-  ByteWritable, HenshinUtil.Match> {
+  BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
 
   /**
    * Name of the rule application count aggregator.
@@ -125,14 +132,10 @@ public class StarMain extends
    */
   @Override
   public void compute(
-      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<HenshinUtil.Match> matches) throws IOException {
-
-    // Get the current application stack:
-    HenshinUtil.ApplicationStack stack =
+      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<Match> matches) throws IOException {
+    ApplicationStack stack =
       getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
-
-    // Check if we should stop:
     if (stack.getStackSize() == 0) {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
@@ -141,12 +144,8 @@ public class StarMain extends
       }
       return;
     }
-
-    // Get the last step:
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
-
-    // Find out which rule to apply:
     switch (rule) {
     case RULE_EXTEND_STAR:
       matchExtendStar(vertex, matches, microstep);
@@ -167,29 +166,21 @@ public class StarMain extends
    * @param microstep Current microstep.
    */
   protected void matchExtendStar(
-      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<HenshinUtil.Match> matches,
-      int microstep) throws IOException {
+      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<Match> matches, int microstep) throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
       " matching rule ExtendStar in microstep " + microstep);
-    for (HenshinUtil.Match match : matches) {
+    for (Match match : matches) {
       LOG.info("Vertex " + vertex.getId() +
         " received (partial) match " + match);
     }
-
     if (microstep == 0) {
-
-      // Matching node "a". Type must be "VertexContainer":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX_CONTAINER.get();
+      // Matching node "a":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
       if (ok) {
-        // Create a new partial match:
-        HenshinUtil.Match match =
-          new HenshinUtil.Match().append(vertex.getId());
-        // Send a match request to all outgoing edges of type "vertices":
-        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-          vertex.getEdges()) {
+        Match match = new Match().append(vertex.getId());
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONTAINER_VERTICES.get()) {
             LOG.info("Vertex " + vertex.getId() +
@@ -199,21 +190,15 @@ public class StarMain extends
           }
         }
       } // end if ok
-
     } else if (microstep == 1) {
-
-      // Matching node "b". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
+      // Matching node "b":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
-        // Extend all partial matches:
-        for (HenshinUtil.Match match : matches) {
+        for (Match match : matches) {
           match = match.append(vertex.getId());
-          // Apply the rule:
           applyExtendStar(vertex, match);
         }
       } // end if ok
-
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "ExtendStar: " + microstep);
@@ -226,31 +211,20 @@ public class StarMain extends
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  protected void applyExtendStar(
-    Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex,
-    HenshinUtil.Match match) throws IOException {
-
+  protected void applyExtendStar(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match) throws IOException {
     LOG.info("Vertex " + vertex.getId() +
       " applying rule ExtendStar with match " + match);
-
-    HenshinUtil.VertexId cur1 = match.getVertexId(1);
-
-    // Create vertex "c":
-    HenshinUtil.VertexId new0 =
+    VertexId cur1 = match.getVertexId(1);
+    VertexId new0 =
       deriveVertexId(vertex.getId(), (byte) 0);
     addVertexRequest(new0, TYPE_VERTEX);
-
-    // Create edge "b" -> "c":
-    HenshinUtil.VertexId src0 = cur1;
-    HenshinUtil.VertexId trg0 = new0;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
+    VertexId src0 = cur1;
+    VertexId trg0 = new0;
+    Edge<VertexId, ByteWritable> edge0 =
       EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
     addEdgeRequest(src0, edge0);
-
-    // Update the statistics:
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-
   }
 
   /**
@@ -261,29 +235,21 @@ public class StarMain extends
    * @param microstep Current microstep.
    */
   protected void matchDeleteStar(
-      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<HenshinUtil.Match> matches,
-      int microstep) throws IOException {
+      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<Match> matches, int microstep) throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
       " matching rule DeleteStar in microstep " + microstep);
-    for (HenshinUtil.Match match : matches) {
+    for (Match match : matches) {
       LOG.info("Vertex " + vertex.getId() +
         " received (partial) match " + match);
     }
-
     if (microstep == 0) {
-
-      // Matching node "a". Type must be "VertexContainer":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX_CONTAINER.get();
+      // Matching node "a":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
       if (ok) {
-        // Create a new partial match:
-        HenshinUtil.Match match =
-          new HenshinUtil.Match().append(vertex.getId());
-        // Send a match request to all outgoing edges of type "vertices":
-        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-          vertex.getEdges()) {
+        Match match = new Match().append(vertex.getId());
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONTAINER_VERTICES.get()) {
             LOG.info("Vertex " + vertex.getId() +
@@ -293,19 +259,13 @@ public class StarMain extends
           }
         }
       } // end if ok
-
     } else if (microstep == 1) {
-
-      // Matching node "b". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
+      // Matching node "b":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
-        // Extend all partial matches:
-        for (HenshinUtil.Match match : matches) {
+        for (Match match : matches) {
           match = match.append(vertex.getId());
-          // Send a match request to all outgoing edges of type "left":
-          for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-            vertex.getEdges()) {
+          for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
               TYPE_VERTEX_LEFT.get()) {
               LOG.info("Vertex " + vertex.getId() +
@@ -316,21 +276,15 @@ public class StarMain extends
           }
         }
       } // end if ok
-
     } else if (microstep == 2) {
-
-      // Matching node "c". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
+      // Matching node "c":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
-        // Extend all partial matches:
-        for (HenshinUtil.Match match : matches) {
+        for (Match match : matches) {
           match = match.append(vertex.getId());
-          // Apply the rule:
           applyDeleteStar(vertex, match);
         }
       } // end if ok
-
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "DeleteStar: " + microstep);
@@ -343,33 +297,18 @@ public class StarMain extends
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  protected void applyDeleteStar(
-    Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex,
-    HenshinUtil.Match match) throws IOException {
-
+  protected void applyDeleteStar(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match) throws IOException {
     LOG.info("Vertex " + vertex.getId() +
       " applying rule DeleteStar with match " + match);
-
-    HenshinUtil.VertexId cur0 = match.getVertexId(0);
-    HenshinUtil.VertexId cur1 = match.getVertexId(1);
-    HenshinUtil.VertexId cur2 = match.getVertexId(2);
-
-    // Remove edge "a" -> "b":
+    VertexId cur0 = match.getVertexId(0);
+    VertexId cur1 = match.getVertexId(1);
+    VertexId cur2 = match.getVertexId(2);
     removeEdgesRequest(cur0, cur1);
-
-    // Remove edge "b" -> "c":
     removeEdgesRequest(cur1, cur2);
-
-    // Remove vertex "b":
     removeVertexRequest(cur1);
-
-    // Remove vertex "c":
     removeVertexRequest(cur2);
-
-    // Update the statistics:
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-
   }
 
   /**
@@ -378,8 +317,7 @@ public class StarMain extends
    * @param vertexIndex The relative index of the new vertex.
    * @return The derived vertex Id.
    */
-  private HenshinUtil.VertexId deriveVertexId(
-    HenshinUtil.VertexId baseId, int vertexIndex) {
+  private VertexId deriveVertexId(VertexId baseId, int vertexIndex) {
     long generation = ((LongWritable) getAggregatedValue(
         AGGREGATOR_NODE_GENERATION)).get();
     return baseId.append((byte) generation).append((byte) vertexIndex);
@@ -399,13 +337,15 @@ public class StarMain extends
     /**
      * Stack for storing the execution orders of independent units.
      */
-    private final Deque<List<Integer>> independentUnitOrders =
+    private final Deque<List<Integer>> unitOrders =
       new ArrayDeque<List<Integer>>();
 
+    /*
+     * (non-Javadoc)
+     * @see org.apache.giraph.master.DefaultMasterCompute#compute()
+     */
     @Override
     public void compute() {
-
-      // Get the number of rule applications in the last superstep:
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
       if (getSuperstep() > 0) {
@@ -418,11 +358,9 @@ public class StarMain extends
         setAggregatedValue(AGGREGATOR_NODE_GENERATION,
           new LongWritable(nodeGen + 1));
       }
-
-      // Update the application stack:
-      HenshinUtil.ApplicationStack stack;
+      ApplicationStack stack;
       if (getSuperstep() == 0) {
-        stack = new HenshinUtil.ApplicationStack();
+        stack = new ApplicationStack();
         stack = stack.append(UNIT_STAR_MAIN, 0);
         stack = nextRuleStep(stack, ruleApps);
       } else {
@@ -430,7 +368,6 @@ public class StarMain extends
         stack = nextRuleStep(stack, ruleApps);
       }
       setAggregatedValue(AGGREGATOR_APPLICATION_STACK, stack);
-
     }
 
     /**
@@ -439,10 +376,8 @@ public class StarMain extends
      * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private HenshinUtil.ApplicationStack nextRuleStep(
-      HenshinUtil.ApplicationStack stack, long ruleApps) {
-
-      // Iteratively update the application stack:
+    private ApplicationStack nextRuleStep(
+      ApplicationStack stack, long ruleApps) {
       while (stack.getStackSize() > 0) {
         int unit = stack.getLastUnit();
         int microstep = stack.getLastMicrostep();
@@ -450,11 +385,11 @@ public class StarMain extends
         switch (unit) {
         case UNIT_STAR_MAIN:
           stack = processStarMain(
-            stack, microstep, ruleApps);
+            stack, microstep);
           break;
         case UNIT_EXTEND_STAR_LOOP:
           stack = processExtendStarLoop(
-            stack, microstep, ruleApps);
+            stack, microstep);
           break;
         case RULE_DELETE_STAR:
           stack = processDeleteStar(
@@ -467,7 +402,6 @@ public class StarMain extends
         default:
           throw new RuntimeException("Unknown unit " + unit);
         }
-        // If the last unit is a rule, we can stop:
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
           if (unit == RULE_EXTEND_STAR ||
@@ -483,17 +417,14 @@ public class StarMain extends
      * Process SequentialUnit "StarMain".
      * @param stack Current application stack.
      * @param microstep Current microstep.
-     * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private HenshinUtil.ApplicationStack processStarMain(
-      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
-
-      // Update the application stack:
+    private ApplicationStack processStarMain(
+      ApplicationStack stack, int microstep) {
       if (microstep > 0 && !unitSuccesses.pop()) {
-        unitSuccesses.push(false); // no success
+        unitSuccesses.push(false);
       } else if (microstep == 2) {
-        unitSuccesses.push(true); // success
+        unitSuccesses.push(true);
       } else {
         switch (microstep) {
         case 0:
@@ -515,17 +446,14 @@ public class StarMain extends
      * Process IteratedUnit "ExtendStarLoop".
      * @param stack Current application stack.
      * @param microstep Current microstep.
-     * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private HenshinUtil.ApplicationStack processExtendStarLoop(
-      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
-
-      // Update the application stack:
+    private ApplicationStack processExtendStarLoop(
+      ApplicationStack stack, int microstep) {
       if (microstep > 0 && !unitSuccesses.pop()) {
-        unitSuccesses.push(false); // no success
+        unitSuccesses.push(false);
       } else if (microstep == 5) {
-        unitSuccesses.push(true); // success
+        unitSuccesses.push(true);
       } else if (microstep < 5) {
         stack = stack.append(UNIT_EXTEND_STAR_LOOP, microstep + 1);
         stack = stack.append(RULE_EXTEND_STAR, 0);
@@ -540,10 +468,8 @@ public class StarMain extends
      * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private HenshinUtil.ApplicationStack processDeleteStar(
-      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
-
-      // Update the application stack:
+    private ApplicationStack processDeleteStar(
+      ApplicationStack stack, int microstep, long ruleApps) {
       if (microstep < 2) {
         stack = stack.append(RULE_DELETE_STAR, microstep + 1);
       } else {
@@ -559,10 +485,8 @@ public class StarMain extends
      * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private HenshinUtil.ApplicationStack processExtendStar(
-      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
-
-      // Update the application stack:
+    private ApplicationStack processExtendStar(
+      ApplicationStack stack, int microstep, long ruleApps) {
       if (microstep < 1) {
         stack = stack.append(RULE_EXTEND_STAR, microstep + 1);
       } else {
@@ -571,6 +495,10 @@ public class StarMain extends
       return stack;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.apache.giraph.master.DefaultMasterCompute#initialize()
+     */
     @Override
     public void initialize() throws InstantiationException,
         IllegalAccessException {
@@ -579,7 +507,7 @@ public class StarMain extends
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK,
-        HenshinUtil.ApplicationStackAggregator.class);
+        ApplicationStackAggregator.class);
     }
 
   }

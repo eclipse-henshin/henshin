@@ -31,6 +31,14 @@ import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.log4j.Logger;
+import static org.apache.giraph.examples.HenshinUtil
+  .ApplicationStack;
+import static org.apache.giraph.examples.HenshinUtil
+  .ApplicationStackAggregator;
+import static org.apache.giraph.examples.HenshinUtil
+  .Match;
+import static org.apache.giraph.examples.HenshinUtil
+  .VertexId;
 
 /**
  * Generated implementation of the Henshin unit "SierpinskiMain".
@@ -39,8 +47,7 @@ import org.apache.log4j.Logger;
     name = "SierpinskiMain"
 )
 public class SierpinskiMain1 extends
-  BasicComputation<HenshinUtil.VertexId, ByteWritable,
-  ByteWritable, HenshinUtil.Match> {
+  BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
 
   /**
    * Name of the rule application count aggregator.
@@ -115,14 +122,10 @@ public class SierpinskiMain1 extends
    */
   @Override
   public void compute(
-      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<HenshinUtil.Match> matches) throws IOException {
-
-    // Get the current application stack:
-    HenshinUtil.ApplicationStack stack =
+      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<Match> matches) throws IOException {
+    ApplicationStack stack =
       getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
-
-    // Check if we should stop:
     if (stack.getStackSize() == 0) {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
@@ -131,12 +134,8 @@ public class SierpinskiMain1 extends
       }
       return;
     }
-
-    // Get the last step:
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
-
-    // Find out which rule to apply:
     switch (rule) {
     case RULE_SIERPINSKI:
       matchSierpinski(vertex, matches, microstep);
@@ -154,29 +153,21 @@ public class SierpinskiMain1 extends
    * @param microstep Current microstep.
    */
   protected void matchSierpinski(
-      Vertex<HenshinUtil.VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<HenshinUtil.Match> matches,
-      int microstep) throws IOException {
+      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<Match> matches, int microstep) throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
       " matching rule Sierpinski in microstep " + microstep);
-    for (HenshinUtil.Match match : matches) {
+    for (Match match : matches) {
       LOG.info("Vertex " + vertex.getId() +
         " received (partial) match " + match);
     }
-
     if (microstep == 0) {
-
-      // Matching node "a". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
+      // Matching node "a":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
-        // Create a new partial match:
-        HenshinUtil.Match match =
-          new HenshinUtil.Match().append(vertex.getId());
-        // Send a match request to all outgoing edges of type "left":
-        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-          vertex.getEdges()) {
+        Match match = new Match().append(vertex.getId());
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_LEFT.get()) {
             LOG.info("Vertex " + vertex.getId() +
@@ -186,19 +177,13 @@ public class SierpinskiMain1 extends
           }
         }
       } // end if ok
-
     } else if (microstep == 1) {
-
-      // Matching node "b". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
+      // Matching node "b":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
-        // Extend all partial matches:
-        for (HenshinUtil.Match match : matches) {
+        for (Match match : matches) {
           match = match.append(vertex.getId());
-          // Send a match request to all outgoing edges of type "conn":
-          for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
-            vertex.getEdges()) {
+          for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
               TYPE_VERTEX_CONN.get()) {
               LOG.info("Vertex " + vertex.getId() +
@@ -209,19 +194,15 @@ public class SierpinskiMain1 extends
           }
         }
       } // end if ok
-
     } else if (microstep == 2) {
-
-      // Matching node "c". Type must be "Vertex":
-      boolean ok = vertex.getValue().get() ==
-        TYPE_VERTEX.get();
+      // Matching node "c":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
-        // Extend all partial matches:
-        for (HenshinUtil.Match match : matches) {
+        for (Match match : matches) {
           match = match.append(vertex.getId());
           // Send the message back to matches of node "a":
-          for (HenshinUtil.Match m : matches) {
-            HenshinUtil.VertexId targetVertexId =
+          for (Match m : matches) {
+            VertexId targetVertexId =
               m.getVertexId(0);
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
@@ -230,24 +211,19 @@ public class SierpinskiMain1 extends
           }
         }
       } // end if ok
-
     } else if (microstep == 3) {
-
       // Node "a": check for edge to match of "c" of type "right":
-      for (HenshinUtil.Match match : matches) {
-        HenshinUtil.VertexId targetId = match.getVertexId(2);
-        for (Edge<HenshinUtil.VertexId, ByteWritable> edge :
+      for (Match match : matches) {
+        VertexId targetId = match.getVertexId(2);
+        for (Edge<VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_RIGHT.get() &&
             edge.getTargetVertexId().equals(targetId)) {
-            // Apply the rule:
             applySierpinski(vertex, match);
           }
         }
       }
-
-
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "Sierpinski: " + microstep);
@@ -260,108 +236,71 @@ public class SierpinskiMain1 extends
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  protected void applySierpinski(
-    Vertex<HenshinUtil.VertexId, ByteWritable,
-    ByteWritable> vertex,
-    HenshinUtil.Match match) throws IOException {
-
+  protected void applySierpinski(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match) throws IOException {
     LOG.info("Vertex " + vertex.getId() +
       " applying rule Sierpinski with match " + match);
-
-    HenshinUtil.VertexId cur0 = match.getVertexId(0);
-    HenshinUtil.VertexId cur1 = match.getVertexId(1);
-    HenshinUtil.VertexId cur2 = match.getVertexId(2);
-
-    // Remove edge "a" -> "b":
+    VertexId cur0 = match.getVertexId(0);
+    VertexId cur1 = match.getVertexId(1);
+    VertexId cur2 = match.getVertexId(2);
     removeEdgesRequest(cur0, cur1);
-
-    // Remove edge "a" -> "c":
     removeEdgesRequest(cur0, cur2);
-
-    // Remove edge "b" -> "c":
     removeEdgesRequest(cur1, cur2);
-
-    // Create vertex 3:
-    HenshinUtil.VertexId new0 =
+    VertexId new0 =
       deriveVertexId(vertex.getId(), (byte) 0);
     addVertexRequest(new0, TYPE_VERTEX);
-
-    // Create vertex 4:
-    HenshinUtil.VertexId new1 =
+    VertexId new1 =
       deriveVertexId(vertex.getId(), (byte) 1);
     addVertexRequest(new1, TYPE_VERTEX);
-
-    // Create vertex 5:
-    HenshinUtil.VertexId new2 =
+    VertexId new2 =
       deriveVertexId(vertex.getId(), (byte) 2);
     addVertexRequest(new2, TYPE_VERTEX);
-
-    // Create edge "a" -> 3:
-    HenshinUtil.VertexId src0 = cur0;
-    HenshinUtil.VertexId trg0 = new0;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge0 =
+    VertexId src0 = cur0;
+    VertexId trg0 = new0;
+    Edge<VertexId, ByteWritable> edge0 =
       EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
     addEdgeRequest(src0, edge0);
-
-    // Create edge "a" -> 4:
-    HenshinUtil.VertexId src1 = cur0;
-    HenshinUtil.VertexId trg1 = new1;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge1 =
+    VertexId src1 = cur0;
+    VertexId trg1 = new1;
+    Edge<VertexId, ByteWritable> edge1 =
       EdgeFactory.create(trg1, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src1, edge1);
-
-    // Create edge "b" -> 5:
-    HenshinUtil.VertexId src2 = cur1;
-    HenshinUtil.VertexId trg2 = new2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge2 =
+    VertexId src2 = cur1;
+    VertexId trg2 = new2;
+    Edge<VertexId, ByteWritable> edge2 =
       EdgeFactory.create(trg2, TYPE_VERTEX_CONN);
     addEdgeRequest(src2, edge2);
-
-    // Create edge 3 -> "b":
-    HenshinUtil.VertexId src3 = new0;
-    HenshinUtil.VertexId trg3 = cur1;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge3 =
+    VertexId src3 = new0;
+    VertexId trg3 = cur1;
+    Edge<VertexId, ByteWritable> edge3 =
       EdgeFactory.create(trg3, TYPE_VERTEX_LEFT);
     addEdgeRequest(src3, edge3);
-
-    // Create edge 3 -> 4:
-    HenshinUtil.VertexId src4 = new0;
-    HenshinUtil.VertexId trg4 = new1;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge4 =
+    VertexId src4 = new0;
+    VertexId trg4 = new1;
+    Edge<VertexId, ByteWritable> edge4 =
       EdgeFactory.create(trg4, TYPE_VERTEX_CONN);
     addEdgeRequest(src4, edge4);
-
-    // Create edge 3 -> 5:
-    HenshinUtil.VertexId src5 = new0;
-    HenshinUtil.VertexId trg5 = new2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge5 =
+    VertexId src5 = new0;
+    VertexId trg5 = new2;
+    Edge<VertexId, ByteWritable> edge5 =
       EdgeFactory.create(trg5, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src5, edge5);
-
-    // Create edge 4 -> 5:
-    HenshinUtil.VertexId src6 = new1;
-    HenshinUtil.VertexId trg6 = new2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge6 =
+    VertexId src6 = new1;
+    VertexId trg6 = new2;
+    Edge<VertexId, ByteWritable> edge6 =
       EdgeFactory.create(trg6, TYPE_VERTEX_LEFT);
     addEdgeRequest(src6, edge6);
-
-    // Create edge 4 -> "c":
-    HenshinUtil.VertexId src7 = new1;
-    HenshinUtil.VertexId trg7 = cur2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge7 =
+    VertexId src7 = new1;
+    VertexId trg7 = cur2;
+    Edge<VertexId, ByteWritable> edge7 =
       EdgeFactory.create(trg7, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src7, edge7);
-
-    // Create edge 5 -> "c":
-    HenshinUtil.VertexId src8 = new2;
-    HenshinUtil.VertexId trg8 = cur2;
-    Edge<HenshinUtil.VertexId, ByteWritable> edge8 =
+    VertexId src8 = new2;
+    VertexId trg8 = cur2;
+    Edge<VertexId, ByteWritable> edge8 =
       EdgeFactory.create(trg8, TYPE_VERTEX_CONN);
     addEdgeRequest(src8, edge8);
-
-    // Update the statistics:
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-
   }
 
   /**
@@ -370,8 +309,7 @@ public class SierpinskiMain1 extends
    * @param vertexIndex The relative index of the new vertex.
    * @return The derived vertex Id.
    */
-  private HenshinUtil.VertexId deriveVertexId(
-    HenshinUtil.VertexId baseId, int vertexIndex) {
+  private VertexId deriveVertexId(VertexId baseId, int vertexIndex) {
     long generation = ((LongWritable) getAggregatedValue(
         AGGREGATOR_NODE_GENERATION)).get();
     return baseId.append((byte) generation).append((byte) vertexIndex);
@@ -391,13 +329,15 @@ public class SierpinskiMain1 extends
     /**
      * Stack for storing the execution orders of independent units.
      */
-    private final Deque<List<Integer>> independentUnitOrders =
+    private final Deque<List<Integer>> unitOrders =
       new ArrayDeque<List<Integer>>();
 
+    /*
+     * (non-Javadoc)
+     * @see org.apache.giraph.master.DefaultMasterCompute#compute()
+     */
     @Override
     public void compute() {
-
-      // Get the number of rule applications in the last superstep:
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
       if (getSuperstep() > 0) {
@@ -410,11 +350,9 @@ public class SierpinskiMain1 extends
         setAggregatedValue(AGGREGATOR_NODE_GENERATION,
           new LongWritable(nodeGen + 1));
       }
-
-      // Update the application stack:
-      HenshinUtil.ApplicationStack stack;
+      ApplicationStack stack;
       if (getSuperstep() == 0) {
-        stack = new HenshinUtil.ApplicationStack();
+        stack = new ApplicationStack();
         stack = stack.append(UNIT_SIERPINSKI_MAIN, 0);
         stack = nextRuleStep(stack, ruleApps);
       } else {
@@ -422,7 +360,6 @@ public class SierpinskiMain1 extends
         stack = nextRuleStep(stack, ruleApps);
       }
       setAggregatedValue(AGGREGATOR_APPLICATION_STACK, stack);
-
     }
 
     /**
@@ -431,10 +368,8 @@ public class SierpinskiMain1 extends
      * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private HenshinUtil.ApplicationStack nextRuleStep(
-      HenshinUtil.ApplicationStack stack, long ruleApps) {
-
-      // Iteratively update the application stack:
+    private ApplicationStack nextRuleStep(
+      ApplicationStack stack, long ruleApps) {
       while (stack.getStackSize() > 0) {
         int unit = stack.getLastUnit();
         int microstep = stack.getLastMicrostep();
@@ -442,7 +377,7 @@ public class SierpinskiMain1 extends
         switch (unit) {
         case UNIT_SIERPINSKI_MAIN:
           stack = processSierpinskiMain(
-            stack, microstep, ruleApps);
+            stack, microstep);
           break;
         case RULE_SIERPINSKI:
           stack = processSierpinski(
@@ -451,7 +386,6 @@ public class SierpinskiMain1 extends
         default:
           throw new RuntimeException("Unknown unit " + unit);
         }
-        // If the last unit is a rule, we can stop:
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
           if (unit == RULE_SIERPINSKI) {
@@ -466,17 +400,14 @@ public class SierpinskiMain1 extends
      * Process IteratedUnit "SierpinskiMain".
      * @param stack Current application stack.
      * @param microstep Current microstep.
-     * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private HenshinUtil.ApplicationStack processSierpinskiMain(
-      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
-
-      // Update the application stack:
+    private ApplicationStack processSierpinskiMain(
+      ApplicationStack stack, int microstep) {
       if (microstep > 0 && !unitSuccesses.pop()) {
-        unitSuccesses.push(false); // no success
+        unitSuccesses.push(false);
       } else if (microstep == 1) {
-        unitSuccesses.push(true); // success
+        unitSuccesses.push(true);
       } else if (microstep < 1) {
         stack = stack.append(UNIT_SIERPINSKI_MAIN, microstep + 1);
         stack = stack.append(RULE_SIERPINSKI, 0);
@@ -491,10 +422,8 @@ public class SierpinskiMain1 extends
      * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private HenshinUtil.ApplicationStack processSierpinski(
-      HenshinUtil.ApplicationStack stack, int microstep, long ruleApps) {
-
-      // Update the application stack:
+    private ApplicationStack processSierpinski(
+      ApplicationStack stack, int microstep, long ruleApps) {
       if (microstep < 3) {
         stack = stack.append(RULE_SIERPINSKI, microstep + 1);
       } else {
@@ -503,6 +432,10 @@ public class SierpinskiMain1 extends
       return stack;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.apache.giraph.master.DefaultMasterCompute#initialize()
+     */
     @Override
     public void initialize() throws InstantiationException,
         IllegalAccessException {
@@ -511,7 +444,7 @@ public class SierpinskiMain1 extends
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK,
-        HenshinUtil.ApplicationStackAggregator.class);
+        ApplicationStackAggregator.class);
     }
 
   }
