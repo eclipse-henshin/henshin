@@ -253,9 +253,24 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private Collection<HenshinLinkDescriptor> collectAllLinks(View view,
+			Map<EObject, View> domain2NotationMap) {
+		
+		// Omit invocation views because they only reference!
+		if (HenshinVisualIDRegistry.getVisualID(view)==
+			InvocationEditPart.VISUAL_ID) {
+			return Collections.emptyList();
+		} else {
+			return collectAllLinksGen(view, domain2NotationMap);
+		}
+	}
+
+	/**
+	 * @generated
+	 */
+	private Collection<HenshinLinkDescriptor> collectAllLinksGen(View view,
 			Map<EObject, View> domain2NotationMap) {
 		if (!ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
 				.getModelID(view))) {
