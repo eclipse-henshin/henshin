@@ -206,7 +206,7 @@ for (Rule rule : ruleData.keySet()) {
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
       " matching rule <%= rule.getName() %> in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
+      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
 <% } %>
@@ -229,6 +229,31 @@ for (Rule rule : ruleData.keySet()) {
           }
         }
       }
+<%    } else if (step.isJoin) {%>
+      // Joining matches at node <%= GiraphUtil.getNodeName(step.node) %>:
+<% if (logging) { %>
+      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+        " joining matches of rule <%= rule.getName() %>");
+<% } %>
+      for (Match m1 : matches) {
+        VertexId id1 = m1.getVertexId(<%= data.orderedLhsNodes.indexOf(step.node) %>);
+        if (vertex.getId().equals(id1)) {
+          for (Match m2 : matches) {
+            VertexId id2 = m2.getVertexId(<%= data.orderedLhsNodes.indexOf(step.node) %>);
+            if (!vertex.getId().equals(id2)) {
+              Match joined = m1.append(m2);
+<%        if (rule.isInjectiveMatching()) {%>
+              if (!joined.isInjective()) {
+                continue;
+              }
+<%        }
+          if (i == data.matchingSteps.size()-1) {%>
+              apply<%= data.rule.getName() %>(vertex, joined);
+<%        } %>
+            }
+          }
+        }
+      }
 <%    } else {%>
       // Matching node <%= GiraphUtil.getNodeName(step.node) %>:
       boolean ok = vertex.getValue().get() == <%= typeConstants.get(step.node.getType()) %>.get();
@@ -238,7 +263,12 @@ for (Rule rule : ruleData.keySet()) {
         <% } else {%>
         for (Match match : matches) {
           match = match.append(vertex.getId());
-<%    }
+<%        if (rule.isInjectiveMatching()) {%>
+          if (!match.isInjective()) {
+            continue;
+          }
+<%        }
+      }
       if (step.edge != null) {%>
 <%= !step.isStart ? "  " : ""%>        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
 <%= !step.isStart ? "  " : ""%>          if (edge.getValue().get() ==
@@ -246,7 +276,7 @@ for (Rule rule : ruleData.keySet()) {
 <%if (logging) { %>
 <%= !step.isStart ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
 <%= !step.isStart ? "  " : ""%>              " sending (partial) match " + match +
-<%= !step.isStart ? "  " : ""%>              " to vertex " + edge.getTargetVertexId());
+<%= !step.isStart ? "  " : ""%>              " forward to vertex " + edge.getTargetVertexId());
 <%} %>
 <%= !step.isStart ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
 <%= !step.isStart ? "  " : ""%>          }
@@ -255,14 +285,13 @@ for (Rule rule : ruleData.keySet()) {
       } else if (step.sendBackTo != null) {%>
           // Send the message back to matches of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
           for (Match m : matches) {
-            VertexId targetVertexId =
-              m.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
+            VertexId targetId = m.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
 <%if (logging) { %>
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
-              " to vertex " + targetVertexId);
+              " back to vertex " + targetId);
 <%} %>
-            sendMessage(targetVertexId, match);
+            sendMessage(targetId, match);
           }
 <%
       } else if (i == data.matchingSteps.size()-1) {%>
@@ -271,9 +300,21 @@ for (Rule rule : ruleData.keySet()) {
       if (!step.isStart) {%>
         }<%
        }%>
-      } // end if ok
-<%
-      }%>
+      }
+<%    if (step.keepMatchesOf != null) { %>
+      // Keep matches received at node <%= GiraphUtil.getNodeName(step.keepMatchesOf) %>:
+      for (Match match : matches) {
+        VertexId id = match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.keepMatchesOf) %>);
+        if (vertex.getId().equals(id)) {
+<% if (logging) { %>
+          LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
+            " sending (partial) match " + match + " to myself");
+<% } %>
+          sendMessage(id, match);
+        }
+      }
+<%    }
+     }%>
     }<% 
     } // end for
 %> else {

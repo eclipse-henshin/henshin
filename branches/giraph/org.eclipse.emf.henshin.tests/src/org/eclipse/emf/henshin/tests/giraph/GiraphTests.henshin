@@ -477,4 +477,5 @@
     <mappings xmi:id="_YjmKIu15EeKP1_74TwiKPg" origin="_YjmKIO15EeKP1_74TwiKPg" image="_YjmKIe15EeKP1_74TwiKPg"/>
     <mappings xmi:id="_id_Wse15EeKP1_74TwiKPg" origin="_id-voO15EeKP1_74TwiKPg" image="_id_WsO15EeKP1_74TwiKPg"/>
   </units>
+  <units xsi:type="henshin:LoopUnit" xmi:id="_78StsPBFEeKDbe1PlB-bRQ" name="WheelMain" subUnit="_tqiyUOM_EeKN6veBRtYNZQ"/>
 </henshin:Module>

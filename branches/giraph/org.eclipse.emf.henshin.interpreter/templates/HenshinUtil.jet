@@ -32,7 +32,9 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.giraph.aggregators.BasicAggregator;
@@ -204,10 +206,51 @@ public class HenshinUtil {
       byte[] bytes = getBytes();
       int d = 0;
       for (int i = 0; i < vertexIndex; i++) {
+        if (d >= bytes.length) {
+          return null;
+        }
         d += bytes[d] + 1;
+      }
+      if (d >= bytes.length) {
+        return null;
       }
       return new VertexId(
         Arrays.copyOfRange(bytes, d + 1, d + 1 + bytes[d]));
+    }
+
+    /**
+     * Get the index of a vertex ID of a matched node.
+     * @param vertexId A vertex ID.
+     * @return The index of the vertex ID or -1.
+     */
+    public int indexOf(VertexId vertexId) {
+      int i = 0;
+      VertexId id;
+      do {
+        id = getVertexId(i);
+        if (vertexId.equals(id)) {
+          return i;
+        }
+        i++;
+      } while (id != null);
+      return -1;
+    }
+
+    /**
+     * Returns true if this match is injective.
+     * @return true if this match is injective.
+     */
+    public boolean isInjective() {
+      Set<VertexId> ids = new HashSet<VertexId>();
+      int i = 0;
+      VertexId id;
+      do {
+        id = getVertexId(i++);
+        if (id != null && !ids.add(id)) {
+          return false;
+        }
+      } while (id != null);
+      return true;
     }
 
     /**
@@ -233,7 +276,8 @@ public class HenshinUtil {
       byte[] bytes1 = getBytes();
       byte[] bytes2 = match.getBytes();
       bytes1 = Arrays.copyOf(bytes1, bytes1.length + bytes2.length);
-      System.arraycopy(bytes2, 0, bytes1, bytes1.length, bytes2.length);
+      System.arraycopy(bytes2, 0,
+        bytes1, bytes1.length - bytes2.length, bytes2.length);
       return new Match(bytes1);
     }
 

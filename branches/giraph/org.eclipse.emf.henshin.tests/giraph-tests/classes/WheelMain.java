@@ -41,12 +41,12 @@ import static org.apache.giraph.examples.HenshinUtil
   .VertexId;
 
 /**
- * Generated implementation of the Henshin unit "Sierpinski".
+ * Generated implementation of the Henshin unit "WheelMain".
  */
 @Algorithm(
-    name = "Sierpinski"
+    name = "WheelMain"
 )
-public class Sierpinski extends
+public class WheelMain extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
 
   /**
@@ -101,14 +101,19 @@ public class Sierpinski extends
     = new ByteWritable((byte) 5);
 
   /**
-   * Rule constant for "Sierpinski".
+   * Unit constant for "WheelMain".
    */
-  public static final int RULE_SIERPINSKI = 0;
+  public static final int UNIT_WHEEL_MAIN = 0;
+
+  /**
+   * Rule constant for "Wheel".
+   */
+  public static final int RULE_WHEEL = 1;
 
   /**
    * Logging support.
    */
-  protected static final Logger LOG = Logger.getLogger(Sierpinski.class);
+  protected static final Logger LOG = Logger.getLogger(WheelMain.class);
 
   /*
    * (non-Javadoc)
@@ -132,8 +137,8 @@ public class Sierpinski extends
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
-    case RULE_SIERPINSKI:
-      matchSierpinski(vertex, matches, microstep);
+    case RULE_WHEEL:
+      matchWheel(vertex, matches, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
@@ -141,30 +146,30 @@ public class Sierpinski extends
   }
 
   /**
-   * Match (and apply) the rule "Sierpinski".
-   * This takes 4 microsteps.
+   * Match (and apply) the rule "Wheel".
+   * This takes 5 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param microstep Current microstep.
    */
-  protected void matchSierpinski(
+  protected void matchWheel(
       Vertex<VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<Match> matches, int microstep) throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule Sierpinski in microstep " + microstep);
+      " matching rule Wheel in microstep " + microstep);
     for (Match match : matches) {
       LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
       if (ok) {
         Match match = new Match().append(vertex.getId());
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_LEFT.get()) {
+            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -183,7 +188,7 @@ public class Sierpinski extends
           }
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
-              TYPE_VERTEX_CONN.get()) {
+              TYPE_VERTEX_RIGHT.get()) {
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
                 " forward to vertex " + edge.getTargetVertexId());
@@ -201,9 +206,9 @@ public class Sierpinski extends
           if (!match.isInjective()) {
             continue;
           }
-          // Send the message back to matches of node "a":
+          // Send the message back to matches of node "b":
           for (Match m : matches) {
-            VertexId targetId = m.getVertexId(0);
+            VertexId targetId = m.getVertexId(1);
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " back to vertex " + targetId);
@@ -212,107 +217,83 @@ public class Sierpinski extends
         }
       }
     } else if (microstep == 3) {
-      // Node "a": check for edge to match of "c" of type "right":
-      for (Match match : matches) {
-        VertexId targetId = match.getVertexId(2);
-        for (Edge<VertexId, ByteWritable> edge :
-          vertex.getEdges()) {
+      // Matching node "d":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      if (ok) {
+        Match match = new Match().append(vertex.getId());
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_RIGHT.get() &&
-            edge.getTargetVertexId().equals(targetId)) {
-            applySierpinski(vertex, match);
+            TYPE_VERTEX_RIGHT.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " forward to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      }
+      // Keep matches received at node "b":
+      for (Match match : matches) {
+        VertexId id = match.getVertexId(1);
+        if (vertex.getId().equals(id)) {
+          LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
+            " sending (partial) match " + match + " to myself");
+          sendMessage(id, match);
+        }
+      }
+    } else if (microstep == 4) {
+      // Joining matches at node "b":
+      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+        " joining matches of rule Wheel");
+      for (Match m1 : matches) {
+        VertexId id1 = m1.getVertexId(1);
+        if (vertex.getId().equals(id1)) {
+          for (Match m2 : matches) {
+            VertexId id2 = m2.getVertexId(1);
+            if (!vertex.getId().equals(id2)) {
+              Match joined = m1.append(m2);
+              if (!joined.isInjective()) {
+                continue;
+              }
+              applyWheel(vertex, joined);
+            }
           }
         }
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
-        "Sierpinski: " + microstep);
+        "Wheel: " + microstep);
     }
   }
 
   /**
-   * Apply the rule "Sierpinski" to a given match.
+   * Apply the rule "Wheel" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @throws IOException On I/O errors.
    */
-  protected void applySierpinski(Vertex<VertexId, ByteWritable,
+  protected void applyWheel(Vertex<VertexId, ByteWritable,
     ByteWritable> vertex, Match match) throws IOException {
     LOG.info("Vertex " + vertex.getId() +
-      " applying rule Sierpinski with match " + match);
+      " applying rule Wheel with match " + match);
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     VertexId cur2 = match.getVertexId(2);
+    VertexId cur3 = match.getVertexId(3);
     removeEdgesRequest(cur0, cur1);
-    removeEdgesRequest(cur0, cur2);
+    removeEdgesRequest(cur3, cur1);
     removeEdgesRequest(cur1, cur2);
-    VertexId new0 =
-      deriveVertexId(vertex.getId(), (byte) 0);
-    addVertexRequest(new0, TYPE_VERTEX);
-    VertexId new1 =
-      deriveVertexId(vertex.getId(), (byte) 1);
-    addVertexRequest(new1, TYPE_VERTEX);
-    VertexId new2 =
-      deriveVertexId(vertex.getId(), (byte) 2);
-    addVertexRequest(new2, TYPE_VERTEX);
+    removeVertexRequest(cur1);
     VertexId src0 = cur0;
-    VertexId trg0 = new0;
+    VertexId trg0 = cur2;
     Edge<VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
+      EdgeFactory.create(trg0, TYPE_VERTEX_CONTAINER_VERTICES);
     addEdgeRequest(src0, edge0);
-    VertexId src1 = cur0;
-    VertexId trg1 = new1;
+    VertexId src1 = cur3;
+    VertexId trg1 = cur2;
     Edge<VertexId, ByteWritable> edge1 =
       EdgeFactory.create(trg1, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src1, edge1);
-    VertexId src2 = cur1;
-    VertexId trg2 = new2;
-    Edge<VertexId, ByteWritable> edge2 =
-      EdgeFactory.create(trg2, TYPE_VERTEX_CONN);
-    addEdgeRequest(src2, edge2);
-    VertexId src3 = new0;
-    VertexId trg3 = cur1;
-    Edge<VertexId, ByteWritable> edge3 =
-      EdgeFactory.create(trg3, TYPE_VERTEX_LEFT);
-    addEdgeRequest(src3, edge3);
-    VertexId src4 = new0;
-    VertexId trg4 = new1;
-    Edge<VertexId, ByteWritable> edge4 =
-      EdgeFactory.create(trg4, TYPE_VERTEX_CONN);
-    addEdgeRequest(src4, edge4);
-    VertexId src5 = new0;
-    VertexId trg5 = new2;
-    Edge<VertexId, ByteWritable> edge5 =
-      EdgeFactory.create(trg5, TYPE_VERTEX_RIGHT);
-    addEdgeRequest(src5, edge5);
-    VertexId src6 = new1;
-    VertexId trg6 = new2;
-    Edge<VertexId, ByteWritable> edge6 =
-      EdgeFactory.create(trg6, TYPE_VERTEX_LEFT);
-    addEdgeRequest(src6, edge6);
-    VertexId src7 = new1;
-    VertexId trg7 = cur2;
-    Edge<VertexId, ByteWritable> edge7 =
-      EdgeFactory.create(trg7, TYPE_VERTEX_RIGHT);
-    addEdgeRequest(src7, edge7);
-    VertexId src8 = new2;
-    VertexId trg8 = cur2;
-    Edge<VertexId, ByteWritable> edge8 =
-      EdgeFactory.create(trg8, TYPE_VERTEX_CONN);
-    addEdgeRequest(src8, edge8);
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-  }
-
-  /**
-   * Derive a new vertex Id from an exiting one.
-   * @param baseId The base vertex Id.
-   * @param vertexIndex The relative index of the new vertex.
-   * @return The derived vertex Id.
-   */
-  private VertexId deriveVertexId(VertexId baseId, int vertexIndex) {
-    long generation = ((LongWritable) getAggregatedValue(
-        AGGREGATOR_NODE_GENERATION)).get();
-    return baseId.append((byte) generation).append((byte) vertexIndex);
   }
 
   /**
@@ -353,7 +334,8 @@ public class Sierpinski extends
       ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new ApplicationStack();
-        stack = stack.append(RULE_SIERPINSKI, 0);
+        stack = stack.append(UNIT_WHEEL_MAIN, 0);
+        stack = nextRuleStep(stack, ruleApps);
       } else {
         stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
         stack = nextRuleStep(stack, ruleApps);
@@ -374,8 +356,12 @@ public class Sierpinski extends
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
-        case RULE_SIERPINSKI:
-          stack = processSierpinski(
+        case UNIT_WHEEL_MAIN:
+          stack = processWheelMain(
+            stack, microstep);
+          break;
+        case RULE_WHEEL:
+          stack = processWheel(
             stack, microstep, ruleApps);
           break;
         default:
@@ -383,7 +369,7 @@ public class Sierpinski extends
         }
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_SIERPINSKI) {
+          if (unit == RULE_WHEEL) {
             break;
           }
         }
@@ -392,16 +378,33 @@ public class Sierpinski extends
     }
 
    /**
-     * Process Rule "Sierpinski".
+     * Process LoopUnit "WheelMain".
+     * @param stack Current application stack.
+     * @param microstep Current microstep.
+     * @return the new application stack.
+     */
+    private ApplicationStack processWheelMain(
+      ApplicationStack stack, int microstep) {
+      if (microstep == 0 || unitSuccesses.pop()) {
+        stack = stack.append(UNIT_WHEEL_MAIN, 1);
+        stack = stack.append(RULE_WHEEL, 0);
+      } else {
+        unitSuccesses.push(true);
+      }
+      return stack;
+    }
+
+   /**
+     * Process Rule "Wheel".
      * @param stack Current application stack.
      * @param microstep Current microstep.
      * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private ApplicationStack processSierpinski(
+    private ApplicationStack processWheel(
       ApplicationStack stack, int microstep, long ruleApps) {
-      if (microstep < 3) {
-        stack = stack.append(RULE_SIERPINSKI, microstep + 1);
+      if (microstep < 4) {
+        stack = stack.append(RULE_WHEEL, microstep + 1);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }

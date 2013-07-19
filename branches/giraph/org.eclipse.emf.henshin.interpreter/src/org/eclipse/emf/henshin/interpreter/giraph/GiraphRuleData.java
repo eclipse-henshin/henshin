@@ -23,7 +23,9 @@ public class GiraphRuleData {
 		public Node verifyEdgeTo;
 
 		public Node sendBackTo;
-		
+
+		public Node keepMatchesOf;
+
 		public boolean isStart;
 
 		public boolean isJoin;
@@ -86,6 +88,7 @@ public class GiraphRuleData {
 			
 			// Add all new matching steps until the join node is reached:
 			for (MatchingStep step : newSteps) {
+				step.keepMatchesOf = joinNode;
 				result.add(step);
 				// Remember new matched nodes:
 				nodesToMatch.remove(step.node);

@@ -75,12 +75,12 @@ compile_tests
 
 run_test StarMain StarStart 1 0
 
+run_test WheelMain WheelStart 3 3
+
 # Random behavior involved, so we do it more than once:
 run_test ForkMain ForkStart 1 0
 run_test ForkMain ForkStart 1 0
 run_test ForkMain ForkStart 1 0
-
-#run_test Wheel10 WheelStart 3 3
 
 run_test Sierpinski Sierpinski 6 9
 run_test SierpinskiMain1 Sierpinski 6 9

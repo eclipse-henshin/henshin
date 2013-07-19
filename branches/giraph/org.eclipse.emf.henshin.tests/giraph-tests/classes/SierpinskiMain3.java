@@ -159,7 +159,7 @@ public class SierpinskiMain3 extends
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
       " matching rule Sierpinski in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
+      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     if (microstep == 0) {
@@ -172,45 +172,50 @@ public class SierpinskiMain3 extends
             TYPE_VERTEX_LEFT.get()) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
-              " to vertex " + edge.getTargetVertexId());
+              " forward to vertex " + edge.getTargetVertexId());
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
-      } // end if ok
+      }
     } else if (microstep == 1) {
       // Matching node "b":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
+          if (!match.isInjective()) {
+            continue;
+          }
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
               TYPE_VERTEX_CONN.get()) {
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
-                " to vertex " + edge.getTargetVertexId());
+                " forward to vertex " + edge.getTargetVertexId());
               sendMessage(edge.getTargetVertexId(), match);
             }
           }
         }
-      } // end if ok
+      }
     } else if (microstep == 2) {
       // Matching node "c":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
+          if (!match.isInjective()) {
+            continue;
+          }
           // Send the message back to matches of node "a":
           for (Match m : matches) {
-            VertexId targetVertexId =
-              m.getVertexId(0);
+            VertexId targetId = m.getVertexId(0);
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
-              " to vertex " + targetVertexId);
-            sendMessage(targetVertexId, match);
+              " back to vertex " + targetId);
+            sendMessage(targetId, match);
           }
         }
-      } // end if ok
+      }
     } else if (microstep == 3) {
       // Node "a": check for edge to match of "c" of type "right":
       for (Match match : matches) {

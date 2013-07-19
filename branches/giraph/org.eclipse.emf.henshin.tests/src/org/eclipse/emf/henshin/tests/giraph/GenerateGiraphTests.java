@@ -85,12 +85,10 @@ public class GenerateGiraphTests {
 		generateComputeClass(sierpinskiMain, false, true);
 
 		// Wheel
-		/*
 		Rule wheelStart = (Rule) module.getUnit("WheelStart");
 		generateInputGraph(wheelStart);
 		LoopUnit wheel = (LoopUnit) module.getUnit("WheelMain");
 		generateComputeClass(wheel, true, false);
-		 */
 		
 		// Star
 		Rule starStart = (Rule) module.getUnit("StarStart");

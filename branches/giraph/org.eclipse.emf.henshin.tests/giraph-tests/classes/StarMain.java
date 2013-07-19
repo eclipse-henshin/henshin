@@ -147,15 +147,105 @@ public class StarMain extends
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
-    case RULE_EXTEND_STAR:
-      matchExtendStar(vertex, matches, microstep);
-      break;
     case RULE_DELETE_STAR:
       matchDeleteStar(vertex, matches, microstep);
+      break;
+    case RULE_EXTEND_STAR:
+      matchExtendStar(vertex, matches, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
     }
+  }
+
+  /**
+   * Match (and apply) the rule "DeleteStar".
+   * This takes 3 microsteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchDeleteStar(
+      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<Match> matches, int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule DeleteStar in microstep " + microstep);
+    for (Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+        " received (partial) match " + match);
+    }
+    if (microstep == 0) {
+      // Matching node "a":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
+      if (ok) {
+        Match match = new Match().append(vertex.getId());
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " forward to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      }
+    } else if (microstep == 1) {
+      // Matching node "b":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      if (ok) {
+        for (Match match : matches) {
+          match = match.append(vertex.getId());
+          if (!match.isInjective()) {
+            continue;
+          }
+          for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
+            if (edge.getValue().get() ==
+              TYPE_VERTEX_LEFT.get()) {
+              LOG.info("Vertex " + vertex.getId() +
+                " sending (partial) match " + match +
+                " forward to vertex " + edge.getTargetVertexId());
+              sendMessage(edge.getTargetVertexId(), match);
+            }
+          }
+        }
+      }
+    } else if (microstep == 2) {
+      // Matching node "c":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      if (ok) {
+        for (Match match : matches) {
+          match = match.append(vertex.getId());
+          if (!match.isInjective()) {
+            continue;
+          }
+          applyDeleteStar(vertex, match);
+        }
+      }
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "DeleteStar: " + microstep);
+    }
+  }
+
+  /**
+   * Apply the rule "DeleteStar" to a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @throws IOException On I/O errors.
+   */
+  protected void applyDeleteStar(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match) throws IOException {
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule DeleteStar with match " + match);
+    VertexId cur0 = match.getVertexId(0);
+    VertexId cur1 = match.getVertexId(1);
+    VertexId cur2 = match.getVertexId(2);
+    removeEdgesRequest(cur0, cur1);
+    removeEdgesRequest(cur1, cur2);
+    removeVertexRequest(cur1);
+    removeVertexRequest(cur2);
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
   }
 
   /**
@@ -172,7 +262,7 @@ public class StarMain extends
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
       " matching rule ExtendStar in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
+      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     if (microstep == 0) {
@@ -185,20 +275,23 @@ public class StarMain extends
             TYPE_VERTEX_CONTAINER_VERTICES.get()) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
-              " to vertex " + edge.getTargetVertexId());
+              " forward to vertex " + edge.getTargetVertexId());
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
-      } // end if ok
+      }
     } else if (microstep == 1) {
       // Matching node "b":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
+          if (!match.isInjective()) {
+            continue;
+          }
           applyExtendStar(vertex, match);
         }
-      } // end if ok
+      }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "ExtendStar: " + microstep);
@@ -224,90 +317,6 @@ public class StarMain extends
     Edge<VertexId, ByteWritable> edge0 =
       EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
     addEdgeRequest(src0, edge0);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-  }
-
-  /**
-   * Match (and apply) the rule "DeleteStar".
-   * This takes 3 microsteps.
-   * @param vertex The current vertex.
-   * @param matches The current matches.
-   * @param microstep Current microstep.
-   */
-  protected void matchDeleteStar(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
-
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule DeleteStar in microstep " + microstep);
-    for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
-        " received (partial) match " + match);
-    }
-    if (microstep == 0) {
-      // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
-      if (ok) {
-        Match match = new Match().append(vertex.getId());
-        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
-          if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " to vertex " + edge.getTargetVertexId());
-            sendMessage(edge.getTargetVertexId(), match);
-          }
-        }
-      } // end if ok
-    } else if (microstep == 1) {
-      // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
-      if (ok) {
-        for (Match match : matches) {
-          match = match.append(vertex.getId());
-          for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
-            if (edge.getValue().get() ==
-              TYPE_VERTEX_LEFT.get()) {
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + match +
-                " to vertex " + edge.getTargetVertexId());
-              sendMessage(edge.getTargetVertexId(), match);
-            }
-          }
-        }
-      } // end if ok
-    } else if (microstep == 2) {
-      // Matching node "c":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
-      if (ok) {
-        for (Match match : matches) {
-          match = match.append(vertex.getId());
-          applyDeleteStar(vertex, match);
-        }
-      } // end if ok
-    } else {
-      throw new RuntimeException("Illegal microstep for rule " +
-        "DeleteStar: " + microstep);
-    }
-  }
-
-  /**
-   * Apply the rule "DeleteStar" to a given match.
-   * @param vertex The base vertex.
-   * @param match The match object.
-   * @throws IOException On I/O errors.
-   */
-  protected void applyDeleteStar(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match) throws IOException {
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule DeleteStar with match " + match);
-    VertexId cur0 = match.getVertexId(0);
-    VertexId cur1 = match.getVertexId(1);
-    VertexId cur2 = match.getVertexId(2);
-    removeEdgesRequest(cur0, cur1);
-    removeEdgesRequest(cur1, cur2);
-    removeVertexRequest(cur1);
-    removeVertexRequest(cur2);
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
   }
 
@@ -404,8 +413,8 @@ public class StarMain extends
         }
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_EXTEND_STAR ||
-            unit == RULE_DELETE_STAR) {
+          if (unit == RULE_DELETE_STAR ||
+            unit == RULE_EXTEND_STAR) {
             break;
           }
         }
