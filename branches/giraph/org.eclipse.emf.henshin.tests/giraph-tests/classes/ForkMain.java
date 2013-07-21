@@ -22,7 +22,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
@@ -153,152 +155,18 @@ public class ForkMain extends
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
+    case RULE_FORK_LEFT:
+      matchForkLeft(vertex, matches, microstep);
+      break;
     case RULE_FORK_RIGHT:
       matchForkRight(vertex, matches, microstep);
       break;
     case RULE_FORK_CONN:
       matchForkConn(vertex, matches, microstep);
       break;
-    case RULE_FORK_LEFT:
-      matchForkLeft(vertex, matches, microstep);
-      break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
     }
-  }
-
-  /**
-   * Match (and apply) the rule "ForkRight".
-   * This takes 2 microsteps.
-   * @param vertex The current vertex.
-   * @param matches The current matches.
-   * @param microstep Current microstep.
-   */
-  protected void matchForkRight(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
-
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule ForkRight in microstep " + microstep);
-    for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-        " received (partial) match " + match);
-    }
-    if (microstep == 0) {
-      // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
-      if (ok) {
-        Match match = new Match().append(vertex.getId());
-        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
-          if (edge.getValue().get() ==
-            TYPE_VERTEX_RIGHT.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
-            sendMessage(edge.getTargetVertexId(), match);
-          }
-        }
-      }
-    } else if (microstep == 1) {
-      // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
-      if (ok) {
-        for (Match match : matches) {
-          match = match.append(vertex.getId());
-          if (!match.isInjective()) {
-            continue;
-          }
-          applyForkRight(vertex, match);
-        }
-      }
-    } else {
-      throw new RuntimeException("Illegal microstep for rule " +
-        "ForkRight: " + microstep);
-    }
-  }
-
-  /**
-   * Apply the rule "ForkRight" to a given match.
-   * @param vertex The base vertex.
-   * @param match The match object.
-   * @throws IOException On I/O errors.
-   */
-  protected void applyForkRight(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match) throws IOException {
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule ForkRight with match " + match);
-    VertexId cur0 = match.getVertexId(0);
-    VertexId cur1 = match.getVertexId(1);
-    removeEdgesRequest(cur0, cur1);
-    removeVertexRequest(cur1);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-  }
-
-  /**
-   * Match (and apply) the rule "ForkConn".
-   * This takes 2 microsteps.
-   * @param vertex The current vertex.
-   * @param matches The current matches.
-   * @param microstep Current microstep.
-   */
-  protected void matchForkConn(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
-
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule ForkConn in microstep " + microstep);
-    for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-        " received (partial) match " + match);
-    }
-    if (microstep == 0) {
-      // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
-      if (ok) {
-        Match match = new Match().append(vertex.getId());
-        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
-          if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
-            sendMessage(edge.getTargetVertexId(), match);
-          }
-        }
-      }
-    } else if (microstep == 1) {
-      // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
-      if (ok) {
-        for (Match match : matches) {
-          match = match.append(vertex.getId());
-          if (!match.isInjective()) {
-            continue;
-          }
-          applyForkConn(vertex, match);
-        }
-      }
-    } else {
-      throw new RuntimeException("Illegal microstep for rule " +
-        "ForkConn: " + microstep);
-    }
-  }
-
-  /**
-   * Apply the rule "ForkConn" to a given match.
-   * @param vertex The base vertex.
-   * @param match The match object.
-   * @throws IOException On I/O errors.
-   */
-  protected void applyForkConn(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match) throws IOException {
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule ForkConn with match " + match);
-    VertexId cur0 = match.getVertexId(0);
-    VertexId cur1 = match.getVertexId(1);
-    removeEdgesRequest(cur0, cur1);
-    removeVertexRequest(cur1);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
   }
 
   /**
@@ -318,6 +186,7 @@ public class ForkMain extends
       LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
+    Set<Match> appliedMatches = new HashSet<Match>();
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
@@ -342,7 +211,7 @@ public class ForkMain extends
           if (!match.isInjective()) {
             continue;
           }
-          applyForkLeft(vertex, match);
+          applyForkLeft(vertex, match, appliedMatches);
         }
       }
     } else {
@@ -355,17 +224,174 @@ public class ForkMain extends
    * Apply the rule "ForkLeft" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
+   * @param appliedMatches Set of already applied matches.
+   * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected void applyForkLeft(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match) throws IOException {
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule ForkLeft with match " + match);
+  protected boolean applyForkLeft(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
+    throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
+    if (!appliedMatches.add(match)) {
+      return false;
+    }
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule ForkLeft with match " + match);
     removeEdgesRequest(cur0, cur1);
     removeVertexRequest(cur1);
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+    return true;
+  }
+
+  /**
+   * Match (and apply) the rule "ForkRight".
+   * This takes 2 microsteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchForkRight(
+      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<Match> matches, int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule ForkRight in microstep " + microstep);
+    for (Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+        " received (partial) match " + match);
+    }
+    Set<Match> appliedMatches = new HashSet<Match>();
+    if (microstep == 0) {
+      // Matching node "a":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      if (ok) {
+        Match match = new Match().append(vertex.getId());
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_RIGHT.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " forward to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      }
+    } else if (microstep == 1) {
+      // Matching node "b":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      if (ok) {
+        for (Match match : matches) {
+          match = match.append(vertex.getId());
+          if (!match.isInjective()) {
+            continue;
+          }
+          applyForkRight(vertex, match, appliedMatches);
+        }
+      }
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "ForkRight: " + microstep);
+    }
+  }
+
+  /**
+   * Apply the rule "ForkRight" to a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @param appliedMatches Set of already applied matches.
+   * @return true if the rule was applied.
+   * @throws IOException On I/O errors.
+   */
+  protected boolean applyForkRight(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
+    throws IOException {
+    VertexId cur0 = match.getVertexId(0);
+    VertexId cur1 = match.getVertexId(1);
+    if (!appliedMatches.add(match)) {
+      return false;
+    }
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule ForkRight with match " + match);
+    removeEdgesRequest(cur0, cur1);
+    removeVertexRequest(cur1);
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+    return true;
+  }
+
+  /**
+   * Match (and apply) the rule "ForkConn".
+   * This takes 2 microsteps.
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param microstep Current microstep.
+   */
+  protected void matchForkConn(
+      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+      Iterable<Match> matches, int microstep) throws IOException {
+
+    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      " matching rule ForkConn in microstep " + microstep);
+    for (Match match : matches) {
+      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+        " received (partial) match " + match);
+    }
+    Set<Match> appliedMatches = new HashSet<Match>();
+    if (microstep == 0) {
+      // Matching node "a":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      if (ok) {
+        Match match = new Match().append(vertex.getId());
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_CONN.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " forward to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      }
+    } else if (microstep == 1) {
+      // Matching node "b":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      if (ok) {
+        for (Match match : matches) {
+          match = match.append(vertex.getId());
+          if (!match.isInjective()) {
+            continue;
+          }
+          applyForkConn(vertex, match, appliedMatches);
+        }
+      }
+    } else {
+      throw new RuntimeException("Illegal microstep for rule " +
+        "ForkConn: " + microstep);
+    }
+  }
+
+  /**
+   * Apply the rule "ForkConn" to a given match.
+   * @param vertex The base vertex.
+   * @param match The match object.
+   * @param appliedMatches Set of already applied matches.
+   * @return true if the rule was applied.
+   * @throws IOException On I/O errors.
+   */
+  protected boolean applyForkConn(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
+    throws IOException {
+    VertexId cur0 = match.getVertexId(0);
+    VertexId cur1 = match.getVertexId(1);
+    if (!appliedMatches.add(match)) {
+      return false;
+    }
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule ForkConn with match " + match);
+    removeEdgesRequest(cur0, cur1);
+    removeVertexRequest(cur1);
+    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+    return true;
   }
 
   /**
@@ -453,9 +479,9 @@ public class ForkMain extends
         }
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_FORK_RIGHT ||
-            unit == RULE_FORK_CONN ||
-            unit == RULE_FORK_LEFT) {
+          if (unit == RULE_FORK_LEFT ||
+            unit == RULE_FORK_RIGHT ||
+            unit == RULE_FORK_CONN) {
             break;
           }
         }

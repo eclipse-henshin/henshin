@@ -1,6 +1,7 @@
 
 SSH_ARGS="-i ~/.ssh/id_rsa_hadoop"
 HADOOP_MASTER=hadoop@myserver
+HADOOP_HOME=/home/xxx/hadoop-0.20.203.0
 WORKING_DIR=/tmp/giraph-tests
 
 GIRAPH_HOME=/home/hadoop/src/giraph-git

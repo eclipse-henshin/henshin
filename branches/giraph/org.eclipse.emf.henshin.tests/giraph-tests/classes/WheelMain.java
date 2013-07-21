@@ -20,7 +20,9 @@ package org.apache.giraph.examples;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
@@ -162,6 +164,7 @@ public class WheelMain extends
       LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
+    Set<Match> appliedMatches = new HashSet<Match>();
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
@@ -254,7 +257,7 @@ public class WheelMain extends
               if (!joined.isInjective()) {
                 continue;
               }
-              applyWheel(vertex, joined);
+              applyWheel(vertex, joined, appliedMatches);
             }
           }
         }
@@ -269,16 +272,22 @@ public class WheelMain extends
    * Apply the rule "Wheel" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
+   * @param appliedMatches Set of already applied matches.
+   * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected void applyWheel(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match) throws IOException {
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule Wheel with match " + match);
+  protected boolean applyWheel(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
+    throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     VertexId cur2 = match.getVertexId(2);
     VertexId cur3 = match.getVertexId(3);
+    if (!appliedMatches.add(match)) {
+      return false;
+    }
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule Wheel with match " + match);
     removeEdgesRequest(cur0, cur1);
     removeEdgesRequest(cur3, cur1);
     removeEdgesRequest(cur1, cur2);
@@ -294,6 +303,7 @@ public class WheelMain extends
       EdgeFactory.create(trg1, TYPE_VERTEX_RIGHT);
     addEdgeRequest(src1, edge1);
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+    return true;
   }
 
   /**

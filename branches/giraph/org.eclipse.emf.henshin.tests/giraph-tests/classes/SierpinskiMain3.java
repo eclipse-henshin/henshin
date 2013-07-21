@@ -20,7 +20,9 @@ package org.apache.giraph.examples;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
@@ -162,6 +164,7 @@ public class SierpinskiMain3 extends
       LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
+    Set<Match> appliedMatches = new HashSet<Match>();
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
@@ -225,7 +228,7 @@ public class SierpinskiMain3 extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_RIGHT.get() &&
             edge.getTargetVertexId().equals(targetId)) {
-            applySierpinski(vertex, match);
+            applySierpinski(vertex, match, appliedMatches);
           }
         }
       }
@@ -239,15 +242,21 @@ public class SierpinskiMain3 extends
    * Apply the rule "Sierpinski" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
+   * @param appliedMatches Set of already applied matches.
+   * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected void applySierpinski(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match) throws IOException {
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule Sierpinski with match " + match);
+  protected boolean applySierpinski(Vertex<VertexId, ByteWritable,
+    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
+    throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     VertexId cur2 = match.getVertexId(2);
+    if (!appliedMatches.add(match)) {
+      return false;
+    }
+    LOG.info("Vertex " + vertex.getId() +
+      " applying rule Sierpinski with match " + match);
     removeEdgesRequest(cur0, cur1);
     removeEdgesRequest(cur0, cur2);
     removeEdgesRequest(cur1, cur2);
@@ -306,6 +315,7 @@ public class SierpinskiMain3 extends
       EdgeFactory.create(trg8, TYPE_VERTEX_CONN);
     addEdgeRequest(src8, edge8);
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
+    return true;
   }
 
   /**

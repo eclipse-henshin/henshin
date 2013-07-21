@@ -282,6 +282,31 @@ public class HenshinUtil {
     }
 
     /**
+     * Remove a vertex ID of a matched node.
+     * @param vertexIndex Index of the vertex ID.
+     * @return The new match.
+     */
+    public Match remove(int vertexIndex) {
+      byte[] bytes = getBytes();
+      int d = 0;
+      for (int i = 0; i < vertexIndex; i++) {
+        if (d >= bytes.length) {
+          return null;
+        }
+        d += bytes[d] + 1;
+      }
+      if (d >= bytes.length) {
+        return null;
+      }
+      byte[] result = Arrays.copyOf(bytes, bytes.length - bytes[d] - 1);
+      if (d < result.length) {
+        System.arraycopy(bytes, d + 1 + bytes[d],
+          result, d, result.length - d);
+      }
+      return new Match(result);
+    }
+
+    /**
      * Pretty-print this match.
      * @return The printed string.
      */

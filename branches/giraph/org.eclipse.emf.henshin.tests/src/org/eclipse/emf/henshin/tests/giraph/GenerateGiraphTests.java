@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleData;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphUtil;
 import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
@@ -27,9 +26,8 @@ public class GenerateGiraphTests {
 			if (mainUnit instanceof IteratedUnit) {
 				className = className + ((IteratedUnit) mainUnit).getIterations();
 			}
-			Map<Rule,GiraphRuleData> data = GiraphUtil.generateRuleData(mainUnit);
 			Map<String,Object> args = new HashMap<String,Object>();
-			args.put("ruleData", data);
+			args.put("ruleData", GiraphUtil.generateRuleData(mainUnit));
 			args.put("mainUnit", mainUnit);
 			args.put("className", className);
 			args.put("packageName", "org.apache.giraph.examples");
@@ -102,6 +100,15 @@ public class GenerateGiraphTests {
 		LoopUnit forkMain = (LoopUnit) module.getUnit("ForkMain");
 		generateComputeClass(forkMain, true, false);
 
+		// Require
+		Rule requireStart = (Rule) module.getUnit("RequireStart");
+		generateInputGraph(requireStart);
+		Rule requireOne = (Rule) module.getUnit("RequireOne");
+		generateComputeClass(requireOne, true, false);
+		Rule requireTwo = (Rule) module.getUnit("RequireTwo");
+		generateComputeClass(requireTwo, true, false);
+		
+		
 	}
 
 }

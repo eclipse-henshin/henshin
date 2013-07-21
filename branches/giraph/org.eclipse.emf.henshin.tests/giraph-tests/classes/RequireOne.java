@@ -43,12 +43,12 @@ import static org.apache.giraph.examples.HenshinUtil
   .VertexId;
 
 /**
- * Generated implementation of the Henshin unit "StarMain".
+ * Generated implementation of the Henshin unit "RequireOne".
  */
 @Algorithm(
-    name = "StarMain"
+    name = "RequireOne"
 )
-public class StarMain extends
+public class RequireOne extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
 
   /**
@@ -103,29 +103,14 @@ public class StarMain extends
     = new ByteWritable((byte) 5);
 
   /**
-   * Unit constant for "StarMain".
+   * Rule constant for "RequireOne".
    */
-  public static final int UNIT_STAR_MAIN = 0;
-
-  /**
-   * Unit constant for "ExtendStarLoop".
-   */
-  public static final int UNIT_EXTEND_STAR_LOOP = 1;
-
-  /**
-   * Rule constant for "DeleteStar".
-   */
-  public static final int RULE_DELETE_STAR = 2;
-
-  /**
-   * Rule constant for "ExtendStar".
-   */
-  public static final int RULE_EXTEND_STAR = 3;
+  public static final int RULE_REQUIRE_ONE = 0;
 
   /**
    * Logging support.
    */
-  protected static final Logger LOG = Logger.getLogger(StarMain.class);
+  protected static final Logger LOG = Logger.getLogger(RequireOne.class);
 
   /*
    * (non-Javadoc)
@@ -149,11 +134,8 @@ public class StarMain extends
     int rule = stack.getLastUnit();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
-    case RULE_DELETE_STAR:
-      matchDeleteStar(vertex, matches, microstep);
-      break;
-    case RULE_EXTEND_STAR:
-      matchExtendStar(vertex, matches, microstep);
+    case RULE_REQUIRE_ONE:
+      matchRequireOne(vertex, matches, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
@@ -161,18 +143,18 @@ public class StarMain extends
   }
 
   /**
-   * Match (and apply) the rule "DeleteStar".
+   * Match (and apply) the rule "RequireOne".
    * This takes 3 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param microstep Current microstep.
    */
-  protected void matchDeleteStar(
+  protected void matchRequireOne(
       Vertex<VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<Match> matches, int microstep) throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule DeleteStar in microstep " + microstep);
+      " matching rule RequireOne in microstep " + microstep);
     for (Match match : matches) {
       LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
         " received (partial) match " + match);
@@ -202,137 +184,54 @@ public class StarMain extends
           if (!match.isInjective()) {
             continue;
           }
-          for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
-            if (edge.getValue().get() ==
-              TYPE_VERTEX_LEFT.get()) {
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + match +
-                " forward to vertex " + edge.getTargetVertexId());
-              sendMessage(edge.getTargetVertexId(), match);
-            }
+          // Send the message back to matches of node "a":
+          for (Match m : matches) {
+            VertexId targetId = m.getVertexId(0);
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " back to vertex " + targetId);
+            sendMessage(targetId, match);
           }
         }
       }
     } else if (microstep == 2) {
-      // Matching node "c":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
-      if (ok) {
-        for (Match match : matches) {
-          match = match.append(vertex.getId());
-          if (!match.isInjective()) {
-            continue;
-          }
-          applyDeleteStar(vertex, match, appliedMatches);
+      for (Match match : matches) {
+        if (!match.isInjective()) {
+          continue;
         }
+        applyRequireOne(vertex, match, appliedMatches);
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
-        "DeleteStar: " + microstep);
+        "RequireOne: " + microstep);
     }
   }
 
   /**
-   * Apply the rule "DeleteStar" to a given match.
+   * Apply the rule "RequireOne" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @param appliedMatches Set of already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyDeleteStar(Vertex<VertexId, ByteWritable,
+  protected boolean applyRequireOne(Vertex<VertexId, ByteWritable,
     ByteWritable> vertex, Match match, Set<Match> appliedMatches)
     throws IOException {
     VertexId cur0 = match.getVertexId(0);
-    VertexId cur1 = match.getVertexId(1);
-    VertexId cur2 = match.getVertexId(2);
+    match = match.remove(1);
     if (!appliedMatches.add(match)) {
       return false;
     }
     LOG.info("Vertex " + vertex.getId() +
-      " applying rule DeleteStar with match " + match);
-    removeEdgesRequest(cur0, cur1);
-    removeEdgesRequest(cur1, cur2);
-    removeVertexRequest(cur1);
-    removeVertexRequest(cur2);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
-    return true;
-  }
-
-  /**
-   * Match (and apply) the rule "ExtendStar".
-   * This takes 2 microsteps.
-   * @param vertex The current vertex.
-   * @param matches The current matches.
-   * @param microstep Current microstep.
-   */
-  protected void matchExtendStar(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
-
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule ExtendStar in microstep " + microstep);
-    for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-        " received (partial) match " + match);
-    }
-    Set<Match> appliedMatches = new HashSet<Match>();
-    if (microstep == 0) {
-      // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
-      if (ok) {
-        Match match = new Match().append(vertex.getId());
-        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
-          if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
-            sendMessage(edge.getTargetVertexId(), match);
-          }
-        }
-      }
-    } else if (microstep == 1) {
-      // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
-      if (ok) {
-        for (Match match : matches) {
-          match = match.append(vertex.getId());
-          if (!match.isInjective()) {
-            continue;
-          }
-          applyExtendStar(vertex, match, appliedMatches);
-        }
-      }
-    } else {
-      throw new RuntimeException("Illegal microstep for rule " +
-        "ExtendStar: " + microstep);
-    }
-  }
-
-  /**
-   * Apply the rule "ExtendStar" to a given match.
-   * @param vertex The base vertex.
-   * @param match The match object.
-   * @param appliedMatches Set of already applied matches.
-   * @return true if the rule was applied.
-   * @throws IOException On I/O errors.
-   */
-  protected boolean applyExtendStar(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
-    throws IOException {
-    VertexId cur1 = match.getVertexId(1);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule ExtendStar with match " + match);
+      " applying rule RequireOne with match " + match);
     VertexId new0 =
       deriveVertexId(vertex.getId(), (byte) 0);
     addVertexRequest(new0, TYPE_VERTEX);
-    VertexId src0 = cur1;
+    VertexId src0 = cur0;
     VertexId trg0 = new0;
     Edge<VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
+      EdgeFactory.create(trg0, TYPE_VERTEX_CONTAINER_VERTICES);
     addEdgeRequest(src0, edge0);
     aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
     return true;
@@ -388,8 +287,7 @@ public class StarMain extends
       ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new ApplicationStack();
-        stack = stack.append(UNIT_STAR_MAIN, 0);
-        stack = nextRuleStep(stack, ruleApps);
+        stack = stack.append(RULE_REQUIRE_ONE, 0);
       } else {
         stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
         stack = nextRuleStep(stack, ruleApps);
@@ -410,20 +308,8 @@ public class StarMain extends
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
-        case UNIT_STAR_MAIN:
-          stack = processStarMain(
-            stack, microstep);
-          break;
-        case UNIT_EXTEND_STAR_LOOP:
-          stack = processExtendStarLoop(
-            stack, microstep);
-          break;
-        case RULE_DELETE_STAR:
-          stack = processDeleteStar(
-            stack, microstep, ruleApps);
-          break;
-        case RULE_EXTEND_STAR:
-          stack = processExtendStar(
+        case RULE_REQUIRE_ONE:
+          stack = processRequireOne(
             stack, microstep, ruleApps);
           break;
         default:
@@ -431,8 +317,7 @@ public class StarMain extends
         }
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_DELETE_STAR ||
-            unit == RULE_EXTEND_STAR) {
+          if (unit == RULE_REQUIRE_ONE) {
             break;
           }
         }
@@ -441,81 +326,16 @@ public class StarMain extends
     }
 
    /**
-     * Process SequentialUnit "StarMain".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
-     * @return the new application stack.
-     */
-    private ApplicationStack processStarMain(
-      ApplicationStack stack, int microstep) {
-      if (microstep > 0 && !unitSuccesses.pop()) {
-        unitSuccesses.push(false);
-      } else if (microstep == 2) {
-        unitSuccesses.push(true);
-      } else {
-        switch (microstep) {
-        case 0:
-          stack = stack.append(UNIT_STAR_MAIN, 1);
-          stack = stack.append(UNIT_EXTEND_STAR_LOOP, 0);
-          break;
-        case 1:
-          stack = stack.append(UNIT_STAR_MAIN, 2);
-          stack = stack.append(RULE_DELETE_STAR, 0);
-          break;
-        default:
-          break;
-        }
-      }
-      return stack;
-    }
-
-   /**
-     * Process IteratedUnit "ExtendStarLoop".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
-     * @return the new application stack.
-     */
-    private ApplicationStack processExtendStarLoop(
-      ApplicationStack stack, int microstep) {
-      if (microstep > 0 && !unitSuccesses.pop()) {
-        unitSuccesses.push(false);
-      } else if (microstep == 5) {
-        unitSuccesses.push(true);
-      } else if (microstep < 5) {
-        stack = stack.append(UNIT_EXTEND_STAR_LOOP, microstep + 1);
-        stack = stack.append(RULE_EXTEND_STAR, 0);
-      }
-      return stack;
-    }
-
-   /**
-     * Process Rule "DeleteStar".
+     * Process Rule "RequireOne".
      * @param stack Current application stack.
      * @param microstep Current microstep.
      * @param ruleApps Number of rule applications in last superstep.
      * @return the new application stack.
      */
-    private ApplicationStack processDeleteStar(
+    private ApplicationStack processRequireOne(
       ApplicationStack stack, int microstep, long ruleApps) {
       if (microstep < 2) {
-        stack = stack.append(RULE_DELETE_STAR, microstep + 1);
-      } else {
-        unitSuccesses.push(ruleApps > 0);
-      }
-      return stack;
-    }
-
-   /**
-     * Process Rule "ExtendStar".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
-     * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
-     */
-    private ApplicationStack processExtendStar(
-      ApplicationStack stack, int microstep, long ruleApps) {
-      if (microstep < 1) {
-        stack = stack.append(RULE_EXTEND_STAR, microstep + 1);
+        stack = stack.append(RULE_REQUIRE_ONE, microstep + 1);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }

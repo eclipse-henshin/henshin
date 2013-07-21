@@ -9,7 +9,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleData;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.interpreter.giraph.GiraphUtil;
 import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
@@ -66,10 +65,8 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			String className = page.classNameText.getText();
 			String packageName = page.packageNameText.getText();
 			
-			Map<Rule,GiraphRuleData> data = GiraphUtil.generateRuleData(mainUnit);
-			
 			Map<String,Object> args = new HashMap<String,Object>();
-			args.put("ruleData", data);
+			args.put("ruleData", GiraphUtil.generateRuleData(mainUnit));
 			args.put("mainUnit", mainUnit);
 			args.put("className", className);
 			args.put("packageName", packageName);

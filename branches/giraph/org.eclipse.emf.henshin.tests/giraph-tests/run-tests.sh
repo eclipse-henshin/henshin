@@ -6,6 +6,8 @@ if [ ! -f tests.conf ]; then
 fi
 source tests.conf
 
+HADOOP_COMMAND=$HADOOP_HOME/bin/hadoop
+
 function copy_tests {
 	sftp $SSH_ARGS $HADOOP_MASTER << EOF
 		mkdir $WORKING_DIR
@@ -33,16 +35,17 @@ EOF
 }
 
 function run_test {
+	echo
 	echo "Executing test $1/$2..."
     main="$GIRAPH_TESTS_PACKAGE.$1\\\$"
     util="$GIRAPH_TESTS_PACKAGE.HenshinUtil\\\$"
 	ssh $SSH_ARGS $HADOOP_MASTER << EOF 2>&1 | tee /tmp/output.log
 		cd $WORKING_DIR && \
-		hadoop fs -rmr /testInput ; \
-		hadoop fs -rmr /testOutput ; \
-		hadoop fs -mkdir /testInput ; \
-		hadoop fs -put $2.json /testInput/ ; \
-		hadoop jar \
+		$HADOOP_COMMAND fs -rmr /testInput ; \
+		$HADOOP_COMMAND fs -rmr /testOutput ; \
+		$HADOOP_COMMAND fs -mkdir /testInput ; \
+		$HADOOP_COMMAND fs -put $2.json /testInput/ ; \
+		$HADOOP_COMMAND jar \
 			$GIRAPH_TESTS_JAR \
 			org.apache.giraph.GiraphRunner \
 			$GIRAPH_TESTS_PACKAGE.$1 \
@@ -65,7 +68,6 @@ EOF
 	fi
 	rm /tmp/output.log
 	echo "Test $1/$2 successful."
-	echo
 }
 
 echo
@@ -77,15 +79,14 @@ run_test StarMain StarStart 1 0
 
 run_test WheelMain WheelStart 3 3
 
-# Random behavior involved, so we do it more than once:
-run_test ForkMain ForkStart 1 0
-run_test ForkMain ForkStart 1 0
 run_test ForkMain ForkStart 1 0
 
-run_test Sierpinski Sierpinski 6 9
-run_test SierpinskiMain1 Sierpinski 6 9
+run_test RequireOne RequireStart 5 8
+#run_test RequireTwo RequireStart 5 8
+
+#run_test SierpinskiMain1 Sierpinski 6 9
 run_test SierpinskiMain3 Sierpinski 42 81
-run_test SierpinskiMain6 Sierpinski 1095 2187
-run_test SierpinskiMain9 Sierpinski 29526 59049
+#run_test SierpinskiMain6 Sierpinski 1095 2187
+#run_test SierpinskiMain9 Sierpinski 29526 59049
 
 echo All tests successful.
