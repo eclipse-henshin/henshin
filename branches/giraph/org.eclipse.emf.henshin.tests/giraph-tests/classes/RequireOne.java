@@ -186,11 +186,11 @@ public class RequireOne extends
           }
           // Send the message back to matches of node "a":
           for (Match m : matches) {
-            VertexId targetId = m.getVertexId(0);
+            VertexId recipient = m.getVertexId(0);
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
-              " back to vertex " + targetId);
-            sendMessage(targetId, match);
+              " back to vertex " + recipient);
+            sendMessage(recipient, match);
           }
         }
       }

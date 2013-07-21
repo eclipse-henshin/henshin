@@ -193,14 +193,17 @@ public class SierpinskiMain6 extends
           }
           // Send the message back to matches of node "a":
           for (Match m : matches) {
-            VertexId targetId = m.getVertexId(0);
-            sendMessage(targetId, match);
+            VertexId recipient = m.getVertexId(0);
+            sendMessage(recipient, match);
           }
         }
       }
     } else if (microstep == 3) {
-      // Node "a": check for edge to match of "c" of type "right":
       for (Match match : matches) {
+        if (!match.isInjective()) {
+          continue;
+        }
+        // Node "a": check for edge to match of "c" of type "right":
         VertexId targetId = match.getVertexId(2);
         for (Edge<VertexId, ByteWritable> edge :
           vertex.getEdges()) {

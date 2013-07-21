@@ -34,11 +34,11 @@ public class GenerateGiraphTests {
 			args.put("logging", logging);
 			args.put("useUUIDs", useUUIDs);
 
-			GiraphRuleTemplate ruleTemplate = new GiraphRuleTemplate();
+			GiraphRuleTemplate ruleTemplate = GiraphRuleTemplate.create("\n");
 			String giraphCode = ruleTemplate.generate(args);
 			save(new File("giraph-tests/classes/" + className + ".java"), giraphCode);
 
-			HenshinUtilTemplate utilTemplate = new HenshinUtilTemplate();
+			HenshinUtilTemplate utilTemplate = HenshinUtilTemplate.create("\n");
 			String utilCode = utilTemplate.generate(args);
 			save(new File("giraph-tests/classes/HenshinUtil.java"), utilCode);
 		} catch (Exception e) {
@@ -105,8 +105,8 @@ public class GenerateGiraphTests {
 		generateInputGraph(requireStart);
 		Rule requireOne = (Rule) module.getUnit("RequireOne");
 		generateComputeClass(requireOne, true, false);
-		Rule requireTwo = (Rule) module.getUnit("RequireTwo");
-		generateComputeClass(requireTwo, true, false);
+//		Rule requireTwo = (Rule) module.getUnit("RequireTwo");
+//		generateComputeClass(requireTwo, true, false);
 		
 		
 	}

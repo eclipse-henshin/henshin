@@ -57,174 +57,200 @@ public class GiraphRuleTemplate
   protected final String TEXT_38 = NL + "    Set<Match> appliedMatches = new HashSet<Match>();" + NL;
   protected final String TEXT_39 = " if (microstep == ";
   protected final String TEXT_40 = ") {";
-  protected final String TEXT_41 = NL + "      // Node ";
-  protected final String TEXT_42 = ": check for edge to match of ";
-  protected final String TEXT_43 = " of type \"";
-  protected final String TEXT_44 = "\":" + NL + "      for (Match match : matches) {" + NL + "        VertexId targetId = match.getVertexId(";
-  protected final String TEXT_45 = ");" + NL + "        for (Edge<VertexId, ByteWritable> edge :" + NL + "          vertex.getEdges()) {" + NL + "          if (edge.getValue().get() ==";
-  protected final String TEXT_46 = NL + "            ";
-  protected final String TEXT_47 = ".get() &&" + NL + "            edge.getTargetVertexId().equals(targetId)) {";
-  protected final String TEXT_48 = NL + "            apply";
-  protected final String TEXT_49 = "(vertex, match, appliedMatches);";
-  protected final String TEXT_50 = NL + "          }" + NL + "        }" + NL + "      }";
-  protected final String TEXT_51 = NL + "      // Joining matches at node ";
-  protected final String TEXT_52 = ":";
-  protected final String TEXT_53 = NL + "      LOG.info(\"Vertex \" + vertex.getId() + \" in superstep \" + getSuperstep() +" + NL + "        \" joining matches of rule ";
-  protected final String TEXT_54 = "\");";
-  protected final String TEXT_55 = NL + "      for (Match m1 : matches) {" + NL + "        VertexId id1 = m1.getVertexId(";
-  protected final String TEXT_56 = ");" + NL + "        if (vertex.getId().equals(id1)) {" + NL + "          for (Match m2 : matches) {" + NL + "            VertexId id2 = m2.getVertexId(";
-  protected final String TEXT_57 = ");" + NL + "            if (!vertex.getId().equals(id2)) {" + NL + "              Match joined = m1.append(m2);";
-  protected final String TEXT_58 = NL + "              if (!joined.isInjective()) {" + NL + "                continue;" + NL + "              }";
-  protected final String TEXT_59 = NL + "              apply";
-  protected final String TEXT_60 = "(vertex, joined, appliedMatches);";
-  protected final String TEXT_61 = NL + "            }" + NL + "          }" + NL + "        }" + NL + "      }";
-  protected final String TEXT_62 = NL + "      // Matching node ";
-  protected final String TEXT_63 = ":" + NL + "      boolean ok = vertex.getValue().get() == ";
-  protected final String TEXT_64 = ".get();" + NL + "      if (ok) {";
-  protected final String TEXT_65 = NL + "        Match match = new Match().append(vertex.getId());";
+  protected final String TEXT_41 = NL + "      // Joining matches at node ";
+  protected final String TEXT_42 = ":";
+  protected final String TEXT_43 = NL + "      LOG.info(\"Vertex \" + vertex.getId() + \" in superstep \" + getSuperstep() +" + NL + "        \" joining matches of rule ";
+  protected final String TEXT_44 = "\");";
+  protected final String TEXT_45 = NL + "      for (Match m1 : matches) {" + NL + "        VertexId id1 = m1.getVertexId(";
+  protected final String TEXT_46 = ");" + NL + "        if (vertex.getId().equals(id1)) {" + NL + "          for (Match m2 : matches) {" + NL + "            VertexId id2 = m2.getVertexId(";
+  protected final String TEXT_47 = ");" + NL + "            if (!vertex.getId().equals(id2)) {" + NL + "              Match joined = m1.append(m2);";
+  protected final String TEXT_48 = NL + "              if (!joined.isInjective()) {" + NL + "                continue;" + NL + "              }";
+  protected final String TEXT_49 = NL + "              apply";
+  protected final String TEXT_50 = "(vertex, joined, appliedMatches);";
+  protected final String TEXT_51 = NL + "            }" + NL + "          }" + NL + "        }" + NL + "      }";
+  protected final String TEXT_52 = NL + "      // Matching node ";
+  protected final String TEXT_53 = ":" + NL + "      boolean ok = vertex.getValue().get() == ";
+  protected final String TEXT_54 = ".get();" + NL + "      if (ok) {";
+  protected final String TEXT_55 = NL + "        Match match = new Match().append(vertex.getId());";
+  protected final String TEXT_56 = NL;
+  protected final String TEXT_57 = "      for (Match match : matches) {";
+  protected final String TEXT_58 = NL;
+  protected final String TEXT_59 = "        match = match.append(vertex.getId());";
+  protected final String TEXT_60 = NL;
+  protected final String TEXT_61 = "        if (!match.isInjective()) {";
+  protected final String TEXT_62 = NL;
+  protected final String TEXT_63 = "          continue;";
+  protected final String TEXT_64 = NL;
+  protected final String TEXT_65 = "        }";
   protected final String TEXT_66 = NL;
-  protected final String TEXT_67 = "      for (Match match : matches) {";
-  protected final String TEXT_68 = NL;
-  protected final String TEXT_69 = "        match = match.append(vertex.getId());";
-  protected final String TEXT_70 = NL;
-  protected final String TEXT_71 = "        if (!match.isInjective()) {";
-  protected final String TEXT_72 = NL;
-  protected final String TEXT_73 = "          continue;";
+  protected final String TEXT_67 = "    // Node ";
+  protected final String TEXT_68 = ": check for edge to match of ";
+  protected final String TEXT_69 = " of type \"";
+  protected final String TEXT_70 = "\":";
+  protected final String TEXT_71 = NL;
+  protected final String TEXT_72 = "    VertexId targetId = match.getVertexId(";
+  protected final String TEXT_73 = ");";
   protected final String TEXT_74 = NL;
-  protected final String TEXT_75 = "        }";
+  protected final String TEXT_75 = "    for (Edge<VertexId, ByteWritable> edge :";
   protected final String TEXT_76 = NL;
-  protected final String TEXT_77 = "        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {";
+  protected final String TEXT_77 = "      vertex.getEdges()) {";
   protected final String TEXT_78 = NL;
-  protected final String TEXT_79 = "          if (edge.getValue().get() ==";
+  protected final String TEXT_79 = "      if (edge.getValue().get() ==";
   protected final String TEXT_80 = NL;
-  protected final String TEXT_81 = "            ";
-  protected final String TEXT_82 = ".get()) {";
+  protected final String TEXT_81 = "        ";
+  protected final String TEXT_82 = ".get() &&";
   protected final String TEXT_83 = NL;
-  protected final String TEXT_84 = "            LOG.info(\"Vertex \" + vertex.getId() +";
+  protected final String TEXT_84 = "        edge.getTargetVertexId().equals(targetId)) {";
   protected final String TEXT_85 = NL;
-  protected final String TEXT_86 = "              \" sending (partial) match \" + match +";
-  protected final String TEXT_87 = NL;
-  protected final String TEXT_88 = "              \" forward to vertex \" + edge.getTargetVertexId());";
-  protected final String TEXT_89 = NL;
-  protected final String TEXT_90 = "            sendMessage(edge.getTargetVertexId(), match);";
-  protected final String TEXT_91 = NL;
-  protected final String TEXT_92 = "          }";
+  protected final String TEXT_86 = "        // Send the message back to matches of node ";
+  protected final String TEXT_87 = ":";
+  protected final String TEXT_88 = NL;
+  protected final String TEXT_89 = "        for (Match m : matches) {";
+  protected final String TEXT_90 = NL;
+  protected final String TEXT_91 = "          VertexId recipient = m.getVertexId(";
+  protected final String TEXT_92 = ");";
   protected final String TEXT_93 = NL;
-  protected final String TEXT_94 = "        }";
-  protected final String TEXT_95 = NL + "          // Send the message back to matches of node ";
-  protected final String TEXT_96 = ":" + NL + "          for (Match m : matches) {" + NL + "            VertexId targetId = m.getVertexId(";
-  protected final String TEXT_97 = ");";
-  protected final String TEXT_98 = NL + "            LOG.info(\"Vertex \" + vertex.getId() +" + NL + "              \" sending (partial) match \" + match +" + NL + "              \" back to vertex \" + targetId);";
-  protected final String TEXT_99 = NL + "            sendMessage(targetId, match);" + NL + "          }";
-  protected final String TEXT_100 = NL;
-  protected final String TEXT_101 = "        apply";
-  protected final String TEXT_102 = "(vertex, match, appliedMatches);";
+  protected final String TEXT_94 = "          LOG.info(\"Vertex \" + vertex.getId() +";
+  protected final String TEXT_95 = NL;
+  protected final String TEXT_96 = "            \" sending (partial) match \" + match +";
+  protected final String TEXT_97 = NL;
+  protected final String TEXT_98 = "            \" back to vertex \" + recipient);";
+  protected final String TEXT_99 = NL;
+  protected final String TEXT_100 = "          sendMessage(recipient, match);";
+  protected final String TEXT_101 = NL;
+  protected final String TEXT_102 = "        }";
   protected final String TEXT_103 = NL;
-  protected final String TEXT_104 = "      }";
-  protected final String TEXT_105 = NL + "      }";
-  protected final String TEXT_106 = NL + "      // Keep matches received at node ";
-  protected final String TEXT_107 = ":" + NL + "      for (Match match : matches) {" + NL + "        VertexId id = match.getVertexId(";
-  protected final String TEXT_108 = ");" + NL + "        if (vertex.getId().equals(id)) {";
-  protected final String TEXT_109 = NL + "          LOG.info(\"Vertex \" + id + \" in superstep \" + getSuperstep() +" + NL + "            \" sending (partial) match \" + match + \" to myself\");";
-  protected final String TEXT_110 = NL + "          sendMessage(id, match);" + NL + "        }" + NL + "      }";
-  protected final String TEXT_111 = NL + "    }";
-  protected final String TEXT_112 = " else {" + NL + "      throw new RuntimeException(\"Illegal microstep for rule \" +" + NL + "        \"";
-  protected final String TEXT_113 = ": \" + microstep);" + NL + "    }" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Apply the rule \"";
-  protected final String TEXT_114 = "\" to a given match." + NL + "   * @param vertex The base vertex." + NL + "   * @param match The match object." + NL + "   * @param appliedMatches Set of already applied matches." + NL + "   * @return true if the rule was applied." + NL + "   * @throws IOException On I/O errors." + NL + "   */" + NL + "  protected boolean apply";
-  protected final String TEXT_115 = "(Vertex<VertexId, ByteWritable," + NL + "    ByteWritable> vertex, Match match, Set<Match> appliedMatches)" + NL + "    throws IOException {";
-  protected final String TEXT_116 = NL + "    VertexId cur";
-  protected final String TEXT_117 = " = match.getVertexId(";
-  protected final String TEXT_118 = ");";
-  protected final String TEXT_119 = NL + "    match = match.remove(";
-  protected final String TEXT_120 = ");";
-  protected final String TEXT_121 = NL + "    if (!appliedMatches.add(match)) {" + NL + "      return false;" + NL + "    }";
-  protected final String TEXT_122 = NL + "    LOG.info(\"Vertex \" + vertex.getId() +" + NL + "      \" applying rule ";
-  protected final String TEXT_123 = " with match \" + match);";
-  protected final String TEXT_124 = NL + "    removeEdgesRequest(cur";
-  protected final String TEXT_125 = ", cur";
-  protected final String TEXT_126 = ");";
-  protected final String TEXT_127 = NL + "    removeVertexRequest(cur";
-  protected final String TEXT_128 = ");";
-  protected final String TEXT_129 = NL + "    VertexId new";
-  protected final String TEXT_130 = " =";
-  protected final String TEXT_131 = NL + "      VertexId.randomVertexId();";
-  protected final String TEXT_132 = NL + "      deriveVertexId(vertex.getId(), (byte) ";
-  protected final String TEXT_133 = ");";
-  protected final String TEXT_134 = NL + "    addVertexRequest(new";
-  protected final String TEXT_135 = ", ";
-  protected final String TEXT_136 = ");";
-  protected final String TEXT_137 = NL + "    VertexId src";
-  protected final String TEXT_138 = " = new";
-  protected final String TEXT_139 = ";";
-  protected final String TEXT_140 = NL + "    VertexId src";
-  protected final String TEXT_141 = " = cur";
-  protected final String TEXT_142 = ";";
-  protected final String TEXT_143 = NL + "    VertexId trg";
-  protected final String TEXT_144 = " = new";
-  protected final String TEXT_145 = ";";
-  protected final String TEXT_146 = NL + "    VertexId trg";
-  protected final String TEXT_147 = " = cur";
-  protected final String TEXT_148 = ";";
-  protected final String TEXT_149 = NL + "    Edge<VertexId, ByteWritable> edge";
-  protected final String TEXT_150 = " =" + NL + "      EdgeFactory.create(trg";
-  protected final String TEXT_151 = ", ";
-  protected final String TEXT_152 = ");" + NL + "    addEdgeRequest(src";
-  protected final String TEXT_153 = ", edge";
+  protected final String TEXT_104 = "        apply";
+  protected final String TEXT_105 = "(vertex, match, appliedMatches);";
+  protected final String TEXT_106 = NL;
+  protected final String TEXT_107 = "      }";
+  protected final String TEXT_108 = NL;
+  protected final String TEXT_109 = "    }";
+  protected final String TEXT_110 = NL;
+  protected final String TEXT_111 = "        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {";
+  protected final String TEXT_112 = NL;
+  protected final String TEXT_113 = "          if (edge.getValue().get() ==";
+  protected final String TEXT_114 = NL;
+  protected final String TEXT_115 = "            ";
+  protected final String TEXT_116 = ".get()) {";
+  protected final String TEXT_117 = NL;
+  protected final String TEXT_118 = "            LOG.info(\"Vertex \" + vertex.getId() +";
+  protected final String TEXT_119 = NL;
+  protected final String TEXT_120 = "              \" sending (partial) match \" + match +";
+  protected final String TEXT_121 = NL;
+  protected final String TEXT_122 = "              \" forward to vertex \" + edge.getTargetVertexId());";
+  protected final String TEXT_123 = NL;
+  protected final String TEXT_124 = "            sendMessage(edge.getTargetVertexId(), match);";
+  protected final String TEXT_125 = NL;
+  protected final String TEXT_126 = "          }";
+  protected final String TEXT_127 = NL;
+  protected final String TEXT_128 = "        }";
+  protected final String TEXT_129 = NL;
+  protected final String TEXT_130 = "      }";
+  protected final String TEXT_131 = NL + "      }";
+  protected final String TEXT_132 = NL + "      // Keep matches received at node ";
+  protected final String TEXT_133 = ":" + NL + "      for (Match match : matches) {" + NL + "        VertexId id = match.getVertexId(";
+  protected final String TEXT_134 = ");" + NL + "        if (vertex.getId().equals(id)) {";
+  protected final String TEXT_135 = NL + "          LOG.info(\"Vertex \" + id + \" in superstep \" + getSuperstep() +" + NL + "            \" sending (partial) match \" + match + \" to myself\");";
+  protected final String TEXT_136 = NL + "          sendMessage(id, match);" + NL + "        }" + NL + "      }";
+  protected final String TEXT_137 = NL + "    }";
+  protected final String TEXT_138 = " else {" + NL + "      throw new RuntimeException(\"Illegal microstep for rule \" +" + NL + "        \"";
+  protected final String TEXT_139 = ": \" + microstep);" + NL + "    }" + NL + "  }" + NL + "" + NL + "  /**" + NL + "   * Apply the rule \"";
+  protected final String TEXT_140 = "\" to a given match." + NL + "   * @param vertex The base vertex." + NL + "   * @param match The match object." + NL + "   * @param appliedMatches Set of already applied matches." + NL + "   * @return true if the rule was applied." + NL + "   * @throws IOException On I/O errors." + NL + "   */" + NL + "  protected boolean apply";
+  protected final String TEXT_141 = "(Vertex<VertexId, ByteWritable," + NL + "    ByteWritable> vertex, Match match, Set<Match> appliedMatches)" + NL + "    throws IOException {";
+  protected final String TEXT_142 = NL + "    VertexId cur";
+  protected final String TEXT_143 = " = match.getVertexId(";
+  protected final String TEXT_144 = ");";
+  protected final String TEXT_145 = NL + "    match = match.remove(";
+  protected final String TEXT_146 = ");";
+  protected final String TEXT_147 = NL + "    if (!appliedMatches.add(match)) {" + NL + "      return false;" + NL + "    }";
+  protected final String TEXT_148 = NL + "    LOG.info(\"Vertex \" + vertex.getId() +" + NL + "      \" applying rule ";
+  protected final String TEXT_149 = " with match \" + match);";
+  protected final String TEXT_150 = NL + "    removeEdgesRequest(cur";
+  protected final String TEXT_151 = ", cur";
+  protected final String TEXT_152 = ");";
+  protected final String TEXT_153 = NL + "    removeVertexRequest(cur";
   protected final String TEXT_154 = ");";
-  protected final String TEXT_155 = NL + "    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));" + NL + "    return true;" + NL + "  }";
-  protected final String TEXT_156 = NL;
-  protected final String TEXT_157 = NL + "  /**" + NL + "   * Derive a new vertex Id from an exiting one." + NL + "   * @param baseId The base vertex Id." + NL + "   * @param vertexIndex The relative index of the new vertex." + NL + "   * @return The derived vertex Id." + NL + "   */" + NL + "  private VertexId deriveVertexId(VertexId baseId, int vertexIndex) {" + NL + "    long generation = ((LongWritable) getAggregatedValue(" + NL + "        AGGREGATOR_NODE_GENERATION)).get();" + NL + "    return baseId.append((byte) generation).append((byte) vertexIndex);" + NL + "  }" + NL;
-  protected final String TEXT_158 = NL + "  /**" + NL + "   * Master compute which registers and updates the required aggregators." + NL + "   */" + NL + "  public static class MasterCompute extends DefaultMasterCompute {" + NL + "" + NL + "    /**" + NL + "     * Stack for storing unit success flags." + NL + "     */" + NL + "    private final Deque<Boolean> unitSuccesses =" + NL + "      new ArrayDeque<Boolean>();" + NL + "" + NL + "    /**" + NL + "     * Stack for storing the execution orders of independent units." + NL + "     */" + NL + "    private final Deque<List<Integer>> unitOrders =" + NL + "      new ArrayDeque<List<Integer>>();" + NL + "" + NL + "    /*" + NL + "     * (non-Javadoc)" + NL + "     * @see org.apache.giraph.master.DefaultMasterCompute#compute()" + NL + "     */" + NL + "    @Override" + NL + "    public void compute() {" + NL + "      long ruleApps = ((LongWritable)" + NL + "        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();";
-  protected final String TEXT_159 = NL + "      if (getSuperstep() > 0) {" + NL + "        LOG.info(ruleApps + \" rule applications in superstep \" +" + NL + "          (getSuperstep() - 1));" + NL + "      }";
-  protected final String TEXT_160 = NL + "      if (ruleApps > 0) {" + NL + "        long nodeGen = ((LongWritable)" + NL + "          getAggregatedValue(AGGREGATOR_NODE_GENERATION)).get();" + NL + "        setAggregatedValue(AGGREGATOR_NODE_GENERATION," + NL + "          new LongWritable(nodeGen + 1));" + NL + "      }" + NL + "      ApplicationStack stack;" + NL + "      if (getSuperstep() == 0) {" + NL + "        stack = new ApplicationStack();" + NL + "        stack = stack.append(";
-  protected final String TEXT_161 = ", 0);";
-  protected final String TEXT_162 = NL + "        stack = nextRuleStep(stack, ruleApps);";
-  protected final String TEXT_163 = NL + "      } else {" + NL + "        stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);" + NL + "        stack = nextRuleStep(stack, ruleApps);" + NL + "      }" + NL + "      setAggregatedValue(AGGREGATOR_APPLICATION_STACK, stack);" + NL + "    }" + NL + "" + NL + "    /**" + NL + "     * Compute the next rule application stack." + NL + "     * @param stack Current application stack." + NL + "     * @param ruleApps Number of rule applications in last superstep." + NL + "     * @return the new application stack." + NL + "     */" + NL + "    private ApplicationStack nextRuleStep(" + NL + "      ApplicationStack stack, long ruleApps) {" + NL + "      while (stack.getStackSize() > 0) {" + NL + "        int unit = stack.getLastUnit();" + NL + "        int microstep = stack.getLastMicrostep();" + NL + "        stack = stack.removeLast();" + NL + "        switch (unit) {";
-  protected final String TEXT_164 = NL + "        case ";
-  protected final String TEXT_165 = ":" + NL + "          stack = process";
-  protected final String TEXT_166 = "(" + NL + "            stack, microstep";
-  protected final String TEXT_167 = ");" + NL + "          break;";
-  protected final String TEXT_168 = NL + "        default:" + NL + "          throw new RuntimeException(\"Unknown unit \" + unit);" + NL + "        }" + NL + "        if (stack.getStackSize() > 0) {" + NL + "          unit = stack.getLastUnit();";
-  protected final String TEXT_169 = NL + "          ";
-  protected final String TEXT_170 = "unit == ";
-  protected final String TEXT_171 = NL + "            break;" + NL + "          }" + NL + "        }" + NL + "      }" + NL + "      return stack;" + NL + "    }";
-  protected final String TEXT_172 = NL + NL + "   /**" + NL + "     * Process ";
-  protected final String TEXT_173 = " \"";
-  protected final String TEXT_174 = "\"." + NL + "     * @param stack Current application stack." + NL + "     * @param microstep Current microstep.";
-  protected final String TEXT_175 = NL + "     * @param ruleApps Number of rule applications in last superstep.";
-  protected final String TEXT_176 = NL + "     * @return the new application stack." + NL + "     */" + NL + "    private ApplicationStack process";
-  protected final String TEXT_177 = "(" + NL + "      ApplicationStack stack, int microstep";
-  protected final String TEXT_178 = ") {";
-  protected final String TEXT_179 = NL + "      if (microstep > 0 && !unitSuccesses.pop()) {" + NL + "        unitSuccesses.push(false);" + NL + "      } else if (microstep == ";
-  protected final String TEXT_180 = ") {" + NL + "        unitSuccesses.push(true);" + NL + "      } else if (microstep < ";
-  protected final String TEXT_181 = ") {" + NL + "        stack = stack.append(";
-  protected final String TEXT_182 = ", microstep + 1);" + NL + "        stack = stack.append(";
-  protected final String TEXT_183 = ", 0);" + NL + "      }";
-  protected final String TEXT_184 = NL + "      if (microstep > 0 && !unitSuccesses.pop()) {" + NL + "        unitSuccesses.push(false);" + NL + "      } else if (microstep == ";
-  protected final String TEXT_185 = ") {" + NL + "        unitSuccesses.push(true);" + NL + "      } else {" + NL + "        switch (microstep) {";
-  protected final String TEXT_186 = NL + "        case ";
-  protected final String TEXT_187 = ":" + NL + "          stack = stack.append(";
-  protected final String TEXT_188 = ", ";
-  protected final String TEXT_189 = ");" + NL + "          stack = stack.append(";
-  protected final String TEXT_190 = ", 0);" + NL + "          break;";
-  protected final String TEXT_191 = NL + "        default:" + NL + "          break;" + NL + "        }" + NL + "      }";
-  protected final String TEXT_192 = NL + "      if (microstep == 0) {" + NL + "        List<Integer> order = new ArrayList<Integer>();" + NL + "        for (int i = 0; i < ";
-  protected final String TEXT_193 = "; i++) {" + NL + "          order.add(i);" + NL + "        }" + NL + "        Collections.shuffle(order);" + NL + "        unitOrders.push(order);" + NL + "      }" + NL + "      if (microstep > 0 && unitSuccesses.pop()) {" + NL + "        unitOrders.pop();" + NL + "        unitSuccesses.push(true);" + NL + "      } else if (microstep == ";
-  protected final String TEXT_194 = ") {" + NL + "        unitOrders.pop();" + NL + "        unitSuccesses.push(false);" + NL + "      } else {" + NL + "        int next = unitOrders.peek().get(microstep);" + NL + "        switch (next) {";
-  protected final String TEXT_195 = NL + "        case ";
-  protected final String TEXT_196 = ":" + NL + "          stack = stack.append(";
-  protected final String TEXT_197 = ", microstep + 1);" + NL + "          stack = stack.append(";
-  protected final String TEXT_198 = ", 0);" + NL + "          break;";
-  protected final String TEXT_199 = NL + "        default:" + NL + "          break;" + NL + "        }" + NL + "      }";
-  protected final String TEXT_200 = NL + "      if (microstep == 0 || unitSuccesses.pop()) {" + NL + "        stack = stack.append(";
-  protected final String TEXT_201 = ", 1);" + NL + "        stack = stack.append(";
-  protected final String TEXT_202 = ", 0);" + NL + "      } else {" + NL + "        unitSuccesses.push(true);" + NL + "      }";
-  protected final String TEXT_203 = NL + "      if (microstep < ";
-  protected final String TEXT_204 = ") {" + NL + "        stack = stack.append(";
-  protected final String TEXT_205 = ", microstep + 1);" + NL + "      } else {" + NL + "        unitSuccesses.push(ruleApps > 0);" + NL + "      }";
-  protected final String TEXT_206 = NL + "      return stack;" + NL + "    }";
-  protected final String TEXT_207 = NL + NL + "    /*" + NL + "     * (non-Javadoc)" + NL + "     * @see org.apache.giraph.master.DefaultMasterCompute#initialize()" + NL + "     */" + NL + "    @Override" + NL + "    public void initialize() throws InstantiationException," + NL + "        IllegalAccessException {" + NL + "      registerAggregator(AGGREGATOR_RULE_APPLICATIONS," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK," + NL + "        ApplicationStackAggregator.class);" + NL + "    }" + NL + "" + NL + "  }" + NL + "}";
-  protected final String TEXT_208 = NL;
+  protected final String TEXT_155 = NL + "    VertexId new";
+  protected final String TEXT_156 = " =";
+  protected final String TEXT_157 = NL + "      VertexId.randomVertexId();";
+  protected final String TEXT_158 = NL + "      deriveVertexId(vertex.getId(), (byte) ";
+  protected final String TEXT_159 = ");";
+  protected final String TEXT_160 = NL + "    addVertexRequest(new";
+  protected final String TEXT_161 = ", ";
+  protected final String TEXT_162 = ");";
+  protected final String TEXT_163 = NL + "    VertexId src";
+  protected final String TEXT_164 = " = new";
+  protected final String TEXT_165 = ";";
+  protected final String TEXT_166 = NL + "    VertexId src";
+  protected final String TEXT_167 = " = cur";
+  protected final String TEXT_168 = ";";
+  protected final String TEXT_169 = NL + "    VertexId trg";
+  protected final String TEXT_170 = " = new";
+  protected final String TEXT_171 = ";";
+  protected final String TEXT_172 = NL + "    VertexId trg";
+  protected final String TEXT_173 = " = cur";
+  protected final String TEXT_174 = ";";
+  protected final String TEXT_175 = NL + "    Edge<VertexId, ByteWritable> edge";
+  protected final String TEXT_176 = " =" + NL + "      EdgeFactory.create(trg";
+  protected final String TEXT_177 = ", ";
+  protected final String TEXT_178 = ");" + NL + "    addEdgeRequest(src";
+  protected final String TEXT_179 = ", edge";
+  protected final String TEXT_180 = ");";
+  protected final String TEXT_181 = NL + "    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));" + NL + "    return true;" + NL + "  }";
+  protected final String TEXT_182 = NL;
+  protected final String TEXT_183 = NL + "  /**" + NL + "   * Derive a new vertex Id from an exiting one." + NL + "   * @param baseId The base vertex Id." + NL + "   * @param vertexIndex The relative index of the new vertex." + NL + "   * @return The derived vertex Id." + NL + "   */" + NL + "  private VertexId deriveVertexId(VertexId baseId, int vertexIndex) {" + NL + "    long generation = ((LongWritable) getAggregatedValue(" + NL + "        AGGREGATOR_NODE_GENERATION)).get();" + NL + "    return baseId.append((byte) generation).append((byte) vertexIndex);" + NL + "  }" + NL;
+  protected final String TEXT_184 = NL + "  /**" + NL + "   * Master compute which registers and updates the required aggregators." + NL + "   */" + NL + "  public static class MasterCompute extends DefaultMasterCompute {" + NL + "" + NL + "    /**" + NL + "     * Stack for storing unit success flags." + NL + "     */" + NL + "    private final Deque<Boolean> unitSuccesses =" + NL + "      new ArrayDeque<Boolean>();" + NL + "" + NL + "    /**" + NL + "     * Stack for storing the execution orders of independent units." + NL + "     */" + NL + "    private final Deque<List<Integer>> unitOrders =" + NL + "      new ArrayDeque<List<Integer>>();" + NL + "" + NL + "    /*" + NL + "     * (non-Javadoc)" + NL + "     * @see org.apache.giraph.master.DefaultMasterCompute#compute()" + NL + "     */" + NL + "    @Override" + NL + "    public void compute() {" + NL + "      long ruleApps = ((LongWritable)" + NL + "        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();";
+  protected final String TEXT_185 = NL + "      if (getSuperstep() > 0) {" + NL + "        LOG.info(ruleApps + \" rule applications in superstep \" +" + NL + "          (getSuperstep() - 1));" + NL + "      }";
+  protected final String TEXT_186 = NL + "      if (ruleApps > 0) {" + NL + "        long nodeGen = ((LongWritable)" + NL + "          getAggregatedValue(AGGREGATOR_NODE_GENERATION)).get();" + NL + "        setAggregatedValue(AGGREGATOR_NODE_GENERATION," + NL + "          new LongWritable(nodeGen + 1));" + NL + "      }" + NL + "      ApplicationStack stack;" + NL + "      if (getSuperstep() == 0) {" + NL + "        stack = new ApplicationStack();" + NL + "        stack = stack.append(";
+  protected final String TEXT_187 = ", 0);";
+  protected final String TEXT_188 = NL + "        stack = nextRuleStep(stack, ruleApps);";
+  protected final String TEXT_189 = NL + "      } else {" + NL + "        stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);" + NL + "        stack = nextRuleStep(stack, ruleApps);" + NL + "      }" + NL + "      setAggregatedValue(AGGREGATOR_APPLICATION_STACK, stack);" + NL + "    }" + NL + "" + NL + "    /**" + NL + "     * Compute the next rule application stack." + NL + "     * @param stack Current application stack." + NL + "     * @param ruleApps Number of rule applications in last superstep." + NL + "     * @return the new application stack." + NL + "     */" + NL + "    private ApplicationStack nextRuleStep(" + NL + "      ApplicationStack stack, long ruleApps) {" + NL + "      while (stack.getStackSize() > 0) {" + NL + "        int unit = stack.getLastUnit();" + NL + "        int microstep = stack.getLastMicrostep();" + NL + "        stack = stack.removeLast();" + NL + "        switch (unit) {";
+  protected final String TEXT_190 = NL + "        case ";
+  protected final String TEXT_191 = ":" + NL + "          stack = process";
+  protected final String TEXT_192 = "(" + NL + "            stack, microstep";
+  protected final String TEXT_193 = ");" + NL + "          break;";
+  protected final String TEXT_194 = NL + "        default:" + NL + "          throw new RuntimeException(\"Unknown unit \" + unit);" + NL + "        }" + NL + "        if (stack.getStackSize() > 0) {" + NL + "          unit = stack.getLastUnit();";
+  protected final String TEXT_195 = NL + "          ";
+  protected final String TEXT_196 = "unit == ";
+  protected final String TEXT_197 = NL + "            break;" + NL + "          }" + NL + "        }" + NL + "      }" + NL + "      return stack;" + NL + "    }";
+  protected final String TEXT_198 = NL + NL + "   /**" + NL + "     * Process ";
+  protected final String TEXT_199 = " \"";
+  protected final String TEXT_200 = "\"." + NL + "     * @param stack Current application stack." + NL + "     * @param microstep Current microstep.";
+  protected final String TEXT_201 = NL + "     * @param ruleApps Number of rule applications in last superstep.";
+  protected final String TEXT_202 = NL + "     * @return the new application stack." + NL + "     */" + NL + "    private ApplicationStack process";
+  protected final String TEXT_203 = "(" + NL + "      ApplicationStack stack, int microstep";
+  protected final String TEXT_204 = ") {";
+  protected final String TEXT_205 = NL + "      if (microstep > 0 && !unitSuccesses.pop()) {" + NL + "        unitSuccesses.push(false);" + NL + "      } else if (microstep == ";
+  protected final String TEXT_206 = ") {" + NL + "        unitSuccesses.push(true);" + NL + "      } else if (microstep < ";
+  protected final String TEXT_207 = ") {" + NL + "        stack = stack.append(";
+  protected final String TEXT_208 = ", microstep + 1);" + NL + "        stack = stack.append(";
+  protected final String TEXT_209 = ", 0);" + NL + "      }";
+  protected final String TEXT_210 = NL + "      if (microstep > 0 && !unitSuccesses.pop()) {" + NL + "        unitSuccesses.push(false);" + NL + "      } else if (microstep == ";
+  protected final String TEXT_211 = ") {" + NL + "        unitSuccesses.push(true);" + NL + "      } else {" + NL + "        switch (microstep) {";
+  protected final String TEXT_212 = NL + "        case ";
+  protected final String TEXT_213 = ":" + NL + "          stack = stack.append(";
+  protected final String TEXT_214 = ", ";
+  protected final String TEXT_215 = ");" + NL + "          stack = stack.append(";
+  protected final String TEXT_216 = ", 0);" + NL + "          break;";
+  protected final String TEXT_217 = NL + "        default:" + NL + "          break;" + NL + "        }" + NL + "      }";
+  protected final String TEXT_218 = NL + "      if (microstep == 0) {" + NL + "        List<Integer> order = new ArrayList<Integer>();" + NL + "        for (int i = 0; i < ";
+  protected final String TEXT_219 = "; i++) {" + NL + "          order.add(i);" + NL + "        }" + NL + "        Collections.shuffle(order);" + NL + "        unitOrders.push(order);" + NL + "      }" + NL + "      if (microstep > 0 && unitSuccesses.pop()) {" + NL + "        unitOrders.pop();" + NL + "        unitSuccesses.push(true);" + NL + "      } else if (microstep == ";
+  protected final String TEXT_220 = ") {" + NL + "        unitOrders.pop();" + NL + "        unitSuccesses.push(false);" + NL + "      } else {" + NL + "        int next = unitOrders.peek().get(microstep);" + NL + "        switch (next) {";
+  protected final String TEXT_221 = NL + "        case ";
+  protected final String TEXT_222 = ":" + NL + "          stack = stack.append(";
+  protected final String TEXT_223 = ", microstep + 1);" + NL + "          stack = stack.append(";
+  protected final String TEXT_224 = ", 0);" + NL + "          break;";
+  protected final String TEXT_225 = NL + "        default:" + NL + "          break;" + NL + "        }" + NL + "      }";
+  protected final String TEXT_226 = NL + "      if (microstep == 0 || unitSuccesses.pop()) {" + NL + "        stack = stack.append(";
+  protected final String TEXT_227 = ", 1);" + NL + "        stack = stack.append(";
+  protected final String TEXT_228 = ", 0);" + NL + "      } else {" + NL + "        unitSuccesses.push(true);" + NL + "      }";
+  protected final String TEXT_229 = NL + "      if (microstep < ";
+  protected final String TEXT_230 = ") {" + NL + "        stack = stack.append(";
+  protected final String TEXT_231 = ", microstep + 1);" + NL + "      } else {" + NL + "        unitSuccesses.push(ruleApps > 0);" + NL + "      }";
+  protected final String TEXT_232 = NL + "      return stack;" + NL + "    }";
+  protected final String TEXT_233 = NL + NL + "    /*" + NL + "     * (non-Javadoc)" + NL + "     * @see org.apache.giraph.master.DefaultMasterCompute#initialize()" + NL + "     */" + NL + "    @Override" + NL + "    public void initialize() throws InstantiationException," + NL + "        IllegalAccessException {" + NL + "      registerAggregator(AGGREGATOR_RULE_APPLICATIONS," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_NODE_GENERATION," + NL + "        LongSumAggregator.class);" + NL + "      registerPersistentAggregator(AGGREGATOR_APPLICATION_STACK," + NL + "        ApplicationStackAggregator.class);" + NL + "    }" + NL + "" + NL + "  }" + NL + "}";
+  protected final String TEXT_234 = NL;
 
   public String generate(Object argument)
   {
@@ -362,177 +388,267 @@ for (GiraphRuleData data : ruleData.values()) {
     stringBuffer.append(TEXT_34);
     stringBuffer.append( rule.getName() );
     stringBuffer.append(TEXT_35);
-     if (logging) { 
+    
+  /* START LOGGING */
+  if (logging) { 
     stringBuffer.append(TEXT_36);
     stringBuffer.append( rule.getName() );
     stringBuffer.append(TEXT_37);
      } 
+  /* END LOGGING */
+
     stringBuffer.append(TEXT_38);
       for (int i=0; i<data.matchingSteps.size(); i++) {
+
+      /* START STEP LOOP */
       GiraphRuleData.MatchingStep step = data.matchingSteps.get(i);
 
     stringBuffer.append( i>0 ? " else" : "   " );
     stringBuffer.append(TEXT_39);
     stringBuffer.append( i );
     stringBuffer.append(TEXT_40);
-        if (step.verifyEdgeTo != null) {
+    
+      if (step.isJoin) {
+        /* START JOIN */        
+        
     stringBuffer.append(TEXT_41);
-    stringBuffer.append( GiraphUtil.getNodeName(step.edge.getSource()) );
+    stringBuffer.append( GiraphUtil.getNodeName(step.node) );
     stringBuffer.append(TEXT_42);
-    stringBuffer.append( GiraphUtil.getNodeName(step.edge.getTarget()) );
+          if (logging) { 
     stringBuffer.append(TEXT_43);
-    stringBuffer.append( step.edge.getType().getName() );
-    stringBuffer.append(TEXT_44);
-    stringBuffer.append( data.orderedLhsNodes.indexOf(step.verifyEdgeTo) );
-    stringBuffer.append(TEXT_45);
-    stringBuffer.append(TEXT_46);
-    stringBuffer.append( typeConstants.get(step.edge.getType()) );
-    stringBuffer.append(TEXT_47);
-            if (i == data.matchingSteps.size()-1) {
-    stringBuffer.append(TEXT_48);
-    stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_49);
-            } 
-    stringBuffer.append(TEXT_50);
-        } else if (step.isJoin) {
-    stringBuffer.append(TEXT_51);
-    stringBuffer.append( GiraphUtil.getNodeName(step.node) );
-    stringBuffer.append(TEXT_52);
-     if (logging) { 
-    stringBuffer.append(TEXT_53);
     stringBuffer.append( rule.getName() );
-    stringBuffer.append(TEXT_54);
-     } 
-    stringBuffer.append(TEXT_55);
+    stringBuffer.append(TEXT_44);
+          } 
+    stringBuffer.append(TEXT_45);
     stringBuffer.append( data.orderedLhsNodes.indexOf(step.node) );
-    stringBuffer.append(TEXT_56);
+    stringBuffer.append(TEXT_46);
     stringBuffer.append( data.orderedLhsNodes.indexOf(step.node) );
-    stringBuffer.append(TEXT_57);
-            if (rule.isInjectiveMatching()) {
-    stringBuffer.append(TEXT_58);
-            }
-          if (i == data.matchingSteps.size()-1) {
-    stringBuffer.append(TEXT_59);
+    stringBuffer.append(TEXT_47);
+        if (rule.isInjectiveMatching()) { 
+    stringBuffer.append(TEXT_48);
+        }
+      if (i == data.matchingSteps.size()-1) {
+    stringBuffer.append(TEXT_49);
     stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_60);
-            } 
-    stringBuffer.append(TEXT_61);
-        } else {
-      String xx = "";
-      if (step.isMatching) {
-      xx = "  ";
-      
-    stringBuffer.append(TEXT_62);
+    stringBuffer.append(TEXT_50);
+        } 
+    stringBuffer.append(TEXT_51);
+    
+        /* END JOIN */        
+      } else {
+        /* START CHECKING */        
+        String xx = "";
+        if (step.isMatching) {
+          /* START MATCHING */        
+          xx = "  ";
+
+    stringBuffer.append(TEXT_52);
     stringBuffer.append( GiraphUtil.getNodeName(step.node) );
-    stringBuffer.append(TEXT_63);
+    stringBuffer.append(TEXT_53);
     stringBuffer.append( typeConstants.get(step.node.getType()) );
-    stringBuffer.append(TEXT_64);
-     } 
+    stringBuffer.append(TEXT_54);
+    
+          /* END MATCHING */        
+        }
         if (step.isStart) {
+          /* START IS START */        
+
+    stringBuffer.append(TEXT_55);
+    
+          /* END IS START */        
+        } else {
+          /* START IS NOT START*/        
+
+    stringBuffer.append(TEXT_56);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_57);
+            if (step.isMatching) { 
+    stringBuffer.append(TEXT_58);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_59);
+            }
+          if (rule.isInjectiveMatching()) {
+    stringBuffer.append(TEXT_60);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_61);
+    stringBuffer.append(TEXT_62);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_63);
+    stringBuffer.append(TEXT_64);
+    stringBuffer.append(xx);
     stringBuffer.append(TEXT_65);
-     } else {
+            }
+          /* END IS NOT START*/        
+        }
+        if (step.edge != null) {
+          /* START EDGE */
+          if (step.verifyEdgeTo != null) {
+            /* START VERIFY EDGE */
+            xx = xx + "    ";
+
     stringBuffer.append(TEXT_66);
     stringBuffer.append(xx);
     stringBuffer.append(TEXT_67);
-            if (step.isMatching) { 
+    stringBuffer.append( GiraphUtil.getNodeName(step.edge.getSource()) );
     stringBuffer.append(TEXT_68);
-    stringBuffer.append(xx);
+    stringBuffer.append( GiraphUtil.getNodeName(step.edge.getTarget()) );
     stringBuffer.append(TEXT_69);
-            }
-          if (rule.isInjectiveMatching()) {
+    stringBuffer.append( step.edge.getType().getName() );
     stringBuffer.append(TEXT_70);
-    stringBuffer.append(xx);
     stringBuffer.append(TEXT_71);
-    stringBuffer.append(TEXT_72);
     stringBuffer.append(xx);
+    stringBuffer.append(TEXT_72);
+    stringBuffer.append( data.orderedLhsNodes.indexOf(step.verifyEdgeTo) );
     stringBuffer.append(TEXT_73);
     stringBuffer.append(TEXT_74);
     stringBuffer.append(xx);
     stringBuffer.append(TEXT_75);
-            }
-      }
-      if (step.edge != null) {
     stringBuffer.append(TEXT_76);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(xx);
     stringBuffer.append(TEXT_77);
     stringBuffer.append(TEXT_78);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(xx);
     stringBuffer.append(TEXT_79);
     stringBuffer.append(TEXT_80);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(xx);
     stringBuffer.append(TEXT_81);
     stringBuffer.append( typeConstants.get(step.edge.getType()) );
     stringBuffer.append(TEXT_82);
-    if (logging) { 
     stringBuffer.append(TEXT_83);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_84);
-    stringBuffer.append(TEXT_85);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_86);
-    stringBuffer.append(TEXT_87);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_88);
-    } 
-    stringBuffer.append(TEXT_89);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_90);
-    stringBuffer.append(TEXT_91);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_92);
-    stringBuffer.append(TEXT_93);
-    stringBuffer.append( !step.isStart ? "  " : "");
-    stringBuffer.append(TEXT_94);
-    
-      } else if (step.sendBackTo != null) {
-    stringBuffer.append(TEXT_95);
-    stringBuffer.append( GiraphUtil.getNodeName(step.sendBackTo) );
-    stringBuffer.append(TEXT_96);
-    stringBuffer.append( data.orderedLhsNodes.indexOf(step.sendBackTo) );
-    stringBuffer.append(TEXT_97);
-    if (logging) { 
-    stringBuffer.append(TEXT_98);
-    } 
-    stringBuffer.append(TEXT_99);
-    
-      } else if (i == data.matchingSteps.size()-1) {
-    stringBuffer.append(TEXT_100);
     stringBuffer.append(xx);
-    stringBuffer.append(TEXT_101);
-    stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_102);
+    stringBuffer.append(TEXT_84);
+    
+            /* END VERIFY EDGE */        
+          }
+          /* END EDGE */
         }
-      if (!step.isStart) {
+        if (step.sendBackTo != null) {
+          /* START SEND BACK TO */        
+
+    stringBuffer.append(TEXT_85);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_86);
+    stringBuffer.append( GiraphUtil.getNodeName(step.sendBackTo) );
+    stringBuffer.append(TEXT_87);
+    stringBuffer.append(TEXT_88);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_89);
+    stringBuffer.append(TEXT_90);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_91);
+    stringBuffer.append( data.orderedLhsNodes.indexOf(step.sendBackTo) );
+    stringBuffer.append(TEXT_92);
+            if (logging) { 
+    stringBuffer.append(TEXT_93);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_94);
+    stringBuffer.append(TEXT_95);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_96);
+    stringBuffer.append(TEXT_97);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_98);
+            } 
+    stringBuffer.append(TEXT_99);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_100);
+    stringBuffer.append(TEXT_101);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_102);
+            /* END SEND BACK TO */        
+        } else if (i == data.matchingSteps.size()-1) {
+          /* START LAST STEP */        
+
     stringBuffer.append(TEXT_103);
     stringBuffer.append(xx);
     stringBuffer.append(TEXT_104);
-         }
-      if (step.isMatching) { 
+    stringBuffer.append( data.rule.getName() );
     stringBuffer.append(TEXT_105);
+    
+          /* END LAST STEP */        
         }
-      if (step.keepMatchesOf != null) { 
+        if (step.verifyEdgeTo != null) {
+          /* START VERIFY EDGE */
+
     stringBuffer.append(TEXT_106);
-    stringBuffer.append( GiraphUtil.getNodeName(step.keepMatchesOf) );
+    stringBuffer.append(xx);
     stringBuffer.append(TEXT_107);
-    stringBuffer.append( data.orderedLhsNodes.indexOf(step.keepMatchesOf) );
     stringBuffer.append(TEXT_108);
-     if (logging) { 
+    stringBuffer.append(xx);
     stringBuffer.append(TEXT_109);
-     } 
-    stringBuffer.append(TEXT_110);
+    
+          xx = xx.substring(0, xx.length() - 4);
+          /* END VERIFY EDGE */
         }
-     }
+        if (step.edge!=null && step.verifyEdgeTo==null) {
+          /* START NOT VERIFY EDGE */
+
+    stringBuffer.append(TEXT_110);
+    stringBuffer.append( !step.isStart ? "  " : "");
     stringBuffer.append(TEXT_111);
+    stringBuffer.append(TEXT_112);
+    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(TEXT_113);
+    stringBuffer.append(TEXT_114);
+    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(TEXT_115);
+    stringBuffer.append( typeConstants.get(step.edge.getType()) );
+    stringBuffer.append(TEXT_116);
+              if (logging) { 
+    stringBuffer.append(TEXT_117);
+    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(TEXT_118);
+    stringBuffer.append(TEXT_119);
+    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(TEXT_120);
+    stringBuffer.append(TEXT_121);
+    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(TEXT_122);
+              } 
+    stringBuffer.append(TEXT_123);
+    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(TEXT_124);
+    stringBuffer.append(TEXT_125);
+    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(TEXT_126);
+    stringBuffer.append(TEXT_127);
+    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(TEXT_128);
+    
+          /* END NOT VERIFY EDGE */        
+        }
+        if (!step.isStart) {
+    stringBuffer.append(TEXT_129);
+    stringBuffer.append(xx);
+    stringBuffer.append(TEXT_130);
+          }
+        if (step.isMatching) { 
+    stringBuffer.append(TEXT_131);
+          }
+        if (step.keepMatchesOf != null) {
+
+    stringBuffer.append(TEXT_132);
+    stringBuffer.append( GiraphUtil.getNodeName(step.keepMatchesOf) );
+    stringBuffer.append(TEXT_133);
+    stringBuffer.append( data.orderedLhsNodes.indexOf(step.keepMatchesOf) );
+    stringBuffer.append(TEXT_134);
+            if (logging) { 
+    stringBuffer.append(TEXT_135);
+            } 
+    stringBuffer.append(TEXT_136);
+            }
+     } 
+    stringBuffer.append(TEXT_137);
      
     } // end for
 
-    stringBuffer.append(TEXT_112);
+    stringBuffer.append(TEXT_138);
     stringBuffer.append( rule.getName() );
-    stringBuffer.append(TEXT_113);
+    stringBuffer.append(TEXT_139);
     stringBuffer.append( rule.getName() );
-    stringBuffer.append(TEXT_114);
+    stringBuffer.append(TEXT_140);
     stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_115);
+    stringBuffer.append(TEXT_141);
      for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
     Node lhsNode = data.orderedLhsNodes.get(j);
     Node rhsNode = data.rule.getMappings().getImage(lhsNode, data.rule.getRhs());
@@ -546,11 +662,11 @@ for (GiraphRuleData data : ruleData.values()) {
       }
     }
     if (needed) { 
-    stringBuffer.append(TEXT_116);
+    stringBuffer.append(TEXT_142);
     stringBuffer.append( j );
-    stringBuffer.append(TEXT_117);
+    stringBuffer.append(TEXT_143);
     stringBuffer.append( j );
-    stringBuffer.append(TEXT_118);
+    stringBuffer.append(TEXT_144);
       }
   }
   // Sort indexes of nodes to be removed from the match:
@@ -561,206 +677,206 @@ for (GiraphRuleData data : ruleData.values()) {
   Collections.sort(required);
   Collections.reverse(required);
   for (Integer req : required) { 
-    stringBuffer.append(TEXT_119);
+    stringBuffer.append(TEXT_145);
     stringBuffer.append( req );
-    stringBuffer.append(TEXT_120);
+    stringBuffer.append(TEXT_146);
      } 
-    stringBuffer.append(TEXT_121);
+    stringBuffer.append(TEXT_147);
      if (logging) { 
-    stringBuffer.append(TEXT_122);
+    stringBuffer.append(TEXT_148);
     stringBuffer.append( data.rule.getName() );
-    stringBuffer.append(TEXT_123);
+    stringBuffer.append(TEXT_149);
      } 
     
   for (Edge edge : changeInfo.getDeletedEdges()) {
-    stringBuffer.append(TEXT_124);
+    stringBuffer.append(TEXT_150);
     stringBuffer.append( data.orderedLhsNodes.indexOf(edge.getSource()) );
-    stringBuffer.append(TEXT_125);
+    stringBuffer.append(TEXT_151);
     stringBuffer.append( data.orderedLhsNodes.indexOf(edge.getTarget()) );
-    stringBuffer.append(TEXT_126);
+    stringBuffer.append(TEXT_152);
       }
     for (Node node : changeInfo.getDeletedNodes()) {
-    stringBuffer.append(TEXT_127);
+    stringBuffer.append(TEXT_153);
     stringBuffer.append( data.orderedLhsNodes.indexOf(node) );
-    stringBuffer.append(TEXT_128);
+    stringBuffer.append(TEXT_154);
       }
 
     int n = 0;
     for (Node node : changeInfo.getCreatedNodes()) {
-    stringBuffer.append(TEXT_129);
+    stringBuffer.append(TEXT_155);
     stringBuffer.append( n );
-    stringBuffer.append(TEXT_130);
+    stringBuffer.append(TEXT_156);
      if (useUUIDs) { 
-    stringBuffer.append(TEXT_131);
+    stringBuffer.append(TEXT_157);
      } else { 
-    stringBuffer.append(TEXT_132);
+    stringBuffer.append(TEXT_158);
     stringBuffer.append( n );
-    stringBuffer.append(TEXT_133);
+    stringBuffer.append(TEXT_159);
      } 
-    stringBuffer.append(TEXT_134);
+    stringBuffer.append(TEXT_160);
     stringBuffer.append( n++ );
-    stringBuffer.append(TEXT_135);
+    stringBuffer.append(TEXT_161);
     stringBuffer.append( typeConstants.get(node.getType()) );
-    stringBuffer.append(TEXT_136);
+    stringBuffer.append(TEXT_162);
       }
 
     int e = 0;
     for (Edge edge : changeInfo.getCreatedEdges()) { 
     	// THE SOURCE OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { 
-    stringBuffer.append(TEXT_137);
+    stringBuffer.append(TEXT_163);
     stringBuffer.append( e );
-    stringBuffer.append(TEXT_138);
+    stringBuffer.append(TEXT_164);
     stringBuffer.append( changeInfo.getCreatedNodes().indexOf(edge.getSource()) );
-    stringBuffer.append(TEXT_139);
+    stringBuffer.append(TEXT_165);
     	} else { 
-    stringBuffer.append(TEXT_140);
+    stringBuffer.append(TEXT_166);
     stringBuffer.append( e );
-    stringBuffer.append(TEXT_141);
+    stringBuffer.append(TEXT_167);
     stringBuffer.append( data.orderedLhsNodes.indexOf(data.rule.getMappings().getOrigin(edge.getSource())) );
-    stringBuffer.append(TEXT_142);
+    stringBuffer.append(TEXT_168);
     	}
 	// THE TARGET OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getTarget())) { 
-    stringBuffer.append(TEXT_143);
+    stringBuffer.append(TEXT_169);
     stringBuffer.append( e );
-    stringBuffer.append(TEXT_144);
+    stringBuffer.append(TEXT_170);
     stringBuffer.append( changeInfo.getCreatedNodes().indexOf(edge.getTarget()) );
-    stringBuffer.append(TEXT_145);
+    stringBuffer.append(TEXT_171);
     	} else { 
-    stringBuffer.append(TEXT_146);
+    stringBuffer.append(TEXT_172);
     stringBuffer.append( e );
-    stringBuffer.append(TEXT_147);
+    stringBuffer.append(TEXT_173);
     stringBuffer.append( data.orderedLhsNodes.indexOf(data.rule.getMappings().getOrigin(edge.getTarget())) );
-    stringBuffer.append(TEXT_148);
+    stringBuffer.append(TEXT_174);
     	} 
-    stringBuffer.append(TEXT_149);
+    stringBuffer.append(TEXT_175);
     stringBuffer.append( e );
-    stringBuffer.append(TEXT_150);
+    stringBuffer.append(TEXT_176);
     stringBuffer.append( e );
-    stringBuffer.append(TEXT_151);
+    stringBuffer.append(TEXT_177);
     stringBuffer.append( typeConstants.get(edge.getType()) );
-    stringBuffer.append(TEXT_152);
+    stringBuffer.append(TEXT_178);
     stringBuffer.append( e );
-    stringBuffer.append(TEXT_153);
+    stringBuffer.append(TEXT_179);
     stringBuffer.append( e );
-    stringBuffer.append(TEXT_154);
+    stringBuffer.append(TEXT_180);
       e++;
     } 
-    stringBuffer.append(TEXT_155);
+    stringBuffer.append(TEXT_181);
     
 } // end of for all rules
 
-    stringBuffer.append(TEXT_156);
+    stringBuffer.append(TEXT_182);
      if (needsVertexIdFactory && !useUUIDs) { 
-    stringBuffer.append(TEXT_157);
+    stringBuffer.append(TEXT_183);
      } 
-    stringBuffer.append(TEXT_158);
+    stringBuffer.append(TEXT_184);
      if (logging) {
-    stringBuffer.append(TEXT_159);
+    stringBuffer.append(TEXT_185);
      } 
-    stringBuffer.append(TEXT_160);
+    stringBuffer.append(TEXT_186);
     stringBuffer.append( unitConstants.get(mainUnit) );
-    stringBuffer.append(TEXT_161);
+    stringBuffer.append(TEXT_187);
      if (!(mainUnit instanceof Rule)) { 
-    stringBuffer.append(TEXT_162);
+    stringBuffer.append(TEXT_188);
      } 
-    stringBuffer.append(TEXT_163);
+    stringBuffer.append(TEXT_189);
      for (Unit unit : allUnits) { 
-    stringBuffer.append(TEXT_164);
+    stringBuffer.append(TEXT_190);
     stringBuffer.append( unitConstants.get(unit) );
-    stringBuffer.append(TEXT_165);
+    stringBuffer.append(TEXT_191);
     stringBuffer.append( unit.getName() );
-    stringBuffer.append(TEXT_166);
+    stringBuffer.append(TEXT_192);
     stringBuffer.append( (unit instanceof Rule) ? ", ruleApps" : "" );
-    stringBuffer.append(TEXT_167);
+    stringBuffer.append(TEXT_193);
      } // end for 
-    stringBuffer.append(TEXT_168);
+    stringBuffer.append(TEXT_194);
      for (int i=0; i<rules.size(); i++) { 
-    stringBuffer.append(TEXT_169);
+    stringBuffer.append(TEXT_195);
     stringBuffer.append( i==0 ? "if (" : "  " );
-    stringBuffer.append(TEXT_170);
+    stringBuffer.append(TEXT_196);
     stringBuffer.append( unitConstants.get(rules.get(i)) + (i<rules.size()-1 ? " ||" : ") {" ) );
      } 
-    stringBuffer.append(TEXT_171);
+    stringBuffer.append(TEXT_197);
     
 
 for (Unit unit : allUnits) { 
-    stringBuffer.append(TEXT_172);
+    stringBuffer.append(TEXT_198);
     stringBuffer.append( unit.eClass().getName() );
-    stringBuffer.append(TEXT_173);
+    stringBuffer.append(TEXT_199);
     stringBuffer.append( unit.getName() );
-    stringBuffer.append(TEXT_174);
+    stringBuffer.append(TEXT_200);
      if (unit instanceof Rule) { 
-    stringBuffer.append(TEXT_175);
+    stringBuffer.append(TEXT_201);
      } 
-    stringBuffer.append(TEXT_176);
+    stringBuffer.append(TEXT_202);
     stringBuffer.append( unit.getName() );
-    stringBuffer.append(TEXT_177);
+    stringBuffer.append(TEXT_203);
     stringBuffer.append( (unit instanceof Rule) ? ", long ruleApps" : "" );
-    stringBuffer.append(TEXT_178);
+    stringBuffer.append(TEXT_204);
      if (unit instanceof IteratedUnit) {
    int iters = Integer.parseInt(((IteratedUnit) unit).getIterations()); 
-    stringBuffer.append(TEXT_179);
+    stringBuffer.append(TEXT_205);
     stringBuffer.append( iters );
-    stringBuffer.append(TEXT_180);
+    stringBuffer.append(TEXT_206);
     stringBuffer.append( iters );
-    stringBuffer.append(TEXT_181);
+    stringBuffer.append(TEXT_207);
     stringBuffer.append( unitConstants.get(unit) );
-    stringBuffer.append(TEXT_182);
+    stringBuffer.append(TEXT_208);
     stringBuffer.append( unitConstants.get(((IteratedUnit) unit).getSubUnit()) );
-    stringBuffer.append(TEXT_183);
+    stringBuffer.append(TEXT_209);
      } else if (unit instanceof SequentialUnit) {
      SequentialUnit seq = (SequentialUnit) unit; 
-    stringBuffer.append(TEXT_184);
+    stringBuffer.append(TEXT_210);
     stringBuffer.append( seq.getSubUnits().size() );
-    stringBuffer.append(TEXT_185);
+    stringBuffer.append(TEXT_211);
      for (int i=0; i<seq.getSubUnits().size(); i++) { 
-    stringBuffer.append(TEXT_186);
+    stringBuffer.append(TEXT_212);
     stringBuffer.append( i);
-    stringBuffer.append(TEXT_187);
+    stringBuffer.append(TEXT_213);
     stringBuffer.append( unitConstants.get(unit) );
-    stringBuffer.append(TEXT_188);
+    stringBuffer.append(TEXT_214);
     stringBuffer.append( i+1 );
-    stringBuffer.append(TEXT_189);
+    stringBuffer.append(TEXT_215);
     stringBuffer.append( unitConstants.get(seq.getSubUnits().get(i)) );
-    stringBuffer.append(TEXT_190);
+    stringBuffer.append(TEXT_216);
      } 
-    stringBuffer.append(TEXT_191);
+    stringBuffer.append(TEXT_217);
      } else if (unit instanceof IndependentUnit) { 
      IndependentUnit indi = (IndependentUnit) unit; 
-    stringBuffer.append(TEXT_192);
+    stringBuffer.append(TEXT_218);
     stringBuffer.append( indi.getSubUnits().size() );
-    stringBuffer.append(TEXT_193);
+    stringBuffer.append(TEXT_219);
     stringBuffer.append( indi.getSubUnits().size() );
-    stringBuffer.append(TEXT_194);
+    stringBuffer.append(TEXT_220);
      for (int i=0; i<indi.getSubUnits().size(); i++) { 
-    stringBuffer.append(TEXT_195);
+    stringBuffer.append(TEXT_221);
     stringBuffer.append( i);
-    stringBuffer.append(TEXT_196);
+    stringBuffer.append(TEXT_222);
     stringBuffer.append( unitConstants.get(unit) );
-    stringBuffer.append(TEXT_197);
+    stringBuffer.append(TEXT_223);
     stringBuffer.append( unitConstants.get(indi.getSubUnits().get(i)) );
-    stringBuffer.append(TEXT_198);
+    stringBuffer.append(TEXT_224);
      } 
-    stringBuffer.append(TEXT_199);
+    stringBuffer.append(TEXT_225);
      } else if (unit instanceof LoopUnit) { 
-    stringBuffer.append(TEXT_200);
+    stringBuffer.append(TEXT_226);
     stringBuffer.append( unitConstants.get(unit) );
-    stringBuffer.append(TEXT_201);
+    stringBuffer.append(TEXT_227);
     stringBuffer.append( unitConstants.get(((LoopUnit) unit).getSubUnit()) );
-    stringBuffer.append(TEXT_202);
+    stringBuffer.append(TEXT_228);
      } else if (unit instanceof Rule) { 
-    stringBuffer.append(TEXT_203);
+    stringBuffer.append(TEXT_229);
     stringBuffer.append( ruleData.get(unit).matchingSteps.size()-1 );
-    stringBuffer.append(TEXT_204);
+    stringBuffer.append(TEXT_230);
     stringBuffer.append( unitConstants.get(unit) );
-    stringBuffer.append(TEXT_205);
+    stringBuffer.append(TEXT_231);
      } 
-    stringBuffer.append(TEXT_206);
+    stringBuffer.append(TEXT_232);
      } // end for 
-    stringBuffer.append(TEXT_207);
-    stringBuffer.append(TEXT_208);
+    stringBuffer.append(TEXT_233);
+    stringBuffer.append(TEXT_234);
     return stringBuffer.toString();
   }
 }

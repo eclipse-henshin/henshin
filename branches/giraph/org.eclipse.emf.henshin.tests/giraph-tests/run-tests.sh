@@ -75,6 +75,7 @@ echo
 copy_tests
 compile_tests
 
+
 run_test StarMain StarStart 1 0
 
 run_test WheelMain WheelStart 3 3

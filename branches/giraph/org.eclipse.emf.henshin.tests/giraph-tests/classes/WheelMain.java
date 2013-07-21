@@ -211,11 +211,11 @@ public class WheelMain extends
           }
           // Send the message back to matches of node "b":
           for (Match m : matches) {
-            VertexId targetId = m.getVertexId(1);
+            VertexId recipient = m.getVertexId(1);
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
-              " back to vertex " + targetId);
-            sendMessage(targetId, match);
+              " back to vertex " + recipient);
+            sendMessage(recipient, match);
           }
         }
       }

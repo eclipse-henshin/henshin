@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.info.RuleChangeInfo;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
@@ -70,6 +71,12 @@ public class GiraphRuleData {
 	private Rule preprocessPrule(Rule rule) {
 		Rule copy = EcoreUtil.copy(rule);
 		requiredNodes = new ArrayList<Node>();
+		for (Node node : copy.getActionNodes(null)) {
+			Action action = node.getAction();
+			if (action.getType()==Action.Type.REQUIRE) {
+				requiredNodes.add(node);
+			}
+		}
 		boolean changed;
 		do {
 			changed = false;
@@ -77,12 +84,26 @@ public class GiraphRuleData {
 				Action action = node.getAction();
 				if (action.getType()==Action.Type.REQUIRE) {
 					node.setAction(new Action(Action.Type.PRESERVE));
-					requiredNodes.add(node);
+					changed = true;
+					break;
+				}
+			}
+			for (Edge edge : copy.getActionEdges(null)) {
+				Action action = edge.getAction();
+				if (action.getType()==Action.Type.REQUIRE) {
+					edge.setAction(new Action(Action.Type.PRESERVE));
 					changed = true;
 					break;
 				}
 			}
 		} while (changed);
+		for (int i=0; i<requiredNodes.size(); i++) {
+			Node node = requiredNodes.get(i);
+			if (!node.getGraph().isLhs()) {
+				node = ((NestedCondition) node.getGraph().eContainer()).getMappings().getOrigin(node);
+				requiredNodes.set(i, node);
+			}
+		}
 		return copy;
 	}
 	
@@ -177,10 +198,26 @@ public class GiraphRuleData {
 		while (!edgeQueue.isEmpty()) {
 			Edge edge = edgeQueue.pop();
 			
+			boolean isMatching = lockedNodes.add(edge.getSource());
+			
 			// Add the next matching step:
-			matchingSteps.add(new MatchingStep(edge.getSource(), edge, null, 
-					lockedNodes.contains(edge.getTarget()) ? edge.getTarget() : null, 
-					lockedNodes.isEmpty(), true, false));
+			Node sendBackTo = null;
+			if (lockedNodes.contains(edge.getTarget()) && !edgeQueue.isEmpty()) {
+				sendBackTo = edgeQueue.getFirst().getSource();
+			}
+			Node verifyEdgeTo = null;
+			if (lockedNodes.contains(edge.getTarget())) {
+				verifyEdgeTo = edge.getTarget();
+			}
+			matchingSteps.add(new MatchingStep(
+					edge.getSource(), // node
+					edge, // edge
+					sendBackTo, // send back to
+					verifyEdgeTo, // verify edge to
+					lockedNodes.size()==1, // is start
+					isMatching, // is matching
+					false // is join
+					));
 
 			visitedEdges.add(edge);
 
@@ -188,11 +225,19 @@ public class GiraphRuleData {
 
 				// Leaf:
 				if (!lockedNodes.contains(edge.getTarget())) {
-					Node sendBackTo = null;
+					sendBackTo = null;
 					if (!edgeQueue.isEmpty()) {
 						sendBackTo = edgeQueue.getFirst().getSource();
 					}
-					matchingSteps.add(new MatchingStep(edge.getTarget(), null, sendBackTo, null, false, true, false));
+					matchingSteps.add(new MatchingStep(
+							edge.getTarget(), 
+							null, 
+							sendBackTo, 
+							null, 
+							false, 
+							true, 
+							false));
+					lockedNodes.add(edge.getTarget());
 				}
 
 			} else {
@@ -207,7 +252,6 @@ public class GiraphRuleData {
 			}
 
 			lockedNodes.add(edge.getSource());
-			lockedNodes.add(edge.getTarget());
 
 		}
 		return matchingSteps;
