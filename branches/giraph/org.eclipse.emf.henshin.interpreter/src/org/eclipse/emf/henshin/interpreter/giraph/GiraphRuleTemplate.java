@@ -582,37 +582,38 @@ for (GiraphRuleData data : ruleData.values()) {
         }
         if (step.edge!=null && step.verifyEdgeTo==null) {
           /* START NOT VERIFY EDGE */
+          String yy = !step.isStart ? "  " : "";
 
     stringBuffer.append(TEXT_110);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_111);
     stringBuffer.append(TEXT_112);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_113);
     stringBuffer.append(TEXT_114);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_115);
     stringBuffer.append( typeConstants.get(step.edge.getType()) );
     stringBuffer.append(TEXT_116);
               if (logging) { 
     stringBuffer.append(TEXT_117);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_118);
     stringBuffer.append(TEXT_119);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_120);
     stringBuffer.append(TEXT_121);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_122);
               } 
     stringBuffer.append(TEXT_123);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_124);
     stringBuffer.append(TEXT_125);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_126);
     stringBuffer.append(TEXT_127);
-    stringBuffer.append( !step.isStart ? "  " : "");
+    stringBuffer.append(yy);
     stringBuffer.append(TEXT_128);
     
           /* END NOT VERIFY EDGE */        

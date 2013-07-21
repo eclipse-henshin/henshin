@@ -336,18 +336,19 @@ for (GiraphRuleData data : ruleData.values()) {
         }
         if (step.edge!=null && step.verifyEdgeTo==null) {
           /* START NOT VERIFY EDGE */
+          String yy = !step.isStart ? "  " : "";
 %>
-<%= !step.isStart ? "  " : ""%>        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
-<%= !step.isStart ? "  " : ""%>          if (edge.getValue().get() ==
-<%= !step.isStart ? "  " : ""%>            <%= typeConstants.get(step.edge.getType()) %>.get()) {
+<%=yy%>        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
+<%=yy%>          if (edge.getValue().get() ==
+<%=yy%>            <%= typeConstants.get(step.edge.getType()) %>.get()) {
 <%          if (logging) { %>
-<%= !step.isStart ? "  " : ""%>            LOG.info("Vertex " + vertex.getId() +
-<%= !step.isStart ? "  " : ""%>              " sending (partial) match " + match +
-<%= !step.isStart ? "  " : ""%>              " forward to vertex " + edge.getTargetVertexId());
+<%=yy%>            LOG.info("Vertex " + vertex.getId() +
+<%=yy%>              " sending (partial) match " + match +
+<%=yy%>              " forward to vertex " + edge.getTargetVertexId());
 <%          } %>
-<%= !step.isStart ? "  " : ""%>            sendMessage(edge.getTargetVertexId(), match);
-<%= !step.isStart ? "  " : ""%>          }
-<%= !step.isStart ? "  " : ""%>        }
+<%=yy%>            sendMessage(edge.getTargetVertexId(), match);
+<%=yy%>          }
+<%=yy%>        }
 <%
           /* END NOT VERIFY EDGE */        
         }
