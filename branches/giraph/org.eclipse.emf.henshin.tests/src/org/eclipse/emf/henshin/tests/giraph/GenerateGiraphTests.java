@@ -105,8 +105,8 @@ public class GenerateGiraphTests {
 		generateInputGraph(requireStart);
 		Rule requireOne = (Rule) module.getUnit("RequireOne");
 		generateComputeClass(requireOne, true, false);
-//		Rule requireTwo = (Rule) module.getUnit("RequireTwo");
-//		generateComputeClass(requireTwo, true, false);
+		Rule requireTwo = (Rule) module.getUnit("RequireTwo");
+		generateComputeClass(requireTwo, true, false);
 		
 		
 	}
