@@ -1434,7 +1434,7 @@
     <styles xmi:type="notation:RoutingStyle" xmi:id="_78jMYfBFEeKDbe1PlB-bRQ" routing="Rectilinear"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_78jMYvBFEeKDbe1PlB-bRQ" fontName="Segoe UI"/>
     <element xmi:type="henshin:LoopUnit" href="GiraphTests.henshin#_78StsPBFEeKDbe1PlB-bRQ"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_78jMY_BFEeKDbe1PlB-bRQ" points="[26, 0, 26, 0]$[52, 0, 52, 0]$[52, 35, 52, 35]$[0, 35, 0, 35]$[0, 14, 0, 14]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_78jMY_BFEeKDbe1PlB-bRQ" points="[0, 14, 0, 14]$[0, 30, 0, 30]$[48, 30, 48, 30]$[48, 0, 48, 0]$[26, 0, 26, 0]"/>
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_7V1eoPHaEeK9kbPmnqC_zw" type="4001" source="_0xkgYPHaEeK9kbPmnqC_zw" target="_0D_BoPHaEeK9kbPmnqC_zw">
     <children xmi:type="notation:DecorationNode" xmi:id="_7V4h8PHaEeK9kbPmnqC_zw" type="6001">
