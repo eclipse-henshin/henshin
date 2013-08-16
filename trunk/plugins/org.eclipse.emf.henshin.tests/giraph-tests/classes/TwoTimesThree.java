@@ -143,7 +143,7 @@ public class TwoTimesThree extends
 
   /**
    * Match (and apply) the rule "TwoTimesThree".
-   * This takes 8 microsteps.
+   * This takes 10 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param microstep Current microstep.
@@ -303,8 +303,46 @@ public class TwoTimesThree extends
               if (!joined.isInjective()) {
                 continue;
               }
-              applyTwoTimesThree(vertex, joined, appliedMatches);
             }
+          }
+        }
+      }
+    } else if (microstep == 8) {
+      for (Match match : matches) {
+        if (!match.isInjective()) {
+          continue;
+        }
+        // Node "b": check for edge to match of "y" of type "conn":
+        VertexId targetId = match.getVertexId(2);
+        for (Edge<VertexId, ByteWritable> edge :
+          vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_CONN.get() &&
+            edge.getTargetVertexId().equals(targetId)) {
+            // Send the message back to matches of node "b":
+            for (Match m : matches) {
+              VertexId recipient = m.getVertexId(4);
+              LOG.info("Vertex " + vertex.getId() +
+                " sending (partial) match " + match +
+                " back to vertex " + recipient);
+              sendMessage(recipient, match);
+            }
+          }
+        }
+      }
+    } else if (microstep == 9) {
+      for (Match match : matches) {
+        if (!match.isInjective()) {
+          continue;
+        }
+        // Node "b": check for edge to match of "z" of type "right":
+        VertexId targetId = match.getVertexId(3);
+        for (Edge<VertexId, ByteWritable> edge :
+          vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_RIGHT.get() &&
+            edge.getTargetVertexId().equals(targetId)) {
+            applyTwoTimesThree(vertex, match, appliedMatches);
           }
         }
       }
@@ -432,7 +470,7 @@ public class TwoTimesThree extends
      */
     private ApplicationStack processTwoTimesThree(
       ApplicationStack stack, int microstep, long ruleApps) {
-      if (microstep < 7) {
+      if (microstep < 9) {
         stack = stack.append(RULE_TWO_TIMES_THREE, microstep + 1);
       } else {
         unitSuccesses.push(ruleApps > 0);

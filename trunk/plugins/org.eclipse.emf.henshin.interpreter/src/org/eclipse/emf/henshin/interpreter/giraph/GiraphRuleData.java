@@ -152,6 +152,27 @@ public class GiraphRuleData {
 			}
 		}
 		
+		// Any edges which still need to be checked?
+		List<Edge> missingEdges = new ArrayList<Edge>(rule.getLhs().getEdges());
+		for (MatchingStep step : result) {
+			if (step.edge!=null) {
+				missingEdges.remove(step.edge);
+			}
+		}
+		for (Edge edge : missingEdges) {
+			MatchingStep lastStep = result.get(result.size()-1);
+			lastStep.sendBackTo = edge.getSource();
+			result.add(new MatchingStep(
+					edge.getSource(), // node
+					edge, // edge
+					null, // send back to
+					edge.getTarget(), // verify edge to
+					false, // is start
+					false, // is matching
+					false // is join
+					));
+		}
+		
 		// If the last node is a require node, we need to send the
 		// matches back to a real node:
 		if (!result.isEmpty()) {
