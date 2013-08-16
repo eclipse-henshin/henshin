@@ -269,15 +269,16 @@ public class TwoTimesThree extends
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
         Match match = new Match().append(vertex.getId());
-          // Node "b": check for edge to match of "x" of type "left":
-          VertexId targetId = match.getVertexId(1);
-          for (Edge<VertexId, ByteWritable> edge :
-            vertex.getEdges()) {
-            if (edge.getValue().get() ==
-              TYPE_VERTEX_LEFT.get() &&
-              edge.getTargetVertexId().equals(targetId)) {
-            }
+        // Send the match along all "left"-edges:
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_LEFT.get()) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " forward to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
           }
+        }
       }
       // Keep matches received at node "x":
       for (Match match : matches) {

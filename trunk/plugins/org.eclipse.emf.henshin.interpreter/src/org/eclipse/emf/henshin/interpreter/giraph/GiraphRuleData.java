@@ -145,13 +145,6 @@ public class GiraphRuleData {
 				}
 				// Stop if we reached the join node:
 				if (step.node==joinNode) {
-					// Check if there are additional edges to be verified:
-					MatchingStep lastStep = result.get(result.size()-2);
-					for (Edge edge : lastStep.node.getOutgoing()) {
-						if (edge!=lastStep.edge) {
-							lastStep.verifyEdgeTo = lastStep.edge.getTarget();
-						}
-					}
 					step.edge = null;
 					step.isJoin = true;
 					break;
