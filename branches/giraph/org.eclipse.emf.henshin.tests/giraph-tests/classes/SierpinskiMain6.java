@@ -158,6 +158,7 @@ public class SierpinskiMain6 extends
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        // Send the match along all "left"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_LEFT.get()) {
@@ -174,6 +175,7 @@ public class SierpinskiMain6 extends
           if (!match.isInjective()) {
             continue;
           }
+          // Send the match along all "conn"-edges:
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
               TYPE_VERTEX_CONN.get()) {

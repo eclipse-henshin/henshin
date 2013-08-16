@@ -81,7 +81,7 @@ public class GiraphUtil {
 				}
 				name = name + camelCase2Upper(classifier.getName());
 				typeConstants.put(classifier, name);
-				for (EReference ref : ((EClass) classifier).getEAllReferences()) {
+				for (EReference ref : ((EClass) classifier).getEReferences()) {
 					typeConstants.put(ref, name + "_" + camelCase2Upper(ref.getName()));
 				}
 			}

@@ -108,6 +108,10 @@ public class GenerateGiraphTests {
 		Rule requireTwo = (Rule) module.getUnit("RequireTwo");
 		generateComputeClass(requireTwo, true, false);
 		
+		// TwoTimesThree
+		Rule twoTimesThree = (Rule) module.getUnit("TwoTimesThree");
+		generateInputGraph(twoTimesThree);
+		generateComputeClass(twoTimesThree, true, false);
 		
 	}
 

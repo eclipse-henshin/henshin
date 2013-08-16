@@ -336,8 +336,9 @@ for (GiraphRuleData data : ruleData.values()) {
         }
         if (step.edge!=null && step.verifyEdgeTo==null) {
           /* START NOT VERIFY EDGE */
-          String yy = !step.isStart ? "  " : "";
+          String yy = !step.isStart && step.isMatching ? "  " : "";
 %>
+<%=yy%>        // Send the match along all "<%= step.edge.getType().getName() %>"-edges:
 <%=yy%>        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
 <%=yy%>          if (edge.getValue().get() ==
 <%=yy%>            <%= typeConstants.get(step.edge.getType()) %>.get()) {

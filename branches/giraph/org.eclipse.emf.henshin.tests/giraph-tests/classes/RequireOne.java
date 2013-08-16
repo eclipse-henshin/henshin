@@ -165,6 +165,7 @@ public class RequireOne extends
       boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        // Send the match along all "vertices"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONTAINER_VERTICES.get()) {
