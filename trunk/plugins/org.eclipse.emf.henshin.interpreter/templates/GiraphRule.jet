@@ -238,14 +238,26 @@ for (GiraphRuleData data : ruleData.values()) {
           for (Match m2 : matches) {
             VertexId id2 = m2.getVertexId(<%= data.orderedLhsNodes.indexOf(step.node) %>);
             if (!vertex.getId().equals(id2)) {
-              Match joined = m1.append(m2);
+              Match m = m1.append(m2);
 <%    if (rule.isInjectiveMatching()) { %>
-              if (!joined.isInjective()) {
+              if (!m.isInjective()) {
                 continue;
               }
 <%    }
-      if (i == data.matchingSteps.size()-1) {%>
-              apply<%= data.rule.getName() %>(vertex, joined, appliedMatches);
+      if (step.sendBackTo != null) {
+        /* START SEND BACK TO */        
+%>
+              // Send the message back to match of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
+              VertexId recipient = m.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
+<%      if (logging) { %>
+              LOG.info("Vertex " + vertex.getId() +
+                " sending (partial) match " + m +
+                " back to vertex " + recipient);
+<%      } %>
+              sendMessage(recipient, m);
+<%        /* END SEND BACK TO */        
+      } else if (i == data.matchingSteps.size()-1) {%>
+              apply<%= data.rule.getName() %>(vertex, m, appliedMatches);
 <%    } %>
             }
           }

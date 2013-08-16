@@ -111,7 +111,7 @@ public class GenerateGiraphTests {
 		// TwoTimesThree
 		Rule twoTimesThree = (Rule) module.getUnit("TwoTimesThree");
 		generateInputGraph(twoTimesThree);
-		generateComputeClass(twoTimesThree, true, false);
+		generateComputeClass(twoTimesThree, false, false);
 		
 	}
 

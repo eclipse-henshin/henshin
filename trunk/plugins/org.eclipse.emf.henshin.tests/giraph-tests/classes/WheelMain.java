@@ -256,11 +256,11 @@ public class WheelMain extends
           for (Match m2 : matches) {
             VertexId id2 = m2.getVertexId(1);
             if (!vertex.getId().equals(id2)) {
-              Match joined = m1.append(m2);
-              if (!joined.isInjective()) {
+              Match m = m1.append(m2);
+              if (!m.isInjective()) {
                 continue;
               }
-              applyWheel(vertex, joined, appliedMatches);
+              applyWheel(vertex, m, appliedMatches);
             }
           }
         }

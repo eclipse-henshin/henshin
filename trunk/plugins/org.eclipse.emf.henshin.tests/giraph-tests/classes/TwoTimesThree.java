@@ -31,7 +31,6 @@ import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
 import org.apache.hadoop.io.LongWritable;
-import org.apache.log4j.Logger;
 import static org.apache.giraph.examples.HenshinUtil
   .ApplicationStack;
 import static org.apache.giraph.examples.HenshinUtil
@@ -106,11 +105,6 @@ public class TwoTimesThree extends
    */
   public static final int RULE_TWO_TIMES_THREE = 0;
 
-  /**
-   * Logging support.
-   */
-  protected static final Logger LOG = Logger.getLogger(TwoTimesThree.class);
-
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -152,12 +146,6 @@ public class TwoTimesThree extends
       Vertex<VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<Match> matches, int microstep) throws IOException {
 
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule TwoTimesThree in microstep " + microstep);
-    for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-        " received (partial) match " + match);
-    }
     Set<Match> appliedMatches = new HashSet<Match>();
     if (microstep == 0) {
       // Matching node "a":
@@ -168,9 +156,6 @@ public class TwoTimesThree extends
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_LEFT.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
@@ -187,9 +172,6 @@ public class TwoTimesThree extends
           // Send the message back to matches of node "a":
           for (Match m : matches) {
             VertexId recipient = m.getVertexId(0);
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " back to vertex " + recipient);
             sendMessage(recipient, match);
           }
         }
@@ -203,9 +185,6 @@ public class TwoTimesThree extends
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONN.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
@@ -222,9 +201,6 @@ public class TwoTimesThree extends
           // Send the message back to matches of node "a":
           for (Match m : matches) {
             VertexId recipient = m.getVertexId(0);
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " back to vertex " + recipient);
             sendMessage(recipient, match);
           }
         }
@@ -238,9 +214,6 @@ public class TwoTimesThree extends
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_RIGHT.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
@@ -257,9 +230,6 @@ public class TwoTimesThree extends
           // Send the message back to matches of node "x":
           for (Match m : matches) {
             VertexId recipient = m.getVertexId(1);
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " back to vertex " + recipient);
             sendMessage(recipient, match);
           }
         }
@@ -273,9 +243,6 @@ public class TwoTimesThree extends
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_LEFT.get()) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
@@ -284,25 +251,24 @@ public class TwoTimesThree extends
       for (Match match : matches) {
         VertexId id = match.getVertexId(1);
         if (vertex.getId().equals(id)) {
-          LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
-            " sending (partial) match " + match + " to myself");
           sendMessage(id, match);
         }
       }
     } else if (microstep == 7) {
       // Joining matches at node "x":
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-        " joining matches of rule TwoTimesThree");
       for (Match m1 : matches) {
         VertexId id1 = m1.getVertexId(1);
         if (vertex.getId().equals(id1)) {
           for (Match m2 : matches) {
             VertexId id2 = m2.getVertexId(1);
             if (!vertex.getId().equals(id2)) {
-              Match joined = m1.append(m2);
-              if (!joined.isInjective()) {
+              Match m = m1.append(m2);
+              if (!m.isInjective()) {
                 continue;
               }
+              // Send the message back to match of node "b":
+              VertexId recipient = m.getVertexId(4);
+              sendMessage(recipient, m);
             }
           }
         }
@@ -322,9 +288,6 @@ public class TwoTimesThree extends
             // Send the message back to matches of node "b":
             for (Match m : matches) {
               VertexId recipient = m.getVertexId(4);
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + match +
-                " back to vertex " + recipient);
               sendMessage(recipient, match);
             }
           }
@@ -371,8 +334,6 @@ public class TwoTimesThree extends
     if (!appliedMatches.add(match)) {
       return false;
     }
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule TwoTimesThree with match " + match);
     removeEdgesRequest(cur0, cur1);
     removeEdgesRequest(cur0, cur2);
     removeEdgesRequest(cur0, cur3);
@@ -410,10 +371,6 @@ public class TwoTimesThree extends
     public void compute() {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
-      if (getSuperstep() > 0) {
-        LOG.info(ruleApps + " rule applications in superstep " +
-          (getSuperstep() - 1));
-      }
       if (ruleApps > 0) {
         long nodeGen = ((LongWritable)
           getAggregatedValue(AGGREGATOR_NODE_GENERATION)).get();
