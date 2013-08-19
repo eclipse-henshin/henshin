@@ -121,7 +121,7 @@
       </objectContribution>
       <objectContribution
             adaptable="false"
-            id="org.eclipse.emf.henshin.interpreter.ui.henshincontribution5"
+            id="org.eclipse.emf.henshin.interpreter.ui.henshincontribution4"
             objectClass="org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart">
          <action
                class="org.eclipse.emf.henshin.interpreter.ui.giraph.GenerateGiraphCodeAction"
@@ -134,6 +134,28 @@
             adaptable="false"
             id="org.eclipse.emf.henshin.interpreter.ui.henshincontribution5"
             objectClass="org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart">
+         <action
+               class="org.eclipse.emf.henshin.interpreter.ui.giraph.GenerateGiraphCodeAction"
+               id="org.eclipse.emf.henshin.interpreter.ui.action1"
+               label="%_UI_Command_GenerateGiraphCode"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.emf.henshin.interpreter.ui.henshincontribution6"
+            objectClass="org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart">
+         <action
+               class="org.eclipse.emf.henshin.interpreter.ui.giraph.GenerateGiraphCodeAction"
+               id="org.eclipse.emf.henshin.interpreter.ui.action1"
+               label="%_UI_Command_GenerateGiraphCode"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.emf.henshin.interpreter.ui.henshincontribution7"
+            objectClass="org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart">
          <action
                class="org.eclipse.emf.henshin.interpreter.ui.giraph.GenerateGiraphCodeAction"
                id="org.eclipse.emf.henshin.interpreter.ui.action1"

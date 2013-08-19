@@ -22,8 +22,10 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -58,6 +60,34 @@ public class HenshinUtil {
    */
   private HenshinUtil() {
     // Prevent instantiation
+  }
+
+  /**
+   * Remove duplicate matches.
+   * @param matches List of matches.
+   * @return Filtered list.
+   */
+  public static List<Match> removeDuplicateMatches(Iterable<Match> matches) {
+    Set<Match> result = new LinkedHashSet<Match>();
+    for (Match m : matches) {
+      result.add(m);
+    }
+    return new ArrayList<Match>(result);
+  }
+
+  /**
+   * Remove non-injective matches.
+   * @param matches List of matches.
+   * @return Filtered list.
+   */
+  public static List<Match> removeNonInjectiveMatches(Iterable<Match> matches) {
+    List<Match> result = new ArrayList<Match>();
+    for (Match m : matches) {
+      if (m.isInjective()) {
+        result.add(m);
+      }
+    }
+    return result;
   }
 
   /**

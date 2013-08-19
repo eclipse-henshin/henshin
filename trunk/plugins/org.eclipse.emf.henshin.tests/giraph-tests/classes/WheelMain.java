@@ -212,13 +212,11 @@ public class WheelMain extends
             continue;
           }
           // Send the message back to matches of node "b":
-          for (Match m : matches) {
-            VertexId recipient = m.getVertexId(1);
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " back to vertex " + recipient);
-            sendMessage(recipient, match);
-          }
+          VertexId recipient = match.getVertexId(1);
+          LOG.info("Vertex " + vertex.getId() +
+            " sending (partial) match " + match +
+            " back to vertex " + recipient);
+          sendMessage(recipient, match);
         }
       }
     } else if (microstep == 3) {

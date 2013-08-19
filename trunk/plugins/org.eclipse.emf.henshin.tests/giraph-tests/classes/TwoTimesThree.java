@@ -170,17 +170,12 @@ public class TwoTimesThree extends
             continue;
           }
           // Send the message back to matches of node "a":
-          for (Match m : matches) {
-            VertexId recipient = m.getVertexId(0);
-            sendMessage(recipient, match);
-          }
+          VertexId recipient = match.getVertexId(0);
+          sendMessage(recipient, match);
         }
       }
     } else if (microstep == 2) {
       for (Match match : matches) {
-        if (!match.isInjective()) {
-          continue;
-        }
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -199,17 +194,12 @@ public class TwoTimesThree extends
             continue;
           }
           // Send the message back to matches of node "a":
-          for (Match m : matches) {
-            VertexId recipient = m.getVertexId(0);
-            sendMessage(recipient, match);
-          }
+          VertexId recipient = match.getVertexId(0);
+          sendMessage(recipient, match);
         }
       }
     } else if (microstep == 4) {
       for (Match match : matches) {
-        if (!match.isInjective()) {
-          continue;
-        }
         // Send the match along all "right"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -228,10 +218,8 @@ public class TwoTimesThree extends
             continue;
           }
           // Send the message back to matches of node "x":
-          for (Match m : matches) {
-            VertexId recipient = m.getVertexId(1);
-            sendMessage(recipient, match);
-          }
+          VertexId recipient = match.getVertexId(1);
+          sendMessage(recipient, match);
         }
       }
     } else if (microstep == 6) {
@@ -275,9 +263,6 @@ public class TwoTimesThree extends
       }
     } else if (microstep == 8) {
       for (Match match : matches) {
-        if (!match.isInjective()) {
-          continue;
-        }
         // Node "b": check for edge to match of "y" of type "conn":
         VertexId targetId = match.getVertexId(2);
         for (Edge<VertexId, ByteWritable> edge :
@@ -286,18 +271,13 @@ public class TwoTimesThree extends
             TYPE_VERTEX_CONN.get() &&
             edge.getTargetVertexId().equals(targetId)) {
             // Send the message back to matches of node "b":
-            for (Match m : matches) {
-              VertexId recipient = m.getVertexId(4);
-              sendMessage(recipient, match);
-            }
+            VertexId recipient = match.getVertexId(4);
+            sendMessage(recipient, match);
           }
         }
       }
     } else if (microstep == 9) {
       for (Match match : matches) {
-        if (!match.isInjective()) {
-          continue;
-        }
         // Node "b": check for edge to match of "z" of type "right":
         VertexId targetId = match.getVertexId(3);
         for (Edge<VertexId, ByteWritable> edge :

@@ -112,7 +112,17 @@ public class GenerateGiraphTests {
 		Rule twoTimesThree = (Rule) module.getUnit("TwoTimesThree");
 		generateInputGraph(twoTimesThree);
 		generateComputeClass(twoTimesThree, false, false);
-		
+
+		// TwoTimesTwo
+		Rule twoTimesTwo = (Rule) module.getUnit("TwoTimesTwo");
+		Rule twoTimesTwoStart1 = (Rule) module.getUnit("TwoTimesTwoStart1");
+		Rule twoTimesTwoStart2 = (Rule) module.getUnit("TwoTimesTwoStart2");
+		Rule twoTimesTwoStart3 = (Rule) module.getUnit("TwoTimesTwoStart3"); // this one seems not to work if useUUIDs=false
+		generateInputGraph(twoTimesTwoStart1);
+		generateInputGraph(twoTimesTwoStart2);
+		generateInputGraph(twoTimesTwoStart3);
+		generateComputeClass(twoTimesTwo, true, false);
+
 	}
 
 }

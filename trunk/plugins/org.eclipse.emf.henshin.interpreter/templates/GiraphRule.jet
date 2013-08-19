@@ -239,7 +239,7 @@ for (GiraphRuleData data : ruleData.values()) {
             VertexId id2 = m2.getVertexId(<%= data.orderedLhsNodes.indexOf(step.node) %>);
             if (!vertex.getId().equals(id2)) {
               Match m = m1.append(m2);
-<%    if (rule.isInjectiveMatching()) { %>
+<%    if (rule.isInjectiveMatching()) {%>
               if (!m.isInjective()) {
                 continue;
               }
@@ -256,7 +256,7 @@ for (GiraphRuleData data : ruleData.values()) {
 <%      } %>
               sendMessage(recipient, m);
 <%        /* END SEND BACK TO */        
-      } else if (i == data.matchingSteps.size()-1) {%>
+      } else if (i == data.matchingSteps.size()-1) { %>
               apply<%= data.rule.getName() %>(vertex, m, appliedMatches);
 <%    } %>
             }
@@ -290,12 +290,12 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=xx%>      for (Match match : matches) {
 <%        if (step.isMatching) { %>
 <%=xx%>        match = match.append(vertex.getId());
-<%        }
-          if (rule.isInjectiveMatching()) {%>
+<%          if (rule.isInjectiveMatching()) {%>
 <%=xx%>        if (!match.isInjective()) {
 <%=xx%>          continue;
 <%=xx%>        }
-<%        }
+<%          }
+          }
           /* END IS NOT START*/        
         }
         if (step.edge != null) {
@@ -320,22 +320,18 @@ for (GiraphRuleData data : ruleData.values()) {
           /* START SEND BACK TO */        
 %>
 <%=xx%>        // Send the message back to matches of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
-<%=xx%>        for (Match m : matches) {
-<%=xx%>          VertexId recipient = m.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
+<%=xx%>        VertexId recipient = match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
 <%        if (logging) { %>
-<%=xx%>          LOG.info("Vertex " + vertex.getId() +
-<%=xx%>            " sending (partial) match " + match +
-<%=xx%>            " back to vertex " + recipient);
+<%=xx%>        LOG.info("Vertex " + vertex.getId() +
+<%=xx%>          " sending (partial) match " + match +
+<%=xx%>          " back to vertex " + recipient);
 <%        } %>
-<%=xx%>          sendMessage(recipient, match);
-<%=xx%>        }
+<%=xx%>        sendMessage(recipient, match);
 <%        /* END SEND BACK TO */        
         } else if (i == data.matchingSteps.size()-1) {
-          /* START LAST STEP */        
-%>
+          /* START LAST STEP */ %>
 <%=xx%>        apply<%= data.rule.getName() %>(vertex, match, appliedMatches);
-<%
-          /* END LAST STEP */        
+<%        /* END LAST STEP */        
         }
         if (step.verifyEdgeTo != null) {
           /* START VERIFY EDGE */
@@ -452,7 +448,7 @@ for (GiraphRuleData data : ruleData.values()) {
 <% if (useUUIDs) { %>
       VertexId.randomVertexId();
 <% } else { %>
-      deriveVertexId(vertex.getId(), (byte) <%= n %>);
+      deriveVertexId(vertex.getId(), appliedMatches.size(), <%= n %>);
 <% } %>
     addVertexRequest(new<%= n++ %>, <%= typeConstants.get(node.getType()) %>);
 <%  }
@@ -487,13 +483,18 @@ for (GiraphRuleData data : ruleData.values()) {
   /**
    * Derive a new vertex Id from an exiting one.
    * @param baseId The base vertex Id.
-   * @param vertexIndex The relative index of the new vertex.
+   * @param matchIndex The index of the match.
+   * @param vertexIndex The index of the new vertex.
    * @return The derived vertex Id.
    */
-  private VertexId deriveVertexId(VertexId baseId, int vertexIndex) {
+  private VertexId deriveVertexId(VertexId baseId, int matchIndex,
+    int vertexIndex) {
     long generation = ((LongWritable) getAggregatedValue(
         AGGREGATOR_NODE_GENERATION)).get();
-    return baseId.append((byte) generation).append((byte) vertexIndex);
+    return baseId
+      .append((byte) generation)
+      .append((byte) matchIndex)
+      .append((byte) vertexIndex);
   }
 
 <% } %>

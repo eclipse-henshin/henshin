@@ -212,20 +212,15 @@ public class SierpinskiMain1 extends
             continue;
           }
           // Send the message back to matches of node "a":
-          for (Match m : matches) {
-            VertexId recipient = m.getVertexId(0);
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " back to vertex " + recipient);
-            sendMessage(recipient, match);
-          }
+          VertexId recipient = match.getVertexId(0);
+          LOG.info("Vertex " + vertex.getId() +
+            " sending (partial) match " + match +
+            " back to vertex " + recipient);
+          sendMessage(recipient, match);
         }
       }
     } else if (microstep == 3) {
       for (Match match : matches) {
-        if (!match.isInjective()) {
-          continue;
-        }
         // Node "a": check for edge to match of "c" of type "right":
         VertexId targetId = match.getVertexId(2);
         for (Edge<VertexId, ByteWritable> edge :
@@ -266,13 +261,13 @@ public class SierpinskiMain1 extends
     removeEdgesRequest(cur0, cur2);
     removeEdgesRequest(cur1, cur2);
     VertexId new0 =
-      deriveVertexId(vertex.getId(), (byte) 0);
+      deriveVertexId(vertex.getId(), appliedMatches.size(), 0);
     addVertexRequest(new0, TYPE_VERTEX);
     VertexId new1 =
-      deriveVertexId(vertex.getId(), (byte) 1);
+      deriveVertexId(vertex.getId(), appliedMatches.size(), 1);
     addVertexRequest(new1, TYPE_VERTEX);
     VertexId new2 =
-      deriveVertexId(vertex.getId(), (byte) 2);
+      deriveVertexId(vertex.getId(), appliedMatches.size(), 2);
     addVertexRequest(new2, TYPE_VERTEX);
     VertexId src0 = cur0;
     VertexId trg0 = new0;
@@ -326,13 +321,18 @@ public class SierpinskiMain1 extends
   /**
    * Derive a new vertex Id from an exiting one.
    * @param baseId The base vertex Id.
-   * @param vertexIndex The relative index of the new vertex.
+   * @param matchIndex The index of the match.
+   * @param vertexIndex The index of the new vertex.
    * @return The derived vertex Id.
    */
-  private VertexId deriveVertexId(VertexId baseId, int vertexIndex) {
+  private VertexId deriveVertexId(VertexId baseId, int matchIndex,
+    int vertexIndex) {
     long generation = ((LongWritable) getAggregatedValue(
         AGGREGATOR_NODE_GENERATION)).get();
-    return baseId.append((byte) generation).append((byte) vertexIndex);
+    return baseId
+      .append((byte) generation)
+      .append((byte) matchIndex)
+      .append((byte) vertexIndex);
   }
 
   /**
