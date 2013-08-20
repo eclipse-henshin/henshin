@@ -163,6 +163,7 @@ public class RequireTwo extends
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
+      ok = ok && vertex.getNumEdges() >= 2;
       if (ok) {
         Match match = new Match().append(vertex.getId());
         // Send the match along all "vertices"-edges:
@@ -179,6 +180,7 @@ public class RequireTwo extends
     } else if (microstep == 1) {
       // Matching node "c":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      ok = ok && vertex.getNumEdges() >= 1;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
@@ -200,6 +202,7 @@ public class RequireTwo extends
     } else if (microstep == 2) {
       // Matching node "b":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      ok = ok && vertex.getNumEdges() >= 1;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());

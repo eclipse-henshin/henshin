@@ -190,6 +190,7 @@ public class ForkMain extends
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      ok = ok && vertex.getNumEdges() >= 1;
       if (ok) {
         Match match = new Match().append(vertex.getId());
         // Send the match along all "left"-edges:
@@ -266,6 +267,7 @@ public class ForkMain extends
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      ok = ok && vertex.getNumEdges() >= 1;
       if (ok) {
         Match match = new Match().append(vertex.getId());
         // Send the match along all "right"-edges:
@@ -342,6 +344,7 @@ public class ForkMain extends
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      ok = ok && vertex.getNumEdges() >= 1;
       if (ok) {
         Match match = new Match().append(vertex.getId());
         // Send the match along all "conn"-edges:

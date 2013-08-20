@@ -276,6 +276,9 @@ for (GiraphRuleData data : ruleData.values()) {
       // Matching node <%= GiraphUtil.getNodeName(step.node) %>:
 <%    for (int j=0; j<validTypes.size(); j++) { %>
       <%= (j==0) ? "boolean ok = " : "  " %>vertex.getValue().get() == <%= typeConstants.get(validTypes.get(j)) %>.get()<%= (j==validTypes.size()-1) ? ";" : " ||" %>
+<%    }
+      if (rule.isInjectiveMatching() && !step.node.getOutgoing().isEmpty()) { %>
+      ok = ok && vertex.getNumEdges() >= <%= step.node.getOutgoing().size() %>;
 <%    } %>
       if (ok) {
 <%
