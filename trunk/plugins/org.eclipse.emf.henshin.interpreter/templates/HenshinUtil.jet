@@ -27,6 +27,7 @@ String packageName = (String) args.get("packageName");
  */
 package <%= packageName %>;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -518,11 +519,19 @@ public class HenshinUtil {
        */
       private VertexId jsonArrayToVertexId(JSONArray jsonArray)
         throws JSONException {
-        byte[] bytes = new byte[jsonArray.length()];
-        for (int i = 0; i < bytes.length; i++) {
-          bytes[i] = (byte) jsonArray.getInt(i);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        for (int i = 0; i < jsonArray.length(); i++) {
+          int value = jsonArray.getInt(i);
+          if (value < 256) {
+            out.write(value);
+          } else {
+            out.write(value >> 24);
+            out.write(value >> 16);
+            out.write(value >> 8);
+            out.write(value);
+          }
         }
-        return new VertexId(bytes);
+        return new VertexId(out.toByteArray());
       }
 
       @Override

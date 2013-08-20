@@ -269,11 +269,14 @@ for (GiraphRuleData data : ruleData.values()) {
         /* START CHECKING */        
         String xx = "";
         if (step.isMatching) {
-          /* START MATCHING */        
+          /* START MATCHING */
           xx = "  ";
+          List<EClass> validTypes = GiraphUtil.getValidTypes(step.node, mainUnit.getModule());
 %>
       // Matching node <%= GiraphUtil.getNodeName(step.node) %>:
-      boolean ok = vertex.getValue().get() == <%= typeConstants.get(step.node.getType()) %>.get();
+<%    for (int j=0; j<validTypes.size(); j++) { %>
+      <%= (j==0) ? "boolean ok = " : "  " %>vertex.getValue().get() == <%= typeConstants.get(validTypes.get(j)) %>.get()<%= (j==validTypes.size()-1) ? ";" : " ||" %>
+<%    } %>
       if (ok) {
 <%
           /* END MATCHING */        

@@ -133,4 +133,17 @@ public class GiraphUtil {
 		return data;
 	}
 	
+	public static List<EClass> getValidTypes(Node node, Module module) {
+		Set<ENamedElement> allTypes = getTypeConstants(module).keySet();
+		List<EClass> types = new ArrayList<EClass>();
+		for (ENamedElement type : allTypes) {
+			if (type instanceof EClass) {
+				if (type==node.getType() || ((EClass) type).getEAllSuperTypes().contains(node.getType())) {
+					types.add((EClass) type);
+				}
+			}
+		}
+		return types;
+	}
+	
 }
