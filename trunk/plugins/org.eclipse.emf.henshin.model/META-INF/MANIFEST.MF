@@ -17,5 +17,6 @@ Export-Package: org.eclipse.emf.henshin,
  org.eclipse.emf.henshin.model.impl,
  org.eclipse.emf.henshin.model.importers,
  org.eclipse.emf.henshin.model.resource,
+ org.eclipse.emf.henshin.model.staticanalysis,
  org.eclipse.emf.henshin.model.util
 Bundle-Activator: org.eclipse.emf.henshin.HenshinModelPlugin$Implementation

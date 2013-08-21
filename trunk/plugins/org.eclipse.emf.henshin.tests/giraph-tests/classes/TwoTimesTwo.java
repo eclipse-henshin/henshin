@@ -216,6 +216,9 @@ public class TwoTimesTwo extends
           if (!match.isInjective()) {
             continue;
           }
+          if (vertex.getId().compareTo(match.getVertexId(1)) < 0) {
+            continue;
+          }
           // Send the message back to matches of node "x":
           VertexId recipient = match.getVertexId(1);
           LOG.info("Vertex " + vertex.getId() +

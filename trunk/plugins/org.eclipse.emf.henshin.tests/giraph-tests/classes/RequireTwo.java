@@ -209,6 +209,9 @@ public class RequireTwo extends
           if (!match.isInjective()) {
             continue;
           }
+          if (vertex.getId().compareTo(match.getVertexId(1)) < 0) {
+            continue;
+          }
           // Node "b": check for edge to match of "c" of type "left":
           VertexId targetId = match.getVertexId(1);
           for (Edge<VertexId, ByteWritable> edge :

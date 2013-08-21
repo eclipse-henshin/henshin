@@ -2,18 +2,26 @@ package org.eclipse.emf.henshin.interpreter.giraph;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.info.RuleChangeInfo;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.staticanalysis.NodeEquivalence;
 
 public class GiraphRuleData {
 
@@ -57,6 +65,8 @@ public class GiraphRuleData {
 
 	public List<Node> requiredNodes;
 	
+	public Map<Node,NodeEquivalence> requiredNodesEquivalences;
+	
 	public GiraphRuleData(Rule rule) throws Exception {
 		rule = preprocessPrule(rule);
 		this.rule = rule;
@@ -69,7 +79,12 @@ public class GiraphRuleData {
 	}
 
 	private Rule preprocessPrule(Rule rule) {
+		
+		// Make a copy of the rule first:
 		Rule copy = EcoreUtil.copy(rule);
+		rule = null;
+		
+		// Compute the required nodes:
 		requiredNodes = new ArrayList<Node>();
 		for (Node node : copy.getActionNodes(null)) {
 			Action action = node.getAction();
@@ -77,6 +92,33 @@ public class GiraphRuleData {
 				requiredNodes.add(node);
 			}
 		}
+
+		// Compute the required nodes equivalences:
+		requiredNodesEquivalences = new HashMap<Node,NodeEquivalence>();
+		TreeIterator<EObject> it = copy.eAllContents();
+		while (it.hasNext()) {
+			EObject obj = it.next();
+			if (obj instanceof Graph) {
+				NestedCondition pac = copy.getLhs().getPAC(((Graph) obj).getName());
+				if (pac!=null) {
+					List<NodeEquivalence> equivalences = NodeEquivalence.computeEquivalences(pac.getConclusion());
+					for (NodeEquivalence equi : equivalences) {
+						for (int i=0; i<equi.size(); i++) {
+							if (pac.getMappings().getOrigin(equi.get(i))!=null) {
+								equi.remove(i--);
+							}
+						}
+						if (equi.size()>1) {
+							for (Node node : equi) {
+								requiredNodesEquivalences.put(node, equi);								
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Move the required nodes to the LHS:
 		boolean changed;
 		do {
 			changed = false;
@@ -97,13 +139,27 @@ public class GiraphRuleData {
 				}
 			}
 		} while (changed);
+		
+		// Replace required nodes if necessary:
 		for (int i=0; i<requiredNodes.size(); i++) {
 			Node node = requiredNodes.get(i);
 			if (!node.getGraph().isLhs()) {
-				node = ((NestedCondition) node.getGraph().eContainer()).getMappings().getOrigin(node);
-				requiredNodes.set(i, node);
+				Node lhsNode = ((NestedCondition) node.getGraph().eContainer()).getMappings().getOrigin(node);
+				requiredNodes.set(i, lhsNode);
+				if (requiredNodesEquivalences.containsKey(node)) {
+					requiredNodesEquivalences.put(lhsNode, requiredNodesEquivalences.get(node));
+					requiredNodesEquivalences.remove(node);
+				}
+				for (NodeEquivalence equi : requiredNodesEquivalences.values()) {
+					for (int j=0; j<equi.size(); j++) {
+						if (equi.get(j)==node) {
+							equi.set(j, lhsNode);
+						}
+					}
+				}
 			}
 		}
+		
 		return copy;
 	}
 	
@@ -284,6 +340,15 @@ public class GiraphRuleData {
 			if (step.node!=null && !orderedLhsNodes.contains(step.node)) {
 				orderedLhsNodes.add(step.node);
 			}
+		}
+		// Sort all require node equivalences:
+		for (NodeEquivalence equi : requiredNodesEquivalences.values()) {
+			Collections.sort(equi, new Comparator<Node>() {
+				@Override
+				public int compare(Node x, Node y) {
+					return orderedLhsNodes.indexOf(x) - orderedLhsNodes.indexOf(y);
+				}
+			});
 		}
 	}
 

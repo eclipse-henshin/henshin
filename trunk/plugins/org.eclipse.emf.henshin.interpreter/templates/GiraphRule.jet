@@ -1,5 +1,5 @@
 <%@ jet package="org.eclipse.emf.henshin.interpreter.giraph" class="GiraphRuleTemplate" 
-imports="java.util.* org.eclipse.emf.henshin.model.* org.eclipse.emf.henshin.interpreter.info.* org.eclipse.emf.ecore.*" %>
+imports="java.util.* org.eclipse.emf.henshin.model.* org.eclipse.emf.henshin.model.staticanalysis.* org.eclipse.emf.henshin.interpreter.info.* org.eclipse.emf.ecore.*" %>
 <%
 
 @SuppressWarnings("unchecked")
@@ -282,7 +282,7 @@ for (GiraphRuleData data : ruleData.values()) {
 <%    } %>
       if (ok) {
 <%
-          /* END MATCHING */        
+          /* END MATCHING */
         }
         if (step.isStart) {
           /* START IS START */        
@@ -298,6 +298,13 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=xx%>        match = match.append(vertex.getId());
 <%          if (rule.isInjectiveMatching()) {%>
 <%=xx%>        if (!match.isInjective()) {
+<%=xx%>          continue;
+<%=xx%>        }
+<%          }
+            NodeEquivalence equi = data.requiredNodesEquivalences.get(step.node);
+            if (equi!=null && equi.indexOf(step.node)>0) { 
+              Node compareTo = equi.get(equi.indexOf(step.node)-1); %>
+<%=xx%>        if (vertex.getId().compareTo(match.getVertexId(<%= data.orderedLhsNodes.indexOf(compareTo) %>)) < 0) {
 <%=xx%>          continue;
 <%=xx%>        }
 <%          }
