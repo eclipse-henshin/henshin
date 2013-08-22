@@ -328,6 +328,14 @@ public class HenshinUtil {
     }
 
     /**
+     * Create a copy of this match.
+     * @return The copy.
+     */
+    public Match copy() {
+      return new Match(getBytes());
+    }
+
+    /**
      * Pretty-print this match.
      * @return The printed string.
      */

@@ -32,6 +32,7 @@ import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.log4j.Logger;
 import static org.apache.giraph.examples.HenshinUtil
   .ApplicationStack;
 import static org.apache.giraph.examples.HenshinUtil
@@ -49,6 +50,11 @@ import static org.apache.giraph.examples.HenshinUtil
 )
 public class SierpinskiMain6 extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
+
+  /**
+   * Name of the match count aggregator.
+   */
+  public static final String AGGREGATOR_MATCHES = "matches";
 
   /**
    * Name of the rule application count aggregator.
@@ -111,6 +117,11 @@ public class SierpinskiMain6 extends
    */
   public static final int RULE_SIERPINSKI = 1;
 
+  /**
+   * Logging support.
+   */
+  protected static final Logger LOG = Logger.getLogger(SierpinskiMain6.class);
+
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -153,12 +164,14 @@ public class SierpinskiMain6 extends
       Iterable<Match> matches, int microstep) throws IOException {
 
     Set<Match> appliedMatches = new HashSet<Match>();
+    long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       ok = ok && vertex.getNumEdges() >= 2;
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        matchCount++;
         // Send the match along all "left"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -177,6 +190,7 @@ public class SierpinskiMain6 extends
           if (!match.isInjective()) {
             continue;
           }
+          matchCount++;
           // Send the match along all "conn"-edges:
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
@@ -195,9 +209,9 @@ public class SierpinskiMain6 extends
           if (!match.isInjective()) {
             continue;
           }
+          matchCount++;
           // Send the message back to matches of node "a":
-          VertexId recipient = match.getVertexId(0);
-          sendMessage(recipient, match);
+          sendMessage(match.getVertexId(0), match);
         }
       }
     } else if (microstep == 3) {
@@ -209,6 +223,7 @@ public class SierpinskiMain6 extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_RIGHT.get() &&
             edge.getTargetVertexId().equals(targetId)) {
+            matchCount++;
             applySierpinski(vertex, match, appliedMatches);
           }
         }
@@ -217,6 +232,7 @@ public class SierpinskiMain6 extends
       throw new RuntimeException("Illegal microstep for rule " +
         "Sierpinski: " + microstep);
     }
+    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
   }
 
   /**
@@ -339,6 +355,13 @@ public class SierpinskiMain6 extends
     public void compute() {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      long matches = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_MATCHES)).get();
+      if (getSuperstep() > 0) {
+        LOG.info(matches + " (partial) matches computed and " +
+          ruleApps + " rules applied in superstep " +
+          (getSuperstep() - 1));
+      }
       if (ruleApps > 0) {
         long nodeGen = ((LongWritable)
           getAggregatedValue(AGGREGATOR_NODE_GENERATION)).get();
@@ -434,6 +457,8 @@ public class SierpinskiMain6 extends
     @Override
     public void initialize() throws InstantiationException,
         IllegalAccessException {
+      registerAggregator(AGGREGATOR_MATCHES,
+        LongSumAggregator.class);
       registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,

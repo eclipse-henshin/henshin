@@ -70,7 +70,8 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			args.put("mainUnit", mainUnit);
 			args.put("className", className);
 			args.put("packageName", packageName);
-			args.put("logging", new Boolean(page.loggingCheckBox.getSelection()));
+			args.put("masterLogging", new Boolean(page.masterLoggingCheckBox.getSelection()));
+			args.put("vertexLogging", new Boolean(page.vertexLoggingCheckBox.getSelection()));
 			args.put("useUUIDs", new Boolean(page.uuidsCheckBox.getSelection()));
 			GiraphRuleTemplate template = new GiraphRuleTemplate();
 			String giraphCode = template.generate(args);
@@ -124,7 +125,9 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		
 		Text classNameText;
 
-		Button loggingCheckBox;
+		Button masterLoggingCheckBox;
+
+		Button vertexLoggingCheckBox;
 
 		Button uuidsCheckBox;
 
@@ -157,16 +160,20 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			classNameText.setText(className);
 
 			label = new Label(comp, SWT.NONE);
-			label.setText("Enable logging:");
+			label.setText("Master logging:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			loggingCheckBox = new Button(comp, SWT.CHECK);
-			//loggingCheckBox.setSelection(true);
+			masterLoggingCheckBox = new Button(comp, SWT.CHECK);
+			masterLoggingCheckBox.setSelection(true);
+
+			label = new Label(comp, SWT.NONE);
+			label.setText("Vertex logging:");
+			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+			vertexLoggingCheckBox = new Button(comp, SWT.CHECK);
 
 			label = new Label(comp, SWT.NONE);
 			label.setText("Use Java UUIDs:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			uuidsCheckBox = new Button(comp, SWT.CHECK);
-			//uuidsCheckBox.setSelection(true);
 
 			setControl(comp);
 		}

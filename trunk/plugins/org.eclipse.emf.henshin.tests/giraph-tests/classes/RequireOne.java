@@ -52,6 +52,11 @@ public class RequireOne extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
 
   /**
+   * Name of the match count aggregator.
+   */
+  public static final String AGGREGATOR_MATCHES = "matches";
+
+  /**
    * Name of the rule application count aggregator.
    */
   public static final String AGGREGATOR_RULE_APPLICATIONS = "ruleApps";
@@ -160,12 +165,14 @@ public class RequireOne extends
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
       ok = ok && vertex.getNumEdges() >= 1;
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        matchCount++;
         // Send the match along all "vertices"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -186,22 +193,24 @@ public class RequireOne extends
           if (!match.isInjective()) {
             continue;
           }
+          matchCount++;
           // Send the message back to matches of node "a":
-          VertexId recipient = match.getVertexId(0);
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
-            " back to vertex " + recipient);
-          sendMessage(recipient, match);
+            " back to vertex " + match.getVertexId(0));
+          sendMessage(match.getVertexId(0), match);
         }
       }
     } else if (microstep == 2) {
       for (Match match : matches) {
+        matchCount++;
         applyRequireOne(vertex, match, appliedMatches);
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "RequireOne: " + microstep);
     }
+    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
   }
 
   /**
@@ -276,8 +285,11 @@ public class RequireOne extends
     public void compute() {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      long matches = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_MATCHES)).get();
       if (getSuperstep() > 0) {
-        LOG.info(ruleApps + " rule applications in superstep " +
+        LOG.info(matches + " (partial) matches computed and " +
+          ruleApps + " rules applied in superstep " +
           (getSuperstep() - 1));
       }
       if (ruleApps > 0) {
@@ -351,6 +363,8 @@ public class RequireOne extends
     @Override
     public void initialize() throws InstantiationException,
         IllegalAccessException {
+      registerAggregator(AGGREGATOR_MATCHES,
+        LongSumAggregator.class);
       registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,

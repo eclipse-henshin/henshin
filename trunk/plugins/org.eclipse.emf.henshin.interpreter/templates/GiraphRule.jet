@@ -11,7 +11,8 @@ Map<Rule,GiraphRuleData> ruleData = (Map<Rule,GiraphRuleData>) args.get("ruleDat
 Unit mainUnit = (Unit) args.get("mainUnit");
 String className = (String) args.get("className");
 String packageName = (String) args.get("packageName");
-boolean logging = (Boolean) args.get("logging");
+boolean masterLogging = (Boolean) args.get("masterLogging");
+boolean vertexLogging = (Boolean) args.get("vertexLogging");
 boolean useUUIDs = (Boolean) args.get("useUUIDs");
 
 List<Unit> allUnits = new ArrayList<Unit>();
@@ -41,6 +42,16 @@ for (Unit unit : allUnits) {
   }
 }
 
+boolean needsArrayList = needsCollections;
+for (GiraphRuleData data : ruleData.values()) {
+  for (GiraphRuleData.MatchingStep step : data.matchingSteps) {
+    if (step.isJoin) {
+      needsArrayList = true;
+      break;
+    }
+  }
+}
+
 %>
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -63,8 +74,10 @@ package <%= packageName %>;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
-<% if (needsCollections) { %>
+<% if (needsArrayList) { %>
 import java.util.ArrayList;
+<% }
+if (needsCollections) { %>
 import java.util.Collections;
 <% } %>
 import java.util.Deque;
@@ -82,7 +95,7 @@ import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
 import org.apache.hadoop.io.LongWritable;
-<%if (logging) { %>
+<%if (masterLogging || vertexLogging) { %>
 import org.apache.log4j.Logger;
 <%} %>
 import static <%= packageName %>.HenshinUtil
@@ -102,6 +115,11 @@ import static <%= packageName %>.HenshinUtil
 )
 public class <%= className %> extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
+
+  /**
+   * Name of the match count aggregator.
+   */
+  public static final String AGGREGATOR_MATCHES = "matches";
 
   /**
    * Name of the rule application count aggregator.
@@ -144,7 +162,7 @@ for (Unit unit : unitConstants.keySet()) {
 <%
 }
 
-if (logging) {
+if (masterLogging || vertexLogging) {
 %>
 
   /**
@@ -206,7 +224,7 @@ for (GiraphRuleData data : ruleData.values()) {
 
 <%
   /* START LOGGING */
-  if (logging) { %>
+  if (vertexLogging) { %>
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
       " matching rule <%= rule.getName() %> in microstep " + microstep);
     for (Match match : matches) {
@@ -217,6 +235,7 @@ for (GiraphRuleData data : ruleData.values()) {
   /* END LOGGING */
 %>
     Set<Match> appliedMatches = new HashSet<Match>();
+    long matchCount = 0;
 
 <%  for (int i=0; i<data.matchingSteps.size(); i++) {
 
@@ -228,39 +247,44 @@ for (GiraphRuleData data : ruleData.values()) {
         /* START JOIN */        
         %>
       // Joining matches at node <%= GiraphUtil.getNodeName(step.node) %>:
-<%      if (logging) { %>
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-        " joining matches of rule <%= rule.getName() %>");
+      List<Match> matches1 = new ArrayList<Match>();
+      List<Match> matches2 = new ArrayList<Match>();
+      VertexId id = vertex.getId();
+      for (Match match : matches) {
+        if (id.equals(match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.node) %>))) {
+          matches1.add(match.copy());
+        } else {
+          matches2.add(match.copy());
+        }
+      }
+<%      if (vertexLogging) { %>
+      LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
+        " joining " + matches1.size() + " x " + matches2.size() +
+        " partial matches of rule <%= rule.getName() %>");
 <%      } %>
-      for (Match m1 : matches) {
-        VertexId id1 = m1.getVertexId(<%= data.orderedLhsNodes.indexOf(step.node) %>);
-        if (vertex.getId().equals(id1)) {
-          for (Match m2 : matches) {
-            VertexId id2 = m2.getVertexId(<%= data.orderedLhsNodes.indexOf(step.node) %>);
-            if (!vertex.getId().equals(id2)) {
-              Match m = m1.append(m2);
+      for (Match m1 : matches1) {
+        for (Match m2 : matches2) {
+          Match match = m1.append(m2);
 <%    if (rule.isInjectiveMatching()) {%>
-              if (!m.isInjective()) {
-                continue;
-              }
+          if (!match.isInjective()) {
+            continue;
+          }
+          matchCount++;
 <%    }
       if (step.sendBackTo != null) {
         /* START SEND BACK TO */        
 %>
-              // Send the message back to match of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
-              VertexId recipient = m.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
-<%      if (logging) { %>
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + m +
-                " back to vertex " + recipient);
+          // Send the message back to match of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
+<%      if (vertexLogging) { %>
+          LOG.info("Vertex " + vertex.getId() +
+            " sending (partial) match " + match +
+            " back to vertex " + match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>));
 <%      } %>
-              sendMessage(recipient, m);
-<%        /* END SEND BACK TO */        
+          sendMessage(match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>), match);
+<%        /* END SEND BACK TO */
       } else if (i == data.matchingSteps.size()-1) { %>
-              apply<%= data.rule.getName() %>(vertex, m, appliedMatches);
+          apply<%= data.rule.getName() %>(vertex, match, appliedMatches);
 <%    } %>
-            }
-          }
         }
       }
 <%
@@ -288,6 +312,7 @@ for (GiraphRuleData data : ruleData.values()) {
           /* START IS START */        
 %>
         Match match = new Match().append(vertex.getId());
+        matchCount++;
 <%
           /* END IS START */        
         } else {
@@ -307,9 +332,12 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=xx%>        if (vertex.getId().compareTo(match.getVertexId(<%= data.orderedLhsNodes.indexOf(compareTo) %>)) < 0) {
 <%=xx%>          continue;
 <%=xx%>        }
-<%          }
-          }
-          /* END IS NOT START*/        
+<%          } 
+          } 
+          if (step.verifyEdgeTo == null) { %>
+<%=xx%>        matchCount++;
+<%        }
+          /* END IS NOT START*/
         }
         if (step.edge != null) {
           /* START EDGE */
@@ -324,22 +352,22 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=xx%>      if (edge.getValue().get() ==
 <%=xx%>        <%= typeConstants.get(step.edge.getType()) %>.get() &&
 <%=xx%>        edge.getTargetVertexId().equals(targetId)) {
+<%=xx%>        matchCount++;
 <%
             /* END VERIFY EDGE */        
           }
           /* END EDGE */
-        }
-        if (step.sendBackTo != null) {
+        } %>
+<%      if (step.sendBackTo != null) {
           /* START SEND BACK TO */        
 %>
 <%=xx%>        // Send the message back to matches of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
-<%=xx%>        VertexId recipient = match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>);
-<%        if (logging) { %>
+<%        if (vertexLogging) { %>
 <%=xx%>        LOG.info("Vertex " + vertex.getId() +
 <%=xx%>          " sending (partial) match " + match +
-<%=xx%>          " back to vertex " + recipient);
+<%=xx%>          " back to vertex " + match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>));
 <%        } %>
-<%=xx%>        sendMessage(recipient, match);
+<%=xx%>        sendMessage(match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>), match);
 <%        /* END SEND BACK TO */        
         } else if (i == data.matchingSteps.size()-1) {
           /* START LAST STEP */ %>
@@ -363,7 +391,7 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=yy%>        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
 <%=yy%>          if (edge.getValue().get() ==
 <%=yy%>            <%= typeConstants.get(step.edge.getType()) %>.get()) {
-<%          if (logging) { %>
+<%          if (vertexLogging) { %>
 <%=yy%>            LOG.info("Vertex " + vertex.getId() +
 <%=yy%>              " sending (partial) match " + match +
 <%=yy%>              " forward to vertex " + edge.getTargetVertexId());
@@ -386,7 +414,8 @@ for (GiraphRuleData data : ruleData.values()) {
       for (Match match : matches) {
         VertexId id = match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.keepMatchesOf) %>);
         if (vertex.getId().equals(id)) {
-<%        if (logging) { %>
+          matchCount++;
+<%        if (vertexLogging) { %>
           LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
             " sending (partial) match " + match + " to myself");
 <%        } %>
@@ -401,6 +430,7 @@ for (GiraphRuleData data : ruleData.values()) {
       throw new RuntimeException("Illegal microstep for rule " +
         "<%= rule.getName() %>: " + microstep);
     }
+    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
   }
 
   /**
@@ -443,7 +473,7 @@ for (GiraphRuleData data : ruleData.values()) {
     if (!appliedMatches.add(match)) {
       return false;
     }
-<% if (logging) { %>
+<% if (vertexLogging) { %>
     LOG.info("Vertex " + vertex.getId() +
       " applying rule <%= data.rule.getName() %> with match " + match);
 <% } %>
@@ -536,9 +566,12 @@ for (GiraphRuleData data : ruleData.values()) {
     public void compute() {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
-<% if (logging) {%>
+<% if (masterLogging) { %>
+      long matches = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_MATCHES)).get();
       if (getSuperstep() > 0) {
-        LOG.info(ruleApps + " rule applications in superstep " +
+        LOG.info(matches + " (partial) matches computed and " +
+          ruleApps + " rules applied in superstep " +
           (getSuperstep() - 1));
       }
 <% } %>
@@ -692,6 +725,8 @@ for (Unit unit : allUnits) { %>
     @Override
     public void initialize() throws InstantiationException,
         IllegalAccessException {
+      registerAggregator(AGGREGATOR_MATCHES,
+        LongSumAggregator.class);
       registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,

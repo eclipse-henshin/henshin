@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class GenerateGiraphTests {
 
-	public static void generateComputeClass(Unit mainUnit, boolean logging, boolean useUUIDs) {
+	public static void generateComputeClass(Unit mainUnit, boolean vertexLogging, boolean useUUIDs) {
 		try {
 			String className = mainUnit.getName();
 			if (mainUnit instanceof IteratedUnit) {
@@ -31,7 +31,8 @@ public class GenerateGiraphTests {
 			args.put("mainUnit", mainUnit);
 			args.put("className", className);
 			args.put("packageName", "org.apache.giraph.examples");
-			args.put("logging", logging);
+			args.put("masterLogging", true);
+			args.put("vertexLogging", vertexLogging);
 			args.put("useUUIDs", useUUIDs);
 
 			GiraphRuleTemplate ruleTemplate = GiraphRuleTemplate.create("\n");

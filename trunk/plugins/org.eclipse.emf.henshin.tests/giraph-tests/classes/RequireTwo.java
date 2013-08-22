@@ -52,6 +52,11 @@ public class RequireTwo extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
 
   /**
+   * Name of the match count aggregator.
+   */
+  public static final String AGGREGATOR_MATCHES = "matches";
+
+  /**
    * Name of the rule application count aggregator.
    */
   public static final String AGGREGATOR_RULE_APPLICATIONS = "ruleApps";
@@ -160,12 +165,14 @@ public class RequireTwo extends
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
       ok = ok && vertex.getNumEdges() >= 2;
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        matchCount++;
         // Send the match along all "vertices"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -187,6 +194,7 @@ public class RequireTwo extends
           if (!match.isInjective()) {
             continue;
           }
+          matchCount++;
           // Send the match along all "left"-edges:
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
@@ -219,12 +227,12 @@ public class RequireTwo extends
             if (edge.getValue().get() ==
               TYPE_VERTEX_LEFT.get() &&
               edge.getTargetVertexId().equals(targetId)) {
+              matchCount++;
               // Send the message back to matches of node "a":
-              VertexId recipient = match.getVertexId(0);
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
-                " back to vertex " + recipient);
-              sendMessage(recipient, match);
+                " back to vertex " + match.getVertexId(0));
+              sendMessage(match.getVertexId(0), match);
             }
           }
         }
@@ -238,6 +246,7 @@ public class RequireTwo extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONTAINER_VERTICES.get() &&
             edge.getTargetVertexId().equals(targetId)) {
+            matchCount++;
             applyRequireTwo(vertex, match, appliedMatches);
           }
         }
@@ -246,6 +255,7 @@ public class RequireTwo extends
       throw new RuntimeException("Illegal microstep for rule " +
         "RequireTwo: " + microstep);
     }
+    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
   }
 
   /**
@@ -321,8 +331,11 @@ public class RequireTwo extends
     public void compute() {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      long matches = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_MATCHES)).get();
       if (getSuperstep() > 0) {
-        LOG.info(ruleApps + " rule applications in superstep " +
+        LOG.info(matches + " (partial) matches computed and " +
+          ruleApps + " rules applied in superstep " +
           (getSuperstep() - 1));
       }
       if (ruleApps > 0) {
@@ -396,6 +409,8 @@ public class RequireTwo extends
     @Override
     public void initialize() throws InstantiationException,
         IllegalAccessException {
+      registerAggregator(AGGREGATOR_MATCHES,
+        LongSumAggregator.class);
       registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,

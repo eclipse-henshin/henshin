@@ -19,6 +19,7 @@ package org.apache.giraph.examples;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -50,6 +51,11 @@ import static org.apache.giraph.examples.HenshinUtil
 )
 public class TwoTimesTwo extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
+
+  /**
+   * Name of the match count aggregator.
+   */
+  public static final String AGGREGATOR_MATCHES = "matches";
 
   /**
    * Name of the rule application count aggregator.
@@ -160,12 +166,14 @@ public class TwoTimesTwo extends
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       ok = ok && vertex.getNumEdges() >= 2;
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        matchCount++;
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -186,16 +194,17 @@ public class TwoTimesTwo extends
           if (!match.isInjective()) {
             continue;
           }
+          matchCount++;
           // Send the message back to matches of node "a":
-          VertexId recipient = match.getVertexId(0);
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
-            " back to vertex " + recipient);
-          sendMessage(recipient, match);
+            " back to vertex " + match.getVertexId(0));
+          sendMessage(match.getVertexId(0), match);
         }
       }
     } else if (microstep == 2) {
       for (Match match : matches) {
+        matchCount++;
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -219,12 +228,12 @@ public class TwoTimesTwo extends
           if (vertex.getId().compareTo(match.getVertexId(1)) < 0) {
             continue;
           }
+          matchCount++;
           // Send the message back to matches of node "x":
-          VertexId recipient = match.getVertexId(1);
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
-            " back to vertex " + recipient);
-          sendMessage(recipient, match);
+            " back to vertex " + match.getVertexId(1));
+          sendMessage(match.getVertexId(1), match);
         }
       }
     } else if (microstep == 4) {
@@ -233,6 +242,7 @@ public class TwoTimesTwo extends
       ok = ok && vertex.getNumEdges() >= 2;
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        matchCount++;
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -248,6 +258,7 @@ public class TwoTimesTwo extends
       for (Match match : matches) {
         VertexId id = match.getVertexId(1);
         if (vertex.getId().equals(id)) {
+          matchCount++;
           LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
             " sending (partial) match " + match + " to myself");
           sendMessage(id, match);
@@ -255,26 +266,31 @@ public class TwoTimesTwo extends
       }
     } else if (microstep == 5) {
       // Joining matches at node "x":
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-        " joining matches of rule TwoTimesTwo");
-      for (Match m1 : matches) {
-        VertexId id1 = m1.getVertexId(1);
-        if (vertex.getId().equals(id1)) {
-          for (Match m2 : matches) {
-            VertexId id2 = m2.getVertexId(1);
-            if (!vertex.getId().equals(id2)) {
-              Match m = m1.append(m2);
-              if (!m.isInjective()) {
-                continue;
-              }
-              // Send the message back to match of node "b":
-              VertexId recipient = m.getVertexId(3);
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + m +
-                " back to vertex " + recipient);
-              sendMessage(recipient, m);
-            }
+      List<Match> matches1 = new ArrayList<Match>();
+      List<Match> matches2 = new ArrayList<Match>();
+      VertexId id = vertex.getId();
+      for (Match match : matches) {
+        if (id.equals(match.getVertexId(1))) {
+          matches1.add(match.copy());
+        } else {
+          matches2.add(match.copy());
+        }
+      }
+      LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
+        " joining " + matches1.size() + " x " + matches2.size() +
+        " partial matches of rule TwoTimesTwo");
+      for (Match m1 : matches1) {
+        for (Match m2 : matches2) {
+          Match match = m1.append(m2);
+          if (!match.isInjective()) {
+            continue;
           }
+          matchCount++;
+          // Send the message back to match of node "b":
+          LOG.info("Vertex " + vertex.getId() +
+            " sending (partial) match " + match +
+            " back to vertex " + match.getVertexId(3));
+          sendMessage(match.getVertexId(3), match);
         }
       }
     } else if (microstep == 6) {
@@ -286,6 +302,7 @@ public class TwoTimesTwo extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONN.get() &&
             edge.getTargetVertexId().equals(targetId)) {
+            matchCount++;
             applyTwoTimesTwo(vertex, match, appliedMatches);
           }
         }
@@ -294,6 +311,7 @@ public class TwoTimesTwo extends
       throw new RuntimeException("Illegal microstep for rule " +
         "TwoTimesTwo: " + microstep);
     }
+    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
   }
 
   /**
@@ -375,8 +393,11 @@ public class TwoTimesTwo extends
     public void compute() {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      long matches = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_MATCHES)).get();
       if (getSuperstep() > 0) {
-        LOG.info(ruleApps + " rule applications in superstep " +
+        LOG.info(matches + " (partial) matches computed and " +
+          ruleApps + " rules applied in superstep " +
           (getSuperstep() - 1));
       }
       if (ruleApps > 0) {
@@ -450,6 +471,8 @@ public class TwoTimesTwo extends
     @Override
     public void initialize() throws InstantiationException,
         IllegalAccessException {
+      registerAggregator(AGGREGATOR_MATCHES,
+        LongSumAggregator.class);
       registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,

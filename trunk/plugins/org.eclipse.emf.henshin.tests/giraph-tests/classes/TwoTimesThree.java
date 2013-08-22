@@ -19,6 +19,7 @@ package org.apache.giraph.examples;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.master.DefaultMasterCompute;
 import org.apache.hadoop.io.ByteWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.log4j.Logger;
 import static org.apache.giraph.examples.HenshinUtil
   .ApplicationStack;
 import static org.apache.giraph.examples.HenshinUtil
@@ -48,6 +50,11 @@ import static org.apache.giraph.examples.HenshinUtil
 )
 public class TwoTimesThree extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
+
+  /**
+   * Name of the match count aggregator.
+   */
+  public static final String AGGREGATOR_MATCHES = "matches";
 
   /**
    * Name of the rule application count aggregator.
@@ -105,6 +112,11 @@ public class TwoTimesThree extends
    */
   public static final int RULE_TWO_TIMES_THREE = 0;
 
+  /**
+   * Logging support.
+   */
+  protected static final Logger LOG = Logger.getLogger(TwoTimesThree.class);
+
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -147,12 +159,14 @@ public class TwoTimesThree extends
       Iterable<Match> matches, int microstep) throws IOException {
 
     Set<Match> appliedMatches = new HashSet<Match>();
+    long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
       ok = ok && vertex.getNumEdges() >= 3;
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        matchCount++;
         // Send the match along all "left"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -170,13 +184,14 @@ public class TwoTimesThree extends
           if (!match.isInjective()) {
             continue;
           }
+          matchCount++;
           // Send the message back to matches of node "a":
-          VertexId recipient = match.getVertexId(0);
-          sendMessage(recipient, match);
+          sendMessage(match.getVertexId(0), match);
         }
       }
     } else if (microstep == 2) {
       for (Match match : matches) {
+        matchCount++;
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -194,13 +209,14 @@ public class TwoTimesThree extends
           if (!match.isInjective()) {
             continue;
           }
+          matchCount++;
           // Send the message back to matches of node "a":
-          VertexId recipient = match.getVertexId(0);
-          sendMessage(recipient, match);
+          sendMessage(match.getVertexId(0), match);
         }
       }
     } else if (microstep == 4) {
       for (Match match : matches) {
+        matchCount++;
         // Send the match along all "right"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -218,9 +234,9 @@ public class TwoTimesThree extends
           if (!match.isInjective()) {
             continue;
           }
+          matchCount++;
           // Send the message back to matches of node "x":
-          VertexId recipient = match.getVertexId(1);
-          sendMessage(recipient, match);
+          sendMessage(match.getVertexId(1), match);
         }
       }
     } else if (microstep == 6) {
@@ -229,6 +245,7 @@ public class TwoTimesThree extends
       ok = ok && vertex.getNumEdges() >= 3;
       if (ok) {
         Match match = new Match().append(vertex.getId());
+        matchCount++;
         // Send the match along all "left"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
@@ -241,26 +258,31 @@ public class TwoTimesThree extends
       for (Match match : matches) {
         VertexId id = match.getVertexId(1);
         if (vertex.getId().equals(id)) {
+          matchCount++;
           sendMessage(id, match);
         }
       }
     } else if (microstep == 7) {
       // Joining matches at node "x":
-      for (Match m1 : matches) {
-        VertexId id1 = m1.getVertexId(1);
-        if (vertex.getId().equals(id1)) {
-          for (Match m2 : matches) {
-            VertexId id2 = m2.getVertexId(1);
-            if (!vertex.getId().equals(id2)) {
-              Match m = m1.append(m2);
-              if (!m.isInjective()) {
-                continue;
-              }
-              // Send the message back to match of node "b":
-              VertexId recipient = m.getVertexId(4);
-              sendMessage(recipient, m);
-            }
+      List<Match> matches1 = new ArrayList<Match>();
+      List<Match> matches2 = new ArrayList<Match>();
+      VertexId id = vertex.getId();
+      for (Match match : matches) {
+        if (id.equals(match.getVertexId(1))) {
+          matches1.add(match.copy());
+        } else {
+          matches2.add(match.copy());
+        }
+      }
+      for (Match m1 : matches1) {
+        for (Match m2 : matches2) {
+          Match match = m1.append(m2);
+          if (!match.isInjective()) {
+            continue;
           }
+          matchCount++;
+          // Send the message back to match of node "b":
+          sendMessage(match.getVertexId(4), match);
         }
       }
     } else if (microstep == 8) {
@@ -272,9 +294,9 @@ public class TwoTimesThree extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONN.get() &&
             edge.getTargetVertexId().equals(targetId)) {
+            matchCount++;
             // Send the message back to matches of node "b":
-            VertexId recipient = match.getVertexId(4);
-            sendMessage(recipient, match);
+            sendMessage(match.getVertexId(4), match);
           }
         }
       }
@@ -287,6 +309,7 @@ public class TwoTimesThree extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_RIGHT.get() &&
             edge.getTargetVertexId().equals(targetId)) {
+            matchCount++;
             applyTwoTimesThree(vertex, match, appliedMatches);
           }
         }
@@ -295,6 +318,7 @@ public class TwoTimesThree extends
       throw new RuntimeException("Illegal microstep for rule " +
         "TwoTimesThree: " + microstep);
     }
+    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
   }
 
   /**
@@ -353,6 +377,13 @@ public class TwoTimesThree extends
     public void compute() {
       long ruleApps = ((LongWritable)
         getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      long matches = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_MATCHES)).get();
+      if (getSuperstep() > 0) {
+        LOG.info(matches + " (partial) matches computed and " +
+          ruleApps + " rules applied in superstep " +
+          (getSuperstep() - 1));
+      }
       if (ruleApps > 0) {
         long nodeGen = ((LongWritable)
           getAggregatedValue(AGGREGATOR_NODE_GENERATION)).get();
@@ -424,6 +455,8 @@ public class TwoTimesThree extends
     @Override
     public void initialize() throws InstantiationException,
         IllegalAccessException {
+      registerAggregator(AGGREGATOR_MATCHES,
+        LongSumAggregator.class);
       registerAggregator(AGGREGATOR_RULE_APPLICATIONS,
         LongSumAggregator.class);
       registerPersistentAggregator(AGGREGATOR_NODE_GENERATION,
