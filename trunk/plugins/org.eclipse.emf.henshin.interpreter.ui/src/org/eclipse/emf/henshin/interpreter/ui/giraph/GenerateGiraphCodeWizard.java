@@ -73,6 +73,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			args.put("masterLogging", new Boolean(page.masterLoggingCheckBox.getSelection()));
 			args.put("vertexLogging", new Boolean(page.vertexLoggingCheckBox.getSelection()));
 			args.put("useUUIDs", new Boolean(page.uuidsCheckBox.getSelection()));
+			args.put("segmentCount", 1);
 			GiraphRuleTemplate template = new GiraphRuleTemplate();
 			String giraphCode = template.generate(args);
 			

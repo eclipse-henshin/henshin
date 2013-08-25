@@ -222,10 +222,41 @@ public class HenshinUtil {
 
     /**
      * Extra constructor.
+     * @param segment The segment of this match.
+     */
+    public Match(int segment) {
+      super(new byte[] { (byte) (segment & 0xFF) });
+    }
+
+    /**
+     * Extra constructor.
      * @param data The data.
      */
     public Match(byte[] data) {
       super(data);
+    }
+
+    /**
+     * Get the segment of this match.
+     * @return The segment.
+     */
+    public int getSegment() {
+      return getBytes()[0];
+    }
+
+    /**
+     * Get the size of this match.
+     * @return The match size.
+     */
+    public int getMatchSize() {
+      byte[] bytes = getBytes();
+      int d = 1;
+      int size = 0;
+      while (d < bytes.length) {
+        d += bytes[d] + 1;
+        size++;
+      }
+      return size;
     }
 
     /**
@@ -235,7 +266,7 @@ public class HenshinUtil {
      */
     public VertexId getVertexId(int vertexIndex) {
       byte[] bytes = getBytes();
-      int d = 0;
+      int d = 1;
       for (int i = 0; i < vertexIndex; i++) {
         if (d >= bytes.length) {
           return null;
@@ -306,9 +337,9 @@ public class HenshinUtil {
     public Match append(Match match) {
       byte[] bytes1 = getBytes();
       byte[] bytes2 = match.getBytes();
-      bytes1 = Arrays.copyOf(bytes1, bytes1.length + bytes2.length);
-      System.arraycopy(bytes2, 0,
-        bytes1, bytes1.length - bytes2.length, bytes2.length);
+      bytes1 = Arrays.copyOf(bytes1, bytes1.length + bytes2.length - 1);
+      System.arraycopy(bytes2, 1,
+        bytes1, bytes1.length - bytes2.length + 1, bytes2.length - 1);
       return new Match(bytes1);
     }
 
@@ -319,7 +350,7 @@ public class HenshinUtil {
      */
     public Match remove(int vertexIndex) {
       byte[] bytes = getBytes();
-      int d = 0;
+      int d = 1;
       for (int i = 0; i < vertexIndex; i++) {
         if (d >= bytes.length) {
           return null;
@@ -353,7 +384,7 @@ public class HenshinUtil {
     public String toString() {
       byte[] bytes = getBytes();
       StringBuffer result = new StringBuffer();
-      int i = 0;
+      int i = 1;
       while (i < bytes.length) {
         int len = bytes[i++];
         result.append("[");
@@ -369,7 +400,11 @@ public class HenshinUtil {
           result.append(",");
         }
       }
-      return "[" + result + "]";
+      if (bytes.length > 0) {
+        return getSegment() + ":[" + result + "]";
+      } else {
+        return "[" + result + "]";
+      }
     }
 
   }
@@ -399,7 +434,7 @@ public class HenshinUtil {
      * @return the size of this application stack.
      */
     public int getStackSize() {
-      return (getBytes().length / INT_LENGTH) / 2;
+      return (getBytes().length / INT_LENGTH) / 3;
     }
 
     /**
@@ -409,10 +444,23 @@ public class HenshinUtil {
      */
     public int getUnit(int position) {
       IntBuffer intBuf = ByteBuffer.wrap(getBytes()).asIntBuffer();
-      if (position < 0 || position * 2 >= intBuf.limit()) {
+      if (position < 0 || position * 3 >= intBuf.limit()) {
         return -1;
       }
-      return intBuf.get(position * 2);
+      return intBuf.get(position * 3);
+    }
+
+    /**
+     * Get the segment index at an absolute position.
+     * @param position An absolute position in the stack.
+     * @return the segment index or -1.
+     */
+    public int getSegment(int position) {
+      IntBuffer intBuf = ByteBuffer.wrap(getBytes()).asIntBuffer();
+      if (position < 0 || (position * 3) + 1 >= intBuf.limit()) {
+        return -1;
+      }
+      return intBuf.get((position * 3) + 1);
     }
 
     /**
@@ -422,10 +470,10 @@ public class HenshinUtil {
      */
     public int getMicrostep(int position) {
       IntBuffer intBuf = ByteBuffer.wrap(getBytes()).asIntBuffer();
-      if (position < 0 || (position * 2) + 1 >= intBuf.limit()) {
+      if (position < 0 || (position * 3) + 2 >= intBuf.limit()) {
         return -1;
       }
-      return intBuf.get((position * 2) + 1);
+      return intBuf.get((position * 3) + 2);
     }
 
     /**
@@ -434,6 +482,14 @@ public class HenshinUtil {
      */
     public int getLastUnit() {
       return getUnit(getStackSize() - 1);
+    }
+
+    /**
+     * Get the segment index at the last position.
+     * @return the segment index or -1.
+     */
+    public int getLastSegment() {
+      return getSegment(getStackSize() - 1);
     }
 
     /**
@@ -447,14 +503,16 @@ public class HenshinUtil {
     /**
      * Create an extended version of this application stack.
      * @param unit The new unit index.
+     * @param segment The new segment index.
      * @param microstep The new microstep.
      * @return The extended version of this application stack.
      */
-    public ApplicationStack append(int unit, int microstep) {
+    public ApplicationStack append(int unit, int segment, int microstep) {
       byte[] bytes = getBytes();
-      bytes = Arrays.copyOf(bytes, bytes.length + (INT_LENGTH * 2));
+      bytes = Arrays.copyOf(bytes, bytes.length + (INT_LENGTH * 3));
       IntBuffer intBuffer = ByteBuffer.wrap(bytes).asIntBuffer();
-      intBuffer.put((bytes.length / INT_LENGTH) - 2, unit);
+      intBuffer.put((bytes.length / INT_LENGTH) - 3, unit);
+      intBuffer.put((bytes.length / INT_LENGTH) - 2, segment);
       intBuffer.put((bytes.length / INT_LENGTH) - 1, microstep);
       return new ApplicationStack(bytes);
     }
@@ -466,7 +524,7 @@ public class HenshinUtil {
     public ApplicationStack removeLast() {
       byte[] bytes = getBytes();
       bytes = Arrays.copyOf(bytes,
-        Math.max(0, bytes.length - (INT_LENGTH * 2)));
+        Math.max(0, bytes.length - (INT_LENGTH * 3)));
       return new ApplicationStack(bytes);
     }
 

@@ -34,6 +34,7 @@ public class GenerateGiraphTests {
 			args.put("masterLogging", true);
 			args.put("vertexLogging", vertexLogging);
 			args.put("useUUIDs", useUUIDs);
+			args.put("segmentCount", 1);
 
 			GiraphRuleTemplate ruleTemplate = GiraphRuleTemplate.create("\n");
 			String giraphCode = ruleTemplate.generate(args);
@@ -123,6 +124,31 @@ public class GenerateGiraphTests {
 		generateInputGraph(twoTimesTwoStart2);
 		generateInputGraph(twoTimesTwoStart3);
 		generateComputeClass(twoTimesTwo, true, false);
+
+		// ParallelNodes
+		Rule parallelNodes = (Rule) module.getUnit("ParallelNodes");
+		Rule parallelNodesStart = (Rule) module.getUnit("ParallelNodesStart");
+		generateInputGraph(parallelNodesStart);
+		generateComputeClass(parallelNodes, true, false);
+
+		// ParallelEdges
+		Rule parallelEdges = (Rule) module.getUnit("ParallelEdges");
+		Rule parallelEdgesStart = (Rule) module.getUnit("ParallelEdgesStart");
+		generateInputGraph(parallelEdgesStart);
+		generateComputeClass(parallelEdges, true, false);
+
+		// ParallelTriangles
+		Rule parallelTriangles = (Rule) module.getUnit("ParallelTriangles");
+		Rule parallelTrianglesStart = (Rule) module.getUnit("ParallelTrianglesStart");
+		generateInputGraph(parallelTrianglesStart);
+		generateComputeClass(parallelTriangles, true, false);
+		
+		// ParallelV
+		Rule parallelV = (Rule) module.getUnit("ParallelV");
+		Rule parallelVStart = (Rule) module.getUnit("ParallelVStart");
+		generateInputGraph(parallelVStart);
+		generateComputeClass(parallelV, true, false);
+
 
 	}
 

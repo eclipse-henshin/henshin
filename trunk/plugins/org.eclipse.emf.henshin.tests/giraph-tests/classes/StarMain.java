@@ -19,6 +19,7 @@ package org.apache.giraph.examples;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -74,38 +75,32 @@ public class StarMain extends
   /**
    * Type constant for "Vertex".
    */
-  public static final ByteWritable TYPE_VERTEX
-    = new ByteWritable((byte) 0);
+  public static final byte TYPE_VERTEX = 0;
 
   /**
    * Type constant for "left".
    */
-  public static final ByteWritable TYPE_VERTEX_LEFT
-    = new ByteWritable((byte) 1);
+  public static final byte TYPE_VERTEX_LEFT = 1;
 
   /**
    * Type constant for "conn".
    */
-  public static final ByteWritable TYPE_VERTEX_CONN
-    = new ByteWritable((byte) 2);
+  public static final byte TYPE_VERTEX_CONN = 2;
 
   /**
    * Type constant for "right".
    */
-  public static final ByteWritable TYPE_VERTEX_RIGHT
-    = new ByteWritable((byte) 3);
+  public static final byte TYPE_VERTEX_RIGHT = 3;
 
   /**
    * Type constant for "VertexContainer".
    */
-  public static final ByteWritable TYPE_VERTEX_CONTAINER
-    = new ByteWritable((byte) 4);
+  public static final byte TYPE_VERTEX_CONTAINER = 4;
 
   /**
    * Type constant for "vertices".
    */
-  public static final ByteWritable TYPE_VERTEX_CONTAINER_VERTICES
-    = new ByteWritable((byte) 5);
+  public static final byte TYPE_VERTEX_CONTAINER_VERTICES = 5;
 
   /**
    * Unit constant for "StarMain".
@@ -132,6 +127,11 @@ public class StarMain extends
    */
   protected static final Logger LOG = Logger.getLogger(StarMain.class);
 
+  /**
+   * Default segment count.
+   */
+  private static int SEGMENT_COUNT = 1;
+
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -152,13 +152,16 @@ public class StarMain extends
       return;
     }
     int rule = stack.getLastUnit();
+    int segment = stack.getLastSegment();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
     case RULE_DELETE_STAR:
-      matchDeleteStar(vertex, matches, microstep);
+      matchDeleteStar(
+        vertex, matches, segment, microstep);
       break;
     case RULE_EXTEND_STAR:
-      matchExtendStar(vertex, matches, microstep);
+      matchExtendStar(
+        vertex, matches, segment, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
@@ -170,31 +173,38 @@ public class StarMain extends
    * This takes 3 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
-   * @param microstep Current microstep.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
    */
   protected void matchDeleteStar(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep)
+    throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule DeleteStar in microstep " + microstep);
+      " matching rule DeleteStar on segment " + segment +
+      " in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      LOG.info("Vertex " + vertex.getId() +
+        " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    matches = filterDeleteStar(
+      vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER;
       ok = ok && vertex.getNumEdges() >= 1;
+      ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
       if (ok) {
-        Match match = new Match().append(vertex.getId());
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
         // Send the match along all "vertices"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
+            TYPE_VERTEX_CONTAINER_VERTICES) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -204,7 +214,7 @@ public class StarMain extends
       }
     } else if (microstep == 1) {
       // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 1;
       if (ok) {
         for (Match match : matches) {
@@ -216,7 +226,7 @@ public class StarMain extends
           // Send the match along all "left"-edges:
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
-              TYPE_VERTEX_LEFT.get()) {
+              TYPE_VERTEX_LEFT) {
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
                 " forward to vertex " + edge.getTargetVertexId());
@@ -227,7 +237,7 @@ public class StarMain extends
       }
     } else if (microstep == 2) {
       // Matching node "c":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
@@ -235,27 +245,88 @@ public class StarMain extends
             continue;
           }
           matchCount++;
-          applyDeleteStar(vertex, match, appliedMatches);
+          if (segment == SEGMENT_COUNT - 1) {
+            applyDeleteStar(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
         }
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "DeleteStar: " + microstep);
     }
-    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
+    if (matchCount > 0) {
+      aggregate(AGGREGATOR_MATCHES,
+        new LongWritable(matchCount));
+    }
+    if (!appliedMatches.isEmpty()) {
+      aggregate(AGGREGATOR_RULE_APPLICATIONS,
+        new LongWritable(appliedMatches.size()));
+    }
+  }
+
+  /**
+   * Filter matches per segment for the rule "DeleteStar".
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
+   * @param appliedMatches Set of applied matches.
+   * @return The filtered matches.
+   */
+  protected Iterable<Match> filterDeleteStar(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep,
+    Set<Match> appliedMatches)
+    throws IOException {
+    if (segment > 0) {
+      List<Match> filtered = new ArrayList<Match>();
+      long matchCount = 0;
+      for (Match match : matches) {
+        int matchSegment = match.getSegment();
+        if (matchSegment < segment) {
+          if (match.getMatchSize() != 3) {
+            throw new RuntimeException("Incomplete match " + match +
+              " of rule DeleteStar received in segment " +
+              segment);
+          }
+          matchCount++;
+          if (segment == SEGMENT_COUNT - 1 && microstep == 2) {
+            applyDeleteStar(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
+        } else if (matchSegment > segment) {
+          throw new RuntimeException("Received match " + match +
+            " of rule DeleteStar of segment " +
+            matchSegment + ", but current segment is only " + segment);
+        } else {
+          filtered.add(match.copy());
+        }
+      }
+      if (matchCount > 0) {
+        aggregate(AGGREGATOR_MATCHES,
+          new LongWritable(matchCount));
+      }
+      return filtered;
+    }
+    return matches;
   }
 
   /**
    * Apply the rule "DeleteStar" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Set of already applied matches.
+   * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyDeleteStar(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
-    throws IOException {
+  protected boolean applyDeleteStar(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Match match, Set<Match> appliedMatches) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     VertexId cur2 = match.getVertexId(2);
@@ -268,7 +339,6 @@ public class StarMain extends
     removeEdgesRequest(cur1, cur2);
     removeVertexRequest(cur1);
     removeVertexRequest(cur2);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
     return true;
   }
 
@@ -277,31 +347,38 @@ public class StarMain extends
    * This takes 2 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
-   * @param microstep Current microstep.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
    */
   protected void matchExtendStar(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep)
+    throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule ExtendStar in microstep " + microstep);
+      " matching rule ExtendStar on segment " + segment +
+      " in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      LOG.info("Vertex " + vertex.getId() +
+        " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    matches = filterExtendStar(
+      vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER;
       ok = ok && vertex.getNumEdges() >= 1;
+      ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
       if (ok) {
-        Match match = new Match().append(vertex.getId());
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
         // Send the match along all "vertices"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES.get()) {
+            TYPE_VERTEX_CONTAINER_VERTICES) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -311,7 +388,7 @@ public class StarMain extends
       }
     } else if (microstep == 1) {
       // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
@@ -319,27 +396,88 @@ public class StarMain extends
             continue;
           }
           matchCount++;
-          applyExtendStar(vertex, match, appliedMatches);
+          if (segment == SEGMENT_COUNT - 1) {
+            applyExtendStar(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
         }
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "ExtendStar: " + microstep);
     }
-    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
+    if (matchCount > 0) {
+      aggregate(AGGREGATOR_MATCHES,
+        new LongWritable(matchCount));
+    }
+    if (!appliedMatches.isEmpty()) {
+      aggregate(AGGREGATOR_RULE_APPLICATIONS,
+        new LongWritable(appliedMatches.size()));
+    }
+  }
+
+  /**
+   * Filter matches per segment for the rule "ExtendStar".
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
+   * @param appliedMatches Set of applied matches.
+   * @return The filtered matches.
+   */
+  protected Iterable<Match> filterExtendStar(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep,
+    Set<Match> appliedMatches)
+    throws IOException {
+    if (segment > 0) {
+      List<Match> filtered = new ArrayList<Match>();
+      long matchCount = 0;
+      for (Match match : matches) {
+        int matchSegment = match.getSegment();
+        if (matchSegment < segment) {
+          if (match.getMatchSize() != 2) {
+            throw new RuntimeException("Incomplete match " + match +
+              " of rule ExtendStar received in segment " +
+              segment);
+          }
+          matchCount++;
+          if (segment == SEGMENT_COUNT - 1 && microstep == 1) {
+            applyExtendStar(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
+        } else if (matchSegment > segment) {
+          throw new RuntimeException("Received match " + match +
+            " of rule ExtendStar of segment " +
+            matchSegment + ", but current segment is only " + segment);
+        } else {
+          filtered.add(match.copy());
+        }
+      }
+      if (matchCount > 0) {
+        aggregate(AGGREGATOR_MATCHES,
+          new LongWritable(matchCount));
+      }
+      return filtered;
+    }
+    return matches;
   }
 
   /**
    * Apply the rule "ExtendStar" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Set of already applied matches.
+   * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyExtendStar(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
-    throws IOException {
+  protected boolean applyExtendStar(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Match match, Set<Match> appliedMatches) throws IOException {
     VertexId cur1 = match.getVertexId(1);
     if (!appliedMatches.add(match)) {
       return false;
@@ -348,13 +486,14 @@ public class StarMain extends
       " applying rule ExtendStar with match " + match);
     VertexId new0 =
       deriveVertexId(vertex.getId(), appliedMatches.size(), 0);
-    addVertexRequest(new0, TYPE_VERTEX);
+    addVertexRequest(new0,
+      new ByteWritable(TYPE_VERTEX));
     VertexId src0 = cur1;
     VertexId trg0 = new0;
     Edge<VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0, TYPE_VERTEX_LEFT);
+      EdgeFactory.create(trg0,
+        new ByteWritable(TYPE_VERTEX_LEFT));
     addEdgeRequest(src0, edge0);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
     return true;
   }
 
@@ -373,6 +512,15 @@ public class StarMain extends
       .append((byte) generation)
       .append((byte) matchIndex)
       .append((byte) vertexIndex);
+  }
+
+  /**
+   * Get the segment that a vertex belongs to.
+   * @param vertexId The ID of the vertex.
+   * @return The segment of the vertex.
+   */
+  private int getSegment(VertexId vertexId) {
+    return vertexId.hashCode() % SEGMENT_COUNT;
   }
 
   /**
@@ -404,7 +552,7 @@ public class StarMain extends
         getAggregatedValue(AGGREGATOR_MATCHES)).get();
       if (getSuperstep() > 0) {
         LOG.info(matches + " (partial) matches computed and " +
-          ruleApps + " rules applied in superstep " +
+          ruleApps + " rule applications conducted in superstep " +
           (getSuperstep() - 1));
       }
       if (ruleApps > 0) {
@@ -416,7 +564,7 @@ public class StarMain extends
       ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new ApplicationStack();
-        stack = stack.append(UNIT_STAR_MAIN, 0);
+        stack = stack.append(UNIT_STAR_MAIN, 0, 0);
         stack = nextRuleStep(stack, ruleApps);
       } else {
         stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
@@ -427,14 +575,15 @@ public class StarMain extends
 
     /**
      * Compute the next rule application stack.
-     * @param stack Current application stack.
+     * @param stack The current application stack.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack nextRuleStep(
       ApplicationStack stack, long ruleApps) {
       while (stack.getStackSize() > 0) {
         int unit = stack.getLastUnit();
+        int segment = stack.getLastSegment();
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
@@ -448,11 +597,11 @@ public class StarMain extends
           break;
         case RULE_DELETE_STAR:
           stack = processDeleteStar(
-            stack, microstep, ruleApps);
+            stack, segment, microstep, ruleApps);
           break;
         case RULE_EXTEND_STAR:
           stack = processExtendStar(
-            stack, microstep, ruleApps);
+            stack, segment, microstep, ruleApps);
           break;
         default:
           throw new RuntimeException("Unknown unit " + unit);
@@ -470,9 +619,9 @@ public class StarMain extends
 
    /**
      * Process SequentialUnit "StarMain".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
-     * @return the new application stack.
+     * @param stack The current application stack.
+     * @param microstep The current microstep.
+     * @return The new application stack.
      */
     private ApplicationStack processStarMain(
       ApplicationStack stack, int microstep) {
@@ -483,12 +632,12 @@ public class StarMain extends
       } else {
         switch (microstep) {
         case 0:
-          stack = stack.append(UNIT_STAR_MAIN, 1);
-          stack = stack.append(UNIT_EXTEND_STAR_LOOP, 0);
+          stack = stack.append(UNIT_STAR_MAIN, 0, 1);
+          stack = stack.append(UNIT_EXTEND_STAR_LOOP, 0, 0);
           break;
         case 1:
-          stack = stack.append(UNIT_STAR_MAIN, 2);
-          stack = stack.append(RULE_DELETE_STAR, 0);
+          stack = stack.append(UNIT_STAR_MAIN, 0, 2);
+          stack = stack.append(RULE_DELETE_STAR, 0, 0);
           break;
         default:
           break;
@@ -499,9 +648,9 @@ public class StarMain extends
 
    /**
      * Process IteratedUnit "ExtendStarLoop".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
-     * @return the new application stack.
+     * @param stack The current application stack.
+     * @param microstep The current microstep.
+     * @return The new application stack.
      */
     private ApplicationStack processExtendStarLoop(
       ApplicationStack stack, int microstep) {
@@ -510,23 +659,26 @@ public class StarMain extends
       } else if (microstep == 5) {
         unitSuccesses.push(true);
       } else if (microstep < 5) {
-        stack = stack.append(UNIT_EXTEND_STAR_LOOP, microstep + 1);
-        stack = stack.append(RULE_EXTEND_STAR, 0);
+        stack = stack.append(UNIT_EXTEND_STAR_LOOP, 0, microstep + 1);
+        stack = stack.append(RULE_EXTEND_STAR, 0, 0);
       }
       return stack;
     }
 
    /**
      * Process Rule "DeleteStar".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
+     * @param stack The current application stack.
+     * @param segment The current segment.
+     * @param microstep The current microstep.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack processDeleteStar(
-      ApplicationStack stack, int microstep, long ruleApps) {
+      ApplicationStack stack, int segment, int microstep, long ruleApps) {
       if (microstep < 2) {
-        stack = stack.append(RULE_DELETE_STAR, microstep + 1);
+        stack = stack.append(RULE_DELETE_STAR, segment, microstep + 1);
+      } else if (segment < SEGMENT_COUNT - 1) {
+        stack = stack.append(RULE_DELETE_STAR, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }
@@ -535,15 +687,18 @@ public class StarMain extends
 
    /**
      * Process Rule "ExtendStar".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
+     * @param stack The current application stack.
+     * @param segment The current segment.
+     * @param microstep The current microstep.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack processExtendStar(
-      ApplicationStack stack, int microstep, long ruleApps) {
+      ApplicationStack stack, int segment, int microstep, long ruleApps) {
       if (microstep < 1) {
-        stack = stack.append(RULE_EXTEND_STAR, microstep + 1);
+        stack = stack.append(RULE_EXTEND_STAR, segment, microstep + 1);
+      } else if (segment < SEGMENT_COUNT - 1) {
+        stack = stack.append(RULE_EXTEND_STAR, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }

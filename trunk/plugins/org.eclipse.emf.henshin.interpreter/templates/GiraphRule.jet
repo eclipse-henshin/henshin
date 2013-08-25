@@ -14,6 +14,7 @@ String packageName = (String) args.get("packageName");
 boolean masterLogging = (Boolean) args.get("masterLogging");
 boolean vertexLogging = (Boolean) args.get("vertexLogging");
 boolean useUUIDs = (Boolean) args.get("useUUIDs");
+int segmentCount = (Integer) args.get("segmentCount");
 
 List<Unit> allUnits = new ArrayList<Unit>();
 allUnits.add(mainUnit);
@@ -42,13 +43,11 @@ for (Unit unit : allUnits) {
   }
 }
 
-boolean needsArrayList = needsCollections;
-for (GiraphRuleData data : ruleData.values()) {
-  for (GiraphRuleData.MatchingStep step : data.matchingSteps) {
-    if (step.isJoin) {
-      needsArrayList = true;
-      break;
-    }
+boolean needsEdgeClass = false;
+for (Rule rule : rules) {
+  if (!rule.getLhs().getEdges().isEmpty() || !rule.getRhs().getEdges().isEmpty()) {
+    needsEdgeClass = true;
+    break;
   }
 }
 
@@ -74,10 +73,8 @@ package <%= packageName %>;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
-<% if (needsArrayList) { %>
 import java.util.ArrayList;
-<% }
-if (needsCollections) { %>
+<% if (needsCollections) { %>
 import java.util.Collections;
 <% } %>
 import java.util.Deque;
@@ -86,8 +83,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
+<% if (needsEdgeClass) { %>
 import org.apache.giraph.edge.Edge;
-<% if (needsEdgeFactory) { %>
+<% }
+if (needsEdgeFactory) { %>
 import org.apache.giraph.edge.EdgeFactory;
 <% } %>
 import org.apache.giraph.graph.BasicComputation;
@@ -145,8 +144,7 @@ for (ENamedElement type : typeConstants.keySet()) {
   /**
    * Type constant for "<%= type.getName() %>".
    */
-  public static final ByteWritable <%= typeConstants.get(type) %>
-    = new ByteWritable((byte) <%= value++ %>);
+  public static final byte <%= typeConstants.get(type) %> = <%= value++ %>;
 <%
 }
 
@@ -171,6 +169,11 @@ if (masterLogging || vertexLogging) {
   protected static final Logger LOG = Logger.getLogger(<%= className %>.class);
 <% } %>
 
+  /**
+   * Default segment count.
+   */
+  private static int SEGMENT_COUNT = <%= segmentCount %>;
+
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -191,11 +194,13 @@ if (masterLogging || vertexLogging) {
       return;
     }
     int rule = stack.getLastUnit();
+    int segment = stack.getLastSegment();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
 <% for (Rule rule : rules) { %>
     case <%= unitConstants.get(rule) %>:
-      match<%= ruleData.get(rule).rule.getName() %>(vertex, matches, microstep);
+      match<%= ruleData.get(rule).rule.getName() %>(
+        vertex, matches, segment, microstep);
       break;
 <% } %>
     default:
@@ -216,25 +221,31 @@ for (GiraphRuleData data : ruleData.values()) {
    * This takes <%= data.matchingSteps.size() %> microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
-   * @param microstep Current microstep.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
    */
   protected void match<%= rule.getName() %>(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep)
+    throws IOException {
 
 <%
   /* START LOGGING */
   if (vertexLogging) { %>
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule <%= rule.getName() %> in microstep " + microstep);
+      " matching rule <%= rule.getName() %> on segment " + segment +
+      " in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      LOG.info("Vertex " + vertex.getId() +
+        " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
 <% } 
   /* END LOGGING */
 %>
     Set<Match> appliedMatches = new HashSet<Match>();
+    <%= data.matchingSteps.size() > 1 ? "matches = " : "" %>filter<%= rule.getName() %>(
+      vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
 
 <%  for (int i=0; i<data.matchingSteps.size(); i++) {
@@ -242,8 +253,7 @@ for (GiraphRuleData data : ruleData.values()) {
       /* START STEP LOOP */
       GiraphRuleData.MatchingStep step = data.matchingSteps.get(i);
 %><%= i>0 ? " else" : "   " %> if (microstep == <%= i %>) {
-<%
-      if (step.isJoin) {
+<%    if (step.isJoin) {
         /* START JOIN */        
         %>
       // Joining matches at node <%= GiraphUtil.getNodeName(step.node) %>:
@@ -283,7 +293,12 @@ for (GiraphRuleData data : ruleData.values()) {
           sendMessage(match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>), match);
 <%        /* END SEND BACK TO */
       } else if (i == data.matchingSteps.size()-1) { %>
-          apply<%= data.rule.getName() %>(vertex, match, appliedMatches);
+          if (segment == SEGMENT_COUNT - 1) {
+            apply<%= data.rule.getName() %>(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
 <%    } %>
         }
       }
@@ -299,10 +314,13 @@ for (GiraphRuleData data : ruleData.values()) {
 %>
       // Matching node <%= GiraphUtil.getNodeName(step.node) %>:
 <%    for (int j=0; j<validTypes.size(); j++) { %>
-      <%= (j==0) ? "boolean ok = " : "  " %>vertex.getValue().get() == <%= typeConstants.get(validTypes.get(j)) %>.get()<%= (j==validTypes.size()-1) ? ";" : " ||" %>
+      <%= (j==0) ? "boolean ok = " : "  " %>vertex.getValue().get() == <%= typeConstants.get(validTypes.get(j)) %><%= (j==validTypes.size()-1) ? ";" : " ||" %>
 <%    }
       if (rule.isInjectiveMatching() && !step.node.getOutgoing().isEmpty()) { %>
       ok = ok && vertex.getNumEdges() >= <%= step.node.getOutgoing().size() %>;
+<%    } 
+      if (i==0) { %>
+      ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
 <%    } %>
       if (ok) {
 <%
@@ -311,7 +329,7 @@ for (GiraphRuleData data : ruleData.values()) {
         if (step.isStart) {
           /* START IS START */        
 %>
-        Match match = new Match().append(vertex.getId());
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
 <%
           /* END IS START */        
@@ -350,7 +368,7 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=xx%>    for (Edge<VertexId, ByteWritable> edge :
 <%=xx%>      vertex.getEdges()) {
 <%=xx%>      if (edge.getValue().get() ==
-<%=xx%>        <%= typeConstants.get(step.edge.getType()) %>.get() &&
+<%=xx%>        <%= typeConstants.get(step.edge.getType()) %> &&
 <%=xx%>        edge.getTargetVertexId().equals(targetId)) {
 <%=xx%>        matchCount++;
 <%
@@ -370,8 +388,17 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=xx%>        sendMessage(match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>), match);
 <%        /* END SEND BACK TO */        
         } else if (i == data.matchingSteps.size()-1) {
-          /* START LAST STEP */ %>
-<%=xx%>        apply<%= data.rule.getName() %>(vertex, match, appliedMatches);
+          /* START LAST STEP */ 
+          if (step.isStart) {
+            xx = "";
+          }
+          %>
+<%=xx%>        if (segment == SEGMENT_COUNT - 1) {
+<%=xx%>          apply<%= data.rule.getName() %>(
+<%=xx%>            vertex, match, appliedMatches);
+<%=xx%>        } else {
+<%=xx%>          sendMessage(vertex.getId(), match);
+<%=xx%>        }
 <%        /* END LAST STEP */        
         }
         if (step.verifyEdgeTo != null) {
@@ -390,7 +417,7 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=yy%>        // Send the match along all "<%= step.edge.getType().getName() %>"-edges:
 <%=yy%>        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
 <%=yy%>          if (edge.getValue().get() ==
-<%=yy%>            <%= typeConstants.get(step.edge.getType()) %>.get()) {
+<%=yy%>            <%= typeConstants.get(step.edge.getType()) %>) {
 <%          if (vertexLogging) { %>
 <%=yy%>            LOG.info("Vertex " + vertex.getId() +
 <%=yy%>              " sending (partial) match " + match +
@@ -424,26 +451,82 @@ for (GiraphRuleData data : ruleData.values()) {
       }
 <%        }
      } %>
-    }<% 
+    }<%
     } // end for
 %> else {
       throw new RuntimeException("Illegal microstep for rule " +
         "<%= rule.getName() %>: " + microstep);
     }
-    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
+    if (matchCount > 0) {
+      aggregate(AGGREGATOR_MATCHES,
+        new LongWritable(matchCount));
+    }
+    if (!appliedMatches.isEmpty()) {
+      aggregate(AGGREGATOR_RULE_APPLICATIONS,
+        new LongWritable(appliedMatches.size()));
+    }
+  }
+
+  /**
+   * Filter matches per segment for the rule "<%= data.rule.getName() %>".
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
+   * @param appliedMatches Set of applied matches.
+   * @return The filtered matches.
+   */
+  protected Iterable<Match> filter<%= rule.getName() %>(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep,
+    Set<Match> appliedMatches)
+    throws IOException {
+    if (segment > 0) {
+      List<Match> filtered = new ArrayList<Match>();
+      long matchCount = 0;
+      for (Match match : matches) {
+        int matchSegment = match.getSegment();
+        if (matchSegment < segment) {
+          if (match.getMatchSize() != <%= data.orderedLhsNodes.size() %>) {
+            throw new RuntimeException("Incomplete match " + match +
+              " of rule <%= rule.getName() %> received in segment " +
+              segment);
+          }
+          matchCount++;
+          if (segment == SEGMENT_COUNT - 1 && microstep == <%= data.matchingSteps.size()-1 %>) {
+            apply<%= data.rule.getName() %>(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
+        } else if (matchSegment > segment) {
+          throw new RuntimeException("Received match " + match +
+            " of rule <%= rule.getName() %> of segment " +
+            matchSegment + ", but current segment is only " + segment);
+        } else {
+          filtered.add(match.copy());
+        }
+      }
+      if (matchCount > 0) {
+        aggregate(AGGREGATOR_MATCHES,
+          new LongWritable(matchCount));
+      }
+      return filtered;
+    }
+    return matches;
   }
 
   /**
    * Apply the rule "<%= rule.getName() %>" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Set of already applied matches.
+   * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean apply<%= data.rule.getName() %>(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
-    throws IOException {
+  protected boolean apply<%= data.rule.getName() %>(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Match match, Set<Match> appliedMatches) throws IOException {
 <% for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
     Node lhsNode = data.orderedLhsNodes.get(j);
     Node rhsNode = data.rule.getMappings().getImage(lhsNode, data.rule.getRhs());
@@ -493,7 +576,8 @@ for (GiraphRuleData data : ruleData.values()) {
 <% } else { %>
       deriveVertexId(vertex.getId(), appliedMatches.size(), <%= n %>);
 <% } %>
-    addVertexRequest(new<%= n++ %>, <%= typeConstants.get(node.getType()) %>);
+    addVertexRequest(new<%= n++ %>,
+      new ByteWritable(<%= typeConstants.get(node.getType()) %>));
 <%  }
 
     int e = 0;
@@ -511,11 +595,11 @@ for (GiraphRuleData data : ruleData.values()) {
     VertexId trg<%= e %> = cur<%= data.orderedLhsNodes.indexOf(data.rule.getMappings().getOrigin(edge.getTarget())) %>;
 <%	} %>
     Edge<VertexId, ByteWritable> edge<%= e %> =
-      EdgeFactory.create(trg<%= e %>, <%= typeConstants.get(edge.getType()) %>);
+      EdgeFactory.create(trg<%= e %>,
+        new ByteWritable(<%= typeConstants.get(edge.getType()) %>));
     addEdgeRequest(src<%= e %>, edge<%= e %>);
 <%  e++;
     } %>
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
     return true;
   }
 <%
@@ -541,6 +625,15 @@ for (GiraphRuleData data : ruleData.values()) {
   }
 
 <% } %>
+  /**
+   * Get the segment that a vertex belongs to.
+   * @param vertexId The ID of the vertex.
+   * @return The segment of the vertex.
+   */
+  private int getSegment(VertexId vertexId) {
+    return vertexId.hashCode() % SEGMENT_COUNT;
+  }
+
   /**
    * Master compute which registers and updates the required aggregators.
    */
@@ -571,7 +664,7 @@ for (GiraphRuleData data : ruleData.values()) {
         getAggregatedValue(AGGREGATOR_MATCHES)).get();
       if (getSuperstep() > 0) {
         LOG.info(matches + " (partial) matches computed and " +
-          ruleApps + " rules applied in superstep " +
+          ruleApps + " rule applications conducted in superstep " +
           (getSuperstep() - 1));
       }
 <% } %>
@@ -584,7 +677,7 @@ for (GiraphRuleData data : ruleData.values()) {
       ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new ApplicationStack();
-        stack = stack.append(<%= unitConstants.get(mainUnit) %>, 0);
+        stack = stack.append(<%= unitConstants.get(mainUnit) %>, 0, 0);
 <% if (!(mainUnit instanceof Rule)) { %>
         stack = nextRuleStep(stack, ruleApps);
 <% } %>
@@ -597,21 +690,22 @@ for (GiraphRuleData data : ruleData.values()) {
 
     /**
      * Compute the next rule application stack.
-     * @param stack Current application stack.
+     * @param stack The current application stack.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack nextRuleStep(
       ApplicationStack stack, long ruleApps) {
       while (stack.getStackSize() > 0) {
         int unit = stack.getLastUnit();
+        int segment = stack.getLastSegment();
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
 <% for (Unit unit : allUnits) { %>
         case <%= unitConstants.get(unit) %>:
           stack = process<%= unit.getName() %>(
-            stack, microstep<%= (unit instanceof Rule) ? ", ruleApps" : "" %>);
+            stack<%= (unit instanceof Rule) ? ", segment" : "" %>, microstep<%= (unit instanceof Rule) ? ", ruleApps" : "" %>);
           break;
 <% } // end for %>
         default:
@@ -634,15 +728,18 @@ for (Unit unit : allUnits) { %>
 
    /**
      * Process <%= unit.eClass().getName() %> "<%= unit.getName() %>".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
+     * @param stack The current application stack.
+<% if (unit instanceof Rule) { %>
+     * @param segment The current segment.
+<% } %>
+     * @param microstep The current microstep.
 <% if (unit instanceof Rule) { %>
      * @param ruleApps Number of rule applications in last superstep.
 <% } %>
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack process<%= unit.getName() %>(
-      ApplicationStack stack, int microstep<%= (unit instanceof Rule) ? ", long ruleApps" : "" %>) {
+      ApplicationStack stack<%= (unit instanceof Rule) ? ", int segment" : "" %>, int microstep<%= (unit instanceof Rule) ? ", long ruleApps" : "" %>) {
 <% if (unit instanceof IteratedUnit) {
    int iters = Integer.parseInt(((IteratedUnit) unit).getIterations()); %>
       if (microstep > 0 && !unitSuccesses.pop()) {
@@ -650,8 +747,8 @@ for (Unit unit : allUnits) { %>
       } else if (microstep == <%= iters %>) {
         unitSuccesses.push(true);
       } else if (microstep < <%= iters %>) {
-        stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
-        stack = stack.append(<%= unitConstants.get(((IteratedUnit) unit).getSubUnit()) %>, 0);
+        stack = stack.append(<%= unitConstants.get(unit) %>, 0, microstep + 1);
+        stack = stack.append(<%= unitConstants.get(((IteratedUnit) unit).getSubUnit()) %>, 0, 0);
       }
 <% } else if (unit instanceof SequentialUnit) {
      SequentialUnit seq = (SequentialUnit) unit; %>
@@ -663,8 +760,8 @@ for (Unit unit : allUnits) { %>
         switch (microstep) {
 <% for (int i=0; i<seq.getSubUnits().size(); i++) { %>
         case <%= i%>:
-          stack = stack.append(<%= unitConstants.get(unit) %>, <%= i+1 %>);
-          stack = stack.append(<%= unitConstants.get(seq.getSubUnits().get(i)) %>, 0);
+          stack = stack.append(<%= unitConstants.get(unit) %>, 0, <%= i+1 %>);
+          stack = stack.append(<%= unitConstants.get(seq.getSubUnits().get(i)) %>, 0, 0);
           break;
 <% } %>
         default:
@@ -692,8 +789,8 @@ for (Unit unit : allUnits) { %>
         switch (next) {
 <% for (int i=0; i<indi.getSubUnits().size(); i++) { %>
         case <%= i%>:
-          stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
-          stack = stack.append(<%= unitConstants.get(indi.getSubUnits().get(i)) %>, 0);
+          stack = stack.append(<%= unitConstants.get(unit) %>, 0, microstep + 1);
+          stack = stack.append(<%= unitConstants.get(indi.getSubUnits().get(i)) %>, 0, 0);
           break;
 <% } %>
         default:
@@ -702,14 +799,16 @@ for (Unit unit : allUnits) { %>
       }
 <% } else if (unit instanceof LoopUnit) { %>
       if (microstep == 0 || unitSuccesses.pop()) {
-        stack = stack.append(<%= unitConstants.get(unit) %>, 1);
-        stack = stack.append(<%= unitConstants.get(((LoopUnit) unit).getSubUnit()) %>, 0);
+        stack = stack.append(<%= unitConstants.get(unit) %>, 0, 1);
+        stack = stack.append(<%= unitConstants.get(((LoopUnit) unit).getSubUnit()) %>, 0, 0);
       } else {
         unitSuccesses.push(true);
       }
 <% } else if (unit instanceof Rule) { %>
       if (microstep < <%= ruleData.get(unit).matchingSteps.size()-1 %>) {
-        stack = stack.append(<%= unitConstants.get(unit) %>, microstep + 1);
+        stack = stack.append(<%= unitConstants.get(unit) %>, segment, microstep + 1);
+      } else if (segment < SEGMENT_COUNT - 1) {
+        stack = stack.append(<%= unitConstants.get(unit) %>, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }

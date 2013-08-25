@@ -75,38 +75,32 @@ public class TwoTimesTwo extends
   /**
    * Type constant for "Vertex".
    */
-  public static final ByteWritable TYPE_VERTEX
-    = new ByteWritable((byte) 0);
+  public static final byte TYPE_VERTEX = 0;
 
   /**
    * Type constant for "left".
    */
-  public static final ByteWritable TYPE_VERTEX_LEFT
-    = new ByteWritable((byte) 1);
+  public static final byte TYPE_VERTEX_LEFT = 1;
 
   /**
    * Type constant for "conn".
    */
-  public static final ByteWritable TYPE_VERTEX_CONN
-    = new ByteWritable((byte) 2);
+  public static final byte TYPE_VERTEX_CONN = 2;
 
   /**
    * Type constant for "right".
    */
-  public static final ByteWritable TYPE_VERTEX_RIGHT
-    = new ByteWritable((byte) 3);
+  public static final byte TYPE_VERTEX_RIGHT = 3;
 
   /**
    * Type constant for "VertexContainer".
    */
-  public static final ByteWritable TYPE_VERTEX_CONTAINER
-    = new ByteWritable((byte) 4);
+  public static final byte TYPE_VERTEX_CONTAINER = 4;
 
   /**
    * Type constant for "vertices".
    */
-  public static final ByteWritable TYPE_VERTEX_CONTAINER_VERTICES
-    = new ByteWritable((byte) 5);
+  public static final byte TYPE_VERTEX_CONTAINER_VERTICES = 5;
 
   /**
    * Rule constant for "TwoTimesTwo".
@@ -117,6 +111,11 @@ public class TwoTimesTwo extends
    * Logging support.
    */
   protected static final Logger LOG = Logger.getLogger(TwoTimesTwo.class);
+
+  /**
+   * Default segment count.
+   */
+  private static int SEGMENT_COUNT = 1;
 
   /*
    * (non-Javadoc)
@@ -138,10 +137,12 @@ public class TwoTimesTwo extends
       return;
     }
     int rule = stack.getLastUnit();
+    int segment = stack.getLastSegment();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
     case RULE_TWO_TIMES_TWO:
-      matchTwoTimesTwo(vertex, matches, microstep);
+      matchTwoTimesTwo(
+        vertex, matches, segment, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
@@ -153,31 +154,38 @@ public class TwoTimesTwo extends
    * This takes 7 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
-   * @param microstep Current microstep.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
    */
   protected void matchTwoTimesTwo(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep)
+    throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule TwoTimesTwo in microstep " + microstep);
+      " matching rule TwoTimesTwo on segment " + segment +
+      " in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      LOG.info("Vertex " + vertex.getId() +
+        " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    matches = filterTwoTimesTwo(
+      vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 2;
+      ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
       if (ok) {
-        Match match = new Match().append(vertex.getId());
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN.get()) {
+            TYPE_VERTEX_CONN) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -187,7 +195,7 @@ public class TwoTimesTwo extends
       }
     } else if (microstep == 1) {
       // Matching node "x":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
@@ -208,7 +216,7 @@ public class TwoTimesTwo extends
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN.get()) {
+            TYPE_VERTEX_CONN) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -218,7 +226,7 @@ public class TwoTimesTwo extends
       }
     } else if (microstep == 3) {
       // Matching node "y":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
@@ -238,15 +246,15 @@ public class TwoTimesTwo extends
       }
     } else if (microstep == 4) {
       // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 2;
       if (ok) {
-        Match match = new Match().append(vertex.getId());
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN.get()) {
+            TYPE_VERTEX_CONN) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -300,10 +308,15 @@ public class TwoTimesTwo extends
         for (Edge<VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN.get() &&
+            TYPE_VERTEX_CONN &&
             edge.getTargetVertexId().equals(targetId)) {
             matchCount++;
-            applyTwoTimesTwo(vertex, match, appliedMatches);
+            if (segment == SEGMENT_COUNT - 1) {
+              applyTwoTimesTwo(
+                vertex, match, appliedMatches);
+            } else {
+              sendMessage(vertex.getId(), match);
+            }
           }
         }
       }
@@ -311,20 +324,76 @@ public class TwoTimesTwo extends
       throw new RuntimeException("Illegal microstep for rule " +
         "TwoTimesTwo: " + microstep);
     }
-    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
+    if (matchCount > 0) {
+      aggregate(AGGREGATOR_MATCHES,
+        new LongWritable(matchCount));
+    }
+    if (!appliedMatches.isEmpty()) {
+      aggregate(AGGREGATOR_RULE_APPLICATIONS,
+        new LongWritable(appliedMatches.size()));
+    }
+  }
+
+  /**
+   * Filter matches per segment for the rule "TwoTimesTwo".
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
+   * @param appliedMatches Set of applied matches.
+   * @return The filtered matches.
+   */
+  protected Iterable<Match> filterTwoTimesTwo(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep,
+    Set<Match> appliedMatches)
+    throws IOException {
+    if (segment > 0) {
+      List<Match> filtered = new ArrayList<Match>();
+      long matchCount = 0;
+      for (Match match : matches) {
+        int matchSegment = match.getSegment();
+        if (matchSegment < segment) {
+          if (match.getMatchSize() != 4) {
+            throw new RuntimeException("Incomplete match " + match +
+              " of rule TwoTimesTwo received in segment " +
+              segment);
+          }
+          matchCount++;
+          if (segment == SEGMENT_COUNT - 1 && microstep == 6) {
+            applyTwoTimesTwo(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
+        } else if (matchSegment > segment) {
+          throw new RuntimeException("Received match " + match +
+            " of rule TwoTimesTwo of segment " +
+            matchSegment + ", but current segment is only " + segment);
+        } else {
+          filtered.add(match.copy());
+        }
+      }
+      if (matchCount > 0) {
+        aggregate(AGGREGATOR_MATCHES,
+          new LongWritable(matchCount));
+      }
+      return filtered;
+    }
+    return matches;
   }
 
   /**
    * Apply the rule "TwoTimesTwo" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Set of already applied matches.
+   * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyTwoTimesTwo(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
-    throws IOException {
+  protected boolean applyTwoTimesTwo(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Match match, Set<Match> appliedMatches) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur3 = match.getVertexId(3);
     match = match.remove(2);
@@ -336,18 +405,20 @@ public class TwoTimesTwo extends
       " applying rule TwoTimesTwo with match " + match);
     VertexId new0 =
       deriveVertexId(vertex.getId(), appliedMatches.size(), 0);
-    addVertexRequest(new0, TYPE_VERTEX_CONTAINER);
+    addVertexRequest(new0,
+      new ByteWritable(TYPE_VERTEX_CONTAINER));
     VertexId src0 = new0;
     VertexId trg0 = cur0;
     Edge<VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0, TYPE_VERTEX_CONTAINER_VERTICES);
+      EdgeFactory.create(trg0,
+        new ByteWritable(TYPE_VERTEX_CONTAINER_VERTICES));
     addEdgeRequest(src0, edge0);
     VertexId src1 = new0;
     VertexId trg1 = cur3;
     Edge<VertexId, ByteWritable> edge1 =
-      EdgeFactory.create(trg1, TYPE_VERTEX_CONTAINER_VERTICES);
+      EdgeFactory.create(trg1,
+        new ByteWritable(TYPE_VERTEX_CONTAINER_VERTICES));
     addEdgeRequest(src1, edge1);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
     return true;
   }
 
@@ -366,6 +437,15 @@ public class TwoTimesTwo extends
       .append((byte) generation)
       .append((byte) matchIndex)
       .append((byte) vertexIndex);
+  }
+
+  /**
+   * Get the segment that a vertex belongs to.
+   * @param vertexId The ID of the vertex.
+   * @return The segment of the vertex.
+   */
+  private int getSegment(VertexId vertexId) {
+    return vertexId.hashCode() % SEGMENT_COUNT;
   }
 
   /**
@@ -397,7 +477,7 @@ public class TwoTimesTwo extends
         getAggregatedValue(AGGREGATOR_MATCHES)).get();
       if (getSuperstep() > 0) {
         LOG.info(matches + " (partial) matches computed and " +
-          ruleApps + " rules applied in superstep " +
+          ruleApps + " rule applications conducted in superstep " +
           (getSuperstep() - 1));
       }
       if (ruleApps > 0) {
@@ -409,7 +489,7 @@ public class TwoTimesTwo extends
       ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new ApplicationStack();
-        stack = stack.append(RULE_TWO_TIMES_TWO, 0);
+        stack = stack.append(RULE_TWO_TIMES_TWO, 0, 0);
       } else {
         stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
         stack = nextRuleStep(stack, ruleApps);
@@ -419,20 +499,21 @@ public class TwoTimesTwo extends
 
     /**
      * Compute the next rule application stack.
-     * @param stack Current application stack.
+     * @param stack The current application stack.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack nextRuleStep(
       ApplicationStack stack, long ruleApps) {
       while (stack.getStackSize() > 0) {
         int unit = stack.getLastUnit();
+        int segment = stack.getLastSegment();
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
         case RULE_TWO_TIMES_TWO:
           stack = processTwoTimesTwo(
-            stack, microstep, ruleApps);
+            stack, segment, microstep, ruleApps);
           break;
         default:
           throw new RuntimeException("Unknown unit " + unit);
@@ -449,15 +530,18 @@ public class TwoTimesTwo extends
 
    /**
      * Process Rule "TwoTimesTwo".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
+     * @param stack The current application stack.
+     * @param segment The current segment.
+     * @param microstep The current microstep.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack processTwoTimesTwo(
-      ApplicationStack stack, int microstep, long ruleApps) {
+      ApplicationStack stack, int segment, int microstep, long ruleApps) {
       if (microstep < 6) {
-        stack = stack.append(RULE_TWO_TIMES_TWO, microstep + 1);
+        stack = stack.append(RULE_TWO_TIMES_TWO, segment, microstep + 1);
+      } else if (segment < SEGMENT_COUNT - 1) {
+        stack = stack.append(RULE_TWO_TIMES_TWO, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }

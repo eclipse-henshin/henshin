@@ -27,7 +27,6 @@ import java.util.Set;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
 import org.apache.giraph.edge.Edge;
-import org.apache.giraph.edge.EdgeFactory;
 import org.apache.giraph.graph.BasicComputation;
 import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.master.DefaultMasterCompute;
@@ -44,12 +43,12 @@ import static org.apache.giraph.examples.HenshinUtil
   .VertexId;
 
 /**
- * Generated implementation of the Henshin unit "RequireOne".
+ * Generated implementation of the Henshin unit "ParallelV".
  */
 @Algorithm(
-    name = "RequireOne"
+    name = "ParallelV"
 )
-public class RequireOne extends
+public class ParallelV extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
 
   /**
@@ -103,14 +102,14 @@ public class RequireOne extends
   public static final byte TYPE_VERTEX_CONTAINER_VERTICES = 5;
 
   /**
-   * Rule constant for "RequireOne".
+   * Rule constant for "ParallelV".
    */
-  public static final int RULE_REQUIRE_ONE = 0;
+  public static final int RULE_PARALLEL_V = 0;
 
   /**
    * Logging support.
    */
-  protected static final Logger LOG = Logger.getLogger(RequireOne.class);
+  protected static final Logger LOG = Logger.getLogger(ParallelV.class);
 
   /**
    * Default segment count.
@@ -140,8 +139,8 @@ public class RequireOne extends
     int segment = stack.getLastSegment();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
-    case RULE_REQUIRE_ONE:
-      matchRequireOne(
+    case RULE_PARALLEL_V:
+      matchParallelV(
         vertex, matches, segment, microstep);
       break;
     default:
@@ -150,20 +149,20 @@ public class RequireOne extends
   }
 
   /**
-   * Match (and apply) the rule "RequireOne".
-   * This takes 3 microsteps.
+   * Match (and apply) the rule "ParallelV".
+   * This takes 4 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
    */
-  protected void matchRequireOne(
+  protected void matchParallelV(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep)
     throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule RequireOne on segment " + segment +
+      " matching rule ParallelV on segment " + segment +
       " in microstep " + microstep);
     for (Match match : matches) {
       LOG.info("Vertex " + vertex.getId() +
@@ -171,21 +170,21 @@ public class RequireOne extends
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
-    matches = filterRequireOne(
+    matches = filterParallelV(
       vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER;
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 1;
       ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "vertices"-edges:
+        // Send the match along all "left"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES) {
+            TYPE_VERTEX_LEFT) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -203,26 +202,74 @@ public class RequireOne extends
             continue;
           }
           matchCount++;
-          // Send the message back to matches of node "a":
+          // Send the message back to matches of node "b":
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
-            " back to vertex " + match.getVertexId(0));
-          sendMessage(match.getVertexId(0), match);
+            " back to vertex " + match.getVertexId(1));
+          sendMessage(match.getVertexId(1), match);
         }
       }
     } else if (microstep == 2) {
-      for (Match match : matches) {
+      // Matching node "c":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
+      ok = ok && vertex.getNumEdges() >= 1;
+      if (ok) {
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        if (segment == SEGMENT_COUNT - 1) {
-          applyRequireOne(
-            vertex, match, appliedMatches);
+        // Send the match along all "left"-edges:
+        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
+          if (edge.getValue().get() ==
+            TYPE_VERTEX_LEFT) {
+            LOG.info("Vertex " + vertex.getId() +
+              " sending (partial) match " + match +
+              " forward to vertex " + edge.getTargetVertexId());
+            sendMessage(edge.getTargetVertexId(), match);
+          }
+        }
+      }
+      // Keep matches received at node "b":
+      for (Match match : matches) {
+        VertexId id = match.getVertexId(1);
+        if (vertex.getId().equals(id)) {
+          matchCount++;
+          LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
+            " sending (partial) match " + match + " to myself");
+          sendMessage(id, match);
+        }
+      }
+    } else if (microstep == 3) {
+      // Joining matches at node "b":
+      List<Match> matches1 = new ArrayList<Match>();
+      List<Match> matches2 = new ArrayList<Match>();
+      VertexId id = vertex.getId();
+      for (Match match : matches) {
+        if (id.equals(match.getVertexId(1))) {
+          matches1.add(match.copy());
         } else {
-          sendMessage(vertex.getId(), match);
+          matches2.add(match.copy());
+        }
+      }
+      LOG.info("Vertex " + id + " in superstep " + getSuperstep() +
+        " joining " + matches1.size() + " x " + matches2.size() +
+        " partial matches of rule ParallelV");
+      for (Match m1 : matches1) {
+        for (Match m2 : matches2) {
+          Match match = m1.append(m2);
+          if (!match.isInjective()) {
+            continue;
+          }
+          matchCount++;
+          if (segment == SEGMENT_COUNT - 1) {
+            applyParallelV(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
         }
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
-        "RequireOne: " + microstep);
+        "ParallelV: " + microstep);
     }
     if (matchCount > 0) {
       aggregate(AGGREGATOR_MATCHES,
@@ -235,7 +282,7 @@ public class RequireOne extends
   }
 
   /**
-   * Filter matches per segment for the rule "RequireOne".
+   * Filter matches per segment for the rule "ParallelV".
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param segment The current segment.
@@ -243,7 +290,7 @@ public class RequireOne extends
    * @param appliedMatches Set of applied matches.
    * @return The filtered matches.
    */
-  protected Iterable<Match> filterRequireOne(
+  protected Iterable<Match> filterParallelV(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
     Set<Match> appliedMatches)
@@ -254,21 +301,21 @@ public class RequireOne extends
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 2) {
+          if (match.getMatchSize() != 3) {
             throw new RuntimeException("Incomplete match " + match +
-              " of rule RequireOne received in segment " +
+              " of rule ParallelV received in segment " +
               segment);
           }
           matchCount++;
-          if (segment == SEGMENT_COUNT - 1 && microstep == 2) {
-            applyRequireOne(
+          if (segment == SEGMENT_COUNT - 1 && microstep == 3) {
+            applyParallelV(
               vertex, match, appliedMatches);
           } else {
             sendMessage(vertex.getId(), match);
           }
         } else if (matchSegment > segment) {
           throw new RuntimeException("Received match " + match +
-            " of rule RequireOne of segment " +
+            " of rule ParallelV of segment " +
             matchSegment + ", but current segment is only " + segment);
         } else {
           filtered.add(match.copy());
@@ -284,51 +331,30 @@ public class RequireOne extends
   }
 
   /**
-   * Apply the rule "RequireOne" to a given match.
+   * Apply the rule "ParallelV" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyRequireOne(
+  protected boolean applyParallelV(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Match match, Set<Match> appliedMatches) throws IOException {
     VertexId cur0 = match.getVertexId(0);
-    match = match.remove(1);
+    VertexId cur1 = match.getVertexId(1);
+    VertexId cur2 = match.getVertexId(2);
     if (!appliedMatches.add(match)) {
       return false;
     }
     LOG.info("Vertex " + vertex.getId() +
-      " applying rule RequireOne with match " + match);
-    VertexId new0 =
-      deriveVertexId(vertex.getId(), appliedMatches.size(), 0);
-    addVertexRequest(new0,
-      new ByteWritable(TYPE_VERTEX));
-    VertexId src0 = cur0;
-    VertexId trg0 = new0;
-    Edge<VertexId, ByteWritable> edge0 =
-      EdgeFactory.create(trg0,
-        new ByteWritable(TYPE_VERTEX_CONTAINER_VERTICES));
-    addEdgeRequest(src0, edge0);
+      " applying rule ParallelV with match " + match);
+    removeEdgesRequest(cur0, cur1);
+    removeEdgesRequest(cur2, cur1);
+    removeVertexRequest(cur1);
+    removeVertexRequest(cur0);
+    removeVertexRequest(cur2);
     return true;
-  }
-
-  /**
-   * Derive a new vertex Id from an exiting one.
-   * @param baseId The base vertex Id.
-   * @param matchIndex The index of the match.
-   * @param vertexIndex The index of the new vertex.
-   * @return The derived vertex Id.
-   */
-  private VertexId deriveVertexId(VertexId baseId, int matchIndex,
-    int vertexIndex) {
-    long generation = ((LongWritable) getAggregatedValue(
-        AGGREGATOR_NODE_GENERATION)).get();
-    return baseId
-      .append((byte) generation)
-      .append((byte) matchIndex)
-      .append((byte) vertexIndex);
   }
 
   /**
@@ -381,7 +407,7 @@ public class RequireOne extends
       ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new ApplicationStack();
-        stack = stack.append(RULE_REQUIRE_ONE, 0, 0);
+        stack = stack.append(RULE_PARALLEL_V, 0, 0);
       } else {
         stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
         stack = nextRuleStep(stack, ruleApps);
@@ -403,8 +429,8 @@ public class RequireOne extends
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
-        case RULE_REQUIRE_ONE:
-          stack = processRequireOne(
+        case RULE_PARALLEL_V:
+          stack = processParallelV(
             stack, segment, microstep, ruleApps);
           break;
         default:
@@ -412,7 +438,7 @@ public class RequireOne extends
         }
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_REQUIRE_ONE) {
+          if (unit == RULE_PARALLEL_V) {
             break;
           }
         }
@@ -421,19 +447,19 @@ public class RequireOne extends
     }
 
    /**
-     * Process Rule "RequireOne".
+     * Process Rule "ParallelV".
      * @param stack The current application stack.
      * @param segment The current segment.
      * @param microstep The current microstep.
      * @param ruleApps Number of rule applications in last superstep.
      * @return The new application stack.
      */
-    private ApplicationStack processRequireOne(
+    private ApplicationStack processParallelV(
       ApplicationStack stack, int segment, int microstep, long ruleApps) {
-      if (microstep < 2) {
-        stack = stack.append(RULE_REQUIRE_ONE, segment, microstep + 1);
+      if (microstep < 3) {
+        stack = stack.append(RULE_PARALLEL_V, segment, microstep + 1);
       } else if (segment < SEGMENT_COUNT - 1) {
-        stack = stack.append(RULE_REQUIRE_ONE, segment + 1, 0);
+        stack = stack.append(RULE_PARALLEL_V, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }

@@ -266,7 +266,15 @@ public class GiraphRuleData {
 	private List<MatchingStep> getMatchingSteps(Rule rule, Node start) {
 		List<MatchingStep> matchingSteps = new ArrayList<MatchingStep>();
 		if (start.getOutgoing().isEmpty()) {
-			return null;
+			matchingSteps.add(new MatchingStep(
+					start, // node
+					null, // edge
+					null, // send back to
+					null, // verify edge to
+					true, // is start
+					true, // is matching
+					false // is join
+					));
 		}
 		Deque<Edge> edgeQueue = new ArrayDeque<Edge>();
 		edgeQueue.addAll(start.getOutgoing());

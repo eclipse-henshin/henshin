@@ -75,38 +75,32 @@ public class ForkMain extends
   /**
    * Type constant for "Vertex".
    */
-  public static final ByteWritable TYPE_VERTEX
-    = new ByteWritable((byte) 0);
+  public static final byte TYPE_VERTEX = 0;
 
   /**
    * Type constant for "left".
    */
-  public static final ByteWritable TYPE_VERTEX_LEFT
-    = new ByteWritable((byte) 1);
+  public static final byte TYPE_VERTEX_LEFT = 1;
 
   /**
    * Type constant for "conn".
    */
-  public static final ByteWritable TYPE_VERTEX_CONN
-    = new ByteWritable((byte) 2);
+  public static final byte TYPE_VERTEX_CONN = 2;
 
   /**
    * Type constant for "right".
    */
-  public static final ByteWritable TYPE_VERTEX_RIGHT
-    = new ByteWritable((byte) 3);
+  public static final byte TYPE_VERTEX_RIGHT = 3;
 
   /**
    * Type constant for "VertexContainer".
    */
-  public static final ByteWritable TYPE_VERTEX_CONTAINER
-    = new ByteWritable((byte) 4);
+  public static final byte TYPE_VERTEX_CONTAINER = 4;
 
   /**
    * Type constant for "vertices".
    */
-  public static final ByteWritable TYPE_VERTEX_CONTAINER_VERTICES
-    = new ByteWritable((byte) 5);
+  public static final byte TYPE_VERTEX_CONTAINER_VERTICES = 5;
 
   /**
    * Unit constant for "ForkMain".
@@ -138,6 +132,11 @@ public class ForkMain extends
    */
   protected static final Logger LOG = Logger.getLogger(ForkMain.class);
 
+  /**
+   * Default segment count.
+   */
+  private static int SEGMENT_COUNT = 1;
+
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -158,16 +157,20 @@ public class ForkMain extends
       return;
     }
     int rule = stack.getLastUnit();
+    int segment = stack.getLastSegment();
     int microstep = stack.getLastMicrostep();
     switch (rule) {
     case RULE_FORK_LEFT:
-      matchForkLeft(vertex, matches, microstep);
+      matchForkLeft(
+        vertex, matches, segment, microstep);
       break;
     case RULE_FORK_RIGHT:
-      matchForkRight(vertex, matches, microstep);
+      matchForkRight(
+        vertex, matches, segment, microstep);
       break;
     case RULE_FORK_CONN:
-      matchForkConn(vertex, matches, microstep);
+      matchForkConn(
+        vertex, matches, segment, microstep);
       break;
     default:
       throw new RuntimeException("Unknown rule: " + rule);
@@ -179,31 +182,38 @@ public class ForkMain extends
    * This takes 2 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
-   * @param microstep Current microstep.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
    */
   protected void matchForkLeft(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep)
+    throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule ForkLeft in microstep " + microstep);
+      " matching rule ForkLeft on segment " + segment +
+      " in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      LOG.info("Vertex " + vertex.getId() +
+        " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    matches = filterForkLeft(
+      vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 1;
+      ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
       if (ok) {
-        Match match = new Match().append(vertex.getId());
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
         // Send the match along all "left"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_LEFT.get()) {
+            TYPE_VERTEX_LEFT) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -213,7 +223,7 @@ public class ForkMain extends
       }
     } else if (microstep == 1) {
       // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
@@ -221,27 +231,88 @@ public class ForkMain extends
             continue;
           }
           matchCount++;
-          applyForkLeft(vertex, match, appliedMatches);
+          if (segment == SEGMENT_COUNT - 1) {
+            applyForkLeft(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
         }
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "ForkLeft: " + microstep);
     }
-    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
+    if (matchCount > 0) {
+      aggregate(AGGREGATOR_MATCHES,
+        new LongWritable(matchCount));
+    }
+    if (!appliedMatches.isEmpty()) {
+      aggregate(AGGREGATOR_RULE_APPLICATIONS,
+        new LongWritable(appliedMatches.size()));
+    }
+  }
+
+  /**
+   * Filter matches per segment for the rule "ForkLeft".
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
+   * @param appliedMatches Set of applied matches.
+   * @return The filtered matches.
+   */
+  protected Iterable<Match> filterForkLeft(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep,
+    Set<Match> appliedMatches)
+    throws IOException {
+    if (segment > 0) {
+      List<Match> filtered = new ArrayList<Match>();
+      long matchCount = 0;
+      for (Match match : matches) {
+        int matchSegment = match.getSegment();
+        if (matchSegment < segment) {
+          if (match.getMatchSize() != 2) {
+            throw new RuntimeException("Incomplete match " + match +
+              " of rule ForkLeft received in segment " +
+              segment);
+          }
+          matchCount++;
+          if (segment == SEGMENT_COUNT - 1 && microstep == 1) {
+            applyForkLeft(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
+        } else if (matchSegment > segment) {
+          throw new RuntimeException("Received match " + match +
+            " of rule ForkLeft of segment " +
+            matchSegment + ", but current segment is only " + segment);
+        } else {
+          filtered.add(match.copy());
+        }
+      }
+      if (matchCount > 0) {
+        aggregate(AGGREGATOR_MATCHES,
+          new LongWritable(matchCount));
+      }
+      return filtered;
+    }
+    return matches;
   }
 
   /**
    * Apply the rule "ForkLeft" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Set of already applied matches.
+   * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyForkLeft(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
-    throws IOException {
+  protected boolean applyForkLeft(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Match match, Set<Match> appliedMatches) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     if (!appliedMatches.add(match)) {
@@ -251,7 +322,6 @@ public class ForkMain extends
       " applying rule ForkLeft with match " + match);
     removeEdgesRequest(cur0, cur1);
     removeVertexRequest(cur1);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
     return true;
   }
 
@@ -260,31 +330,38 @@ public class ForkMain extends
    * This takes 2 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
-   * @param microstep Current microstep.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
    */
   protected void matchForkRight(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep)
+    throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule ForkRight in microstep " + microstep);
+      " matching rule ForkRight on segment " + segment +
+      " in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      LOG.info("Vertex " + vertex.getId() +
+        " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    matches = filterForkRight(
+      vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 1;
+      ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
       if (ok) {
-        Match match = new Match().append(vertex.getId());
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
         // Send the match along all "right"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_RIGHT.get()) {
+            TYPE_VERTEX_RIGHT) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -294,7 +371,7 @@ public class ForkMain extends
       }
     } else if (microstep == 1) {
       // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
@@ -302,27 +379,88 @@ public class ForkMain extends
             continue;
           }
           matchCount++;
-          applyForkRight(vertex, match, appliedMatches);
+          if (segment == SEGMENT_COUNT - 1) {
+            applyForkRight(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
         }
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "ForkRight: " + microstep);
     }
-    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
+    if (matchCount > 0) {
+      aggregate(AGGREGATOR_MATCHES,
+        new LongWritable(matchCount));
+    }
+    if (!appliedMatches.isEmpty()) {
+      aggregate(AGGREGATOR_RULE_APPLICATIONS,
+        new LongWritable(appliedMatches.size()));
+    }
+  }
+
+  /**
+   * Filter matches per segment for the rule "ForkRight".
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
+   * @param appliedMatches Set of applied matches.
+   * @return The filtered matches.
+   */
+  protected Iterable<Match> filterForkRight(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep,
+    Set<Match> appliedMatches)
+    throws IOException {
+    if (segment > 0) {
+      List<Match> filtered = new ArrayList<Match>();
+      long matchCount = 0;
+      for (Match match : matches) {
+        int matchSegment = match.getSegment();
+        if (matchSegment < segment) {
+          if (match.getMatchSize() != 2) {
+            throw new RuntimeException("Incomplete match " + match +
+              " of rule ForkRight received in segment " +
+              segment);
+          }
+          matchCount++;
+          if (segment == SEGMENT_COUNT - 1 && microstep == 1) {
+            applyForkRight(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
+        } else if (matchSegment > segment) {
+          throw new RuntimeException("Received match " + match +
+            " of rule ForkRight of segment " +
+            matchSegment + ", but current segment is only " + segment);
+        } else {
+          filtered.add(match.copy());
+        }
+      }
+      if (matchCount > 0) {
+        aggregate(AGGREGATOR_MATCHES,
+          new LongWritable(matchCount));
+      }
+      return filtered;
+    }
+    return matches;
   }
 
   /**
    * Apply the rule "ForkRight" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Set of already applied matches.
+   * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyForkRight(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
-    throws IOException {
+  protected boolean applyForkRight(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Match match, Set<Match> appliedMatches) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     if (!appliedMatches.add(match)) {
@@ -332,7 +470,6 @@ public class ForkMain extends
       " applying rule ForkRight with match " + match);
     removeEdgesRequest(cur0, cur1);
     removeVertexRequest(cur1);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
     return true;
   }
 
@@ -341,31 +478,38 @@ public class ForkMain extends
    * This takes 2 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
-   * @param microstep Current microstep.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
    */
   protected void matchForkConn(
-      Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-      Iterable<Match> matches, int microstep) throws IOException {
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep)
+    throws IOException {
 
     LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule ForkConn in microstep " + microstep);
+      " matching rule ForkConn on segment " + segment +
+      " in microstep " + microstep);
     for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
+      LOG.info("Vertex " + vertex.getId() +
+        " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
     Set<Match> appliedMatches = new HashSet<Match>();
+    matches = filterForkConn(
+      vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 1;
+      ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
       if (ok) {
-        Match match = new Match().append(vertex.getId());
+        Match match = new Match(segment).append(vertex.getId());
         matchCount++;
         // Send the match along all "conn"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN.get()) {
+            TYPE_VERTEX_CONN) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -375,7 +519,7 @@ public class ForkMain extends
       }
     } else if (microstep == 1) {
       // Matching node "b":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX.get();
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       if (ok) {
         for (Match match : matches) {
           match = match.append(vertex.getId());
@@ -383,27 +527,88 @@ public class ForkMain extends
             continue;
           }
           matchCount++;
-          applyForkConn(vertex, match, appliedMatches);
+          if (segment == SEGMENT_COUNT - 1) {
+            applyForkConn(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
         }
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
         "ForkConn: " + microstep);
     }
-    aggregate(AGGREGATOR_MATCHES, new LongWritable(matchCount));
+    if (matchCount > 0) {
+      aggregate(AGGREGATOR_MATCHES,
+        new LongWritable(matchCount));
+    }
+    if (!appliedMatches.isEmpty()) {
+      aggregate(AGGREGATOR_RULE_APPLICATIONS,
+        new LongWritable(appliedMatches.size()));
+    }
+  }
+
+  /**
+   * Filter matches per segment for the rule "ForkConn".
+   * @param vertex The current vertex.
+   * @param matches The current matches.
+   * @param segment The current segment.
+   * @param microstep The current microstep.
+   * @param appliedMatches Set of applied matches.
+   * @return The filtered matches.
+   */
+  protected Iterable<Match> filterForkConn(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Iterable<Match> matches, int segment, int microstep,
+    Set<Match> appliedMatches)
+    throws IOException {
+    if (segment > 0) {
+      List<Match> filtered = new ArrayList<Match>();
+      long matchCount = 0;
+      for (Match match : matches) {
+        int matchSegment = match.getSegment();
+        if (matchSegment < segment) {
+          if (match.getMatchSize() != 2) {
+            throw new RuntimeException("Incomplete match " + match +
+              " of rule ForkConn received in segment " +
+              segment);
+          }
+          matchCount++;
+          if (segment == SEGMENT_COUNT - 1 && microstep == 1) {
+            applyForkConn(
+              vertex, match, appliedMatches);
+          } else {
+            sendMessage(vertex.getId(), match);
+          }
+        } else if (matchSegment > segment) {
+          throw new RuntimeException("Received match " + match +
+            " of rule ForkConn of segment " +
+            matchSegment + ", but current segment is only " + segment);
+        } else {
+          filtered.add(match.copy());
+        }
+      }
+      if (matchCount > 0) {
+        aggregate(AGGREGATOR_MATCHES,
+          new LongWritable(matchCount));
+      }
+      return filtered;
+    }
+    return matches;
   }
 
   /**
    * Apply the rule "ForkConn" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Set of already applied matches.
+   * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyForkConn(Vertex<VertexId, ByteWritable,
-    ByteWritable> vertex, Match match, Set<Match> appliedMatches)
-    throws IOException {
+  protected boolean applyForkConn(
+    Vertex<VertexId, ByteWritable, ByteWritable> vertex,
+    Match match, Set<Match> appliedMatches) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     if (!appliedMatches.add(match)) {
@@ -413,8 +618,16 @@ public class ForkMain extends
       " applying rule ForkConn with match " + match);
     removeEdgesRequest(cur0, cur1);
     removeVertexRequest(cur1);
-    aggregate(AGGREGATOR_RULE_APPLICATIONS, new LongWritable(1));
     return true;
+  }
+
+  /**
+   * Get the segment that a vertex belongs to.
+   * @param vertexId The ID of the vertex.
+   * @return The segment of the vertex.
+   */
+  private int getSegment(VertexId vertexId) {
+    return vertexId.hashCode() % SEGMENT_COUNT;
   }
 
   /**
@@ -446,7 +659,7 @@ public class ForkMain extends
         getAggregatedValue(AGGREGATOR_MATCHES)).get();
       if (getSuperstep() > 0) {
         LOG.info(matches + " (partial) matches computed and " +
-          ruleApps + " rules applied in superstep " +
+          ruleApps + " rule applications conducted in superstep " +
           (getSuperstep() - 1));
       }
       if (ruleApps > 0) {
@@ -458,7 +671,7 @@ public class ForkMain extends
       ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new ApplicationStack();
-        stack = stack.append(UNIT_FORK_MAIN, 0);
+        stack = stack.append(UNIT_FORK_MAIN, 0, 0);
         stack = nextRuleStep(stack, ruleApps);
       } else {
         stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
@@ -469,14 +682,15 @@ public class ForkMain extends
 
     /**
      * Compute the next rule application stack.
-     * @param stack Current application stack.
+     * @param stack The current application stack.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack nextRuleStep(
       ApplicationStack stack, long ruleApps) {
       while (stack.getStackSize() > 0) {
         int unit = stack.getLastUnit();
+        int segment = stack.getLastSegment();
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
@@ -490,15 +704,15 @@ public class ForkMain extends
           break;
         case RULE_FORK_LEFT:
           stack = processForkLeft(
-            stack, microstep, ruleApps);
+            stack, segment, microstep, ruleApps);
           break;
         case RULE_FORK_RIGHT:
           stack = processForkRight(
-            stack, microstep, ruleApps);
+            stack, segment, microstep, ruleApps);
           break;
         case RULE_FORK_CONN:
           stack = processForkConn(
-            stack, microstep, ruleApps);
+            stack, segment, microstep, ruleApps);
           break;
         default:
           throw new RuntimeException("Unknown unit " + unit);
@@ -517,15 +731,15 @@ public class ForkMain extends
 
    /**
      * Process LoopUnit "ForkMain".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
-     * @return the new application stack.
+     * @param stack The current application stack.
+     * @param microstep The current microstep.
+     * @return The new application stack.
      */
     private ApplicationStack processForkMain(
       ApplicationStack stack, int microstep) {
       if (microstep == 0 || unitSuccesses.pop()) {
-        stack = stack.append(UNIT_FORK_MAIN, 1);
-        stack = stack.append(UNIT_FORK_CHOICE, 0);
+        stack = stack.append(UNIT_FORK_MAIN, 0, 1);
+        stack = stack.append(UNIT_FORK_CHOICE, 0, 0);
       } else {
         unitSuccesses.push(true);
       }
@@ -534,9 +748,9 @@ public class ForkMain extends
 
    /**
      * Process IndependentUnit "ForkChoice".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
-     * @return the new application stack.
+     * @param stack The current application stack.
+     * @param microstep The current microstep.
+     * @return The new application stack.
      */
     private ApplicationStack processForkChoice(
       ApplicationStack stack, int microstep) {
@@ -558,16 +772,16 @@ public class ForkMain extends
         int next = unitOrders.peek().get(microstep);
         switch (next) {
         case 0:
-          stack = stack.append(UNIT_FORK_CHOICE, microstep + 1);
-          stack = stack.append(RULE_FORK_LEFT, 0);
+          stack = stack.append(UNIT_FORK_CHOICE, 0, microstep + 1);
+          stack = stack.append(RULE_FORK_LEFT, 0, 0);
           break;
         case 1:
-          stack = stack.append(UNIT_FORK_CHOICE, microstep + 1);
-          stack = stack.append(RULE_FORK_RIGHT, 0);
+          stack = stack.append(UNIT_FORK_CHOICE, 0, microstep + 1);
+          stack = stack.append(RULE_FORK_RIGHT, 0, 0);
           break;
         case 2:
-          stack = stack.append(UNIT_FORK_CHOICE, microstep + 1);
-          stack = stack.append(RULE_FORK_CONN, 0);
+          stack = stack.append(UNIT_FORK_CHOICE, 0, microstep + 1);
+          stack = stack.append(RULE_FORK_CONN, 0, 0);
           break;
         default:
           break;
@@ -578,15 +792,18 @@ public class ForkMain extends
 
    /**
      * Process Rule "ForkLeft".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
+     * @param stack The current application stack.
+     * @param segment The current segment.
+     * @param microstep The current microstep.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack processForkLeft(
-      ApplicationStack stack, int microstep, long ruleApps) {
+      ApplicationStack stack, int segment, int microstep, long ruleApps) {
       if (microstep < 1) {
-        stack = stack.append(RULE_FORK_LEFT, microstep + 1);
+        stack = stack.append(RULE_FORK_LEFT, segment, microstep + 1);
+      } else if (segment < SEGMENT_COUNT - 1) {
+        stack = stack.append(RULE_FORK_LEFT, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }
@@ -595,15 +812,18 @@ public class ForkMain extends
 
    /**
      * Process Rule "ForkRight".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
+     * @param stack The current application stack.
+     * @param segment The current segment.
+     * @param microstep The current microstep.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack processForkRight(
-      ApplicationStack stack, int microstep, long ruleApps) {
+      ApplicationStack stack, int segment, int microstep, long ruleApps) {
       if (microstep < 1) {
-        stack = stack.append(RULE_FORK_RIGHT, microstep + 1);
+        stack = stack.append(RULE_FORK_RIGHT, segment, microstep + 1);
+      } else if (segment < SEGMENT_COUNT - 1) {
+        stack = stack.append(RULE_FORK_RIGHT, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }
@@ -612,15 +832,18 @@ public class ForkMain extends
 
    /**
      * Process Rule "ForkConn".
-     * @param stack Current application stack.
-     * @param microstep Current microstep.
+     * @param stack The current application stack.
+     * @param segment The current segment.
+     * @param microstep The current microstep.
      * @param ruleApps Number of rule applications in last superstep.
-     * @return the new application stack.
+     * @return The new application stack.
      */
     private ApplicationStack processForkConn(
-      ApplicationStack stack, int microstep, long ruleApps) {
+      ApplicationStack stack, int segment, int microstep, long ruleApps) {
       if (microstep < 1) {
-        stack = stack.append(RULE_FORK_CONN, microstep + 1);
+        stack = stack.append(RULE_FORK_CONN, segment, microstep + 1);
+      } else if (segment < SEGMENT_COUNT - 1) {
+        stack = stack.append(RULE_FORK_CONN, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }
