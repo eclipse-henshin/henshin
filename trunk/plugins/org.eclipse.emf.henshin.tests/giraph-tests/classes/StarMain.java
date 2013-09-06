@@ -132,6 +132,47 @@ public class StarMain extends
    */
   private static int SEGMENT_COUNT = 1;
 
+  /**
+   * Currently active rule.
+   */
+  private int rule;
+
+  /**
+   * Current segment.
+   */
+  private int segment;
+
+  /**
+   * Current microstep.
+   */
+  private int microstep;
+
+  /**
+   * Finished flag.
+   */
+  private boolean finished;
+
+  /*
+   * (non-Javadoc)
+   * @see org.apache.giraph.graph.Computation#preSuperstep()
+   */
+  @Override
+  public void preSuperstep() {
+    ApplicationStack stack =
+      getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
+    if (stack.getStackSize() == 0) {
+      long ruleApps = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      finished = ruleApps == 0;
+      rule = -1;
+    } else {
+      finished = false;
+      rule = stack.getLastUnit();
+      segment = stack.getLastSegment();
+      microstep = stack.getLastMicrostep();
+    }
+  }
+
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -141,19 +182,10 @@ public class StarMain extends
   public void compute(
       Vertex<VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<Match> matches) throws IOException {
-    ApplicationStack stack =
-      getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
-    if (stack.getStackSize() == 0) {
-      long ruleApps = ((LongWritable)
-        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
-      if (ruleApps == 0) {
-        vertex.voteToHalt();
-      }
+    if (finished) {
+      vertex.voteToHalt();
       return;
     }
-    int rule = stack.getLastUnit();
-    int segment = stack.getLastSegment();
-    int microstep = stack.getLastMicrostep();
     switch (rule) {
     case RULE_DELETE_STAR:
       matchDeleteStar(
@@ -164,7 +196,7 @@ public class StarMain extends
         vertex, matches, segment, microstep);
       break;
     default:
-      throw new RuntimeException("Unknown rule: " + rule);
+      break;
     }
   }
 

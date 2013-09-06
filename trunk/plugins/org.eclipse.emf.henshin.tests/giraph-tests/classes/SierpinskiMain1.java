@@ -122,6 +122,47 @@ public class SierpinskiMain1 extends
    */
   private static int SEGMENT_COUNT = 1;
 
+  /**
+   * Currently active rule.
+   */
+  private int rule;
+
+  /**
+   * Current segment.
+   */
+  private int segment;
+
+  /**
+   * Current microstep.
+   */
+  private int microstep;
+
+  /**
+   * Finished flag.
+   */
+  private boolean finished;
+
+  /*
+   * (non-Javadoc)
+   * @see org.apache.giraph.graph.Computation#preSuperstep()
+   */
+  @Override
+  public void preSuperstep() {
+    ApplicationStack stack =
+      getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
+    if (stack.getStackSize() == 0) {
+      long ruleApps = ((LongWritable)
+        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
+      finished = ruleApps == 0;
+      rule = -1;
+    } else {
+      finished = false;
+      rule = stack.getLastUnit();
+      segment = stack.getLastSegment();
+      microstep = stack.getLastMicrostep();
+    }
+  }
+
   /*
    * (non-Javadoc)
    * @see org.apache.giraph.graph.Computation#compute(
@@ -131,26 +172,17 @@ public class SierpinskiMain1 extends
   public void compute(
       Vertex<VertexId, ByteWritable, ByteWritable> vertex,
       Iterable<Match> matches) throws IOException {
-    ApplicationStack stack =
-      getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
-    if (stack.getStackSize() == 0) {
-      long ruleApps = ((LongWritable)
-        getAggregatedValue(AGGREGATOR_RULE_APPLICATIONS)).get();
-      if (ruleApps == 0) {
-        vertex.voteToHalt();
-      }
+    if (finished) {
+      vertex.voteToHalt();
       return;
     }
-    int rule = stack.getLastUnit();
-    int segment = stack.getLastSegment();
-    int microstep = stack.getLastMicrostep();
     switch (rule) {
     case RULE_SIERPINSKI:
       matchSierpinski(
         vertex, matches, segment, microstep);
       break;
     default:
-      throw new RuntimeException("Unknown rule: " + rule);
+      break;
     }
   }
 
@@ -167,14 +199,6 @@ public class SierpinskiMain1 extends
     Iterable<Match> matches, int segment, int microstep)
     throws IOException {
 
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule Sierpinski on segment " + segment +
-      " in microstep " + microstep);
-    for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
-        " in superstep " + getSuperstep() +
-        " received (partial) match " + match);
-    }
     Set<Match> appliedMatches = new HashSet<Match>();
     matches = filterSierpinski(
       vertex, matches, segment, microstep, appliedMatches);
@@ -191,9 +215,6 @@ public class SierpinskiMain1 extends
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
             TYPE_VERTEX_LEFT) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
@@ -213,9 +234,6 @@ public class SierpinskiMain1 extends
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
               TYPE_VERTEX_CONN) {
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + match +
-                " forward to vertex " + edge.getTargetVertexId());
               sendMessage(edge.getTargetVertexId(), match);
             }
           }
@@ -232,9 +250,6 @@ public class SierpinskiMain1 extends
           }
           matchCount++;
           // Send the message back to matches of node "a":
-          LOG.info("Vertex " + vertex.getId() +
-            " sending (partial) match " + match +
-            " back to vertex " + match.getVertexId(0));
           sendMessage(match.getVertexId(0), match);
         }
       }
@@ -337,21 +352,19 @@ public class SierpinskiMain1 extends
     if (!appliedMatches.add(match)) {
       return false;
     }
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule Sierpinski with match " + match);
     removeEdgesRequest(cur0, cur1);
     removeEdgesRequest(cur0, cur2);
     removeEdgesRequest(cur1, cur2);
     VertexId new0 =
-      deriveVertexId(vertex.getId(), appliedMatches.size(), 0);
+      VertexId.randomVertexId();
     addVertexRequest(new0,
       new ByteWritable(TYPE_VERTEX));
     VertexId new1 =
-      deriveVertexId(vertex.getId(), appliedMatches.size(), 1);
+      VertexId.randomVertexId();
     addVertexRequest(new1,
       new ByteWritable(TYPE_VERTEX));
     VertexId new2 =
-      deriveVertexId(vertex.getId(), appliedMatches.size(), 2);
+      VertexId.randomVertexId();
     addVertexRequest(new2,
       new ByteWritable(TYPE_VERTEX));
     VertexId src0 = cur0;
@@ -409,23 +422,6 @@ public class SierpinskiMain1 extends
         new ByteWritable(TYPE_VERTEX_CONN));
     addEdgeRequest(src8, edge8);
     return true;
-  }
-
-  /**
-   * Derive a new vertex Id from an exiting one.
-   * @param baseId The base vertex Id.
-   * @param matchIndex The index of the match.
-   * @param vertexIndex The index of the new vertex.
-   * @return The derived vertex Id.
-   */
-  private VertexId deriveVertexId(VertexId baseId, int matchIndex,
-    int vertexIndex) {
-    long generation = ((LongWritable) getAggregatedValue(
-        AGGREGATOR_NODE_GENERATION)).get();
-    return baseId
-      .append((byte) generation)
-      .append((byte) matchIndex)
-      .append((byte) vertexIndex);
   }
 
   /**

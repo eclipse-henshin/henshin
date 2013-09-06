@@ -75,15 +75,11 @@ public class GenerateGiraphTests {
 		generateInputGraph(sierpinskiRule);
 		generateComputeClass(sierpinskiRule, true, false);		
 		IteratedUnit sierpinskiMain = (IteratedUnit) module.getUnit("SierpinskiMain");
-		sierpinskiMain.setIterations("1");
-		generateComputeClass(sierpinskiMain, true, false);
-		sierpinskiMain.setIterations("3");
-		generateComputeClass(sierpinskiMain, true, false);
-		sierpinskiMain.setIterations("6");
-		generateComputeClass(sierpinskiMain, false, false);
-		sierpinskiMain.setIterations("9");
-		generateComputeClass(sierpinskiMain, false, true);
-
+		for (int i=1; i<=18; i++) {
+			sierpinskiMain.setIterations(""+i);
+			generateComputeClass(sierpinskiMain, false, true);
+		}
+		
 		// Wheel
 		Rule wheelStart = (Rule) module.getUnit("WheelStart");
 		generateInputGraph(wheelStart);
@@ -119,7 +115,7 @@ public class GenerateGiraphTests {
 		Rule twoTimesTwo = (Rule) module.getUnit("TwoTimesTwo");
 		Rule twoTimesTwoStart1 = (Rule) module.getUnit("TwoTimesTwoStart1");
 		Rule twoTimesTwoStart2 = (Rule) module.getUnit("TwoTimesTwoStart2");
-		Rule twoTimesTwoStart3 = (Rule) module.getUnit("TwoTimesTwoStart3"); // this one seems not to work if useUUIDs=false
+		Rule twoTimesTwoStart3 = (Rule) module.getUnit("TwoTimesTwoStart3");
 		generateInputGraph(twoTimesTwoStart1);
 		generateInputGraph(twoTimesTwoStart2);
 		generateInputGraph(twoTimesTwoStart3);

@@ -44,12 +44,12 @@ import static org.apache.giraph.examples.HenshinUtil
   .VertexId;
 
 /**
- * Generated implementation of the Henshin unit "RequireTwo".
+ * Generated implementation of the Henshin unit "SierpinskiMain".
  */
 @Algorithm(
-    name = "RequireTwo"
+    name = "SierpinskiMain"
 )
-public class RequireTwo extends
+public class SierpinskiMain17 extends
   BasicComputation<VertexId, ByteWritable, ByteWritable, Match> {
 
   /**
@@ -103,14 +103,19 @@ public class RequireTwo extends
   public static final byte TYPE_VERTEX_CONTAINER_VERTICES = 5;
 
   /**
-   * Rule constant for "RequireTwo".
+   * Unit constant for "SierpinskiMain".
    */
-  public static final int RULE_REQUIRE_TWO = 0;
+  public static final int UNIT_SIERPINSKI_MAIN = 0;
+
+  /**
+   * Rule constant for "Sierpinski".
+   */
+  public static final int RULE_SIERPINSKI = 1;
 
   /**
    * Logging support.
    */
-  protected static final Logger LOG = Logger.getLogger(RequireTwo.class);
+  protected static final Logger LOG = Logger.getLogger(SierpinskiMain17.class);
 
   /**
    * Default segment count.
@@ -172,8 +177,8 @@ public class RequireTwo extends
       return;
     }
     switch (rule) {
-    case RULE_REQUIRE_TWO:
-      matchRequireTwo(
+    case RULE_SIERPINSKI:
+      matchSierpinski(
         vertex, matches, segment, microstep);
       break;
     default:
@@ -182,73 +187,39 @@ public class RequireTwo extends
   }
 
   /**
-   * Match (and apply) the rule "RequireTwo".
+   * Match (and apply) the rule "Sierpinski".
    * This takes 4 microsteps.
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
    */
-  protected void matchRequireTwo(
+  protected void matchSierpinski(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep)
     throws IOException {
 
-    LOG.info("Vertex " + vertex.getId() + " in superstep " + getSuperstep() +
-      " matching rule RequireTwo on segment " + segment +
-      " in microstep " + microstep);
-    for (Match match : matches) {
-      LOG.info("Vertex " + vertex.getId() +
-        " in superstep " + getSuperstep() +
-        " received (partial) match " + match);
-    }
     Set<Match> appliedMatches = new HashSet<Match>();
-    matches = filterRequireTwo(
+    matches = filterSierpinski(
       vertex, matches, segment, microstep, appliedMatches);
     long matchCount = 0;
     if (microstep == 0) {
       // Matching node "a":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER;
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 2;
       ok = ok && (SEGMENT_COUNT == 1 || getSegment(vertex.getId()) == segment);
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "vertices"-edges:
+        // Send the match along all "left"-edges:
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES) {
-            LOG.info("Vertex " + vertex.getId() +
-              " sending (partial) match " + match +
-              " forward to vertex " + edge.getTargetVertexId());
+            TYPE_VERTEX_LEFT) {
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
       }
     } else if (microstep == 1) {
-      // Matching node "c":
-      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
-      ok = ok && vertex.getNumEdges() >= 1;
-      if (ok) {
-        for (Match match : matches) {
-          match = match.append(vertex.getId());
-          if (!match.isInjective()) {
-            continue;
-          }
-          matchCount++;
-          // Send the match along all "left"-edges:
-          for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
-            if (edge.getValue().get() ==
-              TYPE_VERTEX_LEFT) {
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + match +
-                " forward to vertex " + edge.getTargetVertexId());
-              sendMessage(edge.getTargetVertexId(), match);
-            }
-          }
-        }
-      }
-    } else if (microstep == 2) {
       // Matching node "b":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX;
       ok = ok && vertex.getNumEdges() >= 1;
@@ -258,38 +229,42 @@ public class RequireTwo extends
           if (!match.isInjective()) {
             continue;
           }
-          if (vertex.getId().compareTo(match.getVertexId(1)) < 0) {
-            continue;
-          }
-          // Node "b": check for edge to match of "c" of type "left":
-          VertexId targetId = match.getVertexId(1);
-          for (Edge<VertexId, ByteWritable> edge :
-            vertex.getEdges()) {
+          matchCount++;
+          // Send the match along all "conn"-edges:
+          for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
-              TYPE_VERTEX_LEFT &&
-              edge.getTargetVertexId().equals(targetId)) {
-              matchCount++;
-              // Send the message back to matches of node "a":
-              LOG.info("Vertex " + vertex.getId() +
-                " sending (partial) match " + match +
-                " back to vertex " + match.getVertexId(0));
-              sendMessage(match.getVertexId(0), match);
+              TYPE_VERTEX_CONN) {
+              sendMessage(edge.getTargetVertexId(), match);
             }
           }
         }
       }
+    } else if (microstep == 2) {
+      // Matching node "c":
+      boolean ok = vertex.getValue().get() == TYPE_VERTEX;
+      if (ok) {
+        for (Match match : matches) {
+          match = match.append(vertex.getId());
+          if (!match.isInjective()) {
+            continue;
+          }
+          matchCount++;
+          // Send the message back to matches of node "a":
+          sendMessage(match.getVertexId(0), match);
+        }
+      }
     } else if (microstep == 3) {
       for (Match match : matches) {
-        // Node "a": check for edge to match of "b" of type "vertices":
+        // Node "a": check for edge to match of "c" of type "right":
         VertexId targetId = match.getVertexId(2);
         for (Edge<VertexId, ByteWritable> edge :
           vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES &&
+            TYPE_VERTEX_RIGHT &&
             edge.getTargetVertexId().equals(targetId)) {
             matchCount++;
             if (segment == SEGMENT_COUNT - 1) {
-              applyRequireTwo(
+              applySierpinski(
                 vertex, match, appliedMatches);
             } else {
               sendMessage(vertex.getId(), match);
@@ -299,7 +274,7 @@ public class RequireTwo extends
       }
     } else {
       throw new RuntimeException("Illegal microstep for rule " +
-        "RequireTwo: " + microstep);
+        "Sierpinski: " + microstep);
     }
     if (matchCount > 0) {
       aggregate(AGGREGATOR_MATCHES,
@@ -312,7 +287,7 @@ public class RequireTwo extends
   }
 
   /**
-   * Filter matches per segment for the rule "RequireTwo".
+   * Filter matches per segment for the rule "Sierpinski".
    * @param vertex The current vertex.
    * @param matches The current matches.
    * @param segment The current segment.
@@ -320,7 +295,7 @@ public class RequireTwo extends
    * @param appliedMatches Set of applied matches.
    * @return The filtered matches.
    */
-  protected Iterable<Match> filterRequireTwo(
+  protected Iterable<Match> filterSierpinski(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
     Set<Match> appliedMatches)
@@ -333,19 +308,19 @@ public class RequireTwo extends
         if (matchSegment < segment) {
           if (match.getMatchSize() != 3) {
             throw new RuntimeException("Incomplete match " + match +
-              " of rule RequireTwo received in segment " +
+              " of rule Sierpinski received in segment " +
               segment);
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 3) {
-            applyRequireTwo(
+            applySierpinski(
               vertex, match, appliedMatches);
           } else {
             sendMessage(vertex.getId(), match);
           }
         } else if (matchSegment > segment) {
           throw new RuntimeException("Received match " + match +
-            " of rule RequireTwo of segment " +
+            " of rule Sierpinski of segment " +
             matchSegment + ", but current segment is only " + segment);
         } else {
           filtered.add(match.copy());
@@ -361,52 +336,92 @@ public class RequireTwo extends
   }
 
   /**
-   * Apply the rule "RequireTwo" to a given match.
+   * Apply the rule "Sierpinski" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
    * @param appliedMatches Already applied matches.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
-  protected boolean applyRequireTwo(
+  protected boolean applySierpinski(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Match match, Set<Match> appliedMatches) throws IOException {
     VertexId cur0 = match.getVertexId(0);
-    match = match.remove(2);
-    match = match.remove(1);
+    VertexId cur1 = match.getVertexId(1);
+    VertexId cur2 = match.getVertexId(2);
     if (!appliedMatches.add(match)) {
       return false;
     }
-    LOG.info("Vertex " + vertex.getId() +
-      " applying rule RequireTwo with match " + match);
+    removeEdgesRequest(cur0, cur1);
+    removeEdgesRequest(cur0, cur2);
+    removeEdgesRequest(cur1, cur2);
     VertexId new0 =
-      deriveVertexId(vertex.getId(), appliedMatches.size(), 0);
+      VertexId.randomVertexId();
     addVertexRequest(new0,
+      new ByteWritable(TYPE_VERTEX));
+    VertexId new1 =
+      VertexId.randomVertexId();
+    addVertexRequest(new1,
+      new ByteWritable(TYPE_VERTEX));
+    VertexId new2 =
+      VertexId.randomVertexId();
+    addVertexRequest(new2,
       new ByteWritable(TYPE_VERTEX));
     VertexId src0 = cur0;
     VertexId trg0 = new0;
     Edge<VertexId, ByteWritable> edge0 =
       EdgeFactory.create(trg0,
-        new ByteWritable(TYPE_VERTEX_CONTAINER_VERTICES));
+        new ByteWritable(TYPE_VERTEX_LEFT));
     addEdgeRequest(src0, edge0);
+    VertexId src1 = cur0;
+    VertexId trg1 = new1;
+    Edge<VertexId, ByteWritable> edge1 =
+      EdgeFactory.create(trg1,
+        new ByteWritable(TYPE_VERTEX_RIGHT));
+    addEdgeRequest(src1, edge1);
+    VertexId src2 = cur1;
+    VertexId trg2 = new2;
+    Edge<VertexId, ByteWritable> edge2 =
+      EdgeFactory.create(trg2,
+        new ByteWritable(TYPE_VERTEX_CONN));
+    addEdgeRequest(src2, edge2);
+    VertexId src3 = new0;
+    VertexId trg3 = cur1;
+    Edge<VertexId, ByteWritable> edge3 =
+      EdgeFactory.create(trg3,
+        new ByteWritable(TYPE_VERTEX_LEFT));
+    addEdgeRequest(src3, edge3);
+    VertexId src4 = new0;
+    VertexId trg4 = new1;
+    Edge<VertexId, ByteWritable> edge4 =
+      EdgeFactory.create(trg4,
+        new ByteWritable(TYPE_VERTEX_CONN));
+    addEdgeRequest(src4, edge4);
+    VertexId src5 = new0;
+    VertexId trg5 = new2;
+    Edge<VertexId, ByteWritable> edge5 =
+      EdgeFactory.create(trg5,
+        new ByteWritable(TYPE_VERTEX_RIGHT));
+    addEdgeRequest(src5, edge5);
+    VertexId src6 = new1;
+    VertexId trg6 = new2;
+    Edge<VertexId, ByteWritable> edge6 =
+      EdgeFactory.create(trg6,
+        new ByteWritable(TYPE_VERTEX_LEFT));
+    addEdgeRequest(src6, edge6);
+    VertexId src7 = new1;
+    VertexId trg7 = cur2;
+    Edge<VertexId, ByteWritable> edge7 =
+      EdgeFactory.create(trg7,
+        new ByteWritable(TYPE_VERTEX_RIGHT));
+    addEdgeRequest(src7, edge7);
+    VertexId src8 = new2;
+    VertexId trg8 = cur2;
+    Edge<VertexId, ByteWritable> edge8 =
+      EdgeFactory.create(trg8,
+        new ByteWritable(TYPE_VERTEX_CONN));
+    addEdgeRequest(src8, edge8);
     return true;
-  }
-
-  /**
-   * Derive a new vertex Id from an exiting one.
-   * @param baseId The base vertex Id.
-   * @param matchIndex The index of the match.
-   * @param vertexIndex The index of the new vertex.
-   * @return The derived vertex Id.
-   */
-  private VertexId deriveVertexId(VertexId baseId, int matchIndex,
-    int vertexIndex) {
-    long generation = ((LongWritable) getAggregatedValue(
-        AGGREGATOR_NODE_GENERATION)).get();
-    return baseId
-      .append((byte) generation)
-      .append((byte) matchIndex)
-      .append((byte) vertexIndex);
   }
 
   /**
@@ -459,7 +474,8 @@ public class RequireTwo extends
       ApplicationStack stack;
       if (getSuperstep() == 0) {
         stack = new ApplicationStack();
-        stack = stack.append(RULE_REQUIRE_TWO, 0, 0);
+        stack = stack.append(UNIT_SIERPINSKI_MAIN, 0, 0);
+        stack = nextRuleStep(stack, ruleApps);
       } else {
         stack = getAggregatedValue(AGGREGATOR_APPLICATION_STACK);
         stack = nextRuleStep(stack, ruleApps);
@@ -481,8 +497,12 @@ public class RequireTwo extends
         int microstep = stack.getLastMicrostep();
         stack = stack.removeLast();
         switch (unit) {
-        case RULE_REQUIRE_TWO:
-          stack = processRequireTwo(
+        case UNIT_SIERPINSKI_MAIN:
+          stack = processSierpinskiMain(
+            stack, microstep);
+          break;
+        case RULE_SIERPINSKI:
+          stack = processSierpinski(
             stack, segment, microstep, ruleApps);
           break;
         default:
@@ -490,7 +510,7 @@ public class RequireTwo extends
         }
         if (stack.getStackSize() > 0) {
           unit = stack.getLastUnit();
-          if (unit == RULE_REQUIRE_TWO) {
+          if (unit == RULE_SIERPINSKI) {
             break;
           }
         }
@@ -499,19 +519,38 @@ public class RequireTwo extends
     }
 
    /**
-     * Process Rule "RequireTwo".
+     * Process IteratedUnit "SierpinskiMain".
+     * @param stack The current application stack.
+     * @param microstep The current microstep.
+     * @return The new application stack.
+     */
+    private ApplicationStack processSierpinskiMain(
+      ApplicationStack stack, int microstep) {
+      if (microstep > 0 && !unitSuccesses.pop()) {
+        unitSuccesses.push(false);
+      } else if (microstep == 17) {
+        unitSuccesses.push(true);
+      } else if (microstep < 17) {
+        stack = stack.append(UNIT_SIERPINSKI_MAIN, 0, microstep + 1);
+        stack = stack.append(RULE_SIERPINSKI, 0, 0);
+      }
+      return stack;
+    }
+
+   /**
+     * Process Rule "Sierpinski".
      * @param stack The current application stack.
      * @param segment The current segment.
      * @param microstep The current microstep.
      * @param ruleApps Number of rule applications in last superstep.
      * @return The new application stack.
      */
-    private ApplicationStack processRequireTwo(
+    private ApplicationStack processSierpinski(
       ApplicationStack stack, int segment, int microstep, long ruleApps) {
       if (microstep < 3) {
-        stack = stack.append(RULE_REQUIRE_TWO, segment, microstep + 1);
+        stack = stack.append(RULE_SIERPINSKI, segment, microstep + 1);
       } else if (segment < SEGMENT_COUNT - 1) {
-        stack = stack.append(RULE_REQUIRE_TWO, segment + 1, 0);
+        stack = stack.append(RULE_SIERPINSKI, segment + 1, 0);
       } else {
         unitSuccesses.push(ruleApps > 0);
       }

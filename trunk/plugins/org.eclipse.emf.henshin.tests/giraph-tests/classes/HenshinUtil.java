@@ -215,7 +215,11 @@ public class HenshinUtil {
      * @param segment The segment of this match.
      */
     public Match(int segment) {
-      super(new byte[] { (byte) (segment & 0xFF) });
+      super(new byte[] {
+        (byte) (segment >>> 24),
+        (byte) (segment >>> 16),
+        (byte) (segment >>> 8),
+        (byte) segment });
     }
 
     /**
@@ -231,7 +235,11 @@ public class HenshinUtil {
      * @return The segment.
      */
     public int getSegment() {
-      return getBytes()[0];
+      byte[] bytes = getBytes();
+      return bytes[0] << 24 |
+        (bytes[1] & 0xFF) << 16 |
+        (bytes[2] & 0xFF) << 8 |
+        (bytes[3] & 0xFF);
     }
 
     /**
@@ -240,7 +248,7 @@ public class HenshinUtil {
      */
     public int getMatchSize() {
       byte[] bytes = getBytes();
-      int d = 1;
+      int d = 4;
       int size = 0;
       while (d < bytes.length) {
         d += bytes[d] + 1;
@@ -256,7 +264,7 @@ public class HenshinUtil {
      */
     public VertexId getVertexId(int vertexIndex) {
       byte[] bytes = getBytes();
-      int d = 1;
+      int d = 4;
       for (int i = 0; i < vertexIndex; i++) {
         if (d >= bytes.length) {
           return null;
@@ -327,9 +335,9 @@ public class HenshinUtil {
     public Match append(Match match) {
       byte[] bytes1 = getBytes();
       byte[] bytes2 = match.getBytes();
-      bytes1 = Arrays.copyOf(bytes1, bytes1.length + bytes2.length - 1);
-      System.arraycopy(bytes2, 1,
-        bytes1, bytes1.length - bytes2.length + 1, bytes2.length - 1);
+      bytes1 = Arrays.copyOf(bytes1, bytes1.length + bytes2.length - 4);
+      System.arraycopy(bytes2, 4,
+        bytes1, bytes1.length - bytes2.length + 4, bytes2.length - 4);
       return new Match(bytes1);
     }
 
@@ -340,7 +348,7 @@ public class HenshinUtil {
      */
     public Match remove(int vertexIndex) {
       byte[] bytes = getBytes();
-      int d = 1;
+      int d = 4;
       for (int i = 0; i < vertexIndex; i++) {
         if (d >= bytes.length) {
           return null;
@@ -374,7 +382,7 @@ public class HenshinUtil {
     public String toString() {
       byte[] bytes = getBytes();
       StringBuffer result = new StringBuffer();
-      int i = 1;
+      int i = 4;
       while (i < bytes.length) {
         int len = bytes[i++];
         result.append("[");
