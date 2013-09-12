@@ -199,10 +199,11 @@ public class SierpinskiMain14 extends
     Iterable<Match> matches, int segment, int microstep)
     throws IOException {
 
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterSierpinski(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX;
@@ -262,12 +263,14 @@ public class SierpinskiMain14 extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_RIGHT &&
             edge.getTargetVertexId().equals(targetId)) {
-            matchCount++;
-            if (segment == SEGMENT_COUNT - 1) {
-              applySierpinski(
-                vertex, match, appliedMatches);
-            } else {
-              sendMessage(vertex.getId(), match);
+            if (finalMatches.add(match)) {
+              matchCount++;
+              if (segment == SEGMENT_COUNT - 1) {
+                applySierpinski(
+                  vertex, match, appCount++);
+              } else {
+                sendMessage(vertex.getId(), match);
+              }
             }
           }
         }
@@ -280,9 +283,9 @@ public class SierpinskiMain14 extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -292,29 +295,28 @@ public class SierpinskiMain14 extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterSierpinski(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 3) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule Sierpinski received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 3) {
             applySierpinski(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -330,6 +332,10 @@ public class SierpinskiMain14 extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -339,19 +345,16 @@ public class SierpinskiMain14 extends
    * Apply the rule "Sierpinski" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applySierpinski(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     VertexId cur2 = match.getVertexId(2);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
     removeEdgesRequest(cur0, cur1);
     removeEdgesRequest(cur0, cur2);
     removeEdgesRequest(cur1, cur2);

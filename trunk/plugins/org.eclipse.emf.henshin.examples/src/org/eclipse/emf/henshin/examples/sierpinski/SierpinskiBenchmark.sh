@@ -63,5 +63,5 @@ done
 
 sync
 cd $WORKSPACE/org.eclipse.emf.henshin.examples
-java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark
+java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark 17
 cd - > /dev/null

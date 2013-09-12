@@ -201,10 +201,11 @@ public class ParallelTriangles extends
         " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterParallelTriangles(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER;
@@ -272,12 +273,14 @@ public class ParallelTriangles extends
             if (edge.getValue().get() ==
               TYPE_VERTEX_LEFT &&
               edge.getTargetVertexId().equals(targetId)) {
-              matchCount++;
-              if (segment == SEGMENT_COUNT - 1) {
-                applyParallelTriangles(
-                  vertex, match, appliedMatches);
-              } else {
-                sendMessage(vertex.getId(), match);
+              if (finalMatches.add(match)) {
+                matchCount++;
+                if (segment == SEGMENT_COUNT - 1) {
+                  applyParallelTriangles(
+                    vertex, match, appCount++);
+                } else {
+                  sendMessage(vertex.getId(), match);
+                }
               }
             }
           }
@@ -291,9 +294,9 @@ public class ParallelTriangles extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -303,29 +306,28 @@ public class ParallelTriangles extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterParallelTriangles(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 3) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule ParallelTriangles received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 3) {
             applyParallelTriangles(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -341,6 +343,10 @@ public class ParallelTriangles extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -350,19 +356,16 @@ public class ParallelTriangles extends
    * Apply the rule "ParallelTriangles" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applyParallelTriangles(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     VertexId cur2 = match.getVertexId(2);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
     LOG.info("Vertex " + vertex.getId() +
       " applying rule ParallelTriangles with match " + match);
     removeEdgesRequest(cur0, cur1);

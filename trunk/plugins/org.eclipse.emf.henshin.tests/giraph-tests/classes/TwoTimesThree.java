@@ -193,10 +193,11 @@ public class TwoTimesThree extends
     Iterable<Match> matches, int segment, int microstep)
     throws IOException {
 
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterTwoTimesThree(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX;
@@ -347,12 +348,14 @@ public class TwoTimesThree extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_RIGHT &&
             edge.getTargetVertexId().equals(targetId)) {
-            matchCount++;
-            if (segment == SEGMENT_COUNT - 1) {
-              applyTwoTimesThree(
-                vertex, match, appliedMatches);
-            } else {
-              sendMessage(vertex.getId(), match);
+            if (finalMatches.add(match)) {
+              matchCount++;
+              if (segment == SEGMENT_COUNT - 1) {
+                applyTwoTimesThree(
+                  vertex, match, appCount++);
+              } else {
+                sendMessage(vertex.getId(), match);
+              }
             }
           }
         }
@@ -365,9 +368,9 @@ public class TwoTimesThree extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -377,29 +380,28 @@ public class TwoTimesThree extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterTwoTimesThree(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 5) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule TwoTimesThree received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 9) {
             applyTwoTimesThree(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -415,6 +417,10 @@ public class TwoTimesThree extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -424,21 +430,18 @@ public class TwoTimesThree extends
    * Apply the rule "TwoTimesThree" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applyTwoTimesThree(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
     VertexId cur2 = match.getVertexId(2);
     VertexId cur3 = match.getVertexId(3);
     VertexId cur4 = match.getVertexId(4);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
     removeEdgesRequest(cur0, cur1);
     removeEdgesRequest(cur0, cur2);
     removeEdgesRequest(cur0, cur3);

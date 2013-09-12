@@ -201,10 +201,11 @@ public class ParallelEdges extends
         " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterParallelEdges(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER;
@@ -233,12 +234,14 @@ public class ParallelEdges extends
           if (!match.isInjective()) {
             continue;
           }
-          matchCount++;
-          if (segment == SEGMENT_COUNT - 1) {
-            applyParallelEdges(
-              vertex, match, appliedMatches);
-          } else {
-            sendMessage(vertex.getId(), match);
+          if (finalMatches.add(match)) {
+            matchCount++;
+            if (segment == SEGMENT_COUNT - 1) {
+              applyParallelEdges(
+                vertex, match, appCount++);
+            } else {
+              sendMessage(vertex.getId(), match);
+            }
           }
         }
       }
@@ -250,9 +253,9 @@ public class ParallelEdges extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -262,29 +265,28 @@ public class ParallelEdges extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterParallelEdges(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 2) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule ParallelEdges received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 1) {
             applyParallelEdges(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -300,6 +302,10 @@ public class ParallelEdges extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -309,18 +315,15 @@ public class ParallelEdges extends
    * Apply the rule "ParallelEdges" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applyParallelEdges(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
     LOG.info("Vertex " + vertex.getId() +
       " applying rule ParallelEdges with match " + match);
     removeEdgesRequest(cur0, cur1);

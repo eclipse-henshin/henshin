@@ -246,6 +246,14 @@ for (GiraphRuleData data : ruleData.values()) {
   Rule rule = data.rule;
   RuleChangeInfo changeInfo = data.changeInfo;
 
+  // Sort indexes of nodes to be removed from the match:
+  List<Integer> required = new ArrayList<Integer>();
+  for (Node node : data.requiredNodes) {
+    required.add(data.orderedLhsNodes.indexOf(node));
+  }
+  Collections.sort(required);
+  Collections.reverse(required);
+
 %>
 
   /**
@@ -275,10 +283,11 @@ for (GiraphRuleData data : ruleData.values()) {
 <% } 
   /* END LOGGING */
 %>
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     <%= data.matchingSteps.size() > 1 ? "matches = " : "" %>filter<%= rule.getName() %>(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
 
 <%  for (int i=0; i<data.matchingSteps.size(); i++) {
 
@@ -311,11 +320,11 @@ for (GiraphRuleData data : ruleData.values()) {
           if (!match.isInjective()) {
             continue;
           }
-          matchCount++;
 <%    }
       if (step.sendBackTo != null) {
         /* START SEND BACK TO */        
 %>
+          matchCount++;
           // Send the message back to match of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
 <%      if (vertexLogging) { %>
           LOG.info("Vertex " + vertex.getId() +
@@ -324,10 +333,17 @@ for (GiraphRuleData data : ruleData.values()) {
 <%      } %>
           sendMessage(match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.sendBackTo) %>), match);
 <%        /* END SEND BACK TO */
-      } else if (i == data.matchingSteps.size()-1) { %>
+      } else if (i == data.matchingSteps.size()-1) {
+        for (Integer req : required) { %>
+          match = match.remove(<%= req %>);
+     <% } %>
+          if (!finalMatches.add(match)) {
+            continue;
+          }
+          matchCount++;
           if (segment == SEGMENT_COUNT - 1) {
             apply<%= data.rule.getName() %>(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -362,7 +378,6 @@ for (GiraphRuleData data : ruleData.values()) {
           /* START IS START */        
 %>
         Match match = new Match(segment).append(vertex.getId());
-        matchCount++;
 <%
           /* END IS START */        
         } else {
@@ -382,11 +397,8 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=xx%>        if (vertex.getId().compareTo(match.getVertexId(<%= data.orderedLhsNodes.indexOf(compareTo) %>)) < 0) {
 <%=xx%>          continue;
 <%=xx%>        }
-<%          } 
+<%          }
           } 
-          if (step.verifyEdgeTo == null) { %>
-<%=xx%>        matchCount++;
-<%        }
           /* END IS NOT START*/
         }
         if (step.edge != null) {
@@ -402,7 +414,6 @@ for (GiraphRuleData data : ruleData.values()) {
 <%=xx%>      if (edge.getValue().get() ==
 <%=xx%>        <%= typeConstants.get(step.edge.getType()) %> &&
 <%=xx%>        edge.getTargetVertexId().equals(targetId)) {
-<%=xx%>        matchCount++;
 <%
             /* END VERIFY EDGE */        
           }
@@ -411,6 +422,7 @@ for (GiraphRuleData data : ruleData.values()) {
 <%      if (step.sendBackTo != null) {
           /* START SEND BACK TO */        
 %>
+<%=xx%>        matchCount++;
 <%=xx%>        // Send the message back to matches of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
 <%        if (vertexLogging) { %>
 <%=xx%>        LOG.info("Vertex " + vertex.getId() +
@@ -424,12 +436,17 @@ for (GiraphRuleData data : ruleData.values()) {
           if (step.isStart) {
             xx = "";
           }
-          %>
-<%=xx%>        if (segment == SEGMENT_COUNT - 1) {
-<%=xx%>          apply<%= data.rule.getName() %>(
-<%=xx%>            vertex, match, appliedMatches);
-<%=xx%>        } else {
-<%=xx%>          sendMessage(vertex.getId(), match);
+          for (Integer req : required) { %>
+<%=xx%>        match = match.remove(<%= req %>);
+<%        } %>
+<%=xx%>        if (finalMatches.add(match)) {
+<%=xx%>          matchCount++;
+<%=xx%>          if (segment == SEGMENT_COUNT - 1) {
+<%=xx%>            apply<%= data.rule.getName() %>(
+<%=xx%>              vertex, match, appCount++);
+<%=xx%>          } else {
+<%=xx%>            sendMessage(vertex.getId(), match);
+<%=xx%>          }
 <%=xx%>        }
 <%        /* END LAST STEP */        
         }
@@ -446,6 +463,7 @@ for (GiraphRuleData data : ruleData.values()) {
           /* START NOT VERIFY EDGE */
           String yy = !step.isStart && step.isMatching ? "  " : "";
 %>
+<%=yy%>        matchCount++;
 <%=yy%>        // Send the match along all "<%= step.edge.getType().getName() %>"-edges:
 <%=yy%>        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
 <%=yy%>          if (edge.getValue().get() ==
@@ -493,9 +511,9 @@ for (GiraphRuleData data : ruleData.values()) {
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -505,29 +523,28 @@ for (GiraphRuleData data : ruleData.values()) {
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filter<%= rule.getName() %>(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != <%= data.orderedLhsNodes.size() %>) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule <%= rule.getName() %> received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == <%= data.matchingSteps.size()-1 %>) {
             apply<%= data.rule.getName() %>(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -543,6 +560,10 @@ for (GiraphRuleData data : ruleData.values()) {
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -552,15 +573,19 @@ for (GiraphRuleData data : ruleData.values()) {
    * Apply the rule "<%= rule.getName() %>" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean apply<%= data.rule.getName() %>(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
-<% for (int j = 0; j < data.orderedLhsNodes.size(); j++) {
-    Node lhsNode = data.orderedLhsNodes.get(j);
+    Match match, long matchIndex) throws IOException {
+<%
+  List<Node> matchNodes = new ArrayList<Node>();
+  matchNodes.addAll(data.orderedLhsNodes);
+  matchNodes.removeAll(data.requiredNodes);
+  for (int j = 0; j < matchNodes.size(); j++) {
+    Node lhsNode = matchNodes.get(j);
     Node rhsNode = data.rule.getMappings().getImage(lhsNode, data.rule.getRhs());
     boolean needed = changeInfo.getDeletedNodes().contains(lhsNode);
     for (Edge edge : lhsNode.getAllEdges()) {
@@ -575,29 +600,16 @@ for (GiraphRuleData data : ruleData.values()) {
     VertexId cur<%= j %> = match.getVertexId(<%= j %>);
 <%  }
   }
-  // Sort indexes of nodes to be removed from the match:
-  List<Integer> required = new ArrayList<Integer>();
-  for (Node node : data.requiredNodes) {
-    required.add(data.orderedLhsNodes.indexOf(node));
-  }
-  Collections.sort(required);
-  Collections.reverse(required);
-  for (Integer req : required) { %>
-    match = match.remove(<%= req %>);
-<% } %>
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
-<% if (vertexLogging) { %>
+  if (vertexLogging) { %>
     LOG.info("Vertex " + vertex.getId() +
       " applying rule <%= data.rule.getName() %> with match " + match);
 <% } %>
 <%
   for (Edge edge : changeInfo.getDeletedEdges()) {%>
-    removeEdgesRequest(cur<%= data.orderedLhsNodes.indexOf(edge.getSource()) %>, cur<%= data.orderedLhsNodes.indexOf(edge.getTarget()) %>);
+    removeEdgesRequest(cur<%= matchNodes.indexOf(edge.getSource()) %>, cur<%= matchNodes.indexOf(edge.getTarget()) %>);
 <%  }
     for (Node node : changeInfo.getDeletedNodes()) {%>
-    removeVertexRequest(cur<%= data.orderedLhsNodes.indexOf(node) %>);
+    removeVertexRequest(cur<%= matchNodes.indexOf(node) %>);
 <%  }
 
     int n = 0;
@@ -606,7 +618,7 @@ for (GiraphRuleData data : ruleData.values()) {
 <% if (useUUIDs) { %>
       VertexId.randomVertexId();
 <% } else { %>
-      deriveVertexId(vertex.getId(), appliedMatches.size(), <%= n %>);
+      deriveVertexId(vertex.getId(), (int) matchIndex, <%= n %>);
 <% } %>
     addVertexRequest(new<%= n++ %>,
       new ByteWritable(<%= typeConstants.get(node.getType()) %>));
@@ -618,13 +630,13 @@ for (GiraphRuleData data : ruleData.values()) {
    	if (changeInfo.getCreatedNodes().contains(edge.getSource())) { %>
     VertexId src<%= e %> = new<%= changeInfo.getCreatedNodes().indexOf(edge.getSource()) %>;
 <%	} else { %>
-    VertexId src<%= e %> = cur<%= data.orderedLhsNodes.indexOf(data.rule.getMappings().getOrigin(edge.getSource())) %>;
+    VertexId src<%= e %> = cur<%= matchNodes.indexOf(data.rule.getMappings().getOrigin(edge.getSource())) %>;
 <%	}
 	// THE TARGET OF THE NEW EDGE:
    	if (changeInfo.getCreatedNodes().contains(edge.getTarget())) { %>
     VertexId trg<%= e %> = new<%= changeInfo.getCreatedNodes().indexOf(edge.getTarget()) %>;
 <%	} else { %>
-    VertexId trg<%= e %> = cur<%= data.orderedLhsNodes.indexOf(data.rule.getMappings().getOrigin(edge.getTarget())) %>;
+    VertexId trg<%= e %> = cur<%= matchNodes.indexOf(data.rule.getMappings().getOrigin(edge.getTarget())) %>;
 <%	} %>
     Edge<VertexId, ByteWritable> edge<%= e %> =
       EdgeFactory.create(trg<%= e %>,

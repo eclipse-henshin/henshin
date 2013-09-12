@@ -202,10 +202,11 @@ public class RequireTwo extends
         " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterRequireTwo(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX_CONTAINER;
@@ -287,12 +288,16 @@ public class RequireTwo extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONTAINER_VERTICES &&
             edge.getTargetVertexId().equals(targetId)) {
-            matchCount++;
-            if (segment == SEGMENT_COUNT - 1) {
-              applyRequireTwo(
-                vertex, match, appliedMatches);
-            } else {
-              sendMessage(vertex.getId(), match);
+            match = match.remove(2);
+            match = match.remove(1);
+            if (finalMatches.add(match)) {
+              matchCount++;
+              if (segment == SEGMENT_COUNT - 1) {
+                applyRequireTwo(
+                  vertex, match, appCount++);
+              } else {
+                sendMessage(vertex.getId(), match);
+              }
             }
           }
         }
@@ -305,9 +310,9 @@ public class RequireTwo extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -317,29 +322,28 @@ public class RequireTwo extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterRequireTwo(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 3) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule RequireTwo received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 3) {
             applyRequireTwo(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -355,6 +359,10 @@ public class RequireTwo extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -364,23 +372,18 @@ public class RequireTwo extends
    * Apply the rule "RequireTwo" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applyRequireTwo(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
-    match = match.remove(2);
-    match = match.remove(1);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
     LOG.info("Vertex " + vertex.getId() +
       " applying rule RequireTwo with match " + match);
     VertexId new0 =
-      deriveVertexId(vertex.getId(), appliedMatches.size(), 0);
+      deriveVertexId(vertex.getId(), (int) matchIndex, 0);
     addVertexRequest(new0,
       new ByteWritable(TYPE_VERTEX));
     VertexId src0 = cur0;

@@ -175,6 +175,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			label.setText("Use Java UUIDs:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			uuidsCheckBox = new Button(comp, SWT.CHECK);
+			uuidsCheckBox.setSelection(true);
 
 			setControl(comp);
 		}

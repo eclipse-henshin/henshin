@@ -123,7 +123,8 @@ public class SierpinskiBenchmark {
 	}
 	
 	public static void main(String[] args) {
-		run(PATH, 15); // we assume the working directory is the root of the examples plug-in
+		int iterations = Integer.parseInt(args[0]);
+		run(PATH, iterations); // we assume the working directory is the root of the examples plug-in
 	}
 	
 }

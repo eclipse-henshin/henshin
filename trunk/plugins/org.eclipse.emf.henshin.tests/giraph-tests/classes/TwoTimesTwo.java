@@ -202,10 +202,11 @@ public class TwoTimesTwo extends
         " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterTwoTimesTwo(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX;
@@ -342,12 +343,16 @@ public class TwoTimesTwo extends
           if (edge.getValue().get() ==
             TYPE_VERTEX_CONN &&
             edge.getTargetVertexId().equals(targetId)) {
-            matchCount++;
-            if (segment == SEGMENT_COUNT - 1) {
-              applyTwoTimesTwo(
-                vertex, match, appliedMatches);
-            } else {
-              sendMessage(vertex.getId(), match);
+            match = match.remove(2);
+            match = match.remove(1);
+            if (finalMatches.add(match)) {
+              matchCount++;
+              if (segment == SEGMENT_COUNT - 1) {
+                applyTwoTimesTwo(
+                  vertex, match, appCount++);
+              } else {
+                sendMessage(vertex.getId(), match);
+              }
             }
           }
         }
@@ -360,9 +365,9 @@ public class TwoTimesTwo extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -372,29 +377,28 @@ public class TwoTimesTwo extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterTwoTimesTwo(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 4) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule TwoTimesTwo received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 6) {
             applyTwoTimesTwo(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -410,6 +414,10 @@ public class TwoTimesTwo extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -419,24 +427,19 @@ public class TwoTimesTwo extends
    * Apply the rule "TwoTimesTwo" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applyTwoTimesTwo(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
-    VertexId cur3 = match.getVertexId(3);
-    match = match.remove(2);
-    match = match.remove(1);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
+    VertexId cur1 = match.getVertexId(1);
     LOG.info("Vertex " + vertex.getId() +
       " applying rule TwoTimesTwo with match " + match);
     VertexId new0 =
-      deriveVertexId(vertex.getId(), appliedMatches.size(), 0);
+      deriveVertexId(vertex.getId(), (int) matchIndex, 0);
     addVertexRequest(new0,
       new ByteWritable(TYPE_VERTEX_CONTAINER));
     VertexId src0 = new0;
@@ -446,7 +449,7 @@ public class TwoTimesTwo extends
         new ByteWritable(TYPE_VERTEX_CONTAINER_VERTICES));
     addEdgeRequest(src0, edge0);
     VertexId src1 = new0;
-    VertexId trg1 = cur3;
+    VertexId trg1 = cur1;
     Edge<VertexId, ByteWritable> edge1 =
       EdgeFactory.create(trg1,
         new ByteWritable(TYPE_VERTEX_CONTAINER_VERTICES));

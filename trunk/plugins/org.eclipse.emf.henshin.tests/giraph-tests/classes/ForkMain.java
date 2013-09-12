@@ -230,10 +230,11 @@ public class ForkMain extends
         " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterForkLeft(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX;
@@ -262,12 +263,14 @@ public class ForkMain extends
           if (!match.isInjective()) {
             continue;
           }
-          matchCount++;
-          if (segment == SEGMENT_COUNT - 1) {
-            applyForkLeft(
-              vertex, match, appliedMatches);
-          } else {
-            sendMessage(vertex.getId(), match);
+          if (finalMatches.add(match)) {
+            matchCount++;
+            if (segment == SEGMENT_COUNT - 1) {
+              applyForkLeft(
+                vertex, match, appCount++);
+            } else {
+              sendMessage(vertex.getId(), match);
+            }
           }
         }
       }
@@ -279,9 +282,9 @@ public class ForkMain extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -291,29 +294,28 @@ public class ForkMain extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterForkLeft(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 2) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule ForkLeft received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 1) {
             applyForkLeft(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -329,6 +331,10 @@ public class ForkMain extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -338,18 +344,15 @@ public class ForkMain extends
    * Apply the rule "ForkLeft" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applyForkLeft(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
     LOG.info("Vertex " + vertex.getId() +
       " applying rule ForkLeft with match " + match);
     removeEdgesRequest(cur0, cur1);
@@ -378,10 +381,11 @@ public class ForkMain extends
         " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterForkRight(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX;
@@ -410,12 +414,14 @@ public class ForkMain extends
           if (!match.isInjective()) {
             continue;
           }
-          matchCount++;
-          if (segment == SEGMENT_COUNT - 1) {
-            applyForkRight(
-              vertex, match, appliedMatches);
-          } else {
-            sendMessage(vertex.getId(), match);
+          if (finalMatches.add(match)) {
+            matchCount++;
+            if (segment == SEGMENT_COUNT - 1) {
+              applyForkRight(
+                vertex, match, appCount++);
+            } else {
+              sendMessage(vertex.getId(), match);
+            }
           }
         }
       }
@@ -427,9 +433,9 @@ public class ForkMain extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -439,29 +445,28 @@ public class ForkMain extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterForkRight(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 2) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule ForkRight received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 1) {
             applyForkRight(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -477,6 +482,10 @@ public class ForkMain extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -486,18 +495,15 @@ public class ForkMain extends
    * Apply the rule "ForkRight" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applyForkRight(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
     LOG.info("Vertex " + vertex.getId() +
       " applying rule ForkRight with match " + match);
     removeEdgesRequest(cur0, cur1);
@@ -526,10 +532,11 @@ public class ForkMain extends
         " in superstep " + getSuperstep() +
         " received (partial) match " + match);
     }
-    Set<Match> appliedMatches = new HashSet<Match>();
+    Set<Match> finalMatches = new HashSet<Match>();
     matches = filterForkConn(
-      vertex, matches, segment, microstep, appliedMatches);
+      vertex, matches, segment, microstep, finalMatches);
     long matchCount = 0;
+    long appCount = 0;
     if (microstep == 0) {
       // Matching node "a":
       boolean ok = vertex.getValue().get() == TYPE_VERTEX;
@@ -558,12 +565,14 @@ public class ForkMain extends
           if (!match.isInjective()) {
             continue;
           }
-          matchCount++;
-          if (segment == SEGMENT_COUNT - 1) {
-            applyForkConn(
-              vertex, match, appliedMatches);
-          } else {
-            sendMessage(vertex.getId(), match);
+          if (finalMatches.add(match)) {
+            matchCount++;
+            if (segment == SEGMENT_COUNT - 1) {
+              applyForkConn(
+                vertex, match, appCount++);
+            } else {
+              sendMessage(vertex.getId(), match);
+            }
           }
         }
       }
@@ -575,9 +584,9 @@ public class ForkMain extends
       aggregate(AGGREGATOR_MATCHES,
         new LongWritable(matchCount));
     }
-    if (!appliedMatches.isEmpty()) {
+    if (appCount > 0) {
       aggregate(AGGREGATOR_RULE_APPLICATIONS,
-        new LongWritable(appliedMatches.size()));
+        new LongWritable(appCount));
     }
   }
 
@@ -587,29 +596,28 @@ public class ForkMain extends
    * @param matches The current matches.
    * @param segment The current segment.
    * @param microstep The current microstep.
-   * @param appliedMatches Set of applied matches.
+   * @param finalMatches Set of final matches.
    * @return The filtered matches.
    */
   protected Iterable<Match> filterForkConn(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
     Iterable<Match> matches, int segment, int microstep,
-    Set<Match> appliedMatches)
+    Set<Match> finalMatches)
     throws IOException {
     if (segment > 0) {
       List<Match> filtered = new ArrayList<Match>();
       long matchCount = 0;
+      long appCount = 0;
       for (Match match : matches) {
         int matchSegment = match.getSegment();
         if (matchSegment < segment) {
-          if (match.getMatchSize() != 2) {
-            throw new RuntimeException("Incomplete match " + match +
-              " of rule ForkConn received in segment " +
-              segment);
+          if (!finalMatches.add(match)) {
+            continue;
           }
           matchCount++;
           if (segment == SEGMENT_COUNT - 1 && microstep == 1) {
             applyForkConn(
-              vertex, match, appliedMatches);
+              vertex, match, appCount++);
           } else {
             sendMessage(vertex.getId(), match);
           }
@@ -625,6 +633,10 @@ public class ForkMain extends
         aggregate(AGGREGATOR_MATCHES,
           new LongWritable(matchCount));
       }
+      if (appCount > 0) {
+        aggregate(AGGREGATOR_RULE_APPLICATIONS,
+          new LongWritable(appCount));
+      }
       return filtered;
     }
     return matches;
@@ -634,18 +646,15 @@ public class ForkMain extends
    * Apply the rule "ForkConn" to a given match.
    * @param vertex The base vertex.
    * @param match The match object.
-   * @param appliedMatches Already applied matches.
+   * @param matchIndex Match index.
    * @return true if the rule was applied.
    * @throws IOException On I/O errors.
    */
   protected boolean applyForkConn(
     Vertex<VertexId, ByteWritable, ByteWritable> vertex,
-    Match match, Set<Match> appliedMatches) throws IOException {
+    Match match, long matchIndex) throws IOException {
     VertexId cur0 = match.getVertexId(0);
     VertexId cur1 = match.getVertexId(1);
-    if (!appliedMatches.add(match)) {
-      return false;
-    }
     LOG.info("Vertex " + vertex.getId() +
       " applying rule ForkConn with match " + match);
     removeEdgesRequest(cur0, cur1);
