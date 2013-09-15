@@ -120,7 +120,7 @@ public class WheelMain extends
   /**
    * Default segment count.
    */
-  private static int SEGMENT_COUNT = 1;
+  private static int SEGMENT_COUNT = 2;
 
   /**
    * Currently active rule.
@@ -441,7 +441,7 @@ public class WheelMain extends
    * @return The segment of the vertex.
    */
   private int getSegment(VertexId vertexId) {
-    return vertexId.hashCode() % SEGMENT_COUNT;
+    return Math.abs(vertexId.hashCode()) % SEGMENT_COUNT;
   }
 
   /**

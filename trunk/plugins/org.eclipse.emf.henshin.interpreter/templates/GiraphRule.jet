@@ -674,7 +674,7 @@ for (GiraphRuleData data : ruleData.values()) {
    * @return The segment of the vertex.
    */
   private int getSegment(VertexId vertexId) {
-    return vertexId.hashCode() % SEGMENT_COUNT;
+    return Math.abs(vertexId.hashCode()) % SEGMENT_COUNT;
   }
 
   /**
