@@ -325,7 +325,6 @@ for (GiraphRuleData data : ruleData.values()) {
         /* START SEND BACK TO */        
 %>
           matchCount++;
-          // Send the message back to match of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
 <%      if (vertexLogging) { %>
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
@@ -423,7 +422,6 @@ for (GiraphRuleData data : ruleData.values()) {
           /* START SEND BACK TO */        
 %>
 <%=xx%>        matchCount++;
-<%=xx%>        // Send the message back to matches of node <%= GiraphUtil.getNodeName(step.sendBackTo) %>:
 <%        if (vertexLogging) { %>
 <%=xx%>        LOG.info("Vertex " + vertex.getId() +
 <%=xx%>          " sending (partial) match " + match +
@@ -453,6 +451,7 @@ for (GiraphRuleData data : ruleData.values()) {
         if (step.verifyEdgeTo != null) {
           /* START VERIFY EDGE */
 %>
+<%=xx%>        break;
 <%=xx%>      }
 <%=xx%>    }
 <%
@@ -464,10 +463,11 @@ for (GiraphRuleData data : ruleData.values()) {
           String yy = !step.isStart && step.isMatching ? "  " : "";
 %>
 <%=yy%>        matchCount++;
-<%=yy%>        // Send the match along all "<%= step.edge.getType().getName() %>"-edges:
+<%=yy%>        Set<VertexId> targets = new HashSet<VertexId>();
 <%=yy%>        for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
 <%=yy%>          if (edge.getValue().get() ==
-<%=yy%>            <%= typeConstants.get(step.edge.getType()) %>) {
+<%=yy%>            <%= typeConstants.get(step.edge.getType()) %> &&
+<%=yy%>            targets.add(edge.getTargetVertexId())) {
 <%          if (vertexLogging) { %>
 <%=yy%>            LOG.info("Vertex " + vertex.getId() +
 <%=yy%>              " sending (partial) match " + match +
@@ -487,7 +487,6 @@ for (GiraphRuleData data : ruleData.values()) {
 <%      }
         if (step.keepMatchesOf != null) {
 %>
-      // Keep matches received at node <%= GiraphUtil.getNodeName(step.keepMatchesOf) %>:
       for (Match match : matches) {
         VertexId id = match.getVertexId(<%= data.orderedLhsNodes.indexOf(step.keepMatchesOf) %>);
         if (vertex.getId().equals(id)) {

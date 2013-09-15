@@ -215,10 +215,11 @@ public class RequireTwo extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "vertices"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES) {
+            TYPE_VERTEX_CONTAINER_VERTICES &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -237,10 +238,11 @@ public class RequireTwo extends
             continue;
           }
           matchCount++;
-          // Send the match along all "left"-edges:
+          Set<VertexId> targets = new HashSet<VertexId>();
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
-              TYPE_VERTEX_LEFT) {
+              TYPE_VERTEX_LEFT &&
+              targets.add(edge.getTargetVertexId())) {
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
                 " forward to vertex " + edge.getTargetVertexId());
@@ -270,11 +272,11 @@ public class RequireTwo extends
               TYPE_VERTEX_LEFT &&
               edge.getTargetVertexId().equals(targetId)) {
               matchCount++;
-              // Send the message back to matches of node "a":
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
                 " back to vertex " + match.getVertexId(0));
               sendMessage(match.getVertexId(0), match);
+              break;
             }
           }
         }
@@ -299,6 +301,7 @@ public class RequireTwo extends
                 sendMessage(vertex.getId(), match);
               }
             }
+            break;
           }
         }
       }

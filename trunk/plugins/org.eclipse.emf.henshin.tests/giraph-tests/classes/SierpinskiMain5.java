@@ -212,10 +212,11 @@ public class SierpinskiMain5 extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "left"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_LEFT) {
+            TYPE_VERTEX_LEFT &&
+            targets.add(edge.getTargetVertexId())) {
             sendMessage(edge.getTargetVertexId(), match);
           }
         }
@@ -231,10 +232,11 @@ public class SierpinskiMain5 extends
             continue;
           }
           matchCount++;
-          // Send the match along all "conn"-edges:
+          Set<VertexId> targets = new HashSet<VertexId>();
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
-              TYPE_VERTEX_CONN) {
+              TYPE_VERTEX_CONN &&
+              targets.add(edge.getTargetVertexId())) {
               sendMessage(edge.getTargetVertexId(), match);
             }
           }
@@ -250,7 +252,6 @@ public class SierpinskiMain5 extends
             continue;
           }
           matchCount++;
-          // Send the message back to matches of node "a":
           sendMessage(match.getVertexId(0), match);
         }
       }
@@ -272,6 +273,7 @@ public class SierpinskiMain5 extends
                 sendMessage(vertex.getId(), match);
               }
             }
+            break;
           }
         }
       }

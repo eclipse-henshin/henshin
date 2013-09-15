@@ -214,10 +214,11 @@ public class ParallelTriangles extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "vertices"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES) {
+            TYPE_VERTEX_CONTAINER_VERTICES &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -235,7 +236,6 @@ public class ParallelTriangles extends
             continue;
           }
           matchCount++;
-          // Send the message back to matches of node "a":
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
             " back to vertex " + match.getVertexId(0));
@@ -245,10 +245,11 @@ public class ParallelTriangles extends
     } else if (microstep == 2) {
       for (Match match : matches) {
         matchCount++;
-        // Send the match along all "vertices"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES) {
+            TYPE_VERTEX_CONTAINER_VERTICES &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -282,6 +283,7 @@ public class ParallelTriangles extends
                   sendMessage(vertex.getId(), match);
                 }
               }
+              break;
             }
           }
         }

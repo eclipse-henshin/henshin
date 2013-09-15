@@ -215,10 +215,11 @@ public class TwoTimesTwo extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "conn"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN) {
+            TYPE_VERTEX_CONN &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -236,7 +237,6 @@ public class TwoTimesTwo extends
             continue;
           }
           matchCount++;
-          // Send the message back to matches of node "a":
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
             " back to vertex " + match.getVertexId(0));
@@ -246,10 +246,11 @@ public class TwoTimesTwo extends
     } else if (microstep == 2) {
       for (Match match : matches) {
         matchCount++;
-        // Send the match along all "conn"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN) {
+            TYPE_VERTEX_CONN &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -270,7 +271,6 @@ public class TwoTimesTwo extends
             continue;
           }
           matchCount++;
-          // Send the message back to matches of node "x":
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
             " back to vertex " + match.getVertexId(1));
@@ -284,10 +284,11 @@ public class TwoTimesTwo extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "conn"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONN) {
+            TYPE_VERTEX_CONN &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -295,7 +296,6 @@ public class TwoTimesTwo extends
           }
         }
       }
-      // Keep matches received at node "x":
       for (Match match : matches) {
         VertexId id = match.getVertexId(1);
         if (vertex.getId().equals(id)) {
@@ -327,7 +327,6 @@ public class TwoTimesTwo extends
             continue;
           }
           matchCount++;
-          // Send the message back to match of node "b":
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
             " back to vertex " + match.getVertexId(3));
@@ -354,6 +353,7 @@ public class TwoTimesTwo extends
                 sendMessage(vertex.getId(), match);
               }
             }
+            break;
           }
         }
       }

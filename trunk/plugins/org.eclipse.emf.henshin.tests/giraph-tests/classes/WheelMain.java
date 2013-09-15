@@ -220,10 +220,11 @@ public class WheelMain extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "vertices"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES) {
+            TYPE_VERTEX_CONTAINER_VERTICES &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -242,10 +243,11 @@ public class WheelMain extends
             continue;
           }
           matchCount++;
-          // Send the match along all "right"-edges:
+          Set<VertexId> targets = new HashSet<VertexId>();
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
-              TYPE_VERTEX_RIGHT) {
+              TYPE_VERTEX_RIGHT &&
+              targets.add(edge.getTargetVertexId())) {
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
                 " forward to vertex " + edge.getTargetVertexId());
@@ -264,7 +266,6 @@ public class WheelMain extends
             continue;
           }
           matchCount++;
-          // Send the message back to matches of node "b":
           LOG.info("Vertex " + vertex.getId() +
             " sending (partial) match " + match +
             " back to vertex " + match.getVertexId(1));
@@ -278,10 +279,11 @@ public class WheelMain extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "right"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_RIGHT) {
+            TYPE_VERTEX_RIGHT &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -289,7 +291,6 @@ public class WheelMain extends
           }
         }
       }
-      // Keep matches received at node "b":
       for (Match match : matches) {
         VertexId id = match.getVertexId(1);
         if (vertex.getId().equals(id)) {

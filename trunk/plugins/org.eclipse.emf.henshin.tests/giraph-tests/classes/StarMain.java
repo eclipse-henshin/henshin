@@ -234,10 +234,11 @@ public class StarMain extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "vertices"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES) {
+            TYPE_VERTEX_CONTAINER_VERTICES &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
@@ -256,10 +257,11 @@ public class StarMain extends
             continue;
           }
           matchCount++;
-          // Send the match along all "left"-edges:
+          Set<VertexId> targets = new HashSet<VertexId>();
           for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
             if (edge.getValue().get() ==
-              TYPE_VERTEX_LEFT) {
+              TYPE_VERTEX_LEFT &&
+              targets.add(edge.getTargetVertexId())) {
               LOG.info("Vertex " + vertex.getId() +
                 " sending (partial) match " + match +
                 " forward to vertex " + edge.getTargetVertexId());
@@ -411,10 +413,11 @@ public class StarMain extends
       if (ok) {
         Match match = new Match(segment).append(vertex.getId());
         matchCount++;
-        // Send the match along all "vertices"-edges:
+        Set<VertexId> targets = new HashSet<VertexId>();
         for (Edge<VertexId, ByteWritable> edge : vertex.getEdges()) {
           if (edge.getValue().get() ==
-            TYPE_VERTEX_CONTAINER_VERTICES) {
+            TYPE_VERTEX_CONTAINER_VERTICES &&
+            targets.add(edge.getTargetVertexId())) {
             LOG.info("Vertex " + vertex.getId() +
               " sending (partial) match " + match +
               " forward to vertex " + edge.getTargetVertexId());
