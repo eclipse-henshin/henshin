@@ -59,13 +59,12 @@ EOF
 }
 
 
-if [ $# -ne 2 ]; then
-  echo usage $0 LEVEL WORKERS
+if [ $# -ne 1 ]; then
+  echo usage $0 LEVEL
   exit 1
 fi
 
 LEVEL=$1
-WORKERS=$2
 MICROSTEPS=4
 RUNS=5
 
@@ -74,16 +73,18 @@ echo
 copy_tests
 compile_tests
 
-phpcom="php -f average-times.php $MICROSTEPS";
-for run in $(seq 1 $RUNS); do
-  echo
-  echo "Starting run $run / $RUNS..."
-  echo
-  run_benchmark SierpinskiMain$LEVEL Sierpinski $WORKERS run${run}.txt
-  phpcom="$phpcom run${run}.txt"
+for workers in $(seq 2 12); do
+    phpcom="php -f average-times.php $MICROSTEPS";
+    for run in $(seq 1 $RUNS); do
+	echo
+	echo "Starting run $run / $RUNS with $workers workers..."
+	echo
+	run_benchmark SierpinskiMain$LEVEL Sierpinski $workers run${run}.txt
+	phpcom="$phpcom run${run}.txt"
+    done
+    echo
+    echo "Finished $RUNS runs."
+    echo
+    $phpcom > benchmarks/sierpinski-${LEVEL}-${workers}.txt
+    rm run*.txt
 done
-echo
-echo "Finished $RUNS runs."
-echo
-$phpcom > benchmarks/sierpinski-${LEVEL}-${WORKERS}.txt
-rm run*.txt

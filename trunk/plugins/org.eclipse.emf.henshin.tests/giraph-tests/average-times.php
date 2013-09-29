@@ -19,7 +19,7 @@ while (true) {
     $time = $time + $t;
   }
   if ($i % $groupsize == $groupsize-1) {
-    echo (($step+1)/$groupsize)."\t".($time/$samplecount)."\n";
+    echo ($time/$samplecount)."\n";
     $time = 0;
   }
   $i++;

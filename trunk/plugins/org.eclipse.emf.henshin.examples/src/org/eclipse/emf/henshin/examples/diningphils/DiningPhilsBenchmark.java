@@ -42,14 +42,14 @@ public class DiningPhilsBenchmark {
 	 * @param maxPhils Maximum number of philosophers.
 	 * @param numThreads Number of threads to use.
 	 */
-	public static void run(String path, int maxPhils) {
+	public static void run(String path, int maxPhils, int numThreads) {
 
 		// Create a resource set with a base directory:
 		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(path);
 		
 		// Load the state space and create a state space manager:
 		StateSpace stateSpace = resourceSet.getStateSpace("3-phils.henshin_statespace");
-		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
+		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace, numThreads);
 		
 		// To improve the performance, we omit the identity types:
 		stateSpace.getProperties().remove(StateSpace.PROPERTY_IDENTITY_TYPES);
@@ -112,10 +112,21 @@ public class DiningPhilsBenchmark {
 	}
 	
 	public static void main(String[] args) {
+		
+		int maxPhils = 12;
+		int numThreads = Runtime.getRuntime().availableProcessors();
+		if (args.length > 0) {
+			maxPhils = Integer.parseInt(args[0]);
+		}
+		if (args.length > 1) {
+			numThreads = Integer.parseInt(args[1]);
+		}
+		
 		System.out.println("\n******* WARMUP PHASE ********\n");
-		run(PATH, 8);
+		run(PATH, 8, numThreads);
 		System.out.println("\n******* BENCHMARK ********\n");
-		run(PATH, 12);
+		run(PATH, maxPhils, numThreads);
+		
 	}
 
 }

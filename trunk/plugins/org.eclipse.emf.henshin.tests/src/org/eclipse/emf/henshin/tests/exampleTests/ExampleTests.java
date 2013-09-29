@@ -86,7 +86,7 @@ public class ExampleTests {
 	@Test
 	public void testDiningPhils() {
 		System.out.println();
-		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 7);
+		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 7, Runtime.getRuntime().availableProcessors());
 	}
 
 	/**

@@ -115,7 +115,7 @@ public class TwoTimesTwo extends
   /**
    * Default segment count.
    */
-  private static int SEGMENT_COUNT = 2;
+  private static int SEGMENT_COUNT = 1;
 
   /**
    * Currently active rule.
@@ -439,7 +439,7 @@ public class TwoTimesTwo extends
     LOG.info("Vertex " + vertex.getId() +
       " applying rule TwoTimesTwo with match " + match);
     VertexId new0 =
-      deriveVertexId(vertex.getId(), (int) matchIndex, 0);
+      VertexId.randomVertexId();
     addVertexRequest(new0,
       new ByteWritable(TYPE_VERTEX_CONTAINER));
     VertexId src0 = new0;
@@ -455,23 +455,6 @@ public class TwoTimesTwo extends
         new ByteWritable(TYPE_VERTEX_CONTAINER_VERTICES));
     addEdgeRequest(src1, edge1);
     return true;
-  }
-
-  /**
-   * Derive a new vertex Id from an exiting one.
-   * @param baseId The base vertex Id.
-   * @param matchIndex The index of the match.
-   * @param vertexIndex The index of the new vertex.
-   * @return The derived vertex Id.
-   */
-  private VertexId deriveVertexId(VertexId baseId, int matchIndex,
-    int vertexIndex) {
-    long generation = ((LongWritable) getAggregatedValue(
-        AGGREGATOR_NODE_GENERATION)).get();
-    return baseId
-      .append((byte) generation)
-      .append((byte) matchIndex)
-      .append((byte) vertexIndex);
   }
 
   /**

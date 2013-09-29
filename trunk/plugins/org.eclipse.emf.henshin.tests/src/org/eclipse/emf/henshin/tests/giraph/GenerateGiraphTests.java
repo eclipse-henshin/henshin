@@ -34,7 +34,7 @@ public class GenerateGiraphTests {
 			args.put("masterLogging", true);
 			args.put("vertexLogging", vertexLogging);
 			args.put("useUUIDs", useUUIDs);
-			args.put("segmentCount", 2);
+			args.put("segmentCount", 1);
 
 			GiraphRuleTemplate ruleTemplate = GiraphRuleTemplate.create("\n");
 			String giraphCode = ruleTemplate.generate(args);
@@ -119,7 +119,7 @@ public class GenerateGiraphTests {
 		generateInputGraph(twoTimesTwoStart1);
 		generateInputGraph(twoTimesTwoStart2);
 		generateInputGraph(twoTimesTwoStart3);
-		generateComputeClass(twoTimesTwo, true, false);
+		generateComputeClass(twoTimesTwo, true, true);
 
 		// ParallelNodes
 		Rule parallelNodes = (Rule) module.getUnit("ParallelNodes");

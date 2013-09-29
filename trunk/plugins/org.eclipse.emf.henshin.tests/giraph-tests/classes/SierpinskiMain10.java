@@ -120,7 +120,7 @@ public class SierpinskiMain10 extends
   /**
    * Default segment count.
    */
-  private static int SEGMENT_COUNT = 2;
+  private static int SEGMENT_COUNT = 1;
 
   /**
    * Currently active rule.

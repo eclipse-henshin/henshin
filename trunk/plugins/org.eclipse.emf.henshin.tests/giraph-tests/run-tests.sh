@@ -11,7 +11,7 @@ HADOOP_COMMAND=$HADOOP_HOME/bin/hadoop
 function copy_tests {
 	sftp $SSH_ARGS $HADOOP_MASTER << EOF
 		mkdir $WORKING_DIR
-		rm $WORKING_DIR/*
+#		rm $WORKING_DIR/*
 		cd $WORKING_DIR
 		lcd graphs
 		put *.json
