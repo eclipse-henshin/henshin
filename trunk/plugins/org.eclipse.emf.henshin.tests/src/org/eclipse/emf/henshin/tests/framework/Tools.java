@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -126,17 +125,6 @@ public class Tools {
 				System.out.println("edge: " + edge);
 			}
 		}
-	}
-	
-	/**
-	 * store a graph to disk for analyzing
-	 * 
-	 * @param rootObject
-	 * @param path
-	 * @throws IOException
-	 */
-	public static void persist(EObject rootObject, String filename) throws IOException {
-		ModelUtils.save(rootObject, filename);
 	}
 	
 	/**

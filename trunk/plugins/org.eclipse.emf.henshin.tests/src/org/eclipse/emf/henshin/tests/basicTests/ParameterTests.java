@@ -14,9 +14,7 @@ package org.eclipse.emf.henshin.tests.basicTests;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.tests.framework.GraphTransformations;
 import org.eclipse.emf.henshin.tests.framework.Graphs;
-import org.eclipse.emf.henshin.tests.framework.HenshinLoaders;
 import org.eclipse.emf.henshin.tests.framework.HenshinTest;
 import org.eclipse.emf.henshin.tests.framework.Matches;
 import org.eclipse.emf.henshin.tests.framework.Parameters;
@@ -25,6 +23,7 @@ import org.eclipse.emf.henshin.tests.framework.Tools;
 import org.eclipse.emf.henshin.tests.framework.Units;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
 import org.eclipse.emf.henshin.tests.testmodel.Val;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -172,8 +171,7 @@ public class ParameterTests extends HenshinTest {
 		Rules.assertRuleCanBeApplied(htRuleApp);
 		
 		double compositionResult = Double.valueOf(vl.getValname());
-		junit.framework.Assert.assertEquals(50.0, compositionResult);
-		//junit.framework.Assert.assertEquals("50", vl.getValname());
+		Assert.assertEquals(50.0, compositionResult, 0.001);
 	}
 	
 	@Test
@@ -185,7 +183,7 @@ public class ParameterTests extends HenshinTest {
 		htRuleApp.setParameterValue("p1", "20");
 		htRuleApp.setParameterValue("p2", "30");
 		Rules.assertRuleCanBeApplied(htRuleApp);
-		junit.framework.Assert.assertEquals("2030", vl.getValname());
+		Assert.assertEquals("2030", vl.getValname());
 	}
 	
 	@Test
@@ -197,14 +195,7 @@ public class ParameterTests extends HenshinTest {
 		htRuleApp.setParameterValue("p1", 20);
 		htRuleApp.setParameterValue("p2", 30);
 		Rules.assertRuleCanBeApplied(htRuleApp);
-		junit.framework.Assert.assertEquals(50, vl.getIntvl());
-	}
-	
-	@Test
-	public void testAttributeCondition1() {
-		loadGraph("paramTest");
-		loadRule("attribCond1");
-		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_attribCond1")), htEngine, 0.9);
+		Assert.assertEquals(50, vl.getIntvl());
 	}
 	
 	// ----
@@ -221,22 +212,6 @@ public class ParameterTests extends HenshinTest {
 		Tools.printParameterMappings(htRuleApp);
 	}
 	
-	@Test
-	public void testMultipleAttributeConditions1() {
-		loadGraph("paramTest");
-		loadRule("multipleAttributeConditions");
-		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_multipleAttribCond2")), htEngine, 0.9);
-		Tools.printGraph(htEGraph);
-	}
-	
-	@Test
-	public void testMultipleAttributeConditions2() {
-		loadGraph("graphBefore_multipleAttribCond1");
-		loadRule("multipleAttributeConditions");
-		GraphTransformations.assertGraphIsNotChanged(htRule, htEGraph, htEngine, 0.9);
-		Tools.printGraph(htEGraph);
-	}
-
 	// tests a parameter in a nested condition (PAC). If the test succeeds, one Node should be matched
 	@Test
 	public void testParameterInNestedCondition1() {

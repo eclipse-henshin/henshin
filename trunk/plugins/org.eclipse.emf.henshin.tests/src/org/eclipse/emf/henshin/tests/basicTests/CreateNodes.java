@@ -12,12 +12,11 @@
 package org.eclipse.emf.henshin.tests.basicTests;
 
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
-import org.eclipse.emf.henshin.tests.framework.GraphTransformations;
-import org.eclipse.emf.henshin.tests.framework.HenshinLoaders;
 import org.eclipse.emf.henshin.tests.framework.HenshinTest;
 import org.eclipse.emf.henshin.tests.framework.Rules;
 import org.eclipse.emf.henshin.tests.framework.Tools;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,41 +40,6 @@ public class CreateNodes extends HenshinTest {
 	 * ====================================== CREATING NODES
 	 * ======================================
 	 */
-
-	@Test
-	public void testCreateNodeWithContainmentEdge() {
-		/**
-		 * Create a node (type: Node) with just a containment edge
-		 */
-		loadGraph("graphWithCont");
-		loadRule("createNodeWithContainmentEdge");
-		GraphTransformations.assertTransformsGraph(htRule, htEGraph,
-				HenshinLoaders.loadGraph(getGraphURI("graphWithOneNode")), htEngine, 0.9);
-	}
-	
-	@Test
-	public void testCreateNodeWithContainmentEdgeAndUnidirectionalEdgeToNode() {
-		/**
-		 * Create a node (type: Vals) with a containment edge and a
-		 * unidirectional edge to another node (type: Node)
-		 * 
-		 * Node --(hasVals)--> Vals
-		 */
-		loadRule("createNodeWithUnidirectionalEdge");
-		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders
-				.loadGraph(getGraphURI("graphAfter_createNodeWithUnidirectionalEdge")), htEngine, 0.9);
-	}
-	
-	// removed testCreateNodeWithContainmentEdgeAndBidirectionalEdge1
-	// removed testCreateNodeWithContainmentEdgeAndBidirectionalEdge2
-	
-	@Test
-	public void testCreateNodeWithContainmentEdgeAndBidirectionalEdge3() {
-		loadRule("createNodeWithBidirectionalEdge3");
-		GraphTransformations
-				.assertTransformsGraph(htRule, htEGraph, HenshinLoaders
-						.loadGraph(getGraphURI("graphAfter_createNodeWithBidirectionalEdge")), htEngine, 0.9);
-	}
 	
 	@Test
 	public void testCreateRootNode() {
@@ -87,20 +51,11 @@ public class CreateNodes extends HenshinTest {
 		Rules.assertRuleCanBeApplied(htRuleApp);
 		try {
 			Node createdRootNode = (Node) Tools.getGraphRoot(htEGraph);
-			junit.framework.Assert.assertNotNull(createdRootNode);
+			Assert.assertNotNull(createdRootNode);
 			System.out.println(createdRootNode);
 		} catch (Exception e) {
-			junit.framework.Assert.fail("root node couldn't be created.");
+			Assert.fail("root node couldn't be created.");
 		}
-	}
-	
-	// ----
-	
-	@Test
-	public void edgeCTest() {
-		loadGraph("graphWithCont");
-		loadRule("edgeCtest");
-		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_edgeCtest")), htEngine, 0.9);
 	}
 	
 }

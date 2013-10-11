@@ -9,14 +9,9 @@
  */
 package org.eclipse.emf.henshin.tests.framework;
 
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.metamodel.MatchElement;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 
 /**
  * Assertions for (static) {@link EGraph}s. For everything related to changes
@@ -78,85 +73,10 @@ public class Graphs {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertGraphsEqual(EGraph graph1, EGraph graph2,
-			double matchSimilarityThreshold) throws AssertionError {
-		MatchModel matchM;
-		try {
-			matchM = MatchService.doMatch(graph1.getRoots().toArray(new EObject[1])[0],
-					graph2.getRoots().toArray(new EObject[1])[0], null);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			throw new AssertionError("!!!! execution interrupted.");
-		}
-		
-		for (MatchElement ma : matchM.getMatchedElements()) {
-			if (ma.getSimilarity() < matchSimilarityThreshold) {
-				throw new AssertionError(
-						"expected: Graphs equal, but graphs not equal. Reason: Could not match graphs. Threshold exceeded: ("
-								+ ma.getSimilarity()
-								+ "), threshold "
-								+ matchSimilarityThreshold
-								+ ".");
-			}
-		}
-		
-		DiffModel diffM = DiffService.doDiff(matchM);
-		
-		if (diffM.getDifferences().size() != 0) {
-			throw new AssertionError("expected: Graphs equal, but graphs not equal ("
-					+ diffM.getDifferences().size() + " changes occured.)");
+	public static void assertGraphsEqual(EGraph graph1, EGraph graph2) throws AssertionError {
+		if (!InterpreterUtil.areIsomorphic(graph1, graph2)) {
+			throw new AssertionError("expected equal graphs");
 		}
 	}
-	
-	/**
-	 * Check if two graphs are equal
-	 * 
-	 * @param graph1
-	 *            {@link EGraph}
-	 * @param graph2
-	 *            {@link EGraph}
-	 * @param matchSimilarityThreshold
-	 *            similarity for EmfCompare's mapping. Values above (and
-	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
-	 *            a good value to start with, adjust if problems occur.
-	 * @return true - graphs equal; false - graphs unequal
-	 */
-	public static boolean graphsEqual(EGraph graph1, EGraph graph2,
-			double matchSimilarityThreshold) {
-		MatchModel matchM;
 		
-		//System.out.println("-----------");
-		try {
-			matchM = MatchService.doMatch(graph1.getRoots().toArray(new EObject[1])[0],
-					graph2.getRoots().toArray(new EObject[1])[0], null);
-		} catch (InterruptedException e) {
-			//System.err.println("interrupted");
-			return false;
-		}
-		
-		for (MatchElement ma : matchM.getMatchedElements()) {
-			//System.out.println("-> " + ma);
-			//for (MatchElement sma : ma.getSubMatchElements()) {
-			//	System.out.println("   -> " + sma);
-			//}
-			if (ma.getSimilarity() < matchSimilarityThreshold) {
-				System.out.println("graphs not equal->similarity threshold too high");
-				return false;
-			}
-		}
-		
-		DiffModel diffM = DiffService.doDiff(matchM);
-		
-		if (diffM.getDifferences().size() == 0) {
-			return true;
-		} else {
-			System.out.println("graphs not equal->differences found");
-			for (DiffElement de : diffM.getDifferences()) {
-				System.out.println("\t" + de);
-			}
-		}
-		
-		return false;
-	}
-	
 }
