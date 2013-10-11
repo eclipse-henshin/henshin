@@ -93,23 +93,25 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		// Evaluate the PBES:
 		monitor.subTask("Running pbes2bool...");
 		String[] pbes2bool = new String[] { "pbes2bool", pbes.getAbsolutePath() };
-		if (System.getProperty("os.name").startsWith("Linux")) {					// increase stack size
+		boolean isLinux = System.getProperty("os.name").startsWith("Linux");
+		if (isLinux) {					// increase stack size
 			pbes2bool = new String[] { "bash", "-c", "ulimit -s unlimited; pbes2bool " + pbes.getAbsolutePath() };
 		}
 		Process process = Runtime.getRuntime().exec(pbes2bool);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				isLinux ? process.getErrorStream() : process.getInputStream()));
 		Boolean result = null;
 		
 		// Read the output:
 		String line;
 		while ((line = reader.readLine())!=null) {
-			line = line.trim();
-			System.out.println("pbes2bool:" + line);
-			int index = line.indexOf("The solution for the initial variable of the pbes is");
-			if (index>=0) {
-				if (line.endsWith("true")) result = Boolean.TRUE; 
-				else if (line.endsWith("false")) result = Boolean.FALSE; 
-				else throw new RuntimeException("pbes2bool produced unexpected output: " + line);
+			System.out.println("pbes2bool: " + line);
+			if (line.indexOf("true") >= 0) {
+				result = Boolean.TRUE; 
+				break;
+			}
+			if (line.indexOf("false") >= 0) {
+				result = Boolean.FALSE; 
 				break;
 			}
 			if (monitor.isCanceled()) {
