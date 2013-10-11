@@ -11,7 +11,7 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
+import org.eclipse.compare.CompareEditorInput;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.jface.dialogs.Dialog;
@@ -34,15 +34,16 @@ import org.eclipse.ui.PlatformUI;
 /**
  * @author Gregor Bonifer
  * @author Stefan Jurack
+ * @author Christian Krause
  */
 public class HenshinationPreview implements HenshinationResultView {
 	
-	protected ModelCompareEditorInput editorInput;
+	protected CompareEditorInput editorInput;
 	
 	protected HenshinationResult henshinationResult;
 	Composite cc;
 	
-	public HenshinationPreview(ModelCompareEditorInput compareInput,
+	public HenshinationPreview(CompareEditorInput compareInput,
 			HenshinationResult henshinationResult) {
 		this.editorInput = compareInput;
 		this.henshinationResult = henshinationResult;

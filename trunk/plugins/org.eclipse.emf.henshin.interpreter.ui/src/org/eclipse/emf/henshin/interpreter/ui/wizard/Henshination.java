@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.compare.CompareConfiguration;
+import org.eclipse.compare.CompareEditorInput;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.commands.operations.IOperationHistory;
@@ -25,23 +27,22 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSnapshot;
-import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
-import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.domain.ICompareEditingDomain;
+import org.eclipse.emf.compare.domain.impl.EMFCompareEditingDomain;
+import org.eclipse.emf.compare.ide.ui.internal.editor.ComparisonEditorInput;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -265,8 +266,7 @@ public class Henshination {
 		
 		Resource originalModel = getModel();
 		Resource previewModel = createCopy(originalModel);
-		HenshinationResult result = applyTo(previewModel);
-		
+		HenshinationResult result = applyTo(previewModel);		
 		if (!result.isSuccess()) {
 			return new HenshinationResultView() {
 				@Override
@@ -279,29 +279,26 @@ public class Henshination {
 				}
 			};
 		}
-		try {
-			
-			Map<String, Object> options = new HashMap<String, Object>();
-			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, new Boolean(true));
-			MatchModel matchModel = MatchService.doResourceMatch(previewModel, originalModel, options);
-			DiffModel diffModel = DiffService.doDiff(matchModel);
-			
-			ComparisonResourceSnapshot snapshot = DiffFactory.eINSTANCE
-					.createComparisonResourceSnapshot();
-			
-			snapshot.setMatch(matchModel);
-			snapshot.setDiff(diffModel);
-			
-			ModelCompareEditorInput input = new ModelCompareEditorInput(snapshot);
+
+		try {			
+
+			 EMFCompare comparator = EMFCompare.builder().build();
+			 Comparison comparison = comparator.compare(EMFCompare.createDefaultScope(previewModel, originalModel, null));
+
+			 ICompareEditingDomain editingDomain = EMFCompareEditingDomain.create(previewModel, originalModel, null);
+			 AdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+			 CompareEditorInput input = new ComparisonEditorInput(new CompareConfiguration(), comparison, editingDomain, adapterFactory);
+			 
 			return new HenshinationPreview(input, result);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new HenshinationPreview(null, result);
 		}
 	}
 	
 	protected Resource createCopy(Resource resource) {
-		Resource copy = new ResourceImpl();
-		copy.setURI(URI.createURI("dummy"));
+		Resource copy = new XMIResourceImpl();
+		copy.setURI(URI.createFileURI("preview.xmi"));
 		copy.getContents().addAll(EcoreUtil.copyAll(resource.getContents()));
 		return copy;
 	}
