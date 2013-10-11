@@ -66,14 +66,15 @@ fi
 
 LEVEL=$1
 MICROSTEPS=4
-RUNS=5
+RUNS=1
 
 echo
 
 copy_tests
 compile_tests
 
-for workers in $(seq 2 12); do
+for workers in $(seq 5 6); do
+    workers="$(( 14 - ($workers * 2) ))"
     phpcom="php -f average-times.php $MICROSTEPS";
     for run in $(seq 1 $RUNS); do
 	echo
