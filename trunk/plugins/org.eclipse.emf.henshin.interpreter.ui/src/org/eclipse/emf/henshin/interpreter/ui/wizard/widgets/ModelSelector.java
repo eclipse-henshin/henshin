@@ -18,7 +18,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -58,7 +58,7 @@ public class ModelSelector {
 	public ModelSelector(Composite parent, final IResource baseDir) {
 		
 		container = new Group(parent, SWT.NONE);
-		container.setText(InterpreterUIPlugin.LL("_UI_SelectModel"));
+		container.setText(HenshinInterpreterUIPlugin.LL("_UI_SelectModel"));
 		container.setLayout(new FormLayout());
 		Composite buttonComp = new Composite(container, SWT.NONE);
 		{
@@ -102,7 +102,7 @@ public class ModelSelector {
 		}
 		
 		checkResourceButton = new Button(fieldComp, SWT.PUSH);
-		checkResourceButton.setText(InterpreterUIPlugin.LL("_UI_CheckResource"));
+		checkResourceButton.setText(HenshinInterpreterUIPlugin.LL("_UI_CheckResource"));
 		checkResourceButton.setEnabled(false);
 		{
 			FormData data = new FormData();
@@ -157,7 +157,7 @@ public class ModelSelector {
 			public void widgetSelected(SelectionEvent event) {
 				Object[] selection = baseDir==null ? new Object[0] : new Object[] { baseDir };
 				IFile[] files = WorkspaceResourceDialog.openFileSelection(PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getShell(), InterpreterUIPlugin.LL("_UI_BrowseWorkspace_Title"), InterpreterUIPlugin.LL("_UI_BrowseWorkspace_Message"), 
+						.getActiveWorkbenchWindow().getShell(), HenshinInterpreterUIPlugin.LL("_UI_BrowseWorkspace_Title"), HenshinInterpreterUIPlugin.LL("_UI_BrowseWorkspace_Message"), 
 						false, selection, null);
 				if (files.length != 1)
 					return;

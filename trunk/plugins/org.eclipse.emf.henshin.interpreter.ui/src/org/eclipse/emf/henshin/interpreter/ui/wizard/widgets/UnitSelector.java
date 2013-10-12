@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -43,7 +43,7 @@ public class UnitSelector {
 	
 	public UnitSelector(Composite parent) {
 		container = new Group(parent, SWT.NONE);
-		container.setText(InterpreterUIPlugin.LL("_UI_SelectTransformationUnit"));
+		container.setText(HenshinInterpreterUIPlugin.LL("_UI_SelectTransformationUnit"));
 		container.setLayout(new FormLayout());
 		unitSelector = new Combo(container, SWT.NONE);
 		{

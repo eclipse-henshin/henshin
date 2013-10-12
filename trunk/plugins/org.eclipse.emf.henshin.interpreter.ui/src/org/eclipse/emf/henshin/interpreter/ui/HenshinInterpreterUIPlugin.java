@@ -16,16 +16,17 @@ import org.eclipse.emf.common.util.ResourceLocator;
 /**
  * @author Gregor Bonifer
  * @author Stefan Jurack
+ * @author Christian Krause
  */
-public class InterpreterUIPlugin extends EMFPlugin {
+public class HenshinInterpreterUIPlugin extends EMFPlugin {
 	
-	public static final String ID = "org.eclipse.emf.henshin.interpreter.ui";
+	public static final String PLUGIN_ID = "org.eclipse.emf.henshin.interpreter.ui";
 	
-	public static final InterpreterUIPlugin INSTANCE = new InterpreterUIPlugin();
+	public static final HenshinInterpreterUIPlugin INSTANCE = new HenshinInterpreterUIPlugin();
 	
 	private static Activator plugin;
 	
-	public InterpreterUIPlugin() {
+	public HenshinInterpreterUIPlugin() {
 		super(new ResourceLocator[] {});
 	}
 	

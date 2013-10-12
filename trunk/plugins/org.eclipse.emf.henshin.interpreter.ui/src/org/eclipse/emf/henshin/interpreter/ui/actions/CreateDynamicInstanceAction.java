@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.ui;
+package org.eclipse.emf.henshin.interpreter.ui.actions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +35,7 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * @author Christian Krause
  */
-public class CreateDynamicInstance implements IObjectActionDelegate {
+public class CreateDynamicInstanceAction implements IObjectActionDelegate {
 	
 	// Ecore file:
 	private IFile file;

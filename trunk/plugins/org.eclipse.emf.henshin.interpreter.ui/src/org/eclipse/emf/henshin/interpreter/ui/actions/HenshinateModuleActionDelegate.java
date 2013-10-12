@@ -7,9 +7,11 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.ui.wizard;
+package org.eclipse.emf.henshin.interpreter.ui.actions;
 
-import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinWizard;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinWizardDialog;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -19,13 +21,13 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
-public class HenshinateUnitActionDelegate implements IObjectActionDelegate {
+public class HenshinateModuleActionDelegate implements IObjectActionDelegate {
 	
 	// Target workbench part:
 	protected IWorkbenchPart targetPart;
 	
-	// Unit to be applied:
-	protected Unit unit;
+	// Module to be used:
+	protected Module module;
 	
 	/*
 	 * (non-Javadoc)
@@ -33,8 +35,8 @@ public class HenshinateUnitActionDelegate implements IObjectActionDelegate {
 	 */
 	@Override
 	public void run(IAction action) {
-		HenshinWizard tWiz = new HenshinWizard(unit);
-		HenshinWizardDialog dialog = new HenshinWizardDialog(targetPart.getSite().getShell(), tWiz);
+		HenshinWizard wizard = new HenshinWizard(module);
+		HenshinWizardDialog dialog = new HenshinWizardDialog(targetPart.getSite().getShell(), wizard);
 		dialog.open();
 	}
 	
@@ -45,7 +47,7 @@ public class HenshinateUnitActionDelegate implements IObjectActionDelegate {
 	@Override
 	public void selectionChanged(IAction action, ISelection sel) {
 		if (sel instanceof IStructuredSelection) {
-			unit = (Unit) ((IStructuredSelection) sel).getFirstElement();
+			module = (Module) ((IStructuredSelection) sel).getFirstElement();
 		}
 	}
 	

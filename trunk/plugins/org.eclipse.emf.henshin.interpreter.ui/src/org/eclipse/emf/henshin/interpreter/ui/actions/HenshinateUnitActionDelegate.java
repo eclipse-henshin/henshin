@@ -7,9 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.ui.wizard;
+package org.eclipse.emf.henshin.interpreter.ui.actions;
 
-import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinWizard;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinWizardDialog;
+import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -19,13 +22,13 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
-public class HenshinateModuleActionDelegate implements IObjectActionDelegate {
+public class HenshinateUnitActionDelegate implements IObjectActionDelegate {
 	
 	// Target workbench part:
 	protected IWorkbenchPart targetPart;
 	
-	// Module to be used:
-	protected Module module;
+	// Unit to be applied:
+	protected Unit unit;
 	
 	/*
 	 * (non-Javadoc)
@@ -33,8 +36,8 @@ public class HenshinateModuleActionDelegate implements IObjectActionDelegate {
 	 */
 	@Override
 	public void run(IAction action) {
-		HenshinWizard wizard = new HenshinWizard(module);
-		HenshinWizardDialog dialog = new HenshinWizardDialog(targetPart.getSite().getShell(), wizard);
+		HenshinWizard tWiz = new HenshinWizard(unit);
+		HenshinWizardDialog dialog = new HenshinWizardDialog(targetPart.getSite().getShell(), tWiz);
 		dialog.open();
 	}
 	
@@ -44,9 +47,17 @@ public class HenshinateModuleActionDelegate implements IObjectActionDelegate {
 	 */
 	@Override
 	public void selectionChanged(IAction action, ISelection sel) {
+		unit = null;
 		if (sel instanceof IStructuredSelection) {
-			module = (Module) ((IStructuredSelection) sel).getFirstElement();
+			Object object = ((IStructuredSelection) sel).getFirstElement();
+			if (object instanceof IGraphicalEditPart) {
+				object = ((IGraphicalEditPart) object).getNotationView().getElement();
+			}
+			if (object instanceof Unit) {
+				unit = (Unit) object;
+			}
 		}
+		action.setEnabled(unit!=null);
 	}
 	
 	/*
@@ -57,4 +68,5 @@ public class HenshinateModuleActionDelegate implements IObjectActionDelegate {
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		this.targetPart = targetPart;
 	}
+	
 }

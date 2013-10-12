@@ -94,14 +94,16 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			}
 
 			// Instance code:
-			Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
-			if (!rules.isEmpty()) {
-				String instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
-				IFile jsonFile = targetContainer.getFile(new Path(className + ".json"));
-				if (jsonFile.exists()) {
-					jsonFile.setContents(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
-				} else {
-					jsonFile.create(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
+			if (page.jsonCheckBox.getSelection()) {
+				Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
+				if (!rules.isEmpty()) {
+					String instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
+					IFile jsonFile = targetContainer.getFile(new Path(className + ".json"));
+					if (jsonFile.exists()) {
+						jsonFile.setContents(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
+					} else {
+						jsonFile.create(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
+					}
 				}
 			}
 
@@ -131,6 +133,8 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		Button vertexLoggingCheckBox;
 
 		Button uuidsCheckBox;
+
+		Button jsonCheckBox;
 
 		public GiraphPage() {
 			super("Giraph");
@@ -176,6 +180,11 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			uuidsCheckBox = new Button(comp, SWT.CHECK);
 			uuidsCheckBox.setSelection(true);
+
+			label = new Label(comp, SWT.NONE);
+			label.setText("Example JSON:");
+			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+			jsonCheckBox = new Button(comp, SWT.CHECK);
 
 			setControl(comp);
 		}

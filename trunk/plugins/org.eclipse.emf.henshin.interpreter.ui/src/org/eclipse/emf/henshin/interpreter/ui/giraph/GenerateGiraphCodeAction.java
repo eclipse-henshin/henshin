@@ -18,7 +18,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class GenerateGiraphCodeAction implements IObjectActionDelegate {
-
+	
 	private Unit mainUnit;
 	
 	private IFile file;

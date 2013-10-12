@@ -19,7 +19,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfiguration;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector.ModelSelectorListener;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ParameterEditTable;
@@ -76,7 +77,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	protected WizardPage page;
 	
-	protected IPreferenceStore store = InterpreterUIPlugin.getPlugin().getPreferenceStore();
+	protected IPreferenceStore store = HenshinInterpreterUIPlugin.getPlugin().getPreferenceStore();
 	
 	protected boolean unitSelectable = true;
 	
@@ -105,10 +106,10 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	 * Private constructor.
 	 */
 	private HenshinWizard() {
-		setWindowTitle(InterpreterUIPlugin.LL("_UI_Wizard"));
+		setWindowTitle(HenshinInterpreterUIPlugin.LL("_UI_Wizard"));
 		setDefaultPageImageDescriptor(
 				ImageDescriptor.createFromURL(
-				(URL) InterpreterUIPlugin.INSTANCE.getImage("Henshin_small.png")));
+				(URL) HenshinInterpreterUIPlugin.INSTANCE.getImage("Henshin_small.png")));
 	}
 	
 	/**
@@ -207,9 +208,9 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	@Override
 	public void addPages() {
-		addPage(page = new WizardPage(InterpreterUIPlugin.LL("_UI_PseudoPage")) {
+		addPage(page = new WizardPage(HenshinInterpreterUIPlugin.LL("_UI_PseudoPage")) {
 			{
-				setDescription(InterpreterUIPlugin.LL("_UI_Wizard_DefaultDescription"));
+				setDescription(HenshinInterpreterUIPlugin.LL("_UI_Wizard_DefaultDescription"));
 			}
 			
 			public void performHelp() {
@@ -286,7 +287,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	public boolean canFinish() {
 		
 		if (uriFieldDirty) {
-			page.setMessage(InterpreterUIPlugin.LL("_UI_CheckResourceRequired"), WizardPage.WARNING);
+			page.setMessage(HenshinInterpreterUIPlugin.LL("_UI_CheckResourceRequired"), WizardPage.WARNING);
 			return false;
 		} else {
 			page.setMessage(null);
@@ -306,21 +307,21 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		}
 		
 		if (!cfg.getUnit().isActivated())
-			errors.add(InterpreterUIPlugin.LL("_UI_Status_TransforamtionUnitNotActivated"));
+			errors.add(HenshinInterpreterUIPlugin.LL("_UI_Status_TransforamtionUnitNotActivated"));
 		
 		if (errors.size() == 0) {
 			page.setErrorMessage(null);
 			if (!cfg.isModelAffectedByTransformation())
 				page.setMessage(
-						InterpreterUIPlugin.LL("_UI_Status_TransformationDoesNotAffectModel"),
+						HenshinInterpreterUIPlugin.LL("_UI_Status_TransformationDoesNotAffectModel"),
 						WizardPage.WARNING);
 			else
 				page.setMessage(null);
 			return true;
 		} else {
 			StringBuffer err = new StringBuffer();
-			err.append(errors.size() > 1 ? InterpreterUIPlugin.LL("_UI_Status_MultipleErrors")
-					: InterpreterUIPlugin.LL("_UI_Status_SingleError"));
+			err.append(errors.size() > 1 ? HenshinInterpreterUIPlugin.LL("_UI_Status_MultipleErrors")
+					: HenshinInterpreterUIPlugin.LL("_UI_Status_SingleError"));
 			for (String errString : errors)
 				err.append("\n - " + errString);
 			page.setErrorMessage(err.toString());
@@ -332,10 +333,10 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		try {
 			cfg.createPreview().showDialog(getShell());
 		} catch (HenshinationException e) {
-			ErrorDialog.openError(this.getShell(), InterpreterUIPlugin
-					.LL("_UI_HenshinationException_Title"), InterpreterUIPlugin
+			ErrorDialog.openError(this.getShell(), HenshinInterpreterUIPlugin
+					.LL("_UI_HenshinationException_Title"), HenshinInterpreterUIPlugin
 					.LL("_UI_HenshinationException_Msg"), new Status(Status.ERROR,
-					InterpreterUIPlugin.ID, e.getMessage()));
+					HenshinInterpreterUIPlugin.PLUGIN_ID, e.getMessage()));
 		}
 	}
 	

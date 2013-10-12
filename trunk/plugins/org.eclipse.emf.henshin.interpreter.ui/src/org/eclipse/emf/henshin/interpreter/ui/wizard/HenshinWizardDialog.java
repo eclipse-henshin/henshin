@@ -9,7 +9,7 @@
  */
 package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
-import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinWizard.CompletionListener;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -73,19 +73,19 @@ public class HenshinWizardDialog extends WizardDialog {
 			data.horizontalAlignment = GridData.END;
 			saveOnCancelButton.setLayoutData(data);
 		}
-		saveOnCancelButton.setText(InterpreterUIPlugin.LL("_UI_SaveConfigurationOnCancel"));
-		saveOnCancelButton.setSelection(InterpreterUIPlugin.getPlugin().getPreferenceStore()
+		saveOnCancelButton.setText(HenshinInterpreterUIPlugin.LL("_UI_SaveConfigurationOnCancel"));
+		saveOnCancelButton.setSelection(HenshinInterpreterUIPlugin.getPlugin().getPreferenceStore()
 				.getBoolean("saveOnCancel"));
 		saveOnCancelButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				InterpreterUIPlugin.getPlugin().getPreferenceStore()
+				HenshinInterpreterUIPlugin.getPlugin().getPreferenceStore()
 						.setValue("saveOnCancel", saveOnCancelButton.getSelection());
 			}
 		});
 		
 		previewButton = new Button(parent, SWT.PUSH);
-		previewButton.setText(InterpreterUIPlugin.LL("_UI_ShowPreview"));
+		previewButton.setText(HenshinInterpreterUIPlugin.LL("_UI_ShowPreview"));
 		previewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -100,7 +100,7 @@ public class HenshinWizardDialog extends WizardDialog {
 			if (ctrl instanceof Button) {
 				Button b = (Button) ctrl;
 				if (b.getText().equals(IDialogConstants.FINISH_LABEL)) {
-					b.setText(InterpreterUIPlugin.LL("_UI_ApplyTransformation"));
+					b.setText(HenshinInterpreterUIPlugin.LL("_UI_ApplyTransformation"));
 				}
 			}
 		}

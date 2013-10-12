@@ -7,12 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.ui.wizard;
+package org.eclipse.emf.henshin.interpreter.ui.util;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
@@ -37,14 +37,14 @@ public class ParameterConfiguration {
 	public static Map<Integer, String> getSupportedTypes() {
 		if (supportedTypes == null) {
 			supportedTypes = new HashMap<Integer, String>();
-			supportedTypes.put(CLEAR, InterpreterUIPlugin.LL("_UI_ParameterType_Clear"));
-			supportedTypes.put(NULL, InterpreterUIPlugin.LL("_UI_ParameterType_Null"));
-			supportedTypes.put(STRING, InterpreterUIPlugin.LL("_UI_ParameterType_String"));
-			supportedTypes.put(BOOLEAN, InterpreterUIPlugin.LL("_UI_ParameterType_Boolean"));
-			supportedTypes.put(INT, InterpreterUIPlugin.LL("_UI_ParameterType_Int"));
-			supportedTypes.put(LONG, InterpreterUIPlugin.LL("_UI_ParameterType_Long"));
-			supportedTypes.put(FLOAT, InterpreterUIPlugin.LL("_UI_ParameterType_Float"));
-			supportedTypes.put(DOUBLE, InterpreterUIPlugin.LL("_UI_ParameterType_Double"));
+			supportedTypes.put(CLEAR, HenshinInterpreterUIPlugin.LL("_UI_ParameterType_Clear"));
+			supportedTypes.put(NULL, HenshinInterpreterUIPlugin.LL("_UI_ParameterType_Null"));
+			supportedTypes.put(STRING, HenshinInterpreterUIPlugin.LL("_UI_ParameterType_String"));
+			supportedTypes.put(BOOLEAN, HenshinInterpreterUIPlugin.LL("_UI_ParameterType_Boolean"));
+			supportedTypes.put(INT, HenshinInterpreterUIPlugin.LL("_UI_ParameterType_Int"));
+			supportedTypes.put(LONG, HenshinInterpreterUIPlugin.LL("_UI_ParameterType_Long"));
+			supportedTypes.put(FLOAT, HenshinInterpreterUIPlugin.LL("_UI_ParameterType_Float"));
+			supportedTypes.put(DOUBLE, HenshinInterpreterUIPlugin.LL("_UI_ParameterType_Double"));
 		}
 		return supportedTypes;
 	}

@@ -51,8 +51,9 @@ import org.eclipse.emf.henshin.interpreter.impl.BasicApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.ui.util.Capsule;
+import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfiguration;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuple;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuples;
 import org.eclipse.emf.henshin.model.Module;
@@ -272,8 +273,8 @@ public class Henshination {
 				@Override
 				public void showDialog(Shell shell) {
 					MessageBox mb = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
-					mb.setText(InterpreterUIPlugin.LL("_UI_Preview_ApplicationNotSuccessful_Title"));
-					mb.setMessage(InterpreterUIPlugin
+					mb.setText(HenshinInterpreterUIPlugin.LL("_UI_Preview_ApplicationNotSuccessful_Title"));
+					mb.setMessage(HenshinInterpreterUIPlugin
 							.LL("_UI_Preview_ApplicationNotSuccessful_Message"));
 					mb.open();
 				}
@@ -350,7 +351,7 @@ public class Henshination {
 		final Resource model = resSet.getResource(modelUri, true);
 		final UnitApplication unitApplication = createUnitApplication(model);
 		
-		String title = InterpreterUIPlugin.LL("_UI_UndoableOperation_Henshin") + ": "
+		String title = HenshinInterpreterUIPlugin.LL("_UI_UndoableOperation_Henshin") + ": "
 				+ getUnit().getName();
 		
 		IUndoableOperation operation = new AbstractOperation(title) {
@@ -364,9 +365,9 @@ public class Henshination {
 						model.save(null);
 						return Status.OK_STATUS;
 					}
-					return new Status(Status.ERROR, InterpreterUIPlugin.ID, "Canceled by user!");
+					return new Status(Status.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, "Canceled by user!");
 				} catch (Exception e) {
-					return new Status(Status.ERROR, InterpreterUIPlugin.ID, e.getMessage());
+					return new Status(Status.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, e.getMessage());
 				}
 				
 			}
@@ -378,7 +379,7 @@ public class Henshination {
 					unitApplication.redo(null);
 					model.save(null);
 				} catch (Exception e) {
-					return new Status(Status.ERROR, InterpreterUIPlugin.ID, e.getMessage());
+					return new Status(Status.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, e.getMessage());
 				}
 				return Status.OK_STATUS;
 			}
@@ -390,7 +391,7 @@ public class Henshination {
 					unitApplication.undo(null);
 					model.save(null);
 				} catch (Exception e) {
-					return new Status(Status.ERROR, InterpreterUIPlugin.ID, e.getMessage());
+					return new Status(Status.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, e.getMessage());
 				}
 				return Status.OK_STATUS;
 			}

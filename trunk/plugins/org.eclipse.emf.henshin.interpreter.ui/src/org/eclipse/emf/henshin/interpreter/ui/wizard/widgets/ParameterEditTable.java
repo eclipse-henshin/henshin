@@ -12,8 +12,8 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard.widgets;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
-import org.eclipse.emf.henshin.interpreter.ui.wizard.ParameterConfiguration;
+import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfiguration;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -48,7 +48,7 @@ public class ParameterEditTable {
 	
 	public ParameterEditTable(Composite parent) {
 		container = new Group(parent, SWT.NONE);
-		container.setText(InterpreterUIPlugin.LL("_UI_SetParameters"));
+		container.setText(HenshinInterpreterUIPlugin.LL("_UI_SetParameters"));
 		container.setLayout(new FormLayout());
 		tableViewer = new TableViewer(container, SWT.FULL_SELECTION);
 		{
@@ -93,7 +93,7 @@ public class ParameterEditTable {
 	protected void buildColumns() {
 		TableViewerColumn keyColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		{
-			keyColumn.getColumn().setText(InterpreterUIPlugin.LL("_UI_ParameterColumn_Name"));
+			keyColumn.getColumn().setText(HenshinInterpreterUIPlugin.LL("_UI_ParameterColumn_Name"));
 			keyColumn.getColumn().setWidth(100);
 			keyColumn.setLabelProvider(new ColumnLabelProvider() {
 				
@@ -106,7 +106,7 @@ public class ParameterEditTable {
 		
 		TableViewerColumn typeColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		{
-			typeColumn.getColumn().setText(InterpreterUIPlugin.LL("_UI_ParameterColumn_Type"));
+			typeColumn.getColumn().setText(HenshinInterpreterUIPlugin.LL("_UI_ParameterColumn_Type"));
 			typeColumn.getColumn().setWidth(100);
 			typeColumn.setLabelProvider(new ColumnLabelProvider() {
 				
@@ -151,7 +151,7 @@ public class ParameterEditTable {
 		
 		TableViewerColumn valueColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		{
-			valueColumn.getColumn().setText(InterpreterUIPlugin.LL("_UI_ParameterColumn_Value"));
+			valueColumn.getColumn().setText(HenshinInterpreterUIPlugin.LL("_UI_ParameterColumn_Value"));
 			valueColumn.getColumn().setWidth(100);
 			valueColumn.setLabelProvider(new ColumnLabelProvider() {
 				@Override

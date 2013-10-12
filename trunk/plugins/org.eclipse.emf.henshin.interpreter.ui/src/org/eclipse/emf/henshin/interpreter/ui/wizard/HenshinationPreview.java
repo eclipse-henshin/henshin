@@ -12,7 +12,8 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.compare.CompareEditorInput;
-import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfiguration;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -66,16 +67,16 @@ public class HenshinationPreview implements HenshinationResultView {
 		} catch (InvocationTargetException e) {
 		}
 		if (!result) {
-			MessageDialog.openError(shell, InterpreterUIPlugin.LL("_UI_Preview_ComparisonError"),
-					InterpreterUIPlugin.LL("_UI_Preview_ComparisonError_msg"));
+			MessageDialog.openError(shell, HenshinInterpreterUIPlugin.LL("_UI_Preview_ComparisonError"),
+					HenshinInterpreterUIPlugin.LL("_UI_Preview_ComparisonError_msg"));
 			return;
 		}
 		
-		editorInput.setTitle(InterpreterUIPlugin.LL("_UI_Preview_Title"));
+		editorInput.setTitle(HenshinInterpreterUIPlugin.LL("_UI_Preview_Title"));
 		editorInput.getCompareConfiguration().setRightLabel(
-				InterpreterUIPlugin.LL("_UI_Preview_OriginalModel"));
+				HenshinInterpreterUIPlugin.LL("_UI_Preview_OriginalModel"));
 		editorInput.getCompareConfiguration().setLeftLabel(
-				InterpreterUIPlugin.LL("_UI_Preview_TransformedModel"));
+				HenshinInterpreterUIPlugin.LL("_UI_Preview_TransformedModel"));
 		
 		editorInput.getCompareConfiguration().setLeftEditable(false);
 		editorInput.getCompareConfiguration().setRightEditable(false);
@@ -85,12 +86,12 @@ public class HenshinationPreview implements HenshinationResultView {
 			@Override
 			protected void configureShell(Shell newShell) {
 				super.configureShell(newShell);
-				newShell.setText(InterpreterUIPlugin.LL("_UI_Preview_Title"));
+				newShell.setText(HenshinInterpreterUIPlugin.LL("_UI_Preview_Title"));
 			}
 			
 			@Override
 			protected IDialogSettings getDialogBoundsSettings() {
-				return InterpreterUIPlugin.getPlugin().getDialogSettings();
+				return HenshinInterpreterUIPlugin.getPlugin().getDialogSettings();
 			}
 			
 			@Override
@@ -122,13 +123,13 @@ public class HenshinationPreview implements HenshinationResultView {
 		// Compare Tab
 		//
 		TabItem compareTabItem = new TabItem(tabFolder, SWT.NONE);
-		compareTabItem.setText(InterpreterUIPlugin.LL("_UI_Preview_CompareTab"));
+		compareTabItem.setText(HenshinInterpreterUIPlugin.LL("_UI_Preview_CompareTab"));
 		compareTabItem.setControl(editorInput.createContents(tabFolder));
 		
 		// Parameter Tab
 		//
 		TabItem parameterTabItem = new TabItem(tabFolder, SWT.NONE);
-		parameterTabItem.setText(InterpreterUIPlugin.LL("_UI_Preview_ParameterTab"));
+		parameterTabItem.setText(HenshinInterpreterUIPlugin.LL("_UI_Preview_ParameterTab"));
 		parameterTabItem.setControl(createParameterTable(tabFolder));
 		
 		return tabFolder;
@@ -147,7 +148,7 @@ public class HenshinationPreview implements HenshinationResultView {
 		//
 		TableViewerColumn parameterNameColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		parameterNameColumn.getColumn().setText(
-				InterpreterUIPlugin.LL("_UI_Preview_ParameterTable_ParameterNameColumn"));
+				HenshinInterpreterUIPlugin.LL("_UI_Preview_ParameterTable_ParameterNameColumn"));
 		parameterNameColumn.getColumn().setWidth(200);
 		parameterNameColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -160,7 +161,7 @@ public class HenshinationPreview implements HenshinationResultView {
 		//
 		TableViewerColumn parameterValueBeforeColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		parameterValueBeforeColumn.getColumn().setText(
-				InterpreterUIPlugin.LL("_UI_Preview_ParameterTable_ValueBeforeColumn"));
+				HenshinInterpreterUIPlugin.LL("_UI_Preview_ParameterTable_ValueBeforeColumn"));
 		parameterValueBeforeColumn.getColumn().setWidth(200);
 		parameterValueBeforeColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -179,7 +180,7 @@ public class HenshinationPreview implements HenshinationResultView {
 		//
 		TableViewerColumn parameterValueAfterColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		parameterValueAfterColumn.getColumn().setText(
-				InterpreterUIPlugin.LL("_UI_Preview_ParameterTable_ValueAfterColumn"));
+				HenshinInterpreterUIPlugin.LL("_UI_Preview_ParameterTable_ValueAfterColumn"));
 		parameterValueAfterColumn.getColumn().setWidth(200);
 		parameterValueAfterColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
