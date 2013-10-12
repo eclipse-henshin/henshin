@@ -29,10 +29,12 @@ http://www.eclipse.org/legal/epl-v10.html
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore" version="2.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore.xmi" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.edit" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.xmi" version="2.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.editor" version="2.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.forms" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.jface"/>
       <import plugin="org.eclipse.ui.ide" version="3.6.0" match="greaterOrEqual"/>
@@ -58,16 +60,12 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.ui" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.compare" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.ui" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.match" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.diff" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.common.ui" version="2.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.codegen.ecore" version="2.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.forms" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.help" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.common" version="2.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf.runtime.notation" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.codegen.ecore" version="2.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.edit" version="3.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.ide" version="3.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.ide.ui" version="3.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -141,13 +139,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.emf.henshin.trace"
-         download-size="0"
-         install-size="0"
-         version="0.9.9.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.emf.henshin.migration"
          download-size="0"
          install-size="0"
          version="0.9.9.qualifier"
