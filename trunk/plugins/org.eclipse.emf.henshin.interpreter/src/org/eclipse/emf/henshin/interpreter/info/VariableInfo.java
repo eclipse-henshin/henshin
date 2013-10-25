@@ -168,6 +168,11 @@ public class VariableInfo {
 				Variable target = node2variable.get(edge.getSource());
 				ContainmentConstraint constraint = new ContainmentConstraint(target);
 				var.containmentConstraints.add(constraint);
+			} else if (edge.getType().getEOpposite() != null)
+			{
+				Variable target = node2variable.get(edge.getSource());
+				ReferenceConstraint constraint = new ReferenceConstraint(target, edge.getType().getEOpposite(), null, true);
+				var.referenceConstraints.add(constraint);
 			}
 		}
 		
