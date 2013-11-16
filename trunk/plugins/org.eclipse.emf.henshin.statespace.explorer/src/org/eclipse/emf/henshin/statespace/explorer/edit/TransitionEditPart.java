@@ -72,7 +72,7 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 	 */
 	@Override
 	public boolean isSelectable() {
-		return false;
+		return true;
 	}
 
 	/**
