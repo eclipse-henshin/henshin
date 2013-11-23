@@ -69,81 +69,84 @@ import org.eclipse.ui.PlatformUI;
  * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
 public class Henshination {
-	
+
 	/**
 	 * The unit to be applied.
 	 */
 	protected Unit unit;
-	
+
 	/**
 	 * Configuration parameters.
 	 */
 	protected Collection<ParameterConfiguration> paramCfgs;
-	
+
 	/**
 	 * Model URI.
 	 */
 	protected URI modelUri;
-	
+
 	/**
 	 * Model resource.
 	 */
 	protected Resource modelResource;
-	
+
 	/**
 	 * Used resource set.
 	 */
 	protected ResourceSet resourceSet;
-	
+
 	/**
 	 * Default constructor.
 	 */
 	public Henshination() {
 	}
-	
+
 	/**
 	 * Get the model URI to be used.
+	 * 
 	 * @return The model URI.
 	 */
 	public URI getModelUri() {
 		return modelUri;
 	}
-	
+
 	public void setModelUri(URI modelUri) {
 		this.modelUri = modelUri;
 		this.modelResource = null;
 		this.resourceSet = new ResourceSetImpl();
 		registerImportedPackages();
 	}
-	
+
 	public Unit getUnit() {
 		return unit;
 	}
-	
+
 	public void setUnit(Unit unit, Collection<ParameterConfiguration> paramCfgs) {
 		this.unit = unit;
 		this.paramCfgs = paramCfgs;
 		registerImportedPackages();
 	}
-	
+
 	private void registerImportedPackages() {
 		if (resourceSet == null || unit == null) {
 			return;
 		}
 		for (EPackage pack : unit.getModule().getImports()) {
 			String nsURI = pack.getNsURI();
-			if (nsURI!=null && resourceSet.getPackageRegistry().getEPackage(nsURI)==null) {
+			if (nsURI != null
+					&& resourceSet.getPackageRegistry().getEPackage(nsURI) == null) {
 				resourceSet.getPackageRegistry().put(nsURI, pack);
 			}
 		}
 	}
-	
+
 	public Object getParameterValue(String parameterName) {
 		ParameterConfiguration pCfg = getParameterConfiguration(parameterName);
-		if (pCfg == null) return null;
+		if (pCfg == null)
+			return null;
 		return pCfg.getValue();
 	}
-	
+
 	public ParameterConfiguration getParameterConfiguration(String parameterName) {
 		for (ParameterConfiguration pCfg : paramCfgs) {
 			if (pCfg.getName().equals(parameterName)) {
@@ -152,42 +155,48 @@ public class Henshination {
 		}
 		return null;
 	}
-	
+
 	public Collection<ParameterConfiguration> getParameterConfigurations() {
 		return paramCfgs;
 	}
-	
+
 	protected Map<String, Object> prepareParameterValues() {
 		Map<String, Object> result = new HashMap<String, Object>();
 		for (ParameterConfiguration paramCfg : paramCfgs) {
-			if (paramCfg.isClear()) continue;
-			//System.out.println(paramCfg.getName() + " => " + paramCfg.getValue() + "("
-			//		+ paramCfg.getTypeLabel() + ")[isNull:" + (paramCfg.getValue() == null) + "]");
+			if (paramCfg.isClear())
+				continue;
+			// System.out.println(paramCfg.getName() + " => " +
+			// paramCfg.getValue() + "("
+			// + paramCfg.getTypeLabel() + ")[isNull:" + (paramCfg.getValue() ==
+			// null) + "]");
 			result.put(paramCfg.getName(), paramCfg.getValue());
 		}
-		//System.out.println(result);
+		// System.out.println(result);
 		return result;
 	}
-	
-	protected HenshinationResult applyTo(Resource model) throws HenshinationException {
+
+	protected HenshinationResult applyTo(Resource model)
+			throws HenshinationException {
 		UnitApplication unitApplication = createUnitApplication(model);
-		boolean result = runUnitApplication(unitApplication, model, false).getSecond();
+		boolean result = runUnitApplication(unitApplication, model, false)
+				.getSecond();
 		return new HenshinationResult(this, unitApplication, result);
 	}
-	
+
 	/**
 	 * 
 	 * @param ua
 	 * @param undoOnCancel
 	 * @return {@link Tuple} (not canceled, application result)
 	 */
-	protected Tuple<Boolean, Boolean> runUnitApplication(final UnitApplication ua, final Resource model,
+	protected Tuple<Boolean, Boolean> runUnitApplication(
+			final UnitApplication ua, final Resource model,
 			final boolean undoOnCancel) {
-		
+
 		// Remember the old root objects:
 		Set<EObject> oldRoots = new HashSet<EObject>();
 		oldRoots.addAll(ua.getEGraph().getRoots());
-		
+
 		final ApplicationMonitor appMon = new BasicApplicationMonitor();
 		final Capsule<Boolean> result = new Capsule<Boolean>(false);
 		IRunnableWithProgress unitApplicationMonitor = new IRunnableWithProgress() {
@@ -220,36 +229,39 @@ public class Henshination {
 			}
 		};
 		try {
-			new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getShell()).run(true, true, unitApplicationMonitor);
+			new ProgressMonitorDialog(PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getShell()).run(true, true,
+					unitApplicationMonitor);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		// Collect new root objects:
 		for (EObject root : ua.getEGraph().getRoots()) {
 			if (!oldRoots.contains(root)) {
-				//System.out.println("Collect new root object: " + root);
+				// System.out.println("Collect new root object: " + root);
 				model.getContents().add(root);
 			}
 		}
 
 		// return result;
-		return new Tuple<Boolean, Boolean>(!appMon.isCanceled(), result.getValue());
+		return new Tuple<Boolean, Boolean>(!appMon.isCanceled(),
+				result.getValue());
 	}
-	
+
 	protected UnitApplication createUnitApplication(Resource model) {
 		EGraph graph = new EGraphImpl(model);
 		Engine engine = new EngineImpl();
-		UnitApplication unitApplication = new UnitApplicationImpl(engine, graph, unit, null);
-		for (Entry<String,Object> entry : prepareParameterValues().entrySet()) {
+		UnitApplication unitApplication = new UnitApplicationImpl(engine,
+				graph, unit, null);
+		for (Entry<String, Object> entry : prepareParameterValues().entrySet()) {
 			unitApplication.setParameterValue(entry.getKey(), entry.getValue());
 		}
 		return unitApplication;
 	}
-	
+
 	public boolean isModelAffectedByTransformation() {
 		Module module = unit.getModule();
 		for (EPackage ep : module.getImports()) {
@@ -262,18 +274,20 @@ public class Henshination {
 		}
 		return false;
 	}
-	
+
 	public HenshinationResultView createPreview() throws HenshinationException {
-		
+
 		Resource originalModel = getModel();
 		Resource previewModel = createCopy(originalModel);
-		HenshinationResult result = applyTo(previewModel);		
+		HenshinationResult result = applyTo(previewModel);
 		if (!result.isSuccess()) {
 			return new HenshinationResultView() {
 				@Override
 				public void showDialog(Shell shell) {
-					MessageBox mb = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
-					mb.setText(HenshinInterpreterUIPlugin.LL("_UI_Preview_ApplicationNotSuccessful_Title"));
+					MessageBox mb = new MessageBox(shell, SWT.ICON_WARNING
+							| SWT.OK);
+					mb.setText(HenshinInterpreterUIPlugin
+							.LL("_UI_Preview_ApplicationNotSuccessful_Title"));
 					mb.setMessage(HenshinInterpreterUIPlugin
 							.LL("_UI_Preview_ApplicationNotSuccessful_Message"));
 					mb.open();
@@ -281,57 +295,63 @@ public class Henshination {
 			};
 		}
 
-		try {			
+		try {
 
-			 EMFCompare comparator = EMFCompare.builder().build();
-			 Comparison comparison = comparator.compare(EMFCompare.createDefaultScope(previewModel, originalModel, null));
+			EMFCompare comparator = EMFCompare.builder().build();
+			Comparison comparison = comparator.compare(EMFCompare
+					.createDefaultScope(previewModel, originalModel, null));
 
-			 ICompareEditingDomain editingDomain = EMFCompareEditingDomain.create(previewModel, originalModel, null);
-			 AdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-			 CompareEditorInput input = new ComparisonEditorInput(new CompareConfiguration(), comparison, editingDomain, adapterFactory);
-			 
+			ICompareEditingDomain editingDomain = EMFCompareEditingDomain
+					.create(previewModel, originalModel, null);
+			AdapterFactory adapterFactory = new ComposedAdapterFactory(
+					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+			CompareEditorInput input = new ComparisonEditorInput(
+					new CompareConfiguration(), comparison, editingDomain,
+					adapterFactory);
+
 			return new HenshinationPreview(input, result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new HenshinationPreview(null, result);
 		}
 	}
-	
+
 	protected Resource createCopy(Resource resource) {
 		Resource copy = new XMIResourceImpl();
 		copy.setURI(URI.createFileURI("preview.xmi"));
 		copy.getContents().addAll(EcoreUtil.copyAll(resource.getContents()));
 		return copy;
 	}
-	
+
 	public Resource getModel() {
-		
+
 		if (modelResource != null) {
 			return modelResource;
 		}
-		
+
 		if (modelUri == null || modelUri.isEmpty()) {
 			return null;
 		}
-		
+
 		Map<String, Object> extReg = resourceSet.getResourceFactoryRegistry()
 				.getExtensionToFactoryMap();
-		
+
 		if (!extReg.containsKey(modelUri.fileExtension())) {
 			extReg.put(modelUri.fileExtension(), new XMIResourceFactoryImpl());
 		}
-		
+
 		try {
 			modelResource = resourceSet.getResource(modelUri, true);
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to load Resource");
-		}		
+		}
 		return modelResource;
-		
+
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -339,59 +359,92 @@ public class Henshination {
 		return getClass().getSimpleName() + ": " + unit.getName() + " "
 				+ paramCfgs.toString();
 	}
-	
+
 	public IUndoableOperation getUndoableOperation() {
-		
-		ResourceSet resSet = (this.resourceSet != null) ? this.resourceSet : new ResourceSetImpl();
-		Map<String, Object> extReg = resSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+
+		ResourceSet resSet = (this.resourceSet != null) ? this.resourceSet
+				: new ResourceSetImpl();
+		Map<String, Object> extReg = resSet.getResourceFactoryRegistry()
+				.getExtensionToFactoryMap();
 		if (!extReg.containsKey(modelUri.fileExtension())) {
 			extReg.put(modelUri.fileExtension(), new XMIResourceFactoryImpl());
 		}
-		
-		final Resource model = resSet.getResource(modelUri, true);
-		final UnitApplication unitApplication = createUnitApplication(model);
-		
-		String title = HenshinInterpreterUIPlugin.LL("_UI_UndoableOperation_Henshin") + ": "
+
+		final Resource originalModel = resSet.getResource(modelUri, true);
+
+		final boolean createNewFile = HenshinInterpreterUIPlugin.getPlugin()
+				.getPreferenceStore().getBoolean("createNewFile");
+
+		final Resource workingModel;
+		if (createNewFile) {
+			workingModel = resSet.getResource(modelUri, true);
+			String fileExtension = modelUri.fileExtension();
+			workingModel.setURI(modelUri.trimFileExtension()
+					.appendFileExtension("transformed")
+					.appendFileExtension(fileExtension));
+		} else {
+			workingModel = originalModel;
+		}
+
+		final UnitApplication unitApplication = createUnitApplication(workingModel);
+
+		String title = HenshinInterpreterUIPlugin
+				.LL("_UI_UndoableOperation_Henshin")
+				+ ": "
 				+ getUnit().getName();
-		
+
 		IUndoableOperation operation = new AbstractOperation(title) {
-			
+
 			@Override
 			public IStatus execute(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
-				
+
 				try {
-					if (Tuples.and(runUnitApplication(unitApplication, model, true))) {
-						model.save(null);
+
+					if (Tuples.and(runUnitApplication(unitApplication,
+							workingModel, true))) {
+						workingModel.save(null);
 						return Status.OK_STATUS;
 					}
-					return new Status(Status.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, "Canceled by user!");
+					return new Status(Status.ERROR,
+							HenshinInterpreterUIPlugin.PLUGIN_ID,
+							"Canceled by user!");
 				} catch (Exception e) {
-					return new Status(Status.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, e.getMessage());
+					return new Status(Status.ERROR,
+							HenshinInterpreterUIPlugin.PLUGIN_ID,
+							e.getMessage());
 				}
-				
+
 			}
-			
+
 			@Override
 			public IStatus redo(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
 				try {
 					unitApplication.redo(null);
-					model.save(null);
+					workingModel.save(null);
 				} catch (Exception e) {
-					return new Status(Status.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, e.getMessage());
+					return new Status(Status.ERROR,
+							HenshinInterpreterUIPlugin.PLUGIN_ID,
+							e.getMessage());
 				}
 				return Status.OK_STATUS;
 			}
-			
+
 			@Override
 			public IStatus undo(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
 				try {
-					unitApplication.undo(null);
-					model.save(null);
+					if (createNewFile) {
+						workingModel.delete(null);
+					} else {
+						unitApplication.undo(null);
+						workingModel.save(null);
+					}
 				} catch (Exception e) {
-					return new Status(Status.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, e.getMessage());
+					return new Status(Status.ERROR,
+							HenshinInterpreterUIPlugin.PLUGIN_ID,
+							e.getMessage());
 				}
 				return Status.OK_STATUS;
 			}
@@ -399,5 +452,5 @@ public class Henshination {
 		operation.addContext(IOperationHistory.GLOBAL_UNDO_CONTEXT);
 		return operation;
 	}
-	
+
 }

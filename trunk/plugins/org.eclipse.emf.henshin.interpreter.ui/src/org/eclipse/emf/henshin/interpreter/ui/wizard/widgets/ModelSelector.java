@@ -53,6 +53,8 @@ public class ModelSelector {
 	
 	protected Button browseFileSystemButton;
 	
+	protected Button newFileButton;
+	
 	protected Combo uriField;
 
 	public ModelSelector(Composite parent, final IResource baseDir) {
@@ -97,7 +99,7 @@ public class ModelSelector {
 			data.top = new FormAttachment(buttonComp, CONTROL_OFFSET);
 			data.left = new FormAttachment(0, CONTROL_OFFSET);
 			data.right = new FormAttachment(100, -CONTROL_OFFSET);
-			data.bottom = new FormAttachment(100, -CONTROL_OFFSET);
+			//data.bottom = new FormAttachment(100, -CONTROL_OFFSET);
 			fieldComp.setLayoutData(data);
 		}
 		
@@ -110,6 +112,7 @@ public class ModelSelector {
 			data.right = new FormAttachment(100, -CONTROL_OFFSET);
 			checkResourceButton.setLayoutData(data);
 		}
+		
 		uriField = new Combo(fieldComp, SWT.BORDER);
 		{
 			FormData data = new FormData();
@@ -118,7 +121,6 @@ public class ModelSelector {
 			data.right = new FormAttachment(checkResourceButton, -CONTROL_OFFSET);
 			uriField.setLayoutData(data);
 		}
-		
 		uriField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -134,6 +136,27 @@ public class ModelSelector {
 			}
 		});
 		
+		Composite newFileComp = new Composite(container, SWT.NONE);
+		{
+			newFileComp.setLayout(new FormLayout());
+			FormData data = new FormData();
+			data.top = new FormAttachment(fieldComp, CONTROL_OFFSET);
+			data.left = new FormAttachment(buttonComp, 0, SWT.LEFT);
+			data.right = new FormAttachment(buttonComp, 0, SWT.RIGHT);
+			newFileComp.setLayoutData(data);
+		}
+		
+		newFileButton = new Button(newFileComp, SWT.CHECK);
+		newFileButton.setAlignment(SWT.CENTER);
+		newFileButton.setText(HenshinInterpreterUIPlugin.LL("_UI_CreateNewFile"));
+		//newFileButton.setBounds(272, 10, 144, 18);
+		newFileButton.setSelection(HenshinInterpreterUIPlugin.getPlugin().getPreferenceStore().getBoolean("createNewFile"));
+		{
+			FormData data = new FormData();
+			data.top = new FormAttachment(0, 5);
+			data.right = new FormAttachment(100, -CONTROL_OFFSET);
+			newFileButton.setLayoutData(data);
+		}
 		// uriField.set
 		
 		// ControlDecoration f = new ControlDecoration(uriField, SWT.LEFT);
@@ -185,6 +208,14 @@ public class ModelSelector {
 				}
 			}
 		});
+		
+		
+		newFileButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				HenshinInterpreterUIPlugin.getPlugin().getPreferenceStore().setValue("createNewFile", newFileButton.getSelection());
+			}
+		});
 	}
 	
 	protected void fireURIChanged() {
@@ -220,5 +251,4 @@ public class ModelSelector {
 		
 		void uriFieldDirty();
 	}
-	
 }
