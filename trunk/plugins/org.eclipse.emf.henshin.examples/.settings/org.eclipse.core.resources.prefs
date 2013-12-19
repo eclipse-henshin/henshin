@@ -9,6 +9,9 @@ encoding//src/org/eclipse/emf/henshin/examples/ecore2uml/ecore2uml.henshin_diagr
 encoding//src/org/eclipse/emf/henshin/examples/gossipinggirls/gossipinggirls.henshin=UTF-8
 encoding//src/org/eclipse/emf/henshin/examples/gossipinggirls/gossipinggirls.henshin_diagram=UTF-8
 encoding//src/org/eclipse/emf/henshin/examples/metamodelevolution/petriM.henshin_diagram=UTF-8
+encoding//src/org/eclipse/emf/henshin/examples/pacbenchmark/pacbenchmark.ecore=UTF-8
+encoding//src/org/eclipse/emf/henshin/examples/pacbenchmark/pacbenchmark.henshin=UTF-8
+encoding//src/org/eclipse/emf/henshin/examples/pacbenchmark/pacbenchmark.henshin_diagram=UTF-8
 encoding//src/org/eclipse/emf/henshin/examples/sierpinski/sierpinski.henshin_diagram=UTF-8
 encoding//src/org/eclipse/emf/henshin/examples/sort/sort.henshin=UTF-8
 encoding//src/org/eclipse/emf/henshin/examples/sort/sort.henshin_diagram=UTF-8
