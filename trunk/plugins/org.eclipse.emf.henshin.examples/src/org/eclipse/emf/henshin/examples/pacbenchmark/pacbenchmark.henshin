@@ -7,10 +7,10 @@
     <multiRules xmi:id="_w8xFAGiqEeOaeph0C5BmPA">
       <lhs xmi:id="_w8xFAWiqEeOaeph0C5BmPA" name="Lhs">
         <nodes xmi:id="_P7dnQGiqEeOaeph0C5BmPA">
-          <type href="pacbenchmark.ecore#//Actor"/>
+          <type href="pacbenchmark.ecore#//Person"/>
         </nodes>
         <nodes xmi:id="_ReoDIGiqEeOaeph0C5BmPA">
-          <type href="pacbenchmark.ecore#//Actress"/>
+          <type href="pacbenchmark.ecore#//Person"/>
         </nodes>
         <formula xsi:type="henshin:NestedCondition" xmi:id="_MC8oIGirEeOaeph0C5BmPA">
           <conclusion xmi:id="_MC8oIWirEeOaeph0C5BmPA">
@@ -54,19 +54,19 @@
       </lhs>
       <rhs xmi:id="_w8xFAmiqEeOaeph0C5BmPA" name="Rhs">
         <nodes xmi:id="_QuFXAGiqEeOaeph0C5BmPA" incoming="_Yub4wGiqEeOaeph0C5BmPA">
-          <type href="pacbenchmark.ecore#//Actor"/>
+          <type href="pacbenchmark.ecore#//Person"/>
         </nodes>
         <nodes xmi:id="_YHueEGiqEeOaeph0C5BmPA" outgoing="_Yub4wGiqEeOaeph0C5BmPA _ZATr4GiqEeOaeph0C5BmPA">
           <type href="pacbenchmark.ecore#//Couple"/>
         </nodes>
         <nodes xmi:id="_ReoDIWiqEeOaeph0C5BmPA" incoming="_ZATr4GiqEeOaeph0C5BmPA">
-          <type href="pacbenchmark.ecore#//Actress"/>
+          <type href="pacbenchmark.ecore#//Person"/>
         </nodes>
         <edges xmi:id="_Yub4wGiqEeOaeph0C5BmPA" source="_YHueEGiqEeOaeph0C5BmPA" target="_QuFXAGiqEeOaeph0C5BmPA">
-          <type href="pacbenchmark.ecore#//Couple/actor"/>
+          <type href="pacbenchmark.ecore#//Couple/p1"/>
         </edges>
         <edges xmi:id="_ZATr4GiqEeOaeph0C5BmPA" source="_YHueEGiqEeOaeph0C5BmPA" target="_ReoDIWiqEeOaeph0C5BmPA">
-          <type href="pacbenchmark.ecore#//Couple/actress"/>
+          <type href="pacbenchmark.ecore#//Couple/p2"/>
         </edges>
       </rhs>
       <mappings xmi:id="_QuFXAWiqEeOaeph0C5BmPA" origin="_P7dnQGiqEeOaeph0C5BmPA" image="_QuFXAGiqEeOaeph0C5BmPA"/>

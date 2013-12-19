@@ -687,4 +687,16 @@
     <element xmi:type="henshin:IteratedUnit" href="pacbenchmark.henshin#_EKLqMGitEeOaeph0C5BmPA"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_0CASfmi8EeOaeph0C5BmPA" points="[35, 0, 35, 0]$[63, 0, 63, 0]$[63, 39, 63, 39]$[0, 39, 0, 39]$[0, 14, 0, 14]"/>
   </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_GKGKJ2jGEeOaeph0C5BmPA" type="4002" source="_gFKJgGi8EeOaeph0C5BmPA" target="_LxRkIGi9EeOaeph0C5BmPA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_GKGKKGjGEeOaeph0C5BmPA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_GKGKKWjGEeOaeph0C5BmPA" fontName="Segoe UI"/>
+    <element xmi:type="henshin:SequentialUnit" href="pacbenchmark.henshin#_edTa4Gi8EeOaeph0C5BmPA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_GKGKKmjGEeOaeph0C5BmPA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_GytpUGjGEeOaeph0C5BmPA" type="4002" source="_LxRkIGi9EeOaeph0C5BmPA" target="_edTa7Gi8EeOaeph0C5BmPA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_GytpUWjGEeOaeph0C5BmPA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_GytpUmjGEeOaeph0C5BmPA" fontName="Segoe UI"/>
+    <element xmi:type="henshin:SequentialUnit" href="pacbenchmark.henshin#_edTa4Gi8EeOaeph0C5BmPA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_GytpU2jGEeOaeph0C5BmPA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
 </notation:Diagram>

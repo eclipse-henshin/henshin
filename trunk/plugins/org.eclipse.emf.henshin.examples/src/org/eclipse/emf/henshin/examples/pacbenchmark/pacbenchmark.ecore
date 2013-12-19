@@ -8,8 +8,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//Person"/>
   <eClassifiers xsi:type="ecore:EClass" name="Actress" eSuperTypes="#//Person"/>
   <eClassifiers xsi:type="ecore:EClass" name="Couple">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actor" eType="#//Actor"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actress" eType="#//Actress"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="p1" eType="#//Person"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="p2" eType="#//Person"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Movie">
     <eStructuralFeatures xsi:type="ecore:EReference" name="persons" upperBound="-1"
