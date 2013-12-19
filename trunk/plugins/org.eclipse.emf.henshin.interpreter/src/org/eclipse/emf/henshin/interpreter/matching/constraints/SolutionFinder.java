@@ -9,8 +9,6 @@
  */
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -27,8 +25,11 @@ public class SolutionFinder extends ApplicationCondition {
 	// Attribute condition handler:
 	protected final ConditionHandler conditionHandler;
 
-	// List of solutions:
-	protected List<Solution> solutions;
+	// Started flag:
+	protected boolean started;
+	
+	// Next solution:
+	protected Solution nextSolution;
 		
 	/**
 	 * Default constructor.
@@ -41,6 +42,7 @@ public class SolutionFinder extends ApplicationCondition {
 			ConditionHandler conditionHandler) {
 		super(graph, variableDomainMap);
 		this.conditionHandler = conditionHandler;
+		this.started = false;
 	}
 	
 	/**
@@ -50,8 +52,8 @@ public class SolutionFinder extends ApplicationCondition {
 	public boolean findSolution() {
 		
 		boolean matchIsPossible = false;
-		if (solutions == null) {
-			solutions = new ArrayList<Solution>();
+		if (!started) {
+			started = true;
 			matchIsPossible = true;
 		} else {
 			int varCount = variables.size();
@@ -69,7 +71,7 @@ public class SolutionFinder extends ApplicationCondition {
 		if (matchIsPossible) {
 			boolean success = findGraph();
 			if (success) {
-				solutions.add(new Solution(variables, domainMap, conditionHandler));
+				nextSolution = new Solution(variables, domainMap, conditionHandler);
 			}
 			return success;
 		}
@@ -80,23 +82,14 @@ public class SolutionFinder extends ApplicationCondition {
 	}
 	
 	/**
-	 * Returns a solution. On consecutive calls other matches will be returned.
-	 * @return A solution or null if no match exists.
+	 * Returns the next solution. On consecutive calls other matches will be returned.
+	 * @return A solution or <code>null</code> if no match exists.
 	 */
 	public Solution getNextSolution() {
 		if (findSolution()) {
-			return solutions.get(solutions.size()-1);
+			return nextSolution;
 		}
 		return null;
-	}
-	
-	/**
-	 * Generate all solutions.
-	 * @return List of all solutions.
-	 */
-	public List<Solution> getAllSolutions() {
-		while (getNextSolution() != null) {}
-		return solutions;
 	}
 	
 }
