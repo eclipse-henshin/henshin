@@ -3,7 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pacbenchmark" nsURI="http://pacbenchmark/1.0" nsPrefix="pacbenchmark">
   <eClassifiers xsi:type="ecore:EClass" name="Person" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="movies" upperBound="-1"
-        eType="#//Movie"/>
+        eType="#//Movie" eOpposite="#//Movie/persons"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//Person"/>
   <eClassifiers xsi:type="ecore:EClass" name="Actress" eSuperTypes="#//Person"/>
@@ -13,6 +13,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Movie">
     <eStructuralFeatures xsi:type="ecore:EReference" name="persons" upperBound="-1"
-        eType="#//Person"/>
+        eType="#//Person" eOpposite="#//Person/movies"/>
   </eClassifiers>
 </ecore:EPackage>

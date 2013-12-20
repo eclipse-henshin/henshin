@@ -15,7 +15,7 @@
         <formula xsi:type="henshin:NestedCondition" xmi:id="_MC8oIGirEeOaeph0C5BmPA">
           <conclusion xmi:id="_MC8oIWirEeOaeph0C5BmPA">
             <nodes xmi:id="_MC8oImirEeOaeph0C5BmPA" outgoing="_J8HegGirEeOaeph0C5BmPA _4kmZEGiqEeOaeph0C5BmPA _39UWoGiqEeOaeph0C5BmPA">
-              <type href="pacbenchmark.ecore#//Actor"/>
+              <type href="pacbenchmark.ecore#//Person"/>
             </nodes>
             <nodes xmi:id="_OljkQGiqEeOaeph0C5BmPA" incoming="_39UWoGiqEeOaeph0C5BmPA _KfQAwGirEeOaeph0C5BmPA">
               <type href="pacbenchmark.ecore#//Movie"/>
@@ -27,7 +27,7 @@
               <type href="pacbenchmark.ecore#//Movie"/>
             </nodes>
             <nodes xmi:id="_MC8oLWirEeOaeph0C5BmPA" outgoing="_JPBvAGirEeOaeph0C5BmPA _Ji9-sGirEeOaeph0C5BmPA _KfQAwGirEeOaeph0C5BmPA">
-              <type href="pacbenchmark.ecore#//Actress"/>
+              <type href="pacbenchmark.ecore#//Person"/>
             </nodes>
             <edges xmi:id="_JPBvAGirEeOaeph0C5BmPA" source="_MC8oLWirEeOaeph0C5BmPA" target="_O8ongGiqEeOaeph0C5BmPA">
               <type href="pacbenchmark.ecore#//Person/movies"/>

@@ -65,8 +65,9 @@ public class PACBenchmark {
 			// Check if it is correct:
 			EClass coupleClass = (EClass) module.getImports().get(0).getEClassifier("Couple");
 			int foundCouples = graph.getDomainSize(coupleClass, true);
-			if (foundCouples != n) {
-				throw new AssertionError("Expected to find " + n + " couples, but actually found " + foundCouples);
+			int expected = 2*n;
+			if (foundCouples != expected) {
+				throw new AssertionError("Expected to find " + expected + " couples, but actually found " + foundCouples);
 			}
 			
 			System.out.println(n + "\t" + graph.size() + "\t" + millis);
