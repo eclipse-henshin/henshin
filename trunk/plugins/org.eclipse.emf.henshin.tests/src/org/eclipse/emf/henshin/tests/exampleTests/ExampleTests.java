@@ -7,6 +7,7 @@ import org.eclipse.emf.henshin.examples.ecore2genmodel.Ecore2GenmodelTrafo;
 import org.eclipse.emf.henshin.examples.ecore2rdb.Ecore2Rdb;
 import org.eclipse.emf.henshin.examples.gossipinggirls.GossipingGirls;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
+import org.eclipse.emf.henshin.examples.movies.MoviesBenchmark;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
 import org.eclipse.emf.henshin.examples.sort.SortExample;
 import org.eclipse.emf.henshin.examples.wrap.copy.CopyExample;
@@ -123,6 +124,15 @@ public class ExampleTests {
 	public void testSort() {
 		System.out.println();
 		SortExample.run(EXAMPLES_PATH + SortExample.PATH);
+	}
+
+	/**
+	 * Movies example.
+	 */
+	@Test
+	public void testMovies() {
+		System.out.println();
+		MoviesBenchmark.run(EXAMPLES_PATH + MoviesBenchmark.PATH, 1000);
 	}
 
 }

@@ -45,7 +45,7 @@ public class MoviesBenchmark {
 		// Create an engine:
 		Engine engine = new EngineImpl();
 
-		System.out.println("Couples\tNodes\tTime (ms)");
+		System.out.println("Nodes\tCouples\tTime (ms)");
 		for (int i=1; i<=10; i++) {
 			int n = i * factor;
 
@@ -56,7 +56,8 @@ public class MoviesBenchmark {
 			UnitApplication createExample = new UnitApplicationImpl(engine, graph, createExampleUnit, null);
 			createExample.setParameterValue("n", n);
 			InterpreterUtil.executeOrDie(createExample);
-
+			int inputSize = graph.size();
+			
 			// Find couples:
 			long millis = System.currentTimeMillis();
 			UnitApplication findCouples = new UnitApplicationImpl(engine, graph, findCouplesUnit, null);
@@ -71,14 +72,22 @@ public class MoviesBenchmark {
 				throw new AssertionError("Expected to find " + expected + " couples, but actually found " + foundCouples);
 			}
 			
-			System.out.println(n + "\t" + graph.size() + "\t" + millis);
+			System.out.println(inputSize + "\t" + foundCouples + "\t" + millis);
 			
 		}
 		
 	}
 	
 	public static void main(String[] args) {
-		run(PATH, 10000); // we assume the working directory is the root of the examples plug-in
+		
+		// We assume the working directory is the root of the examples plug-in.
+		
+		System.out.println("\n*** WARMUP PHASE ***\n");
+		run(PATH, 10000); 
+
+		System.out.println("\n*** BENCHMARK ***\n");
+		run(PATH, 10000);
+
 	}
 	
 }
