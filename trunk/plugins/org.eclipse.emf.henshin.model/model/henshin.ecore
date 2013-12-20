@@ -144,6 +144,8 @@
     <eOperations name="getNAC" eType="#//NestedCondition">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="getPACs" upperBound="-1" eType="#//NestedCondition"/>
+    <eOperations name="getNACs" upperBound="-1" eType="#//NestedCondition"/>
     <eOperations name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="isRhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="isNestedCondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

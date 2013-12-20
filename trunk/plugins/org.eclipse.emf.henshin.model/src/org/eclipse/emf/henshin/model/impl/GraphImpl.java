@@ -16,7 +16,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -372,14 +371,22 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 */
 	public EList<NestedCondition> getNestedConditions() {
 		EList<NestedCondition> result = new BasicEList<NestedCondition>();
-		TreeIterator<EObject> contents = eAllContents();
-		while (contents.hasNext()) {
-			EObject next = contents.next();
-			if (next instanceof NestedCondition) {
-				result.add((NestedCondition) next);
-			}
-		}
+		collectNestedConditions(getFormula(), result);
 		return ECollections.unmodifiableEList(result);
+	}
+
+	/*
+	 * Collect nested conditions.
+	 */
+	private void collectNestedConditions(Formula formula, EList<NestedCondition> nestedConditions) {
+		if (formula instanceof NestedCondition) {
+			nestedConditions.add((NestedCondition) formula);
+		} else if (formula instanceof UnaryFormula) {
+			collectNestedConditions(((UnaryFormula) formula).getChild(), nestedConditions);
+		} else if (formula instanceof BinaryFormula) {
+			collectNestedConditions(((BinaryFormula) formula).getLeft(), nestedConditions);
+			collectNestedConditions(((BinaryFormula) formula).getRight(), nestedConditions);
+		}
 	}
 
 	/**
@@ -398,6 +405,36 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 */
 	public NestedCondition getNAC(String name) {
 		return getPACorNAC(name, false);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<NestedCondition> getPACs() {
+		EList<NestedCondition> pacs = new BasicEList<NestedCondition>();
+		for (NestedCondition nestedCondition : getNestedConditions()) {
+			if (nestedCondition.isPAC()) {
+				pacs.add(nestedCondition);
+			}
+		}
+		return ECollections.unmodifiableEList(pacs); 
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<NestedCondition> getNACs() {
+		EList<NestedCondition> nacs = new BasicEList<NestedCondition>();
+		for (NestedCondition nestedCondition : getNestedConditions()) {
+			if (nestedCondition.isNAC()) {
+				nacs.add(nestedCondition);
+			}
+		}
+		return ECollections.unmodifiableEList(nacs); 
 	}
 
 	/*

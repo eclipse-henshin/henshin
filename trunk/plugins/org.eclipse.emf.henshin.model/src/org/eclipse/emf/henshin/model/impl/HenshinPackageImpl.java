@@ -1539,6 +1539,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		op = addEOperation(graphEClass, this.getNestedCondition(), "getNAC", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(graphEClass, this.getNestedCondition(), "getPACs", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(graphEClass, this.getNestedCondition(), "getNACs", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		addEOperation(graphEClass, ecorePackage.getEBoolean(), "isLhs", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(graphEClass, ecorePackage.getEBoolean(), "isRhs", 0, 1, IS_UNIQUE, IS_ORDERED);

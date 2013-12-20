@@ -153,6 +153,22 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<NestedCondition> getPACs();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<NestedCondition> getNACs();
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * Check whether this graph is the left-hand side of a rule.
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
