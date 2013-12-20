@@ -37,20 +37,22 @@ public class Variable {
 	
 	// Containment constraints:
 	public final List<ContainmentConstraint> containmentConstraints;
-	
-	// User defined constraints:
+
+	// Path constraints:
+	public final List<PathConstraint> pathConstraints;
+
+	// User-defined constraints:
 	public final List<UnaryConstraint> userConstraints;
 	
-	// User defined constraints for edges:
+	// User-defined constraints for edges:
 	public final Map<ReferenceConstraint, BinaryConstraint> binaryUserConstraints;
 
-	// User defined constraints for attributes:
+	// User-defined constraints for attributes:
 	public final Map<AttributeConstraint, UnaryConstraint> attributeUserConstraints;
 
 	// Whether this variable requires a final re-check:
 	public boolean requiresFinalCheck;
 
-	
 	/**
 	 * Constructor. Creates the related {@link TypeConstraint} already.
 	 * @param type Type of the node to be matched.
@@ -70,6 +72,7 @@ public class Variable {
 		danglingConstraints = new ArrayList<DanglingConstraint>();
 		referenceConstraints = new ArrayList<ReferenceConstraint>();
 		containmentConstraints = new ArrayList<ContainmentConstraint>();
+		pathConstraints = new ArrayList<PathConstraint>();
 		userConstraints = new ArrayList<UnaryConstraint>();
 		binaryUserConstraints = new LinkedHashMap<ReferenceConstraint,BinaryConstraint>();
 		attributeUserConstraints = new LinkedHashMap<AttributeConstraint,UnaryConstraint>();

@@ -208,30 +208,37 @@ public class DomainSlot {
 				if (!constraint.check(this, targetSlot)) {
 					return false;
 				}
-
 			}
 			
 			// Check the reference constraints:
 			for (ReferenceConstraint constraint : variable.referenceConstraints) {
-				DomainSlot target = domainMap.get(constraint.targetVariable);
-				if (!constraint.check(this, target)) {
+				DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
+				if (!constraint.check(this, targetSlot)) {
 					return false;
 				}
 				BinaryConstraint binaryUserConstraint = variable.binaryUserConstraints.get(constraint);
 				if (binaryUserConstraint != null){
-					if (!binaryUserConstraint.check(this, target)){
+					if (!binaryUserConstraint.check(this, targetSlot)) {
 						return false;
 					}
 				}
-					
 			}
-			
+
+			// Check the path constraints:
+			for (PathConstraint constraint : variable.pathConstraints) {
+				DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
+				if (!constraint.check(this, targetSlot)) {
+					return false;
+				}
+			}
+
 			// Check the user constraints:
 			for (UnaryConstraint constraint : variable.userConstraints){
 				if (!constraint.check(this)) {
 					return false;
 				}
 			}
+			
 			// All checks were successful:
 			checkedVariables.add(variable);
 			
