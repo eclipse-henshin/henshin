@@ -916,22 +916,16 @@ public class EngineImpl implements Engine {
 		return scriptEngine;
 	}
 
-
-  	
 	public UnaryConstraint createUserConstraints(Node node){
-		
 		return null;
 	}
 	
 	public BinaryConstraint createUserConstraints(Edge edge){
-		
 		return null;
 	}
 	
 	public UnaryConstraint createUserConstraints(Attribute attribute){
-		
 		return null;
 	}
-  
   
 }
