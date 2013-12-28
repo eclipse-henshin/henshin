@@ -365,7 +365,7 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	 */
 	@Override
 	public List<EObject> getRoots() {
-		List<EObject> roots = new ArrayList<EObject>();
+		Set<EObject> roots = new LinkedHashSet<EObject>();
 		for (EObject object : this) {
 			while (object.eContainer()!=null) {
 				object = object.eContainer();
@@ -374,7 +374,7 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 				roots.add(object);
 			}
 		}
-		return roots;
+		return new ArrayList<EObject>(roots);
 	}
 
 }
