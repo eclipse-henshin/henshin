@@ -23,8 +23,8 @@ EOF
 
 function compile_tests {
 	ssh $SSH_ARGS $HADOOP_MASTER << EOF
-		cd $GIRAPH_HOME/$GIRAPH_PROJECT
-		mvn install -DskipTests
+		cd $GIRAPH_HOME
+		mvn package -DskipTests
 EOF
 	if [ $? -ne 0 ]; then
         echo "Build failed."
@@ -51,7 +51,7 @@ function run_test {
 			$GIRAPH_TESTS_PACKAGE.$1 \
 			-vif "$util""InputFormat" \
 			-vip /testInput/$2.json \
-			-of "$util""OutputFormat" \
+			-vof "$util""OutputFormat" \
 			-op /testOutput \
 			-w $GIRAPH_WORKERS \
 			-mc "$main""MasterCompute"

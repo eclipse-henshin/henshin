@@ -370,9 +370,7 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 			while (object.eContainer()!=null) {
 				object = object.eContainer();
 			}
-			if (!roots.contains(object)) {
-				roots.add(object);
-			}
+			roots.add(object);
 		}
 		return new ArrayList<EObject>(roots);
 	}
