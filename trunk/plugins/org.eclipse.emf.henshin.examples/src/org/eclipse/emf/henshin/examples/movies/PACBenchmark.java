@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.examples.pacbenchmark;
+package org.eclipse.emf.henshin.examples.movies;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.interpreter.EGraph;
