@@ -16,6 +16,14 @@ import org.eclipse.emf.ecore.EReference;
  */
 public class PathConstraint implements BinaryConstraint {
 	
+	// Integers:
+	static final Integer[] INTEGERS = new Integer[64];
+	static {
+		for (int i=0; i<INTEGERS.length; i++) {
+			INTEGERS[i] = i;
+		}
+	}
+	
 	// Target variable:
 	final Variable targetVariable;
 	
@@ -40,6 +48,15 @@ public class PathConstraint implements BinaryConstraint {
 		}
 	}
 
+	private static Integer inc(Integer integer) {
+		if (integer==null) return INTEGERS[1];
+		int succ = integer.intValue() + 1;
+		if (succ < INTEGERS.length) {
+			return INTEGERS[succ];
+		}
+		return succ;
+	}
+	
 	/*
 	 * Get the targets for a list o sources and a reference.
 	 */
@@ -51,22 +68,12 @@ public class PathConstraint implements BinaryConstraint {
 			if (src.eClass().getEAllReferences().contains(reference)) {
 				if (reference.isMany()) {
 					for (EObject trg : (List<EObject>) src.eGet(reference)) {
-						Integer count = targets.get(trg);
-						if (count!=null) {
-							targets.put(trg, count + 1);
-						} else {
-							targets.put(trg, ONE);
-						}						
+						targets.put(trg, inc(targets.get(trg)));
 					}
 				} else {
 					EObject trg = (EObject) src.eGet(reference);
 					if (trg!=null) {
-						Integer count = targets.get(trg);
-						if (count!=null) {
-							targets.put(trg, count + 1);
-						} else {
-							targets.put(trg, ONE);
-						}
+						targets.put(trg, inc(targets.get(trg)));
 					}
 				}
 			}
@@ -88,7 +95,7 @@ public class PathConstraint implements BinaryConstraint {
 
 		// Follow all paths and get the target objects:
 		Map<EObject,Integer> targetObjects = new HashMap<EObject,Integer>();
-		targetObjects.put(source.value, ONE);
+		targetObjects.put(source.value, INTEGERS[1]);
 		for (EReference reference : references) {
 			targetObjects = getTargetObjects(targetObjects, reference);
 		}
@@ -124,6 +131,4 @@ public class PathConstraint implements BinaryConstraint {
 
 	}
 
-	private static final Integer ONE = 1;
-	
 }
