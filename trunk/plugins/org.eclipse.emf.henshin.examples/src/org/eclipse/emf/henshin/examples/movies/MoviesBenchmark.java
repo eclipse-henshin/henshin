@@ -9,7 +9,12 @@
  */
 package org.eclipse.emf.henshin.examples.movies;
 
+import java.io.File;
+
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
@@ -32,10 +37,10 @@ public class MoviesBenchmark {
 	 */
 	public static final String PATH = "src/org/eclipse/emf/henshin/examples/movies";
 	
-	public static void run(String path, int factor) {
+	public static void runSyntheticDataTest(String modelPath, int factor) {
 		
 		// Create a resource set with a base directory:
-		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
+		HenshinResourceSet resourceSet = new HenshinResourceSet(modelPath);
 		
 		// Load the module and the required units:
 		Module module = resourceSet.getModule("movies.henshin", false);
@@ -72,21 +77,73 @@ public class MoviesBenchmark {
 				throw new AssertionError("Expected to find " + expected + " couples, but actually found " + foundCouples);
 			}
 			
-			System.out.println(inputSize + "\t" + foundCouples + "\t" + millis);
+			System.out.println(inputSize + "\t" + n + "\t" + millis);
 			
 		}
 		
 	}
-	
+
+	public static void runRealDataTest(String modelPath, String moviesPath, String fileExtension) {
+		
+		// Create an engine:
+		Engine engine = new EngineImpl();
+
+		System.out.println("Nodes\tCouples\tTime (ms)");
+		
+		// Iterate over all movie files:
+		for (File file : new File(moviesPath).listFiles()) {
+			
+			// Must be an XMI file:
+			if (!file.getName().endsWith("." + fileExtension)) {
+				continue;
+			}
+
+			// Create a resource set with a base directory:
+			HenshinResourceSet resourceSet = new HenshinResourceSet(modelPath);
+			
+			// Load the module and the required units:
+			Module module = resourceSet.getModule("movies.henshin", false);
+			Unit findCouplesUnit = module.getUnit("findCouples");
+
+			// Register XMI resource factory and the movies package:
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(fileExtension, new XMIResourceFactoryImpl());
+			resourceSet.getPackageRegistry().put(module.getImports().get(0).getNsURI(), module.getImports().get(0));
+			
+			// Load the movies file:
+			System.gc();
+			Resource movies = resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
+			
+			// Create an EGraph:
+			EGraph graph = new EGraphImpl(movies);
+			System.out.print(graph.size());
+			
+			// Find couples:
+			long millis = System.currentTimeMillis();
+			UnitApplication findCouples = new UnitApplicationImpl(engine, graph, findCouplesUnit, null);
+			InterpreterUtil.executeOrDie(findCouples);
+			millis = System.currentTimeMillis() - millis;
+
+			// Number of found couples:
+			EClass coupleClass = (EClass) module.getImports().get(0).getEClassifier("Couple");
+			int foundCouples = graph.getDomainSize(coupleClass, true);
+			System.out.println("\t" + (foundCouples / 2) + "\t" + millis);
+			
+		}
+		
+	}
+
 	public static void main(String[] args) {
 		
 		// We assume the working directory is the root of the examples plug-in.
 		
-		System.out.println("\n*** WARMUP PHASE ***\n");
-		run(PATH, 10000); 
+		System.out.println("\n*** SYNTHETIC DATA TEST -- WARMUP PHASE ***\n");
+		runSyntheticDataTest(PATH, 10000); 
 
-		System.out.println("\n*** BENCHMARK ***\n");
-		run(PATH, 10000);
+		System.out.println("\n*** SYNTHETIC DATA TEST -- BENCHMARK ***\n");
+		runSyntheticDataTest(PATH, 10000);
+		
+//		System.out.println("\n*** REAL DATA TEST -- BENCHMARK ***\n");
+//		runRealDataTest(PATH, System.getProperty("user.home") + File.separator + "Downloads", "movies");
 
 	}
 	

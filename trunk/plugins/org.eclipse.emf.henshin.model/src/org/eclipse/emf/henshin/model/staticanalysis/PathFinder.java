@@ -1,9 +1,9 @@
 package org.eclipse.emf.henshin.model.staticanalysis;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Edge;
@@ -13,18 +13,23 @@ import org.eclipse.emf.henshin.model.Node;
 
 public class PathFinder {
 
-	public static List<List<EReference>> findReferencePaths(Node source, Node target, boolean withPACs, boolean onlyPACs) {
-		Set<List<EReference>> reflists = new LinkedHashSet<List<EReference>>();
+	public static Map<List<EReference>,Integer> findReferencePaths(Node source, Node target, boolean withPACs, boolean onlyPACs) {
+		Map<List<EReference>,Integer> reflists = new LinkedHashMap<List<EReference>,Integer>();
 		for (Path path : findEdgePaths(source, target, true, withPACs)) {
 			if (onlyPACs && !path.isViaNestedCondition()) {
 				continue;
 			}
 			List<EReference> list = path.toReferenceList(true);
 			if (list!=null) {
-				reflists.add(list);
+				Integer count = reflists.get(list);
+				if (count!=null) {
+					reflists.put(list, count + 1);
+				} else {
+					reflists.put(list, 1);
+				}
 			}
 		}
-		return new ArrayList<List<EReference>>(reflists);
+		return reflists;
 	}
 	
 	public static List<Path> findEdgePaths(Node source, Node target, boolean withInverse, boolean withPACs) {

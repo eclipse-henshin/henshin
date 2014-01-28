@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
@@ -197,10 +198,10 @@ public class VariableInfo {
 		// Path constraints:
 		for (Node target : node.getGraph().getNodes()) {
 			if (node==target) continue;
-			for (List<EReference> path : PathFinder.findReferencePaths(node, target, true, true)) {
-				if (path.size() > 1) { // only paths of length > 1
+			for (Entry<List<EReference>,Integer> entry : PathFinder.findReferencePaths(node, target, true, true).entrySet()) {
+				if (entry.getKey().size() > 1) { // only paths of length > 1
 					Variable targetVar = node2variable.get(target);
-					PathConstraint constraint = new PathConstraint(targetVar, path);
+					PathConstraint constraint = new PathConstraint(targetVar, entry.getKey(), entry.getValue());
 					var.pathConstraints.add(constraint);
 				}
 			}

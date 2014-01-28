@@ -167,9 +167,7 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	 */
 	@Override
 	public boolean addGraph(EObject object) {
-		Set<EObject> closure = new LinkedHashSet<EObject>(); 
-		computeTransitiveClosure(object, closure);
-		return addAll(closure);
+		return addAll(computeTransitiveClosure(object));
 	}
 
 	/*
@@ -178,35 +176,45 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	 */
 	@Override
 	public boolean removeGraph(EObject object) {
-		Set<EObject> closure = new LinkedHashSet<EObject>(); 
-		computeTransitiveClosure(object, closure);
-		return removeAll(closure);
+		return removeAll(computeTransitiveClosure(object));
 	}
 
 	/*
 	 * Compute the transitive closure of referenced EObjects.
 	 */
-	private boolean computeTransitiveClosure(EObject object, Set<EObject> closure) {
-		if (closure.contains(object)) {
-			return false;
-		} else {
-			closure.add(object);
-			for (EReference ref : object.eClass().getEAllReferences()) {
-				if (ref.isMany()) {
-					@SuppressWarnings("unchecked")
-					EList<EObject> targets = (EList<EObject>) object.eGet(ref);
-					for (EObject target : targets) {
-						computeTransitiveClosure(target, closure);
-					}
-				} else {
-					EObject target = (EObject) object.eGet(ref);
-					if (target!=null) {
-						computeTransitiveClosure(target, closure);
+	private Set<EObject> computeTransitiveClosure(EObject start) {
+		// Initialize:
+		Set<EObject> result = new LinkedHashSet<EObject>();
+		Set<EObject> newObjects = new LinkedHashSet<EObject>();
+		newObjects.add(start);
+		// Loop:
+		while (!newObjects.isEmpty()) {
+			result.addAll(newObjects);
+			// Compute references:
+			Set<EObject> referencedObjects = new LinkedHashSet<EObject>();
+			for (EObject object : newObjects) {
+				for (EReference ref : object.eClass().getEAllReferences()) {
+					if (ref.isMany()) {
+						@SuppressWarnings("unchecked")
+						EList<EObject> targets = (EList<EObject>) object.eGet(ref);
+						referencedObjects.addAll(targets);
+					} else {
+						EObject target = (EObject) object.eGet(ref);
+						if (target!=null) {
+							referencedObjects.add(target);
+						}
 					}
 				}
 			}
-			return true;
+			// Check which of them are new:
+			newObjects.clear();
+			for (EObject object : referencedObjects) {
+				if (!result.contains(object)) {
+					newObjects.add(object);
+				}
+			}
 		}
+		return result;
 	}
 	
 	/*

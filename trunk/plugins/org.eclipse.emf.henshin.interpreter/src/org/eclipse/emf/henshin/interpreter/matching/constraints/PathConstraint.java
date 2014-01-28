@@ -1,10 +1,11 @@
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -20,15 +21,20 @@ public class PathConstraint implements BinaryConstraint {
 	
 	// References list representing a path:
 	final List<EReference> references;
+
+	// Number of paths:
+	final int numPaths;
 	
 	/**
 	 * Default constructor.
 	 * @param target Target variable.
 	 * @param references List of reference used for the path.
+	 * @param numPaths Number of paths.
 	 */
-	public PathConstraint(Variable target, List<EReference> references) {
+	public PathConstraint(Variable target, List<EReference> references, int numPaths) {
 		this.targetVariable = target;
 		this.references = references;
+		this.numPaths = numPaths;
 		if (references.isEmpty()) {
 			throw new IllegalArgumentException("Cannot create path constraint for empty paths");
 		}
@@ -38,16 +44,29 @@ public class PathConstraint implements BinaryConstraint {
 	 * Get the targets for a list o sources and a reference.
 	 */
 	@SuppressWarnings("unchecked")
-	private static Set<EObject> getTargetObjects(Set<EObject> sources, EReference reference) {
-		Set<EObject> targets = new LinkedHashSet<EObject>();
-		for (EObject source : sources) {
-			if (source.eClass().getEAllReferences().contains(reference)) {			
+	private static Map<EObject,Integer> getTargetObjects(Map<EObject,Integer> sources, EReference reference) {
+		Map<EObject,Integer> targets = new LinkedHashMap<EObject,Integer>();
+		for (Entry<EObject,Integer> source : sources.entrySet()) {
+			EObject src = source.getKey();
+			if (src.eClass().getEAllReferences().contains(reference)) {
 				if (reference.isMany()) {
-					targets.addAll((List<EObject>) source.eGet(reference));
+					for (EObject trg : (List<EObject>) src.eGet(reference)) {
+						Integer count = targets.get(trg);
+						if (count!=null) {
+							targets.put(trg, count + 1);
+						} else {
+							targets.put(trg, ONE);
+						}						
+					}
 				} else {
-					EObject obj = (EObject) source.eGet(reference);
-					if (obj!=null) {
-						targets.add(obj);
+					EObject trg = (EObject) src.eGet(reference);
+					if (trg!=null) {
+						Integer count = targets.get(trg);
+						if (count!=null) {
+							targets.put(trg, count + 1);
+						} else {
+							targets.put(trg, ONE);
+						}
 					}
 				}
 			}
@@ -68,14 +87,16 @@ public class PathConstraint implements BinaryConstraint {
 		}
 
 		// Follow all paths and get the target objects:
-		Set<EObject> targetObjects = Collections.singleton(source.value);
+		Map<EObject,Integer> targetObjects = new HashMap<EObject,Integer>();
+		targetObjects.put(source.value, ONE);
 		for (EReference reference : references) {
 			targetObjects = getTargetObjects(targetObjects, reference);
 		}
 		
 		// Target domain slot locked?
 		if (target.locked) {
-			return targetObjects.contains(target.value);
+			Integer numTargets = targetObjects.get(target.value);
+			return (numTargets != null && numTargets >= numPaths);
 			
 		} else {
 			
@@ -84,7 +105,12 @@ public class PathConstraint implements BinaryConstraint {
 			source.remoteChangeMap.put(this, change);
 			
 			// Calculated temporary domain:
-			target.temporaryDomain = new ArrayList<EObject>(targetObjects);
+			target.temporaryDomain = new ArrayList<EObject>();
+			for (Entry<EObject,Integer> entry : targetObjects.entrySet()) {
+				if (entry.getValue() >= numPaths) {
+					target.temporaryDomain.add(entry.getKey());
+				}
+			}
 			
 			// TODO: why does domain restriction not work for path constraints?
 			//if (change.originalValues!=null) {
@@ -97,5 +123,7 @@ public class PathConstraint implements BinaryConstraint {
 		}
 
 	}
+
+	private static final Integer ONE = 1;
 	
 }
