@@ -132,7 +132,7 @@ public class ExampleTests {
 	@Test
 	public void testMovies() {
 		System.out.println();
-		MoviesBenchmark.runSyntheticDataTest(EXAMPLES_PATH + MoviesBenchmark.PATH, 1000);
+		MoviesBenchmark.runSyntheticDataTest(EXAMPLES_PATH + MoviesBenchmark.PATH, 1000, 4);
 	}
 
 }

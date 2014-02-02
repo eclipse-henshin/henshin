@@ -9,9 +9,12 @@
  */
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
+import java.util.concurrent.ThreadFactory;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.PartitionedEGraph;
 
 /**
  * This constraint checks whether an node has a specific value.
@@ -20,14 +23,69 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
  */
 public class TypeConstraint implements UnaryConstraint {
 	
-	// Type to be matched:
-	public final EClass type;
-	
-	// Whether to use strict typing:
-	public final boolean strictTyping;
+	/**
+	 * Constants for no partition.
+	 */
+	public static final int NO_PARTITION = -1;
 	
 	/**
-	 * Default constructor.
+	 * Thread class for injecting partitioning information into
+	 * the type constraint checking.
+	 */
+	public static class PartitionThread extends Thread {
+		
+		/**
+		 * Factory for creating {@link PartitionThread}s.
+		 */
+		public static class Factory implements ThreadFactory {
+
+			/**
+			 * Static factory instance.
+			 */
+			public static final Factory INSTANCE = new Factory();
+
+			/*
+			 * (non-Javadoc)
+			 * @see java.util.concurrent.ThreadFactory#newThread(java.lang.Runnable)
+			 */
+			@Override
+			public Thread newThread(Runnable runnable) {
+				return new PartitionThread(runnable);
+			}
+		}
+		
+		/**
+		 * Partition to be used.
+		 */
+		public int partition = NO_PARTITION;
+		
+		/**
+		 * First domain slot of the match finding.
+		 */
+		public DomainSlot firstDomainSlot = null;
+		
+		/**
+		 * Constructor.
+		 * @param runnable Runnable.
+		 */
+		public PartitionThread(Runnable runnable) {
+			super(runnable);
+		}
+		
+	}
+	
+	/**
+	 * Type to be matched.
+	 */
+	public final EClass type;
+	
+	/**
+	 * Whether to use strict typing.
+	 */
+	public final boolean strictTyping;
+
+	/**
+	 * Constructor.
 	 * @param type Type to be matched.
 	 * @param strictTyping Whether to use strict typing.
 	 */
@@ -35,7 +93,7 @@ public class TypeConstraint implements UnaryConstraint {
 		this.type = type;
 		this.strictTyping = strictTyping;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint#check(org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot)
@@ -45,8 +103,13 @@ public class TypeConstraint implements UnaryConstraint {
 		return !slot.locked || isValid(slot.value);
 	}
 	
-	protected boolean isValid(EObject value) {
-		return strictTyping ? (type==value.eClass()) : type.isSuperTypeOf(value.eClass());
+	/**
+	 * Check whether the argument is a valid object according to this type constraint.
+	 * @param object Object to be checked.
+	 * @return <code>true</code> if it is valid.
+	 */
+	protected boolean isValid(EObject object) {
+		return strictTyping ? (type==object.eClass()) : type.isSuperTypeOf(object.eClass());
 	}
 	
 	/**
@@ -59,7 +122,12 @@ public class TypeConstraint implements UnaryConstraint {
 		
 		// Already initialized:
 		if (slot.domain==null) {
-			slot.domain = graph.getDomain(type, strictTyping);
+			int partition = getPartition(slot);
+			if (partition!=NO_PARTITION) {
+				slot.domain = ((PartitionedEGraph) graph).getDomain(type, strictTyping, partition);
+			} else {
+				slot.domain = graph.getDomain(type, strictTyping);
+			}
 			return !slot.domain.isEmpty();
 		}
 		
@@ -68,7 +136,7 @@ public class TypeConstraint implements UnaryConstraint {
 			return false;
 		} else {
 			int size = slot.domain.size();
-			for (int i = size-1; i>=0; i--) {
+			for (int i=size-1; i>=0; i--) {
 				EObject object = slot.domain.get(i);
 				if (object==null || !isValid(object)) {
 					slot.domain.remove(i);
@@ -77,18 +145,6 @@ public class TypeConstraint implements UnaryConstraint {
 			return !slot.domain.isEmpty();
 		}
 		
-		// List<EObject> graphDomain = graph.getDomainForType(type,
-		// strictTyping);
-		//
-		// // swap for retainAll efficiency
-		// //
-		// if (slot.domain.size() > graphDomain.size()) {
-		// List<EObject> slotDomain = slot.domain;
-		// slot.domain = graphDomain;
-		// graphDomain = slotDomain;
-		// }
-		// slot.domain.retainAll(graphDomain);
-		// return !slot.domain.isEmpty();
 	}
 	
 	/**
@@ -98,7 +154,34 @@ public class TypeConstraint implements UnaryConstraint {
 	 * @return <code>true</code> if an instantiation might be possible.
 	 */
 	public boolean instantiationPossible(DomainSlot slot, EGraph graph) {
-		return slot.locked ? isValid(slot.value) : graph.getDomainSize(type, strictTyping)>0;
+		if (slot.locked) {
+			return isValid(slot.value);
+		} else {
+			int partition = getPartition(slot);
+			if (partition != NO_PARTITION) {
+				return ((PartitionedEGraph) graph).getDomainSize(type, strictTyping, partition) > 0;
+			} else {
+				return graph.getDomainSize(type, strictTyping) > 0;
+			}
+		}
+	}
+	
+	/**
+	 * Get the partition to be used.
+	 * @param slot The current domain slot.
+	 * @return The partition.
+	 */
+	private int getPartition(DomainSlot slot) {
+		if (Thread.currentThread() instanceof PartitionThread) {
+			PartitionThread thread = (PartitionThread) Thread.currentThread();
+			if (thread.firstDomainSlot==null) {
+				throw new NullPointerException();
+			}
+			if (thread.firstDomainSlot==slot) {
+				return thread.partition;
+			}
+		}
+		return NO_PARTITION;
 	}
 	
 }

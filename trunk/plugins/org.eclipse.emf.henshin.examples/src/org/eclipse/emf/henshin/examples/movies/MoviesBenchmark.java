@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.PartitionedEGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Module;
@@ -36,8 +37,8 @@ public class MoviesBenchmark {
 	 * Relative path to the movie example files.
 	 */
 	public static final String PATH = "src/org/eclipse/emf/henshin/examples/movies";
-	
-	public static void runSyntheticDataTest(String modelPath, int factor) {
+
+	public static void runSyntheticDataTest(String modelPath, int factor, int numPartitions) {
 		
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(modelPath);
@@ -48,14 +49,14 @@ public class MoviesBenchmark {
 		Unit findCouplesUnit = module.getUnit("findCouples");
 
 		// Create an engine:
-		Engine engine = new EngineImpl();
+		Engine engine = createEngine(numPartitions);
 
 		System.out.println("Nodes\tCouples\tTime (ms)");
-		for (int i=1; i<=10; i++) {
-			int n = i * factor;
+		for (int i=1; i<=5; i++) {
+			int n = (i+5) * factor;
 
 			// Create an EGraph:
-			EGraph graph = new EGraphImpl();
+			EGraph graph = createEGraph(numPartitions, null);
 			
 			// Create test example:
 			UnitApplication createExample = new UnitApplicationImpl(engine, graph, createExampleUnit, null);
@@ -80,14 +81,22 @@ public class MoviesBenchmark {
 			System.out.println(inputSize + "\t" + n + "\t" + millis);
 			
 		}
-		
+
+		// Shutdown engine:
+		engine.shutdown();
+		engine = null;
+		System.gc();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {}
+
 	}
 
-	public static void runRealDataTest(String modelPath, String moviesPath, String fileExtension) {
+	public static void runRealDataTest(String modelPath, String moviesPath, String fileExtension, int numPartitions) {
 		
 		// Create an engine:
-		Engine engine = new EngineImpl();
-
+		Engine engine = createEngine(numPartitions);
+		
 		System.out.println("Nodes\tCouples\tTime (ms)");
 		
 		// Iterate over all movie files:
@@ -114,7 +123,7 @@ public class MoviesBenchmark {
 			Resource movies = resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
 			
 			// Create an EGraph:
-			EGraph graph = new EGraphImpl(movies);
+			EGraph graph = createEGraph(numPartitions, movies);
 			System.out.print(graph.size());
 			
 			// Find couples:
@@ -130,21 +139,46 @@ public class MoviesBenchmark {
 			
 		}
 		
+		// Shutdown engine:
+		engine.shutdown();
+		engine = null;
+		System.gc();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {}
+
 	}
+	
+	private static Engine createEngine(int numPartitions) {
+		Engine engine = new EngineImpl();
+		if (numPartitions > 1) {
+			engine.getOptions().put(Engine.OPTION_WORKER_THREADS, numPartitions);
+		}
+		return engine;
+	}
+	
+	private static EGraph createEGraph(int numPartitions, Resource resource) {
+		if (resource!=null) {
+			return (numPartitions > 1) ? new PartitionedEGraphImpl(resource, numPartitions) : new EGraphImpl(resource);			
+		}
+		return (numPartitions > 1) ? new PartitionedEGraphImpl(numPartitions) : new EGraphImpl();
+	}
+	
 
 	public static void main(String[] args) {
 		
 		// We assume the working directory is the root of the examples plug-in.
 		
-		System.out.println("\n*** SYNTHETIC DATA TEST -- WARMUP PHASE ***\n");
-		runSyntheticDataTest(PATH, 10000); 
-
-		System.out.println("\n*** SYNTHETIC DATA TEST -- BENCHMARK ***\n");
-		runSyntheticDataTest(PATH, 10000);
+		for (int p=4; p>=0; p=p-2) {
+			System.out.println("\n*** SYNTHETIC DATA BENCHMARK WITH " + p + " PARTITIONS ***\n");
+			runSyntheticDataTest(PATH, 20000, p);
+		}
 		
-//		System.out.println("\n*** REAL DATA TEST -- BENCHMARK ***\n");
-//		runRealDataTest(PATH, System.getProperty("user.home") + File.separator + "Downloads", "movies");
-
+		for (int p=12; p>=0; p=p-2) {
+			System.out.println("\n*** REAL DATA BENCHMARK WITH " + p + " PARTITIONS ***\n");
+			runRealDataTest(PATH, System.getProperty("user.home") + File.separator + "movies", "movies", p);
+		}
+		
 	}
 	
 }

@@ -43,6 +43,11 @@ public interface Engine {
 	String OPTION_SORT_VARIABLES = "SORT_VARIABLES";
 
 	/**
+	 * Option for setting the number of worker threads to be used.
+	 */
+	String OPTION_WORKER_THREADS = "WORKER_THREADS";
+
+	/**
 	 * Find matches for a {@link Rule} in an {@link EGraph}.
 	 * @param rule Rule to be matched.
 	 * @param graph Graph where the match should be found.
@@ -72,5 +77,10 @@ public interface Engine {
 	 * @return Options map.
 	 */
 	Map<String,Object> getOptions();
+	
+	/**
+	 * Shutdown this engine.
+	 */
+	void shutdown();
 	
 }
