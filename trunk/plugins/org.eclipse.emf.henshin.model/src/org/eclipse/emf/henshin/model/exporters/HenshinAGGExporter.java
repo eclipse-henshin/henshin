@@ -178,6 +178,20 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 						nodeElem.setAttribute("type", nodeTypeIDs.get(eclass));
 						nodeIDs.put(eclass, nodeElem.getAttribute("ID"));
 						
+						// Inheritance:
+						if(eclass.getESuperTypes().size()==1){
+							// handle the case of one super type
+							EClass parentEClass=eclass.getESuperTypes().get(0);
+							Element parentElem = newElement("Parent", nodeTypeElem, false);
+							String parentNodeTypeID = nodeTypeIDs.get(parentEClass);
+							parentElem.setAttribute("pID", parentNodeTypeID);
+							// parent element XML node does not have an own ID in AGG
+						}
+						else if (eclass.getESuperTypes().size()>1){
+							warnings.add(" - multiple inheritance for " + eclass.getName() +  
+									" not supported");							
+						}
+						
 						// Attributes:
 						for (EAttribute attribute : eclass.getEAttributes()) {
 							if (isSupportedPrimitiveType(attribute.getEType())) {
