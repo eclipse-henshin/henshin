@@ -169,10 +169,10 @@ public class MoviesBenchmark {
 		
 		// We assume the working directory is the root of the examples plug-in.
 		
-		for (int p=4; p>=0; p=p-2) {
-			System.out.println("\n*** SYNTHETIC DATA BENCHMARK WITH " + p + " PARTITIONS ***\n");
-			runSyntheticDataTest(PATH, 20000, p);
-		}
+//		for (int p=4; p>=0; p=p-2) {
+//			System.out.println("\n*** SYNTHETIC DATA BENCHMARK WITH " + p + " PARTITIONS ***\n");
+//			runSyntheticDataTest(PATH, 20000, p);
+//		}
 		
 		for (int p=12; p>=0; p=p-2) {
 			System.out.println("\n*** REAL DATA BENCHMARK WITH " + p + " PARTITIONS ***\n");

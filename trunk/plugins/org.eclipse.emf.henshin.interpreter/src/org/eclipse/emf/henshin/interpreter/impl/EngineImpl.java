@@ -82,6 +82,7 @@ import org.eclipse.emf.henshin.model.Or;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Xor;
+import org.eclipse.emf.henshin.model.staticanalysis.PathFinder;
 
 /**
  * Default {@link Engine} implementation.
@@ -522,6 +523,12 @@ public class EngineImpl implements Engine {
 			}
 			else if (formula instanceof NestedCondition) {
 				NestedCondition nc = (NestedCondition) formula;
+				if (nc.isTrue() || PathFinder.pacConsistsOnlyOfPaths(nc)) { // check if we really need nested condition
+					return IFormula.TRUE;
+				}
+				if (nc.isFalse()) {
+					return IFormula.FALSE;
+				}
 				return initApplicationCondition(nc, graph, graphMap, domainMap);
 			}
 			return IFormula.TRUE;

@@ -1,9 +1,11 @@
 package org.eclipse.emf.henshin.model.staticanalysis;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Edge;
@@ -96,6 +98,71 @@ public class PathFinder {
 			}
 		}
 		return paths;
+	}
+	
+	public static List<Path> findAllPaths(Graph graph, boolean withPACs) {
+		List<Path> paths = new ArrayList<Path>();
+		for (int i=0; i<graph.getNodes().size(); i++) {
+			for (int j=0; i<graph.getNodes().size(); i++) {
+				paths.addAll(findEdgePaths(graph.getNodes().get(i), graph.getNodes().get(j), true, withPACs));
+			}
+		}
+		return paths;
+	}
+	
+	public static boolean pacConsistsOnlyOfPaths(NestedCondition pac) {
+		if (!pac.isPAC()) {
+			return false;
+		}
+		
+		// Collect reached edges and nodes:
+		Set<Node> reachedPACNodes = new HashSet<Node>();
+		Set<Edge> reachedPACEdges = new HashSet<Edge>();
+		for (Path path : findAllPaths(pac.getHost(), true)) {
+			for (Node node : path.nodes) {
+				if (node.getGraph()==pac.getConclusion()) {
+					reachedPACNodes.add(node);
+				} else {
+					Node image = pac.getMappings().getImage(node, pac.getConclusion());
+					if (image!=null) reachedPACNodes.add(image);
+				}
+			}
+			for (Edge edge : path.edges) {
+				if (edge.getGraph()==pac.getConclusion()) {
+					reachedPACEdges.add(edge);
+				} else {
+					Edge image = pac.getMappings().getImage(edge, pac.getConclusion());
+					if (image!=null) reachedPACEdges.add(image);
+				}
+			}
+		}
+		
+		// Check if any of the PAC nodes or edges is missing:
+		if (!reachedPACNodes.containsAll(pac.getConclusion().getNodes())) {
+			return false;
+		}
+		if (!reachedPACEdges.containsAll(pac.getConclusion().getEdges())) {
+			return false;
+		}
+		
+		// Check if any node has an attribute:
+		for (Node node : reachedPACNodes) {
+			if (!node.getAttributes().isEmpty()) {
+				return false;
+			}
+		}
+		
+		// Check if any of the node types does not match the LHS node type:
+		for (Node node : reachedPACNodes) {
+			Node origin = pac.getMappings().getOrigin(node);
+			if (origin!=null && origin.getType()!=node.getType()) {
+				return false;
+			}
+		}
+		
+		// Ok.
+		return true;
+		
 	}
 	
 }
