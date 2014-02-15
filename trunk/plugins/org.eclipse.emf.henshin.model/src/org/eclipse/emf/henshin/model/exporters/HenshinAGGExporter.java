@@ -11,10 +11,13 @@ package org.eclipse.emf.henshin.model.exporters;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,11 +48,11 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -161,50 +164,58 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			typeGraphElem.setAttribute("name", "TypeGraph");
 			typesElem.removeChild(typeGraphElem);
 			
-			// Nodes and attribute types:
+			// Collect list of EClasses:
+			List<EClass> eclasses = new ArrayList<EClass>();
 			for (EPackage epackage : module.getImports()) {
 				for (EClassifier eclassifier : epackage.getEClassifiers()) {
 					if (eclassifier instanceof EClass) {
-						EClass eclass = (EClass) eclassifier;
-						
-						// Node type:
-						Element nodeTypeElem = newElement("NodeType", typesElem, true);
-						nodeTypeElem.setAttribute("abstract", String.valueOf(eclass.isAbstract()));
-						nodeTypeElem.setAttribute("name", eclass.getName() + "%:RECT:" + newColor() + ":[NODE]:");
-						nodeTypeIDs.put(eclass, nodeTypeElem.getAttribute("ID"));
-						
-						// Node in type graph:
-						Element nodeElem = newElement("Node", typeGraphElem, true);
-						nodeElem.setAttribute("type", nodeTypeIDs.get(eclass));
-						nodeIDs.put(eclass, nodeElem.getAttribute("ID"));
-						
-						// Inheritance:
-						if(eclass.getESuperTypes().size()==1){
-							// handle the case of one super type
-							EClass parentEClass=eclass.getESuperTypes().get(0);
-							Element parentElem = newElement("Parent", nodeTypeElem, false);
-							String parentNodeTypeID = nodeTypeIDs.get(parentEClass);
-							parentElem.setAttribute("pID", parentNodeTypeID);
-							// parent element XML node does not have an own ID in AGG
-						}
-						else if (eclass.getESuperTypes().size()>1){
-							warnings.add(" - multiple inheritance for " + eclass.getName() +  
-									" not supported");							
-						}
-						
-						// Attributes:
-						for (EAttribute attribute : eclass.getEAttributes()) {
-							if (isSupportedPrimitiveType(attribute.getEType())) {
-								Element attrElem = newElement("AttrType", nodeTypeElem, true);
-								attrElem.setAttribute("attrname", attribute.getName());
-								attrElem.setAttribute("typename", getPrimitiveType(attribute.getEType()));
-								attrElem.setAttribute("visible", "true");
-								attrTypeIDs.put(attribute, attrElem.getAttribute("ID"));
-							} else {
-								warnings.add(" - Attribute " + eclass.getName() + "." + attribute.getName() + 
-										" of type " + attribute.getEAttributeType().getName() + " not supported");
-							}
-						}
+						eclasses.add((EClass) eclassifier);
+					}
+				}
+			}
+			
+			// Sort EClasses using Topological Sort.
+			eclasses = sortEClasses(eclasses);
+
+			// Nodes and attribute types:
+			for (EClass eclass : eclasses) {
+
+				// Node type:
+				Element nodeTypeElem = newElement("NodeType", typesElem, true);
+				nodeTypeElem.setAttribute("abstract", String.valueOf(eclass.isAbstract()));
+				nodeTypeElem.setAttribute("name", eclass.getName() + "%:RECT:" + newColor() + ":[NODE]:");
+				nodeTypeIDs.put(eclass, nodeTypeElem.getAttribute("ID"));
+
+				// Node in type graph:
+				Element nodeElem = newElement("Node", typeGraphElem, true);
+				nodeElem.setAttribute("type", nodeTypeIDs.get(eclass));
+				nodeIDs.put(eclass, nodeElem.getAttribute("ID"));
+
+				// Inheritance:
+				if(eclass.getESuperTypes().size()==1){
+					// handle the case of one super type
+					EClass parentEClass=eclass.getESuperTypes().get(0);
+					Element parentElem = newElement("Parent", nodeTypeElem, false);
+					String parentNodeTypeID = nodeTypeIDs.get(parentEClass);
+					parentElem.setAttribute("pID", parentNodeTypeID);
+					// parent element XML node does not have an own ID in AGG
+				}
+				else if (eclass.getESuperTypes().size()>1){
+					warnings.add(" - multiple inheritance for " + eclass.getName() +  
+							" not supported");							
+				}
+
+				// Attributes:
+				for (EAttribute attribute : eclass.getEAttributes()) {
+					if (isSupportedPrimitiveType(attribute.getEType())) {
+						Element attrElem = newElement("AttrType", nodeTypeElem, true);
+						attrElem.setAttribute("attrname", attribute.getName());
+						attrElem.setAttribute("typename", getPrimitiveType(attribute.getEType()));
+						attrElem.setAttribute("visible", "true");
+						attrTypeIDs.put(attribute, attrElem.getAttribute("ID"));
+					} else {
+						warnings.add(" - Attribute " + eclass.getName() + "." + attribute.getName() + 
+								" of type " + attribute.getEAttributeType().getName() + " not supported");
 					}
 				}
 			}
@@ -213,32 +224,27 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			boolean hasUniqureRefNames = hasUniqueEReferenceNames(module);
 			
 			// Edge types:
-			for (EPackage epackage : module.getImports()) {
-				for (EClassifier eclassifier : epackage.getEClassifiers()) {
-					if (eclassifier instanceof EClass) {
-						EClass eclass = (EClass) eclassifier;
+			for (EClass eclass : eclasses) {
 						
-						// Edges:
-						for (EReference reference : eclass.getEReferences()) {
-							
-							// Edge type:
-							Element edgeTypeElem = newElement("EdgeType", typesElem, true);
-							edgeTypeElem.setAttribute("abstract", "false");
-							String refName = hasUniqureRefNames ? reference.getName() : getUniqueReferenceName(reference);
-							edgeTypeElem.setAttribute("name", refName + "%:SOLID_LINE:java.awt.Color[r=0,g=0,b=0]:[EDGE]:");
-							edgeTypeIDs.put(reference, edgeTypeElem.getAttribute("ID"));
-							
-							// Edge in type graph:
-							Element edgeElem = newElement("Edge", typeGraphElem, true);
-							edgeElem.setAttribute("type", edgeTypeIDs.get(reference));
-							edgeElem.setAttribute("source", nodeIDs.get(eclass));
-							edgeElem.setAttribute("target", nodeIDs.get(reference.getEReferenceType()));
-							edgeElem.setAttribute("sourcemin", "0");
-							edgeElem.setAttribute("targetmin", reference.getLowerBound()+"");
-							if (reference.getUpperBound()>=0) {
-								edgeElem.setAttribute("targetmax", reference.getUpperBound()+"");
-							}
-						}
+				// Edges:
+				for (EReference reference : eclass.getEReferences()) {
+
+					// Edge type:
+					Element edgeTypeElem = newElement("EdgeType", typesElem, true);
+					edgeTypeElem.setAttribute("abstract", "false");
+					String refName = hasUniqureRefNames ? reference.getName() : getUniqueReferenceName(reference);
+					edgeTypeElem.setAttribute("name", refName + "%:SOLID_LINE:java.awt.Color[r=0,g=0,b=0]:[EDGE]:");
+					edgeTypeIDs.put(reference, edgeTypeElem.getAttribute("ID"));
+
+					// Edge in type graph:
+					Element edgeElem = newElement("Edge", typeGraphElem, true);
+					edgeElem.setAttribute("type", edgeTypeIDs.get(reference));
+					edgeElem.setAttribute("source", nodeIDs.get(eclass));
+					edgeElem.setAttribute("target", nodeIDs.get(reference.getEReferenceType()));
+					edgeElem.setAttribute("sourcemin", "0");
+					edgeElem.setAttribute("targetmin", reference.getLowerBound()+"");
+					if (reference.getUpperBound()>=0) {
+						edgeElem.setAttribute("targetmax", reference.getUpperBound()+"");
 					}
 				}
 			}
@@ -327,6 +333,53 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 		}
 		reset();
 		return Status.OK_STATUS;
+	}
+
+	/*
+	 * Topological sorting of EClasses. In the sorted list superclasses
+	 * precede subclasses. Only single-inheritance is supported.
+	 */
+	private static List<EClass> sortEClasses(List<EClass> eclasses) {
+				
+		// Parent->Children map:
+		Map<EClass,List<EClass>> childrenMap = new LinkedHashMap<EClass,List<EClass>>();
+		
+		// Root classes:
+		List<EClass> roots = new ArrayList<EClass>();
+		
+		// Initialize helper structures:
+		for (EClass eclass : eclasses) {
+			if (eclass.getESuperTypes().size()==1) {
+				EClass parent = eclass.getESuperTypes().get(0);
+				List<EClass> children = childrenMap.get(parent);
+				if (children==null) {
+					children = new ArrayList<EClass>();
+					childrenMap.put(parent, children);
+				}
+				children.add(eclass);
+			} else {
+				roots.add(eclass);
+			}
+		}
+		
+		// Construct sorted list by traversing starting from the roots:
+		List<EClass> sorted = new ArrayList<EClass>();
+		for (EClass root : roots) {
+			Deque<EClass> stack = new ArrayDeque<EClass>();
+			stack.push(root);
+			while (!stack.isEmpty()) {
+				EClass eclass = stack.pop();
+				sorted.add(eclass);
+				List<EClass> children = childrenMap.get(eclass);
+				if (children!=null) {
+					for (EClass child : children) {
+						stack.push(child);
+					}
+				}
+			}
+		}
+		return sorted;
+
 	}
 
 	/*
