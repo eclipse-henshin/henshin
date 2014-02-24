@@ -141,12 +141,26 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		availableUnits = new ArrayList<Unit>();
 		availableUnits.addAll(module.getUnits());
 		
-		ArrayList<String> unitLabels = new ArrayList<String>();
+		ArrayList<String> selectableUnitLabels = new ArrayList<String>();
+		ArrayList<String> outerUnitLabels = new ArrayList<String>();
+		
 		int initIdx = -1;
 		int idx = 0;
 		Unit selectedUnit = initialUnit;
 		for (Unit unit : availableUnits) {
-			unitLabels.add(getUnitLabel(unit));
+			String unitLabel = getUnitLabel(unit);
+			selectableUnitLabels.add(unitLabel);
+			Boolean isOuterUnit = true;
+			for(Unit outerUnit : availableUnits) {
+				if(outerUnit.getSubUnits(true).contains(unit)) {
+					isOuterUnit = false;
+					break;
+				}
+			}
+			if(isOuterUnit) {
+				outerUnitLabels.add(unitLabel);
+			}
+
 			if (initialUnit != null) {
 				if (initialUnit == unit) {
 					initIdx = idx;
@@ -165,7 +179,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 			initIdx = 0;
 			selectedUnit = availableUnits.get(0);
 		}
-		unitSelector.setSelectableUnits(unitLabels.toArray(new String[0]));
+		unitSelector.setSelectableUnits(selectableUnitLabels.toArray(new String[0]), outerUnitLabels.toArray(new String[0]));
 		unitSelector.setSelection(initIdx);
 		
 		// Enable selector if no unit was given in the constructor:

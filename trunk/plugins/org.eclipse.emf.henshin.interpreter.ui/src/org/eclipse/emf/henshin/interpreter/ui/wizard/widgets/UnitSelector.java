@@ -11,10 +11,8 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard.widgets;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
-import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -25,6 +23,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Button;
 
 /**
  * @author Gregor Bonifer, Stefan Jurack, Christian Krause
@@ -39,7 +38,14 @@ public class UnitSelector {
 	
 	protected Combo unitSelector;
 	
-	protected List<Unit> units;
+	protected Button unitFilter;
+	
+	//Save the outerunits in a separate list so you don't have to check every time you filter
+	protected String[] selectableUnits;
+	protected String[] outerUnits;
+	
+	//TODO This variable is always NULL. What is it supposed to do?
+	//protected List<Unit> units;
 	
 	public UnitSelector(Composite parent) {
 		container = new Group(parent, SWT.NONE);
@@ -51,7 +57,6 @@ public class UnitSelector {
 			data.top = new FormAttachment(0, CONTROL_OFFSET);
 			data.left = new FormAttachment(0, CONTROL_OFFSET);
 			data.right = new FormAttachment(100, -CONTROL_OFFSET);
-			data.bottom = new FormAttachment(100, -CONTROL_OFFSET);
 			unitSelector.setLayoutData(data);
 		}
 		
@@ -64,6 +69,24 @@ public class UnitSelector {
 			}
 		});
 		
+		unitFilter = new Button(container, SWT.CHECK);
+		unitFilter.setAlignment(SWT.CENTER);
+		unitFilter.setText(HenshinInterpreterUIPlugin.LL("_UI_ShowInnerUnits"));
+		{
+			FormData data = new FormData();
+			data.top = new FormAttachment(unitSelector, CONTROL_OFFSET);
+			data.right = new FormAttachment(100, -CONTROL_OFFSET);
+			unitFilter.setLayoutData(data);
+		}
+		
+		unitFilter.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateSelection(unitFilter.getSelection());
+			}
+		});
+		
+		unitFilter.setSelection(false);
 	}
 	
 	public Control getControl() {
@@ -74,8 +97,19 @@ public class UnitSelector {
 		unitSelector.select(idx);
 	}
 	
-	public void setSelectableUnits(String[] units) {
-		unitSelector.setItems(units);
+	public void setSelectableUnits(String[] selectableUnits, String[] outerUnits) {
+		this.selectableUnits = selectableUnits;
+		this.outerUnits = outerUnits;
+		updateSelection(false);
+	}
+	
+	private void updateSelection(Boolean showInnerUnits) {
+		unitSelector.removeAll();
+		String[] selectionArray = showInnerUnits ? selectableUnits : outerUnits;
+		for(String unit : selectionArray)
+			unitSelector.add(unit);
+		if(unitSelector.getItemCount() > 0)
+			unitSelector.setText(unitSelector.getItem(0));
 	}
 	
 	public void addUnitSelectionListener(UnitSelectionListener listener) {
