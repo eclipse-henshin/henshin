@@ -214,8 +214,13 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 						attrElem.setAttribute("visible", "true");
 						attrTypeIDs.put(attribute, attrElem.getAttribute("ID"));
 					} else {
-						warnings.add(" - Attribute " + eclass.getName() + "." + attribute.getName() + 
-								" of type " + attribute.getEAttributeType().getName() + " not supported");
+						String attributesTypeName = "???";
+						if(attribute.getEAttributeType() != null){
+							attributesTypeName = attribute.getEAttributeType().getName();
+						}
+						String message = " - Attribute " + eclass.getName() + "." + attribute.getName() + 
+										" of type " + attributesTypeName + " not supported";
+						warnings.add(message);
 					}
 				}
 			}
@@ -241,7 +246,12 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 					edgeElem.setAttribute("type", edgeTypeIDs.get(reference));
 					edgeElem.setAttribute("source", nodeIDs.get(eclass));
 					edgeElem.setAttribute("target", nodeIDs.get(reference.getEReferenceType()));
-					edgeElem.setAttribute("sourcemin", "0");
+					if(reference.isContainment()){
+						edgeElem.setAttribute("sourcemax", "1");
+						edgeElem.setAttribute("sourcemin", "1");
+					} else {
+						edgeElem.setAttribute("sourcemin", "0");
+					}
 					edgeElem.setAttribute("targetmin", reference.getLowerBound()+"");
 					if (reference.getUpperBound()>=0) {
 						edgeElem.setAttribute("targetmax", reference.getUpperBound()+"");
