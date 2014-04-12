@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.jit;
+package org.eclipse.emf.henshin.interpreter.matching.jit;
 
 import java.util.Map;
 
