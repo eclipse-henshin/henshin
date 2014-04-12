@@ -192,6 +192,17 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 
 	/**
+	 * Create a resource for a given path.
+	 * @see #getResource(String)
+	 * @see #createResource(URI)
+	 * @param path Possible relative model path.
+	 * @return The created resource.
+	 */
+	public Resource createResource(String path) {
+		return createResource(URI.createFileURI(path));
+	}
+	
+	/**
 	 * Load a resource for the given file name and get the first
 	 * {@link EObject} contained in it. If the path is relative, 
 	 * it will be resolved using the base directory of this resource set.
