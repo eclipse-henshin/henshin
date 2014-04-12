@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.interpreter.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 
 /**
  * Default {@link EGraph} implementation. Based on linked hash sets.
@@ -111,11 +113,14 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	 * @param collection Collection of objects to be added.
 	 */
 	protected void initializeContents(Collection<? extends EObject> collection) {
+		// First add the collection as a normal tree:
 		for (EObject object : collection) {
-			if (!contains(object)) { // omit computing the transitive closure if possible
-				addGraph(object);
+			if (!contains(object)) { // omit tree traversal if possible
+				addTree(object);
 			}
 		}
+		// And now again as a graph:
+		addGraph(collection);
 	}
 
 	/*
@@ -198,7 +203,7 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	public boolean addGraph(EObject object) {
 		return addAll(computeTransitiveClosure(object));
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.EGraph#removeGraph(org.eclipse.emf.ecore.EObject)
@@ -206,6 +211,20 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	@Override
 	public boolean removeGraph(EObject object) {
 		return removeAll(computeTransitiveClosure(object));
+	}
+
+	/*
+	 * Add a graph. Internal helper.
+	 */
+	private void addGraph(Collection<? extends EObject> collection) {
+		Set<EObject> visited = new HashSet<EObject>();
+		for (EObject object : collection) {
+			if (!visited.contains(object)) { // omit computing the transitive closure if possible
+				Set<EObject> closure = computeTransitiveClosure(object);
+				addAll(closure);
+				visited.addAll(closure);
+			}
+		}
 	}
 
 	/**
@@ -425,4 +444,14 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 		return new ArrayList<EObject>(roots);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.AbstractCollection#toString()
+	 */
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()) + 
+				" (nodes: " + size() + ", edges: " + InterpreterUtil.countEdges(this)+")";
+	}
+	
 }
