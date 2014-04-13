@@ -91,15 +91,26 @@ public class DomainSlot {
 	 */
 	final Set<EObject> usedObjects;
 
-	// Flag indicating whether the injective matching should be used:
+	/**
+	 * Flag indicating whether the injective matching should be used.
+	 */
 	final boolean injective;
 
-	// Flag indicating whether the the matcher should check for dangling edges:
+	/**
+	 * Flag indicating whether the the matcher should check for dangling edges.
+	 */
 	final boolean dangling;
 
-	// Flag indicating whether the matching should be deterministic:
+	/**
+	 * Flag indicating whether the matching should be deterministic.
+	 */
 	final boolean deterministic;
 
+	/**
+	 * Flag indicating whether to use inverse matching order.
+	 */
+	final boolean inverseMatchingOrder;
+	
 	/**
 	 * Constructor.
 	 * @param conditionHandler Condition handler to be used.
@@ -107,7 +118,7 @@ public class DomainSlot {
 	 * @param options Options.
 	 */
 	public DomainSlot(ConditionHandler conditionHandler, Set<EObject> usedObjects,
-			boolean injective, boolean dangling, boolean deterministic) {
+			boolean injective, boolean dangling, boolean deterministic, boolean inverseMatchingOrder) {
 		
 		this.locked = false;
 		this.initialized = false;
@@ -119,6 +130,8 @@ public class DomainSlot {
 		this.injective= injective;
 		this.dangling = dangling;
 		this.deterministic = deterministic;
+		this.inverseMatchingOrder = inverseMatchingOrder;
+		
 	}
 	
 	/**
@@ -162,7 +175,11 @@ public class DomainSlot {
 			if (domain.isEmpty()) {
 				return false;
 			}
-			value = domain.remove(domain.size() - 1);
+			if (inverseMatchingOrder) {
+				value = domain.remove(domain.size() - 1);
+			} else {
+				value = domain.remove(0);
+			}
 			usedObjects.add(value);
 			locked = true;
 		}

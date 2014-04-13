@@ -140,7 +140,8 @@ public class EGraphIsomorphyChecker {
 		
 		// Create the domain slots:
 		for (Map.Entry<EObject, Variable> entry : variablesMap.entrySet()) {
-			DomainSlot domainSlot = new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, new HashSet<EObject>(), true, false, true);
+			DomainSlot domainSlot = new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, 
+					new HashSet<EObject>(), true, false, true, true);
 			if (partialMatch!=null) {
 				EObject match = partialMatch.get(entry.getKey());
 				if (match!=null) {

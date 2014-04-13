@@ -43,6 +43,11 @@ public interface Engine {
 	String OPTION_SORT_VARIABLES = "SORT_VARIABLES";
 
 	/**
+	 * Option for enabling / disabling inverse matching order. 
+	 */
+	String OPTION_INVERSE_MATCHING_ORDER = "INVERSE_MATCHING_ORDER";
+
+	/**
 	 * Option for setting the number of worker threads to be used.
 	 */
 	String OPTION_WORKER_THREADS = "WORKER_THREADS";

@@ -92,6 +92,16 @@ import org.eclipse.emf.henshin.model.staticanalysis.PathFinder;
 public class EngineImpl implements Engine {
 
 	/**
+	 * Default value for option {@link Engine#OPTION_SORT_VARIABLES}.
+	 */
+	private static final boolean DEFAULT_SORT_VARIABLES = true;
+
+	/**
+	 * Default value for option {@link Engine#OPTION_INVERSE_MATCHING_ORDER}.
+	 */
+	private static final boolean DEFAULT_INVERSE_MATCHING_ORDER = true;
+
+	/**
 	 * Options to be used.
 	 */
 	protected final Map<String,Object> options;
@@ -122,6 +132,11 @@ public class EngineImpl implements Engine {
 	protected boolean sortVariables;
 	
 	/**
+	 * Whether to use inverse matching order.
+	 */
+	protected boolean inverseMatchingOrder;
+	
+	/**
 	 * Worker thread pool.
 	 */
 	protected ExecutorService workerPool;
@@ -135,7 +150,8 @@ public class EngineImpl implements Engine {
 		ruleInfos = new HashMap<Rule, RuleInfo>();
 		graphOptions = new HashMap<Graph,MatchingOptions>();
 		options = new EngineOptions();
-		sortVariables = true;
+		sortVariables = DEFAULT_SORT_VARIABLES;
+		inverseMatchingOrder = DEFAULT_INVERSE_MATCHING_ORDER;
 		
 		// Initialize the script engine:
 		scriptEngine = new ScriptEngineManager().getEngineByName("JavaScript");
@@ -454,7 +470,9 @@ public class EngineImpl implements Engine {
 			for (Variable mainVariable : varInfo.getMainVariables()) {
 				Node node = varInfo.getVariableForNode(mainVariable);
 				MatchingOptions opt = getGraphOptions(node.getGraph());
-				DomainSlot domainSlot = new DomainSlot(conditionHandler, usedObjects, opt.injective, opt.dangling, opt.deterministic);
+				DomainSlot domainSlot = new DomainSlot(conditionHandler, 
+						usedObjects, opt.injective, opt.dangling, opt.deterministic, 
+						inverseMatchingOrder);
 
 				// Fix this slot?
 				EObject target = partialMatch.getNodeTarget(node);
@@ -613,6 +631,11 @@ public class EngineImpl implements Engine {
 		private final Match partialMatch;
 
 		/**
+		 * Default sign to be used.
+		 */
+		private final int sign;
+		
+		/**
 		 * Constructor.
 		 * @param graph Target graph
 		 * @param varInfo Variable info.
@@ -622,6 +645,7 @@ public class EngineImpl implements Engine {
 			this.graph = graph;
 			this.varInfo = varInfo;
 			this.partialMatch = partialMatch;
+			this.sign = inverseMatchingOrder ? 1 : -1;
 		}
 
 		/*
@@ -633,29 +657,29 @@ public class EngineImpl implements Engine {
 
 			// Get the corresponding nodes:
 			Node n1 = varInfo.getVariableForNode(v1);
-			if (n1==null) return 1;
+			if (n1==null) return sign;
 			Node n2 = varInfo.getVariableForNode(v2);
-			if (n2==null) return -1;
+			if (n2==null) return -sign;
 
 			// One of the nodes already matched or an attribute given as a parameter?
 			if (partialMatch!=null) {
-				if (isNodeObjectMatched(n1)) return -1;
-				if (isNodeObjectMatched(n2)) return 1;
-				if (isNodeAttributeMatched(n1)) return -1;
-				if (isNodeAttributeMatched(n2)) return 1;
+				if (isNodeObjectMatched(n1)) return -sign;
+				if (isNodeObjectMatched(n2)) return sign;
+				if (isNodeAttributeMatched(n1)) return -sign;
+				if (isNodeAttributeMatched(n2)) return sign;
 			}
 
 			// Get the domain sizes (smaller number wins):
 			int s = (graph.getDomainSize(v1.typeConstraint.type, v1.typeConstraint.strictTyping) - 
 					graph.getDomainSize(v2.typeConstraint.type, v2.typeConstraint.strictTyping));
-			if (s!=0) return s;
+			if (s!=0) return (sign * s);
 
 			// Attribute count (larger number wins):
 			int a = (n2.getAttributes().size() - n1.getAttributes().size());
-			if (a!=0) return a;
+			if (a!=0) return (sign * a);
 
 			// Outgoing edge count (larger number wins):
-			return n2.getOutgoing().size() - n1.getOutgoing().size();
+			return (sign * (n2.getOutgoing().size() - n1.getOutgoing().size()));
 
 		}
 
@@ -1060,10 +1084,14 @@ public class EngineImpl implements Engine {
 		 */
 		private void updateCachedOptions() {
 			
-			// Update sort-variables flag:
+			// Update sort variables flag:
 			Boolean sort = (Boolean) get(OPTION_SORT_VARIABLES);
-			sortVariables = (sort!=null) ? sort.booleanValue() : true;
-			
+			sortVariables = (sort!=null) ? sort.booleanValue() : DEFAULT_SORT_VARIABLES;
+
+			// Update inverse matching order flag:
+			Boolean inverse = (Boolean) get(OPTION_INVERSE_MATCHING_ORDER);
+			inverseMatchingOrder = (inverse!=null) ? inverse.booleanValue() : DEFAULT_INVERSE_MATCHING_ORDER;
+
 			// Update worker thread pool:
 			Number workerThreads = (Number) get(OPTION_WORKER_THREADS);
 			if (workerPool!=null) {
