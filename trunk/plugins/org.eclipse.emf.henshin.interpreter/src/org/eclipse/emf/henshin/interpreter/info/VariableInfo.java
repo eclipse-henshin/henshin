@@ -196,13 +196,15 @@ public class VariableInfo {
 		}
 		
 		// Path constraints:
-		for (Node target : node.getGraph().getNodes()) {
-			if (node==target) continue;
-			for (Entry<List<EReference>,Integer> entry : PathFinder.findReferencePaths(node, target, true, true).entrySet()) {
-				if (entry.getKey().size() > 1) { // only paths of length > 1
-					Variable targetVar = node2variable.get(target);
-					PathConstraint constraint = new PathConstraint(targetVar, entry.getKey(), entry.getValue());
-					var.pathConstraints.add(constraint);
+		if (!rule.getLhs().getPACs().isEmpty()) {
+			for (Node target : node.getGraph().getNodes()) {
+				if (node==target) continue;
+				for (Entry<List<EReference>,Integer> entry : PathFinder.findReferencePaths(node, target, true, true).entrySet()) {
+					if (entry.getKey().size() > 1) { // only paths of length > 1
+						Variable targetVar = node2variable.get(target);
+						PathConstraint constraint = new PathConstraint(targetVar, entry.getKey(), entry.getValue());
+						var.pathConstraints.add(constraint);
+					}
 				}
 			}
 		}
