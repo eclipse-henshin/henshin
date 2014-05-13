@@ -663,10 +663,10 @@ public class EngineImpl implements Engine {
 
 			// One of the nodes already matched or an attribute given as a parameter?
 			if (partialMatch!=null) {
-				if (isNodeObjectMatched(n1)) return -sign;
-				if (isNodeObjectMatched(n2)) return sign;
-				if (isNodeAttributeMatched(n1)) return -sign;
-				if (isNodeAttributeMatched(n2)) return sign;
+				if (isNodeObjectMatched(n1) && !isNodeObjectMatched(n2)) return -sign;
+				if (isNodeObjectMatched(n2) && !isNodeObjectMatched(n1)) return sign;
+				if (isNodeAttributeMatched(n1) && !isNodeAttributeMatched(n2)) return -sign;
+				if (isNodeAttributeMatched(n2) && !isNodeAttributeMatched(n1)) return sign;
 			}
 
 			// Get the domain sizes (smaller number wins):

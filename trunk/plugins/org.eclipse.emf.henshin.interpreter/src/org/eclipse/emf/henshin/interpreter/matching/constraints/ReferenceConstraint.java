@@ -9,10 +9,16 @@
  */
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.BasicEMap.Entry;
+import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
@@ -76,6 +82,38 @@ public class ReferenceConstraint implements BinaryConstraint {
 		List<EObject> targetObjects;
 		if (reference.isMany()) {
 			targetObjects = (List<EObject>) source.value.eGet(reference);
+			
+			// it is a map, so lets try if we have a key to use
+			if (targetObjects instanceof EMap && targetVariable.typeConstraint != null && targetVariable.typeConstraint.type!= null) 
+			{
+				@SuppressWarnings("rawtypes")
+				EMap map = (EMap) targetObjects;
+				
+				EAttribute keyAttribute = (EAttribute) targetVariable.typeConstraint.type.getEStructuralFeature("key");
+
+				for (AttributeConstraint attributeConstraint : targetVariable.attributeConstraints) {
+					if (keyAttribute == attributeConstraint.attribute)
+					{
+						Object to = null;
+						try{
+							if (attributeConstraint.isConstantValue)
+							{
+								to = getEntryFromMap(map,  attributeConstraint.value);
+							} else {
+								String paramName = (String) attributeConstraint.value;
+								if (source.conditionHandler.isSet(paramName)) {
+									Object paramValue = source.conditionHandler.getParameter(paramName);
+									to = getEntryFromMap(map, paramValue);
+								} //if not set, we simply fall back to the existing code to restrict the values of the domainslot 
+							}
+							targetObjects = Collections.singletonList((EObject) to);
+
+						} catch (Exception ex){/* fail silently and simply use the complete targetObjects list */ }				
+						break; // there will be only one "key" attribute constraint, thus we break the loop here.
+					}
+				}
+			}
+			
 			if (targetObjects.isEmpty()) {
 				return false;
 			}
@@ -152,6 +190,54 @@ public class ReferenceConstraint implements BinaryConstraint {
 			
 		}
 
+	}
+
+	/*
+	 * This method resembles the code in V BasicEMap::get(Object key) in order to get the entry (not only the value) from the map.
+	 * Unfortunately, the public interface does not allow getting the entry. However, we need the entry to properly use the 
+	 * ReferenceConstaint to filter the targetObjects (which is a set of entries). Thus, we revert back to reflection to call the
+	 * protected methods directly which are used in the V BasicEMap::get(Object key) method.
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Entry getEntryFromMap(EMap map, Object paramValue)
+			throws NoSuchMethodException, IllegalAccessException,
+			InvocationTargetException {
+		
+		Class mapClass = map.getClass();
+		
+		// we need to get the BasicEMap class since it contains the protected methods
+		while (mapClass != null && !mapClass.equals(BasicEMap.class))
+			{
+				mapClass = mapClass.getSuperclass();
+			}
+
+		if (mapClass == null) throw new NoSuchMethodException("Map class does not subclass from BasicEMap which is required to call hashOf, indexOf and entryForKey methods");
+
+		//       ensureEntryDataExists();
+
+		Method ensureEntryDataExists = mapClass.getDeclaredMethod("ensureEntryDataExists");
+		ensureEntryDataExists.setAccessible(true);
+		ensureEntryDataExists.invoke(map);
+
+		//       int hash = hashOf(key);
+
+		Method hashOf = mapClass.getDeclaredMethod("hashOf", Object.class);
+		hashOf.setAccessible(true);
+		int hash = (Integer) hashOf.invoke(map, paramValue);
+
+		//       int index = indexOf(hash);
+
+		Method indexOf = mapClass.getDeclaredMethod("indexOf", int.class);
+		indexOf.setAccessible(true);
+		int index = (Integer) indexOf.invoke(map, hash);
+
+		//      Entry<K, V> entry = entryForKey(index, hash, key);
+
+		Method entryForKey = mapClass.getDeclaredMethod("entryForKey", int.class, int.class, Object.class);
+		entryForKey.setAccessible(true);
+		Entry entry = (Entry) entryForKey.invoke(map, index, hash, paramValue);
+
+		return entry;
 	}
 	
 }

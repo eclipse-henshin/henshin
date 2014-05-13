@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.tests.exampleTests;
 
 import org.eclipse.emf.henshin.examples.bank.BankExample;
+import org.eclipse.emf.henshin.examples.bankmap.BankMapExample;
 import org.eclipse.emf.henshin.examples.combpattern.CombBenchmark;
 import org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark;
 import org.eclipse.emf.henshin.examples.ecore2genmodel.Ecore2GenmodelTrafo;
@@ -33,6 +34,15 @@ public class ExampleTests {
 	public void testBank() {
 		System.out.println();
 		BankExample.run(EXAMPLES_PATH + BankExample.PATH, false);
+	}
+	
+	/**
+	 * Bank Map example.
+	 */
+	@Test
+	public void testBankMap() {
+		System.out.println();
+		BankMapExample.run(EXAMPLES_PATH + BankMapExample.PATH);
 	}
 
 	/**
