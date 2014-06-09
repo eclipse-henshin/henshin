@@ -89,7 +89,7 @@ public class BankMapExample {
 		}
 		
 		// enlarge the model by creating a lot of new accounts 
-		final int maxAccounts = 100000;
+		final int maxAccounts = 1000;
 		
 		for (int i = 100; i < 100+maxAccounts; i++)
 		{
@@ -99,7 +99,7 @@ public class BankMapExample {
 		}		
 		graph = new EGraphImpl(resource);
 		
-		final int transfers = 10000;
+		final int transfers = 100;
 		
 		System.out.println(transfers + " money transfers on model with " + maxAccounts + " accounts");
 		
