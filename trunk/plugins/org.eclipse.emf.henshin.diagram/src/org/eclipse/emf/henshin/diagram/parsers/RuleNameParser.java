@@ -16,7 +16,9 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -135,6 +137,31 @@ public class RuleNameParser extends UnitNameParser {
 		// Done.
 		return CommandResult.newOKCommandResult();
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#handleParametersChange(org.eclipse.emf.henshin.model.Unit)
+	 */
+	@Override
+	protected void handleParametersChange(Unit unit) {
+		final Rule rule = (Rule) unit;
+		for (Rule multiRule : rule.getMultiRules()) {
+			while (multiRule.getParameters().size() < rule.getParameters().size()) {
+				multiRule.getParameters().add(HenshinFactory.eINSTANCE.createParameter());
+			}
+			while (multiRule.getParameters().size() > rule.getParameters().size()) {
+				multiRule.getParameters().remove(multiRule.getParameters().size()-1);
+			}
+			for (int i=0; i<rule.getParameters().size(); i++) {
+				Parameter s = rule.getParameters().get(i);
+				Parameter t = multiRule.getParameters().get(i);
+				t.setName(s.getName());
+				t.setType(s.getType());
+				t.setDescription(s.getDescription());
+			}
+			handleParametersChange(multiRule);
+		}
 	}
 
 }

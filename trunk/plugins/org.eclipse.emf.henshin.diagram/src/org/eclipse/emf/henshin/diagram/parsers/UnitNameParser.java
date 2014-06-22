@@ -296,6 +296,9 @@ public class UnitNameParser extends AbstractParser {
 			
 		}
 		
+		// Handle parameters change:
+		handleParametersChange(unit);
+		
 		// Clean up the parameter mappings (for all units):
 		HenshinModelCleaner.cleanModule(unit.getModule());
 		
@@ -308,6 +311,10 @@ public class UnitNameParser extends AbstractParser {
 		
 	}
 	
+	protected void handleParametersChange(Unit unit) {
+		// nothing to do
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see

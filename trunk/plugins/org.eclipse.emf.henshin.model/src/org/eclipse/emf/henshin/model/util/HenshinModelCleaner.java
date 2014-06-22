@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.model.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
@@ -170,6 +172,8 @@ public class HenshinModelCleaner {
 			}
 		}
 		
+		// Synchronize parameters in multi-rules:
+		synchronizeRuleParameters(rule);
 
 	}
 	
@@ -445,5 +449,43 @@ public class HenshinModelCleaner {
 	private static void debug(String message) {
 		HenshinModelPlugin.INSTANCE.logInfo("CleanUp: " + message);
 	}
+	
+	public static void synchronizeRuleParameters(Rule rule) {
+		Map<String, Parameter> parameters = new LinkedHashMap<String,Parameter>();
+		collectRuleParameters(rule, parameters);
+		updateRuleParameters(rule, parameters);
+	}
+	
+	private static void collectRuleParameters(Rule rule, Map<String,Parameter> parameters) {
+		for (Parameter param : rule.getParameters()) {
+			if (param.getName() != null) {
+				parameters.put(param.getName(), param);
+			}
+		}
+		for (Rule multiRule : rule.getMultiRules()) {
+			collectRuleParameters(multiRule, parameters);
+		}
+	}
+
+	private static void updateRuleParameters(Rule rule, Map<String,Parameter> parameters) {
+		List<Parameter> paramList = new ArrayList<Parameter>(parameters.values());
+		while (rule.getParameters().size() < paramList.size()) {
+			rule.getParameters().add(HenshinFactory.eINSTANCE.createParameter());
+		}
+		while (rule.getParameters().size() > paramList.size()) {
+			rule.getParameters().remove(rule.getParameters().size()-1);
+		}
+		for (int i=0; i<paramList.size(); i++) {
+			Parameter s = paramList.get(i);
+			Parameter t = rule.getParameters().get(i);
+			t.setName(s.getName());
+			t.setType(s.getType());
+			t.setDescription(s.getDescription());
+		}
+		for (Rule multiRule : rule.getMultiRules()) {
+			updateRuleParameters(multiRule, parameters);
+		}
+	}
+
 	
 }
