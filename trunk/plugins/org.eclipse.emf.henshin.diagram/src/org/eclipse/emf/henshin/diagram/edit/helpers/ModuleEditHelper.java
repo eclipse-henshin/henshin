@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -96,7 +97,21 @@ public class ModuleEditHelper extends HenshinBaseEditHelper {
 		}
 		return classifiers;
 	}
-	
+
+	/**
+	 * Collects all classes found in the imported EPackages of a module.
+	 */
+	public static Set<EClass> collectAllEClasses(Module module, boolean withEcore) {
+		Set<EClassifier> classifiers = collectAllEClassifiers(module, withEcore);
+		Set<EClass> classes = new LinkedHashSet<EClass>();
+		for (EClassifier classifier : classifiers) {
+			if (classifier instanceof EClass) {
+				classes.add((EClass) classifier);
+			}
+		}
+		return classes;
+	}
+
 	private static Set<EPackage> collectAllEPackages(Module module, boolean withEcore) {
 		Set<EPackage> packages = new LinkedHashSet<EPackage>();
 		packages.addAll(module.getImports());

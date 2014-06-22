@@ -131,11 +131,11 @@ public class NodeCreateCommand extends EditElementCommand {
 		Object type = request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY);
 
 		Module module = rule.getModule();
-		SingleEClassifierSelectionDialog dialog = null;
+		SingleEClassSelectionDialog dialog = null;
 
 		// if no type has been specified yet, let the user choose one
 		if (type == null) {
-			dialog = new SingleEClassifierSelectionDialog(module, action);
+			dialog = new SingleEClassSelectionDialog(module, action);
 			type = dialog.openAndReturnSelection();
 		}
 
@@ -230,7 +230,7 @@ public class NodeCreateCommand extends EditElementCommand {
 	 * @author Stefan Jurack (sjurack), Christian Krause
 	 * 
 	 */
-	private final class SingleEClassifierSelectionDialog extends
+	private final class SingleEClassSelectionDialog extends
 			ElementListSelectionDialog {
 
 		final Module module;
@@ -242,7 +242,7 @@ public class NodeCreateCommand extends EditElementCommand {
 		 * 
 		 * @param module
 		 */
-		public SingleEClassifierSelectionDialog(Module module, Action action) {
+		public SingleEClassSelectionDialog(Module module, Action action) {
 			super(shell, labelProvider);
 			this.setMultipleSelection(false);
 			this.setBlockOnOpen(true);
@@ -253,24 +253,24 @@ public class NodeCreateCommand extends EditElementCommand {
 		}// constructor
 
 		/**
-		 * Opens the dialog and returns the first selected EClassifier in the
-		 * list. If no EClassifier is available in the TransformationSystem or
+		 * Opens the dialog and returns the first selected EClass in the
+		 * list. If no EClass is available in the module or
 		 * the dialog is canceled, null is returned.
 		 * 
 		 * @return
 		 */
-		public final EClassifier openAndReturnSelection() {
+		public final EClass openAndReturnSelection() {
 
-			List<EClassifier> elements = new ArrayList<EClassifier>( 
-					ModuleEditHelper.collectAllEClassifiers(module, false));
+			List<EClass> elements = new ArrayList<EClass>( 
+					ModuleEditHelper.collectAllEClasses(module, false));
 
-			EClassifier result = null;
+			EClass result = null;
 			if (elements.size() > 0) {
 				Collections.sort(elements, new EClassComparator());
 				this.setElements(elements.toArray());
 				int returnCode = this.open();
 				if (returnCode == ElementListSelectionDialog.OK) {
-					result = (EClassifier) getFirstResult();
+					result = (EClass) getFirstResult();
 				}
 			}
 			return result;
