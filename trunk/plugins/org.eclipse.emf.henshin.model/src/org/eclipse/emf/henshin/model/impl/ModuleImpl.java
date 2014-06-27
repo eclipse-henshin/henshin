@@ -10,29 +10,21 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,7 +43,6 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *
  * @generated
  */
-@SuppressWarnings("deprecation")
 public class ModuleImpl extends NamedElementImpl implements Module {
 	
 	/**
@@ -255,67 +246,6 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 				return basicSetSuperModule((Module)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * @deprecated Will be removed in the future.
-	 * <!-- end-user-doc -->
-	 */
-	public TransformationUnit getTransformationUnit(String unitName) {
-		return getUnit(name);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * @deprecated Will be removed in the future.
-	 * <!-- end-user-doc -->
-	 */
-	public Rule getRule(String ruleName) {
-		for (Rule rule : getRules()) {
-			if (ruleName.equals(rule.getName())) {
-				return rule;
-			}
-		}
-		for (TransformationUnit unit : getTransformationUnits()) {
-			if (unit instanceof Rule && ruleName.equals(unit.getName())) {
-				return (Rule) unit;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * @deprecated Will be removed in the future.
-	 * <!-- end-user-doc -->
-	 */
-	public Rule findRuleByName(String ruleName) {
-		return getRule(ruleName);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * @deprecated Will be removed in the future.
-	 * <!-- end-user-doc -->
-	 */
-	public EList<Rule> getRules() {
-		EList<Rule> rules = new BasicEList<Rule>();
-		for (Unit unit : getUnits()) {
-			if (unit instanceof Rule) {
-				rules.add((Rule) unit);
-			}
-		}
-		return ECollections.unmodifiableEList(rules);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * @deprecated Will be removed in the future.
-	 * <!-- end-user-doc -->
-	 */
-	public EList<Unit> getTransformationUnits() {
-		return getUnits();
 	}
 
 	/**

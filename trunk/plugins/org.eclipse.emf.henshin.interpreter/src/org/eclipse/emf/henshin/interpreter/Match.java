@@ -58,11 +58,6 @@ public interface Match extends Assignment {
 	List<Match> getMultiMatches(Rule multiRule);
 
 	/**
-	 * @deprecated Use {@link #getMultiMatches(Rule)} instead.
-	 */
-	List<Match> getNestedMatches(Rule multiRule);
-
-	/**
 	 * Checks whether this match overlaps with another match. 
 	 * The second match can be from a different rule. Two matches
 	 * overlap if {@link #getNodeTargets()} contain shared elements.

@@ -11,7 +11,6 @@ import org.eclipse.emf.common.util.EList;
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Unit</b></em>'.
- * @extends TransformationUnit
  * <!-- end-user-doc -->
  *
  * <p>
@@ -28,8 +27,7 @@ import org.eclipse.emf.common.util.EList;
  *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='parameterNamesUnique parameterMappingsPointToDirectSubUnit'"
  * @generated
  */
-@SuppressWarnings("deprecation")
-public interface Unit extends NamedElement, TransformationUnit {
+public interface Unit extends NamedElement {
 	
 	/**
 	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.

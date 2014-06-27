@@ -160,8 +160,13 @@ public class EngineImpl implements Engine {
 		} else {
 			try {
 				scriptEngine.eval("importPackage(java.lang)");
-			} catch (Throwable t) {
-				System.err.println("Warning: error importing java.lang package in JavaScript engine");
+			} catch (ScriptException e1) {
+				try {
+					scriptEngine.eval("load(\"nashorn:mozilla_compat.js\");\n" +
+							"importPackage(java.lang)");
+				} catch (ScriptException e2) {
+					System.err.println("Warning: error importing java.lang package in JavaScript engine");
+				}
 			}
 		}
 		

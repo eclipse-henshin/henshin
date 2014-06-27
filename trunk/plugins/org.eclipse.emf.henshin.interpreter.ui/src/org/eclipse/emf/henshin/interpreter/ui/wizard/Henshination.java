@@ -33,7 +33,9 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.domain.ICompareEditingDomain;
 import org.eclipse.emf.compare.domain.impl.EMFCompareEditingDomain;
+import org.eclipse.emf.compare.ide.ui.internal.configuration.EMFCompareConfiguration;
 import org.eclipse.emf.compare.ide.ui.internal.editor.ComparisonEditorInput;
+import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -298,15 +300,16 @@ public class Henshination {
 		try {
 
 			EMFCompare comparator = EMFCompare.builder().build();
-			Comparison comparison = comparator.compare(EMFCompare
-					.createDefaultScope(previewModel, originalModel, null));
+			Comparison comparison = comparator.compare(new
+					DefaultComparisonScope(previewModel, originalModel, null));
 
 			ICompareEditingDomain editingDomain = EMFCompareEditingDomain
 					.create(previewModel, originalModel, null);
 			AdapterFactory adapterFactory = new ComposedAdapterFactory(
 					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 			CompareEditorInput input = new ComparisonEditorInput(
-					new CompareConfiguration(), comparison, editingDomain,
+					new EMFCompareConfiguration(new CompareConfiguration()), 
+					comparison, editingDomain,
 					adapterFactory);
 
 			return new HenshinationPreview(input, result);

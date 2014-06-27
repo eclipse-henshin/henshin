@@ -166,15 +166,6 @@ public class MatchImpl extends AssignmentImpl implements Match {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.Match#getNestedMatches(org.eclipse.emf.henshin.model.Rule)
-	 */
-	@Override
-	public List<Match> getNestedMatches(Rule multiRule) {
-		return getMultiMatches(multiRule);
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Match#overlapsWith(org.eclipse.emf.henshin.interpreter.Match)
 	 */
 	@Override

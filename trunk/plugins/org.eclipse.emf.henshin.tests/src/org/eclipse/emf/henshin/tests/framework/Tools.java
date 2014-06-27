@@ -30,7 +30,6 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.query.conditions.Condition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
 import org.eclipse.emf.query.ocl.conditions.BooleanOCLCondition;
@@ -73,20 +72,6 @@ public class Tools {
 		ua.execute(null);
 		sizes[1] = graph.size();
 		return sizes;
-	}
-	
-	/**
-	 * <strong>DEPRECATED</strong>. Use a cast.
-	 * Creates a {@link TransformationUnit} containing only the specified rule<br>
-	 * (Actually, a {@link CountedUnit} with count = 1 will be created)
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @return {@link TransformationUnit}
-	 */
-	@Deprecated
-	public static Unit createTUFromRule(Rule r) {
-		return (Unit) r;
 	}
 	
 	/**

@@ -31,8 +31,7 @@ import org.eclipse.emf.ecore.EPackage;
  * @model
  * @generated
  */
-@SuppressWarnings("deprecation")
-public interface Module extends NamedElement, TransformationSystem {
+public interface Module extends NamedElement {
 	
 	/**
 	 * Returns the value of the '<em><b>Sub Modules</b></em>' containment reference list.

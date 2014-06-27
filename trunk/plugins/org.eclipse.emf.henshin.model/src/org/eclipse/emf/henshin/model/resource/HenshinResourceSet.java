@@ -35,7 +35,6 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
  * Resource set implementation for Henshin.
@@ -45,7 +44,6 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  * 
  * @author Christian Krause
  */
-@SuppressWarnings("deprecation")
 public class HenshinResourceSet extends ResourceSetImpl {
 
 	/**
@@ -365,25 +363,4 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		}
 	}
 
-	/**
-	 * @deprecated Use {@link #saveEObject(EObject, String)} instead.
-	 */
-	public void saveObject(EObject object, String path) {
-		saveEObject(object, path);
-	}
-
-	/**
-	 * @deprecated Use {@link #getEObject(String)}
-	 */
-	public EObject getObject(String path) {
-		return getEObject(path);
-	}
-
-	/**
-	 * @deprecated Use {@link #getModule(String)}
-	 */
-	public TransformationSystem getTransformationSystem(String path) {
-		return (TransformationSystem) getEObject(path);
-	}
-	
 }
