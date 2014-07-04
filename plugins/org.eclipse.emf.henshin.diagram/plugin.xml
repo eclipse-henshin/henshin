@@ -591,6 +591,7 @@
                menubarPath="importPackageMenu/main"
                style="push">
          </action>
+         
          <action
                class="org.eclipse.emf.henshin.diagram.part.ImportPackageAction"
                enablesFor="1"

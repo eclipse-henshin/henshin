@@ -9,6 +9,7 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +30,7 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
+import org.eclipse.emf.henshin.diagram.preferences.DiagramPreferenceInitializer;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Module;
@@ -178,12 +180,19 @@ public class NodeCreateCommand extends EditElementCommand {
 	 * Update containment for the new node.
 	 */
 	private void updateContainment(Rule rule, Node newNode) throws ExecutionException {
-		
+				
 		// Update the root containment for the new node:
 		View ruleView = RuleEditHelper.findRuleView(rule);
 		RootObjectEditHelper.updateRootContainment(ruleView, newNode);
 
-		// Check if it makes sense to create a containment edge to the new node:		
+		// Check preferences:
+		Boolean edgeCreationIsEnabled = HenshinDiagramEditorPlugin.getInstance()
+				.getPreferenceStore().getBoolean(DiagramPreferenceInitializer.CREATE_CONTAINMENT_EDGES);
+		if (!edgeCreationIsEnabled) {
+			return;
+		}
+
+		// Check if it makes sense to create a containment edge to the new node:
 		if (!newNode.getIncoming().isEmpty()) {
 			return;
 		}
@@ -202,6 +211,8 @@ public class NodeCreateCommand extends EditElementCommand {
 				}
 			}
 		}
+		
+		
 	}
 	
 	/**

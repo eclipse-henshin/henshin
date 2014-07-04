@@ -19,6 +19,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
  * @generated
  */
 public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer {
+	
+	public static final String CREATE_CONTAINMENT_EDGES = "CREATE_CONTAINMENT_EDGES";
 
 	/**
 	 * @generated
@@ -48,6 +50,7 @@ public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer 
 		store.setDefault(IPreferenceConstants.PREF_SNAP_TO_GRID, false);
 		store.setDefault(IPreferenceConstants.PREF_SNAP_TO_GEOMETRY, true);
 		store.setDefault(IPreferenceConstants.PREF_GRID_SPACING, 0.25);
+		store.setDefault(CREATE_CONTAINMENT_EDGES, false);
 
 	}
 

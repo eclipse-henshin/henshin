@@ -11,6 +11,8 @@ package org.eclipse.emf.henshin.diagram.preferences;
 
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.gmf.runtime.diagram.ui.preferences.ConnectionsPreferencePage;
+import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @generated
@@ -24,4 +26,13 @@ public class DiagramConnectionsPreferencePage extends ConnectionsPreferencePage 
 		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance()
 				.getPreferenceStore());
 	}
+	
+	@Override
+	protected void addFieldEditors(Composite composite) {
+		addField(new BooleanFieldEditor(DiagramPreferenceInitializer.CREATE_CONTAINMENT_EDGES,
+		        "Auto-Create Containment Edges", getFieldEditorParent()));
+		super.addFieldEditors(composite);
+	}
+	
+	
 }
