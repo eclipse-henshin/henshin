@@ -95,6 +95,7 @@ public class EcoreSelectionDialogUtil {
 	 *            Resource set.
 	 * @return The selected package.
 	 */
+	@SuppressWarnings("deprecation")
 	public static EPackage selectRegisteredPackage(Shell shell, ResourceSet resourceSet) {
 		
 		CustomRegisteredPackageDialog dialog = new CustomRegisteredPackageDialog(shell);
