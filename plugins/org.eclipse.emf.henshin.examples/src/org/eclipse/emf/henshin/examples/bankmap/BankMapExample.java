@@ -43,18 +43,17 @@ public class BankMapExample {
 	 * @param path Relative path to the model files.
 	 * @param saveResult Whether the result should be saved.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void run(String path) {
 		
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
-
 
 		// Load the example model into an EGraph:
 		Resource resource = resourceSet.getResource("mapping_bank.xmi");
 		
 		EObject bank = resource.getContents().get(0);
 		assert bank.eClass().getName().equals("Bank");
-		EClass bankClass = bank.eClass();
 		
 		EReference accounts = (EReference) bank.eClass().getEStructuralFeature("accounts");
 		EMap map = (EMap) bank.eGet(accounts);
@@ -63,7 +62,6 @@ public class BankMapExample {
 		EAttribute credits = (EAttribute) accountClass.getEStructuralFeature("credit");
 		
 		EGraph graph = new EGraphImpl(resource);
-		
 		
 		// Load the module:
 		Module module = resourceSet.getModule("bankmap.henshin", false);
@@ -78,6 +76,7 @@ public class BankMapExample {
 		System.out.println("Starting Banking Example with Map Support");
 		
 		System.out.println("Single transfer on small model");
+		
 		// Transferring some money:
 		app.setUnit(module.getUnit("transferMoney"));
 		app.setParameterValue("fromID", 10);
@@ -91,11 +90,10 @@ public class BankMapExample {
 		// enlarge the model by creating a lot of new accounts 
 		final int maxAccounts = 1000;
 		
-		for (int i = 100; i < 100+maxAccounts; i++)
-		{
+		for (int i = 100; i < 100+maxAccounts; i++) {
 			EObject newAccount = accountClass.getEPackage().getEFactoryInstance().create(accountClass);
 			newAccount.eSet(credits, 42d);
-			map.put(new Integer(i), newAccount);		
+			map.put(new Integer(i), newAccount);	
 		}		
 		graph = new EGraphImpl(resource);
 		
@@ -105,8 +103,7 @@ public class BankMapExample {
 		
 		// run many money transfers between random accounts
 		long start = System.currentTimeMillis();
-		for (int i = 0; i < transfers; i++)
-		{	
+		for (int i = 0; i < transfers; i++) {	
 			app = new UnitApplicationImpl(engine);
 			app.setEGraph(graph);
 
