@@ -82,7 +82,12 @@ public class HenshinColorMode {
 		Bundle bundle = Platform.getBundle("org.eclipse.emf.henshin.edit");
 		URL colorModesURL = bundle.getEntry("colorModes");
 		try {
-		    File dir = new File(FileLocator.resolve(colorModesURL).getPath());
+			File dir;
+ 			try {
+				dir = new File(FileLocator.resolve(colorModesURL).toURI());
+			} catch(URISyntaxException e) {
+				dir = new File(FileLocator.resolve(colorModesURL).getPath());
+			}
 		    for (File file : dir.listFiles()) {
 		    	if (file.getAbsolutePath().endsWith(".properties")) {
 		    		Properties properties = new Properties();
