@@ -1,17 +1,17 @@
 
 ##### features
-feature@org.eclipse.emf.henshin.sdk=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/features,,org.eclipse.emf.henshin.sdk
+feature@org.eclipse.emf.henshin.sdk=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=features/org.eclipse.emf.henshin.sdk
 
 ##### plugins
-plugin@org.eclipse.emf.henshin.model=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.model
-plugin@org.eclipse.emf.henshin.edit=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.edit
-plugin@org.eclipse.emf.henshin.editor=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.editor
-plugin@org.eclipse.emf.henshin.diagram=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.diagram
-plugin@org.eclipse.emf.henshin.interpreter=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.interpreter
-plugin@org.eclipse.emf.henshin.interpreter.ui=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.interpreter.ui
-plugin@org.eclipse.emf.henshin.examples=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.examples
-plugin@org.eclipse.emf.henshin.statespace=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.statespace
-plugin@org.eclipse.emf.henshin.statespace.explorer=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.statespace.explorer
-plugin@org.eclipse.emf.henshin.statespace.external=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.statespace.external
-plugin@org.eclipse.emf.henshin.trace=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.trace
-plugin@org.eclipse.emf.henshin.wrap=GIT,,git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git/plugins,,org.eclipse.emf.henshin.wrap
+plugin@org.eclipse.emf.henshin.model=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.model
+plugin@org.eclipse.emf.henshin.edit=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.edit
+plugin@org.eclipse.emf.henshin.editor=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.editor
+plugin@org.eclipse.emf.henshin.diagram=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.diagram
+plugin@org.eclipse.emf.henshin.interpreter=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.interpreter
+plugin@org.eclipse.emf.henshin.interpreter.ui=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.interpreter.ui
+plugin@org.eclipse.emf.henshin.examples=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.examples
+plugin@org.eclipse.emf.henshin.statespace=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.statespace
+plugin@org.eclipse.emf.henshin.statespace.explorer=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.statespace.explorer
+plugin@org.eclipse.emf.henshin.statespace.external=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.statespace.external
+plugin@org.eclipse.emf.henshin.trace=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.trace
+plugin@org.eclipse.emf.henshin.wrap=GIT,,repo=git://git.eclipse.org/gitroot/henshin/org.eclipse.emft.henshin.git,path=plugins/org.eclipse.emf.henshin.wrap
