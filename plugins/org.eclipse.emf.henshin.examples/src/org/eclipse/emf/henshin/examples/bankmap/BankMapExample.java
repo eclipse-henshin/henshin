@@ -115,8 +115,9 @@ public class BankMapExample {
 			app.setParameterValue("toID", to);
 			app.setParameterValue("money", 20.0d);
 			
-			if (!app.execute(null)) { 
-				throw new RuntimeException("Error transferring money");
+			// if from == to, the rule is not applicable --> the execution should be false, if it is not --> exception
+			if (app.execute(null) == (from == to)) { 
+				throw new RuntimeException("Error transferring money from " + from + " to " + to);
 			}
 			
 			//System.out.println("transfer from " + from + " to " + to + ": " + result);
