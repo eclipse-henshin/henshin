@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.emf.henshin</groupId>
+  <artifactId>parent</artifactId>
+  <version>0.9.11-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>plugins/org.eclipse.emf.henshin.diagram</module>
+    <module>plugins/org.eclipse.emf.henshin.edit</module>
+    <module>plugins/org.eclipse.emf.henshin.editor</module>
+    <module>plugins/org.eclipse.emf.henshin.examples</module>
+    <module>plugins/org.eclipse.emf.henshin.interpreter</module>
+    <module>plugins/org.eclipse.emf.henshin.interpreter.ui</module>
+    <module>plugins/org.eclipse.emf.henshin.model</module>
+    <module>plugins/org.eclipse.emf.henshin.statespace</module>
+    <module>plugins/org.eclipse.emf.henshin.statespace.explorer</module>
+    <module>plugins/org.eclipse.emf.henshin.statespace.external</module>
+    <module>plugins/org.eclipse.emf.henshin.trace</module>
+    <module>plugins/org.eclipse.emf.henshin.wrap</module>
+    <module>features/org.eclipse.emf.henshin.sdk</module>
+  </modules>
+
+  <properties>
+    <tycho-version>0.20.0</tycho-version>
+  </properties>
+
+  <repositories>
+   <repository>
+     <id>luna</id>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/releases/luna</url>
+   </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
+
