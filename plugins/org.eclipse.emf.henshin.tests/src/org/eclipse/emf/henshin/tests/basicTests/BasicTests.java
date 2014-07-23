@@ -22,7 +22,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ MatchTests.class, CreateNodes.class, DeleteNodes.class,
-		 ParameterTests.class, TransformationUnitTests.class,
+		 ParameterTests.class, UnitTests.class,
 		EngineOptionsTests.class })
 public class BasicTests {
 	

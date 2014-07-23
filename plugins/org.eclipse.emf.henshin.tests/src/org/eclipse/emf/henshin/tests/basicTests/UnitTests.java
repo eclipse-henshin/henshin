@@ -22,12 +22,12 @@ import org.junit.Test;
  * @author Stefan Jurack (sjurack)
  *
  */
-public class TransformationUnitTests extends HenshinTest {
+public class UnitTests extends HenshinTest {
 
 	@Before
 	public void setUp() throws Exception {
-		init("basicTestRules/transformationUnitTests.henshin");
-		setModelGraphProperties("basicTestModels/transformationUnitTestsModels/", "testmodel");
+		init("basicTestRules/unitTests.henshin");
+		setModelGraphProperties("basicTestModels/unitTestsModels/", "testmodel");
 	}
 	
 	
