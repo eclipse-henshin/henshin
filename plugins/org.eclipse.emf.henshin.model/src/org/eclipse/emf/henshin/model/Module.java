@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EPackage;
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Module</b></em>'.
- * @extends TransformationSystem
  * <!-- end-user-doc -->
  *
  * <p>
