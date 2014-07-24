@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -35,6 +35,13 @@ public class PartialMatchReport {
 	Map<Rule, List<PartialMatchInfo>> infos;
 
 	/**
+	 * @return
+	 */
+	public Map<Rule, List<PartialMatchInfo>> getInfos() {
+		return infos;
+	}
+
+	/**
 	 * Constructor
 	 */
 	public PartialMatchReport(Module module, List<Match> matches) {
@@ -44,12 +51,19 @@ public class PartialMatchReport {
 	}
 
 	/**
+	 * @return
+	 */
+	public Module getModule() {
+		return module;
+	}
+	
+	/**
 	 * Helping class containing the information about one partial match and the delta with the lhs.
 	 * 
 	 * @author Svetlana Arifulina
 	 *
 	 */
-	private class PartialMatchInfo {
+	public class PartialMatchInfo {
 
 		/**
 		 * Complete or partial match
@@ -66,13 +80,13 @@ public class PartialMatchReport {
 		/**
 		 * Coverage of the lhs with the partial match
 		 */
-		int coverage;
+		double coverage;
 
-		public int getCoverage() {
+		public double getCoverage() {
 			return coverage;
 		}
 
-		public void setCoverage(int coverage) {
+		public void setCoverage(double coverage) {
 			this.coverage = coverage;
 		}
 
@@ -109,38 +123,43 @@ public class PartialMatchReport {
 	 */
 	public String getReport() {
 
-		this.infos = collectPartialMatchInfos(module, matches);
-
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append("============================\n");
 		buffer.append("Partial match statistics\n");
-		buffer.append("============================\n");
 
-		for (Rule rule : infos.keySet()) {
-			buffer.append("Partial match for " + rule.getName() + "\n");
-			buffer.append("----------------------------------\n");
-			buffer.append("Matches and deltas:\n");
-			
-			for (PartialMatchInfo partialMatchInfo : infos.get(rule)) {
-				if (partialMatchInfo.isComplete()) {
-					buffer.append("This is a complete match.\n");
+		if (infos.isEmpty()) {
+			buffer.append("No matches were found.\n");
+		} else {
+			for (Rule rule : infos.keySet()) {
+				
+				for (PartialMatchInfo partialMatchInfo : infos.get(rule)) {
+					if (partialMatchInfo.isComplete()) {
+						buffer.append("============================\n");
+						buffer.append("This is a complete match for " + rule.getName() + "\n");
+						buffer.append(partialMatchInfo.getMatch().toString() + "\n");
+					} else {
+						buffer.append("============================\n");
+						buffer.append("This is a partial match for " + rule.getName() + "\n");
+						buffer.append(partialMatchInfo.getMatch().toString() + "\n");
+						buffer.append("----------------------------------\n");
+						buffer.append("Deltas are:\n");
+						buffer.append(partialMatchInfo.getDelta().toString() + "\n");
+
+						for (Node node : partialMatchInfo.getDelta().getNodes()) {
+							buffer.append(node.toString() + "\n");
+						}
+						
+						for (Edge edge : partialMatchInfo.getDelta().getEdges()) {
+							buffer.append(edge.toString() + "\n");
+						}
+					}
+					
 				}
 				
-				buffer.append(partialMatchInfo.getMatch().toString() + "\n");
-				buffer.append(partialMatchInfo.getDelta().toString() + "\n");
-				
-				for (Node node : partialMatchInfo.getDelta().getNodes()) {
-					buffer.append(node.toString() + "\n");
-				}
-				
-				for (Edge edge : partialMatchInfo.getDelta().getEdges()) {
-					buffer.append(edge.toString() + "\n");
-				}
 			}
-			
-			buffer.append("============================\n");
 		}
+		buffer.append("============================\n");
 
 		return buffer.toString();
 
@@ -149,19 +168,16 @@ public class PartialMatchReport {
 	/**
 	 * Method collecting the report information for the given partial matches
 	 * 
-	 * @param module Module to be used.
+	 * @param originalRule Rule to collect infos about partial matches for.
 	 * @param matches Module to be used.
 	 * @return 
 	 */
-	private Map<Rule, List<PartialMatchInfo>> collectPartialMatchInfos(
-			Module module, List<Match> matches) {
-
+	public void collectPartialMatchInfos(
+			Rule originalRule, List<Match> matches) {
+		
 		Map<Rule, List<PartialMatchInfo>> infos = new HashMap<Rule, List<PartialMatchInfo>>();
 
 		for (Match match : matches) {
-
-			Rule originalRule = (Rule) module
-					.getUnit(match.getRule().getName());
 
 			if (!infos.containsKey(originalRule)) {
 				infos.put(originalRule, new ArrayList<PartialMatchInfo>());
@@ -170,51 +186,68 @@ public class PartialMatchReport {
 			PartialMatchInfo info = new PartialMatchInfo();
 			info.setMatch(match);
 			
-			info.setDelta(computeDelta(originalRule, match.getRule(), match));
+			info.setDelta(computeDelta(originalRule, match));
 			
 			if (info.getDelta().getNodes().isEmpty()
 					&& info.getDelta().getEdges().isEmpty()) {
 				info.setComplete(true);
 			}
 			
-			info.setCoverage((info.getDelta().getNodes().size() + info.getDelta().getEdges().size())/(originalRule.getLhs().getNodes().size() + originalRule.getLhs().getEdges().size()));
+			double coverage = 1 - (double)(info.getDelta().getNodes().size() + info.getDelta().getEdges().size())/(originalRule.getLhs().getNodes().size() + originalRule.getLhs().getEdges().size());
+			coverage = (double)Math.round(100 * coverage)/100;
+			info.setCoverage(coverage);
 
 			infos.get(originalRule).add(info);
 		}
-
-		return infos;
+		
+		this.infos = infos;
 
 	}
 
 	/**
 	 * Method computing the different between a partial match and a lhs.
 	 * 
-	 * @param originalRule
-	 * @param matchingRule
-	 * @param match
-	 * @return
+	 * @param originalRule Rule to compute a delta with the partial match for
+	 * @param match (Partial) match for originalRule
+	 * @return Graph as a delta between the originalRule and the given (partial) match
 	 */
-	private Graph computeDelta(Rule originalRule, Rule matchingRule, Match match) {
+	private Graph computeDelta(Rule originalRule, Match match) {
 
-		Graph delta = HenshinFactory.eINSTANCE
-				.createGraph("Partial match delta for "
-						+ matchingRule.getName());
-		boolean nodeFound = false;
+		Graph delta = EcoreUtil.copy(originalRule.getLhs());
+		Rule matchingRule = match.getRule();
+		delta.setName("Partial match delta for " + matchingRule.getName());
+		List<Node> nodesToRemove = new ArrayList<Node>();
+		List<Edge> edgesToRemove = new ArrayList<Edge>();
 
-		for (Node node : originalRule.getLhs().getNodes()) {
-			nodeFound = false;
+		for (Node node : delta.getNodes()) {
 			for (Node node2 : matchingRule.getLhs().getNodes()) {
-				if (node.getType() == node2.getType()) {
-					nodeFound = true;
+				if (node.getType().equals(node2.getType()) && node.getName() == (node2.getName())) {
+					nodesToRemove.add(node);
 					break;
 				}
 			}
-			if (!nodeFound) {
-				HenshinFactory.eINSTANCE.createNode(delta, node.getType(),
-						node.getName());
-				delta.getEdges().addAll(node.getIncoming());
-				delta.getEdges().addAll(node.getOutgoing());
+		}
+		
+		for (Edge edge : delta.getEdges()) {
+			for (Edge edge2 : matchingRule.getLhs().getEdges()) {
+				if(edge.getType().equals(edge2.getType())) {
+					edgesToRemove.add(edge);
+					break;
+				}
 			}
+		}
+		
+		for (Node node : nodesToRemove) {
+			List<Edge> edgesToAdd = new ArrayList<Edge>();
+			edgesToAdd.addAll(node.getIncoming());
+			edgesToAdd.addAll(node.getOutgoing());
+			
+			delta.removeNode(node);
+			delta.getEdges().addAll(edgesToAdd);
+		}
+		
+		for (Edge edge : edgesToRemove) {
+			delta.removeEdge(edge);
 		}
 
 		return delta;
@@ -223,19 +256,21 @@ public class PartialMatchReport {
 	/**
 	 * Method computing the coverage of a lhs by a partial match
 	 * 
-	 * @return
+	 * @return Coverage of the module by the matches
 	 */
 	public double getCoverage() {
 		
-		int coverage = 0;
+		double coverage = 0;
 		
-		for (Rule rule : infos.keySet()) {
-			for (PartialMatchInfo info : infos.get(rule)) {
-				coverage += info.getCoverage();
+		if(!infos.isEmpty()) {
+			for (Rule rule : infos.keySet()) {
+				for (PartialMatchInfo info : infos.get(rule)) {
+					coverage += info.getCoverage();
+				}
 			}
+			
+			coverage = coverage/infos.keySet().size();
 		}
-		
-		coverage = coverage/infos.keySet().size();
 		
 		return coverage;
 	}

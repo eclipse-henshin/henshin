@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -31,9 +32,6 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
-import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -84,7 +82,7 @@ public class InterpreterUtil {
 	 * This method calculates a complete match for rules of the given model transformation with a given model. 
 	 * If a complete match does not exist, the method calculates a partial match, if it exists.
 	 * For that a rule is reduced till a complete match for a reduced rule is found. For reduced rules having the same size, all matches are searched. 
-	 * if a match is found for a reduced rule, this rule is not reduced further.
+	 * If a match is found for a reduced rule, this rule is not reduced further.
 	 * 
 	 * @param engine Engine to be used.
 	 * @param module Module to be used.
@@ -103,19 +101,87 @@ public class InterpreterUtil {
 				
 				// If there are no complete matches, check for partial matches
 				if (newMatches.isEmpty()) {
-					newMatches = findPartialMatchesPerRule(unit, engine, graph);
+					newMatches = findPartialMatchesPerRule((Rule)unit, engine, graph);
 				}
 				
+				// If any partial matches were found then remove empty and duplicate matches, which arise during the rule reduction
+				if (!newMatches.isEmpty()) {
+					matches.addAll(removeEmptyAndDuplicatedMatches(newMatches));
+					
+				}
+			}
+		}
+		
+		return matches;
+	}
+	
+	/**
+	 * This method is similar to the method findMasimalPartialMatches but outputs a report instead of a list of matches.
+	 * 
+	 * This method calculates a complete match for rules of the given model transformation with a given model. 
+	 * If a complete match does not exist, the method calculates a partial match, if it exists.
+	 * For that a rule is reduced till a complete match for a reduced rule is found. For reduced rules having the same size, all matches are searched. 
+	 * If a match is found for a reduced rule, this rule is not reduced further.
+	 * If partial matches are found, then a report object is created based on the list of found partial matches.
+	 * 
+	 * @param engine Engine to be used.
+	 * @param module Module to be used.
+	 * @param graph Target graph.
+	 * @return List of matches (both complete and partial per rule)
+	 */
+	public static PartialMatchReport findAndReportMaximalPartialMatches(Engine engine, Module module, EGraph graph) {
+		List<Match> matches = new ArrayList<Match>();
+		PartialMatchReport partialMatchReport = new PartialMatchReport(module, matches);
+
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof Rule) {
+				
+				List<Match> newMatches = new ArrayList<Match>();
+				
+				// Check for a complete match
+				newMatches = findAllMatches(engine, (Rule) unit, graph, null);
+				
+				// Check whether disabling of the dangling edges check would lead to a match 
+				if (newMatches.isEmpty()) {
+					// Check for partial matches
+					newMatches = findPartialMatchesPerRule((Rule)unit, engine, graph);
+				}
+				
+				if (!newMatches.isEmpty()) {
+					newMatches = removeEmptyAndDuplicatedMatches(newMatches);
+				}
+
+				partialMatchReport.collectPartialMatchInfos((Rule) unit, newMatches);
 				matches.addAll(newMatches);
 			}
 		}
 		
-		// When computing partial matches, matches with no matching elements are sometimes added into the resulting list of matches. Here these matches are deleted from the list.
-		List<Match> resultingMatches = new ArrayList<Match>();
+		return partialMatchReport;
 		
+	}
+	
+	/**
+	 * Method for removing empty and duplicated matches, which appear during the rule reduction.
+	 * @param matches Matches to reduce
+	 * @return A reduced list of matches without duplicates and empty entries
+	 */
+	private static List<Match> removeEmptyAndDuplicatedMatches(List<Match> matches) {
+		List<Match> resultingMatches = new ArrayList<Match>();
+
+		// When computing partial matches, matches with no matching elements are sometimes added into the resulting list of matches. Here these matches are deleted from the list.
 		for (Match match : matches) {
 			if (!match.getNodeTargets().isEmpty()) {
-				resultingMatches.add(match);
+				boolean addMatch = true;
+				// Ignore duplicates
+				for (Match resultingMatch : resultingMatches) {
+					if (match.getNodeTargets().containsAll(resultingMatch.getNodeTargets()) & resultingMatch.getNodeTargets().containsAll(match.getNodeTargets())) {
+						addMatch = false;
+						break;
+					}
+				}
+				if (addMatch) {
+					resultingMatches.add(match);
+				}
 			}
 		}
 		
@@ -125,26 +191,26 @@ public class InterpreterUtil {
 	/**
 	 * This method finds a partial match per rule from the given module or for an already reduced rule.
 	 * 
-	 * @param unit Rule to find partial matches for.
+	 * @param rule Rule to find partial matches for.
 	 * @param engine Engine to be used.
 	 * @param graph Target graph.
 	 * @return The list of partial matches.
 	 */
-	private static List<Match> findPartialMatchesPerRule(Unit unit, Engine engine, EGraph graph) {
+	private static List<Match> findPartialMatchesPerRule(Rule rule, Engine engine, EGraph graph) {
 		List<Match> matches = new ArrayList<Match>();
 		
 			// Reduce the rule and get as a result a list of rules, each having 1 node less and the input rule
-			List<Rule> newRules = reduceRule((Rule)unit);
+			List<Rule> newRules = reduceRule(rule);
 			
 			// Find matches for the reduced rules
-			for (Rule rule : newRules) {
-				matches.addAll(findAllMatches(engine, rule, graph, null));
+			for (Rule newRule : newRules) {
+				matches.addAll(findAllMatches(engine, newRule, graph, null));
 			}
 			
 			// If no matches for the reduced rules were found, call the method recursively for these reduced rules
 			while (matches.isEmpty()) {
-				for (Rule rule : newRules) {
-					matches.addAll(findPartialMatchesPerRule(rule, engine, graph));
+				for (Rule newRule : newRules) {
+					matches.addAll(findPartialMatchesPerRule(newRule, engine, graph));
 				} 
 			}
 			
@@ -161,60 +227,21 @@ public class InterpreterUtil {
 	private static List<Rule> reduceRule(Rule rule) {
 		// If the input rule has N nodes in the LHS, then output a set of N rules, in which each rule is exactly 1 node less that the input rule has (the size of each rule in the set is N-1)
 		List<Rule> newRules = new ArrayList<Rule>();
-		int counter = 0;
 		EList<Node> nodes = rule.getLhs().getNodes();
 		
 		// Copy all the nodes from the input rule in the N rules of the output set
 		for (int i = 0; i < nodes.size(); i++) {
-			// Create a new reduced rule
-			Rule newRule =  HenshinFactory.eINSTANCE.createRule();
-			newRule.setName(rule.getName());
-			
-			// Add nodes to the reduced rule
-			Graph lhs = newRule.getLhs();
-			for (int j = 0; j < nodes.size()-1; j++) {
-				counter = j + i;
-				if (counter < nodes.size()) {
-					HenshinFactory.eINSTANCE.createNode(lhs, nodes.get(counter).getType(), nodes.get(counter).getName());
-				} else {
-					HenshinFactory.eINSTANCE.createNode(lhs, nodes.get(counter - nodes.size()).getType(), nodes.get(counter - nodes.size()).getName());
-				}
-			}
-			
-			// Add edges between the nodes of the current reduced rule
-			for (Node newNode : lhs.getNodes()) {
-				for (Node node : rule.getLhs().getNodes(newNode.getType())) {
-					for (Edge edge : node.getAllEdges()) {
-						if ((!lhs.getNodes(edge.getTarget().getType()).isEmpty()) & (!lhs.getNodes(edge.getSource().getType()).isEmpty())) {
-							lhs.getEdges().add(HenshinFactory.eINSTANCE.createEdge(edge.getSource(), edge.getTarget(), edge.getType()));
-						}
-					}
-				}
-			}
-			
-			// Copy the RHS of the input rule to the reduced rule
-			newRule.getRhs().getNodes().addAll(rule.getRhs().getNodes());
-			newRule.getRhs().getEdges().addAll(rule.getRhs().getEdges());
-			
+			// Create a new reduced rule by copying the original one
+			Rule newRule =  EcoreUtil.copy(rule);
+			// Remove the current node from the reduced rule
+			newRule.getLhs().removeNode(newRule.getLhs().getNodes().get(i));
+			// Add the new rule to the list of new rules
 			newRules.add(newRule);
 		}
 		
 		return newRules;
 	}
 	
-	/**
-	 * For the given module and the list of partial matches, output a string report.
-	 * 
-	 * @param module Module to be used.
-	 * @param matches Partial matches to report about.
-	 * @return A string containing a report about the partial matches for the given module, which can be used for a detailed feedback.
-	 */
-	public static String generatePartialMatchReport(Module module,
-			List<Match> matches) {
-		
-		return (new PartialMatchReport(module, matches)).getReport();
-	}
-		
 	/**
 	 * Execute the given unit application and throws an {@link AssertionError} if it could
 	 * not be successfully applied (if {@link UnitApplication#execute(ApplicationMonitor)}

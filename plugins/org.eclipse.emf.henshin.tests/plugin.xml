@@ -15,4 +15,12 @@
             genModel="model/testmodel.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated uml -->
+      <package
+            uri="http://is.cs.upb.de/uml"
+            class="org.eclipse.emf.henshin.tests.uml.UmlPackage"
+            genModel="model/languagedefinition/uml.genmodel"/>
+   </extension>
+
 </plugin>
