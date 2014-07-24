@@ -1,67 +1,125 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Philipps-University Marburg - initial API and implementation
- *******************************************************************************/
+/**
+ */
 package org.eclipse.emf.henshin.tests.testmodel;
 
-import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
- * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a
- * create method for each non-abstract class of the model. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * The <b>Factory</b> for the model.
+ * It provides a create method for each non-abstract class of the model.
+ * <!-- end-user-doc -->
  * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage
  * @generated
  */
-public interface TestmodelFactory extends EFactory {
+public class TestmodelFactory extends EFactoryImpl {
 	/**
 	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * @generated
-	 */
-	TestmodelFactory eINSTANCE = org.eclipse.emf.henshin.tests.testmodel.impl.TestmodelFactoryImpl.init();
-	
-	/**
-	 * Returns a new object of class '<em>cont</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>cont</em>'.
 	 * @generated
 	 */
-	cont createcont();
-	
+	public static final TestmodelFactory eINSTANCE = init();
+
 	/**
-	 * Returns a new object of class '<em>Node</em>'.
+	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Node</em>'.
 	 * @generated
 	 */
-	Node createNode();
-	
+	public static TestmodelFactory init() {
+		try {
+			TestmodelFactory theTestmodelFactory = (TestmodelFactory)EPackage.Registry.INSTANCE.getEFactory(TestmodelPackage.eNS_URI);
+			if (theTestmodelFactory != null) {
+				return theTestmodelFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new TestmodelFactory();
+	}
+
 	/**
-	 * Returns a new object of class '<em>Val</em>'.
+	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Val</em>'.
 	 * @generated
 	 */
-	Val createVal();
-	
+	public TestmodelFactory() {
+		super();
+	}
+
 	/**
-	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
 	 * @generated
 	 */
-	TestmodelPackage getTestmodelPackage();
-	
-} // TestmodelFactory
+	@Override
+	public EObject create(EClass eClass) {
+		switch (eClass.getClassifierID()) {
+			case TestmodelPackage.CONT: return createcont();
+			case TestmodelPackage.NODE: return createNode();
+			case TestmodelPackage.VAL: return createVal();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public cont createcont() {
+		cont cont = new cont();
+		return cont;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node createNode() {
+		Node node = new Node();
+		return node;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Val createVal() {
+		Val val = new Val();
+		return val;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TestmodelPackage getTestmodelPackage() {
+		return (TestmodelPackage)getEPackage();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @deprecated
+	 * @generated
+	 */
+	@Deprecated
+	public static TestmodelPackage getPackage() {
+		return TestmodelPackage.eINSTANCE;
+	}
+
+} //TestmodelFactory

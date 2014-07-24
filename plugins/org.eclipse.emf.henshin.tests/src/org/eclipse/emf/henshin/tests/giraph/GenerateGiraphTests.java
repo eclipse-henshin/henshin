@@ -38,11 +38,11 @@ public class GenerateGiraphTests {
 
 			GiraphRuleTemplate ruleTemplate = GiraphRuleTemplate.create("\n");
 			String giraphCode = ruleTemplate.generate(args);
-			save(new File("giraph-tests/classes/" + className + ".java"), giraphCode);
+			save(new File("giraph/classes/" + className + ".java"), giraphCode);
 
 			HenshinUtilTemplate utilTemplate = HenshinUtilTemplate.create("\n");
 			String utilCode = utilTemplate.generate(args);
-			save(new File("giraph-tests/classes/HenshinUtil.java"), utilCode);
+			save(new File("giraph/classes/HenshinUtil.java"), utilCode);
 		} catch (Exception e) {
 			System.err.println("Error generating compute class for " + mainUnit);
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class GenerateGiraphTests {
 	public static void generateInputGraph(Rule rule) {
 		try {
 			String graphCode = GiraphUtil.getInstanceCode(rule);
-			save(new File("giraph-tests/graphs/" + rule.getName() + ".json"), graphCode);
+			save(new File("giraph/graphs/" + rule.getName() + ".json"), graphCode);
 		} catch (Exception e) {
 			System.err.println("Error generating graph for rule " + rule.getName());			
 		}
@@ -144,7 +144,6 @@ public class GenerateGiraphTests {
 		Rule parallelVStart = (Rule) module.getUnit("ParallelVStart");
 		generateInputGraph(parallelVStart);
 		generateComputeClass(parallelV, true, false);
-
 
 	}
 
