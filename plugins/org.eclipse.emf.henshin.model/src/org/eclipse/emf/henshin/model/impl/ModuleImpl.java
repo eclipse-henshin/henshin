@@ -124,7 +124,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 */
 	public Module getSuperModule() {
 		if (eContainerFeatureID() != HenshinPackage.MODULE__SUPER_MODULE) return null;
-		return (Module)eContainer();
+		return (Module)eInternalContainer();
 	}
 
 	/**

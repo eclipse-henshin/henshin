@@ -29,8 +29,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NamedElement;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.NamedElement} object. 
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.NamedElement} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -40,7 +39,7 @@ public class NamedElementItemProvider extends HenshinItemProviderAdapter impleme
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. 
+	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -50,7 +49,7 @@ public class NamedElementItemProvider extends HenshinItemProviderAdapter impleme
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. 
+	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -111,7 +110,7 @@ public class NamedElementItemProvider extends HenshinItemProviderAdapter impleme
 	}
 
 	/**
-	 * This returns NamedElement.gif. 
+	 * This returns NamedElement.gif.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -156,8 +155,8 @@ public class NamedElementItemProvider extends HenshinItemProviderAdapter impleme
 	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -168,7 +167,7 @@ public class NamedElementItemProvider extends HenshinItemProviderAdapter impleme
 	}
 	
 	/**
-	 * Return the resource locator for this item provider's resources. 
+	 * Return the resource locator for this item provider's resources.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

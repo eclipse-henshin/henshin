@@ -199,8 +199,8 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	
 	/**
 	 * This is the property sheet page.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected PropertySheetPage propertySheetPage;
@@ -428,6 +428,15 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 			@Override
 			protected void unsetTarget(Resource target) {
 				basicUnsetTarget(target);
+				resourceToDiagnosticMap.remove(target);
+				if (updateProblemIndication) {
+					getSite().getShell().getDisplay().asyncExec
+						(new Runnable() {
+							 public void run() {
+								 updateProblemIndication();
+							 }
+						 });
+				}
 			}
 		};
 	
@@ -1637,7 +1646,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	
 	/**
 	 * This returns whether something has been persisted to the URI of the specified resource.
-	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream.
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * @generated
@@ -1707,20 +1716,9 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 * @generated
 	 */
 	public void gotoMarker(IMarker marker) {
-		try {
-			if (marker.getType().equals(EValidator.MARKER)) {
-				String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
-				if (uriAttribute != null) {
-					URI uri = URI.createURI(uriAttribute);
-					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
-					if (eObject != null) {
-					  setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
-					}
-				}
-			}
-		}
-		catch (CoreException exception) {
-			HenshinEditorPlugin.INSTANCE.log(exception);
+		List<?> targetObjects = markerHelper.getTargetObjects(editingDomain, marker);
+		if (!targetObjects.isEmpty()) {
+			setSelectionToViewer(targetObjects);
 		}
 	}
 	

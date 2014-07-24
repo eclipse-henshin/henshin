@@ -473,13 +473,22 @@ public interface HenshinPackage extends EPackage {
 	int RULE__MULTI_MAPPINGS = UNIT_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>Java Imports</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__JAVA_IMPORTS = UNIT_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = UNIT_FEATURE_COUNT + 8;
+	int RULE_FEATURE_COUNT = UNIT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1935,6 +1944,17 @@ public interface HenshinPackage extends EPackage {
 	EReference getRule_MultiMappings();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.emf.henshin.model.Rule#getJavaImports <em>Java Imports</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Java Imports</em>'.
+	 * @see org.eclipse.emf.henshin.model.Rule#getJavaImports()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EAttribute getRule_JavaImports();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.AttributeCondition <em>Attribute Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2875,6 +2895,14 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RULE__MULTI_MAPPINGS = eINSTANCE.getRule_MultiMappings();
+
+		/**
+		 * The meta object literal for the '<em><b>Java Imports</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE__JAVA_IMPORTS = eINSTANCE.getRule_JavaImports();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.

@@ -185,7 +185,7 @@ public class VariableInfo {
 			if (rule.getParameter(value)!=null) {
 				constraint = new AttributeConstraint(attribute.getType(), value, false);
 			} else {
-				Object constant = engine.evalAttributeExpression(attribute);
+				Object constant = engine.evalAttributeExpression(attribute, rule);
 				constraint = new AttributeConstraint(attribute.getType(), constant, true);
 			}
 			var.attributeConstraints.add(constraint);

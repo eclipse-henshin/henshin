@@ -521,6 +521,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRule_JavaImports() {
+		return (EAttribute)ruleEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAttributeCondition() {
 		return attributeConditionEClass;
 	}
@@ -1265,6 +1274,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		createEAttribute(ruleEClass, RULE__INJECTIVE_MATCHING);
 		createEReference(ruleEClass, RULE__MULTI_RULES);
 		createEReference(ruleEClass, RULE__MULTI_MAPPINGS);
+		createEAttribute(ruleEClass, RULE__JAVA_IMPORTS);
 
 		parameterEClass = createEClass(PARAMETER);
 		createEReference(parameterEClass, PARAMETER__UNIT);
@@ -1457,6 +1467,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEAttribute(getRule_InjectiveMatching(), ecorePackage.getEBoolean(), "injectiveMatching", "true", 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_MultiRules(), this.getRule(), null, "multiRules", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_MultiMappings(), this.getMapping(), null, "multiMappings", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRule_JavaImports(), ecorePackage.getEString(), "javaImports", "", 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(ruleEClass, this.getRule(), "getKernelRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1695,49 +1706,49 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore";		
+		String source = "http://www.eclipse.org/emf/2002/Ecore";	
 		addAnnotation
 		  (unitEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "parameterNamesUnique parameterMappingsPointToDirectSubUnit"
-		   });		
+		   });	
 		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"
-		   });		
+		   });	
 		addAnnotation
 		  (parameterEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "nameNotEmpty nameNotTypeName"
-		   });		
+		   });	
 		addAnnotation
 		  (graphEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueNodeNames"
-		   });		
+		   });	
 		addAnnotation
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueAttributeTypes"
-		   });		
+		   });	
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "equalParentGraphs"
-		   });		
+		   });	
 		addAnnotation
 		  (iteratedUnitEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "iterationsNotEmpty"
-		   });		
+		   });	
 		addAnnotation
 		  (nestedConditionEClass, 
 		   source, 

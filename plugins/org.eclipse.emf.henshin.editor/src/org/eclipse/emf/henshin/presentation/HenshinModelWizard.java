@@ -359,9 +359,9 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 		protected Combo initialObjectField;
 		
 		/**
+		 * @generated
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @generated 
 		 */
 		protected List<String> encodings;
 		
@@ -574,10 +574,9 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 
 	
 	/**
-	 * The framework calls this to create the contents of the wizard. 
+	 * The framework calls this to create the contents of the wizard.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void addPagesGen() {

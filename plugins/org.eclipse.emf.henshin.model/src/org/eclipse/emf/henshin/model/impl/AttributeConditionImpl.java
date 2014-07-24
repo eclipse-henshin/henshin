@@ -85,7 +85,7 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	 */
 	public Rule getRule() {
 		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE) return null;
-		return (Rule)eContainer();
+		return (Rule)eInternalContainer();
 	}
 
 	/**

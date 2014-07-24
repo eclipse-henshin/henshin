@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -64,6 +65,7 @@ import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#isInjectiveMatching <em>Injective Matching</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMultiRules <em>Multi Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMultiMappings <em>Multi Mappings</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getJavaImports <em>Java Imports</em>}</li>
  * </ul>
  * </p>
  *
@@ -171,6 +173,16 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 */
 	protected EList<Mapping> multiMappings;
 	
+	/**
+	 * The cached value of the '{@link #getJavaImports() <em>Java Imports</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getJavaImports()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> javaImports;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -916,6 +928,18 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<String> getJavaImports() {
+		if (javaImports == null) {
+			javaImports = new EDataTypeUniqueEList<String>(String.class, this, HenshinPackage.RULE__JAVA_IMPORTS);
+		}
+		return javaImports;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID,
@@ -976,6 +1000,8 @@ public class RuleImpl extends UnitImpl implements Rule {
 				return getMultiRules();
 			case HenshinPackage.RULE__MULTI_MAPPINGS:
 				return getMultiMappings();
+			case HenshinPackage.RULE__JAVA_IMPORTS:
+				return getJavaImports();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1017,6 +1043,10 @@ public class RuleImpl extends UnitImpl implements Rule {
 				getMultiMappings().clear();
 				getMultiMappings().addAll((Collection<? extends Mapping>)newValue);
 				return;
+			case HenshinPackage.RULE__JAVA_IMPORTS:
+				getJavaImports().clear();
+				getJavaImports().addAll((Collection<? extends String>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -1053,6 +1083,9 @@ public class RuleImpl extends UnitImpl implements Rule {
 			case HenshinPackage.RULE__MULTI_MAPPINGS:
 				getMultiMappings().clear();
 				return;
+			case HenshinPackage.RULE__JAVA_IMPORTS:
+				getJavaImports().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1081,6 +1114,8 @@ public class RuleImpl extends UnitImpl implements Rule {
 				return multiRules != null && !multiRules.isEmpty();
 			case HenshinPackage.RULE__MULTI_MAPPINGS:
 				return multiMappings != null && !multiMappings.isEmpty();
+			case HenshinPackage.RULE__JAVA_IMPORTS:
+				return javaImports != null && !javaImports.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

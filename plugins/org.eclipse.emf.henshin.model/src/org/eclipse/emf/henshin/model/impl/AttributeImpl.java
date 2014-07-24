@@ -367,7 +367,7 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	 */
 	public Node getNode() {
 		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE) return null;
-		return (Node)eContainer();
+		return (Node)eInternalContainer();
 	}
 
 	/**

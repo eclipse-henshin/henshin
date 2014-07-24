@@ -249,4 +249,10 @@ public class ParameterTests extends HenshinTest {
 		//Tools.printMatches(htRuleApp.findAllMatches());
 	}
 	
+	@Test
+	public void testParameterWithImports() {
+		loadGraph("paramTest");
+		loadRule("parameterWithImports");
+		Rules.assertRuleCanBeApplied(htRuleApp);
+	}
 }

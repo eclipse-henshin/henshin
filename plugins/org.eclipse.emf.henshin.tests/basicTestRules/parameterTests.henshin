@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="CP1252"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_p2d_wPkLEeG8L_O0_HQfRg" name="paramTests">
-  <rules xmi:id="_p2d_wfkLEeG8L_O0_HQfRg" name="parameterAttribute">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_p2d_wPkLEeG8L_O0_HQfRg" name="paramTests">
+  <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_p2d_wfkLEeG8L_O0_HQfRg" name="parameterAttribute">
     <parameters xmi:id="_p2em0PkLEeG8L_O0_HQfRg" name="param_Nodename"/>
     <lhs xmi:id="_p2em0fkLEeG8L_O0_HQfRg" name="LHS">
       <nodes xmi:id="_p2em0vkLEeG8L_O0_HQfRg" name="nd" incoming="_p2fN4vkLEeG8L_O0_HQfRg">
@@ -22,8 +23,8 @@
       </nodes>
     </rhs>
     <mappings xmi:id="_p2f08vkLEeG8L_O0_HQfRg" origin="_p2fN4fkLEeG8L_O0_HQfRg" image="_p2f08fkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p2gcAPkLEeG8L_O0_HQfRg" name="parameterObject">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p2gcAPkLEeG8L_O0_HQfRg" name="parameterObject">
     <parameters xmi:id="_p2gcA_kLEeG8L_O0_HQfRg" name="param_nd"/>
     <lhs xmi:id="_p2gcBPkLEeG8L_O0_HQfRg" name="LHS">
       <nodes xmi:id="_p2gcBfkLEeG8L_O0_HQfRg" name="param_nd" incoming="_p2hDEfkLEeG8L_O0_HQfRg">
@@ -42,8 +43,8 @@
       </nodes>
     </rhs>
     <mappings xmi:id="_p2hqIPkLEeG8L_O0_HQfRg" origin="_p2hDEPkLEeG8L_O0_HQfRg" image="_p2hDE_kLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p2hqIfkLEeG8L_O0_HQfRg" name="parameterComposition2">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p2hqIfkLEeG8L_O0_HQfRg" name="parameterComposition2">
     <parameters xmi:id="_p2hqJPkLEeG8L_O0_HQfRg" name="p1"/>
     <parameters xmi:id="_p2hqJfkLEeG8L_O0_HQfRg" name="p2"/>
     <parameters xmi:id="_p2hqJvkLEeG8L_O0_HQfRg" name="vl"/>
@@ -74,8 +75,8 @@
     </rhs>
     <mappings xmi:id="_p2kGYPkLEeG8L_O0_HQfRg" origin="_p2iRMfkLEeG8L_O0_HQfRg" image="_p2i4QfkLEeG8L_O0_HQfRg"/>
     <mappings xmi:id="_p2kGYfkLEeG8L_O0_HQfRg" origin="_p2iRMPkLEeG8L_O0_HQfRg" image="_p2i4QvkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p2kGYvkLEeG8L_O0_HQfRg" name="parameterInOut">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p2kGYvkLEeG8L_O0_HQfRg" name="parameterInOut">
     <parameters xmi:id="_p2ktcfkLEeG8L_O0_HQfRg" name="param_node"/>
     <parameters xmi:id="_p2ktcvkLEeG8L_O0_HQfRg" name="param_ndname"/>
     <lhs xmi:id="_p2ktc_kLEeG8L_O0_HQfRg" name="LHS">
@@ -95,9 +96,9 @@
       </nodes>
     </rhs>
     <mappings xmi:id="_p2mioPkLEeG8L_O0_HQfRg" origin="_p2lUgPkLEeG8L_O0_HQfRg" image="_p2l7kPkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p2miofkLEeG8L_O0_HQfRg" name="parameterOperations">
-    <parameters xmi:id="_p2nJsPkLEeG8L_O0_HQfRg" description="" name="nd"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p2miofkLEeG8L_O0_HQfRg" name="parameterOperations">
+    <parameters xmi:id="_p2nJsPkLEeG8L_O0_HQfRg" name="nd" description=""/>
     <parameters xmi:id="_p2nJsfkLEeG8L_O0_HQfRg" name="param_string"/>
     <parameters xmi:id="_p2nJsvkLEeG8L_O0_HQfRg" name="param_int"/>
     <lhs xmi:id="_p2nwwPkLEeG8L_O0_HQfRg" name="LHS">
@@ -136,8 +137,8 @@
     </rhs>
     <mappings xmi:id="_p2rbIPkLEeG8L_O0_HQfRg" origin="_p2oX0PkLEeG8L_O0_HQfRg" image="_p2pl8PkLEeG8L_O0_HQfRg"/>
     <mappings xmi:id="_p2rbIfkLEeG8L_O0_HQfRg" origin="_p2nwwfkLEeG8L_O0_HQfRg" image="_p2o-4fkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p2rbIvkLEeG8L_O0_HQfRg" name="parameterComposition1">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p2rbIvkLEeG8L_O0_HQfRg" name="parameterComposition1">
     <parameters xmi:id="_p2sCMPkLEeG8L_O0_HQfRg" name="p1"/>
     <parameters xmi:id="_p2sCMfkLEeG8L_O0_HQfRg" name="p2"/>
     <parameters xmi:id="_p2sCMvkLEeG8L_O0_HQfRg" name="vl"/>
@@ -168,8 +169,8 @@
     </rhs>
     <mappings xmi:id="_p2t3Y_kLEeG8L_O0_HQfRg" origin="_p2spQfkLEeG8L_O0_HQfRg" image="_p2tQUfkLEeG8L_O0_HQfRg"/>
     <mappings xmi:id="_p2uecPkLEeG8L_O0_HQfRg" origin="_p2spQPkLEeG8L_O0_HQfRg" image="_p2t3YPkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p2uecfkLEeG8L_O0_HQfRg" name="attribCond1">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p2uecfkLEeG8L_O0_HQfRg" name="attribCond1">
     <parameters xmi:id="_p2uedPkLEeG8L_O0_HQfRg" name="p3"/>
     <lhs xmi:id="_p2uedfkLEeG8L_O0_HQfRg" name="LHS">
       <nodes xmi:id="_p2vFgPkLEeG8L_O0_HQfRg" name="cont" outgoing="_p2vskvkLEeG8L_O0_HQfRg _p2wToPkLEeG8L_O0_HQfRg">
@@ -205,11 +206,11 @@
         <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
       </edges>
     </rhs>
-    <attributeConditions xmi:id="_p2w6sfkLEeG8L_O0_HQfRg" description="" name="p3_greater_than_20" conditionText="p3 > 20"/>
+    <attributeConditions xmi:id="_p2w6sfkLEeG8L_O0_HQfRg" name="p3_greater_than_20" description="" conditionText="p3 > 20"/>
     <mappings xmi:id="_p2xhwPkLEeG8L_O0_HQfRg" origin="_p2vFgPkLEeG8L_O0_HQfRg" image="_p2wTovkLEeG8L_O0_HQfRg"/>
     <mappings xmi:id="_p2xhwfkLEeG8L_O0_HQfRg" origin="_p2vFgfkLEeG8L_O0_HQfRg" image="_p2wTo_kLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p2xhwvkLEeG8L_O0_HQfRg" name="attribCond2">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p2xhwvkLEeG8L_O0_HQfRg" name="attribCond2">
     <parameters xmi:id="_p2yI0fkLEeG8L_O0_HQfRg" name="p3"/>
     <parameters xmi:id="_p2yI0vkLEeG8L_O0_HQfRg" name="p1"/>
     <parameters xmi:id="_p2yI0_kLEeG8L_O0_HQfRg" name="p2"/>
@@ -247,19 +248,19 @@
         <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
       </edges>
     </rhs>
-    <attributeConditions xmi:id="_p20lEPkLEeG8L_O0_HQfRg" description="" name="p3 = p1+p2" conditionText="p3 == (p1 + p2)"/>
+    <attributeConditions xmi:id="_p20lEPkLEeG8L_O0_HQfRg" name="p3 = p1+p2" description="" conditionText="p3 == (p1 + p2)"/>
     <mappings xmi:id="_p20lEfkLEeG8L_O0_HQfRg" origin="_p2yI1fkLEeG8L_O0_HQfRg" image="_p2z-AfkLEeG8L_O0_HQfRg"/>
     <mappings xmi:id="_p20lEvkLEeG8L_O0_HQfRg" origin="_p2yv4PkLEeG8L_O0_HQfRg" image="_p2z-AvkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p20lE_kLEeG8L_O0_HQfRg" description="empty rule with attribute conditions" name="emptyRuleWithAttribCond">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p20lE_kLEeG8L_O0_HQfRg" name="emptyRuleWithAttribCond" description="empty rule with attribute conditions">
     <parameters xmi:id="_p21MIvkLEeG8L_O0_HQfRg" name="p1"/>
     <parameters xmi:id="_p21MI_kLEeG8L_O0_HQfRg" name="p2"/>
     <parameters xmi:id="_p21MJPkLEeG8L_O0_HQfRg" name="p3"/>
     <lhs xmi:id="_p21MJfkLEeG8L_O0_HQfRg" name="LHS"/>
     <rhs xmi:id="_p21MJvkLEeG8L_O0_HQfRg" name="RHS"/>
     <attributeConditions xmi:id="_p21MJ_kLEeG8L_O0_HQfRg" name="p3 = p1+p2" conditionText="p3 == (p1 + p2)"/>
-  </rules>
-  <rules xmi:id="_p21zMPkLEeG8L_O0_HQfRg" description="if the minimum of both values is even, set both values to the miniumum. else, fail" name="multipleAttributeConditions">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p21zMPkLEeG8L_O0_HQfRg" name="multipleAttributeConditions" description="if the minimum of both values is even, set both values to the miniumum. else, fail">
     <parameters xmi:id="_p21zM_kLEeG8L_O0_HQfRg" name="vl1_val"/>
     <parameters xmi:id="_p21zNPkLEeG8L_O0_HQfRg" name="vl2_val"/>
     <lhs xmi:id="_p21zNfkLEeG8L_O0_HQfRg" name="LHS">
@@ -294,8 +295,8 @@
     <attributeConditions xmi:id="_p23oYPkLEeG8L_O0_HQfRg" name="vl2 is even" conditionText="(vl2_val % 2) == 0"/>
     <mappings xmi:id="_p23oYfkLEeG8L_O0_HQfRg" origin="_p21zNvkLEeG8L_O0_HQfRg" image="_p22aRPkLEeG8L_O0_HQfRg"/>
     <mappings xmi:id="_p23oYvkLEeG8L_O0_HQfRg" origin="_p22aQfkLEeG8L_O0_HQfRg" image="_p23BUfkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p23oY_kLEeG8L_O0_HQfRg" name="parameterInNestedCondition1">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p23oY_kLEeG8L_O0_HQfRg" name="parameterInNestedCondition1">
     <parameters xmi:id="_p24PcPkLEeG8L_O0_HQfRg" name="p1"/>
     <lhs xmi:id="_p24PcfkLEeG8L_O0_HQfRg" name="LHS">
       <nodes xmi:id="_p24PcvkLEeG8L_O0_HQfRg" name="nd1">
@@ -325,8 +326,8 @@
       </nodes>
     </rhs>
     <mappings xmi:id="_p25dk_kLEeG8L_O0_HQfRg" origin="_p24PcvkLEeG8L_O0_HQfRg" image="_p25dkfkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <rules xmi:id="_p25dlPkLEeG8L_O0_HQfRg" name="parameterInNestedCondition2">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p25dlPkLEeG8L_O0_HQfRg" name="parameterInNestedCondition2">
     <parameters xmi:id="_p26EovkLEeG8L_O0_HQfRg" name="p1"/>
     <lhs xmi:id="_p26Eo_kLEeG8L_O0_HQfRg" name="LHS">
       <nodes xmi:id="_p26EpPkLEeG8L_O0_HQfRg" name="nd1">
@@ -355,13 +356,33 @@
       </nodes>
     </rhs>
     <mappings xmi:id="_p27Sw_kLEeG8L_O0_HQfRg" origin="_p26EpPkLEeG8L_O0_HQfRg" image="_p27SwfkLEeG8L_O0_HQfRg"/>
-  </rules>
-  <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
-  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_p28g4PkLEeG8L_O0_HQfRg" name="parameterUnit" subUnits="_p2kGYvkLEeG8L_O0_HQfRg _p2gcAPkLEeG8L_O0_HQfRg">
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_p28g4PkLEeG8L_O0_HQfRg" name="parameterUnit" subUnits="_p2kGYvkLEeG8L_O0_HQfRg _p2gcAPkLEeG8L_O0_HQfRg">
     <parameters xmi:id="_p29H8PkLEeG8L_O0_HQfRg" name="tu_param_in"/>
     <parameters xmi:id="_p29H8fkLEeG8L_O0_HQfRg" name="p2"/>
     <parameterMappings xmi:id="_p2-WEPkLEeG8L_O0_HQfRg" source="_p29H8PkLEeG8L_O0_HQfRg" target="_p2ktcvkLEeG8L_O0_HQfRg"/>
     <parameterMappings xmi:id="_p2-WEfkLEeG8L_O0_HQfRg" source="_p2ktcfkLEeG8L_O0_HQfRg" target="_p29H8fkLEeG8L_O0_HQfRg"/>
     <parameterMappings xmi:id="_p2-9IPkLEeG8L_O0_HQfRg" source="_p29H8fkLEeG8L_O0_HQfRg" target="_p2gcA_kLEeG8L_O0_HQfRg"/>
-  </transformationUnits>
-</henshin:TransformationSystem>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Z4xYEBKXEeSh6aZPs8UBrQ" name="parameterWithImports">
+    <parameters xmi:id="_zbQT0BKXEeSh6aZPs8UBrQ" name="name"/>
+    <lhs xmi:id="_Z5IkcBKXEeSh6aZPs8UBrQ" name="Lhs">
+      <nodes xmi:id="_h_qmsBKXEeSh6aZPs8UBrQ" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_qt9zkBKXEeSh6aZPs8UBrQ" value="name">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Z5IkcRKXEeSh6aZPs8UBrQ" name="Rhs">
+      <nodes xmi:id="_om1vABKXEeSh6aZPs8UBrQ" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_4FIpABKXEeSh6aZPs8UBrQ" value="name + new Random().nextDouble().toString()">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_om2WEBKXEeSh6aZPs8UBrQ" origin="_h_qmsBKXEeSh6aZPs8UBrQ" image="_om1vABKXEeSh6aZPs8UBrQ"/>
+    <javaImports>java.util.Random</javaImports>
+  </units>
+</henshin:Module>

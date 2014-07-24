@@ -54,7 +54,7 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	protected NodeListener nodeListener = new NodeListener();
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. 
+	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -64,7 +64,7 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. 
+	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -234,8 +234,8 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -246,7 +246,7 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * Return the resource locator for this item provider's resources. 
+	 * Return the resource locator for this item provider's resources.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

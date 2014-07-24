@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#isInjectiveMatching <em>Injective Matching</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMultiRules <em>Multi Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMultiMappings <em>Multi Mappings</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Rule#getJavaImports <em>Java Imports</em>}</li>
  * </ul>
  * </p>
  *
@@ -313,5 +314,17 @@ public interface Rule extends Unit {
 	 * @generated NOT
 	 */
 	MappingList getMultiMappings();
+
+	/**
+	 * Returns the value of the '<em><b>Java Imports</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Java Imports</em>' attribute list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_JavaImports()
+	 * @model default=""
+	 * @generated
+	 */
+	EList<String> getJavaImports();
 
 } // Rule

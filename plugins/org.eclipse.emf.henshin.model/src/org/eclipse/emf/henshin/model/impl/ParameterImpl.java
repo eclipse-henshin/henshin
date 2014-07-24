@@ -82,7 +82,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 */
 	public Unit getUnit() {
 		if (eContainerFeatureID() != HenshinPackage.PARAMETER__UNIT) return null;
-		return (Unit)eContainer();
+		return (Unit)eInternalContainer();
 	}
 
 	/**

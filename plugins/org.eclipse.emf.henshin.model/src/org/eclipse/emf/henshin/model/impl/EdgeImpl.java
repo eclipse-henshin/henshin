@@ -348,7 +348,7 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 */
 	public Graph getGraph() {
 		if (eContainerFeatureID() != HenshinPackage.EDGE__GRAPH) return null;
-		return (Graph)eContainer();
+		return (Graph)eInternalContainer();
 	}
 
 	/**

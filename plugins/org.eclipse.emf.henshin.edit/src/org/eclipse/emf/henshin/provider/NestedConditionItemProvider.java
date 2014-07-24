@@ -40,8 +40,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.provider.trans.NestedConditionMappingItemProvider;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.NestedCondition} object. 
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.NestedCondition} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -58,7 +57,7 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	public static final int MAX_UNFOLD_MAPPINGS = 5;
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. 
+	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -68,7 +67,7 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. 
+	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -114,15 +113,14 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	}
 	
 	/**
-	 * This returns NestedCondition.gif. 
+	 * This returns NestedCondition.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		Object defaultImage = getResourceLocator().getImage("full/obj16/NestedCondition");
-		return defaultImage;
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/NestedCondition"));
 	}
 	
 	/*
@@ -224,8 +222,8 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

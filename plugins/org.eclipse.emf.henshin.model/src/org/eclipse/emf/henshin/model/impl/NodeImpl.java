@@ -210,7 +210,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 */
 	public Graph getGraph() {
 		if (eContainerFeatureID() != HenshinPackage.NODE__GRAPH) return null;
-		return (Graph)eContainer();
+		return (Graph)eInternalContainer();
 	}
 
 	/**

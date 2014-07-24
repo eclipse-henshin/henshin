@@ -29,8 +29,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.UnaryFormula} object. 
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.UnaryFormula} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -40,7 +39,7 @@ public class UnaryFormulaItemProvider extends HenshinItemProviderAdapter impleme
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. 
+	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -50,7 +49,7 @@ public class UnaryFormulaItemProvider extends HenshinItemProviderAdapter impleme
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. 
+	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -95,7 +94,7 @@ public class UnaryFormulaItemProvider extends HenshinItemProviderAdapter impleme
 	}
 	
 	/**
-	 * This returns UnaryFormula.gif. 
+	 * This returns UnaryFormula.gif.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -136,8 +135,8 @@ public class UnaryFormulaItemProvider extends HenshinItemProviderAdapter impleme
 	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
