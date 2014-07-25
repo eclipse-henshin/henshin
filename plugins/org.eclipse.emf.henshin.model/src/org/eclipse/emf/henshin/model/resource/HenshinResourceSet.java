@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -81,7 +82,9 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		initPackageImplementation("org.eclipse.emf.henshin.wrap.WrapPackage");
 		
 		// Register common XMI file resource factories:
-		registerXMIResourceFactories(HenshinResource.FILE_EXTENSION, "ecore", "xmi");
+		if (!EcorePlugin.IS_ECLIPSE_RUNNING) {
+			registerXMIResourceFactories(HenshinResource.FILE_EXTENSION, "ecore", "xmi");
+		}
 		
 		// Set the base directory:
 		if (baseDir!=null) {
