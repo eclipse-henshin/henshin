@@ -40,12 +40,9 @@ public class UnitSelector {
 	
 	protected Button unitFilter;
 	
-	//Save the outerunits in a separate list so you don't have to check every time you filter
 	protected String[] selectableUnits;
-	protected String[] outerUnits;
 	
-	//TODO This variable is always NULL. What is it supposed to do?
-	//protected List<Unit> units;
+	protected String[] outerUnits;
 	
 	public UnitSelector(Composite parent) {
 		container = new Group(parent, SWT.NONE);
@@ -61,11 +58,11 @@ public class UnitSelector {
 		}
 		
 		unitSelector.addSelectionListener(new SelectionAdapter() {
-			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for (UnitSelectionListener l : listeners)
+				for (UnitSelectionListener l : listeners) {
 					l.unitSelected(unitSelector.getSelectionIndex());
+				}
 			}
 		});
 		
@@ -106,10 +103,12 @@ public class UnitSelector {
 	private void updateSelection(Boolean showInnerUnits) {
 		unitSelector.removeAll();
 		String[] selectionArray = showInnerUnits ? selectableUnits : outerUnits;
-		for(String unit : selectionArray)
+		for(String unit : selectionArray) {
 			unitSelector.add(unit);
-		if(unitSelector.getItemCount() > 0)
+		}
+		if(unitSelector.getItemCount() > 0) {
 			unitSelector.setText(unitSelector.getItem(0));
+		}
 	}
 	
 	public void addUnitSelectionListener(UnitSelectionListener listener) {

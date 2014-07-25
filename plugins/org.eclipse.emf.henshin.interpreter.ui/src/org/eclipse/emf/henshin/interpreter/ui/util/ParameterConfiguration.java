@@ -31,7 +31,6 @@ public class ParameterConfiguration {
 	public static final int LONG = 6;
 	public static final int DOUBLE = 7;
 	
-	
 	private static Map<Integer, String> supportedTypes;
 	
 	public static Map<Integer, String> getSupportedTypes() {

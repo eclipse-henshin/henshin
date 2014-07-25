@@ -48,9 +48,9 @@ public class ParameterEditTable {
 	
 	public ParameterEditTable(Composite parent) {
 		container = new Group(parent, SWT.NONE);
-		container.setText(HenshinInterpreterUIPlugin.LL("_UI_SetParameters"));
+		container.setText(HenshinInterpreterUIPlugin.LL("_UI_Parameters"));
 		container.setLayout(new FormLayout());
-		tableViewer = new TableViewer(container, SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(container, SWT.FULL_SELECTION | SWT.BORDER);
 		{
 			FormData data = new FormData();
 			data.top = new FormAttachment(0, CONTROL_OFFSET);

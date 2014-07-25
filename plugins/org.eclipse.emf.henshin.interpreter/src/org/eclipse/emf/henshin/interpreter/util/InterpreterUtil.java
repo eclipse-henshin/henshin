@@ -269,7 +269,7 @@ public class InterpreterUtil {
 	 * @return <code>true</code> if the unit was successfully applied.
 	 */
 	public static boolean applyToResource(Unit unit, Engine engine, Resource resource) {
-		return applyToResource(new AssignmentImpl(unit), engine, resource);
+		return applyToResource(new AssignmentImpl(unit), engine, resource, null);
 	}
 
 	/**
@@ -280,7 +280,7 @@ public class InterpreterUtil {
 	 * @param resource Resource containing the model to be transformed.
 	 * @return <code>true</code> if the unit was successfully applied.
 	 */
-	public static boolean applyToResource(Assignment assignment, Engine engine, Resource resource) {
+	public static boolean applyToResource(Assignment assignment, Engine engine, Resource resource, ApplicationMonitor monitor) {
 		
 		// Create the graph and the unit application:
 		EGraph graph = new EGraphImpl(resource);
@@ -291,7 +291,7 @@ public class InterpreterUtil {
 		oldRoots.addAll(graph.getRoots());
 		
 		// Apply the unit:
-		boolean result = application.execute(null);
+		boolean result = application.execute(monitor);
 		
 		// Sync root objects:
 		List<EObject> roots = graph.getRoots();
