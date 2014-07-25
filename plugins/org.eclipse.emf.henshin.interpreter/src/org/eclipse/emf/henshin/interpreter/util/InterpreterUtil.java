@@ -25,11 +25,13 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
+import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
@@ -257,7 +259,7 @@ public class InterpreterUtil {
 			}
 		}
 	}
-	
+
 	/**
 	 * Apply a unit to the contents of a resource. This automatically creates an {@link EGraph}
 	 * and updates the contents of the resource.
@@ -267,10 +269,22 @@ public class InterpreterUtil {
 	 * @return <code>true</code> if the unit was successfully applied.
 	 */
 	public static boolean applyToResource(Unit unit, Engine engine, Resource resource) {
+		return applyToResource(new AssignmentImpl(unit), engine, resource);
+	}
+
+	/**
+	 * Apply a unit to the contents of a resource. This automatically creates an {@link EGraph}
+	 * and updates the contents of the resource.
+	 * @param assignment Assignment to be used.
+	 * @param engine Engine to be used.
+	 * @param resource Resource containing the model to be transformed.
+	 * @return <code>true</code> if the unit was successfully applied.
+	 */
+	public static boolean applyToResource(Assignment assignment, Engine engine, Resource resource) {
 		
 		// Create the graph and the unit application:
 		EGraph graph = new EGraphImpl(resource);
-		UnitApplication application = new UnitApplicationImpl(engine, graph, unit, null);
+		UnitApplication application = new UnitApplicationImpl(engine, graph, assignment.getUnit(), assignment);
 		
 		// Remember the old root objects:
 		Set<EObject> oldRoots = new HashSet<EObject>();
