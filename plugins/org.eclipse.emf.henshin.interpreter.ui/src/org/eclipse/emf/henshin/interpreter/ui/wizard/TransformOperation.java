@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl;
 import org.eclipse.emf.henshin.interpreter.impl.BasicApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
@@ -123,10 +124,12 @@ public class TransformOperation extends WorkspaceModifyOperation {
 	}
 
 	@Override
-	protected void execute(final IProgressMonitor monitor) throws CoreException,
-			InvocationTargetException, InterruptedException {
-		
-		monitor.beginTask("Applying Transformation", 10);
+	protected void execute(final IProgressMonitor monitor)
+			throws CoreException, InvocationTargetException,
+			InterruptedException {
+
+		monitor.beginTask("", 10);
+		monitor.subTask("Initializing transformation...");
 
 		ResourceSet resourceSet = new ResourceSetImpl();
 
@@ -146,20 +149,37 @@ public class TransformOperation extends WorkspaceModifyOperation {
 
 		Engine engine = new EngineImpl();
 		ApplicationMonitor appMonitor = new BasicApplicationMonitor() {
+			private int apps = 0;
+
 			@Override
 			public boolean isCanceled() {
 				return canceled || monitor.isCanceled();
 			}
+
+			@Override
+			public void notifyExecute(UnitApplication app, boolean success) {
+				if (apps++ % 50 == 0) {
+					monitor.subTask("Applied " + app.getUnit()
+							+ (success ? "" : " (failed)")
+							+ ", " + app.getEGraph().size()
+							+ " objects");
+				}
+			}
 		};
-		
-		if (!InterpreterUtil.applyToResource(assignment, engine, input, appMonitor)) {
-			throw new CoreException(new Status(IStatus.WARNING, HenshinInterpreterUIPlugin.PLUGIN_ID, "Transformation could not be applied to given input model."));
+
+		if (!InterpreterUtil.applyToResource(assignment, engine, input,
+				appMonitor) && !monitor.isCanceled()) {
+			throw new CoreException(
+					new Status(IStatus.WARNING,
+							HenshinInterpreterUIPlugin.PLUGIN_ID,
+							"Transformation could not be applied to given input model."));
 		}
 		monitor.worked(4);
 		if (monitor.isCanceled()) {
 			return;
 		}
 
+		monitor.subTask("Saving result...");
 		Resource output;
 		if (inputUri.equals(outputUri)) {
 			output = input;
@@ -167,28 +187,32 @@ public class TransformOperation extends WorkspaceModifyOperation {
 			output = resourceSet.createResource(outputUri);
 			output.getContents().addAll(input.getContents());
 		}
-		
-		Map<Object,Object> options = new HashMap<Object,Object>();
+
+		Map<Object, Object> options = new HashMap<Object, Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 		try {
 			output.save(options);
 		} catch (IOException e) {
-			throw new CoreException(new Status(IStatus.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, "Error saving transformation result.", e));
+			throw new CoreException(new Status(IStatus.ERROR,
+					HenshinInterpreterUIPlugin.PLUGIN_ID,
+					"Error saving transformation result.", e));
 		}
 		monitor.worked(2);
 		if (monitor.isCanceled()) {
 			return;
 		}
-		
+
 		if (outputUri.isPlatformResource()) {
 			IPath path = new Path(outputUri.toPlatformString(false));
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			if (file != null) {
-				file.getParent().refreshLocal(2, new SubProgressMonitor(monitor, 2));
+				file.getParent().refreshLocal(2,
+						new SubProgressMonitor(monitor, 2));
 			}
 		}
+		monitor.subTask("Finalizing transformation...");
 		monitor.done();
-		
+
 	}
 
 }
