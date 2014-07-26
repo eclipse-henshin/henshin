@@ -18,9 +18,11 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinLinkUpdater;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -198,6 +200,19 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	 */
 	public LinkFigure getPrimaryShape() {
 		return (LinkFigure) getFigure();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void refreshForegroundColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.FG_UNIT);
+		if (color!=null) {
+			setForegroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			super.refreshForegroundColor();
+		}
 	}
 
 	/**
