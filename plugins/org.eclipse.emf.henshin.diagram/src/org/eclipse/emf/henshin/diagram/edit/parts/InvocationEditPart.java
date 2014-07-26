@@ -229,6 +229,19 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 	 * @generated NOT
 	 */
 	@Override
+	public void refreshForegroundColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.FG_INVOCATION);
+		if (color!=null) {
+			setForegroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			super.refreshForegroundColor();
+		}
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
 	public void refreshBackgroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.BG_INVOCATION);
 		if (color!=null) {

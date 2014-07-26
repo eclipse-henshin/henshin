@@ -109,6 +109,10 @@ public class HenshinColorMode {
 	public static final String BG_UNIT = "BG_UNIT";
 	public static final String BG_INVOCATION = "BG_INVOCATION";
 
+	public static final String FG_RULE = "FG_RULE";
+	public static final String FG_UNIT = "FG_UNIT";
+	public static final String FG_INVOCATION = "FG_INVOCATION";
+
 	public static final String BG_ACTION_PRESERVE = "BG_ACTION_PRESERVE";
 	public static final String BG_ACTION_CREATE = "BG_ACTION_CREATE";
 	public static final String BG_ACTION_DELETE = "BG_ACTION_DELETE";

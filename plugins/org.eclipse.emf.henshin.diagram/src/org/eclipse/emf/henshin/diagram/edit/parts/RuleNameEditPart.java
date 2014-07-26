@@ -17,11 +17,13 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.parsers.RuleNameParser;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -399,6 +401,19 @@ public class RuleNameEditPart extends CompartmentEditPart implements
 		refreshFontColor();
 		refreshUnderline();
 		refreshStrikeThrough();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void refreshFontColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.FG_RULE);
+		if (color!=null) {
+			setFontColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			super.refreshFontColor();
+		}
 	}
 
 	/**

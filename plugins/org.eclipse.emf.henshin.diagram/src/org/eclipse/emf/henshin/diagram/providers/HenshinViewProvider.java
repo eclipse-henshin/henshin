@@ -349,10 +349,17 @@ public class HenshinViewProvider extends AbstractProvider implements
 		// Set the default background color:
 		HenshinColorMode defaultColorMode = HenshinColorMode.getDefaultColorMode();
 		if (defaultColorMode!=null) {
-			HenshinColorMode.Color color = defaultColorMode.getColor(HenshinColorMode.BG_RULE);
-			if (color!=null) {
+			HenshinColorMode.Color foregroundColor = defaultColorMode.getColor(HenshinColorMode.FG_RULE);
+			HenshinColorMode.Color backgroundColor = defaultColorMode.getColor(HenshinColorMode.BG_RULE);
+			if (foregroundColor!=null) {
 				ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
-						.getFillStyle_FillColor(), ColorModeHelper.getIntegerColor(color));
+						.getLineStyle_LineColor(), ColorModeHelper.getIntegerColor(foregroundColor));
+				ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+						.getFontStyle_FontColor(), ColorModeHelper.getIntegerColor(foregroundColor));
+			}
+			if (backgroundColor!=null) {
+				ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+						.getFillStyle_FillColor(), ColorModeHelper.getIntegerColor(backgroundColor));
 			}
 		}
 		
@@ -420,10 +427,17 @@ public class HenshinViewProvider extends AbstractProvider implements
 		// Set the default background color:
 		HenshinColorMode defaultColorMode = HenshinColorMode.getDefaultColorMode();
 		if (defaultColorMode!=null) {
-			HenshinColorMode.Color color = defaultColorMode.getColor(HenshinColorMode.BG_UNIT);
-			if (color!=null) {
+			HenshinColorMode.Color foregroundColor = defaultColorMode.getColor(HenshinColorMode.FG_UNIT);
+			HenshinColorMode.Color backgroundColor = defaultColorMode.getColor(HenshinColorMode.BG_UNIT);
+			if (foregroundColor!=null) {
 				ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
-						.getFillStyle_FillColor(), ColorModeHelper.getIntegerColor(color));
+						.getLineStyle_LineColor(), ColorModeHelper.getIntegerColor(foregroundColor));
+				ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+						.getFontStyle_FontColor(), ColorModeHelper.getIntegerColor(foregroundColor));
+			}
+			if (backgroundColor!=null) {
+				ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+						.getFillStyle_FillColor(), ColorModeHelper.getIntegerColor(backgroundColor));
 			}
 		}
 
