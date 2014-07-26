@@ -20,6 +20,8 @@ import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -34,6 +36,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.internal.text.revisions.Colors;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -240,26 +243,41 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		}
 	}
 
+	@Override
+	public void refreshForegroundColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.FG_UNIT);
+		if (color != null) {
+			setForegroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			super.refreshForegroundColor();
+		}
+	}
+
+	@Override
+	public void refreshBackgroundColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.BG_UNIT);
+		if (color != null) {
+			setBackgroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			super.refreshBackgroundColor();
+		}
+	}
+
 	/**
 	 * @generated NOT
 	 */
 	public class SymbolCircleFigure extends Ellipse {
 
-		public SymbolCircleFigure() {
-			this.setForegroundColor(ColorConstants.black);
-			this.setBackgroundColor(ColorConstants.white);
-		}
-
 		private Ellipse inner;
 
+		public SymbolCircleFigure() {
+			super();
+		}
+
 		public SymbolCircleFigure(boolean begin) {
+			super();
 			setLayoutManager(new StackLayout());
-			if (begin) {
-				setForegroundColor(ColorConstants.darkGray);
-				setBackgroundColor(ColorConstants.black);
-			} else {
-				setForegroundColor(ColorConstants.black);
-				setBackgroundColor(ColorConstants.white);
+			if (!begin) {
 				final Ellipse main = this;
 				inner = new Ellipse() {
 					@Override
@@ -269,10 +287,24 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 								/ 4, b.width / 2, b.height / 2);
 					}
 				};
-				inner.setForegroundColor(ColorConstants.black);
-				inner.setBackgroundColor(ColorConstants.black);
 				add(inner);
+			}			
+		}
+		@Override
+		public void setForegroundColor(Color color) {
+			super.setForegroundColor(color);
+			if (inner != null) {
+				inner.setForegroundColor(color);
+				inner.setBackgroundColor(color);
+			} else {
+				setBackgroundColor(color);
 			}
+		}
+		@Override
+		public void setBackgroundColor(Color color) {
+//			if (inner == null) {
+				super.setBackgroundColor(color);
+//			}
 		}
 	}
 
@@ -282,12 +314,13 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	public class InvalidSymbolFigure extends Ellipse {
 
 		public InvalidSymbolFigure() {
-			setForegroundColor(ColorConstants.black);
-			setBackgroundColor(ColorConstants.red);
 			setLayoutManager(new StackLayout());
 			add(new Label("  Invalid  "));
 		}
-
+		@Override
+		public void setBackgroundColor(Color color) {
+			super.setBackgroundColor(ColorConstants.red);
+		}
 	}
 
 	/*
@@ -305,8 +338,8 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		@Override
 		public void paint(Graphics graphics) {
 
-			graphics.setForegroundColor(ColorConstants.black);
-			graphics.setBackgroundColor(ColorConstants.white);
+			graphics.setForegroundColor(getForegroundColor());
+			graphics.setBackgroundColor(getBackgroundColor());
 			graphics.setLineWidthFloat(1.0f);
 
 			Rectangle r = getBounds();
