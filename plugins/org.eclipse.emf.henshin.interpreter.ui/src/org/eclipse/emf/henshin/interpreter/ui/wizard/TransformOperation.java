@@ -30,9 +30,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl;
+import org.eclipse.emf.henshin.interpreter.impl.BasicApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfiguration;
@@ -121,7 +123,7 @@ public class TransformOperation extends WorkspaceModifyOperation {
 	}
 
 	@Override
-	protected void execute(IProgressMonitor monitor) throws CoreException,
+	protected void execute(final IProgressMonitor monitor) throws CoreException,
 			InvocationTargetException, InterruptedException {
 		
 		monitor.beginTask("Applying Transformation", 10);
@@ -138,12 +140,25 @@ public class TransformOperation extends WorkspaceModifyOperation {
 			}
 		}
 		monitor.worked(2);
+		if (monitor.isCanceled()) {
+			return;
+		}
 
 		Engine engine = new EngineImpl();
-		if (!InterpreterUtil.applyToResource(assignment, engine, input, null)) {
+		ApplicationMonitor appMonitor = new BasicApplicationMonitor() {
+			@Override
+			public boolean isCanceled() {
+				return canceled || monitor.isCanceled();
+			}
+		};
+		
+		if (!InterpreterUtil.applyToResource(assignment, engine, input, appMonitor)) {
 			throw new CoreException(new Status(IStatus.WARNING, HenshinInterpreterUIPlugin.PLUGIN_ID, "Transformation could not be applied to given input model."));
 		}
 		monitor.worked(4);
+		if (monitor.isCanceled()) {
+			return;
+		}
 
 		Resource output;
 		if (inputUri.equals(outputUri)) {
@@ -161,6 +176,9 @@ public class TransformOperation extends WorkspaceModifyOperation {
 			throw new CoreException(new Status(IStatus.ERROR, HenshinInterpreterUIPlugin.PLUGIN_ID, "Error saving transformation result.", e));
 		}
 		monitor.worked(2);
+		if (monitor.isCanceled()) {
+			return;
+		}
 		
 		if (outputUri.isPlatformResource()) {
 			IPath path = new Path(outputUri.toPlatformString(false));
