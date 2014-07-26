@@ -7,13 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.ui.wizard.widgets;
+package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
-import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfiguration;
+import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfig;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -75,7 +75,7 @@ public class ParameterEditTable {
 			@Override
 			public Object[] getElements(Object inputElement) {
 				@SuppressWarnings("unchecked")
-				Collection<ParameterConfiguration> paramCfgs = (Collection<ParameterConfiguration>) inputElement;
+				Collection<ParameterConfig> paramCfgs = (Collection<ParameterConfig>) inputElement;
 				return paramCfgs.toArray();
 			}
 			
@@ -99,7 +99,7 @@ public class ParameterEditTable {
 				
 				@Override
 				public String getText(Object entry) {
-					return ((ParameterConfiguration) entry).getName();
+					return ((ParameterConfig) entry).getName();
 				}
 			});
 		}
@@ -112,7 +112,7 @@ public class ParameterEditTable {
 				
 				@Override
 				public String getText(Object element) {
-					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					ParameterConfig paramCfg = (ParameterConfig) element;
 					return paramCfg.getTypeLabel();
 				}
 			});
@@ -120,7 +120,7 @@ public class ParameterEditTable {
 				
 				@Override
 				protected void setValue(Object element, Object value) {
-					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					ParameterConfig paramCfg = (ParameterConfig) element;
 					
 					paramCfg.setType((Integer) value);
 					
@@ -131,14 +131,14 @@ public class ParameterEditTable {
 				
 				@Override
 				protected Object getValue(Object element) {
-					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					ParameterConfig paramCfg = (ParameterConfig) element;
 					return paramCfg.getType();
 				}
 				
 				@Override
 				protected CellEditor getCellEditor(Object element) {
 					
-					return new ComboBoxCellEditor(tableViewer.getTable(), ParameterConfiguration
+					return new ComboBoxCellEditor(tableViewer.getTable(), ParameterConfig
 							.getSupportedTypes().values().toArray(new String[0]), SWT.READ_ONLY);
 				}
 				
@@ -156,14 +156,16 @@ public class ParameterEditTable {
 			valueColumn.setLabelProvider(new ColumnLabelProvider() {
 				@Override
 				public String getText(Object element) {
-					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					ParameterConfig paramCfg = (ParameterConfig) element;
 					switch (paramCfg.getType()) {
-						case ParameterConfiguration.CLEAR:
+						case ParameterConfig.CLEAR:
 							return "";
-						case ParameterConfiguration.NULL:
+						case ParameterConfig.NULL:
 							return "null";
+						case ParameterConfig.STRING:
+							return "\"" + paramCfg.getValue() + "\"";
 						default:
-							return paramCfg.getValue().toString();
+							return paramCfg.getValue() + "";
 					}
 				}
 			});
@@ -171,25 +173,25 @@ public class ParameterEditTable {
 				
 				@Override
 				protected void setValue(Object element, Object value) {
-					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					ParameterConfig paramCfg = (ParameterConfig) element;
 					try {
 						switch (paramCfg.getType()) {
-							case ParameterConfiguration.STRING:
+							case ParameterConfig.STRING:
 								paramCfg.setValue(value.toString());
 								break;
-							case ParameterConfiguration.FLOAT:
+							case ParameterConfig.FLOAT:
 								paramCfg.setValue(Float.parseFloat(value.toString()));
 								break;
-							case ParameterConfiguration.DOUBLE:
+							case ParameterConfig.DOUBLE:
 								paramCfg.setValue(Double.parseDouble(value.toString()));
 								break;
-							case ParameterConfiguration.INT:
+							case ParameterConfig.INT:
 								paramCfg.setValue(Integer.parseInt(value.toString()));
 								break;
-							case ParameterConfiguration.LONG:
+							case ParameterConfig.LONG:
 								paramCfg.setValue(Long.parseLong(value.toString()));
 								break;
-							case ParameterConfiguration.BOOLEAN:
+							case ParameterConfig.BOOLEAN:
 								paramCfg.setValue((Integer) value > 0 ? true : false);
 								break;
 							default:
@@ -204,26 +206,22 @@ public class ParameterEditTable {
 				
 				@Override
 				protected Object getValue(Object entry) {
-					ParameterConfiguration paramCfg = (ParameterConfiguration) entry;
-					System.out.println("celleditor getvalue: " + paramCfg.getValue() + "("
-							+ paramCfg.getTypeLabel() + ")");
-					
+					ParameterConfig paramCfg = (ParameterConfig) entry;
 					switch (paramCfg.getType()) {
-						case ParameterConfiguration.BOOLEAN:
+						case ParameterConfig.BOOLEAN:
 							boolean value = (Boolean) paramCfg.getValue();
 							return value ? 1 : 0;
 						default:
-							return paramCfg.getValue().toString();
+							return paramCfg.getValue() + "";
 					}
-					
 				}
 				
 				@Override
 				protected CellEditor getCellEditor(Object element) {
-					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					ParameterConfig paramCfg = (ParameterConfig) element;
 					// case ParameterConfiguration.NULL is not editable
 					switch (paramCfg.getType()) {
-						case ParameterConfiguration.BOOLEAN:
+						case ParameterConfig.BOOLEAN:
 							return new ComboBoxCellEditor(tableViewer.getTable(), new String[] {
 									"false", "true" }, SWT.READ_ONLY);
 						default:
@@ -235,9 +233,9 @@ public class ParameterEditTable {
 				
 				@Override
 				protected boolean canEdit(Object element) {
-					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
-					return paramCfg.getType() != ParameterConfiguration.NULL
-							&& paramCfg.getType() != ParameterConfiguration.CLEAR;
+					ParameterConfig paramCfg = (ParameterConfig) element;
+					return paramCfg.getType() != ParameterConfig.NULL
+							&& paramCfg.getType() != ParameterConfig.CLEAR;
 				}
 			});
 		}
@@ -249,10 +247,10 @@ public class ParameterEditTable {
 	}
 	
 	public static interface ParameterChangeListener {
-		void parameterChanged(ParameterConfiguration paramCfg);
+		void parameterChanged(ParameterConfig paramCfg);
 	}
 	
-	public void setParameters(Collection<ParameterConfiguration> paramCfgs) {
+	public void setParameters(Collection<ParameterConfig> paramCfgs) {
 		tableViewer.setInput(paramCfgs);
 	}
 	

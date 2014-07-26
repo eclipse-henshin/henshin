@@ -4,10 +4,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
-import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector;
-import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector.ModelSelectorListener;
-import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ParameterEditTable;
-import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.ModelSelector.ModelSelectorListener;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -33,7 +30,7 @@ public class HenshinWizardPage extends WizardPage {
 	Module module;
 
 	public HenshinWizardPage() {
-		super(HenshinInterpreterUIPlugin.LL("_UI_PseudoPage"));
+		super("mainpage");
 		setDescription(HenshinInterpreterUIPlugin
 				.LL("_UI_Wizard_DefaultDescription"));
 	}
@@ -81,6 +78,8 @@ public class HenshinWizardPage extends WizardPage {
 		openCompare.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		openCompare.setText("Open Compare");
 		openCompare.setSelection(true);
+		
+		inputSelector.getBrowseWorkspaceButton().setFocus();
 		
 		setControl(container);
 	}

@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.compare.internal.CompareAction;
@@ -19,21 +20,24 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
-import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfiguration;
-import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector.ModelSelectorListener;
-import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ParameterEditTable.ParameterChangeListener;
-import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector.UnitSelectionListener;
+import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfig;
+import org.eclipse.emf.henshin.interpreter.ui.util.TransformOperation;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.ModelSelector.ModelSelectorListener;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.ParameterEditTable.ParameterChangeListener;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.UnitSelector.UnitSelectionListener;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.deferred.SetModel;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -56,22 +60,12 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 
 	protected HenshinWizardPage page;
 
-	protected IPreferenceStore store = HenshinInterpreterUIPlugin.getPlugin()
-			.getPreferenceStore();
-
-	protected boolean unitSelectable = true;
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param unit
-	 *            Unit to be applied.
+	/*
+	 * Private constructor.
 	 */
-	public HenshinWizard(Unit unit) {
-		this();
-		unitSelectable = false;
-		this.initialUnit = unit;
-		this.module = unit.getModule();
+	private HenshinWizard() {
+		setWindowTitle(HenshinInterpreterUIPlugin.LL("_UI_Wizard"));
+		setNeedsProgressMonitor(true);
 	}
 
 	/**
@@ -82,16 +76,18 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	 */
 	public HenshinWizard(Module module) {
 		this();
-		unitSelectable = true;
 		this.module = module;
 	}
 
-	/*
-	 * Private constructor.
+	/**
+	 * Constructor.
+	 * 
+	 * @param unit
+	 *            Unit to be applied.
 	 */
-	private HenshinWizard() {
-		setWindowTitle(HenshinInterpreterUIPlugin.LL("_UI_Wizard"));
-		setNeedsProgressMonitor(true);
+	public HenshinWizard(Unit unit) {
+		this(unit.getModule());
+		this.initialUnit = unit;
 	}
 
 	/*
@@ -120,26 +116,28 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 
 	protected void initData() {
 
-		/*
-		 * We do now reload the unit/module in a separate ResourceSet in order
-		 * to work with them without corrupting the original resource set, which
-		 * might be used by an editor.
-		 */
+		// Create a fresh resource set for storing a copy of the module:
+		ResourceSet resourceSet = new ResourceSetImpl();
+		Resource oldModuleResource = module.eResource();
+		Resource newModuleResource = resourceSet.createResource(oldModuleResource.getURI());
 
-		HenshinResourceSet resourceSet = new HenshinResourceSet();
-		URI moduleUri = module.eResource().getURI();
-		module = resourceSet.getModule(moduleUri, false);
-
+		// Copy the original module into the fresh resource:
+		Copier copier = new Copier();
+		Collection<EObject> copies = copier.copyAll(oldModuleResource.getContents());
+	    copier.copyReferences();		
+		newModuleResource.getContents().addAll(copies);
+	    
+		// Now switch to the copied versions:
+		module = (Module) copier.get(module);
 		if (initialUnit != null) {
-			int index = initialUnit.getModule().getUnits().indexOf(initialUnit);
-			initialUnit = module.getUnits().get(index);
+			initialUnit = (Unit) copier.get(initialUnit);
 		}
 
 		availableUnits = new ArrayList<Unit>();
 		availableUnits.addAll(module.getUnits());
 
-		ArrayList<String> selectableUnitLabels = new ArrayList<String>();
-		ArrayList<String> outerUnitLabels = new ArrayList<String>();
+		List<String> selectableUnitLabels = new ArrayList<String>();
+		List<String> outerUnitLabels = new ArrayList<String>();
 
 		int initIdx = -1;
 		int idx = 0;
@@ -147,7 +145,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 		for (Unit unit : availableUnits) {
 			String unitLabel = unit.toString();
 			selectableUnitLabels.add(unitLabel);
-			Boolean isOuterUnit = true;
+			boolean isOuterUnit = true;
 			for (Unit outerUnit : availableUnits) {
 				if (outerUnit.getSubUnits(true).contains(unit)) {
 					isOuterUnit = false;
@@ -181,9 +179,6 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 				outerUnitLabels.toArray(new String[0]));
 		page.unitSelector.setSelection(initIdx);
 
-		// Enable selector if no unit was given in the constructor:
-		page.unitSelector.setEnabled(initialUnit == null);
-
 		transformOperation = new TransformOperation();
 		if (selectedUnit != null) {
 			transformOperation.setUnit(selectedUnit,
@@ -201,11 +196,11 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 		page.parameterEditor.addParameterChangeListener(HenshinWizard.this);
 	}
 
-	protected List<ParameterConfiguration> getParameterPreferences(Unit unit) {
-		List<ParameterConfiguration> result = new ArrayList<ParameterConfiguration>();
-		for (Parameter param : unit.getParameters())
-			result.add(ParameterConfiguration.loadConfiguration(store,
-					param.getName()));
+	protected List<ParameterConfig> getParameterPreferences(Unit unit) {
+		List<ParameterConfig> result = new ArrayList<ParameterConfig>();
+		for (Parameter param : unit.getParameters()) {
+			result.add(new ParameterConfig(param));
+		}
 		return result;
 	}
 
@@ -224,7 +219,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 		IFile file = getFile(transformOperation.getOutputUri().toString());
 		page.setMessage(null);
 		if (file.exists()) {
-			page.setMessage("Warning: output file exists already", IMessageProvider.WARNING);
+			page.setMessage("Warning: Output file exists already and will be overridden.", IMessageProvider.WARNING);
 		}
 		return true;
 	}
@@ -332,7 +327,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	 * .ui.wizard.ParameterConfiguration)
 	 */
 	@Override
-	public void parameterChanged(ParameterConfiguration paramCfg) {
+	public void parameterChanged(ParameterConfig paramCfg) {
 		// cfg.parameterValues.put(parameter.getName(), value);
 		fireCompletionChange();
 	}

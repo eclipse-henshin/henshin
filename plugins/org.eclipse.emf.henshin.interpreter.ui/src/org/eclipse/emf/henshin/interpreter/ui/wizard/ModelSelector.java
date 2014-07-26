@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.ui.wizard.widgets;
+package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,8 +20,6 @@ import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -43,6 +41,10 @@ import org.eclipse.ui.PlatformUI;
  * @author Christian Krause
  */
 public class ModelSelector {
+
+	public static interface ModelSelectorListener {
+		boolean modelURIChanged(String modelURI);
+	}
 
 	protected Collection<ModelSelectorListener> listeners = new ArrayList<ModelSelectorListener>();
 
@@ -169,8 +171,13 @@ public class ModelSelector {
 	public String getModelURI() {
 		return uriField.getText();
 	}
-	
-	public static interface ModelSelectorListener {
-		boolean modelURIChanged(String modelURI);
+
+	public Button getBrowseWorkspaceButton() {
+		return browseWorkspaceButton;
 	}
+
+	public Button getBrowseFileSystemButton() {
+		return browseFileSystemButton;
+	}
+	
 }

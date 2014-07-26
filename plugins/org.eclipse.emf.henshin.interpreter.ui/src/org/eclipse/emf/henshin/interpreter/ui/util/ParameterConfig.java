@@ -12,15 +12,17 @@ package org.eclipse.emf.henshin.interpreter.ui.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.emf.henshin.model.Parameter;
 
 /**
  * Manages a parameter's type and value.
  *  
  * @author Gregor Bonifer
  */
-public class ParameterConfiguration {
+public class ParameterConfig {
 	
 	public static final int CLEAR = 0;
 	public static final int NULL = 1;
@@ -47,19 +49,40 @@ public class ParameterConfiguration {
 		}
 		return supportedTypes;
 	}
-	
-	public static ParameterConfiguration loadConfiguration(IPreferenceStore store, String name) {
-		ParameterConfiguration cfg = new ParameterConfiguration();
-		cfg.name = name;
-		cfg.store = store;
-		cfg.initType();
-		return cfg;
-	}
-	
-	protected IPreferenceStore store;
+
 	protected String name;
 	protected Object value;
 	protected int type;
+
+	public ParameterConfig() {
+	}
+
+	public ParameterConfig(Parameter param) {
+		name = param.getName();
+		if (param.getType() instanceof EDataType && param.getType().getEPackage() == EcorePackage.eINSTANCE) {
+			switch (param.getType().getClassifierID()) {
+			case EcorePackage.ESTRING:
+				type = STRING;
+				break;
+			case EcorePackage.EBOOLEAN:
+				type = BOOLEAN;
+				break;
+			case EcorePackage.EINT:
+				type = INT;
+				break;
+			case EcorePackage.ELONG:
+				type = LONG;
+				break;
+			case EcorePackage.EFLOAT:
+				type = FLOAT;
+				break;
+			case EcorePackage.EDOUBLE:
+				type = DOUBLE;
+				break;
+			}
+		}
+		initValue();
+	}
 	
 	public String getName() {
 		return name;
@@ -94,71 +117,30 @@ public class ParameterConfiguration {
 		this.value = value;
 	}
 	
-	protected void initType() {
-		Integer type = store.getInt(getTypeKey());
-		this.type = getSupportedTypes().containsKey(type) ? type : NULL;
-		initValue();
-	}
-	
 	protected void initValue() {
-		
 		switch (getType()) {
 			case NULL:
 				setValue(null);
 				return;
 			case STRING:
-				setValue(store.getString(getValueKey()));
+				setValue("");
 				return;
 			case BOOLEAN:
-				setValue(store.getBoolean(getValueKey()));
+				setValue(false);
 				return;
 			case DOUBLE:
-				setValue(store.getDouble(getValueKey()));
+				setValue((double) 0);
 				return;
 			case LONG:
-				setValue(store.getLong(getValueKey()));
+				setValue((long) 0);
 				return;
 			case INT:
-				setValue(store.getInt(getValueKey()));
+				setValue((int) 0);
 				return;
 			case FLOAT:
-				setValue(store.getFloat(getValueKey()));
+				setValue((float) 0);
 				return;
-				
 		}
-	}
-	
-	public void persist(IPreferenceStore store) {
-		store.setValue(getTypeKey(), type);
-		
-		switch (getType()) {			
-			case STRING:
-				store.setValue(getValueKey(), (String) value);
-				break;
-			case BOOLEAN:
-				store.setValue(getValueKey(), (Boolean) value);
-				break;
-			case DOUBLE:
-				store.setValue(getValueKey(), (Double) value);
-				break;
-			case LONG:
-				store.setValue(getValueKey(), (Long) value);
-				break;
-			case INT:
-				store.setValue(getValueKey(), (Integer) value);
-				break;
-			case FLOAT:
-				store.setValue(getValueKey(), (Float) value);
-				break;
-		}
-	}
-	
-	protected String getTypeKey() {
-		return "param_" + name + "_type";
-	}
-	
-	protected String getValueKey() {
-		return "param_" + name + "_value_" + type;
 	}
 	
 }

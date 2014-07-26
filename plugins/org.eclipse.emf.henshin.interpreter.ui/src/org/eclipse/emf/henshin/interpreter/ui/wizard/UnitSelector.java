@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.ui.wizard.widgets;
+package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.util.ArrayList;
 import java.util.Collection;

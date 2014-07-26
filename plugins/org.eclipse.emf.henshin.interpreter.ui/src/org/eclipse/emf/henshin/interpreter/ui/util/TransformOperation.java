@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.ui.wizard;
+package org.eclipse.emf.henshin.interpreter.ui.util;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +38,6 @@ import org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl;
 import org.eclipse.emf.henshin.interpreter.impl.BasicApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
-import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfiguration;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Unit;
@@ -54,7 +53,7 @@ public class TransformOperation extends WorkspaceModifyOperation {
 	/**
 	 * Configuration parameters.
 	 */
-	protected Collection<ParameterConfiguration> paramCfgs;
+	protected Collection<ParameterConfig> paramCfgs;
 
 	/**
 	 * Input Model URI.
@@ -70,7 +69,7 @@ public class TransformOperation extends WorkspaceModifyOperation {
 		return unit;
 	}
 
-	public void setUnit(Unit unit, Collection<ParameterConfiguration> paramCfgs) {
+	public void setUnit(Unit unit, Collection<ParameterConfig> paramCfgs) {
 		this.unit = unit;
 		this.paramCfgs = paramCfgs;
 	}
@@ -92,15 +91,15 @@ public class TransformOperation extends WorkspaceModifyOperation {
 	}
 
 	public Object getParameterValue(String parameterName) {
-		ParameterConfiguration pCfg = getParameterConfiguration(parameterName);
+		ParameterConfig pCfg = getParameterConfiguration(parameterName);
 		if (pCfg == null) {
 			return null;
 		}
 		return pCfg.getValue();
 	}
 
-	public ParameterConfiguration getParameterConfiguration(String parameterName) {
-		for (ParameterConfiguration pCfg : paramCfgs) {
+	public ParameterConfig getParameterConfiguration(String parameterName) {
+		for (ParameterConfig pCfg : paramCfgs) {
 			if (pCfg.getName().equals(parameterName)) {
 				return pCfg;
 			}
@@ -108,13 +107,13 @@ public class TransformOperation extends WorkspaceModifyOperation {
 		return null;
 	}
 
-	public Collection<ParameterConfiguration> getParameterConfigurations() {
+	public Collection<ParameterConfig> getParameterConfigurations() {
 		return paramCfgs;
 	}
 
 	protected Map<String, Object> prepareParameterValues() {
 		Map<String, Object> result = new HashMap<String, Object>();
-		for (ParameterConfiguration paramCfg : paramCfgs) {
+		for (ParameterConfig paramCfg : paramCfgs) {
 			if (paramCfg.isClear()) {
 				continue;
 			}
