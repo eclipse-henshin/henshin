@@ -137,13 +137,19 @@ public class HenshinColorMode {
 		return DEFAULT;
 	}
 
-	private Properties properties;
+	private final Properties properties;
 
-	private Map<String, Color> colors;
+	private final String name;
+	
+	private final boolean useGradients;
+	
+	private final Map<String, Color> colors;
 
 	public HenshinColorMode(Properties properties) {
 		this.properties = properties;
 		this.colors = new HashMap<String, Color>();
+		this.name = properties.getProperty("colorModeName");
+		this.useGradients = Boolean.parseBoolean(properties.getProperty("useGradients"));
 	}
 
 	public Color getColor(String type) {
@@ -187,7 +193,11 @@ public class HenshinColorMode {
 	}
 
 	public String getName() {
-		return properties.getProperty("colorModeName");
+		return name;
+	}
+	
+	public boolean useGradients() {
+		return useGradients;
 	}
 
 }

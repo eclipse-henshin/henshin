@@ -327,11 +327,15 @@ public class RuleEditPart extends ShapeNodeEditPart {
 
 		@Override
 		protected void fillShape(Graphics graphics) {
-			graphics.pushState();
-			graphics.setBackgroundColor(DiagramColorConstants.white);
-			graphics.setForegroundColor(getBackgroundColor());
-			graphics.fillGradient(getBounds(), true);
-			graphics.popState();
+			if (ColorModeHelper.getColorMode(getNotationView()).useGradients()) {			
+				graphics.pushState();
+				graphics.setBackgroundColor(DiagramColorConstants.white);
+				graphics.setForegroundColor(getBackgroundColor());
+				graphics.fillGradient(getBounds(), true);
+				graphics.popState();
+			} else {
+				super.fillShape(graphics);
+			}
 		}
 
 	}
