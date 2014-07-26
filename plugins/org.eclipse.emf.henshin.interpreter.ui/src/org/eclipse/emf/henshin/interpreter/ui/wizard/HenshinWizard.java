@@ -28,10 +28,12 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.deferred.SetModel;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -195,6 +197,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 
 		page.unitSelector.addUnitSelectionListener(HenshinWizard.this);
 		page.inputSelector.addModelSelectorListener(HenshinWizard.this);
+		page.outputSelector.addModelSelectorListener(HenshinWizard.this);
 		page.parameterEditor.addParameterChangeListener(HenshinWizard.this);
 	}
 
@@ -217,6 +220,11 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 				|| transformOperation.getOutputUri() == null
 				|| transformOperation.getUnit() == null) {
 			return false;
+		}
+		IFile file = getFile(transformOperation.getOutputUri().toString());
+		page.setMessage(null);
+		if (file.exists()) {
+			page.setMessage("Warning: output file exists already", IMessageProvider.WARNING);
 		}
 		return true;
 	}
@@ -326,17 +334,6 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	@Override
 	public void parameterChanged(ParameterConfiguration paramCfg) {
 		// cfg.parameterValues.put(parameter.getName(), value);
-		fireCompletionChange();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector.
-	 * ModelSelectorListener#uriFieldDirty()
-	 */
-	@Override
-	public void uriFieldDirty() {
 		fireCompletionChange();
 	}
 

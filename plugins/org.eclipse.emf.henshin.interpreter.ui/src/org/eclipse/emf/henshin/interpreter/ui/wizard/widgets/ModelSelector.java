@@ -22,6 +22,8 @@ import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -66,10 +68,10 @@ public class ModelSelector {
 		data = new GridData(SWT.FILL, SWT.FILL, true, false);
 		data.horizontalSpan = 3;
 		uriField.setLayoutData(data);
-		uriField.addKeyListener(new KeyAdapter() {
+		uriField.addModifyListener(new ModifyListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				fireURIFieldDirty();
+			public void modifyText(ModifyEvent e) {
+				fireURIChanged();
 			}
 		});
 		uriField.addSelectionListener(new SelectionAdapter() {
@@ -149,12 +151,6 @@ public class ModelSelector {
 		}
 	}
 
-	protected void fireURIFieldDirty() {
-		for (ModelSelectorListener l : listeners) {			
-			l.uriFieldDirty();
-		}
-	}
-
 	/**
 	 * @return
 	 */
@@ -175,9 +171,6 @@ public class ModelSelector {
 	}
 	
 	public static interface ModelSelectorListener {
-
 		boolean modelURIChanged(String modelURI);
-
-		void uriFieldDirty();
 	}
 }

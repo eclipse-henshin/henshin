@@ -71,10 +71,6 @@ public class HenshinWizardPage extends WizardPage {
 				}
 				return true;
 			}
-
-			@Override
-			public void uriFieldDirty() {
-			}
 		});
 
 		parameterEditor = new ParameterEditTable(container);
