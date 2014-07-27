@@ -45,7 +45,7 @@ import org.eclipse.emf.henshin.model.Not;
  * @generated
  */
 @SuppressWarnings("unused")
-public class NestedConditionImpl extends EObjectImpl implements NestedCondition {
+public class NestedConditionImpl extends ModelElementImpl implements NestedCondition {
 	
 	/**
 	 * The cached value of the '{@link #getConclusion() <em>Conclusion</em>}' containment reference.

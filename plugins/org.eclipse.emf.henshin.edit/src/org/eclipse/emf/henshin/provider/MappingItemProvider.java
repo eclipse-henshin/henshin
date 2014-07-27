@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
@@ -46,7 +45,7 @@ import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescrip
  * <!-- end-user-doc -->
  * @generated
  */
-public class MappingItemProvider extends HenshinItemProviderAdapter implements
+public class MappingItemProvider extends ModelElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
@@ -245,17 +244,6 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
 	
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return HenshinEditPlugin.INSTANCE;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#unsetTarget(org.eclipse.emf.common.notify.Notifier)

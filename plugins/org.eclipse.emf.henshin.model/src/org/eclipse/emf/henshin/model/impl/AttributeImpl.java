@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.actions.ActionElementFinder;
@@ -49,7 +49,7 @@ import org.eclipse.emf.henshin.model.actions.AttributeActionHelper;
  *
  * @generated
  */
-public class AttributeImpl extends EObjectImpl implements Attribute {
+public class AttributeImpl extends ModelElementImpl implements Attribute {
 
 	/**
 	 * The default value of the '{@link #getAction() <em>Action</em>}' attribute.
@@ -589,6 +589,38 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 			return false;
 		}
 		return eIsSetGen(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == GraphElement.class) {
+			switch (derivedFeatureID) {
+				case HenshinPackage.ATTRIBUTE__ACTION: return HenshinPackage.GRAPH_ELEMENT__ACTION;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == GraphElement.class) {
+			switch (baseFeatureID) {
+				case HenshinPackage.GRAPH_ELEMENT__ACTION: return HenshinPackage.ATTRIBUTE__ACTION;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 	/**

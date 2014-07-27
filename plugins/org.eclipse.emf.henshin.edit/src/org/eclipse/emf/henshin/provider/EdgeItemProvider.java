@@ -44,7 +44,7 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * @generated
  */
 @SuppressWarnings("unused")
-public class EdgeItemProvider extends HenshinItemProviderAdapter implements
+public class EdgeItemProvider extends ModelElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
@@ -254,17 +254,6 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-	}
-	
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc --> 
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return HenshinEditPlugin.INSTANCE;
 	}
 	
 	/*

@@ -17,7 +17,6 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -45,7 +44,7 @@ import org.eclipse.emf.henshin.provider.trans.NestedConditionMappingItemProvider
  * <!-- end-user-doc -->
  * @generated
  */
-public class NestedConditionItemProvider extends HenshinItemProviderAdapter implements
+public class NestedConditionItemProvider extends ModelElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
@@ -243,17 +242,6 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 				 HenshinFactory.eINSTANCE.createMapping()));
 	}
 	
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return HenshinEditPlugin.INSTANCE;
-	}
-
 	/**
 	 * @generated NOT
 	 */

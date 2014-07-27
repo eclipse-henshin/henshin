@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.And;
+import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.BinaryFormula;
@@ -38,6 +39,7 @@ import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.ModelElement;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.MultiUnit;
 import org.eclipse.emf.henshin.model.NamedElement;
@@ -64,6 +66,20 @@ import org.eclipse.emf.henshin.model.util.HenshinValidator;
  */
 public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass modelElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass annotationEClass = null;
+
 	/*
 	 * Fake 'rules' feature ID for modules. Only to ensure backward compatibility.
 	 */
@@ -352,6 +368,51 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(HenshinPackage.eNS_URI, theHenshinPackage);
 		return theHenshinPackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getModelElement() {
+		return modelElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getModelElement_Annotations() {
+		return (EReference)modelElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAnnotation() {
+		return annotationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnnotation_Key() {
+		return (EAttribute)annotationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnnotation_Value() {
+		return (EAttribute)annotationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/*
@@ -1246,6 +1307,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		isCreated = true;
 
 		// Create classes and their features
+		modelElementEClass = createEClass(MODEL_ELEMENT);
+		createEReference(modelElementEClass, MODEL_ELEMENT__ANNOTATIONS);
+
+		annotationEClass = createEClass(ANNOTATION);
+		createEAttribute(annotationEClass, ANNOTATION__KEY);
+		createEAttribute(annotationEClass, ANNOTATION__VALUE);
+
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__DESCRIPTION);
@@ -1396,16 +1464,22 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		annotationEClass.getESuperTypes().add(this.getModelElement());
+		namedElementEClass.getESuperTypes().add(this.getModelElement());
 		moduleEClass.getESuperTypes().add(this.getNamedElement());
 		unitEClass.getESuperTypes().add(this.getNamedElement());
 		ruleEClass.getESuperTypes().add(this.getUnit());
 		parameterEClass.getESuperTypes().add(this.getNamedElement());
+		parameterMappingEClass.getESuperTypes().add(this.getModelElement());
 		graphEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getGraphElement());
+		edgeEClass.getESuperTypes().add(this.getModelElement());
 		edgeEClass.getESuperTypes().add(this.getGraphElement());
+		attributeEClass.getESuperTypes().add(this.getModelElement());
 		attributeEClass.getESuperTypes().add(this.getGraphElement());
 		attributeConditionEClass.getESuperTypes().add(this.getNamedElement());
+		mappingEClass.getESuperTypes().add(this.getModelElement());
 		unaryUnitEClass.getESuperTypes().add(this.getUnit());
 		multiUnitEClass.getESuperTypes().add(this.getUnit());
 		independentUnitEClass.getESuperTypes().add(this.getMultiUnit());
@@ -1414,8 +1488,11 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		priorityUnitEClass.getESuperTypes().add(this.getMultiUnit());
 		iteratedUnitEClass.getESuperTypes().add(this.getUnaryUnit());
 		loopUnitEClass.getESuperTypes().add(this.getUnaryUnit());
+		nestedConditionEClass.getESuperTypes().add(this.getModelElement());
 		nestedConditionEClass.getESuperTypes().add(this.getFormula());
+		unaryFormulaEClass.getESuperTypes().add(this.getModelElement());
 		unaryFormulaEClass.getESuperTypes().add(this.getFormula());
+		binaryFormulaEClass.getESuperTypes().add(this.getModelElement());
 		binaryFormulaEClass.getESuperTypes().add(this.getFormula());
 		andEClass.getESuperTypes().add(this.getBinaryFormula());
 		orEClass.getESuperTypes().add(this.getBinaryFormula());
@@ -1423,6 +1500,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		notEClass.getESuperTypes().add(this.getUnaryFormula());
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(modelElementEClass, ModelElement.class, "ModelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getModelElement_Annotations(), this.getAnnotation(), null, "annotations", null, 0, -1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(annotationEClass, Annotation.class, "Annotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAnnotation_Key(), ecorePackage.getEString(), "key", null, 1, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnnotation_Value(), ecorePackage.getEString(), "value", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNamedElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1706,49 +1790,49 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore";	
+		String source = "http://www.eclipse.org/emf/2002/Ecore";		
 		addAnnotation
 		  (unitEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "parameterNamesUnique parameterMappingsPointToDirectSubUnit"
-		   });	
+		   });		
 		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"
-		   });	
+		   });		
 		addAnnotation
 		  (parameterEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "nameNotEmpty nameNotTypeName"
-		   });	
+		   });		
 		addAnnotation
 		  (graphEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueNodeNames"
-		   });	
+		   });		
 		addAnnotation
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueAttributeTypes"
-		   });	
+		   });		
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "equalParentGraphs"
-		   });	
+		   });		
 		addAnnotation
 		  (iteratedUnitEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "iterationsNotEmpty"
-		   });	
+		   });		
 		addAnnotation
 		  (nestedConditionEClass, 
 		   source, 

@@ -9,8 +9,6 @@
  */
 package org.eclipse.emf.henshin.model;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Named Element</b></em>'.
@@ -28,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface NamedElement extends EObject {
+public interface NamedElement extends ModelElement {
 	
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

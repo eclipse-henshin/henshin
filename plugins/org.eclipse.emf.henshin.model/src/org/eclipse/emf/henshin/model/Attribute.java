@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EAttribute;
  * @model
  * @generated
  */
-public interface Attribute extends GraphElement {
+public interface Attribute extends ModelElement, GraphElement {
 	
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.

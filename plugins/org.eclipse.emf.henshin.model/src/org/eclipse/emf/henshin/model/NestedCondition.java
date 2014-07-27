@@ -29,7 +29,7 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 @SuppressWarnings("unused")
-public interface NestedCondition extends Formula {
+public interface NestedCondition extends ModelElement, Formula {
 	
 	/**
 	 * Returns the value of the '<em><b>Conclusion</b></em>' containment reference.

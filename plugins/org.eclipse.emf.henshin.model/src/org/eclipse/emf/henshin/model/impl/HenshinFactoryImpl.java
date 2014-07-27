@@ -69,6 +69,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case HenshinPackage.ANNOTATION: return createAnnotation();
 			case HenshinPackage.MODULE: return createModule();
 			case HenshinPackage.RULE: return createRule();
 			case HenshinPackage.PARAMETER: return createParameter();
@@ -123,6 +124,16 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Annotation createAnnotation() {
+		AnnotationImpl annotation = new AnnotationImpl();
+		return annotation;
 	}
 
 	/**

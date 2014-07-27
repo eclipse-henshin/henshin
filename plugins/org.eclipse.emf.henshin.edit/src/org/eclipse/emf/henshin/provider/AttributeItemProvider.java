@@ -37,7 +37,7 @@ import org.eclipse.emf.henshin.provider.descriptors.AttributePropertyDescriptor;
  * @generated
  */
 @SuppressWarnings("unused")
-public class AttributeItemProvider extends HenshinItemProviderAdapter implements
+public class AttributeItemProvider extends ModelElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
@@ -201,17 +201,6 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-	}
-	
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return HenshinEditPlugin.INSTANCE;
 	}
 	
 }

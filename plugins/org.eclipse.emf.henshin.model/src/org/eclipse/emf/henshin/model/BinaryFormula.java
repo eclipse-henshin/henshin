@@ -26,7 +26,7 @@ package org.eclipse.emf.henshin.model;
  * @model abstract="true"
  * @generated
  */
-public interface BinaryFormula extends Formula {
+public interface BinaryFormula extends ModelElement, Formula {
 	
 	/**
 	 * Returns the value of the '<em><b>Left</b></em>' containment reference.

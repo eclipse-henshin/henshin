@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
@@ -34,7 +33,7 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
  * <!-- end-user-doc -->
  * @generated
  */
-public class UnaryFormulaItemProvider extends HenshinItemProviderAdapter implements
+public class UnaryFormulaItemProvider extends ModelElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
@@ -169,17 +168,6 @@ public class UnaryFormulaItemProvider extends HenshinItemProviderAdapter impleme
 			(createChildParameter
 				(HenshinPackage.Literals.UNARY_FORMULA__CHILD,
 				 HenshinFactory.eINSTANCE.createNot()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return HenshinEditPlugin.INSTANCE;
 	}
 	
 }

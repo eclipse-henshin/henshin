@@ -25,7 +25,7 @@ package org.eclipse.emf.henshin.model;
  * @model abstract="true"
  * @generated
  */
-public interface UnaryFormula extends Formula {
+public interface UnaryFormula extends ModelElement, Formula {
 	
 	/**
 	 * Returns the value of the '<em><b>Child</b></em>' containment reference.

@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NamedElement;
@@ -33,7 +32,7 @@ import org.eclipse.emf.henshin.model.NamedElement;
  *
  * @generated
  */
-public abstract class NamedElementImpl extends EObjectImpl implements NamedElement {
+public abstract class NamedElementImpl extends ModelElementImpl implements NamedElement {
 	
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.

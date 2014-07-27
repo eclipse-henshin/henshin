@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -35,7 +34,7 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
  *
  * @generated
  */
-public class ParameterMappingImpl extends EObjectImpl implements ParameterMapping {
+public class ParameterMappingImpl extends ModelElementImpl implements ParameterMapping {
 	
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.

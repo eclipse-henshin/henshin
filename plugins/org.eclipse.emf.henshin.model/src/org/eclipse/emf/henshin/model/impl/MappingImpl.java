@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -35,7 +34,7 @@ import org.eclipse.emf.henshin.model.Node;
  *
  * @generated
  */
-public class MappingImpl extends EObjectImpl implements Mapping {
+public class MappingImpl extends ModelElementImpl implements Mapping {
 	
 	/**
 	 * The cached value of the '{@link #getOrigin() <em>Origin</em>}' reference.

@@ -9,8 +9,6 @@
  */
 package org.eclipse.emf.henshin.model;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Mapping</b></em>'.
@@ -28,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Mapping extends EObject {
+public interface Mapping extends ModelElement {
 	
 	/**
 	 * Returns the value of the '<em><b>Origin</b></em>' reference.

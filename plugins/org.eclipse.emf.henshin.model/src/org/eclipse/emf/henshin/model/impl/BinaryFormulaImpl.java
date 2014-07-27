@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -36,7 +35,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  *
  * @generated
  */
-public abstract class BinaryFormulaImpl extends EObjectImpl implements BinaryFormula {
+public abstract class BinaryFormulaImpl extends ModelElementImpl implements BinaryFormula {
 	
 	/**
 	 * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.

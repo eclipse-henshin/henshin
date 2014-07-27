@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='equalParentGraphs'"
  * @generated
  */
-public interface Edge extends GraphElement {
+public interface Edge extends ModelElement, GraphElement {
 	
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
