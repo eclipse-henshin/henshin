@@ -12,16 +12,19 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
+import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -414,6 +417,27 @@ public class EdgeTypeEditPart extends LabelEditPart implements
 		refreshFontColor();
 		refreshUnderline();
 		refreshStrikeThrough();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected void refreshFontColor() {
+		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.FG_RULE);
+		if (color!=null) {
+			setForegroundColor(ColorModeHelper.getSWTColor(color));
+		} else {
+			setForegroundColor(ColorConstants.black);
+		}
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected void refreshForegroundColor() {
+		refreshFontColor();
 	}
 
 	/**
