@@ -266,8 +266,11 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 			}
 
 		} catch (InvocationTargetException e) {
-			MessageDialog.openError(getShell(), getWindowTitle(), e.getCause()
-					.getMessage());
+			String message = "Error applying transformation";
+			if (e.getCause() != null && e.getCause().getMessage() != null) {
+				message = e.getCause().getMessage();
+			}
+			MessageDialog.openError(getShell(), getWindowTitle(), message);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

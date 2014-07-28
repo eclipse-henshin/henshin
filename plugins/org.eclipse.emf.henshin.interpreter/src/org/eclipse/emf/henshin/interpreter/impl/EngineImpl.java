@@ -784,9 +784,12 @@ public class EngineImpl implements Engine {
 			if (!rule.isCheckDangling()) {
 				Collection<Setting> removedEdges = graph.getCrossReferenceAdapter().getInverseReferences(deletedObject);
 				for (Setting edge : removedEdges) {
-					changes.add(new ReferenceChangeImpl(graph, 
-							edge.getEObject(), deletedObject, 
-							(EReference) edge.getEStructuralFeature(), false));
+					EReference ref = (EReference) edge.getEStructuralFeature();
+					if (ref.isChangeable()) {
+						changes.add(new ReferenceChangeImpl(graph, 
+								edge.getEObject(), deletedObject, 
+								ref, false));
+					}
 				}
 			}
 		}

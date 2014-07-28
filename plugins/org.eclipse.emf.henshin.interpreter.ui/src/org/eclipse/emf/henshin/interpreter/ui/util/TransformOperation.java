@@ -130,7 +130,12 @@ public class TransformOperation extends WorkspaceModifyOperation {
 		monitor.beginTask("", 10);
 		monitor.subTask("Initializing transformation...");
 
-		ResourceSet resourceSet = new ResourceSetImpl();
+		ResourceSet resourceSet;
+		if (unit.eResource() != null && unit.eResource().getResourceSet() != null) {
+			resourceSet = unit.eResource().getResourceSet();
+		} else {
+			resourceSet = new ResourceSetImpl();
+		}
 
 		Resource input = resourceSet.getResource(inputUri, true);
 
@@ -166,12 +171,19 @@ public class TransformOperation extends WorkspaceModifyOperation {
 			}
 		};
 
-		if (!InterpreterUtil.applyToResource(assignment, engine, input,
-				appMonitor) && !monitor.isCanceled()) {
+		try {
+			if (!InterpreterUtil.applyToResource(assignment, engine, input,
+					appMonitor) && !monitor.isCanceled()) {
+				throw new CoreException(
+						new Status(IStatus.WARNING,
+								HenshinInterpreterUIPlugin.PLUGIN_ID,
+								"Transformation could not be applied to given input model."));
+			}
+		} catch (Throwable t) {
 			throw new CoreException(
-					new Status(IStatus.WARNING,
+					new Status(IStatus.ERROR,
 							HenshinInterpreterUIPlugin.PLUGIN_ID,
-							"Transformation could not be applied to given input model."));
+							"Error applying transformation", t));			
 		}
 		monitor.worked(4);
 		if (monitor.isCanceled()) {
