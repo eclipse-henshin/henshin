@@ -18,7 +18,7 @@ for f in $mf; do
 done
 
 echo "Collecting feature.xml files..."
-features=$(find plugins -name feature.xml)
+features=$(find features -name feature.xml)
 for f in $features; do
     echo "Processing $f"
     sed "s/$OLD/$NEW/g" "$f" > $TFILE && mv $TFILE "$f"
