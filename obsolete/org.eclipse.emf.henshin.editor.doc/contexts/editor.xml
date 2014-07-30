@@ -1,6 +1,0 @@
-<contexts>
-	<context id="editorHelp" title="Henshin Transformation Model Editor">
-		<description>EMF generated tree-based editor for editing Henshin Transformation Models.</description>
-		<topic href="index.html" label="Editor Documentation" />
-	</context>
-</contexts>
