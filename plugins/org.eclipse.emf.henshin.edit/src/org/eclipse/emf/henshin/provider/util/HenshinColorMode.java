@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.provider.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Action;
@@ -87,10 +89,9 @@ public class HenshinColorMode {
 		String[] modes = new String[] {"default", "bw", "classic", "dark"};
 		for (String mode : modes) {
 			try {
-				URL url = bundle.getEntry("colorModes/" + mode + ".properties");
-				File file = new File(FileLocator.resolve(url).toURI());
+				InputStream in = FileLocator.openStream(bundle, new Path("colorModes/" + mode + ".properties"), false);
 				Properties properties = new Properties();
-				properties.load(new FileInputStream(file));
+				properties.load(in);
 				HenshinColorMode theMode = new HenshinColorMode(properties);
 				REGISTRY.put(theMode.getName(), theMode);
 			} catch (Throwable t) {
