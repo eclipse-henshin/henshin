@@ -11,7 +11,6 @@ package org.eclipse.emf.henshin.provider.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -84,24 +83,19 @@ public class HenshinColorMode {
 			}
 		};
 		Bundle bundle = Platform.getBundle("org.eclipse.emf.henshin.edit");
-		URL colorModesURL = bundle.getEntry("colorModes");
-		try {
-			File dir;
+		
+		String[] modes = new String[] {"default", "bw", "classic", "dark"};
+		for (String mode : modes) {
 			try {
-				dir = new File(FileLocator.resolve(colorModesURL).toURI());
-			} catch (URISyntaxException e) {
-				dir = new File(FileLocator.resolve(colorModesURL).getPath());
+				URL url = bundle.getEntry("colorModes/" + mode + ".properties");
+				File file = new File(FileLocator.resolve(url).toURI());
+				Properties properties = new Properties();
+				properties.load(new FileInputStream(file));
+				HenshinColorMode theMode = new HenshinColorMode(properties);
+				REGISTRY.put(theMode.getName(), theMode);
+			} catch (Throwable t) {
+				t.printStackTrace();
 			}
-			for (File file : dir.listFiles()) {
-				if (file.getAbsolutePath().endsWith(".properties")) {
-					Properties properties = new Properties();
-					properties.load(new FileInputStream(file));
-					HenshinColorMode mode = new HenshinColorMode(properties);
-					REGISTRY.put(mode.getName(), mode);
-				}
-			}
-		} catch (Throwable t) {
-			t.printStackTrace();
 		}
 	}
 
