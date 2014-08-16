@@ -32,7 +32,7 @@ public class PartialMatchReport {
 	/**
 	 * Map connecting a rule from the module with partial matches, which have been found for it.
 	 */
-	Map<Rule, List<PartialMatchInfo>> infos;
+	Map<Rule, List<PartialMatchInfo>> infos = new HashMap<Rule, List<PartialMatchInfo>>();
 
 	/**
 	 * @return
@@ -175,8 +175,6 @@ public class PartialMatchReport {
 	public void collectPartialMatchInfos(
 			Rule originalRule, List<Match> matches) {
 		
-		Map<Rule, List<PartialMatchInfo>> infos = new HashMap<Rule, List<PartialMatchInfo>>();
-
 		for (Match match : matches) {
 
 			if (!infos.containsKey(originalRule)) {
@@ -199,9 +197,6 @@ public class PartialMatchReport {
 
 			infos.get(originalRule).add(info);
 		}
-		
-		this.infos = infos;
-
 	}
 
 	/**
@@ -249,7 +244,7 @@ public class PartialMatchReport {
 		for (Edge edge : edgesToRemove) {
 			delta.removeEdge(edge);
 		}
-
+		
 		return delta;
 	}
 
