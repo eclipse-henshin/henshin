@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -133,6 +134,11 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 			initialUnit = (Unit) copier.get(initialUnit);
 		}
 
+		// Manually initialize the package registry:
+		for (EPackage ePackage : module.getImports()) {
+			resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
+		}
+		
 		availableUnits = new ArrayList<Unit>();
 		availableUnits.addAll(module.getUnits());
 
