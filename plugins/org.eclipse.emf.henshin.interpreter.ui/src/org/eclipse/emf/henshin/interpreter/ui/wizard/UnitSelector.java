@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.Button;
  */
 public class UnitSelector {
 	
+	static final boolean UNIT_FILTER_DEFAULT = false;
+
 	protected int CONTROL_OFFSET = 5;
 	
 	protected Collection<UnitSelectionListener> listeners = new ArrayList<UnitSelector.UnitSelectionListener>();
@@ -61,7 +63,7 @@ public class UnitSelector {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				for (UnitSelectionListener l : listeners) {
-					l.unitSelected(unitSelector.getSelectionIndex());
+					l.unitSelected(unitSelector.getSelectionIndex(), unitFilter.getSelection());
 				}
 			}
 		});
@@ -83,7 +85,7 @@ public class UnitSelector {
 			}
 		});
 		
-		unitFilter.setSelection(false);
+		unitFilter.setSelection(UNIT_FILTER_DEFAULT);
 	}
 	
 	public Control getControl() {
@@ -116,7 +118,7 @@ public class UnitSelector {
 	}
 	
 	public static interface UnitSelectionListener {
-		boolean unitSelected(int idx);
+		boolean unitSelected(int idx, boolean showInnerUnits);
 	}
 	
 	public void setEnabled(boolean enabled) {

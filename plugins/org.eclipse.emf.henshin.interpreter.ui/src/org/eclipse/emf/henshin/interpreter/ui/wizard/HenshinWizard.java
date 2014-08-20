@@ -40,6 +40,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -53,8 +54,10 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 
 	protected Module module;
 
-	protected List<Unit> availableUnits;
+	protected List<Unit> allUnits;
 
+	protected List<Unit> outerUnits;
+	
 	protected List<CompletionListener> completionListeners = new ArrayList<HenshinWizard.CompletionListener>();
 
 	protected TransformOperation transformOperation;
@@ -139,26 +142,28 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 			resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 		}
 		
-		availableUnits = new ArrayList<Unit>();
-		availableUnits.addAll(module.getUnits());
-
+		allUnits = new ArrayList<Unit>();
+		allUnits.addAll(module.getUnits());
+		outerUnits = new ArrayList<Unit>();
+		
 		List<String> selectableUnitLabels = new ArrayList<String>();
 		List<String> outerUnitLabels = new ArrayList<String>();
 
 		int initIdx = -1;
 		int idx = 0;
 		Unit selectedUnit = initialUnit;
-		for (Unit unit : availableUnits) {
+		for (Unit unit : allUnits) {
 			String unitLabel = unit.toString();
 			selectableUnitLabels.add(unitLabel);
 			boolean isOuterUnit = true;
-			for (Unit outerUnit : availableUnits) {
+			for (Unit outerUnit : allUnits) {
 				if (outerUnit.getSubUnits(true).contains(unit)) {
 					isOuterUnit = false;
 					break;
 				}
 			}
 			if (isOuterUnit) {
+				outerUnits.add(unit);
 				outerUnitLabels.add(unitLabel);
 			}
 
@@ -178,7 +183,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 		}
 		if (initIdx < 0) {
 			initIdx = 0;
-			selectedUnit = availableUnits.get(0);
+			selectedUnit = allUnits.get(0);
 		}
 		page.unitSelector.setSelectableUnits(
 				selectableUnitLabels.toArray(new String[0]),
@@ -298,8 +303,8 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	 * UnitSelectionListener#unitSelected(int)
 	 */
 	@Override
-	public boolean unitSelected(int idx) {
-		Unit unit = this.availableUnits.get(idx);
+	public boolean unitSelected(int idx, boolean showInnerUnits) {
+		Unit unit = showInnerUnits ? this.allUnits.get(idx) : this.outerUnits.get(idx);
 		transformOperation.setUnit(unit, getParameterPreferences(unit));
 		page.parameterEditor.setParameters(transformOperation
 				.getParameterConfigurations());
@@ -356,6 +361,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	public static interface CompletionListener {
 		public void completionChanged();
 	}
+
 
 	// @Override
 	// public boolean isHelpAvailable() {
