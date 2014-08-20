@@ -1,0 +1,53 @@
+
+<h1>Henshin Example: Ecore2GenModel</h1>
+
+<p>
+<small><i>contributed by Enrico Biermann, Claudia Ermel, Stefan Jurack and Christian Krause</i></small>
+</p>
+
+<p>
+This is an exogenous transformation for translating an Ecore model to a GenModel. This transformation 
+was implemented for the <a href="http://planet-research20.org/ttc2010">Transformation Tool Contest (TTC) 2010</a>.
+It includes a higher-order (HO) transformation for Henshin.
+</p>
+
+<p>
+A detailed description of the transformation can be found here:
+<ul>
+<li>Enrico Biermann, Claudia Ermel, Stefan Jurack: 
+<a href="http://www.ctit.utwente.nl/library/proceedings/wp10-03.pdf">Modeling the "Ecore to GenModel" Transformation with EMF Henshin</a>.
+Proceedings of <a href="http://planet-research20.org/ttc2010">TTC'10</a>.
+</li>
+</ul>
+</p>
+
+<p>
+The transformation consists of two parts: the generation of the GenModel and a customization which removes trace links using a higher-order (HO) transformation.
+The models, transformation, source code and example input / output models can be found
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/ecore2genmodel">here</a>.
+Due to an type casting problem in version 0.9.2, you need Henshin 0.9.3 or higher to execute this transformation.
+</p>
+
+<h2>Generating the GenModel</h2>
+
+<p>
+The following screenshots depicts the rules and transformation units for the generation of the GenModel.
+</p>
+
+<p>
+<a href="examples/ecore2genmodel/ecore2genmodel-rules1.png"><img width="600" src="examples/ecore2genmodel/ecore2genmodel-rules1.png" /></a>
+</p>
+
+
+<h2>Customization (HO-transformation)</h2>
+
+<p>
+The following screenshots depicts the rules, meta-rules and transformation units for the customization part. For details, please take a look at the paper cited in the beginning.
+</p>
+
+<p>
+<a href="examples/ecore2genmodel/ecore2genmodel-rules2.png"><img width="600" src="examples/ecore2genmodel/ecore2genmodel-rules2.png" /></a>
+</p>
+
+
+

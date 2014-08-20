@@ -1,0 +1,91 @@
+
+<h1>Henshin Example: Ecore2Rdb</h1>
+
+<p>
+<small><i>contributed by Stefan Jurack and Christian Krause</i></small>
+</p>
+
+<p>
+This is an exogenous transformation for translating an Ecore model to a relational database model. 
+This example makes extensive use of nested multi-rules. The purpose of this example is to show how
+this concept can be used to construct complex and powerful rules. Note that this example could be
+also modeled with simple (but more) rules in Henshin.
+</p>
+
+<p>
+This example requires Henshin 0.9.3 or higher. The transformation, source code and example input / output models can be found
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/ecore2rdb">here</a>.
+</p>
+
+<h2>The Transformation</h2>
+
+<p>
+The transformation consist of one main unit and two rules. The main unit is depicted below.
+</p>
+
+<p>
+<a href="examples/ecore2rdb/main.png"><img src="examples/ecore2rdb/main.png" /></a>
+</p>
+
+<p>
+The main unit is a sequential unit. It first executes the rule <i>CreateSchema</i> and then the rule
+<i>CreateTableInterrelations</i>. The two parameters of the main unit are passed to the <i>CreateSchema</i>
+and back again. Note that there is no loop involved: the transformation literally consist of two rule 
+application, no matter how large and complex the input model is.
+</p>
+
+<p>
+The rule <i>CreateSchema</i> is shown in the screenshot below. This rule creates the schema, all tables, and all columns.
+In general, the transformation makes use of Henshin's generic <a href="http://wiki.eclipse.org/Henshin_Trace_Model">trace model</a>.
+The <i>CreateSchema</i> rule contains the following multi-rules with these tasks:
+<ul>
+<li><i><b>CreateSchema</i>:</b> Creates a schema for a given package.</li>
+<ul>
+<li><i><b>tab</b></i>: Creates a table for every class in the parent package.</li>
+<ul>
+<li><i><b>col</b></i>: Creates a column for every attribute in the parent class.</li>
+<ul>
+<li><i><b>PKey</b></i>: Marks the columns of ID-attributes as key columns.</li>
+</ul>
+<li><i><b>newPKey</b></i>: Creates a new key column if there exists no ID-attributes.</li>
+</ul>
+</ul>
+</ul>
+</p>
+
+<p>
+<a href="examples/ecore2rdb/createSchema.png"><img width="700" src="examples/ecore2rdb/createSchema.png" /></a>
+</p>
+
+<p>
+The second rule, called <i>CreateTableInterrelations</i>, is shown below.
+This rule creates the for all EReferences the corresponding table relations.
+For 1..1 references, the rule creates a new column in the table and a foreign key
+pointing to the target column. For 1..n references, the rule creates a whole new
+table that contains the links.
+</p>
+
+<p>
+<a href="examples/ecore2rdb/createRelations.png"><img width="700" src="examples/ecore2rdb/createRelations.png" /></a>
+</p>
+
+
+<h2>Example</h2>
+
+<p>
+You can find the example Ecore file <i>CarRental.ecore</i> in the same directory. To apply the transformation to this model,
+open the file <i>ecore2rdb.henshin</i> in the tree-based Henshin editor. Right-click on the main unit and select <i>Apply Transformation</i>.
+In the dialog, click on <i>Browse Workspace</i> and choose the <i>CarRental.ecore</i> file. Now change the parameter type of the
+parameter <i>packageName</i> to String and enter <i>CarRentalModel</i> as its value. You can now click on Preview and you should see 
+this compare dialog:
+</p>
+
+<p>
+<a href="examples/ecore2rdb/diff.png"><img width="400" src="examples/ecore2rdb/diff.png" /></a>
+</p>
+
+<p>
+It shows that the created Schema object and its contents. There is also a new Trace object which could be used to check the 
+correspondences between the Ecore and the RDB model. There is also a stand-alone Java application in the example directory
+which you can use to execute the transformation programmatically.  
+</p>

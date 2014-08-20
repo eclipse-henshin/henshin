@@ -1,0 +1,135 @@
+
+<h1>Henshin Example: Dining Philosophers</h1>
+
+<p>
+<small><i>contributed by Christian Krause</i></small>
+</p>
+
+<p>
+We use the simple dining philosophers example here to give an intuition about the 
+rule-based modeling in Henshin and to conduct a benchmark for the state space generation tool.
+</p>
+
+<h3>Transformation System</h3>
+
+<p>
+The transformation consists of four rules shown below.
+</p>
+
+<p>
+<a href="examples/diningphils/diningphils-rules.png"><img width="500" src="examples/diningphils/diningphils-rules.png" /></a>
+</p>
+
+<p>
+In rule <i>left(p)</i> philosopher <i>p</i> picks up his left fork, and analogously for the rule <i>right(p)</i>. In rule <i>release(p)</i> the philospher <i>p</i> releases his fork again. The most interesting rule is <i>createPhilosopher(x)</i> where <i>x</i> refers to the highest philosopher ID in the model (note that Henshin can find all parameters automatically here). The rule <i>createPhilosopher(x)</i> can be used to dynamically add a philosopher to the table and to link it to its neighbors. We use this rule to derive initial models for different numbers of philosophers below.
+</p>
+
+<h3>State Space Generation</h3>
+
+<p>
+The state space can be either generated in the <a href="http://wiki.eclipse.org/Henshin_Statespace_Explorer">state space explorer</a> (slow), or by right-clicking on a statespace file and selecting <i>State Space -> Explore State Space</i>, or programmatically as done the the 
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/diningphils/DiningPhilsBenchmark.java">DiningPhilsBenchmark</a> class. The screenshot below shows the state space
+for 3 philosophers as visualized in the state space explorer. Note that we do not make use of graph isomorphy checking for making the state space smaller, because we want to be able to identify each philosopher individually (by its ID).
+</p>
+
+<p>
+<a href="examples/diningphils/diningphils-statespace-3.png"><img width="500" src="examples/diningphils/diningphils-statespace-3.png" /></a>
+</p>
+
+<p>
+We conducted a benchmark to measure the speed of the state space generator. The models and the source code for the example can be found 
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/diningphils">here</a>.
+The following benchmark was conducted on a Intel(R) Xeon(R) CPU @ 2.50GHz with 8GB of main memory using Henshin 0.9.2.
+We measured the time to generate the full state space.
+</p>
+
+<table>
+<tbody>
+
+<tr>
+<th>&nbsp; Philosophers &nbsp;</th>
+<th>&nbsp; States (= 3^p) &nbsp;</th>
+<th>&nbsp; Transitions &nbsp;</th>
+<th>&nbsp; Time &nbsp;</th>
+</tr>
+
+<tr>
+<td>3</td>
+<td>27</td>
+<td>63</td>
+<td>56ms</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>81</td>
+<td>252</td>
+<td>69ms</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>243</td>
+<td>945</td>
+<td>224ms</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>729</td>
+<td>3,402</td>
+<td>616ms</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>2,187</td>
+<td>11,907</td>
+<td>1.3s</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>6,561</td>
+<td>40,824</td>
+<td>5.0s</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>19,683</td>
+<td>137,781</td>
+<td>19.8s</td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>59,049</td>
+<td>459,270</td>
+<td>80.5s</td>
+</tr>
+
+<tr>
+<td>11</td>
+<td>177,147</td>
+<td>1,515,591</td>
+<td>6min</td>
+</tr>
+
+<tr>
+<td>12</td>
+<td>531,441</td>
+<td>4,960,116</td>
+<td>61min</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>1,594,323</td>
+<td>16,120,377</td>
+<td>593min</td>
+</tr>
+
+</tbody>
+</table>
+

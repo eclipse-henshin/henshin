@@ -1,0 +1,137 @@
+
+<h1>Henshin Example: Gossiping Girls</h1>
+
+<p>
+<small><i>contributed by Christian Krause</i></small>
+</p>
+
+<p>
+The example requires Henshin 0.9.3 or higher.
+It shows how to use nested rules to match subpatterns and how to generate and analyze state spaces. The example is known as the <i>Gossiping Girls Problem</i>. The metamodel is very simple: it consists of a class <i>Girl</i> and a class <i>Secret</i>. Girls know those secrets to which they have a reference to. Two girls can exchange their secrets by making a phone call with each other. For example, if girl A knows the secrets 1 and 2, and girl B knows the secrets 3 and 4, then after the phone call both girls know the secrets 1,2,3,4.
+</p>
+
+<p>
+The problem to solve is as follows. Given N girls each knowing a secret that no other girl knows. How many phone calls are necessary so that every girl knows all the secrets?
+</p>
+
+<h2>Modeling</h2>
+
+<p>
+This problem can be modeled nicely in Henshin. We only need one rule for modeling phone calls, and one rule for adding girls and secrets (for creating initial configurations). The two rules are shown below.
+</p>
+
+<p>
+<a href="examples/gossipinggirls/gossip-rules.png"><img src="examples/gossipinggirls/gossip-rules.png" /></a>
+</p>
+
+<p>
+The rule <i>addGirl</i> creates a new girl and a new secret that only she knows. The annotation <i>@Container</i> says that the two created objects should be added to the contents of an existing object of type <i>Container</i>. By invoking this rule N times, we can create the initial configuration for N girls.
+</p>
+
+<p>
+The rule <i>exchangeSecrets(g1,g2)</i> is used to model phone calls. The parameters <i>g1,g2</i> identify the girls which make the phone calls. If these parameters are not set, Henshin nondeterministically selects two arbitrary girls. The rule has one nested rules to describe the <i>for-all</i> semantics for exchanging secrets. That means, for girl <i>g1</i> all of her secrets which girl <i>g2</i> does not know will be matched (ensured using the forbid* edge). Analogously for girl <i>g2</i>. The application of the rule then adds between every pair of girl and secrets (that she doesn't know) a new edge between them. Thus, after applying this rule, both girls know all secrets (their owns and the ones from the other girl).
+</p>
+
+<h2>Evaluation</h2>
+
+<p>
+To solve the gossiping girls problem, we generate the state space with Henshin and search for the shortest path leading to a state where all girls know all secrets. The state space generation can be done in the <a href="http://wiki.eclipse.org/Henshin_Statespace_Explorer">State Space Explorer</a> or in Java as done in the 
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/gossipinggirls/GossipingGirls.java">GossipingGirls</a> class. The figure below shows the state space for 4 girls generated in the state space explorer.
+</p>
+
+<p>
+<a href="examples/gossipinggirls/gossip-statespace-4.png"><img src="examples/gossipinggirls/gossip-statespace-4.png" /></a>
+</p>
+
+<p>
+The green state is the initial state. State 12 is the target state in which all girls know all secrets. We use the following OCL constraint to identify the target states:
+<pre>
+girls->forAll(g : Girl | g.secrets->size()=girls->size())
+</pre>
+<br>
+which basically says that for all girls it holds that the number of secrets that she knows is equal to the number of girls there exists. To determine the minimum number of phone calls required, select the validation tool <i>OCL (shortest path)</i> and enter the above constraint in the text field and hit the run button. You should see now the shortest path to the goal state. Note that in the state space, in every state a self loop transition is possible. This models the situation where two girls call each other which already know all secrets of each other.
+</p>
+
+<p>
+The table below shows the number of states and transitions and the minimum number of phone calls as computed by Henshin. The benchmark was conducted on a Intel(R) Xeon(R) CPU @ 2.50GHz with 8GB of main memory. Note that it is important to set the state space property <i>ignoreDuplicateTransitions</i> to true here to be able to get to level 8. 
+</p>
+
+<table>
+<tbody>
+
+<tr>
+<th>&nbsp; Girls &nbsp;</th>
+<th>&nbsp; States &nbsp;</th>
+<th>&nbsp; Transitions &nbsp;</th>
+<th>&nbsp; Calls &nbsp;</th>
+<th>&nbsp; Generation Time &nbsp;</th>
+<th>&nbsp; Checking Time &nbsp;</th>
+</tr>
+
+<tr>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>59ms</td>
+<td>3ms</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+<td>3</td>
+<td>88ms</td>
+<td>4ms</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>13</td>
+<td>31</td>
+<td>4</td>
+<td>221ms</td>
+<td>5ms</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>52</td>
+<td>198</td>
+<td>6</td>
+<td>733ms</td>
+<td>12ms</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>357</td>
+<td>2,092</td>
+<td>8</td>
+<td>2,891ms</td>
+<td>66ms</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>3,689</td>
+<td>33,392</td>
+<td>10</td>
+<td>12,545ms</td>
+<td>721ms</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>62,857</td>
+<td>827,963</td>
+<td>12</td>
+<td>510s</td>
+<td>430s</td>
+</tr>
+
+</tbody>
+</table>
+
+

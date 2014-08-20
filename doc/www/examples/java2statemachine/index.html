@@ -1,0 +1,71 @@
+
+<h1>Henshin Example: Java2StateMachine</h1>
+
+<p>
+<small><i>contributed by Stefan Jurack, Johannes Tietje and Christian Krause</i></small>
+</p>
+
+<p>
+This transformation is an exogenous one solving the Reengineering case of the 
+<a href="http://planet-research20.org/ttc2011/">Transformation Tool Contest (TTC) 2011</a>.
+This example primarily shows the use of transformation unit and parameter passing. Some of
+the details could be modeled differently and more efficiently using nested rules.
+</p>
+
+<p>
+A detailed description of the transformation can be found here:
+<ul>
+<li>Stefan Jurack, Johannes Tietje: 
+<a href="http://arxiv.org/abs/1111.4752v1">Solving the TTC 2011 Reengineering Case with Henshin</a>.
+Proceedings of <a href="http://planet-research20.org/ttc2011/">TTC'11</a>, 
+Electronic Proceedings in Theoretical Computer Science (EPTCS), 2011, Volume&nbsp;74.
+</li>
+</ul>
+</p>
+
+<p>
+The whole transformation is depicted in the following screenshot. The models, transformation, 
+source code and example input / output models can be found
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/java2statemachine">here</a>.
+</p>
+
+<p>
+<a href="examples/java2statemachine/java2statemachine.png"><img width="700" src="examples/java2statemachine/java2statemachine.png" /></a>
+</p>
+
+<p>
+We ran the transformation for three input models of different sizes. These input models were provided by the TTC organizers. We measured the time needed for transforming the Java models into state machines. The benchmark was conducted on a Intel(R) Xeon(R) CPU @ 2.50GHz with 8GB of main memory using Henshin 0.9.2. All times do not include the loading of the models and the initialization of the transformation engine. The correctness of the transformation was automatically checked by comparing the generated result with the reference model provided by the TTC organizers.
+</p>
+
+<table>
+<tbody>
+
+<tr>
+<th>&nbsp;Input model&nbsp;</th>
+<th>&nbsp;Number of objects&nbsp;</th>
+<th>&nbsp;Transformation time&nbsp;</th>
+</tr>
+
+<tr>
+<td>1-java-model-small.xmi</td>
+<td>6.117</td>
+<td>1372ms</td>
+</tr>
+
+<tr>
+<td>2-java-model-medium.xmi</td>
+<td>6.400</td>
+<td>1418ms</td>
+</tr>
+
+<tr>
+<td>3-java-model-big.xmi</td>
+<td>737.102</td>
+<td>1729ms</td>
+</tr>
+
+</tbody>
+</table>
+
+
+

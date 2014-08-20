@@ -1,0 +1,243 @@
+
+<h1>Henshin Example: Bank Accounts</h1>
+
+<p>
+<small><i>contributed by Christian Krause</i></small>
+</p>
+
+<p>
+This tutorial shows some of the basic concepts of the Henshin transformation
+language and tool environment. The example transformation is <i>endogenous</i>,
+meaning that it operates on a single metamodel. We explain how to define
+transformation rules using Henshin's integrated graphical editor, and
+how to use the interpreter (wizard and programmatically) to execute rules 
+on an example model.
+</p>
+
+<p>
+The transformation model, example input models and source code can be found
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/bank">here</a>.
+</p>
+
+
+<h2>Metamodel and Instance Model</h2>
+
+<p>
+<a href="examples/bank/bank.png"><image src="examples/bank/bank.png" align="right" width="300" /></a>
+The metamodel is defined in the file <i>bank.ecore</i>. We used 
+the Ecore Tools to draw a diagram (depicted on the right). 
+The diagram is stored in the file <i>bank.ecorediag</i>.
+</p>
+
+<p>
+The class <i>Bank</i> serves as a root container for
+all other classes. Every bank owns a number of accounts,
+each with a unique ID and the current credit 
+Two types of persons are distinguished: managers and clients.
+Every client is associated with at most one manager and can
+own a number of accounts in the bank. Note that the references
+between <i>Account</i> and <i>Client</i>, and <i>Manager</i>
+and <i>Client</i> are bidirectional. Therefore, it is for example
+not only possible to obtain all accounts of a given client,
+but also to find out to which client a given account belongs to.
+</p>
+
+<p>
+<a href="examples/bank/example-bank.png"><image src="examples/bank/example-bank.png" align="right" width="300" /></a>
+An example instance model is depicted on the right using
+the Sample Reflective Ecore Model editor. It contains one
+manager, three clients and four accounts. Note that
+we did not generate code from the metamodel. Thus, we
+use dynamic EMF here, i.e. the instance model is typed
+over a dynamic metamodel loaded from <i>bank.ecore</i>.
+This is also the reason why we used the generic file
+extension <i>*.xmi</i> here and not, say, <i>*.bank</i>.
+</p>
+
+<h2>Transformation Rules</h2>
+
+<p>
+We define a couple of transformation rules for the above
+metamodel. We use the integrated graphical editor of Henshin.
+To set-up the transformation, go to 
+<i>File &rarr; New &rarr; Other &rarr; Henshin &rarr; Henshin transformation Diagram</i>.
+This wizard will create two files, one for storing the transformation
+model and one for the diagram information 
+(e.g. <i>bank.henshin</i> and <i>bank.henshin_diagram</i>).
+When the wizard is finished, an empty diagram file is 
+created and opened in the graphical editor.
+Now you need to import the metamodel for which you want to define
+a transformation. This can be done by right-clicking in the empty
+editor and selecting <i>Import Package... &rarr; From Workspace</i>.
+Then select the file <i>bank.ecore</i> and within this file the
+package <i>bank</i>. If the import was successfull you will see all
+classes of the metamodel appearing in the palette of the editor.
+</p>
+
+<p>
+To create a new transformation rule, use the <i>Rule</i> tool
+in the palette. In the top of every rule, its name and parameters
+are specified (and some optional information which we do not consider 
+here). In the below example, we write <i>createAccount(client, accountId)</i>,
+where the <i>client</i> parameter is the name of the client for whom
+an account should be created, and <i>accountId</i> is the ID to be used
+for the new account.
+</p>
+
+<p>
+<b>Nodes:</b> Inside of the rule, we now create a number of nodes now,
+as shown in the screenshot below. For example, to
+create the bank node in the top, you can use the <i>Bank</i> tool 
+in the palette. After you have created the node, you can change its 
+name and also its type. For changing the name of this object to <i>bank</i>
+click on the name label of the node and enter <i>bank:Bank</i>.
+Note that these names can be important when you want to pass an object
+as a parameter of the rule. In this case you would add <i>bank</i> to the
+list of the rule.
+</p>
+
+<p>
+<b>Edges:</b> To specify a link between two nodes use the tool <i>Edge</i>
+in the palette and draw a line between two lines. This is possible only if
+the metamodel contains a reference between the two corresponding classes.
+If multiple references are possible, you can choose from a pop-up menu.
+</p>
+
+<p>
+<b>Attributes</b>: Attributes can be created within nodes and are specified
+by the name of the attribute and an '=' followed by an expression which is 
+evaluated during the rule application.
+</p>
+
+<p>
+<b>Actions:</b> Nodes and edges are annotated with stereotypes which we refer
+to as actions. A number of actions are supported: 
+<span style="color:gray">&laquo;preserve&raquo;</span> matches an object and preserves it during the rule application,
+<span style="color:green">&laquo;create&raquo;</span> creates a new object or link between objects,
+<span style="color:red">&laquo;delete&raquo;</span> deletes an existing object or link,
+<span style="color:blue">&laquo;forbid&raquo;</span> forbid the existience of an object or link.
+Note that these are the basic actions, which can be further parameterized (see below).
+</p>
+
+<p align="center">
+<image src="examples/bank/rule-create-account.png"/>
+</p>
+
+<p>
+The rule <i>createAccount(client,accountId)</i>
+matches a bank, a client with the name given in the rule parameter <i>client</i>
+and the client's manager. The rule creates a new account for the client and sets
+its ID to the value given in <i>accountId</i>. The rule is applicable only if now
+other account exists already with the same ID.
+</p>
+
+<br>
+<br>
+
+<p align="center">
+<image src="examples/bank/rule-transfer-money.png"/>
+</p>
+
+<p>
+The rule <i>transferMoney(client,fromId,toId,amount,x,y)</i>
+matches a client with the name <i>client</i> and his
+account with the ID given in <i>fromId</i> and another account
+with the ID <i>toId</i>. The <i>credit</i> attribute of both
+account is changed, which is denoted using an arrow notation:
+<i>old value -&gt; new value</i>. In the source account,
+the old credit is matched using a parameter <i>x</i> and set
+to <i>x-amount</i>, analogously for the destination account.
+Note that this rule a check whether <i>x &gt;= amount</i>
+can currently only specified using the tree-based editor.
+For this, you can simply open the rule in the <i>*.henshin</i>
+file and add an attribute condition as an additional check.
+Note also that <i>x</i> and <i>y</i> have to be specified as 
+parameters. When executing this rule, these parameters will
+be automatically initialized by the found match.
+</p>
+
+<br>
+
+<p>
+<image src="examples/bank/rule-delete-all-accounts.png"\>
+</p>
+
+<p align="center">
+The rule <i>deleteAllAccounts(client)</i>
+deletes all accounts of a given client. This is
+done using a star-operator, i.e. using the action
+<span style="color:red">&laquo;delete*&raquo;</span>.
+On the model level, this is mapped to a nested rule.
+which has a for-all semantics.
+Note that, when deleting bidirectional edges,
+both directions have to be specified(!). If the 
+checkDangling-attribute in the rule is set to true,
+a node can only be deleted if all its links are deleted, too. 
+As an exercise, you may define a rule which moves all accounts 
+from one client to another client.
+</p>
+
+<h2>Execution using the Interpreter Wizard</h2>
+
+<p>
+We now show how to execute single transformation rules
+using the Henshin interpreter, invoked through a dialog.
+To run this dialog, open the <i>*.henshin</i> file, right-click
+on a rule or a transformation and select <i>Apply Transformation</i> 
+in the context menu. Then choose an instance model that should be transformed.
+Finally, set the parameters of the rule (not all have to
+be specified) and click on <i>Preview</i> to see the changes.
+</p>
+
+<p>
+<a href="examples/bank/apply-create-account.png"><image src="examples/bank/apply-create-account.png" align="right" width="200" /></a>
+<br>
+<br>
+An application of the rule <i>createAccount(client)</i>
+is shown on the right. As parameters we specified <i>client=Alice</i>
+with type <i>String</i>, and <i>accountId=5</i> with type <i>Int</i>. 
+The preview window on the right shows the
+result of applying the rule with these parameters.
+<br>
+<br>
+<br>
+</p>
+
+<p>
+<a href="examples/bank/apply-transfer-money.png"><image src="examples/bank/apply-transfer-money.png" align="right" width="200" /></a>
+<br>
+<br>
+An application of the rule <i>transferMoney</i>
+is shown on the right. We have specified the parameters <i>client</i>,
+<i>fromId</i>, <i>toid</i> and <i>amount</i>. The other parameters
+are automatically matched by the transformation engine. Note also
+that is important to specify the correct parameter types, because
+otherwise the rule cannot be matched.
+The preview window on the right shows the
+result of applying the rule with these parameters.
+<br>
+<br>
+<br>
+</p>
+
+<p>
+<a href="examples/bank/apply-delete-all-accounts.png"><image src="examples/bank/apply-delete-all-accounts.png" align="right" width="200" /></a>
+<br>
+<br>
+An application of the ruleThe rule <i>deleteAllAccounts(client)</i>
+is shown on the right. As parameter we specified <i>client=Charles</i> 
+with type <i>String</i>.
+The preview window on the right shows the
+result of applying the rule with these parameters.
+<br>
+<br>
+</p>
+
+<h2>Execution using the Interpreter API</h2>
+
+<p>
+Of course, you can also invoke the interpreter programmatically. You can find an implementation of 
+the example transformations above using the interpreter in the 
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/bank/BankExample.java">BankExample</a> class.
+</p>
+

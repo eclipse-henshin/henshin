@@ -1,0 +1,175 @@
+
+<h1>Henshin Example: Sierpinski Triangle</h1>
+
+<p>
+<small><i>contributed by Enrico Biermann and Christian Krause</i></small>
+</p>
+
+<p>
+<img src="examples/sierpinski/sierpinski.gif" width="150px" align="right" />
+This is a very simple example which we use to do some benchmarking for the Henshin interpreter. 
+The <a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinski triangle</a> is a fractal 
+which is constructed by iteratively dividing triangles into sub-triangles.
+The number of nodes in the triangle grows exponentially with the number of iterations. 
+</p>
+
+<p>
+The transformation consists of a single rule, which divides and adds new triangles. 
+The screenshot below shows this rule in the graphical editor.
+</p>
+
+<p>
+<a href="examples/sierpinski/addtriangle2.png"><img width="500" src="examples/sierpinski/addtriangle2.png" /></a>
+</p>
+
+<p>
+The transformation files and the Java source code are available in the examples plug-in in the <a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/sierpinski/">sierpinski</a> package.
+</p>
+
+<p>
+The following benchmark was conducted on a Intel(R) Xeon(R) CPU @ 2.50GHz with 8GB of main memory using Henshin 0.9.2.
+The parameters for the benchmark were automatically set using a script. All times are in milliseconds.
+</p>
+
+<table>
+<tbody>
+
+<tr>
+<th>&nbsp; Level &nbsp;</th>
+<th>&nbsp; Rule applications &nbsp;</th>
+<th>&nbsp; Nodes &nbsp;</th>
+<th>&nbsp; Matching Time &nbsp;</th>
+<th>&nbsp; Application Time &nbsp;</th>
+<th>&nbsp; Total Time &nbsp;</th>
+</tr>
+
+
+<tr>
+<td>1</td>
+<td>1</td>
+<td>6</td>
+<td>0ms</td>
+<td>1ms</td>
+<td>1ms</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>3</td>
+<td>15</td>
+<td>1ms</td>
+<td>1ms</td>
+<td>2ms</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>9</td>
+<td>42</td>
+<td>1ms</td>
+<td>3ms</td>
+<td>4ms</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>27</td>
+<td>123</td>
+<td>4ms</td>
+<td>8ms</td>
+<td>12ms</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>81</td>
+<td>366</td>
+<td>13ms</td>
+<td>27ms</td>
+<td>40ms</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>243</td>
+<td>1,095</td>
+<td>37ms</td>
+<td>67ms</td>
+<td>104ms</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>729</td>
+<td>3,282</td>
+<td>73ms</td>
+<td>158ms</td>
+<td>231ms</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>2,187</td>
+<td>9,843</td>
+<td>125ms</td>
+<td>195ms</td>
+<td>320ms</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>6,561</td>
+<td>29,526</td>
+<td>107ms</td>
+<td>231ms</td>
+<td>338ms</td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>19,683</td>
+<td>88,575</td>
+<td>185ms</td>
+<td>219ms</td>
+<td>404ms</td>
+</tr>
+
+<tr>
+<td>11</td>
+<td>59,049</td>
+<td>265,722</td>
+<td>441ms</td>
+<td>723ms</td>
+<td>1,164ms</td>
+</tr>
+
+<tr>
+<td>12</td>
+<td>177,147</td>
+<td>797,163</td>
+<td>1,309ms</td>
+<td>2,500ms</td>
+<td>3,809ms</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>531,441</td>
+<td>2,391,486</td>
+<td>3,627ms</td>
+<td>9,944ms</td>
+<td>13,571ms</td>
+</tr>
+
+<tr>
+<td>14</td>
+<td>1,594,323</td>
+<td>7,174,455&nbsp;</td>
+<td>14,609ms</td>
+<td>117,470ms</td>
+<td>132,079ms</td>
+</tr>
+
+</tbody>
+</table>
+
