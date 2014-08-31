@@ -1,5 +1,15 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.interpreter.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -15,12 +25,50 @@ public class ScriptEngineWrapper {
 	/**
 	 * The original scripting engine to delegate to.
 	 */
-	private ScriptEngine engine;
+	private final ScriptEngine engine;
 
-	public ScriptEngineWrapper(ScriptEngine engine) {
+	/**
+	 * List of global imports.
+	 */
+	private final List<String> globalImports;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param engine
+	 *            Script engine to be used.
+	 * @param globalImports
+	 *            List of global Java imports.
+	 */
+	public ScriptEngineWrapper(ScriptEngine engine, String[] globalImports) {
 		this.engine = engine;
+		this.globalImports = new ArrayList<String>();
+		if (globalImports != null) {
+			for (int i = 0; i < globalImports.length; i++) {
+				this.globalImports.add(globalImports[i]);
+			}
+		}
+		if (engine == null) {
+			System.err.println("Warning: cannot find JavaScript engine");
+		}
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param globalImports
+	 *            List of global Java imports.
+	 */
+	public ScriptEngineWrapper(String[] globalImports) {
+		this(new ScriptEngineManager().getEngineByName("JavaScript"),
+				globalImports);
+	}
+
+	/**
+	 * Get the wrapped JavaScript engine.
+	 * 
+	 * @return The wrapped JavaScript engine.
+	 */
 	public ScriptEngine getEngine() {
 		return engine;
 	}
@@ -34,18 +82,19 @@ public class ScriptEngineWrapper {
 	 * 
 	 * @param script
 	 *            Script to be executed.
-	 * @param imports
+	 * @param localImports
 	 *            List of imports.
 	 * @return The result.
 	 * @throws ScriptException
 	 *             On script execution errors.
 	 */
-	public Object eval(String script, List<String> imports)
+	@SuppressWarnings("unchecked")
+	public Object eval(String script, List<String> localImports)
 			throws ScriptException {
-		if (!imports.isEmpty()) {
-			script = "(function() { with (new JavaImporter("
-					+ toImportString(imports) + ")) { return " + script
-					+ " ; }}).call(this);";
+		if (!globalImports.isEmpty() || !localImports.isEmpty()) {
+			script = "with (new JavaImporter("
+					+ toImportString(globalImports, localImports) + ")) { "
+					+ script + " }";
 		}
 		return engine.eval(script);
 	}
@@ -54,44 +103,24 @@ public class ScriptEngineWrapper {
 	 * Converts a list of imports like List("foo.Foo", "foo.bar.*") into one
 	 * string "foo.Foo, foo.bar"
 	 */
-	private String toImportString(List<String> imports) {
+	private static String toImportString(List<String>... imports) {
 		StringBuffer out = new StringBuffer();
 		String delim = "";
-		for (String i : imports) {
-			out.append(delim).append(stripWildcard(i));
-			delim = ", ";
+		for (int i = 0; i < imports.length; i++) {
+			for (String entry : imports[i]) {
+				out.append(delim).append(stripWildcard(entry));
+				delim = ", ";
+			}
 		}
 		return out.toString();
 	}
 
-	private String stripWildcard(String imp) {
+	private static String stripWildcard(String imp) {
 		return isWildcard(imp) ? imp.substring(0, imp.length() - 2) : imp;
 	}
 
-	private boolean isWildcard(String imp) {
+	private static boolean isWildcard(String imp) {
 		return Pattern.matches("(.*)\\.\\*$", imp);
-	}
-
-	public static ScriptEngineWrapper newInstance() {
-		ScriptEngine engine = new ScriptEngineManager()
-				.getEngineByName("JavaScript");
-		if (engine == null) {
-			System.err.println("Warning: cannot find JavaScript engine");
-		} else
-			try {
-				// Add java.lang to the global namespace
-				engine.eval("importPackage(java.lang)");
-			} catch (Throwable t1) {
-				// Try again with compatibility library
-				try {
-					engine.eval("load(\"nashorn:mozilla_compat.js\");\n importPackage(java.lang)");
-				} catch (Throwable t2) {
-					// Also didn't work
-					System.err
-							.println("Warning: error importing java.lang package in JavaScript engine");
-				}
-			}
-		return new ScriptEngineWrapper(engine);
 	}
 
 }

@@ -337,7 +337,7 @@ public class MatchTest extends HenshinTest {
 		result.add(2);
 		result.add(3);
 		result.add(4);
-		Assert.assertEquals("Unexpected integer list result: " + val.getIntlist(), val.getIntlist(), result);
+		Assert.assertEquals("Unexpected integer list result: " + val.getIntlist(), result, val.getIntlist());
 	}
 
 }

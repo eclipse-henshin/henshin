@@ -101,6 +101,11 @@ public class EngineImpl implements Engine {
 	private static final boolean DEFAULT_INVERSE_MATCHING_ORDER = true;
 
 	/**
+	 * Default Java imports (will be used when using the default constructor).
+	 */
+	private static final String[] DEFAULT_JAVA_IMPORTS = new String[] { "java.lang" };
+	
+	/**
 	 * Options to be used.
 	 */
 	protected final Map<String,Object> options;
@@ -141,9 +146,18 @@ public class EngineImpl implements Engine {
 	protected ExecutorService workerPool;
 
 	/**
-	 * Default constructor.
+	 * Default constructor. Uses the content of {@link #DEFAULT_JAVA_IMPORTS}
+	 * as default Java imports.
 	 */
 	public EngineImpl() {
+		this(DEFAULT_JAVA_IMPORTS);
+	}
+
+	/**
+	 * Constructor.
+	 * @param globalJavaImports List of global Java imports to be used in the script engine.
+	 */
+	public EngineImpl(String[] globalJavaImports) {
 		
 		// Initialize fields:
 		ruleInfos = new HashMap<Rule, RuleInfo>();
@@ -153,13 +167,14 @@ public class EngineImpl implements Engine {
 		inverseMatchingOrder = DEFAULT_INVERSE_MATCHING_ORDER;
 		
 		// Initialize the script engine:
-		scriptEngine = ScriptEngineWrapper.newInstance();
+		scriptEngine = new ScriptEngineWrapper(globalJavaImports);
 		
 		// Rule listener for automatically clearing caches when rules are changed at run-time:
 		ruleListener = new RuleChangeListener();
 		
 	}
 
+	
 	/**
 	 * Change listener for rules. If a rule is changed externally,
 	 * the listener drops all cached options for this rule. This
