@@ -23,6 +23,11 @@ import javax.script.ScriptException;
 public class ScriptEngineWrapper {
 
 	/**
+	 * Wildcard pattern
+	 */
+	private static final Pattern WILDCARD_PATTERN = Pattern.compile("(.*)\\.\\*$");
+
+	/**
 	 * The original scripting engine to delegate to.
 	 */
 	private final ScriptEngine engine;
@@ -35,10 +40,8 @@ public class ScriptEngineWrapper {
 	/**
 	 * Constructor.
 	 * 
-	 * @param engine
-	 *            Script engine to be used.
-	 * @param globalImports
-	 *            List of global Java imports.
+	 * @param engine Script engine to be used.
+	 * @param globalImports List of global Java imports.
 	 */
 	public ScriptEngineWrapper(ScriptEngine engine, String[] globalImports) {
 		this.engine = engine;
@@ -56,12 +59,10 @@ public class ScriptEngineWrapper {
 	/**
 	 * Constructor.
 	 * 
-	 * @param globalImports
-	 *            List of global Java imports.
+	 * @param globalImports List of global Java imports.
 	 */
 	public ScriptEngineWrapper(String[] globalImports) {
-		this(new ScriptEngineManager().getEngineByName("JavaScript"),
-				globalImports);
+		this(new ScriptEngineManager().getEngineByName("JavaScript"), globalImports);
 	}
 
 	/**
@@ -80,21 +81,15 @@ public class ScriptEngineWrapper {
 	 * The imports are on purpose not added to the global scope to prevent
 	 * pollution of the namespace.
 	 * 
-	 * @param script
-	 *            Script to be executed.
-	 * @param localImports
-	 *            List of imports.
+	 * @param script Script to be executed.
+	 * @param localImports List of imports.
 	 * @return The result.
-	 * @throws ScriptException
-	 *             On script execution errors.
+	 * @throws ScriptException On script execution errors.
 	 */
 	@SuppressWarnings("unchecked")
-	public Object eval(String script, List<String> localImports)
-			throws ScriptException {
+	public Object eval(String script, List<String> localImports) throws ScriptException {
 		if (!globalImports.isEmpty() || !localImports.isEmpty()) {
-			script = "with (new JavaImporter("
-					+ toImportString(globalImports, localImports) + ")) { "
-					+ script + " }";
+			script = "with (new JavaImporter(" + toImportString(globalImports, localImports) + ")) { " + script + " }";
 		}
 		return engine.eval(script);
 	}
@@ -120,7 +115,7 @@ public class ScriptEngineWrapper {
 	}
 
 	private static boolean isWildcard(String imp) {
-		return Pattern.matches("(.*)\\.\\*$", imp);
+		return WILDCARD_PATTERN.matcher(imp).matches();
 	}
 
 }
