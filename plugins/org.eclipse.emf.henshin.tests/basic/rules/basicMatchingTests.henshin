@@ -519,7 +519,7 @@
     </rhs>
     <mappings xmi:id="_3lHxlWxNEeKYQciwSfBDXQ" origin="_3lHKgmxNEeKYQciwSfBDXQ" image="_3lHKhGxNEeKYQciwSfBDXQ"/>
   </units>
-  <units xsi:type="henshin:Rule" xmi:id="_sxJ_EGxVEeKT0bDi-unDOw" name="intListVarTest" description="">
+  <units xsi:type="henshin:Rule" xmi:id="_sxJ_EGxVEeKT0bDi-unDOw" name="intListVarTest" description="" javaImports="java.lang">
     <parameters xmi:id="_vURcEGxVEeKT0bDi-unDOw" name="x"/>
     <lhs xmi:id="_sxJ_EWxVEeKT0bDi-unDOw" name="LHS">
       <nodes xmi:id="_sxJ_EmxVEeKT0bDi-unDOw" name="var">

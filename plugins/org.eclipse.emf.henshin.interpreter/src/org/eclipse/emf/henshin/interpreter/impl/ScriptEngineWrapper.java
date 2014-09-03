@@ -75,11 +75,8 @@ public class ScriptEngineWrapper {
 	}
 
 	/**
-	 * Evaluates a given expression in a context which is extended with the
-	 * provided imports
-	 * 
-	 * The imports are on purpose not added to the global scope to prevent
-	 * pollution of the namespace.
+	 * Evaluates a given expression in a context which is extended with the provided imports. The imports are on purpose
+	 * not added to the global scope to prevent pollution of the namespace.
 	 * 
 	 * @param script Script to be executed.
 	 * @param localImports List of imports.
@@ -95,8 +92,7 @@ public class ScriptEngineWrapper {
 	}
 
 	/**
-	 * Converts a list of imports like List("foo.Foo", "foo.bar.*") into one
-	 * string "foo.Foo, foo.bar"
+	 * Converts a list of imports like List("foo.Foo", "foo.bar.*") into one string "foo.Foo, foo.bar"
 	 */
 	private static String toImportString(List<String>... imports) {
 		StringBuffer out = new StringBuffer();

@@ -101,14 +101,9 @@ public class EngineImpl implements Engine {
 	private static final boolean DEFAULT_INVERSE_MATCHING_ORDER = true;
 
 	/**
-	 * Default Java imports (will be used when using the default constructor).
-	 */
-	private static final String[] DEFAULT_JAVA_IMPORTS = new String[] { "java.lang" };
-	
-	/**
 	 * Options to be used.
 	 */
-	protected final Map<String,Object> options;
+	protected final Map<String, Object> options;
 
 	/**
 	 * Script engine used to compute Java expressions in attributes.
@@ -118,13 +113,13 @@ public class EngineImpl implements Engine {
 	/**
 	 * Cached information lookup map for each rule.
 	 */
-	protected final Map<Rule,RuleInfo> ruleInfos;
+	protected final Map<Rule, RuleInfo> ruleInfos;
 
 	/**
 	 * Cached graph options.
 	 */
-	protected final Map<Graph,MatchingOptions> graphOptions;
-	
+	protected final Map<Graph, MatchingOptions> graphOptions;
+
 	/**
 	 * Listen for rule changes.
 	 */
@@ -134,76 +129,68 @@ public class EngineImpl implements Engine {
 	 * Whether to sort variables.
 	 */
 	protected boolean sortVariables;
-	
+
 	/**
 	 * Whether to use inverse matching order.
 	 */
 	protected boolean inverseMatchingOrder;
-	
+
 	/**
 	 * Worker thread pool.
 	 */
 	protected ExecutorService workerPool;
 
 	/**
-	 * Default constructor. Uses the content of {@link #DEFAULT_JAVA_IMPORTS}
-	 * as default Java imports.
-	 */
-	public EngineImpl() {
-		this(DEFAULT_JAVA_IMPORTS);
-	}
-
-	/**
 	 * Constructor.
+	 * 
 	 * @param globalJavaImports List of global Java imports to be used in the script engine.
 	 */
-	public EngineImpl(String[] globalJavaImports) {
-		
+	public EngineImpl(String... globalJavaImports) {
+
 		// Initialize fields:
 		ruleInfos = new HashMap<Rule, RuleInfo>();
-		graphOptions = new HashMap<Graph,MatchingOptions>();
+		graphOptions = new HashMap<Graph, MatchingOptions>();
 		options = new EngineOptions();
 		sortVariables = DEFAULT_SORT_VARIABLES;
 		inverseMatchingOrder = DEFAULT_INVERSE_MATCHING_ORDER;
-		
+
 		// Initialize the script engine:
 		scriptEngine = new ScriptEngineWrapper(globalJavaImports);
-		
-		// Rule listener for automatically clearing caches when rules are changed at run-time:
+
+		// Rule listener for automatically clearing caches when rules are
+		// changed at run-time:
 		ruleListener = new RuleChangeListener();
-		
+
 	}
 
-	
 	/**
-	 * Change listener for rules. If a rule is changed externally,
-	 * the listener drops all cached options for this rule. This
-	 * enables dynamic high-order transformation of rules.
+	 * Change listener for rules. If a rule is changed externally, the listener drops all cached options for this rule.
+	 * This enables dynamic high-order transformation of rules.
 	 */
 	private final class RuleChangeListener extends EContentAdapter {
-		
+
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+		 * 
+		 * @see org.eclipse.emf.ecore.util.EContentAdapter#notifyChanged(org.eclipse .emf.common.notify.Notification)
 		 */
 		@Override
 		public void notifyChanged(Notification notification) {
 			super.notifyChanged(notification);
 			int eventType = notification.getEventType();
-			if (eventType==Notification.RESOLVE ||
-					eventType==Notification.REMOVING_ADAPTER) {
+			if (eventType == Notification.RESOLVE || eventType == Notification.REMOVING_ADAPTER) {
 				return;
 			}
 			if (notification.getNotifier() instanceof EObject) {
 				EObject object = (EObject) notification.getNotifier();
-				while (object!=null) {
+				while (object != null) {
 					if (object instanceof Rule) {
 						ruleInfos.remove(object);
 						object.eAdapters().remove(ruleListener);
 					}
 					if (object instanceof Graph) {
 						graphOptions.remove(object);
-					}						  
+					}
 					object = object.eContainer();
 				}
 			}
@@ -212,14 +199,16 @@ public class EngineImpl implements Engine {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.Engine#findMatches(org.eclipse.emf.henshin.model.Rule, org.eclipse.emf.henshin.interpreter.EGraph, org.eclipse.emf.henshin.interpreter.Match)
+	 * 
+	 * @see org.eclipse.emf.henshin.interpreter.Engine#findMatches(org.eclipse.emf .henshin.model.Rule,
+	 * org.eclipse.emf.henshin.interpreter.EGraph, org.eclipse.emf.henshin.interpreter.Match)
 	 */
 	@Override
 	public Iterable<Match> findMatches(Rule rule, EGraph graph, Match partialMatch) {
-		if (rule==null || graph==null) {
+		if (rule == null || graph == null) {
 			throw new NullPointerException("Rule and graph must not be null");
 		}
-		if (partialMatch==null) {
+		if (partialMatch == null) {
 			partialMatch = new MatchImpl(rule);
 		}
 		return new MatchGenerator(rule, graph, partialMatch);
@@ -233,7 +222,7 @@ public class EngineImpl implements Engine {
 		/**
 		 * Rule to be matched.
 		 */
-		private final Rule rule; 
+		private final Rule rule;
 
 		/**
 		 * Object graph.
@@ -247,6 +236,7 @@ public class EngineImpl implements Engine {
 
 		/**
 		 * Default constructor.
+		 * 
 		 * @param rule Rule to be matched.
 		 * @param graph Object graph.
 		 * @param partialMatch Partial match.
@@ -259,6 +249,7 @@ public class EngineImpl implements Engine {
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Iterable#iterator()
 		 */
 		@Override
@@ -310,6 +301,7 @@ public class EngineImpl implements Engine {
 
 		/**
 		 * Default constructor.
+		 * 
 		 * @param rule Rule to be matched.
 		 * @param graph Object graph.
 		 * @param partialMatch A partial match.
@@ -325,6 +317,7 @@ public class EngineImpl implements Engine {
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.Iterator#hasNext()
 		 */
 		@Override
@@ -333,11 +326,12 @@ public class EngineImpl implements Engine {
 				computeNextMatch();
 				computedNextMatch = true;
 			}
-			return (nextMatch!=null);
+			return (nextMatch != null);
 		}
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.Iterator#next()
 		 */
 		@Override
@@ -350,6 +344,7 @@ public class EngineImpl implements Engine {
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.Iterator#remove()
 		 */
 		@Override
@@ -363,14 +358,14 @@ public class EngineImpl implements Engine {
 		private void computeNextMatch() {
 
 			// We definitely need a solution finder:
-			if (solutionFinder==null) {
+			if (solutionFinder == null) {
 				nextMatch = null;
 				return;
 			}
 
 			// Find the next solution:
 			Solution solution = solutionFinder.getNextSolution();
-			if (solution==null) {
+			if (solution == null) {
 				nextMatch = null;
 				return;
 			}
@@ -379,15 +374,15 @@ public class EngineImpl implements Engine {
 			nextMatch = new MatchImpl(rule);
 
 			// Parameter values:
-			for (Entry<String,Object> entry : solution.parameterValues.entrySet()) {
+			for (Entry<String, Object> entry : solution.parameterValues.entrySet()) {
 				Parameter param = nextMatch.getUnit().getParameter(entry.getKey());
-				if (param!=null) {
+				if (param != null) {
 					nextMatch.setParameterValue(param, entry.getValue());
 				}
 			}
 
 			// LHS node targets:
-			Map<Node,Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
+			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
 			for (Node node : rule.getLhs().getNodes()) {
 				nextMatch.setNodeTarget(node, solution.objectMatches.get(node2var.get(node)));
 			}
@@ -403,31 +398,31 @@ public class EngineImpl implements Engine {
 				Match partialMultiMatch = new MatchImpl(multiRule);
 				for (Parameter param : rule.getParameters()) {
 					Parameter multiParam = multiRule.getParameter(param.getName());
-					if (multiParam!=null) {
+					if (multiParam != null) {
 						partialMultiMatch.setParameterValue(multiParam, nextMatch.getParameterValue(param));
 					}
 				}
 				for (Mapping mapping : multiRule.getMultiMappings()) {
-					partialMultiMatch.setNodeTarget(mapping.getImage(),
-							nextMatch.getNodeTarget(mapping.getOrigin()));
+					partialMultiMatch.setNodeTarget(mapping.getImage(), nextMatch.getNodeTarget(mapping.getOrigin()));
 				}
 
 				// Find nested multi-matches:
 				List<Match> nestedMatches = nextMatch.getMultiMatches(multiRule);
-				
+
 				// Check if we can use worker threads:
-				if (workerPool!=null && (graph instanceof PartitionedEGraph) && (multiRule.getLhs().getNodes().size() > 1)) {
-					
+				if (workerPool != null && (graph instanceof PartitionedEGraph)
+						&& (multiRule.getLhs().getNodes().size() > 1)) {
+
 					// Create match finder workers:
 					List<Future<List<Match>>> matchFinderFutures = new ArrayList<Future<List<Match>>>();
 					int partitions = ((PartitionedEGraph) graph).getNumPartitions();
-					for (int p=0; p<partitions; p++) {
+					for (int p = 0; p < partitions; p++) {
 						Set<EObject> freshUsedObjects = new HashSet<EObject>(usedKernelObjects);
 						MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, freshUsedObjects);
 						MatchFinderWorker worker = new MatchFinderWorker(matchFinder, p);
 						matchFinderFutures.add(workerPool.submit(worker));
 					}
-					
+
 					// Collect found matches:
 					try {
 						for (Future<List<Match>> futures : matchFinderFutures) {
@@ -436,21 +431,22 @@ public class EngineImpl implements Engine {
 					} catch (Throwable t) {
 						throw new RuntimeException(t);
 					}
-					
+
 				} else {
-					
+
 					// Otherwise execute directly in this thread:
 					MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, usedKernelObjects);
 					while (matchFinder.hasNext()) {
 						nestedMatches.add(matchFinder.next());
 					}
-					
+
 				}
 			}
 		}
 
 		/**
 		 * Create a solution finder.
+		 * 
 		 * @param partialMatch A partial match.
 		 * @return The solution finder.
 		 */
@@ -461,27 +457,30 @@ public class EngineImpl implements Engine {
 			final VariableInfo varInfo = ruleInfo.getVariableInfo();
 
 			// Evaluates attribute conditions of the rule:
-			ConditionHandler conditionHandler = new ConditionHandler(conditionInfo.getConditionParameters(), scriptEngine.getEngine());
+			ConditionHandler conditionHandler = new ConditionHandler(conditionInfo.getConditionParameters(),
+					scriptEngine.getEngine());
 
-			/* The set "usedObjects" ensures injective matching by removing *
-			 * already matched objects from other DomainSlots               */
+			/*
+			 * The set "usedObjects" ensures injective matching by removing already matched objects from other
+			 * DomainSlots
+			 */
 
-			/* Create a domain map where all variables are mapped to slots. *
-			 * Different variables may share one domain slot, if there is a *
-			 * mapping between the nodes of the variables.                  */
+			/*
+			 * Create a domain map where all variables are mapped to slots. Different variables may share one domain
+			 * slot, if there is a mapping between the nodes of the variables.
+			 */
 
-			Map<Variable,DomainSlot> domainMap = new HashMap<Variable,DomainSlot>();
+			Map<Variable, DomainSlot> domainMap = new HashMap<Variable, DomainSlot>();
 
 			for (Variable mainVariable : varInfo.getMainVariables()) {
 				Node node = varInfo.getVariableForNode(mainVariable);
 				MatchingOptions opt = getGraphOptions(node.getGraph());
-				DomainSlot domainSlot = new DomainSlot(conditionHandler, 
-						usedObjects, opt.injective, opt.dangling, opt.deterministic, 
-						inverseMatchingOrder);
+				DomainSlot domainSlot = new DomainSlot(conditionHandler, usedObjects, opt.injective, opt.dangling,
+						opt.deterministic, inverseMatchingOrder);
 
 				// Fix this slot?
 				EObject target = partialMatch.getNodeTarget(node);
-				if (target!=null) {
+				if (target != null) {
 					domainSlot.fixInstantiation(target);
 				}
 
@@ -494,21 +493,22 @@ public class EngineImpl implements Engine {
 			// Check if any of the conditions failed:
 			for (Parameter param : rule.getParameters()) {
 				Object value = partialMatch.getParameterValue(param);
-				if (value!=null && !conditionHandler.setParameter(param.getName(), value)) {
+				if (value != null && !conditionHandler.setParameter(param.getName(), value)) {
 					return null;
 				}
 			}
 
 			// Sort the main variables based on the size of their domains:
-			Map<Graph,List<Variable>> graphMap = new HashMap<Graph, List<Variable>>();
-			for (Entry<Graph,List<Variable>> entry : ruleInfo.getVariableInfo().getGraph2variables().entrySet()) {
+			Map<Graph, List<Variable>> graphMap = new HashMap<Graph, List<Variable>>();
+			for (Entry<Graph, List<Variable>> entry : ruleInfo.getVariableInfo().getGraph2variables().entrySet()) {
 				List<Variable> vars = new ArrayList<Variable>(entry.getValue());
 				if (sortVariables) {
-					Collections.sort(vars, new VariableComparator(graph, varInfo, partialMatch));  // sorting the variables
+					// sorting the variables
+					Collections.sort(vars, new VariableComparator(graph, varInfo, partialMatch));
 				}
 				graphMap.put(entry.getKey(), vars);
 			}
-			
+
 			// Now initialize the match finder:
 			SolutionFinder solutionFinder = new SolutionFinder(graph, domainMap, conditionHandler);
 			solutionFinder.variables = graphMap.get(rule.getLhs());
@@ -520,33 +520,31 @@ public class EngineImpl implements Engine {
 		/**
 		 * Initialize a formula.
 		 */
-		private IFormula initFormula(Formula formula, EGraph graph, Map<Graph,List<Variable>> graphMap, Map<Variable,DomainSlot> domainMap) {
+		private IFormula initFormula(Formula formula, EGraph graph, Map<Graph, List<Variable>> graphMap,
+				Map<Variable, DomainSlot> domainMap) {
 			if (formula instanceof And) {
 				And and = (And) formula;
 				IFormula left = initFormula(and.getLeft(), graph, graphMap, domainMap);
 				IFormula right = initFormula(and.getRight(), graph, graphMap, domainMap);
 				return new AndFormula(left, right);
-			}
-			else if (formula instanceof Or) {
+			} else if (formula instanceof Or) {
 				Or or = (Or) formula;
 				IFormula left = initFormula(or.getLeft(), graph, graphMap, domainMap);
 				IFormula right = initFormula(or.getRight(), graph, graphMap, domainMap);
 				return new OrFormula(left, right);
-			}
-			else if (formula instanceof Xor) {
+			} else if (formula instanceof Xor) {
 				Xor xor = (Xor) formula;
 				IFormula left = initFormula(xor.getLeft(), graph, graphMap, domainMap);
 				IFormula right = initFormula(xor.getRight(), graph, graphMap, domainMap);
 				return new XorFormula(left, right);
-			}
-			else if (formula instanceof Not) {
+			} else if (formula instanceof Not) {
 				Not not = (Not) formula;
 				IFormula child = initFormula(not.getChild(), graph, graphMap, domainMap);
 				return new NotFormula(child);
-			}
-			else if (formula instanceof NestedCondition) {
+			} else if (formula instanceof NestedCondition) {
 				NestedCondition nc = (NestedCondition) formula;
-				if (nc.isTrue() || PathFinder.pacConsistsOnlyOfPaths(nc)) { // check if we really need nested condition
+				// check if we really need nested condition
+				if (nc.isTrue() || PathFinder.pacConsistsOnlyOfPaths(nc)) {
 					return IFormula.TRUE;
 				}
 				if (nc.isFalse()) {
@@ -560,7 +558,8 @@ public class EngineImpl implements Engine {
 		/**
 		 * Initialize an application condition.
 		 */
-		private ApplicationCondition initApplicationCondition(NestedCondition nc, EGraph graph, Map<Graph, List<Variable>> graphMap, Map<Variable,DomainSlot> domainMap) {
+		private ApplicationCondition initApplicationCondition(NestedCondition nc, EGraph graph,
+				Map<Graph, List<Variable>> graphMap, Map<Variable, DomainSlot> domainMap) {
 			ApplicationCondition ac = new ApplicationCondition(graph, domainMap);
 			ac.variables = graphMap.get(nc.getConclusion());
 			ac.formula = initFormula(nc.getConclusion().getFormula(), graph, graphMap, domainMap);
@@ -570,17 +569,17 @@ public class EngineImpl implements Engine {
 	} // MatchFinder
 
 	/**
-	 * Match finding worker. To be used in a worker thread pool.
-	 * It MUST be executed in a {@link PartitionThread}.
+	 * Match finding worker. To be used in a worker thread pool. It MUST be executed in a {@link PartitionThread}.
+	 * 
 	 * @author Christian Krause
 	 */
 	private final class MatchFinderWorker implements Callable<List<Match>> {
-		
+
 		/**
 		 * Match finder to be used.
 		 */
 		private final MatchFinder matchFinder;
-		
+
 		/**
 		 * Partition to be used.
 		 */
@@ -588,6 +587,7 @@ public class EngineImpl implements Engine {
 
 		/**
 		 * Constructor.
+		 * 
 		 * @param matchFinder Match finder to be used.
 		 * @param partition Partition to be used.
 		 */
@@ -595,9 +595,10 @@ public class EngineImpl implements Engine {
 			this.matchFinder = matchFinder;
 			this.partition = partition;
 		}
-		
+
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.concurrent.Callable#call()
 		 */
 		@Override
@@ -612,7 +613,7 @@ public class EngineImpl implements Engine {
 			}
 			return matches;
 		}
-	
+
 	} // MatchFinderWorker
 
 	/**
@@ -639,9 +640,10 @@ public class EngineImpl implements Engine {
 		 * Default sign to be used.
 		 */
 		private final int sign;
-		
+
 		/**
 		 * Constructor.
+		 * 
 		 * @param graph Target graph
 		 * @param varInfo Variable info.
 		 * @param partialMatch Partial match.
@@ -655,6 +657,7 @@ public class EngineImpl implements Engine {
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
 		@Override
@@ -662,26 +665,41 @@ public class EngineImpl implements Engine {
 
 			// Get the corresponding nodes:
 			Node n1 = varInfo.getVariableForNode(v1);
-			if (n1==null) return sign;
+			if (n1 == null)
+				return sign;
 			Node n2 = varInfo.getVariableForNode(v2);
-			if (n2==null) return -sign;
+			if (n2 == null)
+				return -sign;
 
-			// One of the nodes already matched or an attribute given as a parameter?
-			if (partialMatch!=null) {
-				if (isNodeObjectMatched(n1) && !isNodeObjectMatched(n2)) return -sign;
-				if (isNodeObjectMatched(n2) && !isNodeObjectMatched(n1)) return sign;
-				if (isNodeAttributeMatched(n1) && !isNodeAttributeMatched(n2)) return -sign;
-				if (isNodeAttributeMatched(n2) && !isNodeAttributeMatched(n1)) return sign;
+			// One of the nodes already matched or an attribute given as a
+			// parameter?
+			if (partialMatch != null) {
+				if (isNodeObjectMatched(n1) && !isNodeObjectMatched(n2)) {
+					return -sign;
+				}
+				if (isNodeObjectMatched(n2) && !isNodeObjectMatched(n1)) {
+					return sign;
+				}
+				if (isNodeAttributeMatched(n1) && !isNodeAttributeMatched(n2)) {
+					return -sign;
+				}
+				if (isNodeAttributeMatched(n2) && !isNodeAttributeMatched(n1)) {
+					return sign;
+				}
 			}
 
 			// Get the domain sizes (smaller number wins):
-			int s = (graph.getDomainSize(v1.typeConstraint.type, v1.typeConstraint.strictTyping) - 
-					graph.getDomainSize(v2.typeConstraint.type, v2.typeConstraint.strictTyping));
-			if (s!=0) return (sign * s);
+			int s = (graph.getDomainSize(v1.typeConstraint.type, v1.typeConstraint.strictTyping) - graph.getDomainSize(
+					v2.typeConstraint.type, v2.typeConstraint.strictTyping));
+			if (s != 0) {
+				return (sign * s);
+			}
 
 			// Attribute count (larger number wins):
 			int a = (n2.getAttributes().size() - n1.getAttributes().size());
-			if (a!=0) return (sign * a);
+			if (a != 0) {
+				return (sign * a);
+			}
 
 			// Outgoing edge count (larger number wins):
 			return (sign * (n2.getOutgoing().size() - n1.getOutgoing().size()));
@@ -689,15 +707,15 @@ public class EngineImpl implements Engine {
 		}
 
 		private boolean isNodeObjectMatched(Node node) {
-			return (partialMatch.getNodeTarget(node)!=null);
+			return (partialMatch.getNodeTarget(node) != null);
 		}
 
 		private boolean isNodeAttributeMatched(Node node) {
 			for (Attribute attribute : node.getAttributes()) {
 				String value = attribute.getValue();
-				if (value!=null) {
+				if (value != null) {
 					Parameter param = node.getGraph().getRule().getParameter(value);
-					if (param!=null && partialMatch.getParameterValue(param)!=null) {
+					if (param != null && partialMatch.getParameterValue(param) != null) {
 						return true;
 					}
 				}
@@ -709,33 +727,33 @@ public class EngineImpl implements Engine {
 
 	/**
 	 * Get the cached rule info for a given rule.
+	 * 
 	 * @param rule Rule.
 	 * @return The (cached) rule info.
-	 */	 
+	 */
 	protected RuleInfo getRuleInfo(Rule rule) {
 		RuleInfo ruleInfo = ruleInfos.get(rule);
 		if (ruleInfo == null) {
 			ruleInfo = new RuleInfo(rule, this);
 			ruleInfos.put(rule, ruleInfo);
-			
+
 			// Listen to changes:
 			rule.eAdapters().add(ruleListener);
-	
-			// Check for missing factories:			
+
+			// Check for missing factories:
 			for (Node node : ruleInfo.getChangeInfo().getCreatedNodes()) {
-				if (node.getType()==null) {
+				if (node.getType() == null) {
 					throw new RuntimeException("Missing type for " + node);
 				}
-				if (node.getType().getEPackage()==null || 
-					node.getType().getEPackage().getEFactoryInstance()==null) {
-					throw new RuntimeException("Missing factory for '" + node + 
-							"'. Register the corresponding package, e.g. using PackageName.eINSTANCE.getName().");
+				if (node.getType().getEPackage() == null || node.getType().getEPackage().getEFactoryInstance() == null) {
+					throw new RuntimeException("Missing factory for '" + node
+							+ "'. Register the corresponding package, e.g. using PackageName.eINSTANCE.getName().");
 				}
 			}
 		}
 		return ruleInfo;
 	}
-	
+
 	/**
 	 * Clear the cache of this engine.
 	 */
@@ -743,16 +761,19 @@ public class EngineImpl implements Engine {
 		ruleInfos.clear();
 		graphOptions.clear();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.Engine#createChange(org.eclipse.emf.henshin.model.Rule, org.eclipse.emf.henshin.interpreter.EGraph, org.eclipse.emf.henshin.interpreter.Match, org.eclipse.emf.henshin.interpreter.Match)
+	 * 
+	 * @see org.eclipse.emf.henshin.interpreter.Engine#createChange(org.eclipse.emf .henshin.model.Rule,
+	 * org.eclipse.emf.henshin.interpreter.EGraph, org.eclipse.emf.henshin.interpreter.Match,
+	 * org.eclipse.emf.henshin.interpreter.Match)
 	 */
 	@Override
 	public Change createChange(Rule rule, EGraph graph, Match completeMatch, Match resultMatch) {
 
 		// We need a result match:
-		if (resultMatch==null) {
+		if (resultMatch == null) {
 			resultMatch = new MatchImpl(rule, true);
 		}
 
@@ -765,17 +786,19 @@ public class EngineImpl implements Engine {
 
 	/**
 	 * Recursively create the changes and result matches.
+	 * 
 	 * @param rule Rule to be applied.
 	 * @param graph Host graph.
 	 * @param completeMatch The complete match.
 	 * @param resultMatch The result match.
 	 * @param complexChange The final complex change.
 	 */
-	public void createChanges(Rule rule, EGraph graph, Match completeMatch, Match resultMatch, CompoundChange complexChange) {
+	public void createChanges(Rule rule, EGraph graph, Match completeMatch, Match resultMatch,
+			CompoundChange complexChange) {
 
 		// Get the rule change info and the object change list:
 		RuleChangeInfo ruleChange = getRuleInfo(rule).getChangeInfo();
-		List<Change> changes= complexChange.getChanges();
+		List<Change> changes = complexChange.getChanges();
 
 		for (Parameter param : rule.getParameters()) {
 			Object value = completeMatch.getParameterValue(param);
@@ -801,9 +824,7 @@ public class EngineImpl implements Engine {
 				for (Setting edge : removedEdges) {
 					EReference ref = (EReference) edge.getEStructuralFeature();
 					if (ref.isChangeable()) {
-						changes.add(new ReferenceChangeImpl(graph, 
-								edge.getEObject(), deletedObject, 
-								ref, false));
+						changes.add(new ReferenceChangeImpl(graph, edge.getEObject(), deletedObject, ref, false));
 					}
 				}
 			}
@@ -817,42 +838,34 @@ public class EngineImpl implements Engine {
 
 		// Deleted edges:
 		for (Edge edge : ruleChange.getDeletedEdges()) {
-			changes.add(new ReferenceChangeImpl(graph,
-					completeMatch.getNodeTarget(edge.getSource()), 
-					completeMatch.getNodeTarget(edge.getTarget()), 
-					edge.getType(),
-					false));
+			changes.add(new ReferenceChangeImpl(graph, completeMatch.getNodeTarget(edge.getSource()), completeMatch
+					.getNodeTarget(edge.getTarget()), edge.getType(), false));
 		}
 
 		// Created edges:
 		for (Edge edge : ruleChange.getCreatedEdges()) {
-			changes.add(new ReferenceChangeImpl(graph,
-					resultMatch.getNodeTarget(edge.getSource()),
-					resultMatch.getNodeTarget(edge.getTarget()), 
-					edge.getType(), 
-					true));
+			changes.add(new ReferenceChangeImpl(graph, resultMatch.getNodeTarget(edge.getSource()), resultMatch
+					.getNodeTarget(edge.getTarget()), edge.getType(), true));
 		}
 
 		// Edge index changes:
 		for (Edge edge : ruleChange.getIndexChanges()) {
 			Integer newIndex = edge.getIndexConstant();
-			if (newIndex==null) {
+			if (newIndex == null) {
 				Parameter param = rule.getParameter(edge.getIndex());
-				if (param!=null) {
+				if (param != null) {
 					newIndex = ((Number) resultMatch.getParameterValue(param)).intValue();
 				} else {
 					try {
 						newIndex = ((Number) scriptEngine.eval(edge.getIndex(), rule.getJavaImports())).intValue();
 					} catch (ScriptException e) {
-						throw new RuntimeException("Error evaluating edge index expression \""
-								+ edge.getIndex() + "\": " + e.getMessage(), e);
+						throw new RuntimeException("Error evaluating edge index expression \"" + edge.getIndex()
+								+ "\": " + e.getMessage(), e);
 					}
-				}			
+				}
 			}
-			changes.add(new IndexChangeImpl(graph,
-					resultMatch.getNodeTarget(edge.getSource()),
-					resultMatch.getNodeTarget(edge.getTarget()), 
-					edge.getType(), newIndex));
+			changes.add(new IndexChangeImpl(graph, resultMatch.getNodeTarget(edge.getSource()), resultMatch
+					.getNodeTarget(edge.getTarget()), edge.getType(), newIndex));
 		}
 
 		// Attribute changes:
@@ -860,13 +873,13 @@ public class EngineImpl implements Engine {
 			EObject object = resultMatch.getNodeTarget(attribute.getNode());
 			Object value;
 			Parameter param = rule.getParameter(attribute.getValue());
-			if (param!=null) {
-				value = castValueToDataType(
-						resultMatch.getParameterValue(param), 
-						attribute.getType().getEAttributeType(),
-						attribute.getType().isMany());
+			if (param != null) {
+				value = castValueToDataType(resultMatch.getParameterValue(param), attribute.getType()
+						.getEAttributeType(), attribute.getType().isMany());
 			} else {
-				value = evalAttributeExpression(attribute, rule);	// casting done here automatically
+				value = evalAttributeExpression(attribute, rule); // casting
+																	// done here
+																	// automatically
 			}
 			changes.add(new AttributeChangeImpl(graph, object, attribute.getType(), value));
 		}
@@ -877,7 +890,7 @@ public class EngineImpl implements Engine {
 				Match multiResultMatch = new MatchImpl(multiRule, true);
 				for (Mapping mapping : multiRule.getMultiMappings()) {
 					if (mapping.getImage().getGraph().isRhs()) {
-						multiResultMatch.setNodeTarget(mapping.getImage(), 
+						multiResultMatch.setNodeTarget(mapping.getImage(),
 								resultMatch.getNodeTarget(mapping.getOrigin()));
 					}
 				}
@@ -890,6 +903,7 @@ public class EngineImpl implements Engine {
 
 	/**
 	 * Evaluates a given attribute expression using the JavaScript engine.
+	 * 
 	 * @param attribute Attribute to be interpreted.
 	 * @return The value.
 	 */
@@ -907,10 +921,8 @@ public class EngineImpl implements Engine {
 		// Try to evaluate the expression and cast it to the correct type:
 		try {
 			Object evalResult = scriptEngine.eval(attribute.getValue(), rule.getJavaImports());
-			return castValueToDataType(
-					evalResult,
-					attribute.getType().getEAttributeType(),
-					attribute.getType().isMany());
+			return castValueToDataType(evalResult, attribute.getType().getEAttributeType(), attribute.getType()
+					.isMany());
 		} catch (ScriptException e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -924,6 +936,7 @@ public class EngineImpl implements Engine {
 
 	/**
 	 * Cast a data value into a given data type.
+	 * 
 	 * @param value Value.
 	 * @param type Data type.
 	 * @param isMany Many-flag.
@@ -938,45 +951,45 @@ public class EngineImpl implements Engine {
 				for (Object elem : ((Collection<?>) value)) {
 					list.add(castValueToDataType(elem, type, false));
 				}
-			}
-			else if (value!=null) {
+			} else if (value != null) {
 				list.add(value);
 			}
 			return list;
 		}
 
 		// Null?
-		if (value==null) {
+		if (value == null) {
 			return null;
 		}
 
 		// Number format conversions:
 		if (value instanceof Number) {
-			if (type==ECORE.getEInt() || type==ECORE.getEIntegerObject()) {
+			if (type == ECORE.getEInt() || type == ECORE.getEIntegerObject()) {
 				return ((Number) value).intValue();
 			}
-			if (type==ECORE.getEDouble() || type==ECORE.getEDoubleObject()) {
+			if (type == ECORE.getEDouble() || type == ECORE.getEDoubleObject()) {
 				return ((Number) value).doubleValue();
 			}
-			if (type==ECORE.getEByte() || type==ECORE.getEByteObject()) {
+			if (type == ECORE.getEByte() || type == ECORE.getEByteObject()) {
 				return ((Number) value).byteValue();
 			}
-			if (type==ECORE.getELong() || type==ECORE.getELongObject()) {
+			if (type == ECORE.getELong() || type == ECORE.getELongObject()) {
 				return ((Number) value).longValue();
 			}
-			if (type==ECORE.getEFloat() || type==ECORE.getEFloatObject()) {
+			if (type == ECORE.getEFloat() || type == ECORE.getEFloatObject()) {
 				return ((Number) value).floatValue();
 			}
 		}
 
 		// Just a string?
-		if (type==ECORE.getEString()) {
-			if (value!=null) value = value.toString();
+		if (type == ECORE.getEString()) {
+			if (value != null)
+				value = value.toString();
 			return value;
 		}
 
 		// A plain Java object?
-		if (type==ECORE.getEJavaObject() || type==ECORE.getEJavaClass()) {
+		if (type == ECORE.getEJavaObject() || type == ECORE.getEJavaClass()) {
 			return value;
 		}
 
@@ -987,10 +1000,11 @@ public class EngineImpl implements Engine {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.henshin.interpreter.Engine#getOptions()
 	 */
 	@Override
-	public Map<String,Object> getOptions() {
+	public Map<String, Object> getOptions() {
 		return options;
 	}
 
@@ -1004,32 +1018,32 @@ public class EngineImpl implements Engine {
 	}
 
 	/**
-	 * Get the options for a specific rule graph. 
-	 * The graph should be either the LHS or a nested condition.
+	 * Get the options for a specific rule graph. The graph should be either the LHS or a nested condition.
+	 * 
 	 * @param graph The graph.
 	 * @return The cached options.
 	 */
 	protected MatchingOptions getGraphOptions(Graph graph) {
 		MatchingOptions options = graphOptions.get(graph);
-		if (options==null) {
-			
+		if (options == null) {
+
 			// Use the base options:
 			options = new MatchingOptions();
 			Rule rule = graph.getRule();
 			Boolean injective = (Boolean) this.options.get(OPTION_INJECTIVE_MATCHING);
 			Boolean dangling = (Boolean) this.options.get(OPTION_CHECK_DANGLING);
 			Boolean determistic = (Boolean) this.options.get(OPTION_DETERMINISTIC);
-			options.injective = (injective!=null) ? injective.booleanValue() : rule.isInjectiveMatching();
-			options.dangling = (dangling!=null) ? dangling.booleanValue() : rule.isCheckDangling();
-			options.deterministic = (determistic==null || determistic.booleanValue());
-			
+			options.injective = (injective != null) ? injective.booleanValue() : rule.isInjectiveMatching();
+			options.dangling = (dangling != null) ? dangling.booleanValue() : rule.isCheckDangling();
+			options.deterministic = (determistic == null || determistic.booleanValue());
+
 			// Always use default values for nested conditions:
-			if (graph!=rule.getLhs()) {
+			if (graph != rule.getLhs()) {
 				options.injective = true;
 				options.dangling = false;
 				options.deterministic = true;
 			}
-			
+
 			graphOptions.put(graph, options);
 		}
 		return options;
@@ -1037,13 +1051,15 @@ public class EngineImpl implements Engine {
 
 	/**
 	 * An options map which clears cached rule options.
+	 * 
 	 * @see #getOptions()
 	 */
-	private class EngineOptions extends HashMap<String,Object> {
+	private class EngineOptions extends HashMap<String, Object> {
 		private static final long serialVersionUID = 1L;
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.HashMap#put(java.lang.String, java.lang.Object)
 		 */
 		@Override
@@ -1056,10 +1072,11 @@ public class EngineImpl implements Engine {
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.HashMap#putAll(java.util.Map)
 		 */
 		@Override
-		public void putAll(Map<? extends String,? extends Object> map) {
+		public void putAll(Map<? extends String, ? extends Object> map) {
 			super.putAll(map);
 			clearCache();
 			updateCachedOptions();
@@ -1067,18 +1084,20 @@ public class EngineImpl implements Engine {
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.HashMap#remove(java.lang.Object)
 		 */
 		@Override
 		public Object remove(Object key) {
 			Object result = super.remove(key);
 			clearCache();
-			updateCachedOptions();			
+			updateCachedOptions();
 			return result;
 		}
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.util.HashMap#clear()
 		 */
 		@Override
@@ -1092,32 +1111,31 @@ public class EngineImpl implements Engine {
 		 * Update the cached options.
 		 */
 		private void updateCachedOptions() {
-			
+
 			// Update sort variables flag:
 			Boolean sort = (Boolean) get(OPTION_SORT_VARIABLES);
-			sortVariables = (sort!=null) ? sort.booleanValue() : DEFAULT_SORT_VARIABLES;
+			sortVariables = (sort != null) ? sort.booleanValue() : DEFAULT_SORT_VARIABLES;
 
 			// Update inverse matching order flag:
 			Boolean inverse = (Boolean) get(OPTION_INVERSE_MATCHING_ORDER);
-			inverseMatchingOrder = (inverse!=null) ? inverse.booleanValue() : DEFAULT_INVERSE_MATCHING_ORDER;
+			inverseMatchingOrder = (inverse != null) ? inverse.booleanValue() : DEFAULT_INVERSE_MATCHING_ORDER;
 
 			// Update worker thread pool:
 			Number workerThreads = (Number) get(OPTION_WORKER_THREADS);
-			if (workerPool!=null) {
+			if (workerPool != null) {
 				workerPool.shutdownNow();
 				workerPool = null;
 			}
-			if (workerThreads!=null && workerThreads.intValue() > 0) {
-				workerPool = Executors.newFixedThreadPool(
-						workerThreads.intValue(),
-						PartitionThread.Factory.INSTANCE);
+			if (workerThreads != null && workerThreads.intValue() > 0) {
+				workerPool = Executors.newFixedThreadPool(workerThreads.intValue(), PartitionThread.Factory.INSTANCE);
 			}
-		}		
+		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.henshin.interpreter.Engine#getScriptEngine()
 	 */
 	@Override
@@ -1127,41 +1145,45 @@ public class EngineImpl implements Engine {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.henshin.interpreter.Engine#shutdown()
 	 */
 	@Override
 	public void shutdown() {
-		if (workerPool!=null) {
+		if (workerPool != null) {
 			workerPool.shutdownNow();
 			workerPool = null;
 		}
 	}
-	
+
 	/**
 	 * Create user constraints for a node.
+	 * 
 	 * @param node A node.
 	 * @return The created user constraints.
 	 */
-	public UnaryConstraint createUserConstraints(Node node){
+	public UnaryConstraint createUserConstraints(Node node) {
 		return null;
 	}
-	
+
 	/**
 	 * Create user constraints for an edge.
+	 * 
 	 * @param edge An edge.
 	 * @return The created user constraint.
 	 */
-	public BinaryConstraint createUserConstraints(Edge edge){
+	public BinaryConstraint createUserConstraints(Edge edge) {
 		return null;
 	}
-	
+
 	/**
 	 * Create user constraints for an attribute.
+	 * 
 	 * @param attribute An attribute.
 	 * @return The created user constraint.
 	 */
-	public UnaryConstraint createUserConstraints(Attribute attribute){
+	public UnaryConstraint createUserConstraints(Attribute attribute) {
 		return null;
 	}
-  
+
 }
