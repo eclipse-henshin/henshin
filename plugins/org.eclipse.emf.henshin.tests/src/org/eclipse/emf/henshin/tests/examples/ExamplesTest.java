@@ -8,6 +8,7 @@ import org.eclipse.emf.henshin.examples.ecore2genmodel.Ecore2GenmodelTrafo;
 import org.eclipse.emf.henshin.examples.ecore2rdb.Ecore2Rdb;
 import org.eclipse.emf.henshin.examples.gossipinggirls.GossipingGirls;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
+import org.eclipse.emf.henshin.examples.javaimports.JavaImportsExample;
 import org.eclipse.emf.henshin.examples.movies.MoviesBenchmark;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
 import org.eclipse.emf.henshin.examples.sort.SortExample;
@@ -17,16 +18,17 @@ import org.junit.Test;
 
 /**
  * Tests implemented in examples (see the examples plug-in).
+ * 
  * @author Christian Krause
  *
  */
 public class ExamplesTest {
-	
+
 	/**
 	 * Relative path to the examples plug-in.
 	 */
 	public static final String EXAMPLES_PATH = "../org.eclipse.emf.henshin.examples/";
-	
+
 	/**
 	 * Bank example.
 	 */
@@ -35,7 +37,7 @@ public class ExamplesTest {
 		System.out.println();
 		BankExample.run(EXAMPLES_PATH + BankExample.PATH, false);
 	}
-	
+
 	/**
 	 * Bank Map example.
 	 */
@@ -60,8 +62,8 @@ public class ExamplesTest {
 	// @Test
 	public void testJava2StateMachine() {
 		System.out.println();
-		Java2StateMachine.run(EXAMPLES_PATH + Java2StateMachine.PATH, 
-				Java2StateMachine.JAVA_MODEL_SMALL, Java2StateMachine.REFERENCE_STATE_MACHINE, false);
+		Java2StateMachine.run(EXAMPLES_PATH + Java2StateMachine.PATH, Java2StateMachine.JAVA_MODEL_SMALL,
+				Java2StateMachine.REFERENCE_STATE_MACHINE, false);
 	}
 
 	/**
@@ -88,7 +90,8 @@ public class ExamplesTest {
 	@Test
 	public void testEcore2Rdb() {
 		System.out.println();
-		Ecore2Rdb.run(EXAMPLES_PATH + Ecore2Rdb.PATH, Ecore2Rdb.EXAMPLE_ECORE_MODEL, Ecore2Rdb.EXAMPLE_PACKAGE_NAME, Ecore2Rdb.EXAMPLE_RDB_MODEL, false);
+		Ecore2Rdb.run(EXAMPLES_PATH + Ecore2Rdb.PATH, Ecore2Rdb.EXAMPLE_ECORE_MODEL, Ecore2Rdb.EXAMPLE_PACKAGE_NAME,
+				Ecore2Rdb.EXAMPLE_RDB_MODEL, false);
 	}
 
 	/**
@@ -97,7 +100,8 @@ public class ExamplesTest {
 	@Test
 	public void testDiningPhils() {
 		System.out.println();
-		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 7, Runtime.getRuntime().availableProcessors());
+		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 7, Runtime.getRuntime()
+				.availableProcessors());
 	}
 
 	/**
@@ -143,6 +147,15 @@ public class ExamplesTest {
 	public void testMovies() {
 		System.out.println();
 		MoviesBenchmark.runSyntheticDataTest(EXAMPLES_PATH + MoviesBenchmark.PATH, 1000, 4);
+	}
+
+	/**
+	 * Java imports example.
+	 */
+	@Test
+	public void testJavaImports() {
+		System.out.println();
+		JavaImportsExample.run(EXAMPLES_PATH + JavaImportsExample.PATH);
 	}
 
 }

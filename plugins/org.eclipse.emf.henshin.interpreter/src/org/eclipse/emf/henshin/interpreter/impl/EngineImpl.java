@@ -157,8 +157,7 @@ public class EngineImpl implements Engine {
 		// Initialize the script engine:
 		scriptEngine = new ScriptEngineWrapper(globalJavaImports);
 
-		// Rule listener for automatically clearing caches when rules are
-		// changed at run-time:
+		// Rule listener for automatically clearing caches when rules are changed at run-time:
 		ruleListener = new RuleChangeListener();
 
 	}
