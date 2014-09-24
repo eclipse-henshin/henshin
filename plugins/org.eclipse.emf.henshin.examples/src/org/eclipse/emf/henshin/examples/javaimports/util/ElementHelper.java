@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.examples.javaimports;
+package org.eclipse.emf.henshin.examples.javaimports.util;
 
 public class ElementHelper {
 
