@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.tests.basic;
 
 import java.util.List;
@@ -42,8 +51,8 @@ public class EdgeIndexTest extends HenshinTest {
 		tm = TestmodelPackage.eINSTANCE;
 
 		// Load the test graph and get the number of child nodes in the graph:
-		setModelGraphProperties("basic/models/matchTestsModels/", "testmodel");
-		loadGraph("manyNodes");
+		setEGraphPath("basic/models/matchTestsModels/", "testmodel");
+		loadEGraph("manyNodes");
 		nodeCount = htEGraph.getDomainSize(tm.getNode(), true);
 		
 		// Create the test rule:

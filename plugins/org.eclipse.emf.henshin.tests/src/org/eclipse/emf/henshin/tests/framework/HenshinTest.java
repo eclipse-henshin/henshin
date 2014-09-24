@@ -23,194 +23,151 @@ import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.junit.After;
 
 /**
- * This is a class used for quickly creating henshin tests. It features
- * convenient methods for loading henshin rules and models. Some useful
- * variables:
+ * This is a class used for quickly creating Henshin tests. It features convenient methods for loading Henshin rules and
+ * models. Some useful variables:
  * <ul>
- * <li>htTransformationSystem	-- {@link TransformationSystem}</li>
- * <li>htEngine 				-- {@link Engine}</li>
- * <li>htEmfGraph	 			-- {@link EGraph}</li>
- * <li>htRule	 				-- {@link Rule}</li>
- * <li>htRuleApp	 			-- corresponding {@link RuleApplication}</li>
- * <li>htTransUnit	 			-- {@link Unit}</li>
- * <li>htUnitApp	 			-- corresponding {@link UnitApplication}</li>
+ * <li>htModule -- {@link Module}</li>
+ * <li>htEngine -- {@link Engine}</li>
+ * <li>htEmfGraph -- {@link EGraph}</li>
+ * <li>htRule -- {@link Rule}</li>
+ * <li>htRuleApp -- corresponding {@link RuleApplication}</li>
+ * <li>htUnit -- {@link Unit}</li>
+ * <li>htUnitApp -- corresponding {@link UnitApplication}</li>
  * </ul>
  * 
  * @author Felix Rieger
- * @author Stefan Jurack (sjurack)
+ * @author Stefan Jurack
+ * @author Christian Krause
  */
 public class HenshinTest {
-	
+
 	/**
-	 * Module which has been automatically loaded and set-up for
-	 * you to use.
+	 * Module which has been automatically loaded and set-up for you to use.
 	 */
-	protected Module htModule; // Module
-	
+	protected Module htModule;
+
 	/**
 	 * Engine which has been automatically loaded and set-up for you to use.
 	 */
-	protected Engine htEngine; // Engine
-	
+	protected Engine htEngine;
+
 	/**
 	 * EGraph.
 	 */
-	protected EGraph htEGraph; // EGraph
-	
+	protected EGraph htEGraph;
+
 	/**
 	 * When calling loadRule(), this will be the loaded {@link Rule}.
 	 */
-	protected Rule htRule; // Rule
-	
+	protected Rule htRule;
+
 	/**
-	 * When calling loadRule(), this will be the {@link RuleApplication} created
-	 * from engine and the loaded {@link Rule}.
+	 * When calling {@link #loadRule(String)}, this will be the {@link RuleApplication} created from engine and the
+	 * loaded {@link Rule}.
 	 */
-	protected RuleApplication htRuleApp; // corresponding RuleApplication
-	
+	protected RuleApplication htRuleApp;
+
 	/**
-	 * When calling loadTu(), this will be the loaded {@link Unit}
+	 * When calling {@link #loadUnit(String)}, this will be the loaded {@link Unit}.
 	 */
-	protected Unit htUnit; // Unit
-	
+	protected Unit htUnit;
+
 	/**
-	 * When calling loadTu(), this will be the {@link UnitApplication} created
-	 * from engine and the loaded {@link Unit}.
+	 * When calling {@link #loadUnit(String)}, this will be the {@link UnitApplication} created from engine and the
+	 * loaded {@link Unit}.
 	 */
-	protected UnitApplication htUnitApp; // corresponding UnitApplication
-	
+	protected UnitApplication htUnitApp;
+
 	/**
-	 * This gets prepended to the file name when loading a graph from file via
-	 * loadGraph
+	 * This gets prepended to the file name when loading a graph from file via {@link #loadEGraph(String)}.
 	 */
 	protected String graphBasePath = "";
+
+	/**
+	 * This gets appended to the file name when loading a graph from file via {@link #loadEGraph(String)}.
+	 */
 	protected String graphFileExtension = "";
-	
+
 	@After
 	public void tearDown() {
 		htModule = null;
 		htEngine = null;
-		htEGraph = null;	
+		htEGraph = null;
 		htRule = null;
 		htRuleApp = null;
 		htUnit = null;
 		htUnitApp = null;
 	}
-	
+
 	/**
-	 * Initialize the tests. This should be called at the start of your JUnit
-	 * setUp() method.<br />
-	 * <strong>Attention:</strong> This method will not load a model, which has
-	 * to be loaded manually (don't forget to set <em>htEngine</em> and
-	 * <em>htEmfGraph</em> to the corresponding {@link Engine} and its
-	 * {@link EGraph} as well). Otherwise, other methods will not work
-	 * (especially loadRule and loadTu).<br />
+	 * Initialize the tests. Loads a module and creates an engine.
 	 * 
-	 * @param henshinFile
-	 * @throws Exception
+	 * @param henshinFile Henshin file to be loaded.
 	 */
-	protected void init(String henshinFile) throws Exception {
+	protected void init(String henshinFile) {
 		htModule = (Module) HenshinLoaders.loadHenshin(henshinFile);
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
-	
-	/**
-	 * Initialize the tests. This should be called at the start of your JUnit
-	 * setUp() method.
-	 * 
-	 * @param henshinFile
-	 *            henshin file containing the {@link Rule}s/
-	 *            {@link Unit}s to test
-	 * @param modelFile
-	 *            model filename
-	 * @param modelFileExt
-	 *            model file extension
-	 * @throws Exception
-	 */
 
-	protected void init(String henshinFile, String modelFile, String modelFileExt) throws Exception {
+	/**
+	 * Initialize the tests. Loads a module, a model graph and creates an engine.
+	 * 
+	 * @param henshinFile Henshin file to be loaded.
+	 * @param modelFile Model file to be loaded.
+	 * @param modelFileExt Model file extension.
+	 */
+	protected void init(String henshinFile, String modelFile, String modelFileExt) {
 		init(henshinFile);
 		htEGraph = HenshinLoaders.loadGraph(modelFile, modelFileExt);
 	}
-	
-	/**
-	 * Initialize the tests. This should be called at the start of your JUnit
-	 * setUp() method.
-	 * 
-	 * @param henshinFile
-	 *            henshin file containing the {@link Rule}s/
-	 *            {@link Unit}s to test
-	 * @param modelFile
-	 *            model filename
-	 * @param modelFileExt
-	 *            model file extension
-	 * @param options
-	 *            Options for the engige
-	 * @throws Exception
-	 */
 
-	protected void init(String henshinFile, String modelFile, String modelFileExt,
-			Map<String,Object> options) throws Exception {
+	/**
+	 * Initialize the tests. Loads a module, a model graph and creates an engine, and sets engine properties.
+	 * 
+	 * @param henshinFile Henshin file to be loaded.
+	 * @param modelFile Model file to be loaded.
+	 * @param modelFileExt Model file extension.
+	 * @param options Options for the engine.
+	 */
+	protected void init(String henshinFile, String modelFile, String modelFileExt, Map<String, Object> options) {
 		init(henshinFile, modelFile, modelFileExt);
 		htEngine.getOptions().putAll(options);
 	}
-	
-	/**
-	 * Initialize the tests. This should be called at the start of your JUnit
-	 * setUp() method.<br />
-	 * <strong>Attention:</strong> This method will not load a
-	 * {@link Module}, which has to be loaded manually (don't
-	 * forget to set <em>htTransformationSystem</em> to the loaded {@link TransformationSystem}).
-	 * Otherwise, other methods will not work (especially loadRule and loadTu).
-	 * 
-	 * @param modelFile
-	 *            model filename
-	 * @param modelFileExt
-	 *            model file extension
-	 * @throws Exception
-	 */
 
-	protected void init(String modelFile, String modelFileExt) throws Exception {
+	/**
+	 * Initialize the tests. Loads a model graph and creates an engine.
+	 * 
+	 * @param modelFile Model file to be loaded.
+	 * @param modelFileExt Model file extension.
+	 */
+	protected void init(String modelFile, String modelFileExt) {
 		htEGraph = HenshinLoaders.loadGraph(modelFile, modelFileExt);
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
-	
+
 	/**
-	 * Initialize the tests. This should be called at the start of your JUnit
-	 * setUp() method.<br />
-	 * <strong>Attention:</strong> This method will not load a
-	 * {@link TransformationSystem}, which has to be loaded manually (don't
-	 * forget to set <em>htTransformationSystem</em> to the loaded {@link TransformationSystem}).
-	 * Otherwise, other methods will not work (especially loadRule and loadTu).
+	 * Initialize the tests. Loads a model graph and creates an engine and sets engine options.
 	 * 
-	 * @param modelFile
-	 *            model filename
-	 * @param modelFileExt
-	 *            model file extension
-	 * @param options
-	 *            {@link TransformationOptions} the {@link Engine} should use
-	 * @throws Exception
+	 * @param modelFile Model file to be loaded.
+	 * @param modelFileExt Model file extension.
+	 * @param options Options for the engine.
 	 */
-	protected void init(String modelFile, String modelFileExt, Map<String,Object> options)
-			throws Exception {
+	protected void init(String modelFile, String modelFileExt, Map<String, Object> options) {
 		htEGraph = HenshinLoaders.loadGraph(modelFile, modelFileExt);
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 		htEngine.getOptions().putAll(options);
 	}
-	
+
 	/**
-	 * Load a {@link Rule}.<br />
-	 * As a side effect, th loaded Rule will be assigned to <em>htRule</em> and the
-	 * corresponding RuleApplication will be assigned to <em>htRuleApp</em>.
+	 * Load a rule and create a rule application.
 	 * 
-	 * @param ruleName
+	 * @param ruleName Rule name.
 	 */
 	protected void loadRule(String ruleName) {
 		htRule = (Rule) htModule.getUnit(ruleName);
@@ -218,143 +175,116 @@ public class HenshinTest {
 		htRuleApp.setRule(htRule);
 		htRuleApp.setEGraph(htEGraph);
 	}
-	
+
 	/**
-	 * Load a {@link Rule} with a parameter<br />
-	 * As a side effect, th loaded Rule will be assigned to <em>htRule</em> and the
-	 * corresponding RuleApplication will be assigned to <em>htRuleApp</em>.
+	 * Load a rule and create a rule application and set a parameter.
 	 * 
-	 * @param ruleName
-	 *            Name of the {@link Rule}
-	 * @param paramName
-	 *            parameter name
-	 * @param paramValue
-	 *            parameter value
+	 * @param ruleName Rule name.
+	 * @param paramName Parameter name.
+	 * @param paramValue Parameter value.
 	 */
 	protected void loadRule(String ruleName, String paramName, Object paramValue) {
 		loadRule(ruleName);
 		htRuleApp.setParameterValue(paramName, paramValue);
 	}
-	
+
 	/**
-	 * Load a {@link Rule} with parameters<br />
-	 * As a side effect, th loaded Rule will be assigned to <em>htRule</em> and the
-	 * corresponding RuleApplication will be assigned to <em>htRuleApp</em>.
+	 * Load a rule and create a rule application and set parameters.
 	 * 
-	 * @param ruleName
-	 *            Name of the {@link Rule}
-	 * @param paramMappings
-	 *            Map between {@link Parameter}s and Objects or Parameter names
-	 *            (Strings) and Objects
+	 * @param ruleName Rule name.
+	 * @param paramMappings Parameter mappings.
 	 */
-	
 	protected void loadRule(String ruleName, Map<String, Object> paramMappings) {
 		loadRule(ruleName);
-		if (paramMappings!=null) {
-			for (Entry<String,Object> entry : paramMappings.entrySet()) {
+		if (paramMappings != null) {
+			for (Entry<String, Object> entry : paramMappings.entrySet()) {
 				htRuleApp.setParameterValue(entry.getKey(), entry.getValue());
 			}
 		}
 	}
-	
+
 	/**
-	 * Load a {@link Unit}<br />
-	 * As a side effect, the loaded Unit will be assigned to
-	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
-	 * <em>htUnitApp</em>.
+	 * Load a unit and create a unit application.
 	 * 
-	 * @param unitName
-	 *            {@link Unit} to be loaded
+	 * @param unitName Unit name.
 	 */
-	protected void loadTu(String unitName) {
+	protected void loadUnit(String unitName) {
 		htUnit = htModule.getUnit(unitName);
 		htUnitApp = InterpreterFactory.INSTANCE.createUnitApplication(htEngine);
 		htUnitApp.setUnit(htUnit);
 		htUnitApp.setEGraph(htEGraph);
 	}
-	
+
 	/**
-	 * Load a {@link Unit} with a parameter. <br />
-	 * As a side effect, the loaded Unit will be assigned to
-	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
-	 * <em>htUnitApp</em>.
+	 * Load a unit and create a unit application and set a parameter value.
 	 * 
-	 * @param unitName
-	 *            {@link Unit} to be loaded
-	 * @param paramName
-	 *            parameter name
-	 * @param paramValue
-	 *            parameter value
+	 * @param unitName Unit name.
+	 * @param paramName Parameter name.
+	 * @param paramValue Parameter value.
 	 */
-	protected void loadTu(String unitName, String paramName, Object paramValue) {
-		loadTu(unitName);
+	protected void loadUnit(String unitName, String paramName, Object paramValue) {
+		loadUnit(unitName);
 		htUnitApp.setParameterValue(paramName, paramValue);
 	}
-	
+
 	/**
-	 * Load a transformation Unit with parameters. <br />
-	 * As a side effect, the loaded Unit will be assigned to
-	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
-	 * <em>htUnitApp</em>.
+	 * Load a unit and create a unit application and set parameter values.
 	 * 
-	 * @param unitName
-	 *            {@link Unit} to be loaded
-	 * @param paramMappings
-	 *            {@link Parameter}s
+	 * @param unitName Unit name.
+	 * @param paramMappings Parameter mappings.
 	 */
-	protected void loadTu(String unitName, Map<String, Object> paramMappings) {
-		loadTu(unitName);
-		if (paramMappings!=null) {
-			for (Entry<String,Object> entry : paramMappings.entrySet()) {
+	protected void loadUnit(String unitName, Map<String, Object> paramMappings) {
+		loadUnit(unitName);
+		if (paramMappings != null) {
+			for (Entry<String, Object> entry : paramMappings.entrySet()) {
 				htUnitApp.setParameterValue(entry.getKey(), entry.getValue());
 			}
 		}
 	}
-	
+
 	/**
-	 * Load a graph and create a new EmfEngine for the graph (htEngine)
-	 * @param graph
+	 * Create an empty graph and an engine.
 	 */
-	protected void loadGraph(EGraph graph) {
+	protected void createEGraph() {
+		htEGraph = InterpreterFactory.INSTANCE.createEGraph();
+		htEngine = InterpreterFactory.INSTANCE.createEngine();
+	}
+
+	/**
+	 * Load an EGraph and create a new engine.
+	 * 
+	 * @param graph EGraph.
+	 */
+	protected void loadEGraph(EGraph graph) {
 		htEGraph = graph;
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
-		
+
 	/**
-	 * Load a graph and create a new EmfEngine for the graph (htEngine)
-	 * @param graphName		name of the graph. Loaded graph is 
-	 * 						graphBasePath + graphName + "." + graphFileExtension
+	 * Load an EGraph and create a new engine.
+	 * 
+	 * @param graphName Name of the graph. Loaded graph is graphBasePath + graphName + "." + graphFileExtension
 	 */
-	protected void loadGraph(String graphName) {
-		URI graphURI = URI.createFileURI(new File(graphBasePath + graphName + "."
-				+ graphFileExtension).getAbsolutePath());
-		loadGraph(HenshinLoaders.loadGraph(graphURI));
+	protected void loadEGraph(String graphName) {
+		URI graphURI = URI.createFileURI(new File(graphBasePath + graphName + "." + graphFileExtension)
+				.getAbsolutePath());
+		loadEGraph(HenshinLoaders.loadGraph(graphURI));
 	}
-	
+
 	/**
-	 * Set graph base path and file extension
-	 * @param graphPath		Path in which all graphs can be found
-	 * @param fileExtension	Common file extension for all graphs
+	 * Set graph base path and file extension.
+	 * 
+	 * @param graphPath Path in which all graphs can be found.
+	 * @param fileExtension Common file extension for all graphs.
 	 */
-	protected void setModelGraphProperties(String graphPath, String fileExtension) {
+	protected void setEGraphPath(String graphPath, String fileExtension) {
 		graphBasePath = graphPath;
 		graphFileExtension = fileExtension;
 	}
-	
-	/**
-	 * Get a graph's URI. 
-	 * @param graphName	name of the graph. The returned URI is the URI for
-	 * 					graphBasePath + graphName + "." + graphFileExtension
-	 * @return
-	 */
-	protected URI getGraphURI(String graphName) {
-		URI graphURI = URI.createFileURI(new File(graphBasePath + graphName + "."
-				+ graphFileExtension).getAbsolutePath());
-		return graphURI;
-	}
-	
+
 	/**
 	 * Recursively find Henshin files in a given path.
+	 * 
 	 * @param path Path where to look for Henshin files.
 	 * @return List of full paths of the found Henshin files.
 	 */
@@ -364,7 +294,7 @@ public class HenshinTest {
 		Collections.sort(files);
 		return files;
 	}
-	
+
 	/*
 	 * Recursively search for Henshin files.
 	 */

@@ -166,7 +166,7 @@ public class Tools {
 	 * @param graph
 	 * @return
 	 */
-	public static EObject getFirstElementFromOCLQueryResult(String contextFreeOclQuery,
+	public static EObject getFirstOCLResult(String contextFreeOclQuery,
 			EGraph graph) {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
