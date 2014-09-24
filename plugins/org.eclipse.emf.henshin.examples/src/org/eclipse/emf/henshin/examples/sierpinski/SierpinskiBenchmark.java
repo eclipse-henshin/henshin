@@ -9,63 +9,64 @@
  */
 package org.eclipse.emf.henshin.examples.sierpinski;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.impl.BasicApplicationMonitor;
-import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.PartitionedEGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
  * A benchmark constructing multiple levels of a Sierpinski triangle.
+ * 
  * @see <a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinski Triangle</a>
  */
 public class SierpinskiBenchmark {
-	
-	/** 
+
+	/**
 	 * Relative path to the Sierpinski model files.
 	 */
 	public static final String PATH = "src/org/eclipse/emf/henshin/examples/sierpinski";
-	
+
 	/**
 	 * Run the Sierpinski benchmark.
+	 * 
 	 * @param path Relative path to the model files.
 	 * @param iterations Number of iterations.
 	 */
 	public static void run(String path, int iterations) {
-		
+
+		// Determine number of threads to be used:
+		int threads = Runtime.getRuntime().availableProcessors();
+
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
-		
+
 		// Load the module and find the rule:
 		Module module = resourceSet.getModule("sierpinski.henshin", false);
 		Rule rule = (Rule) module.getUnit("AddTriangle");
 
 		// Load the first level of the Sierpinski triangle into a graph:
 		Resource resource = resourceSet.getResource("sierpinski-start.xmi");
-		EGraph graph = new EGraphImpl(resource);
-		
+		EGraph graph = new PartitionedEGraphImpl(resource, threads);
+
 		// Remove the container object:
 		EObject container = resource.getContents().get(0);
 		graph.remove(container);
-		
+
 		// Create an engine and a rule application:
 		Engine engine = new EngineImpl();
+		engine.getOptions().put(Engine.OPTION_WORKER_THREADS, threads);
 		RuleApplication application = new RuleApplicationImpl(engine);
 		application.setRule(rule);
 		application.setEGraph(graph);
-		
+
 		// Check how much memory is available:
 		System.out.println("Starting Sierpinski benchmark...");
 		System.out.println(Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB available memory\n");
@@ -77,54 +78,52 @@ public class SierpinskiBenchmark {
 		int expectedMatches = 1;
 
 		// Iteratively compute the Sierpinski triangle:
-		List<Match> matches = new ArrayList<Match>();
-		for (int i=0; i<iterations; i++) {
+		for (int i = 0; i < iterations; i++) {
 
-			// Clear the matches:
-			matches.clear();
+			// Collect garbage:
 			System.gc();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
-			// Find all matches:
+			// Find match:
 			long startTime = System.currentTimeMillis();
-			for (Match match : engine.findMatches(rule, graph, null)) {
-				matches.add(match);
-			}
+			Match match = engine.findMatches(rule, graph, null).iterator().next();
 			long matchingTime = (System.currentTimeMillis() - startTime);
-			
-			// Apply rule with all found matches:
-			ApplicationMonitor monitor = new BasicApplicationMonitor();
-			System.gc();
 
+			// Apply rule:
 			startTime = System.currentTimeMillis();
-			for (Match match : matches) {
-				application.setCompleteMatch(match);
-				if (!application.execute(monitor)) {
-					throw new RuntimeException("Error transforming Sierpinski model");
-				}
+			application.setCompleteMatch(match);
+			if (!application.execute(null)) {
+				throw new RuntimeException("Error transforming Sierpinski model");
 			}
+
 			long runtime = (System.currentTimeMillis() - startTime);
 
 			// Print info:
-			System.out.println((i+1) + "\t" + matches.size() + "\t" +  graph.size() + "\t" + 
-							matchingTime + "\t" + runtime  + "\t" + (matchingTime + runtime));
-			
+			int matches = match.getMultiMatches(rule.getMultiRules().get(0)).size();
+			System.out.println((i + 1) + "\t" + matches + "\t" + graph.size() + "\t" + matchingTime + "\t" + runtime
+					+ "\t" + (matchingTime + runtime));
+
 			// Check whether the number of matches and nodes is correct:
-			if (matches.size()!=expectedMatches) {
-				throw new RuntimeException("Expected " + expectedMatches + " matches instead of " + matches.size());				
+			if (matches != expectedMatches) {
+				throw new RuntimeException("Expected " + expectedMatches + " matches instead of " + matches);
 			}
 			expectedMatches *= 3;
 			expectedNodes += expectedMatches;
-			if (graph.size()!=expectedNodes) {
+			if (graph.size() != expectedNodes) {
 				throw new RuntimeException("Expected " + expectedNodes + " nodes instead of " + graph.size());
 			}
-						
+
 		}
-		
+
 	}
-	
+
 	public static void main(String[] args) {
-		int iterations = Integer.parseInt(args[0]);
+		int iterations = args.length > 0 ? Integer.parseInt(args[0]) : 10;
 		run(PATH, iterations); // we assume the working directory is the root of the examples plug-in
 	}
-	
+
 }
