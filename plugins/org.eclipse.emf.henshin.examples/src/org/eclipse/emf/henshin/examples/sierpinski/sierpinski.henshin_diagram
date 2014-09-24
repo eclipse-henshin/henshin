@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_p-FX8Hy6EeG1N6_C2lvZIw" type="Henshin" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_p-FX8Hy6EeG1N6_C2lvZIw" type="Henshin" measurementUnit="Pixel">
   <children xmi:type="notation:Shape" xmi:id="_GpF48Hy9EeG1N6_C2lvZIw" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_XJLYgEQfEeSay57hC9NuYw" source="defaultAction">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_XJMmoEQfEeSay57hC9NuYw" key="value" value="create*"/>
+    </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_GpF48ny9EeG1N6_C2lvZIw" type="5001"/>
     <children xmi:type="notation:DecorationNode" xmi:id="_GpF483y9EeG1N6_C2lvZIw" type="7001">
       <children xmi:type="notation:Shape" xmi:id="_GpIVMHy9EeG1N6_C2lvZIw" type="3001" fontName="Ubuntu">
