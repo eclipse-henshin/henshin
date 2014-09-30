@@ -14,6 +14,6 @@
         </attributes>
       </nodes>
     </rhs>
-    <javaImports>org.eclipse.emf.henshin.examples.javaimports</javaImports>
+    <javaImports>org.eclipse.emf.henshin.examples.javaimports.util</javaImports>
   </units>
 </henshin:Module>
