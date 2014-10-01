@@ -21,31 +21,36 @@ import org.eclipse.emf.henshin.model.Rule;
  * @author Christian Krause, Enrico Biermann
  */
 public interface Engine {
-	
+
 	/**
-	 * Option for general injective rule matching. 
+	 * Option for general injective rule matching.
 	 */
 	String OPTION_INJECTIVE_MATCHING = "INJECTIVE_MATCHING";
-	
+
 	/**
 	 * Option for general checks for dangling edges.
 	 */
 	String OPTION_CHECK_DANGLING = "CHECK_DANGLING";
-	
+
 	/**
 	 * Option for general deterministic engine behavior.
 	 */
 	String OPTION_DETERMINISTIC = "DETERMINISTIC";
-	
+
 	/**
-	 * Option for enabling / disabling automatic variable sorting. 
+	 * Option for enabling / disabling automatic variable sorting.
 	 */
 	String OPTION_SORT_VARIABLES = "SORT_VARIABLES";
 
 	/**
-	 * Option for enabling / disabling inverse matching order. 
+	 * Option for enabling / disabling inverse matching order.
 	 */
 	String OPTION_INVERSE_MATCHING_ORDER = "INVERSE_MATCHING_ORDER";
+
+	/**
+	 * Option for allowing the engine to destroy matching in {@link #createChange(Rule, EGraph, Match, Match)}.
+	 */
+	String OPTION_DESTROY_MATCHES = "DESTROY_MATCHES";
 
 	/**
 	 * Option for setting the number of worker threads to be used.
@@ -54,6 +59,7 @@ public interface Engine {
 
 	/**
 	 * Find matches for a {@link Rule} in an {@link EGraph}.
+	 * 
 	 * @param rule Rule to be matched.
 	 * @param graph Graph where the match should be found.
 	 * @param partialMatch Partial match (can be empty or <code>null</code>).
@@ -63,6 +69,7 @@ public interface Engine {
 
 	/**
 	 * Create an {@link Change} for applying a rule.
+	 * 
 	 * @param rule Rule to be applied.
 	 * @param graph Graph where the rule should be applied.
 	 * @param completeMatch A <b>complete</b> match for the rule in the graph.
@@ -70,22 +77,24 @@ public interface Engine {
 	 * @return An {@link Change} object that can be used to apply the rule
 	 */
 	Change createChange(Rule rule, EGraph graph, Match completeMatch, Match resultMatch);
-	
+
 	/**
 	 * Get the used script engine.
+	 * 
 	 * @return Script engine.
 	 */
 	ScriptEngine getScriptEngine();
-	
+
 	/**
 	 * Get or set the options for this engine.
+	 * 
 	 * @return Options map.
 	 */
-	Map<String,Object> getOptions();
-	
+	Map<String, Object> getOptions();
+
 	/**
 	 * Shutdown this engine.
 	 */
 	void shutdown();
-	
+
 }
