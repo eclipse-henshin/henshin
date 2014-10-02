@@ -9,6 +9,8 @@
  */
 package org.eclipse.emf.henshin.examples.javaimports;
 
+import java.util.Iterator;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -59,7 +61,17 @@ public class JavaImportsExample {
 		app.setParameterValue("x", value);
 		InterpreterUtil.executeOrDie(app);
 
-		EObject newObj = graph.iterator().next();
+		
+		
+		// retrieve the node that was created by the rule
+		Iterator<EObject> graphIt =graph.iterator(); 
+		EObject newObj = null;
+		if(graphIt.hasNext()) 
+			newObj = graphIt.next();
+		if(newObj==null) 
+			throw new RuntimeException("Unexpected result of rule application: no graph node was created (expected one node)");
+		
+		// retrieve the attribute value of the node and check the expected result
 		String newValue = (String) newObj.eGet(newObj.eClass().getEStructuralFeature("stringValue"));
 		if (!newValue.equals(value.toUpperCase())) {
 			throw new RuntimeException("Unexpected string value: \"" + newValue + "\" (expected \""
