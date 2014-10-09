@@ -264,6 +264,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public Node createNode(Graph graph, EClass type, String name) {
 		Node node = createNode();
 		node.setType(type);
+		node.setName(name);
 		graph.getNodes().add(node);
 		return node;
 	}
