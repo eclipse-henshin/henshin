@@ -101,6 +101,11 @@ public class EngineImpl implements Engine {
 	private static final boolean DEFAULT_INVERSE_MATCHING_ORDER = true;
 
 	/**
+	 * Default value for option {@link Engine#OPTION_DESTROY_MATCHES}.
+	 */
+	private static final boolean DEFAULT_DESTROY_MATCHES = false;
+
+	/**
 	 * Options to be used.
 	 */
 	protected final Map<String, Object> options;
@@ -136,6 +141,11 @@ public class EngineImpl implements Engine {
 	protected boolean inverseMatchingOrder;
 
 	/**
+	 * Whether destruction of matches is allowed.
+	 */
+	protected boolean destroyMatches;
+
+	/**
 	 * Worker thread pool.
 	 */
 	protected ExecutorService workerPool;
@@ -153,6 +163,7 @@ public class EngineImpl implements Engine {
 		options = new EngineOptions();
 		sortVariables = DEFAULT_SORT_VARIABLES;
 		inverseMatchingOrder = DEFAULT_INVERSE_MATCHING_ORDER;
+		destroyMatches = DEFAULT_DESTROY_MATCHES;
 
 		// Initialize the script engine:
 		scriptEngine = new ScriptEngineWrapper(globalJavaImports);
@@ -876,16 +887,15 @@ public class EngineImpl implements Engine {
 				value = castValueToDataType(resultMatch.getParameterValue(param), attribute.getType()
 						.getEAttributeType(), attribute.getType().isMany());
 			} else {
-				value = evalAttributeExpression(attribute, rule); // casting
-																	// done here
-																	// automatically
+				value = evalAttributeExpression(attribute, rule); // casting done here automatically
 			}
 			changes.add(new AttributeChangeImpl(graph, object, attribute.getType(), value));
 		}
 
 		// Now recursively for the multi-rules:
 		for (Rule multiRule : rule.getMultiRules()) {
-			for (Match multiMatch : completeMatch.getMultiMatches(multiRule)) {
+			Iterator<Match> multiMatches = completeMatch.getMultiMatches(multiRule).iterator();
+			while (multiMatches.hasNext()) {
 				Match multiResultMatch = new MatchImpl(multiRule, true);
 				for (Mapping mapping : multiRule.getMultiMappings()) {
 					if (mapping.getImage().getGraph().isRhs()) {
@@ -893,8 +903,12 @@ public class EngineImpl implements Engine {
 								resultMatch.getNodeTarget(mapping.getOrigin()));
 					}
 				}
-				createChanges(multiRule, graph, multiMatch, multiResultMatch, complexChange);
-				resultMatch.getMultiMatches(multiRule).add(multiResultMatch);
+				createChanges(multiRule, graph, multiMatches.next(), multiResultMatch, complexChange);
+				if (destroyMatches) {
+					multiMatches.remove();
+				} else {
+					resultMatch.getMultiMatches(multiRule).add(multiResultMatch);
+				}
 			}
 		}
 
@@ -1118,6 +1132,10 @@ public class EngineImpl implements Engine {
 			// Update inverse matching order flag:
 			Boolean inverse = (Boolean) get(OPTION_INVERSE_MATCHING_ORDER);
 			inverseMatchingOrder = (inverse != null) ? inverse.booleanValue() : DEFAULT_INVERSE_MATCHING_ORDER;
+
+			// Update destroy matches flag:
+			Boolean destroy = (Boolean) get(OPTION_DESTROY_MATCHES);
+			destroyMatches = (destroy != null) ? destroy.booleanValue() : DEFAULT_DESTROY_MATCHES;
 
 			// Update worker thread pool:
 			Number workerThreads = (Number) get(OPTION_WORKER_THREADS);

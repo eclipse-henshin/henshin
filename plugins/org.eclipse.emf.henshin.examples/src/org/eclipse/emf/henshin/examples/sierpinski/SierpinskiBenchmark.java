@@ -43,7 +43,7 @@ public class SierpinskiBenchmark {
 	public static void run(String path, int iterations) {
 
 		// Determine number of threads to be used:
-		int threads = Runtime.getRuntime().availableProcessors();
+		int threads = Runtime.getRuntime().availableProcessors() / 2;
 
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
@@ -60,69 +60,77 @@ public class SierpinskiBenchmark {
 		EObject container = resource.getContents().get(0);
 		graph.remove(container);
 
-		// Create an engine and a rule application:
+		// Create an engine:
 		Engine engine = new EngineImpl();
 		engine.getOptions().put(Engine.OPTION_WORKER_THREADS, threads);
-		RuleApplication application = new RuleApplicationImpl(engine);
-		application.setRule(rule);
-		application.setEGraph(graph);
+		engine.getOptions().put(Engine.OPTION_DESTROY_MATCHES, true);
 
-		// Check how much memory is available:
-		System.out.println("Starting Sierpinski benchmark...");
-		System.out.println(Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB available memory\n");
+		try {
 
-		System.out.println("Level\tMatches\tNodes\tMatTime\tAppTime\tTotTime");
+			RuleApplication application = new RuleApplicationImpl(engine);
+			application.setRule(rule);
+			application.setEGraph(graph);
 
-		// For computing the expected number of nodes:
-		int expectedNodes = 3;
-		int expectedMatches = 1;
+			// Check how much memory is available:
+			System.out.println("Starting Sierpinski benchmark...");
+			System.out.println(Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB available memory");
+			System.out.println("Using " + threads + " worker threads\n");
+			System.out.println("Level\tMatches\tNodes\tMatTime\tAppTime\tTotTime");
 
-		// Iteratively compute the Sierpinski triangle:
-		for (int i = 0; i < iterations; i++) {
+			// For computing the expected number of nodes:
+			int expectedNodes = 3;
+			int expectedMatches = 1;
 
-			// Collect garbage:
-			System.gc();
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			// Iteratively compute the Sierpinski triangle:
+			for (int i = 0; i < iterations; i++) {
+
+				// Collect garbage:
+				System.gc();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				// Find match:
+				long startTime = System.currentTimeMillis();
+				Match match = engine.findMatches(rule, graph, null).iterator().next();
+				long matchingTime = (System.currentTimeMillis() - startTime);
+
+				// Count number of multi-matches:
+				int matchCount = match.getMultiMatches(rule.getMultiRules().get(0)).size();
+
+				// Apply rule:
+				startTime = System.currentTimeMillis();
+				application.setCompleteMatch(match);
+				if (!application.execute(null)) {
+					throw new RuntimeException("Error transforming Sierpinski model");
+				}
+
+				long runtime = (System.currentTimeMillis() - startTime);
+
+				// Print info:
+				System.out.println((i + 1) + "\t" + matchCount + "\t" + graph.size() + "\t" + matchingTime + "\t"
+						+ runtime + "\t" + (matchingTime + runtime));
+
+				// Check whether the number of matches and nodes is correct:
+				if (matchCount != expectedMatches) {
+					throw new RuntimeException("Expected " + expectedMatches + " matches instead of " + matchCount);
+				}
+				expectedMatches *= 3;
+				expectedNodes += expectedMatches;
+				if (graph.size() != expectedNodes) {
+					throw new RuntimeException("Expected " + expectedNodes + " nodes instead of " + graph.size());
+				}
+
 			}
-
-			// Find match:
-			long startTime = System.currentTimeMillis();
-			Match match = engine.findMatches(rule, graph, null).iterator().next();
-			long matchingTime = (System.currentTimeMillis() - startTime);
-
-			// Apply rule:
-			startTime = System.currentTimeMillis();
-			application.setCompleteMatch(match);
-			if (!application.execute(null)) {
-				throw new RuntimeException("Error transforming Sierpinski model");
-			}
-
-			long runtime = (System.currentTimeMillis() - startTime);
-
-			// Print info:
-			int matches = match.getMultiMatches(rule.getMultiRules().get(0)).size();
-			System.out.println((i + 1) + "\t" + matches + "\t" + graph.size() + "\t" + matchingTime + "\t" + runtime
-					+ "\t" + (matchingTime + runtime));
-
-			// Check whether the number of matches and nodes is correct:
-			if (matches != expectedMatches) {
-				throw new RuntimeException("Expected " + expectedMatches + " matches instead of " + matches);
-			}
-			expectedMatches *= 3;
-			expectedNodes += expectedMatches;
-			if (graph.size() != expectedNodes) {
-				throw new RuntimeException("Expected " + expectedNodes + " nodes instead of " + graph.size());
-			}
-
+		} finally {
+			engine.shutdown();
 		}
-
 	}
 
 	public static void main(String[] args) {
-		int iterations = args.length > 0 ? Integer.parseInt(args[0]) : 10;
+		int iterations = args.length > 0 ? Integer.parseInt(args[0]) : 12;
 		run(PATH, iterations); // we assume the working directory is the root of the examples plug-in
 	}
 
