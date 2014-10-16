@@ -233,11 +233,20 @@ result of applying the rule with these parameters.
 <br>
 </p>
 
+<h2>Performance Optimization using EMaps</h2>
+
+<p>
+The rule <i>transferMoney</i> can also be realized using EMF EMaps. This significantly improves the performance for 
+large models because Account objects can be looked up efficiently based on their ID.
+</p>
+<p>
+<a href="examples/bank/bankmap.png"><image src="examples/bank/bankmap.png" width="300" /></a>
+</p>
+
 <h2>Execution using the Interpreter API</h2>
 
 <p>
 Of course, you can also invoke the interpreter programmatically. You can find an implementation of 
 the example transformations above using the interpreter in the 
-<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/bank/BankExample.java">BankExample</a> class.
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/bank">bank</a> example package.
 </p>
-

@@ -14,7 +14,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_tBS-ktCgEeOyV8rYnRtUGQ"/>
         </children>
         <element xmi:type="henshin:Node" href="bankmap.henshin#_tA0dcNCgEeOyV8rYnRtUGQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tA-OcdCgEeOyV8rYnRtUGQ" x="182" y="31"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tA-OcdCgEeOyV8rYnRtUGQ" x="180" y="19"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_uZaoENCgEeOyV8rYnRtUGQ" type="3001" fontName="Lucida Grande">
         <children xmi:type="notation:DecorationNode" xmi:id="_uZbPINCgEeOyV8rYnRtUGQ" type="5002"/>
@@ -28,7 +28,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_uZbPJNCgEeOyV8rYnRtUGQ"/>
         </children>
         <element xmi:type="henshin:Node" href="bankmap.henshin#_uZYL0NCgEeOyV8rYnRtUGQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_uZaoEdCgEeOyV8rYnRtUGQ" x="35" y="209"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_uZaoEdCgEeOyV8rYnRtUGQ" x="33" y="197"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_vKp3wNCgEeOyV8rYnRtUGQ" type="3001" fontName="Lucida Grande">
         <children xmi:type="notation:DecorationNode" xmi:id="_vKqe0dCgEeOyV8rYnRtUGQ" type="5002"/>
@@ -42,7 +42,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_vKqe1dCgEeOyV8rYnRtUGQ"/>
         </children>
         <element xmi:type="henshin:Node" href="bankmap.henshin#_vKopoNCgEeOyV8rYnRtUGQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vKqe0NCgEeOyV8rYnRtUGQ" x="298" y="203"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vKqe0NCgEeOyV8rYnRtUGQ" x="250" y="203"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_HraQwNChEeOyV8rYnRtUGQ" type="3001" fontName="Lucida Grande">
         <children xmi:type="notation:DecorationNode" xmi:id="_Hra30NChEeOyV8rYnRtUGQ" type="5002"/>
@@ -56,7 +56,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_Hra31NChEeOyV8rYnRtUGQ"/>
         </children>
         <element xmi:type="henshin:Node" href="bankmap.henshin#_HrVYQNChEeOyV8rYnRtUGQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HraQwdChEeOyV8rYnRtUGQ" x="47" y="106"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HraQwdChEeOyV8rYnRtUGQ" x="45" y="94"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_ICxn4NChEeOyV8rYnRtUGQ" type="3001" fontName="Lucida Grande">
         <children xmi:type="notation:DecorationNode" xmi:id="_ICyO8NChEeOyV8rYnRtUGQ" type="5002"/>
@@ -70,20 +70,20 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_ICyO9NChEeOyV8rYnRtUGQ"/>
         </children>
         <element xmi:type="henshin:Node" href="bankmap.henshin#_ICvLoNChEeOyV8rYnRtUGQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ICxn4dChEeOyV8rYnRtUGQ" x="261" y="109"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ICxn4dChEeOyV8rYnRtUGQ" x="265" y="94"/>
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="bankmap.henshin#_27-7gNCfEeOyV8rYnRtUGQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2_eUYdCfEeOyV8rYnRtUGQ" x="25" y="99" width="473" height="340"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2_eUYdCfEeOyV8rYnRtUGQ" x="29" y="28" width="434" height="312"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_mIQWsdA-EeOyV8rYnRtUGQ"/>
   <element xmi:type="henshin:Module" href="bankmap.henshin#_mEyzANA-EeOyV8rYnRtUGQ"/>
   <edges xmi:type="notation:Connector" xmi:id="_Htab4NChEeOyV8rYnRtUGQ" type="4001" source="_tA-OcNCgEeOyV8rYnRtUGQ" target="_HraQwNChEeOyV8rYnRtUGQ">
     <children xmi:type="notation:DecorationNode" xmi:id="_HtbC8NChEeOyV8rYnRtUGQ" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_HtbC8dChEeOyV8rYnRtUGQ" y="40"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_HtbC8dChEeOyV8rYnRtUGQ" x="28" y="31"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_HtbC8tChEeOyV8rYnRtUGQ" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_HtbC89ChEeOyV8rYnRtUGQ" y="60"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_HtbC89ChEeOyV8rYnRtUGQ" x="13" y="37"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_Htab4dChEeOyV8rYnRtUGQ" fontName="Lucida Grande"/>
     <element xmi:type="henshin:Edge" href="bankmap.henshin#_HrX0gNChEeOyV8rYnRtUGQ"/>
@@ -91,10 +91,10 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_IC4VkNChEeOyV8rYnRtUGQ" type="4001" source="_tA-OcNCgEeOyV8rYnRtUGQ" target="_ICxn4NChEeOyV8rYnRtUGQ">
     <children xmi:type="notation:DecorationNode" xmi:id="_IC48oNChEeOyV8rYnRtUGQ" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_IC48odChEeOyV8rYnRtUGQ" y="40"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_IC48odChEeOyV8rYnRtUGQ" x="20" y="-27"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_IC48otChEeOyV8rYnRtUGQ" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_IC48o9ChEeOyV8rYnRtUGQ" y="60"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_IC48o9ChEeOyV8rYnRtUGQ" x="6" y="-35"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_IC4VkdChEeOyV8rYnRtUGQ" fontName="Lucida Grande"/>
     <element xmi:type="henshin:Edge" href="bankmap.henshin#_ICvysNChEeOyV8rYnRtUGQ"/>
@@ -102,10 +102,10 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_Ica28NChEeOyV8rYnRtUGQ" type="4001" source="_ICxn4NChEeOyV8rYnRtUGQ" target="_vKp3wNCgEeOyV8rYnRtUGQ">
     <children xmi:type="notation:DecorationNode" xmi:id="_Ica289ChEeOyV8rYnRtUGQ" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ica29NChEeOyV8rYnRtUGQ" y="40"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ica29NChEeOyV8rYnRtUGQ" x="4" y="37"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_IcbeANChEeOyV8rYnRtUGQ" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_IcbeAdChEeOyV8rYnRtUGQ" y="60"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_IcbeAdChEeOyV8rYnRtUGQ" x="-13" y="40"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_Ica28dChEeOyV8rYnRtUGQ" fontName="Lucida Grande"/>
     <element xmi:type="henshin:Edge" href="bankmap.henshin#_IcYasNChEeOyV8rYnRtUGQ"/>
@@ -116,7 +116,7 @@
       <layoutConstraint xmi:type="notation:Location" xmi:id="_Iq70ENChEeOyV8rYnRtUGQ" y="40"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_Iq70EdChEeOyV8rYnRtUGQ" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_Iq70EtChEeOyV8rYnRtUGQ" y="60"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Iq70EtChEeOyV8rYnRtUGQ" x="-14" y="39"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_Iq7NAdChEeOyV8rYnRtUGQ" fontName="Lucida Grande"/>
     <element xmi:type="henshin:Edge" href="bankmap.henshin#_Iq5X0NChEeOyV8rYnRtUGQ"/>
