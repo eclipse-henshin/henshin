@@ -174,7 +174,8 @@ public class ReferenceConstraint implements BinaryConstraint {
 			// Calculated temporary domain:
 			if (calculatedIndex!=null) {
 				if (calculatedIndex>=0 && calculatedIndex<targetObjects.size()) {
-					target.temporaryDomain = Collections.singletonList(targetObjects.get(calculatedIndex));
+					target.temporaryDomain = new ArrayList<EObject>();
+					target.temporaryDomain.add(targetObjects.get(calculatedIndex));
 				} else {
 					target.temporaryDomain = Collections.emptyList();
 				}
