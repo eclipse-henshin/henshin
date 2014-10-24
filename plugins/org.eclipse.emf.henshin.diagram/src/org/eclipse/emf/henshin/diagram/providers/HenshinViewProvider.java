@@ -17,6 +17,9 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionBodyEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
@@ -69,6 +72,7 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.RelativeBendpoints;
 import org.eclipse.gmf.runtime.notation.Routing;
 import org.eclipse.gmf.runtime.notation.Shape;
+import org.eclipse.gmf.runtime.notation.Style;
 import org.eclipse.gmf.runtime.notation.TitleStyle;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
@@ -164,6 +168,7 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 				case UnitEditPart.VISUAL_ID:
 				case NodeEditPart.VISUAL_ID:
 				case AttributeEditPart.VISUAL_ID:
+				case AttributeConditionEditPart.VISUAL_ID:
 				case InvocationEditPart.VISUAL_ID:
 					if (domainElement == null
 							|| visualID != HenshinVisualIDRegistry
@@ -178,7 +183,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 		}
 		return RuleEditPart.VISUAL_ID == visualID || UnitEditPart.VISUAL_ID == visualID
 				|| NodeEditPart.VISUAL_ID == visualID || AttributeEditPart.VISUAL_ID == visualID
-				|| SymbolEditPart.VISUAL_ID == visualID || InvocationEditPart.VISUAL_ID == visualID;
+				|| AttributeConditionEditPart.VISUAL_ID == visualID || SymbolEditPart.VISUAL_ID == visualID
+				|| InvocationEditPart.VISUAL_ID == visualID;
 	}
 
 	/**
@@ -234,6 +240,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 			return createNode_3001(domainElement, containerView, index, persisted, preferencesHint);
 		case AttributeEditPart.VISUAL_ID:
 			return createAttribute_3002(domainElement, containerView, index, persisted, preferencesHint);
+		case AttributeConditionEditPart.VISUAL_ID:
+			return createAttributeCondition_3005(domainElement, containerView, index, persisted, preferencesHint);
 		case SymbolEditPart.VISUAL_ID:
 			return createNode_3004(domainElement, containerView, index, persisted, preferencesHint);
 		case InvocationEditPart.VISUAL_ID:
@@ -449,6 +457,36 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 		node.setType(HenshinVisualIDRegistry.getType(AttributeEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
+		return node;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Node createAttributeCondition_3005(EObject domainElement, View containerView, int index, boolean persisted,
+			PreferencesHint preferencesHint) {
+		Node node = NotationFactory.eINSTANCE.createNode();
+		node.getStyles().add(NotationFactory.eINSTANCE.createDescriptionStyle());
+		node.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(HenshinVisualIDRegistry.getType(AttributeConditionEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		FontStyle nodeFontStyle = (FontStyle) node.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (nodeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore, IPreferenceConstants.PREF_DEFAULT_FONT);
+			nodeFontStyle.setFontName(fontData.getName());
+			nodeFontStyle.setFontHeight(fontData.getHeight());
+			nodeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			nodeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter.getColor(prefStore,
+					IPreferenceConstants.PREF_FONT_COLOR);
+			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB).intValue());
+		}
+		Node label5006 = createLabel(node, HenshinVisualIDRegistry.getType(AttributeConditionNameEditPart.VISUAL_ID));
+		Node label5007 = createLabel(node, HenshinVisualIDRegistry.getType(AttributeConditionBodyEditPart.VISUAL_ID));
 		return node;
 	}
 

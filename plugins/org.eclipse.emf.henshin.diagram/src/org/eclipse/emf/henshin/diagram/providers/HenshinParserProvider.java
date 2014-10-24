@@ -12,6 +12,8 @@ package org.eclipse.emf.henshin.diagram.providers;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionBodyEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
@@ -87,6 +89,49 @@ public class HenshinParserProvider extends AbstractProvider implements IParserPr
 	}
 
 	/**
+	 * @generated
+	 */
+	private IParser attributeConditionName_5006Parser;
+
+	/**
+	 * @generated
+	 */
+	private IParser getAttributeConditionName_5006Parser() {
+		if (attributeConditionName_5006Parser == null) {
+			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() };
+			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
+			parser.setViewPattern("Condition {0}"); //$NON-NLS-1$
+			parser.setEditorPattern("{0}"); //$NON-NLS-1$
+			parser.setEditPattern("{0}"); //$NON-NLS-1$
+			attributeConditionName_5006Parser = parser;
+		}
+		return attributeConditionName_5006Parser;
+	}
+
+	/**
+	 * @generated
+	 */
+	private IParser attributeConditionConditionText_5007Parser;
+
+	/**
+	 * @generated
+	 */
+	private IParser getAttributeConditionConditionText_5007Parser() {
+		if (attributeConditionConditionText_5007Parser == null) {
+			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE.getAttributeCondition_ConditionText() };
+			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE
+					.getAttributeCondition_ConditionText() };
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
+			parser.setViewPattern("{0}"); //$NON-NLS-1$
+			parser.setEditorPattern("{0}"); //$NON-NLS-1$
+			parser.setEditPattern("{0}"); //$NON-NLS-1$
+			attributeConditionConditionText_5007Parser = parser;
+		}
+		return attributeConditionConditionText_5007Parser;
+	}
+
+	/**
 	 * @generated NOT
 	 */
 	private IParser nodeTypeParser = new NodeTypeParser();
@@ -137,6 +182,10 @@ public class HenshinParserProvider extends AbstractProvider implements IParserPr
 			return edgeActionParser;
 		case AttributeEditPart.VISUAL_ID:
 			return attributeParser;
+		case AttributeConditionNameEditPart.VISUAL_ID:
+			return getAttributeConditionName_5006Parser();
+		case AttributeConditionBodyEditPart.VISUAL_ID:
+			return getAttributeConditionConditionText_5007Parser();
 		}
 		return null;
 	}

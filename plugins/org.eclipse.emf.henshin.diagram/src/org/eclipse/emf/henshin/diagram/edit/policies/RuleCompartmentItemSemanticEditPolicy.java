@@ -9,6 +9,7 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.policies;
 
+import org.eclipse.emf.henshin.diagram.edit.commands.AttributeConditionCreateCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.NodeCreateCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.gef.commands.Command;
@@ -32,6 +33,9 @@ public class RuleCompartmentItemSemanticEditPolicy extends HenshinBaseItemSemant
 	protected Command getCreateCommand(CreateElementRequest req) {
 		if (HenshinElementTypes.Node_3001 == req.getElementType()) {
 			return getGEFWrapper(new NodeCreateCommand(req));
+		}
+		if (HenshinElementTypes.AttributeCondition_3005 == req.getElementType()) {
+			return getGEFWrapper(new AttributeConditionCreateCommand(req));
 		}
 		return super.getCreateCommand(req);
 	}

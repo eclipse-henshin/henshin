@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gmfgraph:Canvas xmi:version="2.0"
+<gmfgraph:Canvas
+    xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition" name="henshin">
+    xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition"
+    name="henshin">
   <figures
       name="Default">
     <figures
@@ -173,6 +175,53 @@
             value="black"/>
       </actualFigure>
     </descriptors>
+    <descriptors
+        name="ConditionFigure">
+      <actualFigure
+          xsi:type="gmfgraph:RoundedRectangle"
+          name="ConditionFigure">
+        <layout
+            xsi:type="gmfgraph:FlowLayout"
+            vertical="true"
+            matchMinorSize="true"
+            forceSingleLine="true"
+            minorAlignment="CENTER"
+            majorSpacing="0"
+            minorSpacing="0"/>
+        <foregroundColor
+            xsi:type="gmfgraph:RGBColor"
+            red="255"
+            green="204"
+            blue="102"/>
+        <backgroundColor
+            xsi:type="gmfgraph:RGBColor"
+            red="255"
+            green="255"
+            blue="203"/>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="ConditionNameLabel"
+            text="none">
+          <insets
+              left="2"
+              right="2"/>
+        </children>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="ConditionBodyLabel"
+            text="Condition">
+          <insets
+              left="2"
+              right="2"/>
+        </children>
+      </actualFigure>
+      <accessors
+          accessor="getConditionNameLabel"
+          figure="//@figures.0/@descriptors.8/@actualFigure/@children.0"/>
+      <accessors
+          accessor="getConditionBodyLabel"
+          figure="//@figures.0/@descriptors.8/@actualFigure/@children.1"/>
+    </descriptors>
   </figures>
   <nodes
       name="Rule"
@@ -210,6 +259,9 @@
   <nodes
       name="Invocation"
       figure="InvocationFigure"/>
+  <nodes
+      name="Condition"
+      figure="ConditionFigure"/>
   <connections
       name="Edge"
       figure="EdgeFigure"/>
@@ -261,4 +313,13 @@
       figure="InvocationFigure"
       elementIcon="false"
       accessor="//@figures.0/@descriptors.6/@accessors.0"/>
+  <labels
+      name="ConditionName"
+      figure="ConditionFigure"
+      accessor="//@figures.0/@descriptors.8/@accessors.0"/>
+  <labels
+      name="ConditionBody"
+      figure="ConditionFigure"
+      elementIcon="false"
+      accessor="//@figures.0/@descriptors.8/@accessors.1"/>
 </gmfgraph:Canvas>

@@ -12,6 +12,9 @@ package org.eclipse.emf.henshin.diagram.part;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionBodyEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
@@ -150,6 +153,9 @@ public class HenshinVisualIDRegistry {
 			if (HenshinPackage.eINSTANCE.getNode().isSuperTypeOf(domainElement.eClass())) {
 				return NodeEditPart.VISUAL_ID;
 			}
+			if (HenshinPackage.eINSTANCE.getAttributeCondition().isSuperTypeOf(domainElement.eClass())) {
+				return AttributeConditionEditPart.VISUAL_ID;
+			}
 			break;
 		case NodeCompartmentEditPart.VISUAL_ID:
 			if (HenshinPackage.eINSTANCE.getAttribute().isSuperTypeOf(domainElement.eClass())) {
@@ -220,6 +226,14 @@ public class HenshinVisualIDRegistry {
 				return true;
 			}
 			break;
+		case AttributeConditionEditPart.VISUAL_ID:
+			if (AttributeConditionNameEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (AttributeConditionBodyEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
 		case InvocationEditPart.VISUAL_ID:
 			if (InvocationNameEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
@@ -227,6 +241,9 @@ public class HenshinVisualIDRegistry {
 			break;
 		case RuleCompartmentEditPart.VISUAL_ID:
 			if (NodeEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (AttributeConditionEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
@@ -315,6 +332,7 @@ public class HenshinVisualIDRegistry {
 		case AttributeEditPart.VISUAL_ID:
 		case InvocationEditPart.VISUAL_ID:
 		case SymbolEditPart.VISUAL_ID:
+		case AttributeConditionEditPart.VISUAL_ID:
 			return true;
 		default:
 			break;

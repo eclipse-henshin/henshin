@@ -11,13 +11,16 @@ package org.eclipse.emf.henshin.diagram.edit.policies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import java.util.Set;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
@@ -45,6 +48,11 @@ public class RuleCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	/**
 	 * @generated
 	 */
+	private Set<EStructuralFeature> myFeaturesToSynchronize;
+
+	/**
+	 * @generated
+	 */
 	protected void refreshOnActivate() {
 		// Need to activate editpart children before invoking the canonical refresh for EditParts to add event listeners
 		List<?> c = getHost().getChildren();
@@ -57,8 +65,13 @@ public class RuleCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	/**
 	 * @generated
 	 */
-	protected EStructuralFeature getFeatureToSynchronize() {
-		return HenshinPackage.eINSTANCE.getGraph_Nodes();
+	protected Set getFeaturesToSynchronize() {
+		if (myFeaturesToSynchronize == null) {
+			myFeaturesToSynchronize = new HashSet<EStructuralFeature>();
+			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE.getGraph_Nodes());
+			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE.getRule_AttributeConditions());
+		}
+		return myFeaturesToSynchronize;
 	}
 
 	/**
@@ -87,7 +100,8 @@ public class RuleCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	 * @generated
 	 */
 	private boolean isMyDiagramElement(View view) {
-		return NodeEditPart.VISUAL_ID == HenshinVisualIDRegistry.getVisualID(view);
+		int visualID = HenshinVisualIDRegistry.getVisualID(view);
+		return visualID == NodeEditPart.VISUAL_ID || visualID == AttributeConditionEditPart.VISUAL_ID;
 	}
 
 	/**

@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
@@ -33,6 +34,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -96,6 +98,15 @@ public class HenshinDiagramUpdater {
 			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, node);
 			if (visualID == NodeEditPart.VISUAL_ID) {
 				result.add(new HenshinNodeDescriptor(node, visualID));
+				continue;
+			}
+		}
+
+		// Get attribute conditions:
+		for (AttributeCondition condition : rule.getAttributeConditions()) {
+			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, condition);
+			if (visualID == AttributeConditionEditPart.VISUAL_ID) {
+				result.add(new HenshinNodeDescriptor(condition, visualID));
 				continue;
 			}
 		}
@@ -210,6 +221,8 @@ public class HenshinDiagramUpdater {
 			return getNode_3001ContainedLinks(view);
 		case AttributeEditPart.VISUAL_ID:
 			return getAttribute_3002ContainedLinks(view);
+		case AttributeConditionEditPart.VISUAL_ID:
+			return getAttributeCondition_3005ContainedLinks(view);
 		case InvocationEditPart.VISUAL_ID:
 			return getUnit_3003ContainedLinks(view);
 		case EdgeEditPart.VISUAL_ID:
@@ -231,6 +244,8 @@ public class HenshinDiagramUpdater {
 			return getNode_3001IncomingLinks(view);
 		case AttributeEditPart.VISUAL_ID:
 			return getAttribute_3002IncomingLinks(view);
+		case AttributeConditionEditPart.VISUAL_ID:
+			return getAttributeCondition_3005IncomingLinks(view);
 		case InvocationEditPart.VISUAL_ID:
 			return getUnit_3003IncomingLinks(view);
 		case EdgeEditPart.VISUAL_ID:
@@ -252,6 +267,8 @@ public class HenshinDiagramUpdater {
 			return getNode_3001OutgoingLinks(view);
 		case AttributeEditPart.VISUAL_ID:
 			return getAttribute_3002OutgoingLinks(view);
+		case AttributeConditionEditPart.VISUAL_ID:
+			return getAttributeCondition_3005OutgoingLinks(view);
 		case InvocationEditPart.VISUAL_ID:
 			return getUnit_3003OutgoingLinks(view);
 		case EdgeEditPart.VISUAL_ID:
@@ -334,6 +351,13 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated
 	 */
+	public static List<HenshinLinkDescriptor> getAttributeCondition_3005ContainedLinks(View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
 	public static List<HenshinLinkDescriptor> getUnit_3003ContainedLinks(View view) {
 		return Collections.emptyList();
 	}
@@ -381,6 +405,13 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated
 	 */
+	public static List<HenshinLinkDescriptor> getAttributeCondition_3005IncomingLinks(View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
 	public static List<HenshinLinkDescriptor> getUnit_3003IncomingLinks(View view) {
 		return Collections.emptyList();
 	}
@@ -399,6 +430,13 @@ public class HenshinDiagramUpdater {
 	 * @generated
 	 */
 	public static List<HenshinLinkDescriptor> getAttribute_3002OutgoingLinks(View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<HenshinLinkDescriptor> getAttributeCondition_3005OutgoingLinks(View view) {
 		return Collections.emptyList();
 	}
 

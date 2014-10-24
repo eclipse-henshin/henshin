@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
@@ -101,6 +102,11 @@ public class HenshinElementTypes {
 	/**
 	 * @generated
 	 */
+	public static final IElementType AttributeCondition_3005 = getElementType("org.eclipse.emf.henshin.diagram.AttributeCondition_3005"); //$NON-NLS-1$
+
+	/**
+	 * @generated
+	 */
 	public static final IElementType Node_3004 = getElementType("org.eclipse.emf.henshin.diagram.Node_3004"); //$NON-NLS-1$
 
 	/**
@@ -166,6 +172,8 @@ public class HenshinElementTypes {
 
 			elements.put(Attribute_3002, HenshinPackage.eINSTANCE.getAttribute());
 
+			elements.put(AttributeCondition_3005, HenshinPackage.eINSTANCE.getAttributeCondition());
+
 			elements.put(Unit_3003, HenshinPackage.eINSTANCE.getUnit());
 
 			elements.put(Edge_4001, HenshinPackage.eINSTANCE.getEdge());
@@ -191,6 +199,7 @@ public class HenshinElementTypes {
 			KNOWN_ELEMENT_TYPES.add(Unit_2002);
 			KNOWN_ELEMENT_TYPES.add(Node_3001);
 			KNOWN_ELEMENT_TYPES.add(Attribute_3002);
+			KNOWN_ELEMENT_TYPES.add(AttributeCondition_3005);
 			KNOWN_ELEMENT_TYPES.add(Node_3004);
 			KNOWN_ELEMENT_TYPES.add(Unit_3003);
 			KNOWN_ELEMENT_TYPES.add(Edge_4001);
@@ -214,6 +223,8 @@ public class HenshinElementTypes {
 			return Node_3001;
 		case AttributeEditPart.VISUAL_ID:
 			return Attribute_3002;
+		case AttributeConditionEditPart.VISUAL_ID:
+			return AttributeCondition_3005;
 		case SymbolEditPart.VISUAL_ID:
 			return Node_3004;
 		case InvocationEditPart.VISUAL_ID:

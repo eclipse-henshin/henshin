@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gmfmap:Mapping xmi:version="2.0"
+<gmfmap:Mapping
+    xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
@@ -74,8 +75,47 @@
           </compartments>
         </ownedChild>
       </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0"
+          referencedChild="//@nodes.0/@ownedChild/@children.1/@ownedChild">
+        <containmentFeature
+            href="henshin.ecore#//Rule/attributeConditions"/>
+        <ownedChild>
+          <domainMetaElement
+              href="henshin.ecore#//AttributeCondition"/>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping"
+              viewPattern="Condition {0}"
+              editorPattern="{0}"
+              editPattern="{0}">
+            <diagramLabel
+                href="henshin.gmfgraph#ConditionName"/>
+            <features
+                href="henshin.ecore#//NamedElement/name"/>
+            <editableFeatures
+                href="henshin.ecore#//NamedElement/name"/>
+          </labelMappings>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping"
+              viewPattern="{0}"
+              editorPattern="{0}"
+              editPattern="{0}">
+            <diagramLabel
+                href="henshin.gmfgraph#ConditionBody"/>
+            <features
+                href="henshin.ecore#//AttributeCondition/conditionText"/>
+            <editableFeatures
+                href="henshin.ecore#//AttributeCondition/conditionText"/>
+          </labelMappings>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="henshin.gmftool#//@palette/@tools.0/@tools.3"/>
+          <diagramNode
+              href="henshin.gmfgraph#Condition"/>
+        </ownedChild>
+      </children>
       <compartments
-          children="//@nodes.0/@ownedChild/@children.0">
+          children="//@nodes.0/@ownedChild/@children.0 //@nodes.0/@ownedChild/@children.1">
         <compartment
             href="henshin.gmfgraph#RuleCompartment"/>
       </compartments>
@@ -101,7 +141,7 @@
       </labelMappings>
       <tool
           xsi:type="gmftool:CreationTool"
-          href="henshin.gmftool#//@palette/@tools.0/@tools.4"/>
+          href="henshin.gmftool#//@palette/@tools.0/@tools.5"/>
       <diagramNode
           href="henshin.gmfgraph#Unit"/>
       <children
@@ -126,7 +166,7 @@
           </labelMappings>
           <tool
               xsi:type="gmftool:CreationTool"
-              href="henshin.gmftool#//@palette/@tools.0/@tools.5"/>
+              href="henshin.gmftool#//@palette/@tools.0/@tools.6"/>
           <diagramNode
               href="henshin.gmfgraph#Invocation"/>
         </ownedChild>

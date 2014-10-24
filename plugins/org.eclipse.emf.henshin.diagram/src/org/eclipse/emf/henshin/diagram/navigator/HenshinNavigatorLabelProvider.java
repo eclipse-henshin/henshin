@@ -13,6 +13,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ColorModeHelper;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
@@ -135,6 +137,9 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements ICom
 					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Unit", HenshinElementTypes.Unit_3003); //$NON-NLS-1$
 		case SymbolEditPart.VISUAL_ID:
 			return getImage("Navigator?Node?SymbolCircleFigure", HenshinElementTypes.Node_3004); //$NON-NLS-1$
+		case AttributeConditionEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?AttributeCondition", HenshinElementTypes.AttributeCondition_3005); //$NON-NLS-1$
 		case EdgeEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?http://www.eclipse.org/emf/2011/Henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
@@ -245,6 +250,22 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements ICom
 	 */
 	private String getNode_3004Text(View view) {
 		return ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * @generated
+	 */
+	private String getAttributeCondition_3005Text(View view) {
+		IParser parser = HenshinParserProvider.getParser(HenshinElementTypes.AttributeCondition_3005,
+				view.getElement() != null ? view.getElement() : view,
+				HenshinVisualIDRegistry.getType(AttributeConditionNameEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
+		} else {
+			HenshinDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5006); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
 	}
 
 	/**

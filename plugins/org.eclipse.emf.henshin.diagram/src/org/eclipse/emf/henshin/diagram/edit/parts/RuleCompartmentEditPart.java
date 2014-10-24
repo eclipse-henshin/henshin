@@ -96,6 +96,9 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart {
 			if (type == HenshinElementTypes.Node_3001) {
 				return this;
 			}
+			if (type == HenshinElementTypes.AttributeCondition_3005) {
+				return this;
+			}
 			return getParent().getTargetEditPart(request);
 		}
 		if (request instanceof CreateUnspecifiedTypeConnectionRequest) {

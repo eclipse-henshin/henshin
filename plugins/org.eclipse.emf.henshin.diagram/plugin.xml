@@ -242,7 +242,7 @@
       <viewProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider">
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Henshin"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,3001,3002,3004,3003"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,3001,3002,3005,3004,3003"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001,4002"/>
       </viewProvider>
    </extension>
@@ -255,13 +255,13 @@
             <method name="getType()" value="Henshin"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,2002,3001,3002,3004,3003"/>
+            <method name="getType()" value="2001,2002,3001,3002,3005,3004,3003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value="4001,4002"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
-            <method name="getType()" value="5001,5004,5002,5003,5005"/>
+            <method name="getType()" value="5001,5004,5002,5003,5006,5007,5005"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
             <method name="getType()" value="7001,7002,7003"/>
@@ -296,6 +296,11 @@
          <Priority name="Lowest"/>
          <object class="org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart" id="Attribute_3002"/>
          <context elements="Attribute_3002"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfAttributeConditionEditPart">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionEditPart" id="AttributeCondition_3005"/>
+         <context elements="AttributeCondition_3005"/>
       </modelingAssistantProvider>
             <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfSymbolEditPart">
          <Priority name="Lowest"/>
@@ -376,6 +381,16 @@
             <param name="semanticHint" value="3002"/>
          </metamodelType>
       </metamodel>
+      <metamodel nsURI="http://www.eclipse.org/emf/2011/Henshin">
+         <metamodelType
+               id="org.eclipse.emf.henshin.diagram.AttributeCondition_3005"
+               name="%metatype.name.AttributeCondition_3005"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="AttributeCondition"
+               edithelper="org.eclipse.emf.henshin.diagram.edit.helpers.AttributeConditionEditHelper">
+            <param name="semanticHint" value="3005"/>
+         </metamodelType>
+      </metamodel>
       <specializationType
             id="org.eclipse.emf.henshin.diagram.Node_3004"
             name="%metatype.name.Node_3004"
@@ -426,6 +441,7 @@
          <elementType ref="org.eclipse.emf.henshin.diagram.Unit_2002"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Node_3001"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Attribute_3002"/>
+         <elementType ref="org.eclipse.emf.henshin.diagram.AttributeCondition_3005"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Node_3004"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Unit_3003"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Edge_4001"/>
