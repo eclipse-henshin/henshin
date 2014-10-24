@@ -22,8 +22,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class InvocationItemSemanticEditPolicy extends
-		HenshinBaseItemSemanticEditPolicy {
+public class InvocationItemSemanticEditPolicy extends HenshinBaseItemSemanticEditPolicy {
 
 	/**
 	 * @generated
@@ -37,8 +36,7 @@ public class InvocationItemSemanticEditPolicy extends
 	 */
 	protected Command getDestroyElementCommand(DestroyElementRequest req) {
 		View invocationView = (View) getHost().getModel();
-		return getGEFWrapper(new InvocationDeleteCommand(getEditingDomain(),
-				invocationView));
+		return getGEFWrapper(new InvocationDeleteCommand(getEditingDomain(), invocationView));
 	}
 
 }

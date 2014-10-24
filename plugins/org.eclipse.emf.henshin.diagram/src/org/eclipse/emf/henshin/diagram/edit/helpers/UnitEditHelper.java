@@ -53,8 +53,7 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 	public static List<View> getInvocationViews(View unitView, boolean withNulls) {
 
 		// Find the unit and the compartment view:
-		if (String.valueOf(UnitCompartmentEditPart.VISUAL_ID).equals(
-				unitView.getType())) {
+		if (String.valueOf(UnitCompartmentEditPart.VISUAL_ID).equals(unitView.getType())) {
 			unitView = (View) unitView.eContainer();
 		}
 		View unitCompartment = ViewUtil.getChildBySemanticHint(unitView,
@@ -67,8 +66,7 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 		// Now search for the corresponding views:
 		List<View> invocations = new ArrayList<View>(subunits.size());
 		for (Unit subunit : subunits) {
-			invocations.add(getInvocationView(unitCompartment, subunit,
-					invocations));
+			invocations.add(getInvocationView(unitCompartment, subunit, invocations));
 		}
 		return invocations;
 	}
@@ -97,16 +95,14 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 	/*
 	 * Find an invocation view.
 	 */
-	private static View getInvocationView(View unitCompartment, Unit target,
-			Collection<View> exclude) {
+	private static View getInvocationView(View unitCompartment, Unit target, Collection<View> exclude) {
 		if (unitCompartment == null || target == null) {
 			return null;
 		}
 		for (Object obj : unitCompartment.getChildren()) {
 			View view = (View) obj;
-			if (view.getElement() == target
-					&& String.valueOf(InvocationEditPart.VISUAL_ID).equals(
-							view.getType()) && !exclude.contains(view)) {
+			if (view.getElement() == target && String.valueOf(InvocationEditPart.VISUAL_ID).equals(view.getType())
+					&& !exclude.contains(view)) {
 				return view;
 			}
 		}
@@ -118,8 +114,7 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 	 */
 	public static View getUnitCompartment(View view) {
 		// Compartment type ID:
-		String type = HenshinVisualIDRegistry
-				.getType(UnitCompartmentEditPart.VISUAL_ID);
+		String type = HenshinVisualIDRegistry.getType(UnitCompartmentEditPart.VISUAL_ID);
 		// Check if it is already the compartment:
 		if (type.equals(view.getType())) {
 			return view;

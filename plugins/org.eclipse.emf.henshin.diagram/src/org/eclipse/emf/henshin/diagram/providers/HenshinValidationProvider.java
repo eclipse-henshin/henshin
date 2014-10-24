@@ -35,8 +35,7 @@ public class HenshinValidationProvider {
 	/**
 	 * @generated
 	 */
-	public static void runWithConstraints(
-			TransactionalEditingDomain editingDomain, Runnable operation) {
+	public static void runWithConstraints(TransactionalEditingDomain editingDomain, Runnable operation) {
 		final Runnable op = operation;
 		Runnable task = new Runnable() {
 			public void run() {
@@ -52,8 +51,7 @@ public class HenshinValidationProvider {
 			try {
 				editingDomain.runExclusive(task);
 			} catch (Exception e) {
-				HenshinDiagramEditorPlugin.getInstance().logError(
-						"Validation failed", e); //$NON-NLS-1$
+				HenshinDiagramEditorPlugin.getInstance().logError("Validation failed", e); //$NON-NLS-1$
 			}
 		} else {
 			task.run();
@@ -69,8 +67,7 @@ public class HenshinValidationProvider {
 		}
 		if (object instanceof View) {
 			return constraintsActive
-					&& ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
-							.getModelID((View) object));
+					&& ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry.getModelID((View) object));
 		}
 		return true;
 	}

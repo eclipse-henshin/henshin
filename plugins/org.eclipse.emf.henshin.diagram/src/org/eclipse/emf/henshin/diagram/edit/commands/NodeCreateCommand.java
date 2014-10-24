@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +31,8 @@ import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.henshin.diagram.preferences.DiagramPreferenceInitializer;
 import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
@@ -84,8 +85,7 @@ public class NodeCreateCommand extends EditElementCommand {
 		}
 	};
 
-	private final Shell shell = HenshinDiagramEditorPlugin.getInstance()
-			.getWorkbench().getDisplay().getActiveShell();
+	private final Shell shell = HenshinDiagramEditorPlugin.getInstance().getWorkbench().getDisplay().getActiveShell();
 
 	/**
 	 * @generated
@@ -100,8 +100,7 @@ public class NodeCreateCommand extends EditElementCommand {
 	 * @generated
 	 */
 	protected EObject getElementToEdit() {
-		EObject container = ((CreateElementRequest) getRequest())
-				.getContainer();
+		EObject container = ((CreateElementRequest) getRequest()).getContainer();
 		if (container instanceof View) {
 			container = ((View) container).getElement();
 		}
@@ -119,12 +118,11 @@ public class NodeCreateCommand extends EditElementCommand {
 	/**
 	 * @generated NOT
 	 */
-	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
+	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 
 		// The node is created in the context of a rule:
 		Rule rule = (Rule) getElementToEdit();
-		
+
 		// Get the default action to be used:
 		Action action = RuleEditHelper.getDefaultAction(rule);
 
@@ -150,7 +148,7 @@ public class NodeCreateCommand extends EditElementCommand {
 
 		// Update containment:
 		updateContainment(rule, node);
-		
+
 		// Finally, we set the user-defined action:
 		if (dialog != null) {
 			action = dialog.getAction();
@@ -158,11 +156,10 @@ public class NodeCreateCommand extends EditElementCommand {
 		try {
 			node.setAction(action);
 			RuleEditHelper.setDefaultAction(rule, action);
-		}
-		catch (Throwable t) {
+		} catch (Throwable t) {
 			HenshinDiagramEditorPlugin.getInstance().logError("Error setting node action", t);
 		}
-		
+
 		// Complete multi-rules:
 		HenshinModelCleaner.completeMultiRules(rule.getRootRule());
 
@@ -175,19 +172,19 @@ public class NodeCreateCommand extends EditElementCommand {
 		return CommandResult.newOKCommandResult(node);
 
 	}
-	
+
 	/*
 	 * Update containment for the new node.
 	 */
 	private void updateContainment(Rule rule, Node newNode) throws ExecutionException {
-				
+
 		// Update the root containment for the new node:
 		View ruleView = RuleEditHelper.findRuleView(rule);
 		RootObjectEditHelper.updateRootContainment(ruleView, newNode);
 
 		// Check preferences:
-		Boolean edgeCreationIsEnabled = HenshinDiagramEditorPlugin.getInstance()
-				.getPreferenceStore().getBoolean(DiagramPreferenceInitializer.CREATE_CONTAINMENT_EDGES);
+		Boolean edgeCreationIsEnabled = HenshinDiagramEditorPlugin.getInstance().getPreferenceStore()
+				.getBoolean(DiagramPreferenceInitializer.CREATE_CONTAINMENT_EDGES);
 		if (!edgeCreationIsEnabled) {
 			return;
 		}
@@ -197,12 +194,12 @@ public class NodeCreateCommand extends EditElementCommand {
 			return;
 		}
 		for (Node container : rule.getActionNodes(null)) {
-			if (container==newNode || container.getType()==null) {
+			if (container == newNode || container.getType() == null) {
 				continue;
 			}
 			for (EReference ref : container.getType().getEAllContainments()) {
 				EClass refType = ref.getEReferenceType();
-				if (refType!=null && (refType.isSuperTypeOf(newNode.getType())) 
+				if (refType != null && (refType.isSuperTypeOf(newNode.getType()))
 						|| (newNode.getType()).isSuperTypeOf(refType)) {
 					if (rule.canCreateEdge(container, newNode, ref)) {
 						rule.createEdge(container, newNode, ref);
@@ -211,24 +208,18 @@ public class NodeCreateCommand extends EditElementCommand {
 				}
 			}
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(Node newElement, IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
-		IElementType elementType = ((CreateElementRequest) getRequest())
-				.getElementType();
-		ConfigureRequest configureRequest = new ConfigureRequest(
-				getEditingDomain(), newElement, elementType);
-		configureRequest.setClientContext(((CreateElementRequest) getRequest())
-				.getClientContext());
+	protected void doConfigure(Node newElement, IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest()).getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest()).getClientContext());
 		configureRequest.addParameters(getRequest().getParameters());
-		ICommand configureCommand = elementType
-				.getEditCommand(configureRequest);
+		ICommand configureCommand = elementType.getEditCommand(configureRequest);
 		if (configureCommand != null && configureCommand.canExecute()) {
 			configureCommand.execute(monitor, info);
 		}
@@ -241,8 +232,7 @@ public class NodeCreateCommand extends EditElementCommand {
 	 * @author Stefan Jurack (sjurack), Christian Krause
 	 * 
 	 */
-	private final class SingleEClassSelectionDialog extends
-			ElementListSelectionDialog {
+	private final class SingleEClassSelectionDialog extends ElementListSelectionDialog {
 
 		final Module module;
 
@@ -272,8 +262,7 @@ public class NodeCreateCommand extends EditElementCommand {
 		 */
 		public final EClass openAndReturnSelection() {
 
-			List<EClass> elements = new ArrayList<EClass>( 
-					ModuleEditHelper.collectAllEClasses(module, false));
+			List<EClass> elements = new ArrayList<EClass>(ModuleEditHelper.collectAllEClasses(module, false));
 
 			EClass result = null;
 			if (elements.size() > 0) {
@@ -312,21 +301,21 @@ public class NodeCreateCommand extends EditElementCommand {
 
 			// Get the default color mode:
 			HenshinColorMode colorMode = HenshinColorMode.getDefaultColorMode();
-			
+
 			// Action types as radio buttons:
 			for (final Type type : Type.values()) {
 				Button button = new Button(buttons, SWT.RADIO);
 				button.setText(type.toString());
-				
+
 				// Set the action color:
-				if (colorMode!=null) {
+				if (colorMode != null) {
 					HenshinColorMode.Color color = colorMode.getActionColor(new Action(type), true);
-					if (color!=null) {
-						button.setForeground(ColorModeHelper.getSWTColor(color));						
+					if (color != null) {
+						button.setForeground(ColorModeHelper.getSWTColor(color));
 					}
 				}
-				
-				if (type==action.getType()) {
+
+				if (type == action.getType()) {
 					button.setSelection(true);
 				}
 				button.addSelectionListener(new SelectionListener() {
@@ -349,8 +338,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			multi.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					action = new Action(action.getType(), multi
-							.getSelection(), action.getPath());
+					action = new Action(action.getType(), multi.getSelection(), action.getPath());
 				}
 
 				@Override
@@ -363,12 +351,12 @@ public class NodeCreateCommand extends EditElementCommand {
 			createLabel("Path:", group);
 			final Text path = new Text(group, SWT.BORDER | SWT.SINGLE);
 			path.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			
+
 			String text = action.toString().replaceFirst(action.getType().toString(), "");
 			if (action.isMulti()) {
-				text = text.replaceFirst("\\"+Action.MULTI_MARKER+"", "");
+				text = text.replaceFirst("\\" + Action.MULTI_MARKER + "", "");
 			}
-			
+
 			path.setText(text);
 			path.addModifyListener(new ModifyListener() {
 				@Override
@@ -378,17 +366,18 @@ public class NodeCreateCommand extends EditElementCommand {
 						text = text + Action.MULTI_MARKER;
 					}
 					String pathText = path.getText().trim();
-					if (pathText.length()>0 && !pathText.startsWith(Action.PATH_SEPARATOR+"") && 
-							!pathText.startsWith(Action.FRAGMENT_START+"")) {
+					if (pathText.length() > 0 && !pathText.startsWith(Action.PATH_SEPARATOR + "")
+							&& !pathText.startsWith(Action.FRAGMENT_START + "")) {
 						pathText = Action.PATH_SEPARATOR + pathText;
 					}
 					text = text + pathText;
-					if (action.getFragment()!=null) {
+					if (action.getFragment() != null) {
 						text = text + Action.FRAGMENT_START + action.getFragment();
 					}
 					try {
 						action = Action.parse(text);
-					} catch (ParseException e1) {}
+					} catch (ParseException e1) {
+					}
 				}
 			});
 			return contents;

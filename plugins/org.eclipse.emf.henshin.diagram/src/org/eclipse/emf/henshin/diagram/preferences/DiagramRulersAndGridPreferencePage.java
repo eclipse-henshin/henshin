@@ -21,7 +21,6 @@ public class DiagramRulersAndGridPreferencePage extends RulerGridPreferencePage 
 	 * @generated
 	 */
 	public DiagramRulersAndGridPreferencePage() {
-		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance()
-				.getPreferenceStore());
+		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance().getPreferenceStore());
 	}
 }

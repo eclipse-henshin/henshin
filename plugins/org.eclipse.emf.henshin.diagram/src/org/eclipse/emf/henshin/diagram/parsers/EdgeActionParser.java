@@ -28,6 +28,7 @@ import org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.gmf.tooling.runtime.parsers.AbstractAttributeParser;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 
 /**
@@ -35,7 +36,7 @@ import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
  * @author Christian Krause
  * @generated NOT
  */
-public class EdgeActionParser extends AbstractParser {
+public class EdgeActionParser extends AbstractAttributeParser {
 	
 	/**
 	 * Default constructor.

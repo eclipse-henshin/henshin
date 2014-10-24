@@ -32,8 +32,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class EdgeEditPart extends ConnectionNodeEditPart implements
-		ITreeBranchEditPart {
+public class EdgeEditPart extends ConnectionNodeEditPart implements ITreeBranchEditPart {
 
 	/**
 	 * @generated
@@ -70,13 +69,11 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 			@Override
 			public void notifyChanged(Notification event) {
 				super.notifyChanged(event);
-				if (event.getEventType()==Notification.REMOVING_ADAPTER) {
+				if (event.getEventType() == Notification.REMOVING_ADAPTER) {
 					return;
 				}
 				// Really make sure that the edit part is still valid.
-				if (isActive()
-						&& getNotationView().getElement() instanceof Edge
-						&& getParent() != null) {
+				if (isActive() && getNotationView().getElement() instanceof Edge && getParent() != null) {
 					refreshVisuals();
 				}
 			}
@@ -100,8 +97,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	 */
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new EdgeItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new EdgeItemSemanticEditPolicy());
 	}
 
 	/**
@@ -109,13 +105,11 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof EdgeTypeEditPart) {
-			((EdgeTypeEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getEdgeTypeLabel());
+			((EdgeTypeEditPart) childEditPart).setLabel(getPrimaryShape().getEdgeTypeLabel());
 			return true;
 		}
 		if (childEditPart instanceof EdgeActionEditPart) {
-			((EdgeActionEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getEdgeActionLabel());
+			((EdgeActionEditPart) childEditPart).setLabel(getPrimaryShape().getEdgeActionLabel());
 			return true;
 		}
 		return false;
@@ -179,7 +173,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void refreshForegroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getActionColor(getNotationView(), true);
-		if (color!=null) {
+		if (color != null) {
 			setForegroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
 			super.refreshForegroundColor();
@@ -197,10 +191,10 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		if (!(elem instanceof Edge)) {
 			return;
 		}
-		
+
 		// Make the normal refresh:
 		super.refreshVisuals();
-		
+
 		// Set the decorations:
 		Edge edge = (Edge) elem;
 		EReference type = edge.getType();
@@ -208,8 +202,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 
 			// Source decoration:
 			if (type.isContainment()) {
-				getPrimaryShape()
-						.setSourceDecoration(createDiamondDecoration());
+				getPrimaryShape().setSourceDecoration(createDiamondDecoration());
 			} else if (type.getEOpposite() != null) {
 				//PolylineDecoration sourceArrow = (PolylineDecoration) createArrowDecoration();
 				//sourceArrow.setAlpha(96);
@@ -284,11 +277,13 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		private void createContents() {
 
 			fEdgeTypeLabel = new WrappingLabel();
+
 			fEdgeTypeLabel.setText("unknown");
 
 			this.add(fEdgeTypeLabel);
 
 			fEdgeActionLabel = new WrappingLabel();
+
 			fEdgeActionLabel.setText("unknown");
 
 			this.add(fEdgeActionLabel);

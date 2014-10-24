@@ -19,7 +19,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
  * @generated
  */
 public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer {
-	
+
 	public static final String CREATE_CONTAINMENT_EDGES = "CREATE_CONTAINMENT_EDGES";
 
 	/**
@@ -44,8 +44,7 @@ public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer 
 		initializeDefaultPreferencesGen();
 		IPreferenceStore store = getPreferenceStore();
 
-		store.setDefault(IPreferenceConstants.PREF_RULER_UNITS,
-				RulerProvider.UNIT_CENTIMETERS);
+		store.setDefault(IPreferenceConstants.PREF_RULER_UNITS, RulerProvider.UNIT_CENTIMETERS);
 		store.setDefault(IPreferenceConstants.PREF_SHOW_GRID, false);
 		store.setDefault(IPreferenceConstants.PREF_SNAP_TO_GRID, false);
 		store.setDefault(IPreferenceConstants.PREF_SNAP_TO_GEOMETRY, true);

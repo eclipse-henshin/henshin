@@ -19,6 +19,7 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
@@ -60,8 +61,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	public EdgeCreateCommand(CreateRelationshipRequest request, EObject source,
-			EObject target) {
+	public EdgeCreateCommand(CreateRelationshipRequest request, EObject source, EObject target) {
 		super(request.getLabel(), null, request);
 		this.source = source;
 		this.target = target;
@@ -88,8 +88,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 		if (getContainer() == null) {
 			return false;
 		}
-		return HenshinBaseItemSemanticEditPolicy.getLinkConstraints()
-				.canCreateEdge_4001(getContainer(), getSource(), getTarget());
+		return HenshinBaseItemSemanticEditPolicy.getLinkConstraints().canCreateEdge_4001(getContainer(), getSource(),
+				getTarget());
 	}
 
 	/**
@@ -101,8 +101,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 		}
 		if (source != null && target != null) {
 			// Check the type as well:
-			EReference type = (EReference) getRequest().getParameter(
-					TYPE_PARAMETER_KEY);
+			EReference type = (EReference) getRequest().getParameter(TYPE_PARAMETER_KEY);
 			Rule rule = getSource().getGraph().getRule();
 			return rule.canCreateEdge(getSource(), getTarget(), type);
 		}
@@ -113,18 +112,15 @@ public class EdgeCreateCommand extends EditElementCommand {
 	 * @generated NOT
 	 */
 	@Override
-	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
+	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 
 		// Check again whether we can really execute this command:
 		if (!canExecute()) {
-			throw new ExecutionException(
-					"Invalid arguments in create link command"); //$NON-NLS-1$
+			throw new ExecutionException("Invalid arguments in create link command"); //$NON-NLS-1$
 		}
 
 		// Get the type parameter and the rule:
-		EReference type = (EReference) getRequest().getParameter(
-				TYPE_PARAMETER_KEY);
+		EReference type = (EReference) getRequest().getParameter(TYPE_PARAMETER_KEY);
 		Rule rule = getSource().getGraph().getRule();
 
 		// Create the edge:
@@ -136,7 +132,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 			RootObjectEditHelper.updateRootContainment(ruleView, getSource());
 			RootObjectEditHelper.updateRootContainment(ruleView, getTarget());
 		}
-		
+
 		// Complete multi-rules:
 		HenshinModelCleaner.completeMultiRules(rule.getRootRule());
 
@@ -153,21 +149,14 @@ public class EdgeCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(Edge newElement, IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
-		IElementType elementType = ((CreateElementRequest) getRequest())
-				.getElementType();
-		ConfigureRequest configureRequest = new ConfigureRequest(
-				getEditingDomain(), newElement, elementType);
-		configureRequest.setClientContext(((CreateElementRequest) getRequest())
-				.getClientContext());
+	protected void doConfigure(Edge newElement, IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest()).getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest()).getClientContext());
 		configureRequest.addParameters(getRequest().getParameters());
-		configureRequest.setParameter(CreateRelationshipRequest.SOURCE,
-				getSource());
-		configureRequest.setParameter(CreateRelationshipRequest.TARGET,
-				getTarget());
-		ICommand configureCommand = elementType
-				.getEditCommand(configureRequest);
+		configureRequest.setParameter(CreateRelationshipRequest.SOURCE, getSource());
+		configureRequest.setParameter(CreateRelationshipRequest.TARGET, getTarget());
+		ICommand configureCommand = elementType.getEditCommand(configureRequest);
 		if (configureCommand != null && configureCommand.canExecute()) {
 			configureCommand.execute(monitor, info);
 		}
@@ -210,8 +199,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 		// Find container element for the new link.
 		// Climb up by containment hierarchy starting from the source
 		// and return the first element that is instance of the container class.
-		for (EObject element = source; element != null; element = element
-				.eContainer()) {
+		for (EObject element = source; element != null; element = element.eContainer()) {
 			if (element instanceof Graph) {
 				return (Graph) element;
 			}

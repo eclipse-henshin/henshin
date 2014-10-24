@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.structure.DiagramStructure;
 
 /**
  * This registry is used to determine which type of visual object should be
@@ -60,8 +61,7 @@ public class HenshinVisualIDRegistry {
 				return -1;
 			}
 		}
-		return org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry
-				.getVisualID(view.getType());
+		return org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.getVisualID(view.getType());
 	}
 
 	/**
@@ -86,11 +86,9 @@ public class HenshinVisualIDRegistry {
 		try {
 			return Integer.parseInt(type);
 		} catch (NumberFormatException e) {
-			if (Boolean.TRUE.toString().equalsIgnoreCase(
-					Platform.getDebugOption(DEBUG_KEY))) {
+			if (Boolean.TRUE.toString().equalsIgnoreCase(Platform.getDebugOption(DEBUG_KEY))) {
 				HenshinDiagramEditorPlugin.getInstance().logError(
-						"Unable to parse view type as a visualID number: "
-								+ type);
+						"Unable to parse view type as a visualID number: " + type);
 			}
 		}
 		return -1;
@@ -110,8 +108,7 @@ public class HenshinVisualIDRegistry {
 		if (domainElement == null) {
 			return -1;
 		}
-		if (HenshinPackage.eINSTANCE.getModule().isSuperTypeOf(
-				domainElement.eClass())
+		if (HenshinPackage.eINSTANCE.getModule().isSuperTypeOf(domainElement.eClass())
 				&& isDiagram((Module) domainElement)) {
 			return ModuleEditPart.VISUAL_ID;
 		}
@@ -132,8 +129,7 @@ public class HenshinVisualIDRegistry {
 		}
 		int containerVisualID;
 		if (ModuleEditPart.MODEL_ID.equals(containerModelID)) {
-			containerVisualID = org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry
-					.getVisualID(containerView);
+			containerVisualID = org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.getVisualID(containerView);
 		} else {
 			if (containerView instanceof Diagram) {
 				containerVisualID = ModuleEditPart.VISUAL_ID;
@@ -143,30 +139,25 @@ public class HenshinVisualIDRegistry {
 		}
 		switch (containerVisualID) {
 		case ModuleEditPart.VISUAL_ID:
-			if (HenshinPackage.eINSTANCE.getRule().isSuperTypeOf(
-					domainElement.eClass())) {
+			if (HenshinPackage.eINSTANCE.getRule().isSuperTypeOf(domainElement.eClass())) {
 				return RuleEditPart.VISUAL_ID;
 			}
-			if (HenshinPackage.eINSTANCE.getUnit().isSuperTypeOf(
-					domainElement.eClass())) {
+			if (HenshinPackage.eINSTANCE.getUnit().isSuperTypeOf(domainElement.eClass())) {
 				return UnitEditPart.VISUAL_ID;
 			}
 			break;
 		case RuleCompartmentEditPart.VISUAL_ID:
-			if (HenshinPackage.eINSTANCE.getNode().isSuperTypeOf(
-					domainElement.eClass())) {
+			if (HenshinPackage.eINSTANCE.getNode().isSuperTypeOf(domainElement.eClass())) {
 				return NodeEditPart.VISUAL_ID;
 			}
 			break;
 		case NodeCompartmentEditPart.VISUAL_ID:
-			if (HenshinPackage.eINSTANCE.getAttribute().isSuperTypeOf(
-					domainElement.eClass())) {
+			if (HenshinPackage.eINSTANCE.getAttribute().isSuperTypeOf(domainElement.eClass())) {
 				return AttributeEditPart.VISUAL_ID;
 			}
 			break;
 		case UnitCompartmentEditPart.VISUAL_ID:
-			if (HenshinPackage.eINSTANCE.getUnit().isSuperTypeOf(
-					domainElement.eClass())) {
+			if (HenshinPackage.eINSTANCE.getUnit().isSuperTypeOf(domainElement.eClass())) {
 				return InvocationEditPart.VISUAL_ID;
 			}
 			break;
@@ -185,8 +176,7 @@ public class HenshinVisualIDRegistry {
 		}
 		int containerVisualID;
 		if (ModuleEditPart.MODEL_ID.equals(containerModelID)) {
-			containerVisualID = org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry
-					.getVisualID(containerView);
+			containerVisualID = org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.getVisualID(containerView);
 		} else {
 			if (containerView instanceof Diagram) {
 				containerVisualID = ModuleEditPart.VISUAL_ID;
@@ -272,8 +262,7 @@ public class HenshinVisualIDRegistry {
 		if (domainElement == null) {
 			return -1;
 		}
-		if (HenshinPackage.eINSTANCE.getEdge().isSuperTypeOf(
-				domainElement.eClass())) {
+		if (HenshinPackage.eINSTANCE.getEdge().isSuperTypeOf(domainElement.eClass())) {
 			return EdgeEditPart.VISUAL_ID;
 		}
 		return -1;
@@ -288,5 +277,104 @@ public class HenshinVisualIDRegistry {
 	private static boolean isDiagram(Module element) {
 		return true;
 	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean checkNodeVisualID(View containerView, EObject domainElement, int candidate) {
+		if (candidate == -1) {
+			//unrecognized id is always bad
+			return false;
+		}
+		int basic = getNodeVisualID(containerView, domainElement);
+		return basic == candidate;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean isCompartmentVisualID(int visualID) {
+		switch (visualID) {
+		case RuleCompartmentEditPart.VISUAL_ID:
+		case NodeCompartmentEditPart.VISUAL_ID:
+		case UnitCompartmentEditPart.VISUAL_ID:
+			return true;
+		default:
+			break;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean isSemanticLeafVisualID(int visualID) {
+		switch (visualID) {
+		case ModuleEditPart.VISUAL_ID:
+			return false;
+		case AttributeEditPart.VISUAL_ID:
+		case InvocationEditPart.VISUAL_ID:
+		case SymbolEditPart.VISUAL_ID:
+			return true;
+		default:
+			break;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static final DiagramStructure TYPED_INSTANCE = new DiagramStructure() {
+		/**
+		 * @generated
+		 */
+		@Override
+		public int getVisualID(View view) {
+			return org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.getVisualID(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public String getModelID(View view) {
+			return org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.getModelID(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public int getNodeVisualID(View containerView, EObject domainElement) {
+			return org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.getNodeVisualID(containerView,
+					domainElement);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean checkNodeVisualID(View containerView, EObject domainElement, int candidate) {
+			return org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.checkNodeVisualID(containerView,
+					domainElement, candidate);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean isCompartmentVisualID(int visualID) {
+			return org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.isCompartmentVisualID(visualID);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean isSemanticLeafVisualID(int visualID) {
+			return org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry.isSemanticLeafVisualID(visualID);
+		}
+	};
 
 }

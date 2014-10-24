@@ -42,13 +42,14 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.parsers.AbstractAttributeParser;
 
 /**
  * Parser for unit invocations.
  * @generated NOT
  * @author Christian Krause
  */
-public class InvocationNameParser extends AbstractParser {
+public class InvocationNameParser extends AbstractAttributeParser {
 	
 	/**
 	 * Default constructor.

@@ -69,8 +69,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 	 * @generated
 	 */
 	protected EObject getElementToEdit() {
-		EObject container = ((CreateElementRequest) getRequest())
-				.getContainer();
+		EObject container = ((CreateElementRequest) getRequest()).getContainer();
 		if (container instanceof View) {
 			container = ((View) container).getElement();
 		}
@@ -83,8 +82,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 	public boolean canExecute() {
 		Node node = (Node) getElementToEdit();
 		// The type must be set and there must be at least one attribute type.
-		if (node.getType() == null
-				|| getCandidateAttributes(node).isEmpty()) {
+		if (node.getType() == null || getCandidateAttributes(node).isEmpty()) {
 			return false;
 		}
 		return true;
@@ -93,8 +91,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 	/**
 	 * @generated NOT
 	 */
-	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
+	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 
 		// The node and the rule:
 		Node node = (Node) getElementToEdit();
@@ -104,7 +101,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 		EAttribute type = null;
 
 		// Display the pop-up menu:
-		if (shell!=null && attributes.size()>1) {
+		if (shell != null && attributes.size() > 1) {
 			PopupMenu menu = getPopupMenu(attributes);
 			if (menu.show(shell) == false) {
 				monitor.setCanceled(true);
@@ -120,12 +117,12 @@ public class AttributeCreateCommand extends EditElementCommand {
 		attribute.setType(type);
 		Parameter param = null;
 		for (Parameter p : rule.getParameters()) {
-			if (p.getType()==null || p.getType()==type.getEAttributeType()) {
+			if (p.getType() == null || p.getType() == type.getEAttributeType()) {
 				param = p;
 				break;
 			}
 		}
-		attribute.setValue(param!=null ? param.getName() : String.valueOf(type.getDefaultValue()));
+		attribute.setValue(param != null ? param.getName() : String.valueOf(type.getDefaultValue()));
 		node.getAttributes().add(attribute);
 
 		// and to all mapped nodes...
@@ -136,8 +133,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 				addAttribute(rhsNode, (Attribute) EcoreUtil.copy(attribute));
 			}
 			for (NestedCondition ac : rule.getLhs().getNestedConditions()) {
-				Node acNode = ac.getMappings().getImage(lhsNode,
-						ac.getConclusion());
+				Node acNode = ac.getMappings().getImage(lhsNode, ac.getConclusion());
 				if (acNode != null) {
 					addAttribute(acNode, (Attribute) EcoreUtil.copy(attribute));
 				}
@@ -146,17 +142,16 @@ public class AttributeCreateCommand extends EditElementCommand {
 
 		// Clean up:
 		HenshinModelCleaner.cleanRule(rule.getRootRule());
-		
+
 		doConfigure(attribute, monitor, info);
 		((CreateElementRequest) getRequest()).setNewElement(attribute);
 		return CommandResult.newOKCommandResult(attribute);
 	}
 
-	
 	protected List<EAttribute> getCandidateAttributes(Node node) {
 		List<EAttribute> attrs = new ArrayList<EAttribute>();
 		for (EAttribute attr : node.getType().getEAllAttributes()) {
-			if (node.getAttribute(attr)==null) {
+			if (node.getAttribute(attr) == null) {
 				attrs.add(attr);
 			}
 		}
@@ -168,7 +163,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 		});
 		return attrs;
 	}
-	
+
 	/**
 	 * Create a pop-up menu for choosing the unit type.
 	 * @return Pop-up menu instance.
@@ -178,9 +173,9 @@ public class AttributeCreateCommand extends EditElementCommand {
 		ILabelProvider labelProvider = new org.eclipse.jface.viewers.LabelProvider() {
 			@Override
 			public Image getImage(Object element) {
-				return HenshinElementTypes
-						.getImage(HenshinElementTypes.Attribute_3002);
+				return HenshinElementTypes.getImage(HenshinElementTypes.Attribute_3002);
 			}
+
 			@Override
 			public String getText(Object element) {
 				return ((EAttribute) element).getName();
@@ -192,8 +187,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 	private void addAttribute(Node node, Attribute attribute) {
 		Attribute old = node.getAttribute(attribute.getType());
 		if (old != null) {
-			node.getAttributes().set(node.getAttributes().indexOf(old),
-					attribute);
+			node.getAttributes().set(node.getAttributes().indexOf(old), attribute);
 		} else {
 			node.getAttributes().add(attribute);
 		}
@@ -218,17 +212,13 @@ public class AttributeCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(Attribute newElement, IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
-		IElementType elementType = ((CreateElementRequest) getRequest())
-				.getElementType();
-		ConfigureRequest configureRequest = new ConfigureRequest(
-				getEditingDomain(), newElement, elementType);
-		configureRequest.setClientContext(((CreateElementRequest) getRequest())
-				.getClientContext());
+	protected void doConfigure(Attribute newElement, IProgressMonitor monitor, IAdaptable info)
+			throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest()).getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest()).getClientContext());
 		configureRequest.addParameters(getRequest().getParameters());
-		ICommand configureCommand = elementType
-				.getEditCommand(configureRequest);
+		ICommand configureCommand = elementType.getEditCommand(configureRequest);
 		if (configureCommand != null && configureCommand.canExecute()) {
 			configureCommand.execute(monitor, info);
 		}

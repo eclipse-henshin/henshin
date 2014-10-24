@@ -24,11 +24,9 @@ public class ElementInitializers {
 	 * @generated
 	 */
 	public static ElementInitializers getInstance() {
-		ElementInitializers cached = HenshinDiagramEditorPlugin.getInstance()
-				.getElementInitializers();
+		ElementInitializers cached = HenshinDiagramEditorPlugin.getInstance().getElementInitializers();
 		if (cached == null) {
-			HenshinDiagramEditorPlugin.getInstance().setElementInitializers(
-					cached = new ElementInitializers());
+			HenshinDiagramEditorPlugin.getInstance().setElementInitializers(cached = new ElementInitializers());
 		}
 		return cached;
 	}

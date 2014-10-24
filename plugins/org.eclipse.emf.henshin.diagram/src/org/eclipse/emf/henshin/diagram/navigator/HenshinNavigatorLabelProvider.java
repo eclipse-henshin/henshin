@@ -60,20 +60,16 @@ import org.eclipse.ui.navigator.ICommonLabelProvider;
  * @implements IColorProvider
  */
 @SuppressWarnings("unused")
-public class HenshinNavigatorLabelProvider extends LabelProvider implements
-		ICommonLabelProvider, ITreePathLabelProvider, IColorProvider {
+public class HenshinNavigatorLabelProvider extends LabelProvider implements ICommonLabelProvider,
+		ITreePathLabelProvider, IColorProvider {
 
 	/**
 	 * @generated
 	 */
 	static {
-		HenshinDiagramEditorPlugin
-				.getInstance()
-				.getImageRegistry()
+		HenshinDiagramEditorPlugin.getInstance().getImageRegistry()
 				.put("Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
-		HenshinDiagramEditorPlugin
-				.getInstance()
-				.getImageRegistry()
+		HenshinDiagramEditorPlugin.getInstance().getImageRegistry()
 				.put("Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
 	}
 
@@ -87,8 +83,7 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public void updateLabel(ViewerLabel label, TreePath elementPath) {
 		Object element = elementPath.getLastSegment();
-		if (element instanceof HenshinNavigatorItem
-				&& !isOwnView(((HenshinNavigatorItem) element).getView())) {
+		if (element instanceof HenshinNavigatorItem && !isOwnView(((HenshinNavigatorItem) element).getView())) {
 			return;
 		}
 		label.setText(getText(element));
@@ -101,8 +96,7 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	public Image getImage(Object element) {
 		if (element instanceof HenshinNavigatorGroup) {
 			HenshinNavigatorGroup group = (HenshinNavigatorGroup) element;
-			return HenshinDiagramEditorPlugin.getInstance().getBundledImage(
-					group.getIcon());
+			return HenshinDiagramEditorPlugin.getInstance().getBundledImage(group.getIcon());
 		}
 
 		if (element instanceof HenshinNavigatorItem) {
@@ -121,33 +115,31 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public Image getImage(View view) {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
-		case RuleEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2011/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
-		case AttributeEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
-		case EdgeEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Link?http://www.eclipse.org/emf/2011/Henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
-		case InvocationEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Unit", HenshinElementTypes.Unit_3003); //$NON-NLS-1$
-		case UnitEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2011/Henshin?Unit", HenshinElementTypes.Unit_2002); //$NON-NLS-1$
 		case ModuleEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Diagram?http://www.eclipse.org/emf/2011/Henshin?Module", HenshinElementTypes.Module_1000); //$NON-NLS-1$
+		case RuleEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2011/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
+		case UnitEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2011/Henshin?Unit", HenshinElementTypes.Unit_2002); //$NON-NLS-1$
 		case NodeEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Node", HenshinElementTypes.Node_3001); //$NON-NLS-1$
-		case LinkEditPart.VISUAL_ID:
+		case AttributeEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?Link?LinkFigure", HenshinElementTypes.Link_4002); //$NON-NLS-1$
+					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
+		case InvocationEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Unit", HenshinElementTypes.Unit_3003); //$NON-NLS-1$
 		case SymbolEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?SymbolCircleFigure", HenshinElementTypes.Node_3004); //$NON-NLS-1$
+		case EdgeEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?Node?SymbolCircleFigure", HenshinElementTypes.Node_3004); //$NON-NLS-1$
+					"Navigator?Link?http://www.eclipse.org/emf/2011/Henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
+		case LinkEditPart.VISUAL_ID:
+			return getImage("Navigator?Link?LinkFigure", HenshinElementTypes.Link_4002); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -156,11 +148,9 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private Image getImage(String key, IElementType elementType) {
-		ImageRegistry imageRegistry = HenshinDiagramEditorPlugin.getInstance()
-				.getImageRegistry();
+		ImageRegistry imageRegistry = HenshinDiagramEditorPlugin.getInstance().getImageRegistry();
 		Image image = imageRegistry.get(key);
-		if (image == null && elementType != null
-				&& HenshinElementTypes.isKnownElementType(elementType)) {
+		if (image == null && elementType != null && HenshinElementTypes.isKnownElementType(elementType)) {
 			image = HenshinElementTypes.getImage(elementType);
 			imageRegistry.put(key, image);
 		}
@@ -218,17 +208,14 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getNode_3001Text(View view) {
-		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Node_3001,
+		IParser parser = HenshinParserProvider.getParser(HenshinElementTypes.Node_3001,
 				view.getElement() != null ? view.getElement() : view,
 				HenshinVisualIDRegistry.getType(NodeTypeEditPart.VISUAL_ID));
 		if (parser != null) {
-			return parser.getPrintString(new EObjectAdapter(
-					view.getElement() != null ? view.getElement() : view),
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			HenshinDiagramEditorPlugin.getInstance().logError(
-					"Parser was not found for label " + 5002); //$NON-NLS-1$
+			HenshinDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5002); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -248,8 +235,7 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 		if (domainModelElement != null) {
 			return domainModelElement.getName();
 		} else {
-			HenshinDiagramEditorPlugin.getInstance().logError(
-					"No domain element for view with visualID = " + 1000); //$NON-NLS-1$
+			HenshinDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 1000); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -265,17 +251,14 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getRule_2001Text(View view) {
-		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Rule_2001,
+		IParser parser = HenshinParserProvider.getParser(HenshinElementTypes.Rule_2001,
 				view.getElement() != null ? view.getElement() : view,
 				HenshinVisualIDRegistry.getType(RuleNameEditPart.VISUAL_ID));
 		if (parser != null) {
-			return parser.getPrintString(new EObjectAdapter(
-					view.getElement() != null ? view.getElement() : view),
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			HenshinDiagramEditorPlugin.getInstance().logError(
-					"Parser was not found for label " + 5001); //$NON-NLS-1$
+			HenshinDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5001); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -284,17 +267,14 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getAttribute_3002Text(View view) {
-		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Attribute_3002,
+		IParser parser = HenshinParserProvider.getParser(HenshinElementTypes.Attribute_3002,
 				view.getElement() != null ? view.getElement() : view,
 				HenshinVisualIDRegistry.getType(AttributeEditPart.VISUAL_ID));
 		if (parser != null) {
-			return parser.getPrintString(new EObjectAdapter(
-					view.getElement() != null ? view.getElement() : view),
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			HenshinDiagramEditorPlugin.getInstance().logError(
-					"Parser was not found for label " + 3002); //$NON-NLS-1$
+			HenshinDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 3002); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -303,17 +283,14 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getEdge_4001Text(View view) {
-		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Edge_4001,
+		IParser parser = HenshinParserProvider.getParser(HenshinElementTypes.Edge_4001,
 				view.getElement() != null ? view.getElement() : view,
 				HenshinVisualIDRegistry.getType(EdgeTypeEditPart.VISUAL_ID));
 		if (parser != null) {
-			return parser.getPrintString(new EObjectAdapter(
-					view.getElement() != null ? view.getElement() : view),
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			HenshinDiagramEditorPlugin.getInstance().logError(
-					"Parser was not found for label " + 6001); //$NON-NLS-1$
+			HenshinDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 6001); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -322,18 +299,14 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getUnit_3003Text(View view) {
-		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Unit_3003,
+		IParser parser = HenshinParserProvider.getParser(HenshinElementTypes.Unit_3003,
 				view.getElement() != null ? view.getElement() : view,
-				HenshinVisualIDRegistry
-						.getType(InvocationNameEditPart.VISUAL_ID));
+				HenshinVisualIDRegistry.getType(InvocationNameEditPart.VISUAL_ID));
 		if (parser != null) {
-			return parser.getPrintString(new EObjectAdapter(
-					view.getElement() != null ? view.getElement() : view),
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			HenshinDiagramEditorPlugin.getInstance().logError(
-					"Parser was not found for label " + 5005); //$NON-NLS-1$
+			HenshinDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5005); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -342,17 +315,14 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getUnit_2002Text(View view) {
-		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Unit_2002,
+		IParser parser = HenshinParserProvider.getParser(HenshinElementTypes.Unit_2002,
 				view.getElement() != null ? view.getElement() : view,
 				HenshinVisualIDRegistry.getType(UnitNameEditPart.VISUAL_ID));
 		if (parser != null) {
-			return parser.getPrintString(new EObjectAdapter(
-					view.getElement() != null ? view.getElement() : view),
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			HenshinDiagramEditorPlugin.getInstance().logError(
-					"Parser was not found for label " + 5004); //$NON-NLS-1$
+			HenshinDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5004); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -400,8 +370,7 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private boolean isOwnView(View view) {
-		return ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
-				.getModelID(view));
+		return ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry.getModelID(view));
 	}
 
 	/**
@@ -415,10 +384,9 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 				Action action = null;
 				if (view.getElement() instanceof Node) {
 					action = ((Node) view.getElement()).getAction();
-				}
-				else if (view.getElement() instanceof Edge) {
+				} else if (view.getElement() instanceof Edge) {
 					action = ((Edge) view.getElement()).getAction();
-				}			
+				}
 				if (action == null) {
 					return null;
 				}

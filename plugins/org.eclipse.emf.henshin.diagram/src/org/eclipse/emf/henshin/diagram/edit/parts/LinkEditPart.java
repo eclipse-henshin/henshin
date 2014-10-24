@@ -39,8 +39,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class LinkEditPart extends ConnectionNodeEditPart implements
-		ITreeBranchEditPart {
+public class LinkEditPart extends ConnectionNodeEditPart implements ITreeBranchEditPart {
 
 	/**
 	 * @generated
@@ -65,8 +64,7 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	 */
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new ViewComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ViewComponentEditPolicy());
 		removeEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
 	}
 
@@ -85,8 +83,7 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 				arrow = null;
 			}
 			if (unit instanceof PriorityUnit) {
-				figure.add(arrow = createArrowDecoration(4, 7),
-						new MiddleLocator(figure));
+				figure.add(arrow = createArrowDecoration(4, 7), new MiddleLocator(figure));
 			} else {
 				figure.setTargetDecoration(arrow = createArrowDecoration(7, 3));
 			}
@@ -103,16 +100,11 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 				label = null;
 			}
 			if (HenshinLinkUpdater.isIfLink(getUnit(), getNotationView())) {
-				figure.add(label = new Label("if"), new LabelLocator(figure, 0,
-						-10));
-			} else if (HenshinLinkUpdater.isThenLink(getUnit(),
-					getNotationView())) {
-				figure.add(label = new Label("then"), new LabelLocator(figure,
-						10, -10));
-			} else if (HenshinLinkUpdater.isElseLink(getUnit(),
-					getNotationView())) {
-				figure.add(label = new Label("else"), new LabelLocator(figure,
-						10, 10));
+				figure.add(label = new Label("if"), new LabelLocator(figure, 0, -10));
+			} else if (HenshinLinkUpdater.isThenLink(getUnit(), getNotationView())) {
+				figure.add(label = new Label("then"), new LabelLocator(figure, 10, -10));
+			} else if (HenshinLinkUpdater.isElseLink(getUnit(), getNotationView())) {
+				figure.add(label = new Label("else"), new LabelLocator(figure, 10, 10));
 			}
 		}
 	}
@@ -172,8 +164,7 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 
 		// We forbid to delete or reconnect links:
 		Object type = request.getType();
-		if (RequestConstants.REQ_DELETE.equals(type)
-				|| RequestConstants.REQ_RECONNECT_SOURCE.equals(type)
+		if (RequestConstants.REQ_DELETE.equals(type) || RequestConstants.REQ_RECONNECT_SOURCE.equals(type)
 				|| RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
 			return UnexecutableCommand.INSTANCE;
 		}
@@ -208,7 +199,7 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void refreshForegroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.FG_UNIT);
-		if (color!=null) {
+		if (color != null) {
 			setForegroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
 			super.refreshForegroundColor();

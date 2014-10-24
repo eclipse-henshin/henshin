@@ -26,13 +26,14 @@ import org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.gmf.tooling.runtime.parsers.AbstractAttributeParser;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 
 /**
  * @generated NOT
  * @author Christian Krause
  */
-public class NodeActionParser extends AbstractParser {
+public class NodeActionParser extends AbstractAttributeParser {
 	
 	public static final char ACTION_QUOTE_LEFT = ((char) 171);
 	public static final char ACTION_QUOTE_RIGHT = ((char) 187);

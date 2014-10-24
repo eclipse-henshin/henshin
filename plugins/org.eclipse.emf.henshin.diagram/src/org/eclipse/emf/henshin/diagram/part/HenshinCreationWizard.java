@@ -103,8 +103,7 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 	/**
 	 * @generated
 	 */
-	public void setOpenNewlyCreatedDiagramEditor(
-			boolean openNewlyCreatedDiagramEditor) {
+	public void setOpenNewlyCreatedDiagramEditor(boolean openNewlyCreatedDiagramEditor) {
 		this.openNewlyCreatedDiagramEditor = openNewlyCreatedDiagramEditor;
 	}
 
@@ -119,7 +118,7 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 				.getBundledImageDescriptor("icons/wizban/NewHenshinWizard.gif")); //$NON-NLS-1$
 		setNeedsProgressMonitor(true);
 	}
-	
+
 	private ImportPackagesWizardPage importPackagesPage;
 
 	/**
@@ -127,42 +126,37 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public void addPages() {
-		
+
 		// Diagram file page:
-		diagramModelFilePage = new HenshinCreationWizardPage(
-				"DiagramModelFile", getSelection(), "henshin_diagram"); //$NON-NLS-1$ //$NON-NLS-2$
-		diagramModelFilePage
-				.setTitle(Messages.HenshinCreationWizard_DiagramModelFilePageTitle);
-		diagramModelFilePage
-				.setDescription(Messages.HenshinCreationWizard_DiagramModelFilePageDescription);
+		diagramModelFilePage = new HenshinCreationWizardPage("DiagramModelFile", getSelection(), "henshin_diagram"); //$NON-NLS-1$ //$NON-NLS-2$
+		diagramModelFilePage.setTitle(Messages.HenshinCreationWizard_DiagramModelFilePageTitle);
+		diagramModelFilePage.setDescription(Messages.HenshinCreationWizard_DiagramModelFilePageDescription);
 		addPage(diagramModelFilePage);
 
 		// Domain file page:
-		domainModelFilePage = new HenshinCreationWizardPage(
-				"DomainModelFile", getSelection(), "henshin") { //$NON-NLS-1$ //$NON-NLS-2$
+		domainModelFilePage = new HenshinCreationWizardPage("DomainModelFile", getSelection(), "henshin") { //$NON-NLS-1$ //$NON-NLS-2$
 			private boolean activated = false;
+
 			@Override
 			public boolean isPageComplete() {
 				return activated && super.isPageComplete();
 			}
+
 			@Override
 			public void setVisible(boolean visible) {
 				if (visible) {
 					activated = true;
 					String fileName = diagramModelFilePage.getFileName();
 					fileName = fileName.substring(0, fileName.length() - ".henshin_diagram".length()); //$NON-NLS-1$
-					setFileName(HenshinDiagramEditorUtil.getUniqueFileName(
-							getContainerFullPath(), fileName, "henshin")); //$NON-NLS-1$
+					setFileName(HenshinDiagramEditorUtil.getUniqueFileName(getContainerFullPath(), fileName, "henshin")); //$NON-NLS-1$
 				}
 				super.setVisible(visible);
 			}
 		};
-		domainModelFilePage.setTitle(
-				Messages.HenshinCreationWizard_DomainModelFilePageTitle);
-		domainModelFilePage.setDescription(
-				Messages.HenshinCreationWizard_DomainModelFilePageDescription);
+		domainModelFilePage.setTitle(Messages.HenshinCreationWizard_DomainModelFilePageTitle);
+		domainModelFilePage.setDescription(Messages.HenshinCreationWizard_DomainModelFilePageDescription);
 		addPage(domainModelFilePage);
-		
+
 		// Import packages page:
 		importPackagesPage = new ImportPackagesWizardPage("importPackages");
 		addPage(importPackagesPage);
@@ -173,27 +167,26 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 	 * @generated NOT
 	 */
 	public boolean performFinish() {
-		
+
 		// Create a workspace operation:
 		IRunnableWithProgress op = new WorkspaceModifyOperation(null) {
 
-			protected void execute(IProgressMonitor monitor)
-					throws CoreException, InterruptedException {
-				
+			protected void execute(IProgressMonitor monitor) throws CoreException, InterruptedException {
+
 				// Create the diagram and model resources:
-				diagram = HenshinDiagramEditorUtil.createDiagram(
-						diagramModelFilePage.getURI(),
-						domainModelFilePage.getURI(), 
-						monitor);
-				
+				diagram = HenshinDiagramEditorUtil.createDiagram(diagramModelFilePage.getURI(),
+						domainModelFilePage.getURI(), monitor);
+
 				// Add the imported packages:
 				final ResourceSet resourceSet = diagram.getResourceSet();
 				final Diagram theDiagram = (Diagram) diagram.getContents().get(0);
 				final Module module = (Module) theDiagram.getElement();
 				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(theDiagram);
 				if (editingDomain != null) {
-					AbstractTransactionalCommand command = new AbstractTransactionalCommand(editingDomain, "Import Packages", null) {
-						protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+					AbstractTransactionalCommand command = new AbstractTransactionalCommand(editingDomain,
+							"Import Packages", null) {
+						protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info)
+								throws ExecutionException {
 							for (URI uri : importPackagesPage.getPackageURIs()) {
 								EObject object = resourceSet.getEObject(uri, true);
 								if (object instanceof EPackage) {
@@ -213,24 +206,22 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 					try {
 						command.execute(null, null);
 					} catch (ExecutionException e) {
-						HenshinDiagramEditorPlugin.getInstance().logError(
-								"Error creating diagram", e); //$NON-NLS-1$
+						HenshinDiagramEditorPlugin.getInstance().logError("Error creating diagram", e); //$NON-NLS-1$
 					}
 				}
-				
+
 				// Open in editor:
 				if (isOpenNewlyCreatedDiagramEditor() && diagram != null) {
 					try {
 						HenshinDiagramEditorUtil.openDiagram(diagram);
 					} catch (PartInitException e) {
-						ErrorDialog.openError(getContainer().getShell(),
-								Messages.HenshinCreationWizardOpenEditorError,
+						ErrorDialog.openError(getContainer().getShell(), Messages.HenshinCreationWizardOpenEditorError,
 								null, e.getStatus());
 					}
 				}
 			}
 		};
-		
+
 		// Execute the operation:
 		try {
 			getContainer().run(false, true, op);
@@ -238,18 +229,16 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			if (e.getTargetException() instanceof CoreException) {
-				ErrorDialog.openError(getContainer().getShell(),
-						Messages.HenshinCreationWizardCreationError, null,
+				ErrorDialog.openError(getContainer().getShell(), Messages.HenshinCreationWizardCreationError, null,
 						((CoreException) e.getTargetException()).getStatus());
 			} else {
-				HenshinDiagramEditorPlugin.getInstance().logError(
-						"Error creating diagram", e.getTargetException()); //$NON-NLS-1$
+				HenshinDiagramEditorPlugin.getInstance().logError("Error creating diagram", e.getTargetException()); //$NON-NLS-1$
 			}
 			return false;
 		}
-		
+
 		// Done.
 		return diagram != null;
-		
+
 	}
 }

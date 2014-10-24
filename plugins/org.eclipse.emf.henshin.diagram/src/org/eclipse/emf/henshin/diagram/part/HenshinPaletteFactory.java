@@ -10,17 +10,16 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import java.util.Collections;
-import java.util.List;
 
+import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.LongLivingLinkToolEntry;
+import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.LongLivingNodeToolEntry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
-import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.ToolEntry;
-import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
-import org.eclipse.gmf.runtime.emf.type.core.IElementType;
+import org.eclipse.gmf.tooling.runtime.part.DefaultNodeToolEntry;
 
 /**
  * @generated
@@ -41,8 +40,7 @@ public class HenshinPaletteFactory {
 	private PaletteContainer createHenshin1Group() {
 
 		// Main palette group:
-		PaletteGroup paletteContainer = new PaletteGroup(
-				Messages.Henshin1Group_title);
+		PaletteGroup paletteContainer = new PaletteGroup(Messages.Henshin1Group_title);
 		paletteContainer.setId("createHenshin1Group"); //$NON-NLS-1$
 
 		// Rules:
@@ -65,13 +63,10 @@ public class HenshinPaletteFactory {
 	 */
 	private ToolEntry createNodeCreationTool() {
 		// Override the default image:
-		NodeToolEntry entry = new NodeToolEntry(
-				Messages.NodeCreationTool_title,
-				Messages.NodeCreationTool_desc,
-				Collections.singletonList(HenshinElementTypes.Node_3001));
+		LongLivingNodeToolEntry entry = new LongLivingNodeToolEntry(Messages.NodeCreationTool_title,
+				Messages.NodeCreationTool_desc, Collections.singletonList(HenshinElementTypes.Node_3001));
 		entry.setId("createNodeCreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinDiagramEditorPlugin
-				.getBundledImageDescriptor("icons/obj16/Node.png"));
+		entry.setSmallIcon(HenshinDiagramEditorPlugin.getBundledImageDescriptor("icons/obj16/Node.png"));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}
@@ -80,43 +75,34 @@ public class HenshinPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createRule1CreationTool() {
-		NodeToolEntry entry = new NodeToolEntry(
-				Messages.Rule1CreationTool_title,
-				Messages.Rule1CreationTool_desc,
-				Collections.singletonList(HenshinElementTypes.Rule_2001));
+		DefaultNodeToolEntry entry = new DefaultNodeToolEntry(Messages.Rule1CreationTool_title,
+				Messages.Rule1CreationTool_desc, Collections.singletonList(HenshinElementTypes.Rule_2001));
 		entry.setId("createRule1CreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinElementTypes
-				.getImageDescriptor(HenshinElementTypes.Rule_2001));
+		entry.setSmallIcon(HenshinElementTypes.getImageDescriptor(HenshinElementTypes.Rule_2001));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createEdge2CreationTool() {
-		LinkToolEntry entry = new LinkToolEntry(
-				Messages.Edge2CreationTool_title,
-				Messages.Edge2CreationTool_desc,
-				Collections.singletonList(HenshinElementTypes.Edge_4001));
+		LongLivingLinkToolEntry entry = new LongLivingLinkToolEntry(Messages.Edge2CreationTool_title,
+				Messages.Edge2CreationTool_desc, Collections.singletonList(HenshinElementTypes.Edge_4001));
 		entry.setId("createEdge2CreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinElementTypes
-				.getImageDescriptor(HenshinElementTypes.Edge_4001));
+		entry.setSmallIcon(HenshinElementTypes.getImageDescriptor(HenshinElementTypes.Edge_4001));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createAttribute3CreationTool() {
-		NodeToolEntry entry = new NodeToolEntry(
-				Messages.Attribute3CreationTool_title,
-				Messages.Attribute3CreationTool_desc,
-				Collections.singletonList(HenshinElementTypes.Attribute_3002));
+		LongLivingNodeToolEntry entry = new LongLivingNodeToolEntry(Messages.Attribute3CreationTool_title,
+				Messages.Attribute3CreationTool_desc, Collections.singletonList(HenshinElementTypes.Attribute_3002));
 		entry.setId("createAttribute3CreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinElementTypes
-				.getImageDescriptor(HenshinElementTypes.Attribute_3002));
+		entry.setSmallIcon(HenshinElementTypes.getImageDescriptor(HenshinElementTypes.Attribute_3002));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}
@@ -125,13 +111,10 @@ public class HenshinPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createUnit5CreationToolGen() {
-		NodeToolEntry entry = new NodeToolEntry(
-				Messages.Unit5CreationTool_title,
-				Messages.Unit5CreationTool_desc,
-				Collections.singletonList(HenshinElementTypes.Unit_2002));
+		DefaultNodeToolEntry entry = new DefaultNodeToolEntry(Messages.Unit5CreationTool_title,
+				Messages.Unit5CreationTool_desc, Collections.singletonList(HenshinElementTypes.Unit_2002));
 		entry.setId("createUnit5CreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinElementTypes
-				.getImageDescriptor(HenshinElementTypes.Unit_2002));
+		entry.setSmallIcon(HenshinElementTypes.getImageDescriptor(HenshinElementTypes.Unit_2002));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}
@@ -141,24 +124,8 @@ public class HenshinPaletteFactory {
 	 */
 	private ToolEntry createUnit5CreationTool() {
 		// Override the default image:
-		NodeToolEntry entry = (NodeToolEntry) createUnit5CreationToolGen();
-		entry.setSmallIcon(HenshinDiagramEditorPlugin
-				.getBundledImageDescriptor("icons/obj16/Unit.png"));
-		entry.setLargeIcon(entry.getSmallIcon());
-		return entry;
-	}
-
-	/**
-	 * @generated
-	 */
-	private ToolEntry createInvocation6CreationToolGen() {
-		NodeToolEntry entry = new NodeToolEntry(
-				Messages.Invocation6CreationTool_title,
-				Messages.Invocation6CreationTool_desc,
-				Collections.singletonList(HenshinElementTypes.Unit_3003));
-		entry.setId("createInvocation6CreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinElementTypes
-				.getImageDescriptor(HenshinElementTypes.Unit_3003));
+		DefaultNodeToolEntry entry = (DefaultNodeToolEntry) createUnit5CreationToolGen();
+		entry.setSmallIcon(HenshinDiagramEditorPlugin.getBundledImageDescriptor("icons/obj16/Unit.png"));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}
@@ -167,79 +134,12 @@ public class HenshinPaletteFactory {
 	 * @generated NOT
 	 */
 	private ToolEntry createInvocation6CreationTool() {
-		// Override the default image:
-		NodeToolEntry entry = (NodeToolEntry) createInvocation6CreationToolGen();
-		entry.setSmallIcon(HenshinDiagramEditorPlugin
-				.getBundledImageDescriptor("icons/obj16/Invocation.png"));
+		LongLivingNodeToolEntry entry = new LongLivingNodeToolEntry(Messages.Invocation6CreationTool_title,
+				Messages.Invocation6CreationTool_desc, Collections.singletonList(HenshinElementTypes.Unit_3003));
+		entry.setId("createInvocation6CreationTool"); //$NON-NLS-1$
+		entry.setSmallIcon(HenshinDiagramEditorPlugin.getBundledImageDescriptor("icons/obj16/Invocation.png"));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
-	}
-
-	/**
-	 * @generated
-	 */
-	private static class NodeToolEntry extends ToolEntry {
-
-		/**
-		 * @generated
-		 */
-		private final List<IElementType> elementTypes;
-
-		/**
-		 * @generated
-		 */
-		private NodeToolEntry(String title, String description,
-				List<IElementType> elementTypes) {
-			super(title, description, null, null);
-			this.elementTypes = elementTypes;
-		}
-
-		/**
-		 * @generated NOT
-		 */
-		public Tool createTool() {
-			Tool tool;
-			if (elementTypes.contains(HenshinElementTypes.Node_3001) ||
-				elementTypes.contains(HenshinElementTypes.Edge_4001) ||
-				elementTypes.contains(HenshinElementTypes.Attribute_3002) ||
-				elementTypes.contains(HenshinElementTypes.Unit_3003)) {
-				tool = new HenshinPaletteTools.LongLivingCreationTool(elementTypes);
-			} else {
-				tool = new UnspecifiedTypeCreationTool(elementTypes);
-			}
-			tool.setProperties(getToolProperties());
-			return tool;
-		}
-		
-	}
-
-	/**
-	 * @generated
-	 */
-	private static class LinkToolEntry extends ToolEntry {
-
-		/**
-		 * @generated
-		 */
-		private final List<IElementType> relationshipTypes;
-
-		/**
-		 * @generated
-		 */
-		private LinkToolEntry(String title, String description,
-				List<IElementType> relationshipTypes) {
-			super(title, description, null, null);
-			this.relationshipTypes = relationshipTypes;
-		}
-
-		/**
-		 * @generated NOT
-		 */
-		public Tool createTool() {
-			Tool tool = new HenshinPaletteTools.LongLivingConnectionTool(relationshipTypes);
-			tool.setProperties(getToolProperties());
-			return tool;
-		}
 	}
 
 }

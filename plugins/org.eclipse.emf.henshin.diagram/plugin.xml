@@ -272,13 +272,42 @@
 
    <extension point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders" id="modelassist-provider">
       <?gmfgen generated="true"?>
-      <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinModelingAssistantProvider">
+      <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfModuleEditPart">
          <Priority name="Lowest"/>
          <object class="org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart" id="Module_1000"/>
-         <object class="org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart" id="Rule_2001"/>
-         <object class="org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart" id="Unit_2002"/>
-         <context elements="Module_1000,Rule_2001,Unit_2002"/>
+         <context elements="Module_1000"/>
       </modelingAssistantProvider>
+            <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfRuleEditPart">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart" id="Rule_2001"/>
+         <context elements="Rule_2001"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfUnitEditPart">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart" id="Unit_2002"/>
+         <context elements="Unit_2002"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfNodeEditPart">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart" id="Node_3001"/>
+         <context elements="Node_3001"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfAttributeEditPart">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart" id="Attribute_3002"/>
+         <context elements="Attribute_3002"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfSymbolEditPart">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart" id="Node_3004"/>
+         <context elements="Node_3004"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.assistants.HenshinModelingAssistantProviderOfInvocationEditPart">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart" id="Unit_3003"/>
+         <context elements="Unit_3003"/>
+      </modelingAssistantProvider>
+      
    </extension>
 
    <extension point="org.eclipse.gmf.runtime.common.ui.services.iconProviders" id="icon-provider">

@@ -37,6 +37,7 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.parsers.AbstractAttributeParser;
 
 /**
  * Parser for unit names including its parameters. If a list of parameters names
@@ -48,7 +49,7 @@ import org.eclipse.gmf.runtime.notation.View;
  * @author Christian Krause
  * @author Stefan Jurack (sjurack)
  */
-public class UnitNameParser extends AbstractParser {
+public class UnitNameParser extends AbstractAttributeParser {
 	
 	/**
 	 * If this pattern matches, a unit name is given, which may be followed by a

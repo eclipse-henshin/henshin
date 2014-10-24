@@ -38,8 +38,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class NodeItemSemanticEditPolicy extends
-		HenshinBaseItemSemanticEditPolicy {
+public class NodeItemSemanticEditPolicy extends HenshinBaseItemSemanticEditPolicy {
 
 	/**
 	 * @generated
@@ -59,8 +58,7 @@ public class NodeItemSemanticEditPolicy extends
 		Node node = (Node) request.getElementToDestroy();
 
 		// Create a composite command:
-		CompositeTransactionalCommand composite = new CompositeTransactionalCommand(
-				getEditingDomain(), null);
+		CompositeTransactionalCommand composite = new CompositeTransactionalCommand(getEditingDomain(), null);
 		composite.setTransactionNestingEnabled(false);
 
 		// Delete coinciding edges:
@@ -69,10 +67,8 @@ public class NodeItemSemanticEditPolicy extends
 		edges.addAll(view.getTargetEdges());
 		for (Edge edge : edges) {
 			if (HenshinVisualIDRegistry.getVisualID(edge) == EdgeEditPart.VISUAL_ID) {
-				composite
-						.add(new EdgeDeleteCommand(getEditingDomain(),
-								(org.eclipse.emf.henshin.model.Edge) edge
-										.getElement()));
+				composite.add(new EdgeDeleteCommand(getEditingDomain(), (org.eclipse.emf.henshin.model.Edge) edge
+						.getElement()));
 				composite.add(new DeleteCommand(getEditingDomain(), edge));
 			}
 		}
@@ -97,19 +93,15 @@ public class NodeItemSemanticEditPolicy extends
 	private void addDestroyChildNodesCommand(ICompositeCommand cmd) {
 		View view = (View) getHost().getModel();
 		for (Iterator<?> nit = view.getChildren().iterator(); nit.hasNext();) {
-			org.eclipse.gmf.runtime.notation.Node node = (org.eclipse.gmf.runtime.notation.Node) nit
-					.next();
+			org.eclipse.gmf.runtime.notation.Node node = (org.eclipse.gmf.runtime.notation.Node) nit.next();
 			switch (HenshinVisualIDRegistry.getVisualID(node)) {
 			case NodeCompartmentEditPart.VISUAL_ID:
-				for (Iterator<?> cit = node.getChildren().iterator(); cit
-						.hasNext();) {
-					org.eclipse.gmf.runtime.notation.Node cnode = (org.eclipse.gmf.runtime.notation.Node) cit
-							.next();
+				for (Iterator<?> cit = node.getChildren().iterator(); cit.hasNext();) {
+					org.eclipse.gmf.runtime.notation.Node cnode = (org.eclipse.gmf.runtime.notation.Node) cit.next();
 					switch (HenshinVisualIDRegistry.getVisualID(cnode)) {
 					case AttributeEditPart.VISUAL_ID:
-						cmd.add(new DestroyElementCommand(
-								new DestroyElementRequest(getEditingDomain(),
-										cnode.getElement(), false))); // directlyOwned: true
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode
+								.getElement(), false))); // directlyOwned: true
 						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
 						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
 						break;
@@ -126,18 +118,15 @@ public class NodeItemSemanticEditPolicy extends
 	protected Command getCreateRelationshipCommand(CreateRelationshipRequest req) {
 		Command command = req.getTarget() == null ? getStartCreateRelationshipCommand(req)
 				: getCompleteCreateRelationshipCommand(req);
-		return command != null ? command : super
-				.getCreateRelationshipCommand(req);
+		return command != null ? command : super.getCreateRelationshipCommand(req);
 	}
 
 	/**
 	 * @generated
 	 */
-	protected Command getStartCreateRelationshipCommand(
-			CreateRelationshipRequest req) {
+	protected Command getStartCreateRelationshipCommand(CreateRelationshipRequest req) {
 		if (HenshinElementTypes.Edge_4001 == req.getElementType()) {
-			return getGEFWrapper(new EdgeCreateCommand(req, req.getSource(),
-					req.getTarget()));
+			return getGEFWrapper(new EdgeCreateCommand(req, req.getSource(), req.getTarget()));
 		}
 		return null;
 	}
@@ -145,11 +134,9 @@ public class NodeItemSemanticEditPolicy extends
 	/**
 	 * @generated
 	 */
-	protected Command getCompleteCreateRelationshipCommand(
-			CreateRelationshipRequest req) {
+	protected Command getCompleteCreateRelationshipCommand(CreateRelationshipRequest req) {
 		if (HenshinElementTypes.Edge_4001 == req.getElementType()) {
-			return getGEFWrapper(new EdgeCreateCommand(req, req.getSource(),
-					req.getTarget()));
+			return getGEFWrapper(new EdgeCreateCommand(req, req.getSource(), req.getTarget()));
 		}
 		return null;
 	}
@@ -160,8 +147,7 @@ public class NodeItemSemanticEditPolicy extends
 	 * 
 	 * @generated
 	 */
-	protected Command getReorientRelationshipCommand(
-			ReorientRelationshipRequest req) {
+	protected Command getReorientRelationshipCommand(ReorientRelationshipRequest req) {
 		switch (getVisualID(req)) {
 		case EdgeEditPart.VISUAL_ID:
 			return getGEFWrapper(new EdgeReorientCommand(req));

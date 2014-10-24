@@ -12,6 +12,13 @@
       interfacePackageSuffix="model" metaDataPackageSuffix="model" classPackageSuffix="model.impl"
       utilityPackageSuffix="model.util" ecorePackage="henshin.ecore#/">
     <genDataTypes ecoreDataType="henshin.ecore#//Action"/>
+    <genClasses image="false" ecoreClass="henshin.ecore#//ModelElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ModelElement/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Annotation/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Annotation/value"/>
+    </genClasses>
     <genClasses ecoreClass="henshin.ecore#//NamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//NamedElement/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//NamedElement/description"/>
@@ -54,6 +61,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Rule/injectiveMatching"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/multiRules"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/multiMappings"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Rule/javaImports"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getKernelRule"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getRootRule"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getMultiRule">
@@ -127,6 +135,8 @@
       <genOperations ecoreOperation="henshin.ecore#//Graph/getNAC">
         <genParameters ecoreParameter="henshin.ecore#//Graph/getNAC/name"/>
       </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/getPACs"/>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/getNACs"/>
       <genOperations ecoreOperation="henshin.ecore#//Graph/isLhs"/>
       <genOperations ecoreOperation="henshin.ecore#//Graph/isRhs"/>
       <genOperations ecoreOperation="henshin.ecore#//Graph/isNestedCondition"/>

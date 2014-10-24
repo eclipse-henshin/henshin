@@ -17,8 +17,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 /**
  * @generated
  */
-public class NodeCompartmentItemSemanticEditPolicy extends
-		HenshinBaseItemSemanticEditPolicy {
+public class NodeCompartmentItemSemanticEditPolicy extends HenshinBaseItemSemanticEditPolicy {
 
 	/**
 	 * @generated

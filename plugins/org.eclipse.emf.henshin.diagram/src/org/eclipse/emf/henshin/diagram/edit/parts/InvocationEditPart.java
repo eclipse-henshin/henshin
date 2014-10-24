@@ -70,8 +70,7 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 	 */
 	protected void createDefaultEditPoliciesGen() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new InvocationItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new InvocationItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
@@ -93,8 +92,7 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
 
 			protected EditPolicy createChildEditPolicy(EditPart child) {
-				EditPolicy result = child
-						.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
+				EditPolicy result = child.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
 				if (result == null) {
 					result = new NonResizableEditPolicy();
 				}
@@ -131,8 +129,7 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof InvocationNameEditPart) {
-			((InvocationNameEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getInvocationNameFigure());
+			((InvocationNameEditPart) childEditPart).setLabel(getPrimaryShape().getInvocationNameFigure());
 			return true;
 		}
 		return false;
@@ -231,7 +228,7 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshForegroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.FG_INVOCATION);
-		if (color!=null) {
+		if (color != null) {
 			setForegroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
 			super.refreshForegroundColor();
@@ -244,7 +241,7 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshBackgroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.BG_INVOCATION);
-		if (color!=null) {
+		if (color != null) {
 			setBackgroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
 			super.refreshBackgroundColor();
@@ -291,8 +288,7 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	public EditPart getPrimaryChildEditPart() {
-		return getChildBySemanticHint(HenshinVisualIDRegistry
-				.getType(InvocationNameEditPart.VISUAL_ID));
+		return getChildBySemanticHint(HenshinVisualIDRegistry.getType(InvocationNameEditPart.VISUAL_ID));
 	}
 
 	/**
@@ -315,8 +311,7 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 			layoutThis.makeColumnsEqualWidth = true;
 			this.setLayoutManager(layoutThis);
 
-			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(8),
-					getMapMode().DPtoLP(8)));
+			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(8), getMapMode().DPtoLP(8)));
 			createContents();
 		}
 
@@ -326,11 +321,11 @@ public class InvocationEditPart extends ShapeNodeEditPart {
 		private void createContents() {
 
 			fInvocationNameFigure = new WrappingLabel();
+
 			fInvocationNameFigure.setText("null");
 
-			fInvocationNameFigure.setBorder(new MarginBorder(getMapMode()
-					.DPtoLP(2), getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
-					getMapMode().DPtoLP(2)));
+			fInvocationNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			GridData constraintFInvocationNameFigure = new GridData();
 			constraintFInvocationNameFigure.verticalAlignment = GridData.CENTER;

@@ -21,7 +21,6 @@ public class DiagramPrintingPreferencePage extends PrintingPreferencePage {
 	 * @generated
 	 */
 	public DiagramPrintingPreferencePage() {
-		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance()
-				.getPreferenceStore());
+		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance().getPreferenceStore());
 	}
 }

@@ -33,9 +33,9 @@ public class ModuleEditHelper extends HenshinBaseEditHelper {
 	 * @return an array which contains all EClassifier with the given name.
 	 */
 	public static EClassifier[] getEClassifiers(Module module, String name) {
-		
+
 		// Name must be set:
-		if (name==null) {
+		if (name == null) {
 			return new EClassifier[] {};
 		}
 
@@ -74,7 +74,7 @@ public class ModuleEditHelper extends HenshinBaseEditHelper {
 	 */
 	private static EClassifier getEClassifier(EPackage epackage, String[] qualifiedName, int index) {
 		EClassifier classifier = null;
-		if (index < (qualifiedName.length-1)) {
+		if (index < (qualifiedName.length - 1)) {
 			for (EPackage subPackage : epackage.getESubpackages()) {
 				if (subPackage.getName().equals(qualifiedName[index])) {
 					classifier = getEClassifier(subPackage, qualifiedName, index + 1);
@@ -82,7 +82,7 @@ public class ModuleEditHelper extends HenshinBaseEditHelper {
 				}
 			}
 		} else {
-			classifier = epackage.getEClassifier(qualifiedName[qualifiedName.length-1]);
+			classifier = epackage.getEClassifier(qualifiedName[qualifiedName.length - 1]);
 		}
 		return classifier;
 	}

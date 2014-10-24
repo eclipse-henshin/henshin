@@ -42,8 +42,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class HenshinParserProvider extends AbstractProvider implements
-		IParserProvider {
+public class HenshinParserProvider extends AbstractProvider implements IParserProvider {
 
 	/**
 	 * @generated
@@ -55,12 +54,9 @@ public class HenshinParserProvider extends AbstractProvider implements
 	 */
 	private IParser getRuleName_5001Parser() {
 		if (ruleName_5001Parser == null) {
-			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE
-					.getNamedElement_Name() };
-			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE
-					.getNamedElement_Name() };
-			MessageFormatParser parser = new MessageFormatParser(features,
-					editableFeatures);
+			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() };
+			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
 			parser.setViewPattern("{0}"); //$NON-NLS-1$
 			parser.setEditorPattern("{0}"); //$NON-NLS-1$
 			parser.setEditPattern("{0}"); //$NON-NLS-1$
@@ -79,12 +75,9 @@ public class HenshinParserProvider extends AbstractProvider implements
 	 */
 	private IParser getUnitName_5004Parser() {
 		if (unitName_5004Parser == null) {
-			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE
-					.getNamedElement_Name() };
-			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE
-					.getNamedElement_Name() };
-			MessageFormatParser parser = new MessageFormatParser(features,
-					editableFeatures);
+			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() };
+			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
 			parser.setViewPattern("{0}"); //$NON-NLS-1$
 			parser.setEditorPattern("{0}"); //$NON-NLS-1$
 			parser.setEditPattern("{0}"); //$NON-NLS-1$
@@ -152,10 +145,8 @@ public class HenshinParserProvider extends AbstractProvider implements
 	 * Utility method that consults ParserService
 	 * @generated
 	 */
-	public static IParser getParser(IElementType type, EObject object,
-			String parserHint) {
-		return ParserService.getInstance().getParser(
-				new HintAdapter(type, object, parserHint));
+	public static IParser getParser(IElementType type, EObject object, String parserHint) {
+		return ParserService.getInstance().getParser(new HintAdapter(type, object, parserHint));
 	}
 
 	/**

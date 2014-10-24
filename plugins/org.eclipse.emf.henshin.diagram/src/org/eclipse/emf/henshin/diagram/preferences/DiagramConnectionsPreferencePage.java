@@ -23,16 +23,14 @@ public class DiagramConnectionsPreferencePage extends ConnectionsPreferencePage 
 	 * @generated
 	 */
 	public DiagramConnectionsPreferencePage() {
-		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance()
-				.getPreferenceStore());
+		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance().getPreferenceStore());
 	}
-	
+
 	@Override
 	protected void addFieldEditors(Composite composite) {
 		addField(new BooleanFieldEditor(DiagramPreferenceInitializer.CREATE_CONTAINMENT_EDGES,
-		        "Auto-Create Containment Edges", getFieldEditorParent()));
+				"Auto-Create Containment Edges", getFieldEditorParent()));
 		super.addFieldEditors(composite);
 	}
-	
-	
+
 }

@@ -68,8 +68,7 @@ public class UnitCreateCommand extends EditElementCommand {
 	 * @generated
 	 */
 	protected EObject getElementToEdit() {
-		EObject container = ((CreateElementRequest) getRequest())
-				.getContainer();
+		EObject container = ((CreateElementRequest) getRequest()).getContainer();
 		if (container instanceof View) {
 			container = ((View) container).getElement();
 		}
@@ -88,8 +87,7 @@ public class UnitCreateCommand extends EditElementCommand {
 	 * We need to ask the user what kind of transformation unit should be created.
 	 * @generated NOT
 	 */
-	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
+	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 
 		// The fall-back unit type if the shell is not set:
 		EClass unitType = HenshinPackage.eINSTANCE.getSequentialUnit();
@@ -113,8 +111,7 @@ public class UnitCreateCommand extends EditElementCommand {
 			if (unit instanceof ConditionalUnit) {
 				Unit ifUnit = targets.remove(0);
 				Unit thenUnit = targets.isEmpty() ? ifUnit : targets.remove(0);
-				Unit elseUnit = targets.isEmpty() ? thenUnit : targets
-						.remove(0);
+				Unit elseUnit = targets.isEmpty() ? thenUnit : targets.remove(0);
 				((ConditionalUnit) unit).setIf(ifUnit);
 				((ConditionalUnit) unit).setThen(thenUnit);
 				((ConditionalUnit) unit).setElse(elseUnit);
@@ -199,17 +196,12 @@ public class UnitCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(Unit newElement, IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
-		IElementType elementType = ((CreateElementRequest) getRequest())
-				.getElementType();
-		ConfigureRequest configureRequest = new ConfigureRequest(
-				getEditingDomain(), newElement, elementType);
-		configureRequest.setClientContext(((CreateElementRequest) getRequest())
-				.getClientContext());
+	protected void doConfigure(Unit newElement, IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest()).getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest()).getClientContext());
 		configureRequest.addParameters(getRequest().getParameters());
-		ICommand configureCommand = elementType
-				.getEditCommand(configureRequest);
+		ICommand configureCommand = elementType.getEditCommand(configureRequest);
 		if (configureCommand != null && configureCommand.canExecute()) {
 			configureCommand.execute(monitor, info);
 		}

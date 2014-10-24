@@ -20,15 +20,13 @@ import org.eclipse.ui.navigator.ICommonLabelProvider;
 /**
  * @generated
  */
-public class HenshinDomainNavigatorLabelProvider implements
-		ICommonLabelProvider {
+public class HenshinDomainNavigatorLabelProvider implements ICommonLabelProvider {
 
 	/**
 	 * @generated
 	 */
 	private AdapterFactoryLabelProvider myAdapterFactoryLabelProvider = new AdapterFactoryLabelProvider(
-			HenshinDiagramEditorPlugin.getInstance()
-					.getItemProvidersAdapterFactory());
+			HenshinDiagramEditorPlugin.getInstance().getItemProvidersAdapterFactory());
 
 	/**
 	 * @generated
@@ -41,9 +39,7 @@ public class HenshinDomainNavigatorLabelProvider implements
 	 */
 	public Image getImage(Object element) {
 		if (element instanceof HenshinDomainNavigatorItem) {
-			return myAdapterFactoryLabelProvider
-					.getImage(((HenshinDomainNavigatorItem) element)
-							.getEObject());
+			return myAdapterFactoryLabelProvider.getImage(((HenshinDomainNavigatorItem) element).getEObject());
 		}
 		return null;
 	}
@@ -53,9 +49,7 @@ public class HenshinDomainNavigatorLabelProvider implements
 	 */
 	public String getText(Object element) {
 		if (element instanceof HenshinDomainNavigatorItem) {
-			return myAdapterFactoryLabelProvider
-					.getText(((HenshinDomainNavigatorItem) element)
-							.getEObject());
+			return myAdapterFactoryLabelProvider.getText(((HenshinDomainNavigatorItem) element).getEObject());
 		}
 		return null;
 	}

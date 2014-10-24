@@ -21,7 +21,6 @@ public class DiagramGeneralPreferencePage extends DiagramsPreferencePage {
 	 * @generated
 	 */
 	public DiagramGeneralPreferencePage() {
-		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance()
-				.getPreferenceStore());
+		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance().getPreferenceStore());
 	}
 }

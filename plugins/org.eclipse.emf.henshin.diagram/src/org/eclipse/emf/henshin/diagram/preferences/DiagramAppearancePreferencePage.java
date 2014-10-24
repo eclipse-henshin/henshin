@@ -21,7 +21,6 @@ public class DiagramAppearancePreferencePage extends AppearancePreferencePage {
 	 * @generated
 	 */
 	public DiagramAppearancePreferencePage() {
-		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance()
-				.getPreferenceStore());
+		setPreferenceStore(HenshinDiagramEditorPlugin.getInstance().getPreferenceStore());
 	}
 }

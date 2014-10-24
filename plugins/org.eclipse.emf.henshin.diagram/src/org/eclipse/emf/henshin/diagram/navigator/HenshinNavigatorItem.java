@@ -30,8 +30,7 @@ public class HenshinNavigatorItem extends HenshinAbstractNavigatorItem {
 			public Object getAdapter(Object adaptableObject, Class adapterType) {
 				if (adaptableObject instanceof org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem
 						&& (adapterType == View.class || adapterType == EObject.class)) {
-					return ((org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) adaptableObject)
-							.getView();
+					return ((org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) adaptableObject).getView();
 				}
 				return null;
 			}
@@ -80,11 +79,8 @@ public class HenshinNavigatorItem extends HenshinAbstractNavigatorItem {
 	 */
 	public boolean equals(Object obj) {
 		if (obj instanceof org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) {
-			return EcoreUtil
-					.getURI(getView())
-					.equals(EcoreUtil
-							.getURI(((org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) obj)
-									.getView()));
+			return EcoreUtil.getURI(getView()).equals(
+					EcoreUtil.getURI(((org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) obj).getView()));
 		}
 		return super.equals(obj);
 	}

@@ -25,24 +25,24 @@ import org.eclipse.gmf.runtime.notation.View;
  * @generated
  */
 public class RuleEditHelper extends HenshinBaseEditHelper {
-	
+
 	public static class RuleListener extends EContentAdapter {
-		
+
 		private Rule rule;
-		
+
 		/**
 		 * Default constructor.
 		 */
 		public RuleListener(EObject ruleElement) {
-			while (ruleElement!=null && !(ruleElement instanceof Rule)) {
+			while (ruleElement != null && !(ruleElement instanceof Rule)) {
 				ruleElement = ruleElement.eContainer();
 			}
-			if (ruleElement==null) {
+			if (ruleElement == null) {
 				throw new IllegalArgumentException();
 			}
 			this.rule = (Rule) ruleElement;
 		}
-		
+
 		/**
 		 * Dispose this listener.
 		 */
@@ -50,20 +50,20 @@ public class RuleEditHelper extends HenshinBaseEditHelper {
 			rule.eAdapters().remove(rule);
 		}
 	}
-	
+
 	/*
 	 * Keys for default action eAnnotations.
 	 */
 	private static final String DEFAULT_ACTION_EANNOTATION_KEY = "defaultAction";
 	private static final String DEFAULT_ACTION_VALUE_KEY = "value";
-		
+
 	public static Action getDefaultAction(Rule rule) {
 		View ruleView = findRuleView(rule.getRootRule());
-		if (ruleView!=null) {
+		if (ruleView != null) {
 			EAnnotation annotation = ruleView.getEAnnotation(DEFAULT_ACTION_EANNOTATION_KEY);
-			if (annotation!=null) {
+			if (annotation != null) {
 				String value = annotation.getDetails().get("value");
-				if (value!=null) {
+				if (value != null) {
 					try {
 						return Action.parse(value);
 					} catch (Throwable t) {
@@ -78,21 +78,20 @@ public class RuleEditHelper extends HenshinBaseEditHelper {
 
 	public static void setDefaultAction(Rule rule, Action action) {
 		View ruleView = findRuleView(rule.getRootRule());
-		if (ruleView!=null) {
+		if (ruleView != null) {
 			EAnnotation annotation = ruleView.getEAnnotation(DEFAULT_ACTION_EANNOTATION_KEY);
-			if (annotation==null) {
+			if (annotation == null) {
 				annotation = EcoreFactory.eINSTANCE.createEAnnotation();
 				annotation.setSource(DEFAULT_ACTION_EANNOTATION_KEY);
 				annotation.setEModelElement(ruleView);
 			}
-			if (action==null) {
+			if (action == null) {
 				action = new Action(Action.Type.PRESERVE);
 			}
 			annotation.getDetails().put(DEFAULT_ACTION_VALUE_KEY, action.toString());
 		}
 	}
 
-	
 	/**
 	 * Check whether a given view is a rule view.
 	 * @param view The view.
@@ -100,9 +99,10 @@ public class RuleEditHelper extends HenshinBaseEditHelper {
 	 */
 	public static boolean isRuleView(View view) {
 		// We allow only the root view for rules.
-		return (view!=null && view.getElement() instanceof Rule && view.getType().equals(String.valueOf(RuleEditPart.VISUAL_ID)));
+		return (view != null && view.getElement() instanceof Rule && view.getType().equals(
+				String.valueOf(RuleEditPart.VISUAL_ID)));
 	}
-	
+
 	/**
 	 * Find the corresponding view for a rule.
 	 * @param rule Rule.
@@ -112,11 +112,12 @@ public class RuleEditHelper extends HenshinBaseEditHelper {
 		for (Resource resource : rule.eResource().getResourceSet().getResources()) {
 			if (resource instanceof GMFResource) {
 				for (EObject object : resource.getContents()) {
-					if (object instanceof Diagram && (((Diagram) object).getElement()==rule.getModule())) {
+					if (object instanceof Diagram && (((Diagram) object).getElement() == rule.getModule())) {
 						Diagram diagram = (Diagram) object;
-						for (int i=0; i<diagram.getChildren().size(); i++) {
+						for (int i = 0; i < diagram.getChildren().size(); i++) {
 							View view = (View) diagram.getChildren().get(i);
-							if (isRuleView(view) && view.getElement()==rule) return view;
+							if (isRuleView(view) && view.getElement() == rule)
+								return view;
 						}
 					}
 				}
@@ -124,6 +125,5 @@ public class RuleEditHelper extends HenshinBaseEditHelper {
 		}
 		return null;
 	}
-
 
 }

@@ -50,6 +50,7 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -95,13 +96,11 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			@Override
 			public void notifyChanged(Notification event) {
 				super.notifyChanged(event);
-				if (event.getEventType()==Notification.REMOVING_ADAPTER) {
+				if (event.getEventType() == Notification.REMOVING_ADAPTER) {
 					return;
 				}
 				// Really make sure that the edit part is still valid.
-				if (isActive()
-						&& getNotationView().getElement() instanceof Node
-						&& getParent() != null) {
+				if (isActive() && getNotationView().getElement() instanceof Node && getParent() != null) {
 					refreshVisuals();
 				}
 			}
@@ -130,8 +129,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		super.refreshVisuals();
 
 		// Also refresh the the action label:
-		IGraphicalEditPart actionLabel = getChildBySemanticHint(String
-				.valueOf(NodeActionEditPart.VISUAL_ID));
+		IGraphicalEditPart actionLabel = getChildBySemanticHint(String.valueOf(NodeActionEditPart.VISUAL_ID));
 		if (actionLabel instanceof NodeActionEditPart) {
 			actionLabel.refresh();
 		}
@@ -153,10 +151,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshForegroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getActionColor(getNotationView(), true);
-		if (color!=null) {
+		if (color != null) {
 			setForegroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
-			super.refreshForegroundColor();			
+			super.refreshForegroundColor();
 		}
 	}
 
@@ -166,7 +164,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshBackgroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getActionColor(getNotationView(), false);
-		if (color!=null) {
+		if (color != null) {
 			setBackgroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
 			super.refreshBackgroundColor();
@@ -182,8 +180,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 
 		// Install a custom graphical node edit policy:
 		removeEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE);
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new NodeGraphicalEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new NodeGraphicalEditPolicy());
 
 		// Remove connection handles:
 		removeEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE);
@@ -224,11 +221,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected void createDefaultEditPoliciesGen() {
-		installEditPolicy(EditPolicyRoles.CREATION_ROLE,
-				new CreationEditPolicy());
+		installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CreationEditPolicyWithCustomReparent(
+				HenshinVisualIDRegistry.TYPED_INSTANCE));
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new NodeItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new NodeItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
@@ -272,13 +268,11 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof NodeTypeEditPart) {
-			((NodeTypeEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeTypeLabel());
+			((NodeTypeEditPart) childEditPart).setLabel(getPrimaryShape().getNodeTypeLabel());
 			return true;
 		}
 		if (childEditPart instanceof NodeActionEditPart) {
-			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeActionLabel());
+			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape().getNodeActionLabel());
 			return true;
 		}
 		return false;
@@ -414,60 +408,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	public EditPart getPrimaryChildEditPart() {
-		return getChildBySemanticHint(HenshinVisualIDRegistry
-				.getType(NodeTypeEditPart.VISUAL_ID));
-	}
-
-	/**
-	 * @generated
-	 */
-	public List<IElementType> getMARelTypesOnSource() {
-		ArrayList<IElementType> types = new ArrayList<IElementType>(1);
-		types.add(HenshinElementTypes.Edge_4001);
-		return types;
-	}
-
-	/**
-	 * @generated
-	 */
-	public List<IElementType> getMARelTypesOnSourceAndTarget(
-			IGraphicalEditPart targetEditPart) {
-		LinkedList<IElementType> types = new LinkedList<IElementType>();
-		if (targetEditPart instanceof org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart) {
-			types.add(HenshinElementTypes.Edge_4001);
-		}
-		return types;
-	}
-
-	/**
-	 * @generated
-	 */
-	public List<IElementType> getMATypesForTarget(IElementType relationshipType) {
-		LinkedList<IElementType> types = new LinkedList<IElementType>();
-		if (relationshipType == HenshinElementTypes.Edge_4001) {
-			types.add(HenshinElementTypes.Node_3001);
-		}
-		return types;
-	}
-
-	/**
-	 * @generated
-	 */
-	public List<IElementType> getMARelTypesOnTarget() {
-		ArrayList<IElementType> types = new ArrayList<IElementType>(1);
-		types.add(HenshinElementTypes.Edge_4001);
-		return types;
-	}
-
-	/**
-	 * @generated
-	 */
-	public List<IElementType> getMATypesForSource(IElementType relationshipType) {
-		LinkedList<IElementType> types = new LinkedList<IElementType>();
-		if (relationshipType == HenshinElementTypes.Edge_4001) {
-			types.add(HenshinElementTypes.Node_3001);
-		}
-		return types;
+		return getChildBySemanticHint(HenshinVisualIDRegistry.getType(NodeTypeEditPart.VISUAL_ID));
 	}
 
 	/**
@@ -475,14 +416,11 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	public EditPart getTargetEditPart(Request request) {
 		if (request instanceof CreateViewAndElementRequest) {
-			CreateElementRequestAdapter adapter = ((CreateViewAndElementRequest) request)
-					.getViewAndElementDescriptor()
+			CreateElementRequestAdapter adapter = ((CreateViewAndElementRequest) request).getViewAndElementDescriptor()
 					.getCreateElementRequestAdapter();
-			IElementType type = (IElementType) adapter
-					.getAdapter(IElementType.class);
+			IElementType type = (IElementType) adapter.getAdapter(IElementType.class);
 			if (type == HenshinElementTypes.Attribute_3002) {
-				return getChildBySemanticHint(HenshinVisualIDRegistry
-						.getType(NodeCompartmentEditPart.VISUAL_ID));
+				return getChildBySemanticHint(HenshinVisualIDRegistry.getType(NodeCompartmentEditPart.VISUAL_ID));
 			}
 		}
 		return super.getTargetEditPart(request);
@@ -526,20 +464,20 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		private void createContents() {
 
 			fNodeActionLabel = new WrappingLabel();
+
 			fNodeActionLabel.setText("none");
 
-			fNodeActionLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0),
-					getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
-					getMapMode().DPtoLP(2)));
+			fNodeActionLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2), getMapMode()
+					.DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fNodeActionLabel);
 
 			fNodeTypeLabel = new WrappingLabel();
+
 			fNodeTypeLabel.setText("Node");
 
-			fNodeTypeLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0),
-					getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
-					getMapMode().DPtoLP(2)));
+			fNodeTypeLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2), getMapMode()
+					.DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fNodeTypeLabel);
 
@@ -584,10 +522,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		protected void fillShape(Graphics graphics) {
 			if (shouldDrawShadow()) {
 				Rectangle r = Rectangle.SINGLETON.setBounds(getBounds());
-				graphics.fillRectangle(r.x, r.y, r.width - SHADOW_WIDTH,
-						r.height - SHADOW_WIDTH);
-				graphics.fillRectangle(r.x + SHADOW_WIDTH, r.y + SHADOW_WIDTH,
-						r.width, r.height);
+				graphics.fillRectangle(r.x, r.y, r.width - SHADOW_WIDTH, r.height - SHADOW_WIDTH);
+				graphics.fillRectangle(r.x + SHADOW_WIDTH, r.y + SHADOW_WIDTH, r.width, r.height);
 			} else {
 				super.fillShape(graphics);
 			}
@@ -608,19 +544,14 @@ public class NodeEditPart extends ShapeNodeEditPart {
 				r.y += inset1;
 				r.width -= inset1 + inset2;
 				r.height -= inset1 + inset2;
-				graphics.drawRectangle(r.x, r.y, r.width - SHADOW_WIDTH,
-						r.height - SHADOW_WIDTH);
+				graphics.drawRectangle(r.x, r.y, r.width - SHADOW_WIDTH, r.height - SHADOW_WIDTH);
 
 				// Now draw the shadow:
 				graphics.setForegroundColor(getShadowColor());
-				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height
-						- SHADOW_WIDTH, r.x + SHADOW_WIDTH, r.y + r.height);
-				graphics.drawLine(r.x + r.width - SHADOW_WIDTH, r.y
-						+ SHADOW_WIDTH, r.x + r.width, r.y + SHADOW_WIDTH);
-				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height, r.x
-						+ r.width, r.y + r.height);
-				graphics.drawLine(r.x + r.width, r.y + SHADOW_WIDTH, r.x
-						+ r.width, r.y + r.height);
+				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height - SHADOW_WIDTH, r.x + SHADOW_WIDTH, r.y + r.height);
+				graphics.drawLine(r.x + r.width - SHADOW_WIDTH, r.y + SHADOW_WIDTH, r.x + r.width, r.y + SHADOW_WIDTH);
+				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height, r.x + r.width, r.y + r.height);
+				graphics.drawLine(r.x + r.width, r.y + SHADOW_WIDTH, r.x + r.width, r.y + r.height);
 				graphics.setForegroundColor(getForegroundColor());
 			} else {
 				super.outlineShape(graphics);
@@ -633,10 +564,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		 */
 		public Color getShadowColor() {
 			Color c = getForegroundColor();
-			return new Color(c.getDevice(), Math.min(255, c.getRed()
-					+ ((255 - c.getRed()) / 2)), Math.min(255, c.getGreen()
-					+ ((255 - c.getGreen()) / 2)), Math.min(255, c.getBlue()
-					+ ((255 - c.getBlue()) / 2)));
+			return new Color(c.getDevice(), Math.min(255, c.getRed() + ((255 - c.getRed()) / 2)), Math.min(255,
+					c.getGreen() + ((255 - c.getGreen()) / 2)), Math.min(255, c.getBlue() + ((255 - c.getBlue()) / 2)));
 		}
 
 	}

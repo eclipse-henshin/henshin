@@ -93,8 +93,7 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
 
 			protected EditPolicy createChildEditPolicy(EditPart child) {
-				EditPolicy result = child
-						.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
+				EditPolicy result = child.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
 				if (result == null) {
 					result = new NonResizableEditPolicy();
 				}
@@ -139,14 +138,12 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 
 		// We forbid deletion of symbols, unless it is corrupt:
 		Object type = request.getType();
-		if (RequestConstants.REQ_DELETE.equals(type)
-				&& SymbolType.get(getNotationView()) != null) {
+		if (RequestConstants.REQ_DELETE.equals(type) && SymbolType.get(getNotationView()) != null) {
 			return UnexecutableCommand.INSTANCE;
 		}
 
 		// We also forbid to reconnect links:
-		if (RequestConstants.REQ_RECONNECT_SOURCE.equals(type)
-				|| RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
+		if (RequestConstants.REQ_RECONNECT_SOURCE.equals(type) || RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
 			return UnexecutableCommand.INSTANCE;
 		}
 
@@ -283,13 +280,13 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 					@Override
 					public Rectangle getBounds() {
 						Rectangle b = main.getBounds();
-						return new Rectangle(b.x + b.width / 4, b.y + b.height
-								/ 4, b.width / 2, b.height / 2);
+						return new Rectangle(b.x + b.width / 4, b.y + b.height / 4, b.width / 2, b.height / 2);
 					}
 				};
 				add(inner);
-			}			
+			}
 		}
+
 		@Override
 		public void setForegroundColor(Color color) {
 			super.setForegroundColor(color);
@@ -300,11 +297,12 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 				setBackgroundColor(color);
 			}
 		}
+
 		@Override
 		public void setBackgroundColor(Color color) {
-//			if (inner == null) {
-				super.setBackgroundColor(color);
-//			}
+			//			if (inner == null) {
+			super.setBackgroundColor(color);
+			//			}
 		}
 	}
 
@@ -317,6 +315,7 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 			setLayoutManager(new StackLayout());
 			add(new Label("  Invalid  "));
 		}
+
 		@Override
 		public void setBackgroundColor(Color color) {
 			super.setBackgroundColor(ColorConstants.red);

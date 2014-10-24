@@ -137,6 +137,38 @@ public class HenshinPaletteTools {
 
 	}
 
+	public static class LongLivingNodeToolEntry extends ToolEntry {
+
+		private final List<IElementType> elementTypes;
+
+		public LongLivingNodeToolEntry(String title, String description, List<IElementType> elementTypes) {
+			super(title, description, null, null);
+			this.elementTypes = elementTypes;
+		}
+
+		public Tool createTool() {
+			Tool tool = new LongLivingCreationTool(elementTypes);
+			tool.setProperties(getToolProperties());
+			return tool;
+		}
+	}
+	
+	public static class LongLivingLinkToolEntry extends ToolEntry {
+
+		private final List<IElementType> relationshipTypes;
+
+		public LongLivingLinkToolEntry(String title, String description, List<IElementType> relationshipTypes) {
+			super(title, description, null, null);
+			this.relationshipTypes = relationshipTypes;
+		}
+
+		public Tool createTool() {
+			Tool tool = new LongLivingConnectionTool(relationshipTypes);
+			tool.setProperties(getToolProperties());
+			return tool;
+		}
+	}
+
 	/**
 	 * Creation tool for nodes.
 	 */

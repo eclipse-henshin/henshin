@@ -23,8 +23,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class AttributeItemSemanticEditPolicy extends
-		HenshinBaseItemSemanticEditPolicy {
+public class AttributeItemSemanticEditPolicy extends HenshinBaseItemSemanticEditPolicy {
 
 	/**
 	 * @generated
@@ -38,8 +37,7 @@ public class AttributeItemSemanticEditPolicy extends
 	 */
 	protected Command getDestroyElementCommand(DestroyElementRequest req) {
 		if (req.getElementToDestroy() instanceof Attribute) {
-			return getGEFWrapper(new AttributeDeleteCommand(getEditingDomain(),
-					(Attribute) req.getElementToDestroy()));
+			return getGEFWrapper(new AttributeDeleteCommand(getEditingDomain(), (Attribute) req.getElementToDestroy()));
 		} else {
 			return null;
 		}

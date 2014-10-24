@@ -17,15 +17,24 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart.NodeFigure;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeCompartmentCanonicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeCompartmentItemSemanticEditPolicy;
+import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.part.Messages;
+import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdapter;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ListCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateUnspecifiedTypeConnectionRequest;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.OneLineBorder;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.MapModeUtil;
+import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 
 /**
  * @generated
@@ -93,15 +102,13 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 	 */
 	public IFigure createFigure() {
 		ResizableCompartmentFigure figure = (ResizableCompartmentFigure) createFigureGen();
-		figure.setBorder(new OneLineBorder(getMapMode().DPtoLP(1),
-				PositionConstants.TOP) {
+		figure.setBorder(new OneLineBorder(getMapMode().DPtoLP(1), PositionConstants.TOP) {
 			@Override
 			public void paint(IFigure figure, Graphics graphics, Insets insets) {
 				tempRect.setBounds(getPaintRectangle(figure, insets));
 				int one = MapModeUtil.getMapMode(figure).DPtoLP(1);
 				int widthInDP = getWidth() / one;
-				int halfWidthInLP = MapModeUtil.getMapMode(figure).DPtoLP(
-						widthInDP / 2);
+				int halfWidthInLP = MapModeUtil.getMapMode(figure).DPtoLP(widthInDP / 2);
 				graphics.setLineWidth(getWidth());
 				graphics.setLineStyle(getStyle());
 				if (getColor() != null) {
@@ -110,8 +117,7 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 				tempRect.y += halfWidthInLP;
 				tempRect.height -= getWidth();
 				if (shouldDrawShadow()) { // check if there should be a shadow
-					tempRect.width = tempRect.width - NodeFigure.SHADOW_WIDTH
-							- 1;
+					tempRect.width = tempRect.width - NodeFigure.SHADOW_WIDTH - 1;
 				}
 				graphics.drawLine(tempRect.getTopLeft(), tempRect.getTopRight());
 			}
@@ -123,8 +129,7 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 	 * @generated
 	 */
 	public IFigure createFigureGen() {
-		ResizableCompartmentFigure result = (ResizableCompartmentFigure) super
-				.createFigure();
+		ResizableCompartmentFigure result = (ResizableCompartmentFigure) super.createFigure();
 		result.setTitleVisibility(false);
 		return result;
 	}
@@ -134,14 +139,11 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 	 */
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new NodeCompartmentItemSemanticEditPolicy());
-		installEditPolicy(EditPolicyRoles.CREATION_ROLE,
-				new CreationEditPolicy());
-		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
-				new DragDropEditPolicy());
-		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
-				new NodeCompartmentCanonicalEditPolicy());
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new NodeCompartmentItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CreationEditPolicyWithCustomReparent(
+				HenshinVisualIDRegistry.TYPED_INSTANCE));
+		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE, new DragDropEditPolicy());
+		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE, new NodeCompartmentCanonicalEditPolicy());
 	}
 
 	/**
@@ -150,6 +152,25 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 	protected void setRatio(Double ratio) {
 		// nothing to do -- parent layout does not accept Double constraints as ratio
 		// super.setRatio(ratio); 
+	}
+
+	/**
+	 * @generated
+	 */
+	public EditPart getTargetEditPart(Request request) {
+		if (request instanceof CreateViewAndElementRequest) {
+			CreateElementRequestAdapter adapter = ((CreateViewAndElementRequest) request).getViewAndElementDescriptor()
+					.getCreateElementRequestAdapter();
+			IElementType type = (IElementType) adapter.getAdapter(IElementType.class);
+			if (type == HenshinElementTypes.Attribute_3002) {
+				return this;
+			}
+			return getParent().getTargetEditPart(request);
+		}
+		if (request instanceof CreateUnspecifiedTypeConnectionRequest) {
+			return getParent().getTargetEditPart(request);
+		}
+		return super.getTargetEditPart(request);
 	}
 
 }

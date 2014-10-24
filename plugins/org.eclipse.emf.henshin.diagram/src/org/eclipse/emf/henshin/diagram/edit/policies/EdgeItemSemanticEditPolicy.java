@@ -19,8 +19,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 /**
  * @generated
  */
-public class EdgeItemSemanticEditPolicy extends
-		HenshinBaseItemSemanticEditPolicy {
+public class EdgeItemSemanticEditPolicy extends HenshinBaseItemSemanticEditPolicy {
 
 	/**
 	 * @generated
@@ -34,8 +33,7 @@ public class EdgeItemSemanticEditPolicy extends
 	 */
 	protected Command getDestroyElementCommand(DestroyElementRequest req) {
 		if (req.getElementToDestroy() instanceof Edge) {
-			return getGEFWrapper(new EdgeDeleteCommand(getEditingDomain(),
-					(Edge) req.getElementToDestroy()));
+			return getGEFWrapper(new EdgeDeleteCommand(getEditingDomain(), (Edge) req.getElementToDestroy()));
 		} else {
 			return null;
 		}

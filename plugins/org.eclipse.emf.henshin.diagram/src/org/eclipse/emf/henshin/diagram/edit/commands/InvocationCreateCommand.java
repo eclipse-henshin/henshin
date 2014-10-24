@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.MultiUnit;
 import org.eclipse.emf.henshin.model.UnaryUnit;
@@ -46,8 +47,7 @@ public class InvocationCreateCommand extends EditElementCommand {
 	 * @generated
 	 */
 	protected EObject getElementToEdit() {
-		EObject container = ((CreateElementRequest) getRequest())
-				.getContainer();
+		EObject container = ((CreateElementRequest) getRequest()).getContainer();
 		if (container instanceof View) {
 			container = ((View) container).getElement();
 		}
@@ -91,8 +91,7 @@ public class InvocationCreateCommand extends EditElementCommand {
 	/**
 	 * @generated NOT
 	 */
-	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
+	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 
 		// Get the owner unit and the target candidate units:
 		Unit owner = (Unit) getElementToEdit();
@@ -113,13 +112,11 @@ public class InvocationCreateCommand extends EditElementCommand {
 		// Add it to the parent unit:
 		if (owner instanceof MultiUnit) {
 			((MultiUnit) owner).getSubUnits().add(target);
-		}
-		else if (owner instanceof UnaryUnit) {
+		} else if (owner instanceof UnaryUnit) {
 			if (((UnaryUnit) owner).getSubUnit() == null) {
 				((UnaryUnit) owner).setSubUnit(target);
 			}
-		}
-		else if (owner instanceof ConditionalUnit) {
+		} else if (owner instanceof ConditionalUnit) {
 			ConditionalUnit cond = (ConditionalUnit) owner;
 			if (cond.getIf() == null) {
 				cond.setIf(target);
@@ -129,7 +126,7 @@ public class InvocationCreateCommand extends EditElementCommand {
 				cond.setElse(target);
 			}
 		}
-		
+
 		// No need to configure.
 		// doConfigure(newElement, monitor, info);
 
@@ -142,17 +139,12 @@ public class InvocationCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(Unit newElement, IProgressMonitor monitor,
-			IAdaptable info) throws ExecutionException {
-		IElementType elementType = ((CreateElementRequest) getRequest())
-				.getElementType();
-		ConfigureRequest configureRequest = new ConfigureRequest(
-				getEditingDomain(), newElement, elementType);
-		configureRequest.setClientContext(((CreateElementRequest) getRequest())
-				.getClientContext());
+	protected void doConfigure(Unit newElement, IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest()).getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest()).getClientContext());
 		configureRequest.addParameters(getRequest().getParameters());
-		ICommand configureCommand = elementType
-				.getEditCommand(configureRequest);
+		ICommand configureCommand = elementType.getEditCommand(configureRequest);
 		if (configureCommand != null && configureCommand.canExecute()) {
 			configureCommand.execute(monitor, info);
 		}

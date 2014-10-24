@@ -30,12 +30,13 @@ import org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.gmf.tooling.runtime.parsers.AbstractAttributeParser;
 
 /**
  * @generated NOT
  * @author Christian Krause
  */
-public class EdgeTypeParser extends AbstractParser {
+public class EdgeTypeParser extends AbstractAttributeParser {
 	
 	/**
 	 * Default constructor.

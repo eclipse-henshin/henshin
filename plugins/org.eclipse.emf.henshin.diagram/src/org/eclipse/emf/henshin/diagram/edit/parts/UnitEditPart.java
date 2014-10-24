@@ -70,8 +70,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	 */
 	protected void createDefaultEditPoliciesGen() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new UnitItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new UnitItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
@@ -93,8 +92,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
 
 			protected EditPolicy createChildEditPolicy(EditPart child) {
-				EditPolicy result = child
-						.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
+				EditPolicy result = child.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
 				if (result == null) {
 					result = new NonResizableEditPolicy();
 				}
@@ -131,8 +129,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof UnitNameEditPart) {
-			((UnitNameEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getUnitNameFigure());
+			((UnitNameEditPart) childEditPart).setLabel(getPrimaryShape().getUnitNameFigure());
 			return true;
 		}
 		return false;
@@ -231,7 +228,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshForegroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.FG_UNIT);
-		if (color!=null) {
+		if (color != null) {
 			setForegroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
 			super.refreshForegroundColor();
@@ -244,13 +241,13 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshBackgroundColor() {
 		HenshinColorMode.Color color = ColorModeHelper.getColor(getNotationView(), HenshinColorMode.BG_UNIT);
-		if (color!=null) {
+		if (color != null) {
 			setBackgroundColor(ColorModeHelper.getSWTColor(color));
 		} else {
 			super.refreshBackgroundColor();
 		}
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -291,8 +288,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	public EditPart getPrimaryChildEditPart() {
-		return getChildBySemanticHint(HenshinVisualIDRegistry
-				.getType(UnitNameEditPart.VISUAL_ID));
+		return getChildBySemanticHint(HenshinVisualIDRegistry.getType(UnitNameEditPart.VISUAL_ID));
 	}
 
 	/**
@@ -309,8 +305,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 		 * @generated
 		 */
 		public UnitFigure() {
-			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(8),
-					getMapMode().DPtoLP(8)));
+			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(8), getMapMode().DPtoLP(8)));
 			createContents();
 		}
 
@@ -320,13 +315,12 @@ public class UnitEditPart extends ShapeNodeEditPart {
 		private void createContents() {
 
 			fUnitNameFigure = new WrappingLabel();
-			fUnitNameFigure.setText("unnamed");
-			fUnitNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(
-					1000), getMapMode().DPtoLP(20)));
 
-			fUnitNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2),
-					getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
-					getMapMode().DPtoLP(2)));
+			fUnitNameFigure.setText("unnamed");
+			fUnitNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(1000), getMapMode().DPtoLP(20)));
+
+			fUnitNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2), getMapMode().DPtoLP(2), getMapMode()
+					.DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fUnitNameFigure);
 
@@ -341,7 +335,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 
 		@Override
 		protected void fillShape(Graphics graphics) {
-			if (ColorModeHelper.getColorMode(getNotationView()).useGradients()) {			
+			if (ColorModeHelper.getColorMode(getNotationView()).useGradients()) {
 				graphics.pushState();
 				graphics.setBackgroundColor(DiagramColorConstants.white);
 				graphics.setForegroundColor(getBackgroundColor());
