@@ -53,6 +53,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorMatchingStrategy;
@@ -83,6 +84,11 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 	 */
 	public static final String CONTEXT_ID = "org.eclipse.emf.henshin.diagram.ui.diagramContext"; //$NON-NLS-1$
 
+	/*
+	 * Background validation scheduler.
+	 */
+	private ValidateScheduler validateScheduler;
+	
 	/**
 	 * @generated
 	 */
@@ -113,7 +119,10 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 		getEditDomain().getCommandStack().addCommandStackListener(new CommandStackListener() {
 			@Override
 			public void commandStackChanged(EventObject event) {
+				// Refresh rule views:
 				refreshRuleViews();
+				// Run background validation:
+				getValidateScheduler().scheduleValidation();
 			}
 		});
 
@@ -135,8 +144,29 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 			}
 			MessageDialog.openError(getSite().getShell(), "Error opening Henshin file", message);
 		}
+		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor#createGraphicalViewer(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+    protected void createGraphicalViewer(Composite parent) {
+    	super.createGraphicalViewer(parent);
+    	
+		// Run background validation:
+		getValidateScheduler().scheduleValidation();
+    	
+    }
+	
+	private ValidateScheduler getValidateScheduler() {
+		if (validateScheduler == null) {
+			validateScheduler = new ValidateScheduler(getDiagramEditPart(), 250);
+		}
+		return validateScheduler;
+	}
+	
 	/*
 	 * This method takes the currently selected elements and refreshes their views
 	 * by invoking the refresh method of the corresponding canonical edit policies.
@@ -389,5 +419,5 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 		getDiagramGraphicalViewer().setContextMenu(provider);
 		getSite().registerContextMenu(ActionIds.DIAGRAM_EDITOR_CONTEXT_MENU, provider, getDiagramGraphicalViewer());
 	}
-
+	
 }

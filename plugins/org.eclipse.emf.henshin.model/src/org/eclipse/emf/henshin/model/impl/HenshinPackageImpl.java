@@ -1790,49 +1790,55 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore";		
+		String source = "http://www.eclipse.org/emf/2002/Ecore";	
 		addAnnotation
 		  (unitEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "parameterNamesUnique parameterMappingsPointToDirectSubUnit"
-		   });		
+			 "constraints", "nameNotEmpty parameterNamesUnique parameterMappingsPointToDirectSubUnit"
+		   });	
 		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"
-		   });		
+		   });	
 		addAnnotation
 		  (parameterEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "nameNotEmpty nameNotTypeName"
-		   });		
+		   });	
 		addAnnotation
 		  (graphEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueNodeNames"
-		   });		
+		   });	
 		addAnnotation
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueAttributeTypes"
-		   });		
+		   });	
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "equalParentGraphs"
-		   });		
+		   });	
+		addAnnotation
+		  (attributeConditionEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "conditionTextNotEmpty"
+		   });	
 		addAnnotation
 		  (iteratedUnitEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "iterationsNotEmpty"
-		   });		
+		   });	
 		addAnnotation
 		  (nestedConditionEClass, 
 		   source, 

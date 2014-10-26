@@ -60,7 +60,7 @@
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
       </edges>
     </rhs>
-    <attributeConditions xmi:id="_2jrCIMeTEeKlGqkssSuc-g" name="Compare" conditionText="(i&lt;j) &amp;&amp; (x&gt;y)"/>
+    <attributeConditions xmi:id="_2jrCIMeTEeKlGqkssSuc-g" name="Compare" conditionText="(i&lt;j) &amp;&amp; (x>y)"/>
     <mappings xmi:id="_V_2HYMePEeKE5P5x88_Sag" origin="_V_0SMMePEeKE5P5x88_Sag" image="_V_05QMePEeKE5P5x88_Sag"/>
     <mappings xmi:id="_hYNGwMePEeKE5P5x88_Sag" origin="_hYL4oMePEeKE5P5x88_Sag" image="_hYMfsMePEeKE5P5x88_Sag"/>
     <mappings xmi:id="_nsQewMePEeKE5P5x88_Sag" origin="_nsPQoMePEeKE5P5x88_Sag" image="_nsP3sMePEeKE5P5x88_Sag"/>

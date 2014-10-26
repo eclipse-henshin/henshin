@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_QrpC0MePEeKE5P5x88_Sag" type="Henshin" name="sort.henshin_diagram" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_QrpC0MePEeKE5P5x88_Sag" type="Henshin" name="sort.henshin_diagram" measurementUnit="Pixel">
   <children xmi:type="notation:Shape" xmi:id="_SG2ckMePEeKE5P5x88_Sag" type="2001" fontName="Segoe UI" italic="true" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_V_38kMePEeKE5P5x88_Sag" source="defaultAction">
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_V_4joMePEeKE5P5x88_Sag" key="value" value="preserve"/>
@@ -44,17 +44,13 @@
         <element xmi:type="henshin:Node" href="sort.henshin#_nsPQoMePEeKE5P5x88_Sag"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nsTiEcePEeKE5P5x88_Sag" x="115" y="14"/>
       </children>
-      <children xmi:type="notation:Shape" xmi:id="_ByImAMeREeKlGqkssSuc-g" type="Note" fontName="Segoe UI" description="(i&lt;j) &amp;&amp; (x&gt;y)" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
-        <children xmi:type="notation:BasicDecorationNode" xmi:id="_ByJ0IMeREeKlGqkssSuc-g" type="DiagramName">
-          <element xsi:nil="true"/>
-        </children>
-        <children xmi:type="notation:BasicDecorationNode" xmi:id="_ByJ0IceREeKlGqkssSuc-g" type="Description">
-          <element xsi:nil="true"/>
-        </children>
-        <styles xmi:type="notation:TextStyle" xmi:id="_ByJNEMeREeKlGqkssSuc-g"/>
-        <styles xmi:type="notation:LineTypeStyle" xmi:id="_ByJNEceREeKlGqkssSuc-g"/>
-        <element xsi:nil="true"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ByJNEseREeKlGqkssSuc-g" x="253" y="10" width="176" height="46"/>
+      <children xmi:type="notation:Node" xmi:id="_fWe_0F1HEeSXgrzmhCF2yg" type="3005">
+        <children xmi:type="notation:DecorationNode" xmi:id="_fWg1AF1HEeSXgrzmhCF2yg" type="5006"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_fWg1AV1HEeSXgrzmhCF2yg" type="5007"/>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_fWfm4F1HEeSXgrzmhCF2yg"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_fWfm4V1HEeSXgrzmhCF2yg" fontName="Segoe UI"/>
+        <element xmi:type="henshin:AttributeCondition" href="sort.henshin#_2jrCIMeTEeKlGqkssSuc-g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fWfm4l1HEeSXgrzmhCF2yg" x="298" y="107"/>
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="sort.henshin#_SGdbAMePEeKE5P5x88_Sag"/>

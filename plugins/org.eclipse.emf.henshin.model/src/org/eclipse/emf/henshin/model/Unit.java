@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getUnit()
  * @model abstract="true"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='parameterNamesUnique parameterMappingsPointToDirectSubUnit'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameNotEmpty parameterNamesUnique parameterMappingsPointToDirectSubUnit'"
  * @generated
  */
 public interface Unit extends NamedElement {

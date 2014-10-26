@@ -220,6 +220,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_mappingsFromLeft2Right(rule, diagnostics, context);
@@ -310,9 +311,33 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateAttributeCondition(AttributeCondition attributeCondition,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(attributeCondition, diagnostics, context);
+		if (!validate_NoCircularContainment(attributeCondition, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAttributeCondition_conditionTextNotEmpty(attributeCondition, diagnostics, context);
+		return result;
 	}
 	
+	/**
+	 * Validates the conditionTextNotEmpty constraint of '<em>Attribute Condition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateAttributeCondition_conditionTextNotEmpty(AttributeCondition attributeCondition, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (attributeCondition.getConditionText()==null || attributeCondition.getConditionText().trim().length()==0) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, attributeCondition, AttributeCondition.class, "conditionTextNotEmpty", context));
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -462,9 +487,26 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(unit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(unit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(unit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(unit, diagnostics, context);
 		return result;
+	}
+
+	/**
+	 * Validates the nameNotEmpty constraint of '<em>Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateUnit_nameNotEmpty(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!(unit instanceof Rule) || (((Rule) unit).getKernelRule() == null)) { 
+			if (unit.getName()==null || unit.getName().trim().length()==0) {
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, unit, Unit.class, "nameNotEmpty", context));
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -624,6 +666,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(unaryUnit, diagnostics, context);
 		return result;
@@ -644,6 +687,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(multiUnit, diagnostics, context);
 		return result;
@@ -665,6 +709,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(independentUnit, diagnostics, context);
 		return result;
@@ -686,6 +731,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(sequentialUnit, diagnostics, context);
 		return result;
@@ -707,6 +753,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(conditionalUnit, diagnostics, context);
 		return result;
@@ -728,6 +775,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(priorityUnit, diagnostics, context);
 		return result;
@@ -748,6 +796,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateIteratedUnit_iterationsNotEmpty(iteratedUnit, diagnostics, context);
@@ -783,6 +832,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(loopUnit, diagnostics, context);
 		return result;
@@ -958,18 +1008,15 @@ public class HenshinValidator extends EObjectValidator {
 	/*
 	 * Private helper for creating diagnostics.
 	 */
-	protected BasicDiagnostic createDiagnostic(int severity, String source, int code,
-			String messageKey, Object[] messageSubstitutions, Object[] data,
-			Map<Object, Object> context, String additionalMessage) {
-
-		String henshinMessage = "";
-
-		if ((additionalMessage != null) && (additionalMessage.length() > 0))
-			henshinMessage = " -- " + (additionalMessage.startsWith("_") ? getString(additionalMessage,
-					messageSubstitutions) : additionalMessage);
-
-		String message = getString(messageKey, messageSubstitutions);
-		return new BasicDiagnostic(severity, source, code, message + henshinMessage, data);
+	protected BasicDiagnostic createDiagnostic(int severity, String source, int code, String messageKey,
+			Object[] messageSubstitutions, Object[] data, Map<Object, Object> context, String customMessage) {
+		String message;
+		if ((customMessage != null) && (customMessage.length() > 0)) {
+			message = (customMessage.startsWith("_") ? getString(customMessage, messageSubstitutions) : customMessage);
+		} else {
+			message = getString(messageKey, messageSubstitutions);
+		}
+		return new BasicDiagnostic(severity, source, code, message, data);
 	}
-	
+
 }
