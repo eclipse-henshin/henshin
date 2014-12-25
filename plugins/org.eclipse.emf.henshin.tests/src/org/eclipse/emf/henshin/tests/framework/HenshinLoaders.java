@@ -16,44 +16,34 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
- * Methods for loading henshin files, models and graphs.
+ * Methods for loading test Henshin files, models and graphs.
  * 
  * @see Tools
  * @author Felix Rieger
- * @author Stefan Jurack (sjurack)
+ * @author Stefan Jurack
  * 
  */
 public class HenshinLoaders {
-	
-	public final static String HENSHIN_FILE_EXTENSION = HenshinResource.FILE_EXTENSION;
-	
-	/*--------------------------------------
-	 * LOADERS
-	 * ------------------------------------- */
 
 	/**
-	 * Load a henshin file
+	 * Load a Henshin file.
 	 * 
-	 * @param fileName
-	 *            Path to the henshin file
-	 * @return Module
+	 * @param fileName Path to the Henshin file
+	 * @return Module Loaded module
 	 */
 	public static Module loadHenshin(String fileName) {
 		HenshinResourceSet resourceSet = new HenshinResourceSet();
 		return resourceSet.getModule(fileName, false);
 	}
-	
+
 	/**
-	 * Load model from file and create an {@link EGraph}
+	 * Load model from file and create an {@link EGraph}.
 	 * 
-	 * @param modelFileName
-	 *            Path to the model file
-	 * @param modelFileExt
-	 *            model file extension
+	 * @param modelFileName Path to the model file
+	 * @param modelFileExt model file extension
 	 * @return EmfGraph
 	 */
 	public static EGraph loadGraph(String modelFileName, String modelFileExt) {
@@ -62,12 +52,18 @@ public class HenshinLoaders {
 		Resource resource = resourceSet.getResource(modelFileName);
 		return new EGraphImpl(resource);
 	}
-	
+
+	/**
+	 * Load a graph.
+	 * 
+	 * @param graphUri URI to the model file
+	 * @return The loaded file
+	 */
 	public static EGraph loadGraph(URI graphUri) {
-		Resource resourceModel = new ResourceSetImpl().getResource(graphUri, true);
-		EGraph egr = InterpreterFactory.INSTANCE.createEGraph();
-		egr.addTree(resourceModel.getContents().get(0));
-		return egr;
+		Resource resource = new ResourceSetImpl().getResource(graphUri, true);
+		EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
+		graph.addTree(resource.getContents().get(0));
+		return graph;
 	}
-	
+
 }

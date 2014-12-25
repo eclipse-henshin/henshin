@@ -41,8 +41,7 @@ import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.OCL;
 
 /**
- * This class contains an assortment of various tools useful for testing and
- * debugging henshin rules.
+ * This class contains an assortment of various tools useful for testing and debugging Henshin rules.
  * 
  * @see HenshinLoaders
  * @author Felix Rieger
@@ -50,17 +49,12 @@ import org.eclipse.ocl.ecore.OCL;
  * 
  */
 public class Tools {
-	/*----------------------------
-	 * MISC
-	 * ----------------------------*/
 
 	/**
-	 * Get number of elements in the specified graph; execute
-	 * {@link UnitApplication}; get number of elements in the specified graph
-	 * again
+	 * Get number of elements in the specified graph; execute {@link UnitApplication}; get number of elements in the
+	 * specified graph again
 	 * 
-	 * @param ua
-	 *            {@link UnitApplication}
+	 * @param ua {@link UnitApplication}
 	 * @return int[2]: <br>
 	 *         [0] size before execution<br>
 	 *         [1] size after execution
@@ -73,7 +67,7 @@ public class Tools {
 		sizes[1] = graph.size();
 		return sizes;
 	}
-	
+
 	/**
 	 * print matches
 	 * 
@@ -86,7 +80,7 @@ public class Tools {
 			System.out.println("===");
 		}
 	}
-	
+
 	/**
 	 * print graph
 	 * 
@@ -97,7 +91,7 @@ public class Tools {
 			System.out.println(eo);
 		}
 	}
-	
+
 	/**
 	 * print graph
 	 * 
@@ -111,14 +105,12 @@ public class Tools {
 			}
 		}
 	}
-	
+
 	/**
 	 * store a rule to disk for analyzing
 	 * 
-	 * @param rule
-	 *            Rule to be stored
-	 * @param filename
-	 *            Path to store URI
+	 * @param rule Rule to be stored
+	 * @param filename Path to store URI
 	 * @throws IOException
 	 */
 	public static void persist(Rule rule, String filename) throws IOException {
@@ -128,37 +120,34 @@ public class Tools {
 		res.getContents().add(rule);
 		res.save(null);
 	}
-	
+
 	/**
 	 * Returns the objects matching the specified context-free OCL query
 	 * 
-	 * @param contextFreeOclQuery
-	 *            context-free OCL query
-	 * @param graph
-	 *            {@link EGraph} the query is executed on
+	 * @param contextFreeOclQuery context-free OCL query
+	 * @param graph {@link EGraph} the query is executed on
 	 * @return
 	 */
-	public static Collection<? extends EObject> getOCLQueryResults(String contextFreeOclQuery,
-			EGraph graph) {
+	public static Collection<? extends EObject> getOCLQueryResults(String contextFreeOclQuery, EGraph graph) {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
-		
+
 		Condition oclQueryCondition;
 		try {
-			oclQueryCondition = new BooleanOCLCondition<EClassifier, EClass, EObject>(
-					ocl.getEnvironment(), contextFreeOclQuery, null);
+			oclQueryCondition = new BooleanOCLCondition<EClassifier, EClass, EObject>(ocl.getEnvironment(),
+					contextFreeOclQuery, null);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			throw new AssertionError("error parsing OCL query!   " + contextFreeOclQuery);
 		}
-		
+
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
 		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
-		
+
 		IQueryResult result = st.execute();
 		return result.getEObjects();
 	}
-	
+
 	/**
 	 * Return the first element matched by the context-free OCL query
 	 * 
@@ -166,31 +155,30 @@ public class Tools {
 	 * @param graph
 	 * @return
 	 */
-	public static EObject getFirstOCLResult(String contextFreeOclQuery,
-			EGraph graph) {
+	public static EObject getFirstOCLResult(String contextFreeOclQuery, EGraph graph) {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
-		
+
 		Condition oclQueryCondition;
-		
+
 		try {
-			oclQueryCondition = new BooleanOCLCondition<EClassifier, EClass, EObject>(
-					ocl.getEnvironment(), contextFreeOclQuery, null);
+			oclQueryCondition = new BooleanOCLCondition<EClassifier, EClass, EObject>(ocl.getEnvironment(),
+					contextFreeOclQuery, null);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			throw new AssertionError("error parsing OCL query!   " + contextFreeOclQuery);
 		}
-		
+
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
 		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
-		
+
 		IQueryResult result = st.execute();
 		if (result.size() == 0) {
 			return null;
 		}
 		return result.getEObjects().toArray(new EObject[1])[0];
 	}
-	
+
 	/**
 	 * get the {@link EGraph}'s first root
 	 * 
@@ -200,7 +188,7 @@ public class Tools {
 	public static EObject getGraphRoot(EGraph graph) {
 		return graph.getRoots().toArray(new EObject[1])[0];
 	}
-	
+
 	public static void printCollection(Collection<? extends EObject> coll) {
 		System.out.println("-------");
 		for (EObject eo : coll) {
@@ -208,14 +196,13 @@ public class Tools {
 		}
 		System.out.println("-------");
 	}
-	
+
 	public static void printParameterMappings(RuleApplication ra) {
 		System.out.println("Input parameters:\n" + ra.getAssignment());
 		System.out.println("Output parameters:\n" + ra.getResultAssignment());
 	}
-	
-	public static Map<Parameter, Object> createParameterMapping(Map<String, Object> mapping,
-			Rule rule) {
+
+	public static Map<Parameter, Object> createParameterMapping(Map<String, Object> mapping, Rule rule) {
 		Map<Parameter, Object> pMapping = new HashMap<Parameter, Object>();
 		for (Parameter param : rule.getParameters()) {
 			if (mapping.get(param.getName()) != null) {
@@ -224,9 +211,9 @@ public class Tools {
 		}
 		return pMapping;
 	}
-	
+
 	public static void printParameterMappings(UnitApplication ua) {
 		System.out.println(ua.getAssignment());
 	}
-	
+
 }

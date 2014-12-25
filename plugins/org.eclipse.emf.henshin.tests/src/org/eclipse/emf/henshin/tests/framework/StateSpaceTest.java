@@ -23,12 +23,14 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 
 /**
  * Abstract state space test class.
+ * 
  * @author Christian Krause
  */
 public abstract class StateSpaceTest {
-	
+
 	/**
 	 * Load a state space from a given file.
+	 * 
 	 * @param path Path of the state space file.
 	 * @return The loaded state space.
 	 */
@@ -39,6 +41,7 @@ public abstract class StateSpaceTest {
 
 	/**
 	 * Recursively find state space files in a given path.
+	 * 
 	 * @param path Path where to look for state space files.
 	 * @return List of full paths of the found state space files.
 	 */
@@ -48,7 +51,7 @@ public abstract class StateSpaceTest {
 		Collections.sort(files);
 		return files;
 	}
-	
+
 	/*
 	 * Recursively search for state space files.
 	 */
@@ -63,13 +66,14 @@ public abstract class StateSpaceTest {
 			}
 		}
 	}
-	
+
 	/**
 	 * Do a full exploration of a state space.
+	 * 
 	 * @param manager State space manager.
 	 */
 	protected void doFullExploration(StateSpaceManager manager, boolean printProgress) {
-		StateSpaceExplorationHelper helper = new StateSpaceExplorationHelper(manager,5000);
+		StateSpaceExplorationHelper helper = new StateSpaceExplorationHelper(manager, 5000);
 		long start = System.currentTimeMillis();
 		try {
 			while (helper.doExplorationStep()) {
@@ -85,10 +89,10 @@ public abstract class StateSpaceTest {
 			System.out.println(" done in " + duration + " seconds");
 		}
 	}
-	
+
 	/**
-	 * Do a state space reset. This catches possible state space exceptions
-	 * and wraps them into run-time exceptions.
+	 * Do a state space reset. This catches possible state space exceptions and wraps them into run-time exceptions.
+	 * 
 	 * @param manager State space manager.
 	 */
 	protected void doStateSpaceReset(StateSpaceManager manager) {
@@ -98,5 +102,5 @@ public abstract class StateSpaceTest {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 }

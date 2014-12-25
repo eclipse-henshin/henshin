@@ -16,8 +16,7 @@ import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Assertions for Units. For assertions on specific objects
- * matched, see {@link Matches}.
+ * Assertions for Units. For assertions on specific objects matched, see {@link Matches}.
  * 
  * @see Matches
  * @see Rules
@@ -27,87 +26,68 @@ import org.eclipse.emf.henshin.model.Unit;
  * 
  */
 public class Units {
-	
+
 	/**
-	 * Assert that the specified {@link TransformationUnit} can be executed
-	 * multiple times.
+	 * Assert that the specified {@link TransformationUnit} can be executed multiple times.
 	 * 
-	 * @param tu
-	 *            {@link TransformationUnit} to be executed
-	 * @param graph
-	 *            {@link EGraph} the {@link TransformationUnit} should be
-	 *            executed on
+	 * @param tu {@link TransformationUnit} to be executed
+	 * @param graph {@link EGraph} the {@link TransformationUnit} should be executed on
 	 * @throws AssertionError
 	 */
-	public static void assertTransformationUnitCanBeExecutedMultipleTimes(Unit tu,
-			EGraph graph, Engine engine) throws AssertionError {
+	public static void assertTransformationUnitCanBeExecutedMultipleTimes(Unit tu, EGraph graph, Engine engine)
+			throws AssertionError {
 		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 		ua.setUnit(tu);
 		ua.setEGraph(graph);
 		assertUnitApplicationCanBeExecutedMultipleTimes(ua);
 	}
-	
+
 	/**
-	 * Assert that the specified {@link UnitApplication} can be executed
-	 * multiple times.
+	 * Assert that the specified {@link UnitApplication} can be executed multiple times.
 	 * 
-	 * @param ua
-	 *            {@link UnitApplication} to be executed
+	 * @param ua {@link UnitApplication} to be executed
 	 * @throws AssertionError
 	 */
-	public static void assertUnitApplicationCanBeExecutedMultipleTimes(UnitApplication ua)
-			throws AssertionError {
-		
+	public static void assertUnitApplicationCanBeExecutedMultipleTimes(UnitApplication ua) throws AssertionError {
+
 		boolean success = ua.execute(null);
 		if (success) {
 			success = ua.execute(null);
 		}
 		if (!success) {
-			throw new AssertionError(
-					"expected: UnitApplication can be executed multiple times, but could not.");
+			throw new AssertionError("expected: UnitApplication can be executed multiple times, but could not.");
 		}
-		
+
 	}
-	
+
 	/**
-	 * Assert that the specified {@link TransformationUnit} can be executed at
-	 * least n times.
+	 * Assert that the specified {@link TransformationUnit} can be executed at least n times.
 	 * 
-	 * @param tu
-	 *            {@link TransformationUnit} to be executed
-	 * @param graph
-	 *            {@link EGraph} the {@link TransformationUnit} should be
-	 *            executed on
-	 * @param n
-	 *            minimum number of times the {@link TransformationUnit} should
-	 *            be able to be executed
+	 * @param tu {@link TransformationUnit} to be executed
+	 * @param graph {@link EGraph} the {@link TransformationUnit} should be executed on
+	 * @param n minimum number of times the {@link TransformationUnit} should be able to be executed
 	 * @throws AssertionError
 	 */
-	public static void assertTransformationUnitCanBeExecutedNTimes(Unit tu,
-			EGraph graph, Engine engine, int n) throws AssertionError {
+	public static void assertTransformationUnitCanBeExecutedNTimes(Unit tu, EGraph graph, Engine engine, int n)
+			throws AssertionError {
 		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 		ua.setUnit(tu);
 		ua.setEGraph(graph);
 		assertUnitApplicationCanBeExecutedNTimes(ua, n);
 	}
-	
+
 	/**
-	 * Assert that the specified {@link UnitApplication} can be executed at
-	 * least n times.
+	 * Assert that the specified {@link UnitApplication} can be executed at least n times.
 	 * 
-	 * @param ua
-	 *            {@link UnitApplication} to be executed
-	 * @param n
-	 *            minimum number of times the {@link UnitApplication} should be
-	 *            able to be executed
+	 * @param ua {@link UnitApplication} to be executed
+	 * @param n minimum number of times the {@link UnitApplication} should be able to be executed
 	 * @throws AssertionError
 	 */
-	public static void assertUnitApplicationCanBeExecutedNTimes(UnitApplication ua, int n)
-			throws AssertionError {
-		
+	public static void assertUnitApplicationCanBeExecutedNTimes(UnitApplication ua, int n) throws AssertionError {
+
 		boolean success = true;
 		int i;
-		for (i=0; i<n; i++) {
+		for (i = 0; i < n; i++) {
 			success = ua.execute(null);
 			if (!success) {
 				break;
@@ -117,19 +97,19 @@ public class Units {
 			throw new AssertionError("expected: UnitApplication can be executed at least " + n
 					+ " times, but could only be executed " + i + " times");
 		}
-		
+
 	}
-	
-	public static void assertTuCanBeExecuted(UnitApplication ua) throws AssertionError {
+
+	public static void assertUnitCanBeExecuted(UnitApplication ua) throws AssertionError {
 		if (!(ua.execute(null))) {
 			throw new AssertionError("expected: UnitApplication can be executed.");
 		}
 	}
-	
-	public static void assertTuCanNotBeExecuted(UnitApplication ua) throws AssertionError {
+
+	public static void assertUnitCanNotBeExecuted(UnitApplication ua) throws AssertionError {
 		if (ua.execute(null)) {
 			throw new AssertionError("expected: UnitApplication can not be executed.");
 		}
 	}
-	
+
 }

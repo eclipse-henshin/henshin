@@ -127,7 +127,7 @@ public class ParameterTest extends HenshinTest {
 		loadUnit("parameterUnit", "tu_param_in", "nd1");
 		Node matchedNode = (Node) Tools.getFirstOCLResult("self.nodename='nd1'", htEGraph);
 
-		Units.assertTuCanBeExecuted(htUnitApp);
+		Units.assertUnitCanBeExecuted(htUnitApp);
 		Graphs.assertObjectNotInGraph(matchedNode, htEGraph);
 	}
 

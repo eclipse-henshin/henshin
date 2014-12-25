@@ -34,21 +34,21 @@ public class UnitTest extends HenshinTest {
 	public void testAmalgamationUnitAttributeInKernelRuleNac() {
 		loadEGraph("graphBefore_amu_attributeInKernelNac");
 		loadUnit("loop_amu_attributeInKernelNac");
-		Units.assertTuCanBeExecuted(htUnitApp);
+		Units.assertUnitCanBeExecuted(htUnitApp);
 	}
 
 	@Test
 	public void testEmptyIndependentUnit() {
 		loadEGraph("graphBefore_countedUnit");
 		loadUnit("emptyIndependentUnit");
-		Units.assertTuCanNotBeExecuted(htUnitApp);
+		Units.assertUnitCanNotBeExecuted(htUnitApp);
 	}
 
 	@Test
 	public void testEmptyPriorityUnit() {
 		loadEGraph("graphBefore_countedUnit");
 		loadUnit("emptyPriorityUnit");
-		Units.assertTuCanNotBeExecuted(htUnitApp);
+		Units.assertUnitCanNotBeExecuted(htUnitApp);
 	}
 
 }

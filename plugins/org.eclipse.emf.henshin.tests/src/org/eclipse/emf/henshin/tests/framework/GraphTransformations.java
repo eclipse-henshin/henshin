@@ -23,20 +23,17 @@ import org.eclipse.emf.henshin.model.Unit;
  * @see Graphs
  * @see Matches
  * @author Felix Rieger
- * @author Stefan Jurack (sjurack)
+ * @author Stefan Jurack
  * 
  */
 public class GraphTransformations {
-	// test number 30
-	
+
 	/**
-	 * Assert that the number of objects in the given graph is identical before
-	 * and after application of the {@link Rule}
+	 * Assert that the number of objects in the given graph is identical before and after application of the
+	 * {@link Rule}
 	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param graph
-	 *            {@link EGraph}
+	 * @param r {@link Rule}
+	 * @param graph {@link EGraph}
 	 * @throws AssertionError
 	 */
 	public static void assertNumberOfObjectsIdentical(Rule r, EGraph graph, Engine engine) throws AssertionError {
@@ -45,35 +42,28 @@ public class GraphTransformations {
 		ra.setEGraph(graph);
 		assertNumberOfObjectsIdentical(ra);
 	}
-	
-	
+
 	/**
-	 * Assert that the number of objects in the {@link UnitApplication}'s graph
-	 * is identical before and after its execution.
+	 * Assert that the number of objects in the {@link UnitApplication}'s graph is identical before and after its
+	 * execution.
 	 * 
-	 * @param ua
-	 *            {@link UnitApplication}
+	 * @param ua {@link UnitApplication}
 	 * @throws AssertionError
 	 */
 	public static void assertNumberOfObjectsIdentical(UnitApplication ua) throws AssertionError {
 		int[] sizes = Tools.getGraphSizes(ua);
 		if (sizes[0] != sizes[1]) {
 			throw new AssertionError("expected: Number of elements before and after execution of "
-					+ ua.getUnit().getName() + " identical. Values: <" + sizes[0]
-					+ "> -> <" + sizes[1] + ">");
+					+ ua.getUnit().getName() + " identical. Values: <" + sizes[0] + "> -> <" + sizes[1] + ">");
 		}
 	}
-	
-	// test number 31
-	
+
 	/**
-	 * Assert that the number of objects in the graph is not identical before
-	 * and after application of the specified {@link Rule}
+	 * Assert that the number of objects in the graph is not identical before and after application of the specified
+	 * {@link Rule}
 	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param graph
-	 *            {@link EGraph}
+	 * @param r {@link Rule}
+	 * @param graph {@link EGraph}
 	 * @throws AssertionError
 	 */
 	public static void assertNumberOfObjectsChanged(Rule r, EGraph graph, Engine engine) throws AssertionError {
@@ -82,48 +72,35 @@ public class GraphTransformations {
 		ra.setEGraph(graph);
 		assertNumberOfObjectsChanged(ra);
 	}
-	
+
 	/**
-	 * Assert that the number of objects in the engine's graph is not identical
-	 * before and after execution of the specified {@link Unit}
+	 * Assert that the number of objects in the engine's graph is not identical before and after execution of the
+	 * specified {@link Unit}
 	 * 
-	 * @param tu
-	 *            {@link Unit}
-	 * @param engine
-	 *            {@link Engine}
+	 * @param tu {@link Unit}
+	 * @param engine {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsChanged(Unit tu, EGraph graph, Engine engine)
-			throws AssertionError {
+	public static void assertNumberOfObjectsChanged(Unit tu, EGraph graph, Engine engine) throws AssertionError {
 		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 		ua.setUnit(tu);
 		ua.setEGraph(graph);
 		assertNumberOfObjectsChanged(ua);
 	}
-	
+
 	/**
-	 * Assert that the number of objects in the {@link UnitApplication}'s graph
-	 * is not identical before and after its execution
+	 * Assert that the number of objects in the {@link UnitApplication}'s graph is not identical before and after its
+	 * execution
 	 * 
-	 * @param ua
-	 *            {@link UnitApplication}
+	 * @param ua {@link UnitApplication}
 	 * @throws AssertionError
 	 */
 	public static void assertNumberOfObjectsChanged(UnitApplication ua) throws AssertionError {
-		int[] sizes = getGraphSizes(ua);
+		int[] sizes = Tools.getGraphSizes(ua);
 		if (sizes[0] == sizes[1]) {
 			throw new AssertionError("expected: Number of elements before and after execution of "
-					+ ua.getUnit().getName() + " different. Values: <" + sizes[0]
-					+ "> -> <" + sizes[1] + ">");
+					+ ua.getUnit().getName() + " different. Values: <" + sizes[0] + "> -> <" + sizes[1] + ">");
 		}
 	}
-	
-	// test number 18
-	
-	// 16, 17
-	
-	private static int[] getGraphSizes(UnitApplication ua) {
-		return Tools.getGraphSizes(ua);
-	}
-	
+
 }
