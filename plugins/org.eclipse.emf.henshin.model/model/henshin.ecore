@@ -216,7 +216,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//ModelElement #//GraphElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="equalParentGraphs"/>
+      <details key="constraints" value="equalParentGraphs indexValidJavaScript"/>
     </eAnnotations>
     <eOperations name="getActionEdge" eType="#//Edge"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
@@ -231,6 +231,9 @@
         changeable="false" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//ModelElement #//GraphElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="valueValidJavaScript"/>
+    </eAnnotations>
     <eOperations name="getActionAttribute" eType="#//Attribute"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -242,7 +245,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeCondition" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="conditionTextNotEmpty"/>
+      <details key="constraints" value="conditionTextNotEmpty conditionValidJavaScript"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
         eOpposite="#//Rule/attributeConditions"/>
@@ -276,7 +279,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PriorityUnit" eSuperTypes="#//MultiUnit"/>
   <eClassifiers xsi:type="ecore:EClass" name="IteratedUnit" eSuperTypes="#//UnaryUnit">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="iterationsNotEmpty"/>
+      <details key="constraints" value="iterationsNotEmpty iterationsValidJavaScript"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iterations" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>

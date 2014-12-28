@@ -1819,19 +1819,25 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "equalParentGraphs"
+			 "constraints", "equalParentGraphs indexValidJavaScript"
+		   });	
+		addAnnotation
+		  (attributeEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "valueValidJavaScript"
 		   });	
 		addAnnotation
 		  (attributeConditionEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "conditionTextNotEmpty"
+			 "constraints", "conditionTextNotEmpty conditionValidJavaScript"
 		   });	
 		addAnnotation
 		  (iteratedUnitEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "iterationsNotEmpty"
+			 "constraints", "iterationsNotEmpty iterationsValidJavaScript"
 		   });	
 		addAnnotation
 		  (nestedConditionEClass, 

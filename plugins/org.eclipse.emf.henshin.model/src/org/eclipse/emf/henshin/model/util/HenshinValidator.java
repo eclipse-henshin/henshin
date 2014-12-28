@@ -9,7 +9,11 @@
  */
 package org.eclipse.emf.henshin.model.util;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.script.ScriptException;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -65,7 +69,12 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
-		
+
+	/**
+	 * JavaScript engine wrapper for validating expressions.
+	 */
+	private static final ScriptEngineWrapper SCRIPT_ENGINE = new ScriptEngineWrapper(new String[0]);
+
 	/**
 	 * Creates an instance of the switch.
 	 * <!-- begin-user-doc --> <!--
@@ -340,6 +349,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(attributeCondition, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(attributeCondition, diagnostics, context);
 		if (result || diagnostics != null) result &= validateAttributeCondition_conditionTextNotEmpty(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAttributeCondition_conditionValidJavaScript(attributeCondition, diagnostics, context);
 		return result;
 	}
 	
@@ -358,6 +368,67 @@ public class HenshinValidator extends EObjectValidator {
 		return true;
 	}
 
+	/**
+	 * Validates the conditionValidJavaScript constraint of '<em>Attribute Condition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateAttributeCondition_conditionValidJavaScript(AttributeCondition attributeCondition, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		try {
+			validateExpression(attributeCondition.getConditionText(), attributeCondition.getRule());
+		} catch (ScriptException e) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, attributeCondition, AttributeCondition.class,
+					"conditionValidJavaScript", context, e));
+		}
+		return true;
+	}
+
+	/*
+	 * Validate a JavaScript expression. Throws a ScriptException on validation errors.
+	 */
+	private void validateExpression(String expression, Unit unit) throws ScriptException {
+		if (expression == null || unit == null) {
+			return;
+		}
+		expression = expression.trim();
+		if (expression.length() == 0) {
+			return;
+		}
+		if (SCRIPT_ENGINE.getEngine() == null) {
+			return;
+		}
+		StringBuilder function = new StringBuilder();
+		function.append("function _validate_expr(");
+		int paramCount = unit.getParameters().size();
+		for (int i = 0; i < paramCount; i++) {
+			Parameter param = unit.getParameters().get(i);
+			if (param.getName() == null || param.getName().trim().length() == 0) {
+				return;
+			}
+			function.append(param.getName().trim());
+			if (i < paramCount - 1) {
+				function.append(", ");
+			}
+		}
+		function.append(") {\n");
+		function.append("return\n" + expression + ";\n");
+		function.append("}\n");
+//		System.out.println(function);
+		synchronized (SCRIPT_ENGINE) {
+			try {
+				SCRIPT_ENGINE.eval(function.toString(), (unit instanceof Rule) ? ((Rule) unit).getJavaImports()
+						: new ArrayList<String>());
+			} catch (ScriptException e) {
+				String msg = (e.getMessage() != null) ? e.getMessage().replaceFirst(
+						Pattern.quote("<eval>:" + e.getLineNumber() + ":" + e.getColumnNumber()),
+						"position " + (e.getLineNumber() - 2) + ":" + e.getColumnNumber() + ":")
+						: "unknown error";
+				throw new ScriptException(msg, e.getFileName(), 1, e.getColumnNumber());
+			}
+		}
+	}	
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -615,9 +686,37 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateAttribute(Attribute attribute, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(attribute, diagnostics, context);
+		if (!validate_NoCircularContainment(attribute, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAttribute_valueValidJavaScript(attribute, diagnostics, context);
+		return result;
 	}
 	
+	/**
+	 * Validates the valueValidJavaScript constraint of '<em>Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateAttribute_valueValidJavaScript(Attribute attribute, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		try {
+			if (attribute.getNode() != null && attribute.getNode().getGraph() != null) {
+				validateExpression(attribute.getValue(), attribute.getNode().getGraph().getRule());
+			}
+		} catch (ScriptException e) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, attribute, Attribute.class,
+					"valueValidJavaScript", context, e));
+		}
+		return true;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -634,6 +733,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_equalParentGraphs(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_indexValidJavaScript(edge, diagnostics, context);
 		return result;
 	}
 	
@@ -653,6 +753,22 @@ public class HenshinValidator extends EObjectValidator {
 		return true;
 	}
 		
+	/**
+	 * Validates the indexValidJavaScript constraint of '<em>Edge</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateEdge_indexValidJavaScript(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		try {
+			validateExpression(edge.getIndex(), edge.getGraph().getRule());
+		} catch (ScriptException e) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Edge.class,
+					"indexValidJavaScript", context, e));
+		}
+		return true;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -802,6 +918,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateIteratedUnit_iterationsNotEmpty(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateIteratedUnit_iterationsValidJavaScript(iteratedUnit, diagnostics, context);
 		return result;
 	}
 
@@ -816,6 +933,22 @@ public class HenshinValidator extends EObjectValidator {
 			diagnostics
 					.add(createDiagnostic(Diagnostic.ERROR, iteratedUnit, Edge.class, "iterationsNotEmpty", context));
 			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Validates the iterationsValidJavaScript constraint of '<em>Iterated Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateIteratedUnit_iterationsValidJavaScript(IteratedUnit iteratedUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		try {
+			validateExpression(iteratedUnit.getIterations(), iteratedUnit);
+		} catch (ScriptException e) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, iteratedUnit, IteratedUnit.class,
+					"iterationsValidJavaScript", context, e));
 		}
 		return true;
 	}
@@ -1002,14 +1135,22 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	private Diagnostic createDiagnostic(int severity, EObject object, Class<?> targetType, String constraint,
 			Map<Object, Object> context) {
+		return createDiagnostic(severity, object, targetType, constraint, context, null);
+	}
+	
+	/*
+	 * Private helper for creating diagnostics.
+	 */
+	private Diagnostic createDiagnostic(int severity, EObject object, Class<?> targetType, String constraint,
+			Map<Object, Object> context, Exception exception) {
 		String typeName = targetType.getSimpleName();
 		String objectLabel = (object instanceof NamedElement) ? ((NamedElement) object).getName() + ""
 				: getObjectLabel(object, context);
 		return createDiagnostic(severity, DIAGNOSTIC_SOURCE, 0, "_UI_GenericConstraint_diagnostic",
-				new Object[] { objectLabel }, new Object[] { object }, context, "_Constraint_Msg_" + typeName + "_"
+				(exception != null) ? new Object[] { objectLabel, exception.getMessage() } : new Object[] { objectLabel },
+				new Object[] { object }, context, "_Constraint_Msg_" + typeName + "_"
 						+ constraint);
 	}
-	
 	/*
 	 * Private helper for creating diagnostics.
 	 */

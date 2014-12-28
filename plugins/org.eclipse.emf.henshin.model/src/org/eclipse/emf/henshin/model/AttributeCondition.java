@@ -23,7 +23,7 @@ package org.eclipse.emf.henshin.model;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttributeCondition()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='conditionTextNotEmpty'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='conditionTextNotEmpty conditionValidJavaScript'"
  * @generated
  */
 public interface AttributeCondition extends NamedElement {

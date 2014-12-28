@@ -82,6 +82,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Xor;
 import org.eclipse.emf.henshin.model.staticanalysis.PathFinder;
+import org.eclipse.emf.henshin.model.util.ScriptEngineWrapper;
 
 /**
  * Default {@link Engine} implementation.

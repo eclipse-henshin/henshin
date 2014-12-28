@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.EReference;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='equalParentGraphs'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='equalParentGraphs indexValidJavaScript'"
  * @generated
  */
 public interface Edge extends ModelElement, GraphElement {
