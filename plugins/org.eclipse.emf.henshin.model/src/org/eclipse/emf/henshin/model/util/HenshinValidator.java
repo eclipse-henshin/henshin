@@ -14,6 +14,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -214,6 +215,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validateRule_createdNodesNotAbstract(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_createdEdgesNotDerived(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_deletedEdgesNotDerived(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_uniqueNodeNames(rule, diagnostics, context);
 		return result;
 	}
 	
@@ -295,6 +297,32 @@ public class HenshinValidator extends EObjectValidator {
 		return result;
 	}
 	
+	/**
+	 * Validates the uniqueNodeNames constraint of '<em>Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateRule_uniqueNodeNames(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		EList<Node> nodes = rule.getActionNodes(null);
+		int size = nodes.size();
+		for (int i = 0; i < size; i++) {
+			Node n1 = nodes.get(i);
+			if (n1.getName() != null && n1.getName().trim().length() != 0) {
+				for (int j = i + 1; j < size; j++) {
+					Node n2 = nodes.get(j);
+					if (n2.getName() != null && n1.getName().trim().equals(n2.getName().trim())) {
+						diagnostics.add(createDiagnostic(Diagnostic.ERROR, n1, Rule.class, "uniqueNodeNames", context));
+						diagnostics.add(createDiagnostic(Diagnostic.ERROR, n2, Rule.class, "uniqueNodeNames", context));
+						result = false;
+					}
+				}
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -417,41 +445,7 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateGraph(Graph graph, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(graph, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(graph, diagnostics, context);
-		if (result || diagnostics != null) result &= validateGraph_uniqueNodeNames(graph, diagnostics, context);
-		return result;
-	}
-	
-	/**
-	 * Validates the uniqueNodeNames constraint of '<em>Graph</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean validateGraph_uniqueNodeNames(Graph graph, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = true;
-		for (Node n1 : graph.getNodes()) {
-			if (n1.getName() != null && n1.getName().trim().length() != 0) {
-				for (Node n2 : graph.getNodes()) {
-					if (n1 == n2)
-						break;
-					if (n2.getName() != null && n1.getName().trim().equals(n2.getName().trim())) {
-						diagnostics
-								.add(createDiagnostic(Diagnostic.ERROR, n2, Graph.class, "uniqueNodeNames", context));
-						result = false;
-					}
-				}
-			}
-		}
-		return result;
+		return validate_EveryDefaultConstraint(graph, diagnostics, context);
 	}
 	
 	/**
@@ -1009,9 +1003,11 @@ public class HenshinValidator extends EObjectValidator {
 	private Diagnostic createDiagnostic(int severity, EObject object, Class<?> targetType, String constraint,
 			Map<Object, Object> context) {
 		String typeName = targetType.getSimpleName();
-		return createDiagnostic(severity, DIAGNOSTIC_SOURCE, 0, "_UI_GenericConstraint_diagnostic", new Object[] {
-				typeName.toLowerCase() + "_" + constraint, getObjectLabel(object, context) }, new Object[] { object },
-				context, "_Constraint_Msg_" + typeName + "_" + constraint);
+		String objectLabel = (object instanceof NamedElement) ? ((NamedElement) object).getName() + ""
+				: getObjectLabel(object, context);
+		return createDiagnostic(severity, DIAGNOSTIC_SOURCE, 0, "_UI_GenericConstraint_diagnostic",
+				new Object[] { objectLabel }, new Object[] { object }, context, "_Constraint_Msg_" + typeName + "_"
+						+ constraint);
 	}
 	
 	/*
