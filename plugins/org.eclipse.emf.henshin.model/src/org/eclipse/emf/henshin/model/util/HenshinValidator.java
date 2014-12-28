@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.model.util;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -65,19 +64,7 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
-	
-	/**
-	 * Maps to translate OCL severity additions ("info", "warning" and "error")
-	 * to corresponding enumeration values of Diagnostic, i.e. Diagnostic.INFO,
-	 * Diagnostic.WARNING and Diagnostic.ERROR.
-	 */
-	private static final Map<String, String> HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP = new HashMap<String, String>();
-	static {
-		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("info", Integer.toString(Diagnostic.INFO));
-		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("warning", Integer.toString(Diagnostic.WARNING));
-		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("error", Integer.toString(Diagnostic.ERROR));
-	}
-	
+		
 	/**
 	 * Creates an instance of the switch.
 	 * <!-- begin-user-doc --> <!--
@@ -239,7 +226,8 @@ public class HenshinValidator extends EObjectValidator {
 	public boolean validateRule_mappingsFromLeft2Right(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = true;
 		for (Mapping m : rule.getMappings()) {
-			if (m.getOrigin()!=null && m.getImage()!=null && (!m.getOrigin().getGraph().isLhs() || !m.getImage().getGraph().isRhs())) {
+			if (m.getOrigin() != null && m.getImage() != null
+					&& (!m.getOrigin().getGraph().isLhs() || !m.getImage().getGraph().isRhs())) {
 				diagnostics.add(createDiagnostic(Diagnostic.ERROR, m, Rule.class, "mappingsFromLeft2Right", context));
 				result = false;
 			}
@@ -256,9 +244,10 @@ public class HenshinValidator extends EObjectValidator {
 	public boolean validateRule_createdNodesNotAbstract(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = true;
 		for (Node node : rule.getRhs().getNodes()) {
-			if (node.getType()!=null && node.getType().isAbstract()) {
-				if (rule.getMappings().getOrigin(node)==null) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, node, Rule.class, "createdNodesNotAbstract", context));
+			if (node.getType() != null && node.getType().isAbstract()) {
+				if (rule.getMappings().getOrigin(node) == null) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, node, Rule.class, "createdNodesNotAbstract",
+							context));
 					result = false;
 				}
 			}
@@ -275,9 +264,10 @@ public class HenshinValidator extends EObjectValidator {
 	public boolean validateRule_createdEdgesNotDerived(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = true;
 		for (Edge edge : rule.getRhs().getEdges()) {
-			if (edge.getType()!=null && edge.getType().isDerived()) {
-				if (rule.getMappings().getOrigin(edge)==null) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Rule.class, "createdEdgesNotDerived", context));
+			if (edge.getType() != null && edge.getType().isDerived()) {
+				if (rule.getMappings().getOrigin(edge) == null) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Rule.class, "createdEdgesNotDerived",
+							context));
 					result = false;
 				}
 			}
@@ -294,9 +284,10 @@ public class HenshinValidator extends EObjectValidator {
 	public boolean validateRule_deletedEdgesNotDerived(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = true;
 		for (Edge edge : rule.getLhs().getEdges()) {
-			if (edge.getType()!=null && edge.getType().isDerived()) {
-				if (rule.getMappings().getImage(edge, rule.getRhs())==null) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Rule.class, "deletedEdgesNotDerived", context));
+			if (edge.getType() != null && edge.getType().isDerived()) {
+				if (rule.getMappings().getImage(edge, rule.getRhs()) == null) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Rule.class, "deletedEdgesNotDerived",
+							context));
 					result = false;
 				}
 			}
@@ -331,8 +322,9 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateAttributeCondition_conditionTextNotEmpty(AttributeCondition attributeCondition, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (attributeCondition.getConditionText()==null || attributeCondition.getConditionText().trim().length()==0) {
-			diagnostics.add(createDiagnostic(Diagnostic.ERROR, attributeCondition, AttributeCondition.class, "conditionTextNotEmpty", context));
+		if (attributeCondition.getConditionText() == null || attributeCondition.getConditionText().trim().length() == 0) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, attributeCondition, AttributeCondition.class,
+					"conditionTextNotEmpty", context));
 			return false;
 		}
 		return true;
@@ -366,7 +358,7 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateParameter_nameNotEmpty(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (parameter.getName()==null || parameter.getName().trim().length()==0) {
+		if (parameter.getName() == null || parameter.getName().trim().length() == 0) {
 			diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameter, Parameter.class, "nameNotEmpty", context));
 			return false;
 		}
@@ -380,11 +372,17 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateParameter_nameNotTypeName(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (parameter.getName()==null) return true;
+		if (parameter.getName() == null) {
+			return true;
+		}
 		Unit unit = parameter.getUnit();
-		if (unit==null) return true;
+		if (unit == null) {
+			return true;
+		}
 		Module module = unit.getModule();
-		if (module==null) return true;
+		if (module == null) {
+			return true;
+		}
 		for (EPackage epackage : module.getImports()) {
 			if (validateParameter_nameNotTypeName(parameter, diagnostics, context, epackage)) {
 				return false;
@@ -399,7 +397,8 @@ public class HenshinValidator extends EObjectValidator {
 	private boolean validateParameter_nameNotTypeName(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context, EPackage epackage) {
 		for (EClassifier classifier : epackage.getEClassifiers()) {
 			if (parameter.getName().equals(classifier.getName())) {
-				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameter, Parameter.class, "nameNotTypeName", context));
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameter, Parameter.class, "nameNotTypeName",
+						context));
 				return false;
 			}
 		}
@@ -440,11 +439,13 @@ public class HenshinValidator extends EObjectValidator {
 	public boolean validateGraph_uniqueNodeNames(Graph graph, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = true;
 		for (Node n1 : graph.getNodes()) {
-			if (n1.getName()!=null && n1.getName().trim().length()!=0) {
+			if (n1.getName() != null && n1.getName().trim().length() != 0) {
 				for (Node n2 : graph.getNodes()) {
-					if (n1==n2) break;
-					if (n2.getName()!=null && n1.getName().trim().equals(n2.getName().trim())) {
-						diagnostics.add(createDiagnostic(Diagnostic.ERROR, n2, Graph.class, "uniqueNodeNames", context));
+					if (n1 == n2)
+						break;
+					if (n2.getName() != null && n1.getName().trim().equals(n2.getName().trim())) {
+						diagnostics
+								.add(createDiagnostic(Diagnostic.ERROR, n2, Graph.class, "uniqueNodeNames", context));
 						result = false;
 					}
 				}
@@ -500,8 +501,8 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateUnit_nameNotEmpty(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!(unit instanceof Rule) || (((Rule) unit).getKernelRule() == null)) { 
-			if (unit.getName()==null || unit.getName().trim().length()==0) {
+		if (!(unit instanceof Rule) || (((Rule) unit).getKernelRule() == null)) {
+			if (unit.getName() == null || unit.getName().trim().length() == 0) {
 				diagnostics.add(createDiagnostic(Diagnostic.ERROR, unit, Unit.class, "nameNotEmpty", context));
 				return false;
 			}
@@ -518,11 +519,14 @@ public class HenshinValidator extends EObjectValidator {
 	public boolean validateUnit_parameterNamesUnique(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = true;
 		for (Parameter p1 : unit.getParameters()) {
-			if (p1.getName()!=null && p1.getName().trim().length()!=0) {
+			if (p1.getName() != null && p1.getName().trim().length() != 0) {
 				for (Parameter p2 : unit.getParameters()) {
-					if (p1==p2) break;
-					if (p2.getName()!=null && p1.getName().trim().equals(p2.getName().trim())) {
-						diagnostics.add(createDiagnostic(Diagnostic.ERROR, p2, Unit.class, "parameterNamesUnique", context));
+					if (p1 == p2) {
+						break;
+					}
+					if (p2.getName() != null && p1.getName().trim().equals(p2.getName().trim())) {
+						diagnostics.add(createDiagnostic(Diagnostic.ERROR, p2, Unit.class, "parameterNamesUnique",
+								context));
 						result = false;
 					}
 				}
@@ -541,13 +545,15 @@ public class HenshinValidator extends EObjectValidator {
 		for (ParameterMapping pm : unit.getParameterMappings()) {
 			if (unit.getParameters().contains(pm.getSource())) {
 				if (pm.getTarget() != null && !unit.getSubUnits(false).contains(pm.getTarget().getUnit())) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, unit, Unit.class, "parameterMappingsPointToDirectSubUnit", context));
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, unit, Unit.class,
+							"parameterMappingsPointToDirectSubUnit", context));
 					return false;
 				}
 			}
 			if (unit.getParameters().contains(pm.getTarget())) {
 				if (pm.getSource() != null && !unit.getSubUnits(false).contains(pm.getSource().getUnit())) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, unit, Unit.class, "parameterMappingsPointToDirectSubUnit", context));
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, unit, Unit.class,
+							"parameterMappingsPointToDirectSubUnit", context));
 					return false;
 				}
 			}
@@ -593,11 +599,13 @@ public class HenshinValidator extends EObjectValidator {
 	public boolean validateNode_uniqueAttributeTypes(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = true;
 		for (Attribute a1 : node.getAttributes()) {
-			if (a1.getType()!=null) {
+			if (a1.getType() != null) {
 				for (Attribute a2 : node.getAttributes()) {
-					if (a1==a2) break;
-					if (a1.getType()==a2.getType()) {
-						diagnostics.add(createDiagnostic(Diagnostic.ERROR, a2, Node.class, "uniqueAttributeTypes", context));
+					if (a1 == a2)
+						break;
+					if (a1.getType() == a2.getType()) {
+						diagnostics.add(createDiagnostic(Diagnostic.ERROR, a2, Node.class, "uniqueAttributeTypes",
+								context));
 						result = false;
 					}
 				}
@@ -642,8 +650,8 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateEdge_equalParentGraphs(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (edge.getSource()!=null && edge.getTarget()!=null) {
-			if (edge.getSource().getGraph()!=edge.getGraph() || edge.getTarget().getGraph()!=edge.getGraph()) {
+		if (edge.getSource() != null && edge.getTarget() != null) {
+			if (edge.getSource().getGraph() != edge.getGraph() || edge.getTarget().getGraph() != edge.getGraph()) {
 				diagnostics.add(createDiagnostic(Diagnostic.ERROR, edge, Edge.class, "equalParentGraphs", context));
 				return false;
 			}
@@ -810,9 +818,10 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateIteratedUnit_iterationsNotEmpty(IteratedUnit iteratedUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (iteratedUnit.getIterations()==null || iteratedUnit.getIterations().trim().length()==0) {
-			diagnostics.add(createDiagnostic(Diagnostic.ERROR, iteratedUnit, Edge.class, "iterationsNotEmpty", context));
-			return false;			
+		if (iteratedUnit.getIterations() == null || iteratedUnit.getIterations().trim().length() == 0) {
+			diagnostics
+					.add(createDiagnostic(Diagnostic.ERROR, iteratedUnit, Edge.class, "iterationsNotEmpty", context));
+			return false;
 		}
 		return true;
 	}
@@ -865,14 +874,14 @@ public class HenshinValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean validateNestedCondition_mappingOriginContainedInParentCondition(
-			NestedCondition nestedCondition, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
+	public boolean validateNestedCondition_mappingOriginContainedInParentCondition(NestedCondition nestedCondition,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		Graph graph = nestedCondition.getHost();
 		if (graph != null && graph.eContainer() instanceof NestedCondition) {
 			for (Mapping mapping : nestedCondition.getMappings()) {
 				if (mapping.getOrigin() != null && mapping.getOrigin().getGraph() != graph) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, mapping, NestedCondition.class, "mappingOriginContainedInParentCondition", context));
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, mapping, NestedCondition.class,
+							"mappingOriginContainedInParentCondition", context));
 					return false;
 				}
 			}
@@ -886,12 +895,12 @@ public class HenshinValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean validateNestedCondition_mappingImageContainedInCurrent(
-			NestedCondition nestedCondition, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
+	public boolean validateNestedCondition_mappingImageContainedInCurrent(NestedCondition nestedCondition,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		for (Mapping mapping : nestedCondition.getMappings()) {
 			if (!nestedCondition.getConclusion().getNodes().contains(mapping.getImage())) {
-				diagnostics.add(createDiagnostic(Diagnostic.ERROR, mapping, NestedCondition.class, "mappingImageContainedInCurrent", context));
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, mapping, NestedCondition.class,
+						"mappingImageContainedInCurrent", context));
 				return false;
 			}
 		}
@@ -997,12 +1006,12 @@ public class HenshinValidator extends EObjectValidator {
 	/*
 	 * Private helper for creating diagnostics.
 	 */
-	private Diagnostic createDiagnostic(int severity, EObject object, Class<?> targetType, String constraint, Map<Object, Object> context) {
+	private Diagnostic createDiagnostic(int severity, EObject object, Class<?> targetType, String constraint,
+			Map<Object, Object> context) {
 		String typeName = targetType.getSimpleName();
-		return createDiagnostic(severity, DIAGNOSTIC_SOURCE, 0,
-				"_UI_GenericConstraint_diagnostic", 
-				new Object[] { typeName.toLowerCase() + "_" + constraint, getObjectLabel(object, context) },
-				new Object[] { object }, context, "_Constraint_Msg_" + typeName + "_" + constraint);
+		return createDiagnostic(severity, DIAGNOSTIC_SOURCE, 0, "_UI_GenericConstraint_diagnostic", new Object[] {
+				typeName.toLowerCase() + "_" + constraint, getObjectLabel(object, context) }, new Object[] { object },
+				context, "_Constraint_Msg_" + typeName + "_" + constraint);
 	}
 	
 	/*
