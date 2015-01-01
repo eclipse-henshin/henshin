@@ -11,6 +11,9 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
+/**
+ * Giraph setup helper.
+ */
 public class GiraphSetup {
 
 	private final File gitRoot;
