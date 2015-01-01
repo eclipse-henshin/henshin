@@ -1,6 +1,7 @@
-package org.eclipse.emf.henshin.interpreter.giraph;
+package org.eclipse.emf.henshin.giraph.templates;
 
 import java.util.*;
+import org.eclipse.emf.henshin.giraph.*;
 import org.eclipse.emf.henshin.model.*;
 import org.eclipse.emf.henshin.model.staticanalysis.*;
 import org.eclipse.emf.henshin.interpreter.info.*;

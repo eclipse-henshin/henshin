@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.interpreter.giraph;
+package org.eclipse.emf.henshin.giraph;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

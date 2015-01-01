@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.interpreter.giraph.GiraphRuleTemplate;
-import org.eclipse.emf.henshin.interpreter.giraph.GiraphUtil;
-import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
+import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
+import org.eclipse.emf.henshin.giraph.GiraphUtil;
+import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
 import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Module;

@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.interpreter.giraph;
+package org.eclipse.emf.henshin.giraph.templates;
 
 import java.util.*;
 
