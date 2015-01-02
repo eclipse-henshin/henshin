@@ -1,18 +1,9 @@
 package org.eclipse.emf.henshin.interpreter.ui.giraph;
 
-import java.io.ByteArrayInputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
-import org.eclipse.emf.henshin.giraph.GiraphUtil;
-import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
-import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.henshin.giraph.GiraphGenerator;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
@@ -26,6 +17,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
@@ -35,110 +27,73 @@ public class GenerateGiraphCodeWizard extends Wizard {
 
 	private GiraphPage page;
 
-	private IContainer targetContainer;
-	
-	public GenerateGiraphCodeWizard(Unit unit, IContainer targetContainer) {
+	public GenerateGiraphCodeWizard(Unit unit) {
 		this.mainUnit = unit;
-		this.targetContainer = targetContainer;
-		setWindowTitle("Giraph Code Generator");
+		setWindowTitle("Henshin Giraph Code Generator");
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#addPages()
-	 */
-	@Override
-    public void addPages() {
-		addPage(page = new GiraphPage());
-    }
 
 	/*
 	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
+	@Override
+	public void addPages() {
+		addPage(page = new GiraphPage());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
-		
+
+		GiraphGenerator generator = new GiraphGenerator();
+
+		String className = page.classNameText.getText();
+		generator.setProjectName(page.projectNameText.getText());
+		generator.setPackageName(page.packageNameText.getText());
+		generator.setMasterLogging(page.masterLoggingCheckBox.getSelection());
+		generator.setVertexLogging(page.vertexLoggingCheckBox.getSelection());
+		generator.setUseUUIDs(page.uuidsCheckBox.getSelection());
+		generator.setExampleJSON(page.jsonCheckBox.getSelection());
+
+		IFile javaFile;
 		try {
-			
-			// Rule code:
-			String className = page.classNameText.getText();
-			String packageName = page.packageNameText.getText();
-			
-			Map<String,Object> args = new HashMap<String,Object>();
-			args.put("ruleData", GiraphUtil.generateRuleData(mainUnit));
-			args.put("mainUnit", mainUnit);
-			args.put("className", className);
-			args.put("packageName", packageName);
-			args.put("masterLogging", new Boolean(page.masterLoggingCheckBox.getSelection()));
-			args.put("vertexLogging", new Boolean(page.vertexLoggingCheckBox.getSelection()));
-			args.put("useUUIDs", new Boolean(page.uuidsCheckBox.getSelection()));
-			args.put("segmentCount", 1);
-			GiraphRuleTemplate template = new GiraphRuleTemplate();
-			String giraphCode = template.generate(args);
-			
-			IFile javaRuleFile = targetContainer.getFile(new Path(className + ".java"));
-			if (javaRuleFile.exists()) {
-				javaRuleFile.setContents(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
-			} else {
-				javaRuleFile.create(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
-			}
-
-			// Data code:
-			String dataCode = new HenshinUtilTemplate().generate(args);
-			IFile javaDataFile = targetContainer.getFile(new Path("HenshinUtil.java"));
-			if (javaDataFile.exists()) {
-				javaDataFile.setContents(new ByteArrayInputStream(dataCode.getBytes()), IResource.FORCE, null);
-			} else {
-				javaDataFile.create(new ByteArrayInputStream(dataCode.getBytes()), IResource.FORCE, null);
-			}
-
-			// Instance code:
-			if (page.jsonCheckBox.getSelection()) {
-				Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
-				if (!rules.isEmpty()) {
-					String instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
-					IFile jsonFile = targetContainer.getFile(new Path(className + ".json"));
-					if (jsonFile.exists()) {
-						jsonFile.setContents(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
-					} else {
-						jsonFile.create(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
-					}
-				}
-			}
-
-			targetContainer.refreshLocal(IResource.DEPTH_INFINITE, null);
-			
-			IWorkbench wb = PlatformUI.getWorkbench();
-			IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaRuleFile.getName());
-			wb.getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput(javaRuleFile), desc.getId());
-			
-		} catch (Exception e) {
-			MessageDialog.openError(getShell(), "Error", "Error generating Giraph code: " + e.getMessage());
+			javaFile = generator.generate(mainUnit, className, new NullProgressMonitor());
+		} catch (CoreException e) {
+			MessageDialog.openError(getShell(), "Error", e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
-		
+
+		IWorkbench wb = PlatformUI.getWorkbench();
+		IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaFile.getName());
+		try {
+			wb.getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput(javaFile), desc.getId());
+		} catch (PartInitException e) {
+			MessageDialog.openError(getShell(), "Error", e.getMessage());
+		}
+
 		return true;
 	}
-	
+
 	private class GiraphPage extends WizardPage {
 
+		Text projectNameText;
 		Text packageNameText;
-		
 		Text classNameText;
 
 		Button masterLoggingCheckBox;
-
 		Button vertexLoggingCheckBox;
-
 		Button uuidsCheckBox;
-
 		Button jsonCheckBox;
 
 		public GiraphPage() {
 			super("Giraph");
-			setTitle("Giraph Code Generator");
+			setTitle("Henshin Giraph Code Generator");
 			setDescription("Enter the details for the Giraph code generation.");
 		}
 
@@ -149,14 +104,21 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			Label label;
 
 			label = new Label(comp, SWT.NONE);
-			label.setText("Package name:");
+			label.setText("Project Name:");
+			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+			projectNameText = new Text(comp, SWT.BORDER);
+			projectNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			projectNameText.setText("giraph-henshin");
+
+			label = new Label(comp, SWT.NONE);
+			label.setText("Package Name:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			packageNameText = new Text(comp, SWT.BORDER);
 			packageNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			packageNameText.setText("org.apache.giraph.examples");
-			
+			packageNameText.setText("org.apache.giraph.henshin");
+
 			label = new Label(comp, SWT.NONE);
-			label.setText("Compute class name:");
+			label.setText("Compute Class Name:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			classNameText = new Text(comp, SWT.BORDER);
 			classNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -165,13 +127,13 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			classNameText.setText(className);
 
 			label = new Label(comp, SWT.NONE);
-			label.setText("Master logging:");
+			label.setText("Master Logging:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			masterLoggingCheckBox = new Button(comp, SWT.CHECK);
 			masterLoggingCheckBox.setSelection(true);
 
 			label = new Label(comp, SWT.NONE);
-			label.setText("Vertex logging:");
+			label.setText("Vertex Logging:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			vertexLoggingCheckBox = new Button(comp, SWT.CHECK);
 
@@ -188,7 +150,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 
 			setControl(comp);
 		}
-		
+
 	}
 
 }
