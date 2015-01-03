@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="GetLibsXmlTemplate" %>
+<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="GetLibsXmlTemplate" imports="java.util.* org.eclipse.emf.henshin.giraph.* org.eclipse.emf.common.util.*"%>
 <project name="Get Giraph Libraries" default="main" basedir=".">
 	<description>
 		Download Giraph and Hadoop JARs for compiling in Eclipse
@@ -8,21 +8,16 @@
 
 	<target name="main">
 		<mkdir dir="${lib}" />
+<% for (Map.Entry<URI,URI> entry : GiraphLibraries.LIBRARIES.entrySet()) { %>
 		<get
-			src="http://repo.maven.apache.org/maven2/org/apache/giraph/giraph-core/1.1.0/giraph-core-1.1.0.jar"
-			dest="${lib}/giraph-core-1.1.0.jar" verbose="true" usetimestamp="true" />
+			src="<%= entry.getKey() %>"
+			dest="${lib}/<%= entry.getKey().lastSegment() %>" verbose="true" usetimestamp="true" />
+<%   if (entry.getValue() != null) { %>
 		<get
-			src="http://repo.maven.apache.org/maven2/org/apache/giraph/giraph-examples/1.1.0/giraph-examples-1.1.0.jar"
-			dest="${lib}/giraph-examples-1.1.0.jar" verbose="true" usetimestamp="true" />
-		<get
-			src="http://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-core/0.20.203.0/hadoop-core-0.20.203.0.jar"
-			dest="${lib}/hadoop-core-0.20.203.0.jar" verbose="true" usetimestamp="true" />
-		<get
-			src="http://central.maven.org/maven2/log4j/log4j/1.2.15/log4j-1.2.15.jar"
-			dest="${lib}/log4j-1.2.15.jar" verbose="true" usetimestamp="true" />
-		<get
-			src="http://central.maven.org/maven2/org/json/json/20090211/json-20090211.jar"
-			dest="${lib}/json-20090211.jar" verbose="true" usetimestamp="true" />
+			src="<%= entry.getValue() %>"
+			dest="${lib}/<%= entry.getValue().lastSegment() %>" verbose="true" usetimestamp="true" />
+<%   }
+   } %>
 	</target>
 
 	<target name="clean">

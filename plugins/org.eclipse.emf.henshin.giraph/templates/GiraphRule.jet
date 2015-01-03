@@ -686,13 +686,13 @@ for (GiraphRuleData data : ruleData.values()) {
     /**
      * Stack for storing unit success flags.
      */
-    private final Deque<Boolean> unitSuccesses =
+    protected final Deque<Boolean> unitSuccesses =
       new ArrayDeque<Boolean>();
 
     /**
      * Stack for storing the execution orders of independent units.
      */
-    private final Deque<List<Integer>> unitOrders =
+    protected final Deque<List<Integer>> unitOrders =
       new ArrayDeque<List<Integer>>();
 
     /*

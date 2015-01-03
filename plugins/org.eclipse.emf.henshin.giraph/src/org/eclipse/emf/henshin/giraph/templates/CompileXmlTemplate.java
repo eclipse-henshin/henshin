@@ -1,7 +1,5 @@
 package org.eclipse.emf.henshin.giraph.templates;
 
-import java.util.*;
-
 public class CompileXmlTemplate
 {
   protected static String nl;
@@ -20,13 +18,6 @@ public class CompileXmlTemplate
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
-    
-
-//@SuppressWarnings("unchecked")
-//Map<String,Object> args = (Map<String,Object>) argument;
-//String projectName = (String) args.get("projectName");
-
-
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     return stringBuffer.toString();

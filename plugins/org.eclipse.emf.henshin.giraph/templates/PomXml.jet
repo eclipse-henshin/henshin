@@ -18,12 +18,10 @@ String projectName = (String) args.get("projectName");
 	</parent>
 
 	<artifactId><%= projectName %></artifactId>
-	<packaging>jar</packaging>
-
 	<name>Henshin Giraph Examples</name>
 	<description>Generated example Henshin Giraph code</description>
 	<url>https://wiki.eclipse.org/Henshin_Code_Generator_for_Giraph</url>
-	<inceptionYear>2014</inceptionYear>
+	<packaging>jar</packaging>
 
 	<properties>
 		<top.dir>${project.basedir}/..</top.dir>
@@ -112,10 +110,6 @@ String projectName = (String) args.get("projectName");
 	<dependencies>
 
 		<!-- compile dependencies. sorted lexicographically. -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -20,6 +21,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.giraph.templates.CompileXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
@@ -30,11 +32,7 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.launching.IVMInstall;
-import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.jdt.launching.LibraryLocation;
 
 public class GiraphGenerator {
 
@@ -105,15 +103,6 @@ public class GiraphGenerator {
 		IFolder binFolder = createFolder(project, "bin");
 		javaProject.setOutputLocation(binFolder.getFullPath(), null);
 
-		// Classpath entries:
-		List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
-		IVMInstall vmInstall = JavaRuntime.getDefaultVMInstall();
-		LibraryLocation[] locations = JavaRuntime.getLibraryLocations(vmInstall);
-		for (LibraryLocation element : locations) {
-			entries.add(JavaCore.newLibraryEntry(element.getSystemLibraryPath(), null, null));
-		}
-		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), null);
-
 		// Source folders:
 		IFolder srcFolder = createFolder(project, "src");
 		IFolder mainFolder = createFolder(srcFolder, "main");
@@ -121,15 +110,17 @@ public class GiraphGenerator {
 		IFolder javaFolder = createFolder(mainFolder, "java");
 		IFolder javaTestFolder = createFolder(testFolder, "java");
 		IFolder assemblyFolder = createFolder(mainFolder, "assembly");
+		IFolder libFolder = createFolder(project, "lib");
 
-		IPackageFragmentRoot mainPackRoot = javaProject.getPackageFragmentRoot(javaFolder);
-		IPackageFragmentRoot testPackRoot = javaProject.getPackageFragmentRoot(javaTestFolder);
-		IClasspathEntry[] oldEntries = javaProject.getRawClasspath();
-		IClasspathEntry[] newEntries = new IClasspathEntry[oldEntries.length + 2];
-		System.arraycopy(oldEntries, 0, newEntries, 0, oldEntries.length);
-		newEntries[oldEntries.length] = JavaCore.newSourceEntry(mainPackRoot.getPath());
-		newEntries[oldEntries.length + 1] = JavaCore.newSourceEntry(testPackRoot.getPath());
-		javaProject.setRawClasspath(newEntries, null);
+		// Classpath:
+		List<IFile> libraries = new ArrayList<IFile>();
+		List<IFile> sourceAttachments = new ArrayList<IFile>();
+		for (Entry<URI, URI> lib : GiraphLibraries.LIBRARIES.entrySet()) {
+			libraries.add(libFolder.getFile(lib.getKey().lastSegment()));
+			sourceAttachments.add((lib.getValue() != null) ? libFolder.getFile(lib.getValue().lastSegment()) : null);
+		}
+		setupClassPath(javaProject, new IFolder[] { javaFolder, javaTestFolder }, libraries.toArray(new IFile[0]),
+				sourceAttachments.toArray(new IFile[0]));
 
 		IPackageFragment pack = javaProject.getPackageFragmentRoot(javaFolder).createPackageFragment(packageName,
 				false, null);
@@ -208,4 +199,21 @@ public class GiraphGenerator {
 			file.create(new ByteArrayInputStream(content.getBytes()), IResource.FORCE, null);
 		}
 	}
+
+	private void setupClassPath(IJavaProject javaProject, IFolder[] sourceFolders, IFile[] libraries,
+			IFile[] sourceAttachments) throws CoreException {
+		List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
+		entries.add(JavaCore
+				.newContainerEntry(new Path(
+						"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7")));
+		for (IFolder sourceFolder : sourceFolders) {
+			entries.add(JavaCore.newSourceEntry(javaProject.getPackageFragmentRoot(sourceFolder).getPath()));
+		}
+		for (int i = 0; i < libraries.length; i++) {
+			entries.add(JavaCore.newLibraryEntry(libraries[i].getFullPath(),
+					sourceAttachments[i] != null ? sourceAttachments[i].getFullPath() : null, null));
+		}
+		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), true, null);
+	}
+
 }
