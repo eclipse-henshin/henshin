@@ -54,8 +54,6 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.google.common.collect.Lists;
-
 /**
  * Henshin utility classes and methods.
  */
@@ -619,7 +617,7 @@ public class HenshinUtil {
         JSONArray jsonVertex) throws JSONException, IOException {
         JSONArray jsonEdgeArray = jsonVertex.getJSONArray(2);
         List<Edge<VertexId, ByteWritable>> edges =
-          Lists.newArrayListWithCapacity(jsonEdgeArray.length());
+          new ArrayList<Edge<VertexId, ByteWritable>>(jsonEdgeArray.length());
         for (int i = 0; i < jsonEdgeArray.length(); ++i) {
           JSONArray jsonEdge = jsonEdgeArray.getJSONArray(i);
           edges.add(EdgeFactory.create(

@@ -108,14 +108,14 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			projectNameText = new Text(comp, SWT.BORDER);
 			projectNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			projectNameText.setText("giraph-henshin");
+			projectNameText.setText(GiraphGenerator.DEFAULT_PROJECT_NAME);
 
 			label = new Label(comp, SWT.NONE);
 			label.setText("Package Name:");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 			packageNameText = new Text(comp, SWT.BORDER);
 			packageNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			packageNameText.setText("org.apache.giraph.henshin");
+			packageNameText.setText(GiraphGenerator.DEFAULT_PACKAGE_NAME);
 
 			label = new Label(comp, SWT.NONE);
 			label.setText("Compute Class Name:");

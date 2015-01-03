@@ -25,7 +25,7 @@ public class GiraphRuleTemplate
   protected final String TEXT_4 = NL + "import java.util.Deque;" + NL + "import java.util.HashSet;" + NL + "import java.util.List;" + NL + "import java.util.Set;" + NL + "" + NL + "import org.apache.giraph.aggregators.LongSumAggregator;";
   protected final String TEXT_5 = NL + "import org.apache.giraph.edge.Edge;";
   protected final String TEXT_6 = NL + "import org.apache.giraph.edge.EdgeFactory;";
-  protected final String TEXT_7 = NL + "import org.apache.giraph.graph.BasicComputation;" + NL + "import org.apache.giraph.graph.Vertex;" + NL + "import org.apache.giraph.master.DefaultMasterCompute;" + NL + "import org.apache.hadoop.io.ByteWritable;" + NL + "import org.apache.hadoop.io.LongWritable;";
+  protected final String TEXT_7 = NL + "import org.apache.giraph.examples.Algorithm;" + NL + "import org.apache.giraph.graph.BasicComputation;" + NL + "import org.apache.giraph.graph.Vertex;" + NL + "import org.apache.giraph.master.DefaultMasterCompute;" + NL + "import org.apache.hadoop.io.ByteWritable;" + NL + "import org.apache.hadoop.io.LongWritable;";
   protected final String TEXT_8 = NL + "import org.apache.log4j.Logger;";
   protected final String TEXT_9 = NL + "import static ";
   protected final String TEXT_10 = ".HenshinUtil" + NL + "  .ApplicationStack;" + NL + "import static ";

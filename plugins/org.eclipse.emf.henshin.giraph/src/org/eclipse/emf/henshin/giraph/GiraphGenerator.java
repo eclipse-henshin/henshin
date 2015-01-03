@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -19,8 +20,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.henshin.giraph.templates.CompileXmlTemplate;
+import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
+import org.eclipse.emf.henshin.giraph.templates.PomXmlTemplate;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -34,9 +38,13 @@ import org.eclipse.jdt.launching.LibraryLocation;
 
 public class GiraphGenerator {
 
-	private String projectName = "giraph-henshin";
+	public static final String DEFAULT_PROJECT_NAME = "giraph-henshin-examples";
 
-	private String packageName = "org.apache.giraph.henshin";
+	public static final String DEFAULT_PACKAGE_NAME = "org.apache.giraph.henshin.examples";
+
+	private String projectName = DEFAULT_PROJECT_NAME;
+
+	private String packageName = DEFAULT_PACKAGE_NAME;
 
 	private boolean masterLogging = true;
 
@@ -94,10 +102,7 @@ public class GiraphGenerator {
 		IJavaProject javaProject = JavaCore.create(project);
 
 		// Output folder:
-		IFolder binFolder = project.getFolder("bin");
-		if (!binFolder.exists()) {
-			binFolder.create(false, true, null);
-		}
+		IFolder binFolder = createFolder(project, "bin");
 		javaProject.setOutputLocation(binFolder.getFullPath(), null);
 
 		// Classpath entries:
@@ -110,28 +115,24 @@ public class GiraphGenerator {
 		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), null);
 
 		// Source folders:
-		IFolder srcFolder = project.getFolder("src");
-		if (!srcFolder.exists()) {
-			srcFolder.create(false, true, null);
-		}
-		IFolder mainFolder = srcFolder.getFolder("main");
-		if (!mainFolder.exists()) {
-			mainFolder.create(false, true, null);
-		}
-		IFolder javaFolder = mainFolder.getFolder("java");
-		if (!javaFolder.exists()) {
-			javaFolder.create(false, true, null);
-		}
+		IFolder srcFolder = createFolder(project, "src");
+		IFolder mainFolder = createFolder(srcFolder, "main");
+		IFolder testFolder = createFolder(srcFolder, "test");
+		IFolder javaFolder = createFolder(mainFolder, "java");
+		IFolder javaTestFolder = createFolder(testFolder, "java");
+		IFolder assemblyFolder = createFolder(mainFolder, "assembly");
 
-		IPackageFragmentRoot packRoot = javaProject.getPackageFragmentRoot(javaFolder);
+		IPackageFragmentRoot mainPackRoot = javaProject.getPackageFragmentRoot(javaFolder);
+		IPackageFragmentRoot testPackRoot = javaProject.getPackageFragmentRoot(javaTestFolder);
 		IClasspathEntry[] oldEntries = javaProject.getRawClasspath();
-		IClasspathEntry[] newEntries = new IClasspathEntry[oldEntries.length + 1];
+		IClasspathEntry[] newEntries = new IClasspathEntry[oldEntries.length + 2];
 		System.arraycopy(oldEntries, 0, newEntries, 0, oldEntries.length);
-		newEntries[oldEntries.length] = JavaCore.newSourceEntry(packRoot.getPath());
+		newEntries[oldEntries.length] = JavaCore.newSourceEntry(mainPackRoot.getPath());
+		newEntries[oldEntries.length + 1] = JavaCore.newSourceEntry(testPackRoot.getPath());
 		javaProject.setRawClasspath(newEntries, null);
 
-		IPackageFragment pack = javaProject.getPackageFragmentRoot(javaFolder).createPackageFragment(
-				"org.apache.giraph.henshin", false, null);
+		IPackageFragment pack = javaProject.getPackageFragmentRoot(javaFolder).createPackageFragment(packageName,
+				false, null);
 
 		try {
 
@@ -140,29 +141,21 @@ public class GiraphGenerator {
 			args.put("mainUnit", mainUnit);
 			args.put("className", className);
 			args.put("packageName", packageName);
+			args.put("projectName", projectName);
 			args.put("masterLogging", new Boolean(masterLogging));
 			args.put("vertexLogging", new Boolean(vertexLogging));
 			args.put("useUUIDs", new Boolean(useUUIDs));
 			args.put("segmentCount", 1);
-			GiraphRuleTemplate template = new GiraphRuleTemplate();
-			String giraphCode = template.generate(args);
 
-			// ICompilationUnit cu = pack.createCompilationUnit("HenshinUtil", buffer.toString(), false, null);
+			// Compute class:
+			String giraphCode = new GiraphRuleTemplate().generate(args);
 			IFile javaUnitFile = ((IFolder) pack.getResource()).getFile(new Path(className + ".java"));
-			if (javaUnitFile.exists()) {
-				javaUnitFile.setContents(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
-			} else {
-				javaUnitFile.create(new ByteArrayInputStream(giraphCode.getBytes()), IResource.FORCE, null);
-			}
+			writeFile(javaUnitFile, giraphCode);
 
-			// Data code:
-			String dataCode = new HenshinUtilTemplate().generate(args);
-			IFile javaDataFile = ((IFolder) pack.getResource()).getFile(new Path("HenshinUtil.java"));
-			if (javaDataFile.exists()) {
-				javaDataFile.setContents(new ByteArrayInputStream(dataCode.getBytes()), IResource.FORCE, null);
-			} else {
-				javaDataFile.create(new ByteArrayInputStream(dataCode.getBytes()), IResource.FORCE, null);
-			}
+			// Utility class:
+			String utilCode = new HenshinUtilTemplate().generate(args);
+			IFile javaUtilFile = ((IFolder) pack.getResource()).getFile(new Path("HenshinUtil.java"));
+			writeFile(javaUtilFile, utilCode);
 
 			// Instance code:
 			if (exampleJSON) {
@@ -170,16 +163,27 @@ public class GiraphGenerator {
 				if (!rules.isEmpty()) {
 					String instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
 					IFile jsonFile = project.getFile(new Path(className + ".json"));
-					if (jsonFile.exists()) {
-						jsonFile.setContents(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
-					} else {
-						jsonFile.create(new ByteArrayInputStream(instanceCode.getBytes()), IResource.FORCE, null);
-					}
+					writeFile(jsonFile, instanceCode);
 				}
 			}
 
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+			// compile.xml
+			String compileXml = new CompileXmlTemplate().generate(args);
+			IFile compileXmlFile = assemblyFolder.getFile(new Path("compile.xml"));
+			writeFile(compileXmlFile, compileXml);
 
+			// pom.xml
+			String pomXml = new PomXmlTemplate().generate(args);
+			IFile pomXmlFile = project.getFile(new Path("pom.xml"));
+			writeFile(pomXmlFile, pomXml);
+
+			// get-libs.xml
+			String getLibsXml = new GetLibsXmlTemplate().generate(args);
+			IFile getLibsXmlFile = project.getFile(new Path("get-libs.xml"));
+			writeFile(getLibsXmlFile, getLibsXml);
+
+			// Refresh:
+			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 			return javaUnitFile;
 
 		} catch (Exception e) {
@@ -189,4 +193,19 @@ public class GiraphGenerator {
 
 	}
 
+	private IFolder createFolder(IContainer parent, String name) throws CoreException {
+		IFolder folder = parent.getFolder(new Path(name));
+		if (!folder.exists()) {
+			folder.create(false, true, null);
+		}
+		return folder;
+	}
+
+	private void writeFile(IFile file, String content) throws CoreException {
+		if (file.exists()) {
+			file.setContents(new ByteArrayInputStream(content.getBytes()), IResource.FORCE, null);
+		} else {
+			file.create(new ByteArrayInputStream(content.getBytes()), IResource.FORCE, null);
+		}
+	}
 }
