@@ -81,6 +81,8 @@ public class GiraphGenerator {
 
 	public IFile generate(Unit mainUnit, String className, IProgressMonitor monitor) throws CoreException {
 
+		monitor.beginTask("Generating Giraph Code...", 12);
+
 		// Create project:
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(projectName);
@@ -90,11 +92,13 @@ public class GiraphGenerator {
 		if (!project.isOpen()) {
 			project.open(null);
 		}
+		monitor.worked(1);
 
 		// Set Java project nature:
 		IProjectDescription description = project.getDescription();
 		description.setNatureIds(new String[] { JavaCore.NATURE_ID });
 		project.setDescription(description, null);
+		monitor.worked(1);
 
 		// Create Java project:
 		IJavaProject javaProject = JavaCore.create(project);
@@ -102,6 +106,7 @@ public class GiraphGenerator {
 		// Output folder:
 		IFolder binFolder = createFolder(project, "bin");
 		javaProject.setOutputLocation(binFolder.getFullPath(), null);
+		monitor.worked(1);
 
 		// Source folders:
 		IFolder srcFolder = createFolder(project, "src");
@@ -111,6 +116,7 @@ public class GiraphGenerator {
 		IFolder javaTestFolder = createFolder(testFolder, "java");
 		IFolder assemblyFolder = createFolder(mainFolder, "assembly");
 		IFolder libFolder = createFolder(project, "lib");
+		monitor.worked(1);
 
 		// Classpath:
 		List<IFile> libraries = new ArrayList<IFile>();
@@ -121,6 +127,7 @@ public class GiraphGenerator {
 		}
 		setupClassPath(javaProject, new IFolder[] { javaFolder, javaTestFolder }, libraries.toArray(new IFile[0]),
 				sourceAttachments.toArray(new IFile[0]));
+		monitor.worked(1);
 
 		IPackageFragment pack = javaProject.getPackageFragmentRoot(javaFolder).createPackageFragment(packageName,
 				false, null);
@@ -142,11 +149,13 @@ public class GiraphGenerator {
 			String giraphCode = new GiraphRuleTemplate().generate(args);
 			IFile javaUnitFile = ((IFolder) pack.getResource()).getFile(new Path(className + ".java"));
 			writeFile(javaUnitFile, giraphCode);
+			monitor.worked(1);
 
 			// Utility class:
 			String utilCode = new HenshinUtilTemplate().generate(args);
 			IFile javaUtilFile = ((IFolder) pack.getResource()).getFile(new Path("HenshinUtil.java"));
 			writeFile(javaUtilFile, utilCode);
+			monitor.worked(1);
 
 			// Instance code:
 			if (exampleJSON) {
@@ -157,24 +166,31 @@ public class GiraphGenerator {
 					writeFile(jsonFile, instanceCode);
 				}
 			}
+			monitor.worked(1);
 
 			// compile.xml
 			String compileXml = new CompileXmlTemplate().generate(args);
 			IFile compileXmlFile = assemblyFolder.getFile(new Path("compile.xml"));
 			writeFile(compileXmlFile, compileXml);
+			monitor.worked(1);
 
 			// pom.xml
 			String pomXml = new PomXmlTemplate().generate(args);
 			IFile pomXmlFile = project.getFile(new Path("pom.xml"));
 			writeFile(pomXmlFile, pomXml);
+			monitor.worked(1);
 
 			// get-libs.xml
 			String getLibsXml = new GetLibsXmlTemplate().generate(args);
 			IFile getLibsXmlFile = project.getFile(new Path("get-libs.xml"));
 			writeFile(getLibsXmlFile, getLibsXml);
+			monitor.worked(1);
 
 			// Refresh:
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+			monitor.worked(1);
+
+			monitor.done();
 			return javaUnitFile;
 
 		} catch (Exception e) {

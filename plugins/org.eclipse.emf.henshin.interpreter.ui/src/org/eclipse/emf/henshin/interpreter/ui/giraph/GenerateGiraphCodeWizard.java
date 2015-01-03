@@ -1,11 +1,16 @@
 package org.eclipse.emf.henshin.interpreter.ui.giraph;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.giraph.GiraphGenerator;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -30,6 +35,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 	public GenerateGiraphCodeWizard(Unit unit) {
 		this.mainUnit = unit;
 		setWindowTitle("Henshin Giraph Code Generator");
+		setNeedsProgressMonitor(true);
 	}
 
 	/*
@@ -50,9 +56,8 @@ public class GenerateGiraphCodeWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 
-		GiraphGenerator generator = new GiraphGenerator();
-
-		String className = page.classNameText.getText();
+		final GiraphGenerator generator = new GiraphGenerator();
+		final String className = page.classNameText.getText();
 		generator.setProjectName(page.projectNameText.getText());
 		generator.setPackageName(page.packageNameText.getText());
 		generator.setMasterLogging(page.masterLoggingCheckBox.getSelection());
@@ -60,19 +65,33 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		generator.setUseUUIDs(page.uuidsCheckBox.getSelection());
 		generator.setExampleJSON(page.jsonCheckBox.getSelection());
 
-		IFile javaFile;
+		final List<IFile> javaFile = new ArrayList<IFile>();
+		final List<CoreException> exception = new ArrayList<CoreException>();
 		try {
-			javaFile = generator.generate(mainUnit, className, new NullProgressMonitor());
-		} catch (CoreException e) {
-			MessageDialog.openError(getShell(), "Error", e.getMessage());
-			e.printStackTrace();
+			getContainer().run(true, true, new IRunnableWithProgress() {
+				public void run(IProgressMonitor monitor) {
+					try {
+						javaFile.add(generator.generate(mainUnit, className, monitor));
+					} catch (CoreException e) {
+						exception.add(e);
+					}
+				}
+			});
+		} catch (InvocationTargetException e1) {
+		} catch (InterruptedException e1) {
+		}
+
+		if (!exception.isEmpty()) {
+			MessageDialog.openError(getShell(), "Error", exception.get(0).getMessage());
+			exception.get(0).printStackTrace();
 			return false;
 		}
 
 		IWorkbench wb = PlatformUI.getWorkbench();
-		IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaFile.getName());
+		IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaFile.get(0).getName());
 		try {
-			wb.getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput(javaFile), desc.getId());
+			wb.getActiveWorkbenchWindow().getActivePage()
+					.openEditor(new FileEditorInput(javaFile.get(0)), desc.getId());
 		} catch (PartInitException e) {
 			MessageDialog.openError(getShell(), "Error", e.getMessage());
 		}
