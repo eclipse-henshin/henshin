@@ -19,10 +19,10 @@ public class GetLibsXmlTemplate
   protected final String TEXT_1 = "<project name=\"Get Giraph Libraries\" default=\"main\" basedir=\".\">" + NL + "\t<description>" + NL + "\t\tDownload Giraph and Hadoop JARs for compiling in Eclipse" + NL + "\t</description>" + NL + "" + NL + "\t<property name=\"lib\" location=\"lib\" />" + NL + "" + NL + "\t<target name=\"main\">" + NL + "\t\t<mkdir dir=\"${lib}\" />";
   protected final String TEXT_2 = NL + "\t\t<get" + NL + "\t\t\tsrc=\"";
   protected final String TEXT_3 = "\"" + NL + "\t\t\tdest=\"${lib}/";
-  protected final String TEXT_4 = "\" verbose=\"true\" usetimestamp=\"true\" />";
+  protected final String TEXT_4 = "\" usetimestamp=\"true\" />";
   protected final String TEXT_5 = NL + "\t\t<get" + NL + "\t\t\tsrc=\"";
   protected final String TEXT_6 = "\"" + NL + "\t\t\tdest=\"${lib}/";
-  protected final String TEXT_7 = "\" verbose=\"true\" usetimestamp=\"true\" />";
+  protected final String TEXT_7 = "\" usetimestamp=\"true\" />";
   protected final String TEXT_8 = NL + "\t</target>" + NL + "" + NL + "\t<target name=\"clean\">" + NL + "\t\t<delete dir=\"${lib}\" />" + NL + "\t</target>" + NL + "</project>";
   protected final String TEXT_9 = NL;
 

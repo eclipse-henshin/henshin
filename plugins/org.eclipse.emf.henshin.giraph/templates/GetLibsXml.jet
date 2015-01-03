@@ -11,11 +11,11 @@
 <% for (Map.Entry<URI,URI> entry : GiraphLibraries.LIBRARIES.entrySet()) { %>
 		<get
 			src="<%= entry.getKey() %>"
-			dest="${lib}/<%= entry.getKey().lastSegment() %>" verbose="true" usetimestamp="true" />
+			dest="${lib}/<%= entry.getKey().lastSegment() %>" usetimestamp="true" />
 <%   if (entry.getValue() != null) { %>
 		<get
 			src="<%= entry.getValue() %>"
-			dest="${lib}/<%= entry.getValue().lastSegment() %>" verbose="true" usetimestamp="true" />
+			dest="${lib}/<%= entry.getValue().lastSegment() %>" usetimestamp="true" />
 <%   }
    } %>
 	</target>

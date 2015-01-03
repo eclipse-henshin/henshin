@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -15,14 +16,17 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.giraph.templates.CompileXmlTemplate;
+import org.eclipse.emf.henshin.giraph.templates.GetLibsLaunchTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
@@ -81,7 +85,7 @@ public class GiraphGenerator {
 
 	public IFile generate(Unit mainUnit, String className, IProgressMonitor monitor) throws CoreException {
 
-		monitor.beginTask("Generating Giraph Code...", 12);
+		monitor.beginTask("Generating Giraph Code", 20);
 
 		// Create project:
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -116,6 +120,7 @@ public class GiraphGenerator {
 		IFolder javaTestFolder = createFolder(testFolder, "java");
 		IFolder assemblyFolder = createFolder(mainFolder, "assembly");
 		IFolder libFolder = createFolder(project, "lib");
+		IFolder externalToolBuildersFolder = createFolder(project, ".externalToolBuilders");
 		monitor.worked(1);
 
 		// Classpath:
@@ -186,9 +191,44 @@ public class GiraphGenerator {
 			writeFile(getLibsXmlFile, getLibsXml);
 			monitor.worked(1);
 
-			// Refresh:
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+			// get-libs.launch
+			String getLibsLaunch = new GetLibsLaunchTemplate().generate(args);
+			IFile getLibsLaunchFile = externalToolBuildersFolder.getFile(new Path("get-libs.launch"));
+			writeFile(getLibsLaunchFile, getLibsLaunch);
 			monitor.worked(1);
+
+			// get-libs.launch builder:
+			description = project.getDescription();
+			ICommand[] oldCommands = description.getBuildSpec();
+			boolean skipCommandCreation = false;
+			for (ICommand com : oldCommands) {
+				String val = com.getArguments().get("LaunchConfigHandle");
+				if (val != null && val.endsWith("get-libs.launch")) {
+					skipCommandCreation = true;
+					break;
+				}
+			}
+			if (!skipCommandCreation) {
+				ICommand[] newCommands = new ICommand[oldCommands.length + 1];
+				System.arraycopy(oldCommands, 0, newCommands, 1, oldCommands.length);
+				ICommand command = description.newCommand();
+				command.setBuilderName("org.eclipse.ui.externaltools.ExternalToolBuilder");
+				Map<String, String> commandArgs = command.getArguments();
+				commandArgs.put("LaunchConfigHandle", "<project>/.externalToolBuilders/get-libs.launch");
+				command.setArguments(commandArgs);
+				command.setBuilding(IncrementalProjectBuilder.FULL_BUILD, true);
+				command.setBuilding(IncrementalProjectBuilder.INCREMENTAL_BUILD, true);
+				newCommands[0] = command;
+				description.setBuildSpec(newCommands);
+				project.setDescription(description, null);
+			}
+			monitor.worked(1);
+
+			// Full build:
+			project.build(IncrementalProjectBuilder.FULL_BUILD, new SubProgressMonitor(monitor, 6));
+
+			// Refresh:
+			project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1));
 
 			monitor.done();
 			return javaUnitFile;
