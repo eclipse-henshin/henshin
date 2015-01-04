@@ -18,6 +18,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorDescriptor;
@@ -119,53 +120,86 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		@Override
 		public void createControl(Composite parent) {
 			Composite comp = new Composite(parent, SWT.FILL);
-			comp.setLayout(new GridLayout(2, false));
+			comp.setLayout(new GridLayout(3, true));
 			Label label;
+			Group group;
 
-			label = new Label(comp, SWT.NONE);
-			label.setText("Project Name:");
-			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			projectNameText = new Text(comp, SWT.BORDER);
-			projectNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			projectNameText.setText(GiraphGenerator.DEFAULT_PROJECT_NAME);
+			{
+				group = new Group(comp, SWT.NONE);
+				group.setText("Paths");
+				GridData data = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+				data.horizontalSpan = 3;
+				group.setLayoutData(data);
+				group.setLayout(new GridLayout(2, false));
 
-			label = new Label(comp, SWT.NONE);
-			label.setText("Package Name:");
-			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			packageNameText = new Text(comp, SWT.BORDER);
-			packageNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			packageNameText.setText(GiraphGenerator.DEFAULT_PACKAGE_NAME);
+				label = new Label(group, SWT.NONE);
+				label.setText("Project Name:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				projectNameText = new Text(group, SWT.BORDER);
+				projectNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+				projectNameText.setText(GiraphGenerator.DEFAULT_PROJECT_NAME);
 
-			label = new Label(comp, SWT.NONE);
-			label.setText("Compute Class Name:");
-			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			classNameText = new Text(comp, SWT.BORDER);
-			classNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			String className = mainUnit.getName();
-			className = className.substring(0, 1).toUpperCase() + className.substring(1);
-			classNameText.setText(className);
+				label = new Label(group, SWT.NONE);
+				label.setText("Package Name:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				packageNameText = new Text(group, SWT.BORDER);
+				packageNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+				packageNameText.setText(GiraphGenerator.DEFAULT_PACKAGE_NAME);
 
-			label = new Label(comp, SWT.NONE);
-			label.setText("Master Logging:");
-			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			masterLoggingCheckBox = new Button(comp, SWT.CHECK);
-			masterLoggingCheckBox.setSelection(true);
+				label = new Label(group, SWT.NONE);
+				label.setText("Compute Class Name:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				classNameText = new Text(group, SWT.BORDER);
+				classNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+				String className = mainUnit.getName();
+				className = className.substring(0, 1).toUpperCase() + className.substring(1);
+				classNameText.setText(className);
+			}
 
-			label = new Label(comp, SWT.NONE);
-			label.setText("Vertex Logging:");
-			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			vertexLoggingCheckBox = new Button(comp, SWT.CHECK);
+			{
+				group = new Group(comp, SWT.NONE);
+				group.setText("Data Model");
+				group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				group.setLayout(new GridLayout(2, false));
 
-			label = new Label(comp, SWT.NONE);
-			label.setText("Use Java UUIDs:");
-			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			uuidsCheckBox = new Button(comp, SWT.CHECK);
-			uuidsCheckBox.setSelection(true);
+				label = new Label(group, SWT.NONE);
+				label.setText("Use Java UUIDs as Vertex IDs:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				uuidsCheckBox = new Button(group, SWT.CHECK);
+				uuidsCheckBox.setSelection(true);
 
-			label = new Label(comp, SWT.NONE);
-			label.setText("Example JSON:");
-			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			jsonCheckBox = new Button(comp, SWT.CHECK);
+			}
+
+			{
+				group = new Group(comp, SWT.NONE);
+				group.setText("Logging");
+				group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				group.setLayout(new GridLayout(2, false));
+
+				label = new Label(group, SWT.NONE);
+				label.setText("Master Logging:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				masterLoggingCheckBox = new Button(group, SWT.CHECK);
+				masterLoggingCheckBox.setSelection(true);
+
+				label = new Label(group, SWT.NONE);
+				label.setText("Vertex Logging:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				vertexLoggingCheckBox = new Button(group, SWT.CHECK);
+
+			}
+
+			{
+				group = new Group(comp, SWT.NONE);
+				group.setText("Testing");
+				group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				group.setLayout(new GridLayout(2, false));
+
+				label = new Label(group, SWT.NONE);
+				label.setText("Generate Example JSON:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				jsonCheckBox = new Button(group, SWT.CHECK);
+			}
 
 			setControl(comp);
 		}
