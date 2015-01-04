@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.henshin.giraph.templates.BuildJarLaunchTemplate;
 import org.eclipse.emf.henshin.giraph.templates.CompileXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsLaunchTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
@@ -195,37 +196,21 @@ public class GiraphGenerator {
 			String getLibsLaunch = new GetLibsLaunchTemplate().generate(args);
 			IFile getLibsLaunchFile = externalToolBuildersFolder.getFile(new Path("get-libs.launch"));
 			writeFile(getLibsLaunchFile, getLibsLaunch);
+			addExternalToolBuilder(project, "get-libs.launch", false);
 			monitor.worked(1);
 
-			// get-libs.launch builder:
-			description = project.getDescription();
-			ICommand[] oldCommands = description.getBuildSpec();
-			boolean skipCommandCreation = false;
-			for (ICommand com : oldCommands) {
-				String val = com.getArguments().get("LaunchConfigHandle");
-				if (val != null && val.endsWith("get-libs.launch")) {
-					skipCommandCreation = true;
-					break;
-				}
-			}
-			if (!skipCommandCreation) {
-				ICommand[] newCommands = new ICommand[oldCommands.length + 1];
-				System.arraycopy(oldCommands, 0, newCommands, 1, oldCommands.length);
-				ICommand command = description.newCommand();
-				command.setBuilderName("org.eclipse.ui.externaltools.ExternalToolBuilder");
-				Map<String, String> commandArgs = command.getArguments();
-				commandArgs.put("LaunchConfigHandle", "<project>/.externalToolBuilders/get-libs.launch");
-				command.setArguments(commandArgs);
-				command.setBuilding(IncrementalProjectBuilder.FULL_BUILD, true);
-				command.setBuilding(IncrementalProjectBuilder.INCREMENTAL_BUILD, true);
-				newCommands[0] = command;
-				description.setBuildSpec(newCommands);
-				project.setDescription(description, null);
-			}
+			// build-jar.launch
+			String buildJarLaunch = new BuildJarLaunchTemplate().generate(args);
+			IFile buildJarLaunchFile = externalToolBuildersFolder.getFile(new Path("build-jar.launch"));
+			writeFile(buildJarLaunchFile, buildJarLaunch);
 			monitor.worked(1);
 
 			// Full build:
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new SubProgressMonitor(monitor, 6));
+
+			// Update external builders:
+			removeExternalToolBuilder(project, "get-libs.launch");
+			addExternalToolBuilder(project, "build-jar.launch", true);
 
 			// Refresh:
 			project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1));
@@ -270,6 +255,43 @@ public class GiraphGenerator {
 					sourceAttachments[i] != null ? sourceAttachments[i].getFullPath() : null, null));
 		}
 		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), true, null);
+	}
+
+	private void addExternalToolBuilder(IProject project, String name, boolean append) throws CoreException {
+		IProjectDescription description = project.getDescription();
+		ICommand[] oldCommands = description.getBuildSpec();
+		for (ICommand com : oldCommands) {
+			String val = com.getArguments().get("LaunchConfigHandle");
+			if (val != null && val.endsWith(name)) {
+				return;
+			}
+		}
+		ICommand[] newCommands = new ICommand[oldCommands.length + 1];
+		System.arraycopy(oldCommands, 0, newCommands, append ? 0 : 1, oldCommands.length);
+		ICommand command = description.newCommand();
+		command.setBuilderName("org.eclipse.ui.externaltools.ExternalToolBuilder");
+		Map<String, String> commandArgs = command.getArguments();
+		commandArgs.put("LaunchConfigHandle", "<project>/.externalToolBuilders/" + name);
+		command.setArguments(commandArgs);
+		command.setBuilding(IncrementalProjectBuilder.FULL_BUILD, true);
+		command.setBuilding(IncrementalProjectBuilder.INCREMENTAL_BUILD, true);
+		newCommands[append ? newCommands.length - 1 : 0] = command;
+		description.setBuildSpec(newCommands);
+		project.setDescription(description, null);
+	}
+
+	private void removeExternalToolBuilder(IProject project, String name) throws CoreException {
+		IProjectDescription description = project.getDescription();
+		ICommand[] oldCommands = description.getBuildSpec();
+		List<ICommand> newCommands = new ArrayList<ICommand>();
+		for (ICommand com : oldCommands) {
+			String val = com.getArguments().get("LaunchConfigHandle");
+			if (val == null || !val.endsWith(name)) {
+				newCommands.add(com);
+			}
+		}
+		description.setBuildSpec(newCommands.toArray(new ICommand[0]));
+		project.setDescription(description, null);
 	}
 
 }
