@@ -86,7 +86,7 @@ public class GiraphGenerator {
 
 	public IFile generate(Unit mainUnit, String className, IProgressMonitor monitor) throws CoreException {
 
-		monitor.beginTask("Generating Giraph Code", 20);
+		monitor.beginTask("Initializing Giraph Project", IProgressMonitor.UNKNOWN); //20);
 
 		// Create project:
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
