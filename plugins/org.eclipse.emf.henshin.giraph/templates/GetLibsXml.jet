@@ -9,13 +9,11 @@
 	<target name="main">
 		<mkdir dir="${lib}" />
 <% for (Map.Entry<URI,URI> entry : GiraphLibraries.LIBRARIES.entrySet()) { %>
-		<get
-			src="<%= entry.getKey() %>"
-			dest="${lib}/<%= entry.getKey().lastSegment() %>" usetimestamp="true" />
+		<get src="<%= entry.getKey() %>"
+			 dest="${lib}/<%= entry.getKey().lastSegment() %>" usetimestamp="true" verbose="true" />
 <%   if (entry.getValue() != null) { %>
-		<get
-			src="<%= entry.getValue() %>"
-			dest="${lib}/<%= entry.getValue().lastSegment() %>" usetimestamp="true" />
+		<get src="<%= entry.getValue() %>"
+			 dest="${lib}/<%= entry.getValue().lastSegment() %>" usetimestamp="true" verbose="true" />
 <%   }
    } %>
 	</target>

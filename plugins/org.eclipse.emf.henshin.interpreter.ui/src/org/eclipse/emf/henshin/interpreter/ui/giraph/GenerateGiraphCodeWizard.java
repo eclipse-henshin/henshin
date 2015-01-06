@@ -64,7 +64,6 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		generator.setMasterLogging(page.masterLoggingCheckBox.getSelection());
 		generator.setVertexLogging(page.vertexLoggingCheckBox.getSelection());
 		generator.setUseUUIDs(page.uuidsCheckBox.getSelection());
-		generator.setExampleJSON(page.jsonCheckBox.getSelection());
 
 		final List<IFile> javaFile = new ArrayList<IFile>();
 		final List<CoreException> exception = new ArrayList<CoreException>();
@@ -109,7 +108,6 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		Button masterLoggingCheckBox;
 		Button vertexLoggingCheckBox;
 		Button uuidsCheckBox;
-		Button jsonCheckBox;
 
 		public GiraphPage() {
 			super("Giraph");
@@ -120,7 +118,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		@Override
 		public void createControl(Composite parent) {
 			Composite comp = new Composite(parent, SWT.FILL);
-			comp.setLayout(new GridLayout(3, true));
+			comp.setLayout(new GridLayout(2, true));
 			Label label;
 			Group group;
 
@@ -128,7 +126,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				group = new Group(comp, SWT.NONE);
 				group.setText("Paths");
 				GridData data = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-				data.horizontalSpan = 3;
+				data.horizontalSpan = 2;
 				group.setLayoutData(data);
 				group.setLayout(new GridLayout(2, false));
 
@@ -187,18 +185,6 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				vertexLoggingCheckBox = new Button(group, SWT.CHECK);
 
-			}
-
-			{
-				group = new Group(comp, SWT.NONE);
-				group.setText("Testing");
-				group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-				group.setLayout(new GridLayout(2, false));
-
-				label = new Label(group, SWT.NONE);
-				label.setText("Generate Example JSON:");
-				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-				jsonCheckBox = new Button(group, SWT.CHECK);
 			}
 
 			setControl(comp);

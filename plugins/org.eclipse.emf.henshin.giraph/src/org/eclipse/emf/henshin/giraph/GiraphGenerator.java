@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.giraph.templates.BuildJarLaunchTemplate;
 import org.eclipse.emf.henshin.giraph.templates.CompileXmlTemplate;
+import org.eclipse.emf.henshin.giraph.templates.GetHadoopXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsLaunchTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
@@ -55,8 +56,6 @@ public class GiraphGenerator {
 
 	private boolean useUUIDs = true;
 
-	private boolean exampleJSON = false;
-
 	public GiraphGenerator() {
 	}
 
@@ -80,13 +79,9 @@ public class GiraphGenerator {
 		this.useUUIDs = useUUIDs;
 	}
 
-	public void setExampleJSON(boolean exampleJSON) {
-		this.exampleJSON = exampleJSON;
-	}
-
 	public IFile generate(Unit mainUnit, String className, IProgressMonitor monitor) throws CoreException {
 
-		monitor.beginTask("Initializing Giraph Project", IProgressMonitor.UNKNOWN); //20);
+		monitor.beginTask("Generating Giraph Project", 20);
 
 		// Create project:
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -97,21 +92,20 @@ public class GiraphGenerator {
 		if (!project.isOpen()) {
 			project.open(null);
 		}
-		monitor.worked(1);
+		monitor.worked(1); // 1
 
 		// Set Java project nature:
 		IProjectDescription description = project.getDescription();
 		description.setNatureIds(new String[] { JavaCore.NATURE_ID });
 		project.setDescription(description, null);
-		monitor.worked(1);
 
 		// Create Java project:
 		IJavaProject javaProject = JavaCore.create(project);
+		monitor.worked(1); // 2
 
 		// Output folder:
 		IFolder binFolder = createFolder(project, "bin");
 		javaProject.setOutputLocation(binFolder.getFullPath(), null);
-		monitor.worked(1);
 
 		// Source folders:
 		IFolder srcFolder = createFolder(project, "src");
@@ -122,7 +116,9 @@ public class GiraphGenerator {
 		IFolder assemblyFolder = createFolder(mainFolder, "assembly");
 		IFolder libFolder = createFolder(project, "lib");
 		IFolder externalToolBuildersFolder = createFolder(project, ".externalToolBuilders");
-		monitor.worked(1);
+		IFolder testenvFolder = createFolder(project, "testenv");
+		IFolder graphsFolder = createFolder(testenvFolder, "graphs");
+		monitor.worked(1); // 3
 
 		// Classpath:
 		List<IFile> libraries = new ArrayList<IFile>();
@@ -133,10 +129,11 @@ public class GiraphGenerator {
 		}
 		setupClassPath(javaProject, new IFolder[] { javaFolder, javaTestFolder }, libraries.toArray(new IFile[0]),
 				sourceAttachments.toArray(new IFile[0]));
-		monitor.worked(1);
+		monitor.worked(1); // 4
 
 		IPackageFragment pack = javaProject.getPackageFragmentRoot(javaFolder).createPackageFragment(packageName,
 				false, null);
+		monitor.worked(1); // 5
 
 		try {
 
@@ -155,65 +152,68 @@ public class GiraphGenerator {
 			String giraphCode = new GiraphRuleTemplate().generate(args);
 			IFile javaUnitFile = ((IFolder) pack.getResource()).getFile(new Path(className + ".java"));
 			writeFile(javaUnitFile, giraphCode);
-			monitor.worked(1);
 
 			// Utility class:
 			String utilCode = new HenshinUtilTemplate().generate(args);
 			IFile javaUtilFile = ((IFolder) pack.getResource()).getFile(new Path("HenshinUtil.java"));
 			writeFile(javaUtilFile, utilCode);
-			monitor.worked(1);
+			monitor.worked(1); // 6
 
-			// Instance code:
-			if (exampleJSON) {
-				Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
-				if (!rules.isEmpty()) {
-					String instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
-					IFile jsonFile = project.getFile(new Path(className + ".json"));
+			// Example graph:
+			Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
+			if (!rules.isEmpty()) {
+				String instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
+				IFile jsonFile = graphsFolder.getFile(new Path(className + ".json"));
+				if (!jsonFile.exists()) {
 					writeFile(jsonFile, instanceCode);
 				}
 			}
-			monitor.worked(1);
+			monitor.worked(1); // 7
 
 			// compile.xml
 			String compileXml = new CompileXmlTemplate().generate(args);
 			IFile compileXmlFile = assemblyFolder.getFile(new Path("compile.xml"));
 			writeFile(compileXmlFile, compileXml);
-			monitor.worked(1);
 
 			// pom.xml
 			String pomXml = new PomXmlTemplate().generate(args);
 			IFile pomXmlFile = project.getFile(new Path("pom.xml"));
 			writeFile(pomXmlFile, pomXml);
-			monitor.worked(1);
+			monitor.worked(1); // 8
+
+			// get-hadoop.xml
+			String getHadoopXml = new GetHadoopXmlTemplate().generate(args);
+			IFile getHadoopXmlFile = testenvFolder.getFile(new Path("get-hadoop.xml"));
+			writeFile(getHadoopXmlFile, getHadoopXml);
 
 			// get-libs.xml
 			String getLibsXml = new GetLibsXmlTemplate().generate(args);
 			IFile getLibsXmlFile = project.getFile(new Path("get-libs.xml"));
 			writeFile(getLibsXmlFile, getLibsXml);
-			monitor.worked(1);
+			monitor.worked(1); // 9
 
 			// get-libs.launch
 			String getLibsLaunch = new GetLibsLaunchTemplate().generate(args);
 			IFile getLibsLaunchFile = externalToolBuildersFolder.getFile(new Path("get-libs.launch"));
 			writeFile(getLibsLaunchFile, getLibsLaunch);
 			addExternalToolBuilder(project, "get-libs.launch", false);
-			monitor.worked(1);
 
 			// build-jar.launch
 			String buildJarLaunch = new BuildJarLaunchTemplate().generate(args);
 			IFile buildJarLaunchFile = externalToolBuildersFolder.getFile(new Path("build-jar.launch"));
 			writeFile(buildJarLaunchFile, buildJarLaunch);
-			monitor.worked(1);
+			monitor.worked(1); // 10
 
 			// Full build:
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new SubProgressMonitor(monitor, 6));
+			monitor.setTaskName("Fetching Giraph and Hadoop Libraries");
+			project.build(IncrementalProjectBuilder.FULL_BUILD, new SubProgressMonitor(monitor, 8));
 
 			// Update external builders:
 			removeExternalToolBuilder(project, "get-libs.launch");
 			addExternalToolBuilder(project, "build-jar.launch", true);
 
 			// Refresh:
-			project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1));
+			project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 2));
 
 			monitor.done();
 			return javaUnitFile;

@@ -1,0 +1,18 @@
+<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="GetHadoopXmlTemplate"%>
+<project name="Get Hadoop" default="main" basedir=".">
+	<description>
+		Download Hadoop and set up test environment
+	</description>
+
+	<property name="hadoop.folder" value="hadoop-0.20.203.0" />
+	<property name="hadoop.archive" value="hadoop-0.20.203.0rc1.tar.gz" />
+
+	<target name="main">
+		<get src="http://archive.apache.org/dist/hadoop/core/${hadoop.folder}/${hadoop.archive}" dest="${hadoop.archive}" verbose="true" usetimestamp="true" />
+		<untar src="${hadoop.archive}" dest="." compression="gzip" overwrite="false" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${hadoop.archive}" />
+	</target>
+</project>
