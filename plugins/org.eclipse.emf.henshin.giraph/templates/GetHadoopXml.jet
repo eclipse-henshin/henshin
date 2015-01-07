@@ -20,6 +20,8 @@ String javaHome = (String) args.get("javaHome");
 		<replaceregexp file="${hadoop.folder}/conf/hadoop-env.sh" match="#\s*export JAVA_HOME=\S*" replace="export JAVA_HOME=${java.home}" byline="true" />
 		<mkdir dir="${hadoop.tmpdir}" />
 		<replaceregexp file="${hadoop.folder}/conf/core-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;hadoop.tmp.dir&lt;/name&gt;&#10;&lt;value&gt;${hadoop.tmpdir}&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;fs.default.name&lt;/name&gt;&#10;&lt;value&gt;hdfs://localhost:54310&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
+		<replaceregexp file="${hadoop.folder}/conf/mapred-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.job.tracker&lt;/name&gt;&#10;&lt;value&gt;localhost:54311&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.tasktracker.map.tasks.maximum&lt;/name&gt;&#10;&lt;value&gt;4&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.map.tasks&lt;/name&gt;&#10;&lt;value&gt;4&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
+		<replaceregexp file="${hadoop.folder}/conf/hdfs-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;dfs.replication&lt;/name&gt;&#10;&lt;value&gt;1&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
 	</target>
 
 	<target name="clean">
