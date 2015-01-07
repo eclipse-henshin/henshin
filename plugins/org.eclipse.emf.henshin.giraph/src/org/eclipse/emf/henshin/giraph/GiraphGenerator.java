@@ -39,6 +39,8 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.launching.IVMInstall;
+import org.eclipse.jdt.launching.JavaRuntime;
 
 public class GiraphGenerator {
 
@@ -137,15 +139,24 @@ public class GiraphGenerator {
 
 		try {
 
+			// Get Java home:
+			IVMInstall jvm = JavaRuntime.getDefaultVMInstall();
+			String javaHome = jvm.getInstallLocation().getAbsolutePath();
+
+			// Generate rule data:
+			Map<Rule, GiraphRuleData> ruleData = GiraphUtil.generateRuleData(mainUnit);
+
+			// Create template arguments:
 			Map<String, Object> args = new HashMap<String, Object>();
-			args.put("ruleData", GiraphUtil.generateRuleData(mainUnit));
+			args.put("javaHome", javaHome);
+			args.put("ruleData", ruleData);
 			args.put("mainUnit", mainUnit);
 			args.put("className", className);
 			args.put("packageName", packageName);
 			args.put("projectName", projectName);
-			args.put("masterLogging", new Boolean(masterLogging));
-			args.put("vertexLogging", new Boolean(vertexLogging));
-			args.put("useUUIDs", new Boolean(useUUIDs));
+			args.put("masterLogging", masterLogging);
+			args.put("vertexLogging", vertexLogging);
+			args.put("useUUIDs", useUUIDs);
 			args.put("segmentCount", 1);
 
 			// Compute class:

@@ -1,15 +1,22 @@
-<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="GetHadoopXmlTemplate"%>
+<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="GetHadoopXmlTemplate" imports="java.util.*"%>
+<%
+@SuppressWarnings("unchecked")
+Map<String,Object> args = (Map<String,Object>) argument;
+String javaHome = (String) args.get("javaHome");
+%>
 <project name="Get Hadoop" default="main" basedir=".">
 	<description>
 		Download Hadoop and set up test environment
 	</description>
 
+	<property name="java.home" location="<%= javaHome %>" />
 	<property name="hadoop.folder" value="hadoop-0.20.203.0" />
 	<property name="hadoop.archive" value="hadoop-0.20.203.0rc1.tar.gz" />
 
 	<target name="main">
 		<get src="http://archive.apache.org/dist/hadoop/core/${hadoop.folder}/${hadoop.archive}" dest="${hadoop.archive}" verbose="true" usetimestamp="true" />
 		<untar src="${hadoop.archive}" dest="." compression="gzip" overwrite="false" />
+		<replaceregexp file="${hadoop.folder}/conf/hadoop-env.sh" match="#\s*export JAVA_HOME=\S*" replace="export JAVA_HOME=${java.home}" byline="true" />
 	</target>
 
 	<target name="clean">
