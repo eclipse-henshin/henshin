@@ -92,7 +92,7 @@ public class GiraphGenerator {
 		if (!project.isOpen()) {
 			project.open(null);
 		}
-		monitor.worked(1); // 1
+		project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1));
 
 		// Set Java project nature:
 		IProjectDescription description = project.getDescription();
