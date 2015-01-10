@@ -56,7 +56,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//Unit">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"/>
+      <details key="constraints" value="mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames"/>
     </eAnnotations>
     <eOperations name="getKernelRule" eType="#//Rule"/>
     <eOperations name="getRootRule" eType="#//Rule"/>
@@ -134,9 +134,6 @@
         eType="#//Parameter"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Graph" eSuperTypes="#//NamedElement">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="uniqueNodeNames"/>
-    </eAnnotations>
     <eOperations name="getRule" eType="#//Rule"/>
     <eOperations name="getNode" eType="#//Node">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

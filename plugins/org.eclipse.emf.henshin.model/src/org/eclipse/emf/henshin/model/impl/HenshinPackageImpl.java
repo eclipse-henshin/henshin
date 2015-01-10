@@ -1801,19 +1801,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"
+			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames"
 		   });	
 		addAnnotation
 		  (parameterEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "nameNotEmpty nameNotTypeName"
-		   });	
-		addAnnotation
-		  (graphEClass, 
-		   source, 
-		   new String[] {
-			 "constraints", "uniqueNodeNames"
 		   });	
 		addAnnotation
 		  (nodeEClass, 

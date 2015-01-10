@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.EReference;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames'"
  * @generated
  */
 public interface Rule extends Unit {
