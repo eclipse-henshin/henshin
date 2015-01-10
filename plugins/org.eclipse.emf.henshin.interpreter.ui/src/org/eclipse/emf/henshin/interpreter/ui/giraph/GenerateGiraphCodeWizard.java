@@ -64,6 +64,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		generator.setMasterLogging(page.masterLoggingCheckBox.getSelection());
 		generator.setVertexLogging(page.vertexLoggingCheckBox.getSelection());
 		generator.setUseUUIDs(page.uuidsCheckBox.getSelection());
+		generator.setTestEnvironment(page.testEnvCheckBox.getSelection());
 
 		final List<IFile> javaFile = new ArrayList<IFile>();
 		final List<CoreException> exception = new ArrayList<CoreException>();
@@ -108,6 +109,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		Button masterLoggingCheckBox;
 		Button vertexLoggingCheckBox;
 		Button uuidsCheckBox;
+		Button testEnvCheckBox;
 
 		public GiraphPage() {
 			super("Giraph");
@@ -118,7 +120,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		@Override
 		public void createControl(Composite parent) {
 			Composite comp = new Composite(parent, SWT.FILL);
-			comp.setLayout(new GridLayout(2, true));
+			comp.setLayout(new GridLayout(1, true));
 			Label label;
 			Group group;
 
@@ -156,7 +158,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 
 			{
 				group = new Group(comp, SWT.NONE);
-				group.setText("Data Model");
+				group.setText("Options");
 				group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 				group.setLayout(new GridLayout(2, false));
 
@@ -166,24 +168,21 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				uuidsCheckBox = new Button(group, SWT.CHECK);
 				uuidsCheckBox.setSelection(true);
 
-			}
-
-			{
-				group = new Group(comp, SWT.NONE);
-				group.setText("Logging");
-				group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-				group.setLayout(new GridLayout(2, false));
-
 				label = new Label(group, SWT.NONE);
-				label.setText("Master Logging:");
+				label.setText("Enable Master Logging:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				masterLoggingCheckBox = new Button(group, SWT.CHECK);
 				masterLoggingCheckBox.setSelection(true);
 
 				label = new Label(group, SWT.NONE);
-				label.setText("Vertex Logging:");
+				label.setText("Enable Vertex Logging:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				vertexLoggingCheckBox = new Button(group, SWT.CHECK);
+
+				label = new Label(group, SWT.NONE);
+				label.setText("Install Test Environment:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				testEnvCheckBox = new Button(group, SWT.CHECK);
 
 			}
 
