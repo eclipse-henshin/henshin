@@ -119,7 +119,9 @@ public class GiraphGenerator {
 		IFolder libFolder = createFolder(project, "lib");
 		IFolder externalToolBuildersFolder = createFolder(project, ".externalToolBuilders");
 		IFolder testenvFolder = createFolder(project, "testenv");
-		IFolder graphsFolder = createFolder(testenvFolder, "graphs");
+		IFolder inputFolder = createFolder(project, "input");
+		createFolder(project, "output");
+		createFolder(project, "launch");
 		monitor.worked(1); // 3
 
 		// Classpath:
@@ -174,7 +176,7 @@ public class GiraphGenerator {
 			Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
 			if (!rules.isEmpty()) {
 				String instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
-				IFile jsonFile = graphsFolder.getFile(new Path(className + ".json"));
+				IFile jsonFile = inputFolder.getFile(new Path(className + ".json"));
 				if (!jsonFile.exists()) {
 					writeFile(jsonFile, instanceCode);
 				}
