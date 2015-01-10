@@ -1,5 +1,5 @@
 <%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="GetLibsXmlTemplate" imports="java.util.* org.eclipse.emf.henshin.giraph.* org.eclipse.emf.common.util.*"%>
-<project name="Get Giraph Libraries" default="main" basedir=".">
+<project name="get-libs" default="main" basedir=".">
 	<description>
 		Download Giraph and Hadoop JARs for developing in Eclipse
 	</description>

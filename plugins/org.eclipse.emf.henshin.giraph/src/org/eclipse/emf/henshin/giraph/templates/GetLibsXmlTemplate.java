@@ -16,7 +16,7 @@ public class GetLibsXmlTemplate
   }
 
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
-  protected final String TEXT_1 = "<project name=\"Get Giraph Libraries\" default=\"main\" basedir=\".\">" + NL + "\t<description>" + NL + "\t\tDownload Giraph and Hadoop JARs for developing in Eclipse" + NL + "\t</description>" + NL + "" + NL + "\t<target name=\"main\">";
+  protected final String TEXT_1 = "<project name=\"get-libs\" default=\"main\" basedir=\".\">" + NL + "\t<description>" + NL + "\t\tDownload Giraph and Hadoop JARs for developing in Eclipse" + NL + "\t</description>" + NL + "" + NL + "\t<target name=\"main\">";
   protected final String TEXT_2 = NL + "\t\t<get src=\"";
   protected final String TEXT_3 = "\"" + NL + "\t\t\t dest=\"";
   protected final String TEXT_4 = "\" usetimestamp=\"true\" verbose=\"true\" />";

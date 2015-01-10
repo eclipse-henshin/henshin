@@ -27,11 +27,12 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.giraph.templates.BuildJarLaunchTemplate;
 import org.eclipse.emf.henshin.giraph.templates.CompileXmlTemplate;
-import org.eclipse.emf.henshin.giraph.templates.GetHadoopXmlTemplate;
+import org.eclipse.emf.henshin.giraph.templates.InstallHadoopXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsLaunchTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
+import org.eclipse.emf.henshin.giraph.templates.LaunchEnvXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.PomXmlTemplate;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
@@ -194,10 +195,15 @@ public class GiraphGenerator {
 			writeFile(pomXmlFile, pomXml);
 			monitor.worked(1); // 8
 
-			// get-hadoop.xml
-			String getHadoopXml = new GetHadoopXmlTemplate().generate(args);
-			IFile getHadoopXmlFile = testenvFolder.getFile(new Path("get-hadoop.xml"));
-			writeFile(getHadoopXmlFile, getHadoopXml);
+			// launch-env.xml
+			String launchEnvXml = new LaunchEnvXmlTemplate().generate(args);
+			IFile launchEnvXmlFile = project.getFile(new Path("launch-env.xml"));
+			writeFile(launchEnvXmlFile, launchEnvXml);
+			
+			// install-hadoop.xml
+			String installHadoopXml = new InstallHadoopXmlTemplate().generate(args);
+			IFile installHadoopXmlFile = testenvFolder.getFile(new Path("install-hadoop.xml"));
+			writeFile(installHadoopXmlFile, installHadoopXml);
 
 			// get-libs.xml
 			String getLibsXml = new GetLibsXmlTemplate().generate(args);
