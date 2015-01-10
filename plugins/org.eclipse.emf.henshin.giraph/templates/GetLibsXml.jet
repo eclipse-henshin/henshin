@@ -1,24 +1,18 @@
 <%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="GetLibsXmlTemplate" imports="java.util.* org.eclipse.emf.henshin.giraph.* org.eclipse.emf.common.util.*"%>
 <project name="Get Giraph Libraries" default="main" basedir=".">
 	<description>
-		Download Giraph and Hadoop JARs for compiling in Eclipse
+		Download Giraph and Hadoop JARs for developing in Eclipse
 	</description>
 
-	<property name="lib" location="lib" />
-
 	<target name="main">
-		<mkdir dir="${lib}" />
 <% for (Map.Entry<URI,URI> entry : GiraphLibraries.LIBRARIES.entrySet()) { %>
 		<get src="<%= entry.getKey() %>"
-			 dest="${lib}/<%= entry.getKey().lastSegment() %>" usetimestamp="true" verbose="true" />
+			 dest="<%= entry.getKey().lastSegment() %>" usetimestamp="true" verbose="true" />
 <%   if (entry.getValue() != null) { %>
 		<get src="<%= entry.getValue() %>"
-			 dest="${lib}/<%= entry.getValue().lastSegment() %>" usetimestamp="true" verbose="true" />
+			 dest="<%= entry.getValue().lastSegment() %>" usetimestamp="true" verbose="true" />
 <%   }
    } %>
 	</target>
 
-	<target name="clean">
-		<delete dir="${lib}" />
-	</target>
 </project>

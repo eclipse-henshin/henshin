@@ -201,7 +201,7 @@ public class GiraphGenerator {
 
 			// get-libs.xml
 			String getLibsXml = new GetLibsXmlTemplate().generate(args);
-			IFile getLibsXmlFile = project.getFile(new Path("get-libs.xml"));
+			IFile getLibsXmlFile = libFolder.getFile(new Path("get-libs.xml"));
 			writeFile(getLibsXmlFile, getLibsXml);
 			monitor.worked(1); // 9
 
