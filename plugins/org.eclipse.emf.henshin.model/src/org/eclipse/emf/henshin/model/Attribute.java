@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EAttribute;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='valueValidJavaScript'"
  * @generated
  */
 public interface Attribute extends ModelElement, GraphElement {

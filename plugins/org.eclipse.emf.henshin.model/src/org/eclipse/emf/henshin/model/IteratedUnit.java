@@ -22,7 +22,7 @@ package org.eclipse.emf.henshin.model;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getIteratedUnit()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='iterationsNotEmpty'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='iterationsNotEmpty iterationsValidJavaScript'"
  * @generated
  */
 public interface IteratedUnit extends UnaryUnit {

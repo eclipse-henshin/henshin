@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.interpreter.impl;
+package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
 import java.util.List;
