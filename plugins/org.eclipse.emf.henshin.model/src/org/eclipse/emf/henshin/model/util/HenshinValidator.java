@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.*;
@@ -652,6 +654,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNode_uniqueAttributeTypes(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNode_atMostOneContainer(node, diagnostics, context);
 		return result;
 	}
 	
@@ -679,6 +682,43 @@ public class HenshinValidator extends EObjectValidator {
 		return result;
 	}
 	
+	/**
+	 * Validates the atMostOneContainer constraint of '<em>Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateNode_atMostOneContainer(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		Map<EReference, Node> containments = new HashMap<EReference, Node>();
+		for (Edge incoming : node.getIncoming()) {
+			EReference type = incoming.getType();
+			if (type != null && type.isContainment()) {
+				Node container = containments.get(type);
+				if (container != null && container != incoming.getSource()) {
+					result = false;
+					break;
+				}
+				containments.put(type, incoming.getSource());
+			}
+		}
+		for (Edge outgoing : node.getOutgoing()) {
+			EReference type = outgoing.getType();
+			if (type != null && type.isContainer() && type.getEOpposite() != null) {
+				Node container = containments.get(type.getEOpposite());
+				if (container != null && container != outgoing.getTarget()) {
+					result = false;
+					break;
+				}
+				containments.put(type.getEOpposite(), outgoing.getTarget());
+			}
+		}
+		if (!result) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, node, Node.class, "atMostOneContainer", context));
+		}
+		return result;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

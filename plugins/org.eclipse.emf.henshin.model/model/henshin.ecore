@@ -180,7 +180,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//NamedElement #//GraphElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="uniqueAttributeTypes"/>
+      <details key="constraints" value="uniqueAttributeTypes atMostOneContainer"/>
     </eAnnotations>
     <eOperations name="getAllEdges" upperBound="-1" eType="#//Edge"/>
     <eOperations name="getOutgoing" ordered="false" upperBound="-1" eType="#//Edge">

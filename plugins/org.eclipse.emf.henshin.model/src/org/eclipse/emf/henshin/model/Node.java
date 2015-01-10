@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.EReference;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueAttributeTypes'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueAttributeTypes atMostOneContainer'"
  * @generated
  */
 public interface Node extends NamedElement, GraphElement {

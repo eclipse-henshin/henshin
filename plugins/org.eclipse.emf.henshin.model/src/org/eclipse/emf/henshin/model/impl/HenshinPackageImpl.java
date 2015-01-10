@@ -1813,7 +1813,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "uniqueAttributeTypes"
+			 "constraints", "uniqueAttributeTypes atMostOneContainer"
 		   });	
 		addAnnotation
 		  (edgeEClass, 
