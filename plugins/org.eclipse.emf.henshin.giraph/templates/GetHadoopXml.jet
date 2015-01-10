@@ -24,9 +24,22 @@ String javaHome = (String) args.get("javaHome");
 		<replaceregexp file="${hadoop.home}/conf/hdfs-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;dfs.replication&lt;/name&gt;&#10;&lt;value&gt;1&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
 		<delete dir="${hadoop.tmpdir}" />
 		<mkdir dir="${hadoop.tmpdir}" />
-		<exec executable="${hadoop.home}/bin/hadoop">
+		<echo message="Formatting namenode..." />
+		<exec executable="${hadoop.home}/bin/hadoop" failonerror="true">
 			<arg value="namenode" />
 			<arg value="-format" />
+		</exec>
+		<echo message="Checking for password-less login to localhost..." />
+		<exec executable="ssh" failonerror="true">
+			<arg value="-o" />
+			<arg value="BatchMode=yes" />
+			<arg value="-o" />
+			<arg value="ConnectTimeout=10" />
+			<arg value="-o" />
+			<arg value="StrictHostKeyChecking=no" />
+			<arg value="localhost" />
+			<arg value="echo" />
+			<arg value="OK" />
 		</exec>
 	</target>
 
