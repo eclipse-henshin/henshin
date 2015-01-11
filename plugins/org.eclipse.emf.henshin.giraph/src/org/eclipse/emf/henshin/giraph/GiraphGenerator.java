@@ -33,6 +33,7 @@ import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchEnvXmlTemplate;
+import org.eclipse.emf.henshin.giraph.templates.LaunchXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.PomXmlTemplate;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
@@ -94,7 +95,7 @@ public class GiraphGenerator {
 		monitor.beginTask("Generating Giraph Project", setupTestEnvironment ? 30 : 20);
 
 		monitor.subTask("Executing Templates...");
-		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, installHadoopXml, buildJarLaunch, instanceCode;
+		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, launchXml, installHadoopXml, buildJarLaunch, instanceCode;
 		try {
 
 			// Get Java home:
@@ -123,6 +124,7 @@ public class GiraphGenerator {
 			compileXml = new CompileXmlTemplate().generate(args);
 			pomXml = new PomXmlTemplate().generate(args);
 			launchEnvXml = new LaunchEnvXmlTemplate().generate(args);
+			launchXml = new LaunchXmlTemplate().generate(args);
 			installHadoopXml = new InstallHadoopXmlTemplate().generate(args);
 			buildJarLaunch = new BuildJarLaunchTemplate().generate(args);
 
@@ -177,7 +179,7 @@ public class GiraphGenerator {
 		IFolder externalToolBuildersFolder = createFolder(project, ".externalToolBuilders");
 		IFolder inputFolder = createFolder(project, "input");
 		createFolder(project, "output");
-		createFolder(project, "launch");
+		IFolder launchFolder = createFolder(project, "launch");
 		monitor.worked(1); // 4
 
 		// First generate lib/get-libs.xml
@@ -225,6 +227,9 @@ public class GiraphGenerator {
 			}
 		}
 		monitor.worked(1); // 14
+
+		// Launch file:
+		writeFile(launchFolder, className + ".xml", launchXml);
 
 		// compile.xml
 		writeFile(assemblyFolder, "compile.xml", compileXml);
