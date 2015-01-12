@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.giraph.GiraphGenerator;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -160,7 +161,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				group = new Group(comp, SWT.NONE);
 				group.setText("Options");
 				group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-				group.setLayout(new GridLayout(2, false));
+				group.setLayout(new GridLayout(4, false));
 
 				label = new Label(group, SWT.NONE);
 				label.setText("Use Java UUIDs as Vertex IDs:");
@@ -169,20 +170,21 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				uuidsCheckBox.setSelection(true);
 
 				label = new Label(group, SWT.NONE);
-				label.setText("Enable Master Logging:");
+				label.setText("     Enable Master Logging:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				masterLoggingCheckBox = new Button(group, SWT.CHECK);
 				masterLoggingCheckBox.setSelection(true);
 
 				label = new Label(group, SWT.NONE);
-				label.setText("Enable Vertex Logging:");
-				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-				vertexLoggingCheckBox = new Button(group, SWT.CHECK);
-
-				label = new Label(group, SWT.NONE);
-				label.setText("Install Test Environment:");
+				label.setText("Install Test Environment (Hadoop 0.20.203.0, Linux only):");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				testEnvCheckBox = new Button(group, SWT.CHECK);
+				testEnvCheckBox.setEnabled(!Platform.OS_WIN32.equals(Platform.getOS()));
+
+				label = new Label(group, SWT.NONE);
+				label.setText("     Enable Vertex Logging:");
+				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+				vertexLoggingCheckBox = new Button(group, SWT.CHECK);
 
 			}
 
