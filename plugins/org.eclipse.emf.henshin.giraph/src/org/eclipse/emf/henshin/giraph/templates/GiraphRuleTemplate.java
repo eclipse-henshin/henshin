@@ -350,13 +350,13 @@ for (Unit unit : allUnits) {
   }
 }
 
-boolean needsEdgeClass = false;
-for (Rule rule : rules) {
+boolean needsEdgeClass = true;
+/*for (Rule rule : rules) {
   if (!rule.getLhs().getEdges().isEmpty() || !rule.getRhs().getEdges().isEmpty()) {
     needsEdgeClass = true;
     break;
   }
-}
+}*/
 
 
     stringBuffer.append(TEXT_1);
