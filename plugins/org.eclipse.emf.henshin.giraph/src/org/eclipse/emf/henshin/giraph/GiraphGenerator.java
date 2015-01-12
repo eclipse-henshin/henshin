@@ -1,6 +1,9 @@
 package org.eclipse.emf.henshin.giraph;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -113,6 +116,7 @@ public class GiraphGenerator {
 			args.put("className", className);
 			args.put("packageName", packageName);
 			args.put("projectName", projectName);
+			args.put("hostName", getHostName());
 			args.put("masterLogging", masterLogging);
 			args.put("vertexLogging", vertexLogging);
 			args.put("useUUIDs", useUUIDs);
@@ -349,6 +353,28 @@ public class GiraphGenerator {
 		}
 		description.setBuildSpec(newCommands.toArray(new ICommand[0]));
 		project.setDescription(description, null);
+	}
+
+	protected String getHostName() {
+		String hostname = null;
+		try {
+			String line;
+			Process p = Runtime.getRuntime().exec("hostname");
+			BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			while ((line = input.readLine()) != null) {
+				if (!line.trim().isEmpty()) {
+					hostname = line;
+					break;
+				}
+			}
+			input.close();
+		} catch (IOException e) {
+			hostname = null;
+		}
+		if (hostname == null) {
+			hostname = "localhost";
+		}
+		return hostname;
 	}
 
 }

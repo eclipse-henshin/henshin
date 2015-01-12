@@ -1,4 +1,12 @@
-<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="InstallHadoopXmlTemplate"%>
+<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="InstallHadoopXmlTemplate" imports="java.util.*"%>
+<%
+
+@SuppressWarnings("unchecked")
+Map<String,Object> args = (Map<String,Object>) argument;
+
+String hostName = (String) args.get("hostName");
+
+%>
 <project name="install-hadoop" default="main" basedir=".">
 	<description>
 		Download Hadoop and configure test environment
@@ -6,18 +14,20 @@
 
 	<include file="../launch-env.xml" />
 
-	<property name="hadoop.folder" value="hadoop-0.20.203.0" />
-	<property name="hadoop.archive" value="hadoop-0.20.203.0rc1.tar.gz" />
-	<property name="hadoop.tmpdir" value="${hadoop.folder}/data" />
+	<property name="hadoop.folder" location="hadoop-0.20.203.0" />
+	<property name="hadoop.archive" location="hadoop-0.20.203.0rc1.tar.gz" />
+	<property name="hadoop.tmpdir" location="${hadoop.folder}/data" />
 
 	<target name="main">
 		<get src="http://archive.apache.org/dist/hadoop/core/${hadoop.folder}/${hadoop.archive}" dest="${hadoop.archive}" verbose="true" usetimestamp="true" />
 		<untar src="${hadoop.archive}" dest="." compression="gzip" overwrite="false" />
 		<chmod dir="${hadoop.folder}/bin" perm="u+rx" includes="*" />
 		<replaceregexp file="${hadoop.folder}/conf/hadoop-env.sh" match="#\s*export JAVA_HOME=\S*" replace="export JAVA_HOME=${java.home}" byline="true" />
-		<replaceregexp file="${hadoop.folder}/conf/core-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;hadoop.tmp.dir&lt;/name&gt;&#10;&lt;value&gt;${hadoop.tmpdir}&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;fs.default.name&lt;/name&gt;&#10;&lt;value&gt;hdfs://localhost:54310&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
-		<replaceregexp file="${hadoop.folder}/conf/mapred-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.job.tracker&lt;/name&gt;&#10;&lt;value&gt;localhost:54311&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.tasktracker.map.tasks.maximum&lt;/name&gt;&#10;&lt;value&gt;4&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.map.tasks&lt;/name&gt;&#10;&lt;value&gt;4&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
+		<replaceregexp file="${hadoop.folder}/conf/core-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;hadoop.tmp.dir&lt;/name&gt;&#10;&lt;value&gt;${hadoop.tmpdir}&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;fs.default.name&lt;/name&gt;&#10;&lt;value&gt;hdfs://<%= hostName %>:54310&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
+		<replaceregexp file="${hadoop.folder}/conf/mapred-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.job.tracker&lt;/name&gt;&#10;&lt;value&gt;<%= hostName %>:54311&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.tasktracker.map.tasks.maximum&lt;/name&gt;&#10;&lt;value&gt;4&lt;/value&gt;&#10;&lt;/property&gt;&#10;&#10;&lt;property&gt;&#10;&lt;name&gt;mapred.map.tasks&lt;/name&gt;&#10;&lt;value&gt;4&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
 		<replaceregexp file="${hadoop.folder}/conf/hdfs-site.xml" flags="g" match="&lt;configuration&gt;\s*&lt;/configuration&gt;" replace="&lt;configuration&gt;&#10;&lt;property&gt;&#10;&lt;name&gt;dfs.replication&lt;/name&gt;&#10;&lt;value&gt;1&lt;/value&gt;&#10;&lt;/property&gt;&#10;&lt;/configuration&gt;&#10;" />
+		<replaceregexp file="${hadoop.folder}/conf/master" match="localhost" replace="<%= hostName %>" />
+		<replaceregexp file="${hadoop.folder}/conf/slaves" match="localhost" replace="<%= hostName %>" />
 		<delete dir="${hadoop.tmpdir}" />
 		<mkdir dir="${hadoop.tmpdir}" />
 		<echo message="Formatting namenode..." />
@@ -25,7 +35,7 @@
 			<arg value="namenode" />
 			<arg value="-format" />
 		</exec>
-		<echo message="Checking public-key login to localhost..." />
+		<echo message="Checking public-key login to <%= hostName %>..." />
 		<exec executable="ssh" failonerror="true">
 			<arg value="-o" />
 			<arg value="BatchMode=yes" />
@@ -33,7 +43,7 @@
 			<arg value="ConnectTimeout=10" />
 			<arg value="-o" />
 			<arg value="StrictHostKeyChecking=no" />
-			<arg value="localhost" />
+			<arg value="<%= hostName %>" />
 			<arg value="echo" />
 			<arg value="OK" />
 		</exec>
