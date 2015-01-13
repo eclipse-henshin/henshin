@@ -16,8 +16,9 @@ public class LaunchXmlTemplate
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "<project name=\"";
   protected final String TEXT_2 = "\" default=\"main\" basedir=\".\">" + NL + "\t<description>" + NL + "\t\tLaunch ";
-  protected final String TEXT_3 = NL + "\t</description>" + NL + "" + NL + "\t<include file=\"../launch-env.xml\" />" + NL + "\t" + NL + "\t<property name=\"hadoop.cmd\" value=\"${hadoop.home}/bin/hadoop\" />" + NL + "" + NL + "\t<target name=\"main\">" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/start-dfs.sh\" failonerror=\"true\" />" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/start-mapred.sh\" failonerror=\"true\" />" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-mkdir\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/stop-all.sh\" failonerror=\"true\" />" + NL + "\t</target>" + NL + "" + NL + "</project>";
-  protected final String TEXT_4 = NL;
+  protected final String TEXT_3 = NL + "\t</description>" + NL + "" + NL + "\t<include file=\"../launch-env.xml\" />" + NL + "\t" + NL + "\t<property name=\"hadoop.cmd\" value=\"${hadoop.home}/bin/hadoop\" />" + NL + "" + NL + "\t<target name=\"main\">" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/start-dfs.sh\" failonerror=\"true\" />" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/start-mapred.sh\" failonerror=\"true\" />" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-mkdir\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-put\" />" + NL + "\t\t\t<arg value=\"../input/";
+  protected final String TEXT_4 = ".json\" />" + NL + "\t\t\t<arg value=\"/input/\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"jar\" />" + NL + "\t\t\t<arg value=\"${giraph.jar.with.deps} \" />" + NL + "\t\t\t<arg value=\"org.apache.giraph.GiraphRunner\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/stop-all.sh\" failonerror=\"true\" />" + NL + "\t</target>" + NL + "" + NL + "</project>";
+  protected final String TEXT_5 = NL;
 
   public String generate(Object argument)
   {
@@ -25,6 +26,7 @@ public class LaunchXmlTemplate
     
 @SuppressWarnings("unchecked")
 Map<String,Object> args = (Map<String,Object>) argument;
+String packageName = (String) args.get("packageName");
 String className = (String) args.get("className");
 
 
@@ -33,7 +35,9 @@ String className = (String) args.get("className");
     stringBuffer.append(TEXT_2);
     stringBuffer.append( className );
     stringBuffer.append(TEXT_3);
+    stringBuffer.append( className );
     stringBuffer.append(TEXT_4);
+    stringBuffer.append(TEXT_5);
     return stringBuffer.toString();
   }
 }
