@@ -335,7 +335,7 @@ public class GiraphGenerator {
 		commandArgs.put("LaunchConfigHandle", "<project>/.externalToolBuilders/" + name);
 		command.setArguments(commandArgs);
 		command.setBuilding(IncrementalProjectBuilder.FULL_BUILD, true);
-		command.setBuilding(IncrementalProjectBuilder.INCREMENTAL_BUILD, true);
+		// command.setBuilding(IncrementalProjectBuilder.INCREMENTAL_BUILD, true);
 		newCommands[append ? newCommands.length - 1 : 0] = command;
 		description.setBuildSpec(newCommands);
 		project.setDescription(description, null);
