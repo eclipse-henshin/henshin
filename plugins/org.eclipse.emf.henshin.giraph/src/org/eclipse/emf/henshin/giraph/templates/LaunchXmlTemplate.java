@@ -17,8 +17,16 @@ public class LaunchXmlTemplate
   protected final String TEXT_1 = "<project name=\"";
   protected final String TEXT_2 = "\" default=\"main\" basedir=\".\">" + NL + "\t<description>" + NL + "\t\tLaunch ";
   protected final String TEXT_3 = NL + "\t</description>" + NL + "" + NL + "\t<include file=\"../launch-env.xml\" />" + NL + "\t" + NL + "\t<property name=\"hadoop.cmd\" value=\"${hadoop.home}/bin/hadoop\" />" + NL + "" + NL + "\t<target name=\"main\">" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/start-dfs.sh\" failonerror=\"true\" />" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/start-mapred.sh\" failonerror=\"true\" />" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-mkdir\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-put\" />" + NL + "\t\t\t<arg value=\"../input/";
-  protected final String TEXT_4 = ".json\" />" + NL + "\t\t\t<arg value=\"/input/\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"jar\" />" + NL + "\t\t\t<arg value=\"${giraph.jar.with.deps} \" />" + NL + "\t\t\t<arg value=\"org.apache.giraph.GiraphRunner\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/stop-all.sh\" failonerror=\"true\" />" + NL + "\t</target>" + NL + "" + NL + "</project>";
-  protected final String TEXT_5 = NL;
+  protected final String TEXT_4 = ".json\" />" + NL + "\t\t\t<arg value=\"/input/\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"jar\" />" + NL + "\t\t\t<arg value=\"${giraph.jar.with.deps}\" />" + NL + "\t\t\t<arg value=\"org.apache.giraph.GiraphRunner\" />" + NL + "\t\t\t<arg value=\"";
+  protected final String TEXT_5 = ".";
+  protected final String TEXT_6 = "\" />" + NL + "\t\t\t<arg value=\"-vif\" />" + NL + "\t\t\t<arg value=\"";
+  protected final String TEXT_7 = ".HenshinUtil$InputFormat\" />" + NL + "\t\t\t<arg value=\"-of\" />" + NL + "\t\t\t<arg value=\"";
+  protected final String TEXT_8 = ".HenshinUtil$OutputFormat\" />" + NL + "\t\t\t<arg value=\"-vip\" />" + NL + "\t\t\t<arg value=\"/input/";
+  protected final String TEXT_9 = ".json\" />" + NL + "\t\t\t<arg value=\"-op\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t\t<arg value=\"-w\" />" + NL + "\t\t\t<arg value=\"";
+  protected final String TEXT_10 = "\" />" + NL + "\t\t\t<arg value=\"-mc\" />" + NL + "\t\t\t<arg value=\"";
+  protected final String TEXT_11 = ".";
+  protected final String TEXT_12 = "$MasterCompute\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/stop-all.sh\" failonerror=\"true\" />" + NL + "\t</target>" + NL + "" + NL + "</project>";
+  protected final String TEXT_13 = NL;
 
   public String generate(Object argument)
   {
@@ -37,7 +45,23 @@ String className = (String) args.get("className");
     stringBuffer.append(TEXT_3);
     stringBuffer.append( className );
     stringBuffer.append(TEXT_4);
+    stringBuffer.append( packageName );
     stringBuffer.append(TEXT_5);
+    stringBuffer.append( className );
+    stringBuffer.append(TEXT_6);
+    stringBuffer.append( packageName );
+    stringBuffer.append(TEXT_7);
+    stringBuffer.append( packageName );
+    stringBuffer.append(TEXT_8);
+    stringBuffer.append( className );
+    stringBuffer.append(TEXT_9);
+    stringBuffer.append( Runtime.getRuntime().availableProcessors() );
+    stringBuffer.append(TEXT_10);
+    stringBuffer.append( packageName );
+    stringBuffer.append(TEXT_11);
+    stringBuffer.append( className );
+    stringBuffer.append(TEXT_12);
+    stringBuffer.append(TEXT_13);
     return stringBuffer.toString();
   }
 }

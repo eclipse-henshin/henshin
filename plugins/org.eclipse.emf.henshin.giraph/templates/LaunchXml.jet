@@ -31,8 +31,21 @@ String className = (String) args.get("className");
 		</exec>
 		<exec executable="${hadoop.cmd}">
 			<arg value="jar" />
-			<arg value="${giraph.jar.with.deps} " />
+			<arg value="${giraph.jar.with.deps}" />
 			<arg value="org.apache.giraph.GiraphRunner" />
+			<arg value="<%= packageName %>.<%= className %>" />
+			<arg value="-vif" />
+			<arg value="<%= packageName %>.HenshinUtil$InputFormat" />
+			<arg value="-of" />
+			<arg value="<%= packageName %>.HenshinUtil$OutputFormat" />
+			<arg value="-vip" />
+			<arg value="/input/<%= className %>.json" />
+			<arg value="-op" />
+			<arg value="/output" />
+			<arg value="-w" />
+			<arg value="<%= Runtime.getRuntime().availableProcessors() %>" />
+			<arg value="-mc" />
+			<arg value="<%= packageName %>.<%= className %>$MasterCompute" />
 		</exec>
 		<exec executable="${hadoop.cmd}">
 			<arg value="fs" />
