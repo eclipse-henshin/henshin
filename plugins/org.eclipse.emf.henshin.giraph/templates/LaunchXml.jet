@@ -19,6 +19,11 @@ String className = (String) args.get("className");
 		<exec executable="${hadoop.home}/bin/start-dfs.sh" failonerror="true" />
 		<exec executable="${hadoop.home}/bin/start-mapred.sh" failonerror="true" />
 		<exec executable="${hadoop.cmd}">
+			<arg value="dfsadmin" />
+			<arg value="-safemode" />
+			<arg value="leave" />
+		</exec>
+		<exec executable="${hadoop.cmd}">
 			<arg value="fs" />
 			<arg value="-mkdir" />
 			<arg value="/input" />
@@ -46,6 +51,14 @@ String className = (String) args.get("className");
 			<arg value="<%= Runtime.getRuntime().availableProcessors() %>" />
 			<arg value="-mc" />
 			<arg value="<%= packageName %>.<%= className %>$MasterCompute" />
+		</exec>
+		<delete dir="../output" />
+		<mkdir dir="../output" />
+		<exec executable="${hadoop.cmd}">
+			<arg value="fs" />
+			<arg value="-get" />
+			<arg value="/output/*" />
+			<arg value="../output" />
 		</exec>
 		<exec executable="${hadoop.cmd}">
 			<arg value="fs" />

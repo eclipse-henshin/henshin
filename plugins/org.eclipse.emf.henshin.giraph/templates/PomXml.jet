@@ -18,8 +18,8 @@ String projectName = (String) args.get("projectName");
 	</parent>
 
 	<artifactId><%= projectName %></artifactId>
-	<name>Henshin Giraph Examples</name>
-	<description>Generated example Henshin Giraph code</description>
+	<name>Giraph Henshin Examples</name>
+	<description>Generated example code</description>
 	<url>https://wiki.eclipse.org/Henshin_Code_Generator_for_Giraph</url>
 	<packaging>jar</packaging>
 
