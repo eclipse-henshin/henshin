@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -73,6 +73,15 @@ public class PartialMatchReport {
 		 * Delta from the partial match to the lhs
 		 */
 		Graph delta;
+		/**
+		 * 
+		 */
+		private Map<Node, Node> deltaNodes2originalRuleNodes = new HashMap<Node, Node>();
+
+		public Map<Node, Node> getDeltaNodes2originalRuleNodes() {
+			return deltaNodes2originalRuleNodes;
+		}
+
 		/**
 		 * Flag to indicate a complete match
 		 */
@@ -184,7 +193,7 @@ public class PartialMatchReport {
 			PartialMatchInfo info = new PartialMatchInfo();
 			info.setMatch(match);
 			
-			info.setDelta(computeDelta(originalRule, match));
+			info.setDelta(computeDelta(originalRule, match, info));
 			
 			if (info.getDelta().getNodes().isEmpty()
 					&& info.getDelta().getEdges().isEmpty()) {
@@ -204,46 +213,38 @@ public class PartialMatchReport {
 	 * 
 	 * @param originalRule Rule to compute a delta with the partial match for
 	 * @param match (Partial) match for originalRule
+	 * @param info Partial match info 
 	 * @return Graph as a delta between the originalRule and the given (partial) match
 	 */
-	private Graph computeDelta(Rule originalRule, Match match) {
+	private Graph computeDelta(Rule originalRule, Match match, PartialMatchInfo info) {
 
-		Graph delta = EcoreUtil.copy(originalRule.getLhs());
+		Graph delta = HenshinFactory.eINSTANCE.createGraph("Partial match delta for " + originalRule.getName());
+		
+		// Copy all nodes and edges from the original or swapped rule into the delta
+		Map<Node, Node> originalRuleNodes2deltaNodes = new HashMap<Node, Node>();
+		for (Node originalRuleNode : originalRule.getLhs().getNodes()) {
+			Node deltaNode = HenshinFactory.eINSTANCE.createNode(delta, originalRuleNode.getType(), originalRuleNode.getName());
+			info.deltaNodes2originalRuleNodes.put(deltaNode, originalRuleNode);
+			originalRuleNodes2deltaNodes.put(originalRuleNode, deltaNode);
+		}
+		for (Edge edge : originalRule.getLhs().getEdges()) {
+			HenshinFactory.eINSTANCE.createEdge(originalRuleNodes2deltaNodes.get(edge.getSource()), originalRuleNodes2deltaNodes.get(edge.getTarget()), edge.getType());
+		}
+		
 		Rule matchingRule = match.getRule();
-		delta.setName("Partial match delta for " + matchingRule.getName());
-		List<Node> nodesToRemove = new ArrayList<Node>();
-		List<Edge> edgesToRemove = new ArrayList<Edge>();
-
-		for (Node node : delta.getNodes()) {
-			for (Node node2 : matchingRule.getLhs().getNodes()) {
-				if (node.getType().equals(node2.getType()) && node.getName() == (node2.getName())) {
-					nodesToRemove.add(node);
+		for (Node nodeInMatchingRule : matchingRule.getLhs().getNodes()) {
+			Node nodeToRemove= null;
+			for (Node nodeInDelta : delta.getNodes()) {
+				if (nodeInMatchingRule.getType().equals(nodeInDelta.getType()) && nodeInMatchingRule.getName() == nodeInDelta.getName()) {
+					nodeToRemove = nodeInDelta;
 					break;
 				}
 			}
+			delta.removeNode(nodeToRemove);
+			info.deltaNodes2originalRuleNodes.remove(nodeToRemove);
 		}
 		
-		for (Edge edge : delta.getEdges()) {
-			for (Edge edge2 : matchingRule.getLhs().getEdges()) {
-				if(edge.getType().equals(edge2.getType())) {
-					edgesToRemove.add(edge);
-					break;
-				}
-			}
-		}
-		
-		for (Node node : nodesToRemove) {
-			List<Edge> edgesToAdd = new ArrayList<Edge>();
-			edgesToAdd.addAll(node.getIncoming());
-			edgesToAdd.addAll(node.getOutgoing());
-			
-			delta.removeNode(node);
-			delta.getEdges().addAll(edgesToAdd);
-		}
-		
-		for (Edge edge : edgesToRemove) {
-			delta.removeEdge(edge);
-		}
+		info.setDelta(delta);
 		
 		return delta;
 	}

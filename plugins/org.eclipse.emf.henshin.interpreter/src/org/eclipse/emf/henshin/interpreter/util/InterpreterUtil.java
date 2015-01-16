@@ -150,6 +150,7 @@ public class InterpreterUtil {
 	 */
 	public static List<Match> findMaximalPartialMatches(Engine engine, Module module, EGraph graph) {
 		List<Match> matches = new ArrayList<Match>();
+		int reductionDepth = 2;
 
 		for (Unit unit : module.getUnits()) {
 			if (unit instanceof Rule) {
@@ -160,7 +161,7 @@ public class InterpreterUtil {
 
 				// If there are no complete matches, check for partial matches
 				if (newMatches.isEmpty()) {
-					newMatches = findPartialMatchesPerRule((Rule) unit, engine, graph);
+					newMatches = findPartialMatchesPerRule((Rule) unit, engine, graph, reductionDepth);
 				}
 
 				// If any partial matches were found then remove empty and
@@ -192,7 +193,8 @@ public class InterpreterUtil {
 	public static PartialMatchReport findAndReportMaximalPartialMatches(Engine engine, Module module, EGraph graph) {
 		List<Match> matches = new ArrayList<Match>();
 		PartialMatchReport partialMatchReport = new PartialMatchReport(module, matches);
-
+		int reductionDepth = 2;
+		
 		for (Unit unit : module.getUnits()) {
 			if (unit instanceof Rule) {
 
@@ -205,7 +207,7 @@ public class InterpreterUtil {
 				// lead to a match
 				if (newMatches.isEmpty()) {
 					// Check for partial matches
-					newMatches = findPartialMatchesPerRule((Rule) unit, engine, graph);
+					newMatches = findPartialMatchesPerRule((Rule) unit, engine, graph, reductionDepth);
 				}
 
 				if (!newMatches.isEmpty()) {
@@ -261,23 +263,26 @@ public class InterpreterUtil {
 	 * @param graph Target graph.
 	 * @return The list of partial matches.
 	 */
-	private static List<Match> findPartialMatchesPerRule(Rule rule, Engine engine, EGraph graph) {
+	private static List<Match> findPartialMatchesPerRule(Rule rule, Engine engine, EGraph graph, int reductionDepth) {
 		List<Match> matches = new ArrayList<Match>();
-
-		// Reduce the rule and get as a result a list of rules, each having 1
-		// node less and the input rule
-		List<Rule> newRules = reduceRule(rule);
-
-		// Find matches for the reduced rules
-		for (Rule newRule : newRules) {
-			matches.addAll(findAllMatches(engine, newRule, graph, null));
-		}
-
-		// If no matches for the reduced rules were found, call the method
-		// recursively for these reduced rules
-		while (matches.isEmpty()) {
+		
+		if (reductionDepth > 0) {
+			// Reduce the rule and get as a result a list of rules, each having 1 node less and the input rule
+			List<Rule> newRules = reduceRule(rule);
+			reductionDepth--;
+			
+			// Find matches for the reduced rules
 			for (Rule newRule : newRules) {
-				matches.addAll(findPartialMatchesPerRule(newRule, engine, graph));
+				matches.addAll(findAllMatches(engine, newRule, graph, null));
+			}
+
+			// If no matches for the reduced rules were found, call the method recursively for these reduced rules
+			// Always goes down to reduction depth 0
+			if (reductionDepth > 0 && matches.isEmpty()) {
+				for (Rule newRule : newRules) {
+					matches.addAll(findPartialMatchesPerRule(newRule, engine, graph, reductionDepth));
+				}
+				reductionDepth--;
 			}
 		}
 

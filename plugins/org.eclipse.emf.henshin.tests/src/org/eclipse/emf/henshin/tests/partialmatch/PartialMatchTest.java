@@ -130,7 +130,7 @@ public class PartialMatchTest {
 
 	System.out.println(report.getReport());
 
-	Assert.assertTrue(matches.size() == 1 & report.getCoverage() == 0.6);
+	Assert.assertTrue(matches.size() == 1 & report.getCoverage() == 0.8);
     }
 
     @Test
@@ -181,7 +181,7 @@ public class PartialMatchTest {
 
 	System.out.println(report.getReport());
 
-	Assert.assertTrue(matches.size() == 1 & report.getCoverage() == 0.2);
+	Assert.assertTrue(matches.size() == 1 & report.getCoverage() == 0.4);
     }
 
 }
