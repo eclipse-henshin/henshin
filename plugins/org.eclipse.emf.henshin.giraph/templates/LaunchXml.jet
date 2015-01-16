@@ -36,7 +36,7 @@ String className = (String) args.get("className");
 			<arg value="<%= packageName %>.<%= className %>" />
 			<arg value="-vif" />
 			<arg value="<%= packageName %>.HenshinUtil$InputFormat" />
-			<arg value="-of" />
+			<arg value="-vof" />
 			<arg value="<%= packageName %>.HenshinUtil$OutputFormat" />
 			<arg value="-vip" />
 			<arg value="/input/<%= className %>.json" />

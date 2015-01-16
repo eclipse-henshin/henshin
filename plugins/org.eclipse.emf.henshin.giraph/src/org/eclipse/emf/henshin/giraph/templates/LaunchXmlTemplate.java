@@ -20,7 +20,7 @@ public class LaunchXmlTemplate
   protected final String TEXT_4 = ".json\" />" + NL + "\t\t\t<arg value=\"/input/\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"jar\" />" + NL + "\t\t\t<arg value=\"${giraph.jar.with.deps}\" />" + NL + "\t\t\t<arg value=\"org.apache.giraph.GiraphRunner\" />" + NL + "\t\t\t<arg value=\"";
   protected final String TEXT_5 = ".";
   protected final String TEXT_6 = "\" />" + NL + "\t\t\t<arg value=\"-vif\" />" + NL + "\t\t\t<arg value=\"";
-  protected final String TEXT_7 = ".HenshinUtil$InputFormat\" />" + NL + "\t\t\t<arg value=\"-of\" />" + NL + "\t\t\t<arg value=\"";
+  protected final String TEXT_7 = ".HenshinUtil$InputFormat\" />" + NL + "\t\t\t<arg value=\"-vof\" />" + NL + "\t\t\t<arg value=\"";
   protected final String TEXT_8 = ".HenshinUtil$OutputFormat\" />" + NL + "\t\t\t<arg value=\"-vip\" />" + NL + "\t\t\t<arg value=\"/input/";
   protected final String TEXT_9 = ".json\" />" + NL + "\t\t\t<arg value=\"-op\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t\t<arg value=\"-w\" />" + NL + "\t\t\t<arg value=\"";
   protected final String TEXT_10 = "\" />" + NL + "\t\t\t<arg value=\"-mc\" />" + NL + "\t\t\t<arg value=\"";
