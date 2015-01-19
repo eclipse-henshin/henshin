@@ -35,7 +35,7 @@ public class LaunchXmlTemplate
 Map<String,Object> args = (Map<String,Object>) argument;
 String packageName = (String) args.get("packageName");
 String className = (String) args.get("className");
-
+String inputName = (String) args.get("inputName");
 
     stringBuffer.append(TEXT_1);
     stringBuffer.append( className );
@@ -52,7 +52,7 @@ String className = (String) args.get("className");
     stringBuffer.append(TEXT_7);
     stringBuffer.append( packageName );
     stringBuffer.append(TEXT_8);
-    stringBuffer.append( className );
+    stringBuffer.append( inputName );
     stringBuffer.append(TEXT_9);
     stringBuffer.append( packageName );
     stringBuffer.append(TEXT_10);

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -23,27 +24,28 @@ import org.eclipse.emf.henshin.model.Unit;
 
 public class GiraphUtil {
 
-	public static String getInstanceCode(Rule rule) throws Exception {
+	public static String getInstanceCode(Graph graph) throws Exception {
 		StringBuffer json = new StringBuffer();
-		List<ENamedElement> types = new ArrayList<ENamedElement>(getTypeConstants(rule.getModule()).keySet());
-		for (int i=0; i<rule.getLhs().getNodes().size(); i++) {
-			Node n = rule.getLhs().getNodes().get(i);
+		List<ENamedElement> types = new ArrayList<ENamedElement>(getTypeConstants(graph.getRule().getModule()).keySet());
+		for (int i = 0; i < graph.getNodes().size(); i++) {
+			Node n = graph.getNodes().get(i);
 			json.append("[[" + i + "]," + types.indexOf(n.getType()) + ",[");
-			for (int j=0; j<n.getOutgoing().size(); j++) {
+			for (int j = 0; j < n.getOutgoing().size(); j++) {
 				Edge e = n.getOutgoing().get(j);
-				int trg = rule.getLhs().getNodes().indexOf(e.getTarget());
+				int trg = graph.getNodes().indexOf(e.getTarget());
 				json.append("[[" + trg + "]," + types.indexOf(e.getType()) + "]");
-				if (j<n.getOutgoing().size()-1) json.append(",");
+				if (j < n.getOutgoing().size() - 1)
+					json.append(",");
 			}
 			json.append("]]\n");
 		}
 		return json.toString();
 	}
 
-	public static Map<Unit,String> getUnitConstants(Unit mainUnit) {
+	public static Map<Unit, String> getUnitConstants(Unit mainUnit) {
 		EList<Unit> units = mainUnit.getSubUnits(true);
 		units.add(0, mainUnit);
-		Map<Unit,String> unitConstants = new LinkedHashMap<Unit, String>();
+		Map<Unit, String> unitConstants = new LinkedHashMap<Unit, String>();
 		for (Unit unit : units) {
 			String name = (unit instanceof Rule ? "RULE" : "UNIT") + "_" + camelCase2Upper(unit.getName());
 			unitConstants.put(unit, name);
@@ -51,7 +53,7 @@ public class GiraphUtil {
 		return unitConstants;
 	}
 
-	public static Map<ENamedElement,String> getTypeConstants(Module module) {
+	public static Map<ENamedElement, String> getTypeConstants(Module module) {
 
 		// Check if we need the package name:
 		boolean needPackage = false;
@@ -69,7 +71,7 @@ public class GiraphUtil {
 		}
 
 		// Generate the names:
-		Map<ENamedElement,String> typeConstants = new LinkedHashMap<ENamedElement, String>();
+		Map<ENamedElement, String> typeConstants = new LinkedHashMap<ENamedElement, String>();
 		for (EPackage pack : module.getImports()) {
 			for (EClassifier classifier : pack.getEClassifiers()) {
 				if (!(classifier instanceof EClass)) {
@@ -85,7 +87,7 @@ public class GiraphUtil {
 					typeConstants.put(ref, name + "_" + camelCase2Upper(ref.getName()));
 				}
 			}
-		}		
+		}
 		return typeConstants;
 
 	}
@@ -104,19 +106,18 @@ public class GiraphUtil {
 	}
 
 	public static String getNodeName(Node node) {
-		return node.getName()!=null && node.getName().trim().length()>0 ? 
-				"\""+node.getName()+"\"" : 
-					"" + node.getGraph().getNodes().indexOf(node);
+		return node.getName() != null && node.getName().trim().length() > 0 ? "\"" + node.getName() + "\"" : ""
+				+ node.getGraph().getNodes().indexOf(node);
 	}
 
 	private static String camelCase2Upper(String s) {
 		String r = "";
 		boolean u = false;
-		for (int i=0; i<s.length(); i++) {
+		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			char C = Character.toUpperCase(c);
 			if (Character.isUpperCase(c)) {
-				r = r + (u ? ("_"+C) : C);
+				r = r + (u ? ("_" + C) : C);
 			} else {
 				u = true;
 				r = r + C;
@@ -125,25 +126,25 @@ public class GiraphUtil {
 		return r;
 	}
 
-	public static Map<Rule,GiraphRuleData> generateRuleData(Unit mainUnit) throws Exception {
-		Map<Rule,GiraphRuleData> data = new LinkedHashMap<Rule,GiraphRuleData>();
+	public static Map<Rule, GiraphRuleData> generateRuleData(Unit mainUnit) throws Exception {
+		Map<Rule, GiraphRuleData> data = new LinkedHashMap<Rule, GiraphRuleData>();
 		for (Rule rule : collectRules(mainUnit)) {
 			data.put(rule, new GiraphRuleData(rule));
 		}
 		return data;
 	}
-	
+
 	public static List<EClass> getValidTypes(Node node, Module module) {
 		Set<ENamedElement> allTypes = getTypeConstants(module).keySet();
 		List<EClass> types = new ArrayList<EClass>();
 		for (ENamedElement type : allTypes) {
 			if (type instanceof EClass) {
-				if (type==node.getType() || ((EClass) type).getEAllSuperTypes().contains(node.getType())) {
+				if (type == node.getType() || ((EClass) type).getEAllSuperTypes().contains(node.getType())) {
 					types.add((EClass) type);
 				}
 			}
 		}
 		return types;
 	}
-	
+
 }

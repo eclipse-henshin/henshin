@@ -51,7 +51,7 @@ public class GenerateGiraphTests {
 
 	public static void generateInputGraph(Rule rule) {
 		try {
-			String graphCode = GiraphUtil.getInstanceCode(rule);
+			String graphCode = GiraphUtil.getInstanceCode(rule.getLhs());
 			save(new File("giraph/graphs/" + rule.getName() + ".json"), graphCode);
 		} catch (Exception e) {
 			System.err.println("Error generating graph for rule " + rule.getName());			

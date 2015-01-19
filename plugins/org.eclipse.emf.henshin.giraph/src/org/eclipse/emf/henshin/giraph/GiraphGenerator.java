@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchEnvXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.PomXmlTemplate;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -94,11 +95,22 @@ public class GiraphGenerator {
 	}
 
 	public IFile generate(Unit mainUnit, String className, IProgressMonitor monitor) throws CoreException {
+		Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
+		if (!rules.isEmpty()) {
+			Rule rule = rules.iterator().next();
+			return generate(mainUnit, rule.getLhs(), className, rule.getName(), monitor);
+		} else {
+			return generate(mainUnit, null, className, null, monitor);
+		}
+	}
+
+	public IFile generate(Unit mainUnit, Graph inputGraph, String className, String inputName, IProgressMonitor monitor)
+			throws CoreException {
 
 		monitor.beginTask("Generating Giraph Project", setupTestEnvironment ? 30 : 20);
 
 		monitor.subTask("Executing Templates...");
-		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, launchXml, installHadoopXml, buildJarLaunch, instanceCode;
+		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, launchXml, installHadoopXml, buildJarLaunch, inputCode;
 		try {
 
 			// Get Java home:
@@ -114,6 +126,7 @@ public class GiraphGenerator {
 			args.put("ruleData", ruleData);
 			args.put("mainUnit", mainUnit);
 			args.put("className", className);
+			args.put("inputName", inputName);
 			args.put("packageName", packageName);
 			args.put("projectName", projectName);
 			args.put("hostName", getHostName());
@@ -132,11 +145,10 @@ public class GiraphGenerator {
 			installHadoopXml = new InstallHadoopXmlTemplate().generate(args);
 			buildJarLaunch = new BuildJarLaunchTemplate().generate(args);
 
-			Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
-			if (!rules.isEmpty()) {
-				instanceCode = GiraphUtil.getInstanceCode(rules.iterator().next());
+			if (inputGraph != null) {
+				inputCode = GiraphUtil.getInstanceCode(inputGraph);
 			} else {
-				instanceCode = null;
+				inputCode = null;
 			}
 
 		} catch (Exception e) {
@@ -224,10 +236,10 @@ public class GiraphGenerator {
 		monitor.worked(1); // 13
 
 		// Example graph:
-		if (instanceCode != null) {
-			IFile jsonFile = inputFolder.getFile(new Path(className + ".json"));
+		if (inputCode != null) {
+			IFile jsonFile = inputFolder.getFile(new Path(inputName + ".json"));
 			if (!jsonFile.exists()) {
-				writeFile(jsonFile, instanceCode);
+				writeFile(jsonFile, inputCode);
 			}
 		}
 		monitor.worked(1); // 14

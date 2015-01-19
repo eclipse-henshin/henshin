@@ -4,7 +4,7 @@
 Map<String,Object> args = (Map<String,Object>) argument;
 String packageName = (String) args.get("packageName");
 String className = (String) args.get("className");
-
+String inputName = (String) args.get("inputName");
 %>
 <project name="<%= className %>" default="main" basedir=".">
 	<description>
@@ -44,7 +44,7 @@ String className = (String) args.get("className");
 			<arg value="-vof" />
 			<arg value="<%= packageName %>.HenshinUtil$OutputFormat" />
 			<arg value="-vip" />
-			<arg value="/input/<%= className %>.json" />
+			<arg value="/input/<%= inputName %>.json" />
 			<arg value="-op" />
 			<arg value="/output" />
 			<arg value="-w" />
