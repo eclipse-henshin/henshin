@@ -25,6 +25,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -106,6 +107,10 @@ public class GiraphGenerator {
 
 	public IFile generate(Unit mainUnit, Graph inputGraph, String className, String inputName, IProgressMonitor monitor)
 			throws CoreException {
+
+		if (monitor == null) {
+			monitor = new NullProgressMonitor();
+		}
 
 		monitor.beginTask("Generating Giraph Project", setupTestEnvironment ? 30 : 20);
 
@@ -290,6 +295,14 @@ public class GiraphGenerator {
 		monitor.done();
 		return javaUnitFile;
 
+	}
+
+	public boolean launch(IFile file, IProgressMonitor monitor) throws Exception {
+		if (monitor == null) {
+			monitor = new NullProgressMonitor();
+		}
+		AntRunner runner = new AntRunner();
+		return AntRunner.EXIT_OK.equals(runner.run(new String[] { "-f", file.getLocation().toOSString() }));
 	}
 
 	protected IFolder createFolder(IContainer parent, String name) throws CoreException {

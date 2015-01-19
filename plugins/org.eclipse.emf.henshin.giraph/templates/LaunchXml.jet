@@ -12,7 +12,7 @@ String inputName = (String) args.get("inputName");
 	</description>
 
 	<include file="../launch-env.xml" />
-	
+
 	<property name="hadoop.cmd" value="${hadoop.home}/bin/hadoop" />
 
 	<target name="main">
@@ -31,7 +31,7 @@ String inputName = (String) args.get("inputName");
 		<exec executable="${hadoop.cmd}">
 			<arg value="fs" />
 			<arg value="-put" />
-			<arg value="../input/<%= className %>.json" />
+			<arg value="${root.dir}/input/<%= inputName %>.json" />
 			<arg value="/input/" />
 		</exec>
 		<exec executable="${hadoop.cmd}">
@@ -52,13 +52,13 @@ String inputName = (String) args.get("inputName");
 			<arg value="-mc" />
 			<arg value="<%= packageName %>.<%= className %>$MasterCompute" />
 		</exec>
-		<delete dir="../output" />
-		<mkdir dir="../output" />
+		<delete dir="${root.dir}/output" />
+		<mkdir dir="${root.dir}/output" />
 		<exec executable="${hadoop.cmd}">
 			<arg value="fs" />
 			<arg value="-get" />
 			<arg value="/output/*" />
-			<arg value="../output" />
+			<arg value="${root.dir}/output" />
 		</exec>
 		<exec executable="${hadoop.cmd}">
 			<arg value="fs" />
