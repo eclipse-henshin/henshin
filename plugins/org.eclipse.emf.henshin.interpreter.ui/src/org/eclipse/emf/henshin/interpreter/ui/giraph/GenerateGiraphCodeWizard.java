@@ -167,7 +167,6 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				label.setText("Use Java UUIDs as Vertex IDs:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				uuidsCheckBox = new Button(group, SWT.CHECK);
-				uuidsCheckBox.setSelection(true);
 
 				label = new Label(group, SWT.NONE);
 				label.setText("     Enable Master Logging:");

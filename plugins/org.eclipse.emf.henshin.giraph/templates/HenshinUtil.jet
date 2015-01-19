@@ -544,7 +544,7 @@ public class HenshinUtil {
 
     @Override
     public void aggregate(ApplicationStack stack) {
-      setAggregatedValue(stack);
+      // no action
     }
 
     @Override

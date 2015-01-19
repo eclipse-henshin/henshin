@@ -48,7 +48,7 @@ String className = (String) args.get("className");
 			<arg value="-op" />
 			<arg value="/output" />
 			<arg value="-w" />
-			<arg value="<%= Runtime.getRuntime().availableProcessors() %>" />
+			<arg value="2" />
 			<arg value="-mc" />
 			<arg value="<%= packageName %>.<%= className %>$MasterCompute" />
 		</exec>
