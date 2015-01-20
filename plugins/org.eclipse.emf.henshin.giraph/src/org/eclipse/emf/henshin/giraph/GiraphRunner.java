@@ -2,6 +2,8 @@ package org.eclipse.emf.henshin.giraph;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.ant.core.AntRunner;
 import org.eclipse.core.resources.IFile;
@@ -10,6 +12,12 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 public class GiraphRunner {
+
+	private static final Pattern REGEX_AGGREGATE_VERTICES = Pattern
+			.compile("\\sINFO\\s*mapred\\.JobClient:\\s*Aggregate\\svertices=(\\d+)");
+
+	private static final Pattern REGEX_AGGREGATE_EDGES = Pattern
+			.compile("\\sINFO\\s*mapred\\.JobClient:\\s*Aggregate\\sedges=(\\d+)");
 
 	private int aggregateVertices;
 
@@ -50,8 +58,9 @@ public class GiraphRunner {
 			System.setOut(outStream);
 		}
 
-//		System.out.println("BUFFERED CONTENT:");
-//		System.out.println(buffer);
+		String log = buffer.toString();
+		aggregateVertices = parseInt(REGEX_AGGREGATE_VERTICES, log);
+		aggregateEdges = parseInt(REGEX_AGGREGATE_EDGES, log);
 
 		return success;
 
@@ -67,6 +76,14 @@ public class GiraphRunner {
 
 	public boolean isSuccess() {
 		return success;
+	}
+
+	private static int parseInt(Pattern pattern, String string) {
+		Matcher matcher = pattern.matcher(string);
+		if (matcher.find()) {
+			return Integer.parseInt(string.substring(matcher.start(1), matcher.end(1)));
+		}
+		return 0;
 	}
 
 }
