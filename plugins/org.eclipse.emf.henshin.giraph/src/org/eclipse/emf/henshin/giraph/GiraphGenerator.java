@@ -297,14 +297,6 @@ public class GiraphGenerator {
 
 	}
 
-	public boolean launch(IFile file, IProgressMonitor monitor) throws Exception {
-		if (monitor == null) {
-			monitor = new NullProgressMonitor();
-		}
-		AntRunner runner = new AntRunner();
-		return AntRunner.EXIT_OK.equals(runner.run(new String[] { "-f", file.getLocation().toOSString() }));
-	}
-
 	protected IFolder createFolder(IContainer parent, String name) throws CoreException {
 		IFolder folder = parent.getFolder(new Path(name));
 		if (!folder.exists()) {
