@@ -29,13 +29,16 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.giraph.templates.BuildJarLaunchTemplate;
 import org.eclipse.emf.henshin.giraph.templates.CompileXmlTemplate;
-import org.eclipse.emf.henshin.giraph.templates.InstallHadoopXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
+import org.eclipse.emf.henshin.giraph.templates.InstallHadoopXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchEnvXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.PomXmlTemplate;
@@ -68,7 +71,17 @@ public class GiraphGenerator {
 
 	private boolean setupTestEnvironment = false;
 
+	private int refreshJobs = 0;
+
 	public GiraphGenerator() {
+		Job.getJobManager().addJobChangeListener(new JobChangeAdapter() {
+			@Override
+			public void scheduled(IJobChangeEvent event) {
+				if ("Refreshing resources...".equalsIgnoreCase(event.getJob().getName())) {
+					refreshJobs++;
+				}
+			}
+		});
 	}
 
 	public void setProjectName(String projectName) {
@@ -269,6 +282,7 @@ public class GiraphGenerator {
 		monitor.worked(1); // 18
 
 		// Update external builders:
+		final int refreshJobsBefore = refreshJobs;
 		removeExternalToolBuilder(project, "build-jar.launch");
 		addExternalToolBuilder(project, "build-jar.launch", true);
 		monitor.worked(1); // 19
@@ -290,8 +304,22 @@ public class GiraphGenerator {
 		}
 
 		// Refresh:
-		project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 2));
-		monitor.worked(1);
+		project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1));
+
+		// Wait for Maven refresh jobs:
+		final int secs = 600;
+		IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 1);
+		subMonitor.beginTask("Waiting for refresh jobs...", secs);
+		for (int i = 0; i < secs; i++) {
+			if (refreshJobs > refreshJobsBefore) {
+				break;
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
+		}
+		subMonitor.done();
 
 		monitor.done();
 		return javaUnitFile;

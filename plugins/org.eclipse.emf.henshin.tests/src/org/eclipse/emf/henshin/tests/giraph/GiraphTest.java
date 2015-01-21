@@ -21,7 +21,6 @@ public class GiraphTest {
 	private static Module TEST_MODULE;
 
 	private static IProject TEST_PROJECT;
-
 /*
 	@BeforeClass
 	public static void init() {
@@ -146,6 +145,7 @@ public class GiraphTest {
 
 	private void run(Unit mainUnit, Graph inputGraph, int aggregateVertices, int aggregateEdges) {
 		GiraphGenerator generator = new GiraphGenerator();
+		System.out.println("Generating Giraph code for " + mainUnit.getName() + "...");
 		if (TEST_PROJECT == null) {
 			System.out.println("Installing Hadoop Test Environment (may take a couple of minutes)...");
 			generator.setTestEnvironment(true);
@@ -154,11 +154,8 @@ public class GiraphTest {
 		try {
 			TEST_PROJECT = generator.generate(mainUnit, inputGraph, mainUnit.getName(), inputGraph.getRule().getName(),
 					null).getProject();
-			try {
-				Thread.sleep(45000); // dirty hack for waiting until the Maven build is finished
-			} catch (InterruptedException e) {
-			}
 
+			System.out.println("Starting Giraph build for " + mainUnit.getName() + "...");
 			IFile antFile = TEST_PROJECT.getFolder("launch").getFile(mainUnit.getName() + ".xml");
 			GiraphRunner runner = new GiraphRunner();
 			Assert.assertTrue(runner.run(antFile));
