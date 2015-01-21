@@ -269,6 +269,7 @@ public class GiraphGenerator {
 		monitor.worked(1); // 18
 
 		// Update external builders:
+		removeExternalToolBuilder(project, "build-jar.launch");
 		addExternalToolBuilder(project, "build-jar.launch", true);
 		monitor.worked(1); // 19
 

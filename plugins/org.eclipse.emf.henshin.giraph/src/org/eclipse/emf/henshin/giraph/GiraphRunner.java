@@ -83,7 +83,7 @@ public class GiraphRunner {
 		if (matcher.find()) {
 			return Integer.parseInt(string.substring(matcher.start(1), matcher.end(1)));
 		}
-		return 0;
+		return -1;
 	}
 
 }

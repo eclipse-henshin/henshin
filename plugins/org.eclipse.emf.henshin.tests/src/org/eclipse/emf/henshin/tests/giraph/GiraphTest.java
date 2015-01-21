@@ -21,6 +21,7 @@ public class GiraphTest {
 	private static Module TEST_MODULE;
 
 	private static IProject TEST_PROJECT;
+
 /*
 	@BeforeClass
 	public static void init() {
@@ -116,7 +117,7 @@ public class GiraphTest {
 
 	@Test
 	public void wheel() {
-		run("WheelMain", "WhelStart", 3, 3);
+		run("WheelMain", "WheelStart", 3, 3);
 	}
 */
 	private void runIterated(String mainUnitName, int iterations, String inputRuleName, int aggregateVertices,
@@ -149,20 +150,21 @@ public class GiraphTest {
 			System.out.println("Installing Hadoop Test Environment (may take a couple of minutes)...");
 			generator.setTestEnvironment(true);
 		}
+
 		try {
-			IFile file = generator.generate(mainUnit, inputGraph, mainUnit.getName(), inputGraph.getRule().getName(),
-					null);
-			TEST_PROJECT = file.getProject();
-			// TEST_PROJECT.build(IncrementalProjectBuilder.FULL_BUILD, null);
+			TEST_PROJECT = generator.generate(mainUnit, inputGraph, mainUnit.getName(), inputGraph.getRule().getName(),
+					null).getProject();
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(45000); // dirty hack for waiting until the Maven build is finished
 			} catch (InterruptedException e) {
 			}
+
 			IFile antFile = TEST_PROJECT.getFolder("launch").getFile(mainUnit.getName() + ".xml");
 			GiraphRunner runner = new GiraphRunner();
 			Assert.assertTrue(runner.run(antFile));
 			Assert.assertEquals(aggregateVertices, runner.getAggregateVertices());
 			Assert.assertEquals(aggregateEdges, runner.getAggregateEdges());
+
 		} catch (CoreException e) {
 			throw new AssertionError(e);
 		}
