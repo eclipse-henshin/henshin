@@ -125,7 +125,7 @@ public class GiraphGenerator {
 			monitor = new NullProgressMonitor();
 		}
 
-		monitor.beginTask("Generating Giraph Project", setupTestEnvironment ? 30 : 20);
+		monitor.beginTask("Generating Giraph Project", setupTestEnvironment ? 40 : 30);
 
 		monitor.subTask("Executing Templates...");
 		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, launchXml, installHadoopXml, buildJarLaunch, inputCode;
@@ -216,13 +216,12 @@ public class GiraphGenerator {
 		IFolder launchFolder = createFolder(project, "launch");
 		monitor.worked(1); // 4
 
-		// First generate lib/get-libs.xml
+		// Generate lib/get-libs.xml
 		IFile getLibsXmlFile = writeFile(libFolder, "get-libs.xml", getLibsXml);
 		monitor.worked(1); // 5
 
+		// Fetch the libraries:
 		monitor.subTask("Fetching Giraph and Hadoop Libraries...");
-
-		// ...and fetch the libraries:
 		AntRunner runner = new AntRunner();
 		runner.setBuildFileLocation(getLibsXmlFile.getLocation().toOSString());
 		runner.setArguments("-Dmessage=\"Fetching Giraph and Hadoop Libraries\" -verbose");
@@ -243,15 +242,14 @@ public class GiraphGenerator {
 		// Create package:
 		IPackageFragmentRoot packRoot = javaProject.getPackageFragmentRoot(javaFolder);
 		IPackageFragment pack = packRoot.createPackageFragment(packageName, false, null);
-		monitor.worked(1); // 11
 
 		// Write compute class:
 		IFile javaUnitFile = writeFile((IFolder) pack.getResource(), className + ".java", giraphCode);
-		monitor.worked(1); // 12
+		monitor.worked(1); // 11
 
 		// Write utility class:
 		writeFile((IFolder) pack.getResource(), "HenshinUtil.java", utilCode);
-		monitor.worked(1); // 13
+		monitor.worked(1); // 12
 
 		// Example graph:
 		if (inputCode != null) {
@@ -260,10 +258,11 @@ public class GiraphGenerator {
 				writeFile(jsonFile, inputCode);
 			}
 		}
-		monitor.worked(1); // 14
+		monitor.worked(1); // 13
 
 		// Launch file:
 		writeFile(launchFolder, className + ".xml", launchXml);
+		monitor.worked(1); // 14
 
 		// compile.xml
 		writeFile(assemblyFolder, "compile.xml", compileXml);
@@ -288,38 +287,39 @@ public class GiraphGenerator {
 		monitor.worked(1); // 19
 
 		if (setupTestEnvironment) {
-			IFolder testenvFolder = createFolder(project, "testenv");
-
-			// install-hadoop.xml
-			IFile installHadoop = writeFile(testenvFolder, "install-hadoop.xml", installHadoopXml);
-
 			monitor.subTask("Installing Hadoop Test Environment...");
 
-			// ...and fetch the libraries:
+			// testenv/install-hadoop.xml
+			IFolder testenvFolder = createFolder(project, "testenv");
+			IFile installHadoop = writeFile(testenvFolder, "install-hadoop.xml", installHadoopXml);
+
+			// Fetch Hadoop:
 			runner = new AntRunner();
 			runner.setBuildFileLocation(installHadoop.getLocation().toOSString());
 			runner.setArguments("-Dmessage=\"Installing Hadoop Test Environment\" -verbose");
-			runner.run(new SubProgressMonitor(monitor, 10));
+			runner.run(new SubProgressMonitor(monitor, 10)); // 29
 
 		}
 
 		// Refresh:
-		project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1));
+		project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1)); // 20 / 30
 
-		// Wait for Maven refresh jobs:
-		final int secs = 600;
-		IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 1);
-		subMonitor.beginTask("Waiting for refresh jobs...", secs);
+		// Wait for Maven refresh jobs (building jar):
+		final int secs = 900;
+		IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 10);
+		monitor.subTask("Building Jar...");
+		subMonitor.beginTask("Building Jar...", secs);
 		for (int i = 0; i < secs; i++) {
 			if (refreshJobs > refreshJobsBefore) {
 				break;
 			}
+			subMonitor.worked(1);
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 			}
 		}
-		subMonitor.done();
+		subMonitor.done(); // 30 / 40
 
 		monitor.done();
 		return javaUnitFile;
