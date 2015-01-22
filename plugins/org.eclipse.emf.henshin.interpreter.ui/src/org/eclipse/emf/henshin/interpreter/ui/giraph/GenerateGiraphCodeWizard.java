@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.giraph.GiraphGenerator;
 import org.eclipse.emf.henshin.model.Unit;
@@ -15,6 +16,10 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -30,14 +35,13 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class GenerateGiraphCodeWizard extends Wizard {
 
-	private Unit mainUnit;
-
-	private GiraphPage page;
+	private final GiraphGenerator generator;
 
 	public GenerateGiraphCodeWizard(Unit unit) {
-		this.mainUnit = unit;
 		setWindowTitle("Henshin Giraph Code Generator");
 		setNeedsProgressMonitor(true);
+		generator = new GiraphGenerator();
+		generator.setMainUnit(unit);
 	}
 
 	/*
@@ -47,7 +51,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 	 */
 	@Override
 	public void addPages() {
-		addPage(page = new GiraphPage());
+		addPage(new GiraphPage());
 	}
 
 	/*
@@ -58,22 +62,13 @@ public class GenerateGiraphCodeWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 
-		final GiraphGenerator generator = new GiraphGenerator();
-		final String className = page.classNameText.getText();
-		generator.setProjectName(page.projectNameText.getText());
-		generator.setPackageName(page.packageNameText.getText());
-		generator.setMasterLogging(page.masterLoggingCheckBox.getSelection());
-		generator.setVertexLogging(page.vertexLoggingCheckBox.getSelection());
-		generator.setUseUUIDs(page.uuidsCheckBox.getSelection());
-		generator.setTestEnvironment(page.testEnvCheckBox.getSelection());
-
 		final List<IFile> javaFile = new ArrayList<IFile>();
 		final List<CoreException> exception = new ArrayList<CoreException>();
 		try {
 			getContainer().run(true, true, new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {
 					try {
-						javaFile.add(generator.generate(mainUnit, className, monitor));
+						javaFile.add(generator.generate(monitor));
 					} catch (CoreException e) {
 						exception.add(e);
 					}
@@ -86,16 +81,15 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		if (!exception.isEmpty()) {
 			MessageDialog.openError(getShell(), "Error", exception.get(0).getMessage());
 			exception.get(0).printStackTrace();
-			return false;
-		}
-
-		IWorkbench wb = PlatformUI.getWorkbench();
-		IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaFile.get(0).getName());
-		try {
-			wb.getActiveWorkbenchWindow().getActivePage()
-					.openEditor(new FileEditorInput(javaFile.get(0)), desc.getId());
-		} catch (PartInitException e) {
-			MessageDialog.openError(getShell(), "Error", e.getMessage());
+		} else {
+			IWorkbench wb = PlatformUI.getWorkbench();
+			IEditorDescriptor desc = wb.getEditorRegistry().getDefaultEditor(javaFile.get(0).getName());
+			try {
+				wb.getActiveWorkbenchWindow().getActivePage()
+						.openEditor(new FileEditorInput(javaFile.get(0)), desc.getId());
+			} catch (PartInitException e) {
+				MessageDialog.openError(getShell(), "Error", e.getMessage());
+			}
 		}
 
 		return true;
@@ -118,6 +112,13 @@ public class GenerateGiraphCodeWizard extends Wizard {
 			setDescription("Enter the details for the Giraph code generation.");
 		}
 
+		private void validate() {
+			IStatus status = generator.validateAll();
+			setMessage(status.getSeverity() == IStatus.WARNING ? status.getMessage() : null, WARNING);
+			setErrorMessage(status.getSeverity() == IStatus.ERROR ? status.getMessage() : null);
+			setPageComplete(status.getSeverity() != IStatus.ERROR);
+		}
+
 		@Override
 		public void createControl(Composite parent) {
 			Composite comp = new Composite(parent, SWT.FILL);
@@ -138,23 +139,42 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				projectNameText = new Text(group, SWT.BORDER);
 				projectNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-				projectNameText.setText(GiraphGenerator.DEFAULT_PROJECT_NAME);
+				projectNameText.setText(generator.getProjectName() + "");
+				projectNameText.addModifyListener(new ModifyListener() {
+					@Override
+					public void modifyText(ModifyEvent e) {
+						generator.setProjectName(projectNameText.getText());
+						validate();
+					}
+				});
 
 				label = new Label(group, SWT.NONE);
 				label.setText("Package Name:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				packageNameText = new Text(group, SWT.BORDER);
 				packageNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-				packageNameText.setText(GiraphGenerator.DEFAULT_PACKAGE_NAME);
+				packageNameText.setText(generator.getPackageName() + "");
+				packageNameText.addModifyListener(new ModifyListener() {
+					@Override
+					public void modifyText(ModifyEvent e) {
+						generator.setPackageName(packageNameText.getText());
+						validate();
+					}
+				});
 
 				label = new Label(group, SWT.NONE);
 				label.setText("Compute Class Name:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				classNameText = new Text(group, SWT.BORDER);
 				classNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-				String className = mainUnit.getName();
-				className = className.substring(0, 1).toUpperCase() + className.substring(1);
-				classNameText.setText(className);
+				classNameText.setText(generator.getClassName() + "");
+				classNameText.addModifyListener(new ModifyListener() {
+					@Override
+					public void modifyText(ModifyEvent e) {
+						generator.setClassName(classNameText.getText());
+						validate();
+					}
+				});
 			}
 
 			{
@@ -167,26 +187,74 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				label.setText("Use Java UUIDs as Vertex IDs:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				uuidsCheckBox = new Button(group, SWT.CHECK);
+				uuidsCheckBox.setSelection(generator.isUseUUIDs());
+				uuidsCheckBox.addSelectionListener(new SelectionListener() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						generator.setUseUUIDs(uuidsCheckBox.getSelection());
+						validate();
+					}
+
+					@Override
+					public void widgetDefaultSelected(SelectionEvent e) {
+					}
+				});
 
 				label = new Label(group, SWT.NONE);
 				label.setText("     Enable Master Logging:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				masterLoggingCheckBox = new Button(group, SWT.CHECK);
-				masterLoggingCheckBox.setSelection(true);
+				masterLoggingCheckBox.setSelection(generator.isMasterLogging());
+				masterLoggingCheckBox.addSelectionListener(new SelectionListener() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						generator.setMasterLogging(masterLoggingCheckBox.getSelection());
+						validate();
+					}
+
+					@Override
+					public void widgetDefaultSelected(SelectionEvent e) {
+					}
+				});
 
 				label = new Label(group, SWT.NONE);
 				label.setText("Install Test Environment (Hadoop 0.20.203.0, Linux only):");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				testEnvCheckBox = new Button(group, SWT.CHECK);
 				testEnvCheckBox.setEnabled(!Platform.OS_WIN32.equals(Platform.getOS()));
+				testEnvCheckBox.setSelection(false);
+				generator.setTestEnvironment(false);
+				testEnvCheckBox.addSelectionListener(new SelectionListener() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						generator.setTestEnvironment(testEnvCheckBox.getSelection());
+						validate();
+					}
+
+					@Override
+					public void widgetDefaultSelected(SelectionEvent e) {
+					}
+				});
 
 				label = new Label(group, SWT.NONE);
 				label.setText("     Enable Vertex Logging:");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				vertexLoggingCheckBox = new Button(group, SWT.CHECK);
+				vertexLoggingCheckBox.setSelection(generator.isVertexLogging());
+				vertexLoggingCheckBox.addSelectionListener(new SelectionListener() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						generator.setVertexLogging(vertexLoggingCheckBox.getSelection());
+						validate();
+					}
+
+					@Override
+					public void widgetDefaultSelected(SelectionEvent e) {
+					}
+				});
 
 			}
-
+			validate();
 			setControl(comp);
 		}
 

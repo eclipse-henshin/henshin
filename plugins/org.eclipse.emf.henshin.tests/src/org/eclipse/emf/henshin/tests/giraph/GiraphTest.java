@@ -21,104 +21,48 @@ public class GiraphTest {
 	private static Module TEST_MODULE;
 
 	private static IProject TEST_PROJECT;
-/*
-	@BeforeClass
-	public static void init() {
-		HenshinResourceSet resourceSet = new HenshinResourceSet("src/org/eclipse/emf/henshin/tests/giraph");
-		TEST_MODULE = resourceSet.getModule("GiraphTests.henshin");
-		Assert.assertNotNull(TEST_MODULE);
-	}
 
-	@Test
-	public void fork() {
-		run("ForkMain", "ForkStart", 1, 0);
-	}
-
-	@Test
-	public void parallelNodes() {
-		run("ParallelNodes", "ParallelNodesStart", 0, 0);
-	}
-
-	@Test
-	public void parallelEdges() {
-		run("ParallelEdges", "ParallelEdgesStart", 0, 0);
-	}
-
-	@Test
-	public void parallelTriangles() {
-		run("ParallelTriangles", "ParallelTrianglesStart", 0, 0);
-	}
-
-	@Test
-	public void parallelV() {
-		run("ParallelV", "ParallelVStart", 0, 0);
-	}
-
-	@Test
-	public void requireOne() {
-		run("RequireOne", "RequireStart", 5, 8);
-	}
-
-	@Test
-	public void requireTwo() {
-		run("RequireTwo", "RequireStart", 5, 8);
-	}
-
-	@Test
-	public void sierpinski1() {
-		runIterated("SierpinskiMain", 1, "Sierpinski", 6, 9);
-	}
-
-	@Test
-	public void sierpinski2() {
-		runIterated("SierpinskiMain", 2, "Sierpinski", 15, 27);
-	}
-
-	@Test
-	public void sierpinski3() {
-		runIterated("SierpinskiMain", 3, "Sierpinski", 42, 81);
-	}
-
-	@Test
-	public void sierpinski6() {
-		runIterated("SierpinskiMain", 6, "Sierpinski", 1095, 2187);
-	}
-
-	@Test
-	public void sierpinski9() {
-		runIterated("SierpinskiMain", 9, "Sierpinski", 29526, 59049);
-	}
-
-	@Test
-	public void star() {
-		run("StarMain", "StarStart", 1, 0);
-	}
-
-	@Test
-	public void twoTimesTwo1() {
-		run("TwoTimesTwo", "TwoTimesTwoStart1", 7, 10);
-	}
-
-	@Test
-	public void twoTimesTwo2() {
-		run("TwoTimesTwo", "TwoTimesTwoStart2", 7, 10);
-	}
-
-	@Test
-	public void twoTimesTwo3() {
-		run("TwoTimesTwo", "TwoTimesTwoStart3", 10, 15);
-	}
-
-	@Test
-	public void twoTimesThree() {
-		run("TwoTimesThree", "TwoTimesThree", 3, 0);
-	}
-
-	@Test
-	public void wheel() {
-		run("WheelMain", "WheelStart", 3, 3);
-	}
-*/
+	/*
+	 * @BeforeClass public static void init() { HenshinResourceSet resourceSet = new
+	 * HenshinResourceSet("src/org/eclipse/emf/henshin/tests/giraph"); TEST_MODULE =
+	 * resourceSet.getModule("GiraphTests.henshin"); Assert.assertNotNull(TEST_MODULE); }
+	 * 
+	 * @Test public void fork() { run("ForkMain", "ForkStart", 1, 0); }
+	 * 
+	 * @Test public void parallelNodes() { run("ParallelNodes", "ParallelNodesStart", 0, 0); }
+	 * 
+	 * @Test public void parallelEdges() { run("ParallelEdges", "ParallelEdgesStart", 0, 0); }
+	 * 
+	 * @Test public void parallelTriangles() { run("ParallelTriangles", "ParallelTrianglesStart", 0, 0); }
+	 * 
+	 * @Test public void parallelV() { run("ParallelV", "ParallelVStart", 0, 0); }
+	 * 
+	 * @Test public void requireOne() { run("RequireOne", "RequireStart", 5, 8); }
+	 * 
+	 * @Test public void requireTwo() { run("RequireTwo", "RequireStart", 5, 8); }
+	 * 
+	 * @Test public void sierpinski1() { runIterated("SierpinskiMain", 1, "Sierpinski", 6, 9); }
+	 * 
+	 * @Test public void sierpinski2() { runIterated("SierpinskiMain", 2, "Sierpinski", 15, 27); }
+	 * 
+	 * @Test public void sierpinski3() { runIterated("SierpinskiMain", 3, "Sierpinski", 42, 81); }
+	 * 
+	 * @Test public void sierpinski6() { runIterated("SierpinskiMain", 6, "Sierpinski", 1095, 2187); }
+	 * 
+	 * @Test public void sierpinski9() { runIterated("SierpinskiMain", 9, "Sierpinski", 29526, 59049); }
+	 * 
+	 * @Test public void star() { run("StarMain", "StarStart", 1, 0); }
+	 * 
+	 * @Test public void twoTimesTwo1() { run("TwoTimesTwo", "TwoTimesTwoStart1", 7, 10); }
+	 * 
+	 * @Test public void twoTimesTwo2() { run("TwoTimesTwo", "TwoTimesTwoStart2", 7, 10); }
+	 * 
+	 * @Test public void twoTimesTwo3() { run("TwoTimesTwo", "TwoTimesTwoStart3", 10, 15); }
+	 * 
+	 * @Test public void twoTimesThree() { run("TwoTimesThree", "TwoTimesThree", 3, 0); }
+	 * 
+	 * @Test public void wheel() { run("WheelMain", "WheelStart", 3, 3); }
+	 */
 	private void runIterated(String mainUnitName, int iterations, String inputRuleName, int aggregateVertices,
 			int aggregateEdges) {
 
@@ -144,18 +88,22 @@ public class GiraphTest {
 	}
 
 	private void run(Unit mainUnit, Graph inputGraph, int aggregateVertices, int aggregateEdges) {
-		GiraphGenerator generator = new GiraphGenerator();
+
 		System.out.println("Generating Giraph code for " + mainUnit.getName() + "...");
+
+		GiraphGenerator generator = new GiraphGenerator();
+		generator.setMainUnit(mainUnit);
+		generator.setInputGraph(inputGraph);
+		generator.setInputName(inputGraph.getRule().getName());
+
 		if (TEST_PROJECT == null) {
 			System.out.println("Installing Hadoop Test Environment (may take a couple of minutes)...");
 			generator.setTestEnvironment(true);
 		}
 
 		try {
-			TEST_PROJECT = generator.generate(mainUnit, inputGraph, mainUnit.getName(), inputGraph.getRule().getName(),
-					null).getProject();
-
-			System.out.println("Starting Giraph build for " + mainUnit.getName() + "...");
+			TEST_PROJECT = generator.generate(null).getProject();
+			System.out.println("Starting Giraph for " + mainUnit.getName() + "...");
 			IFile antFile = TEST_PROJECT.getFolder("launch").getFile(mainUnit.getName() + ".xml");
 			GiraphRunner runner = new GiraphRunner();
 			Assert.assertTrue(runner.run(antFile));

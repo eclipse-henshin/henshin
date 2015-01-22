@@ -49,30 +49,38 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 public class GiraphGenerator {
 
-	public static final String DEFAULT_PROJECT_NAME = "giraph-henshin-examples";
+	private String projectName = "giraph-henshin-examples";
 
-	public static final String DEFAULT_PACKAGE_NAME = "org.apache.giraph.henshin.examples";
+	private String packageName = "org.apache.giraph.henshin.examples";
 
-	private String projectName = DEFAULT_PROJECT_NAME;
+	private String className = "Main";
 
-	private String packageName = DEFAULT_PACKAGE_NAME;
+	private String inputName = "Input";
+
+	private Unit mainUnit;
+
+	private Graph inputGraph;
 
 	private boolean masterLogging = true;
 
+	private boolean testEnvironment = false;
+
+	private boolean useUUIDs = false;
+
 	private boolean vertexLogging = false;
-
-	private boolean useUUIDs = true;
-
-	private boolean setupTestEnvironment = false;
 
 	private int refreshJobs = 0;
 
+	/**
+	 * Default constructor.
+	 */
 	public GiraphGenerator() {
 		Job.getJobManager().addJobChangeListener(new JobChangeAdapter() {
 			@Override
@@ -84,48 +92,13 @@ public class GiraphGenerator {
 		});
 	}
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
-
-	public void setMasterLogging(boolean masterLogging) {
-		this.masterLogging = masterLogging;
-	}
-
-	public void setVertexLogging(boolean vertexLogging) {
-		this.vertexLogging = vertexLogging;
-	}
-
-	public void setUseUUIDs(boolean useUUIDs) {
-		this.useUUIDs = useUUIDs;
-	}
-
-	public void setTestEnvironment(boolean setupTestEnvironment) {
-		this.setupTestEnvironment = setupTestEnvironment;
-	}
-
-	public IFile generate(Unit mainUnit, String className, IProgressMonitor monitor) throws CoreException {
-		Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
-		if (!rules.isEmpty()) {
-			Rule rule = rules.iterator().next();
-			return generate(mainUnit, rule.getLhs(), className, rule.getName(), monitor);
-		} else {
-			return generate(mainUnit, null, className, null, monitor);
-		}
-	}
-
-	public IFile generate(Unit mainUnit, Graph inputGraph, String className, String inputName, IProgressMonitor monitor)
-			throws CoreException {
+	public IFile generate(IProgressMonitor monitor) throws CoreException {
 
 		if (monitor == null) {
 			monitor = new NullProgressMonitor();
 		}
 
-		monitor.beginTask("Generating Giraph Project", setupTestEnvironment ? 40 : 30);
+		monitor.beginTask("Generating Giraph Project", testEnvironment ? 40 : 30);
 
 		monitor.subTask("Executing Templates...");
 		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, launchXml, installHadoopXml, buildJarLaunch, inputCode;
@@ -286,7 +259,7 @@ public class GiraphGenerator {
 		addExternalToolBuilder(project, "build-jar.launch", true);
 		monitor.worked(1); // 19
 
-		if (setupTestEnvironment) {
+		if (testEnvironment) {
 			monitor.subTask("Installing Hadoop Test Environment...");
 
 			// testenv/install-hadoop.xml
@@ -326,42 +299,99 @@ public class GiraphGenerator {
 
 	}
 
-	protected IFolder createFolder(IContainer parent, String name) throws CoreException {
-		IFolder folder = parent.getFolder(new Path(name));
-		if (!folder.exists()) {
-			folder.create(false, true, null);
-		}
-		return folder;
+	public String getClassName() {
+		return className;
 	}
 
-	protected IFile writeFile(IContainer container, String fileName, String content) throws CoreException {
-		IFile file = container.getFile(new Path(fileName));
-		writeFile(file, content);
-		return file;
+	public Graph getInputGraph() {
+		return inputGraph;
 	}
 
-	protected void writeFile(IFile file, String content) throws CoreException {
-		if (file.exists()) {
-			file.setContents(new ByteArrayInputStream(content.getBytes()), IResource.FORCE, null);
-		} else {
-			file.create(new ByteArrayInputStream(content.getBytes()), IResource.FORCE, null);
+	public String getInputName() {
+		return inputName;
+	}
+
+	public Unit getMainUnit() {
+		return mainUnit;
+	}
+
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public boolean isMasterLogging() {
+		return masterLogging;
+	}
+
+	public boolean isTestEnvironment() {
+		return testEnvironment;
+	}
+
+	public boolean isUseUUIDs() {
+		return useUUIDs;
+	}
+
+	public boolean isVertexLogging() {
+		return vertexLogging;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public void setInputGraph(Graph inputGraph) {
+		this.inputGraph = inputGraph;
+	}
+
+	public void setInputName(String inputName) {
+		this.inputName = inputName;
+	}
+
+	public void setMainUnit(Unit mainUnit) {
+		this.mainUnit = mainUnit;
+		if (inputGraph == null) {
+			Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
+			if (!rules.isEmpty()) {
+				Rule rule = rules.iterator().next();
+				inputGraph = rule.getLhs();
+				if (inputGraph.getNodes().isEmpty() && !rule.getMultiRules().isEmpty()) {
+					inputGraph = rule.getMultiRules().get(0).getLhs();
+				}
+			}
+		}
+		if (mainUnit.getName() != null && !mainUnit.getName().trim().isEmpty()) {
+			className = mainUnit.getName().trim();
+			className = className.substring(0, 1).toUpperCase() + className.substring(1);
+			inputName = className;
 		}
 	}
 
-	protected void setupClassPath(IJavaProject javaProject, IFolder[] sourceFolders, IFile[] libraries,
-			IFile[] sourceAttachments) throws CoreException {
-		List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
-		entries.add(JavaCore
-				.newContainerEntry(new Path(
-						"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7")));
-		for (IFolder sourceFolder : sourceFolders) {
-			entries.add(JavaCore.newSourceEntry(javaProject.getPackageFragmentRoot(sourceFolder).getPath()));
-		}
-		for (int i = 0; i < libraries.length; i++) {
-			entries.add(JavaCore.newLibraryEntry(libraries[i].getFullPath(),
-					sourceAttachments[i] != null ? sourceAttachments[i].getFullPath() : null, null));
-		}
-		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), true, null);
+	public void setMasterLogging(boolean masterLogging) {
+		this.masterLogging = masterLogging;
+	}
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public void setTestEnvironment(boolean setupTestEnvironment) {
+		this.testEnvironment = setupTestEnvironment;
+	}
+
+	public void setUseUUIDs(boolean useUUIDs) {
+		this.useUUIDs = useUUIDs;
+	}
+
+	public void setVertexLogging(boolean vertexLogging) {
+		this.vertexLogging = vertexLogging;
 	}
 
 	protected void addExternalToolBuilder(IProject project, String name, boolean append) throws CoreException {
@@ -387,18 +417,12 @@ public class GiraphGenerator {
 		project.setDescription(description, null);
 	}
 
-	protected void removeExternalToolBuilder(IProject project, String name) throws CoreException {
-		IProjectDescription description = project.getDescription();
-		ICommand[] oldCommands = description.getBuildSpec();
-		List<ICommand> newCommands = new ArrayList<ICommand>();
-		for (ICommand com : oldCommands) {
-			String val = com.getArguments().get("LaunchConfigHandle");
-			if (val == null || !val.endsWith(name)) {
-				newCommands.add(com);
-			}
+	protected IFolder createFolder(IContainer parent, String name) throws CoreException {
+		IFolder folder = parent.getFolder(new Path(name));
+		if (!folder.exists()) {
+			folder.create(false, true, null);
 		}
-		description.setBuildSpec(newCommands.toArray(new ICommand[0]));
-		project.setDescription(description, null);
+		return folder;
 	}
 
 	protected String getHostName() {
@@ -421,6 +445,94 @@ public class GiraphGenerator {
 			hostname = "localhost";
 		}
 		return hostname;
+	}
+
+	protected void removeExternalToolBuilder(IProject project, String name) throws CoreException {
+		IProjectDescription description = project.getDescription();
+		ICommand[] oldCommands = description.getBuildSpec();
+		List<ICommand> newCommands = new ArrayList<ICommand>();
+		for (ICommand com : oldCommands) {
+			String val = com.getArguments().get("LaunchConfigHandle");
+			if (val == null || !val.endsWith(name)) {
+				newCommands.add(com);
+			}
+		}
+		description.setBuildSpec(newCommands.toArray(new ICommand[0]));
+		project.setDescription(description, null);
+	}
+
+	protected void setupClassPath(IJavaProject javaProject, IFolder[] sourceFolders, IFile[] libraries,
+			IFile[] sourceAttachments) throws CoreException {
+		List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
+		entries.add(JavaCore
+				.newContainerEntry(new Path(
+						"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7")));
+		for (IFolder sourceFolder : sourceFolders) {
+			entries.add(JavaCore.newSourceEntry(javaProject.getPackageFragmentRoot(sourceFolder).getPath()));
+		}
+		for (int i = 0; i < libraries.length; i++) {
+			entries.add(JavaCore.newLibraryEntry(libraries[i].getFullPath(),
+					sourceAttachments[i] != null ? sourceAttachments[i].getFullPath() : null, null));
+		}
+		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), true, null);
+	}
+
+	protected IFile writeFile(IContainer container, String fileName, String content) throws CoreException {
+		IFile file = container.getFile(new Path(fileName));
+		writeFile(file, content);
+		return file;
+	}
+
+	protected void writeFile(IFile file, String content) throws CoreException {
+		if (file.exists()) {
+			file.setContents(new ByteArrayInputStream(content.getBytes()), IResource.FORCE, null);
+		} else {
+			file.create(new ByteArrayInputStream(content.getBytes()), IResource.FORCE, null);
+		}
+	}
+
+	/*
+	 * VALIDATION
+	 */
+
+	public IStatus validateAll() {
+		return pickSevereStatus(validateNames());
+	}
+
+	public IStatus validateNames() {
+		if (projectName == null || projectName.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Missing project name");
+		}
+		if (packageName == null || packageName.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Missing package name");
+		}
+		if (className == null || className.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Missing class name");
+		}
+		if (inputName == null || inputName.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Missing input name");
+		}
+		return pickSevereStatus(JavaConventions.validatePackageName(packageName, "1.6", "1.6"),
+				JavaConventions.validateJavaTypeName(className, "1.6", "1.6"));
+	}
+
+	private IStatus newStatus(int severity, String message) {
+		return new Status(severity, "org.eclipse.emf.henshin.giraph", message);
+	}
+
+	private IStatus pickSevereStatus(IStatus... status) {
+		int maxSeverity = IStatus.OK;
+		for (IStatus s : status) {
+			if (s.getSeverity() > maxSeverity) {
+				maxSeverity = s.getSeverity();
+			}
+		}
+		for (IStatus s : status) {
+			if (s.getSeverity() == maxSeverity) {
+				return s;
+			}
+		}
+		return null;
 	}
 
 }
