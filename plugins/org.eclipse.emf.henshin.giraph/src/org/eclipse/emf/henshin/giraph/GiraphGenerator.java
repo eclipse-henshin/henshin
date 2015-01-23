@@ -1,11 +1,7 @@
 package org.eclipse.emf.henshin.giraph;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,41 +38,18 @@ import org.eclipse.emf.henshin.giraph.templates.InstallHadoopXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchEnvXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.PomXmlTemplate;
-import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-public class GiraphGenerator {
+public class GiraphGenerator extends GiraphValidator {
 
-	private String projectName = "giraph-henshin-examples";
-
-	private String packageName = "org.apache.giraph.henshin.examples";
-
-	private String className = "Main";
-
-	private String inputName = "Input";
-
-	private Unit mainUnit;
-
-	private Graph inputGraph;
-
-	private boolean masterLogging = true;
-
-	private boolean testEnvironment = false;
-
-	private boolean useUUIDs = false;
-
-	private boolean vertexLogging = false;
-
-	private int refreshJobs = 0;
+	protected int refreshJobs = 0;
 
 	/**
 	 * Default constructor.
@@ -299,101 +272,6 @@ public class GiraphGenerator {
 
 	}
 
-	public String getClassName() {
-		return className;
-	}
-
-	public Graph getInputGraph() {
-		return inputGraph;
-	}
-
-	public String getInputName() {
-		return inputName;
-	}
-
-	public Unit getMainUnit() {
-		return mainUnit;
-	}
-
-	public String getPackageName() {
-		return packageName;
-	}
-
-	public String getProjectName() {
-		return projectName;
-	}
-
-	public boolean isMasterLogging() {
-		return masterLogging;
-	}
-
-	public boolean isTestEnvironment() {
-		return testEnvironment;
-	}
-
-	public boolean isUseUUIDs() {
-		return useUUIDs;
-	}
-
-	public boolean isVertexLogging() {
-		return vertexLogging;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
-
-	public void setInputGraph(Graph inputGraph) {
-		this.inputGraph = inputGraph;
-	}
-
-	public void setInputName(String inputName) {
-		this.inputName = inputName;
-	}
-
-	public void setMainUnit(Unit mainUnit) {
-		this.mainUnit = mainUnit;
-		if (inputGraph == null) {
-			Collection<Rule> rules = GiraphUtil.collectRules(mainUnit);
-			if (!rules.isEmpty()) {
-				Rule rule = rules.iterator().next();
-				inputGraph = rule.getLhs();
-				if (inputGraph.getNodes().isEmpty() && !rule.getMultiRules().isEmpty()) {
-					inputGraph = rule.getMultiRules().get(0).getLhs();
-				}
-			}
-		}
-		if (mainUnit.getName() != null && !mainUnit.getName().trim().isEmpty()) {
-			className = mainUnit.getName().trim();
-			className = className.substring(0, 1).toUpperCase() + className.substring(1);
-			inputName = className;
-		}
-	}
-
-	public void setMasterLogging(boolean masterLogging) {
-		this.masterLogging = masterLogging;
-	}
-
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
-
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-
-	public void setTestEnvironment(boolean setupTestEnvironment) {
-		this.testEnvironment = setupTestEnvironment;
-	}
-
-	public void setUseUUIDs(boolean useUUIDs) {
-		this.useUUIDs = useUUIDs;
-	}
-
-	public void setVertexLogging(boolean vertexLogging) {
-		this.vertexLogging = vertexLogging;
-	}
-
 	protected void addExternalToolBuilder(IProject project, String name, boolean append) throws CoreException {
 		IProjectDescription description = project.getDescription();
 		ICommand[] oldCommands = description.getBuildSpec();
@@ -423,28 +301,6 @@ public class GiraphGenerator {
 			folder.create(false, true, null);
 		}
 		return folder;
-	}
-
-	protected String getHostName() {
-		String hostname = null;
-		try {
-			String line;
-			Process p = Runtime.getRuntime().exec("hostname");
-			BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while ((line = input.readLine()) != null) {
-				if (!line.trim().isEmpty()) {
-					hostname = line;
-					break;
-				}
-			}
-			input.close();
-		} catch (IOException e) {
-			hostname = null;
-		}
-		if (hostname == null) {
-			hostname = "localhost";
-		}
-		return hostname;
 	}
 
 	protected void removeExternalToolBuilder(IProject project, String name) throws CoreException {
@@ -489,50 +345,6 @@ public class GiraphGenerator {
 		} else {
 			file.create(new ByteArrayInputStream(content.getBytes()), IResource.FORCE, null);
 		}
-	}
-
-	/*
-	 * VALIDATION
-	 */
-
-	public IStatus validateAll() {
-		return pickSevereStatus(validateNames());
-	}
-
-	public IStatus validateNames() {
-		if (projectName == null || projectName.trim().isEmpty()) {
-			return newStatus(IStatus.ERROR, "Missing project name");
-		}
-		if (packageName == null || packageName.trim().isEmpty()) {
-			return newStatus(IStatus.ERROR, "Missing package name");
-		}
-		if (className == null || className.trim().isEmpty()) {
-			return newStatus(IStatus.ERROR, "Missing class name");
-		}
-		if (inputName == null || inputName.trim().isEmpty()) {
-			return newStatus(IStatus.ERROR, "Missing input name");
-		}
-		return pickSevereStatus(JavaConventions.validatePackageName(packageName, "1.6", "1.6"),
-				JavaConventions.validateJavaTypeName(className, "1.6", "1.6"));
-	}
-
-	private IStatus newStatus(int severity, String message) {
-		return new Status(severity, "org.eclipse.emf.henshin.giraph", message);
-	}
-
-	private IStatus pickSevereStatus(IStatus... status) {
-		int maxSeverity = IStatus.OK;
-		for (IStatus s : status) {
-			if (s.getSeverity() > maxSeverity) {
-				maxSeverity = s.getSeverity();
-			}
-		}
-		for (IStatus s : status) {
-			if (s.getSeverity() == maxSeverity) {
-				return s;
-			}
-		}
-		return null;
 	}
 
 }

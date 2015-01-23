@@ -16,6 +16,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -109,7 +111,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 		public GiraphPage() {
 			super("Giraph");
 			setTitle("Henshin Giraph Code Generator");
-			setDescription("Enter the details for the Giraph code generation.");
+			setDescription("Enter the details for the Giraph code generation");
 		}
 
 		private void validate() {
@@ -233,6 +235,16 @@ public class GenerateGiraphCodeWizard extends Wizard {
 
 					@Override
 					public void widgetDefaultSelected(SelectionEvent e) {
+					}
+				});
+				testEnvCheckBox.addFocusListener(new FocusListener() {
+					@Override
+					public void focusLost(FocusEvent arg0) {
+					}
+
+					@Override
+					public void focusGained(FocusEvent arg0) {
+						validate();
 					}
 				});
 

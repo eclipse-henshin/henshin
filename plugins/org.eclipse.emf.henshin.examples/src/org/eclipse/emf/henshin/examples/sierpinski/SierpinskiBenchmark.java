@@ -43,7 +43,7 @@ public class SierpinskiBenchmark {
 	public static void run(String path, int iterations) {
 
 		// Determine number of threads to be used:
-		int threads = Runtime.getRuntime().availableProcessors() / 2;
+		int threads = Math.max(Runtime.getRuntime().availableProcessors() / 2, 1);
 
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
