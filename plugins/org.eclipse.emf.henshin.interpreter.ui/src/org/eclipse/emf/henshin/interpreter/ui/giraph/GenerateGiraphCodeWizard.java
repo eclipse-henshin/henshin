@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.giraph.GiraphGenerator;
+import org.eclipse.emf.henshin.giraph.GiraphValidator;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -223,7 +224,7 @@ public class GenerateGiraphCodeWizard extends Wizard {
 				label.setText("Install Test Environment (Hadoop 0.20.203.0, Linux only):");
 				label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 				testEnvCheckBox = new Button(group, SWT.CHECK);
-				testEnvCheckBox.setEnabled(!Platform.OS_WIN32.equals(Platform.getOS()));
+				testEnvCheckBox.setEnabled(GiraphValidator.validatePlatformForTesting().getSeverity() != IStatus.ERROR);
 				testEnvCheckBox.setSelection(false);
 				generator.setTestEnvironment(false);
 				testEnvCheckBox.addSelectionListener(new SelectionListener() {

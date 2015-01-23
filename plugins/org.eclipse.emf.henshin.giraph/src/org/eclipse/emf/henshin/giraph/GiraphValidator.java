@@ -24,7 +24,7 @@ public class GiraphValidator extends GiraphConfig {
 
 	public static IStatus validatePlatformForTesting() {
 		if (Platform.OS_WIN32.equals(Platform.getOS())) {
-			return newStatus(IStatus.ERROR, "Test environment not support on Windows");
+			return newStatus(IStatus.ERROR, "Test environment not supported on Windows");
 		}
 		return Status.OK_STATUS;
 	}
