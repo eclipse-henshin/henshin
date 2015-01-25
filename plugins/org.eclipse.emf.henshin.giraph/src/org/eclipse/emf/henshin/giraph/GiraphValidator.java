@@ -3,9 +3,15 @@ package org.eclipse.emf.henshin.giraph;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jdt.core.JavaConventions;
 
 public class GiraphValidator extends GiraphConfig {
@@ -15,11 +21,79 @@ public class GiraphValidator extends GiraphConfig {
 	}
 
 	public IStatus validateAll() {
-		IStatus result = pickSevereStatus(validateNames());
+		IStatus result = pickSevereStatus(validateNames(), validateModel());
 		if (testEnvironment) {
 			result = pickSevereStatus(validatePlatformForTesting(), validateSshForTesting());
 		}
 		return result;
+	}
+
+	public IStatus validateNames() {
+		if (projectName == null || projectName.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Empty project name");
+		}
+		if (packageName == null || packageName.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Empty package name");
+		}
+		if (className == null || className.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Empty class name");
+		}
+		if (inputName == null || inputName.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Empty input name");
+		}
+		return pickSevereStatus(JavaConventions.validatePackageName(packageName, "1.6", "1.6"),
+				JavaConventions.validateJavaTypeName(className, "1.6", "1.6"));
+	}
+
+	public IStatus validateModel() {
+		if (mainUnit == null) {
+			return newStatus(IStatus.ERROR, "Main unit not set");
+		}
+		List<Unit> allUnits = new ArrayList<Unit>();
+		allUnits.add(mainUnit);
+		allUnits.addAll(mainUnit.getSubUnits(true));
+		IStatus warning = null;
+		for (Unit unit : allUnits) {
+			if (unit.getName() == null || unit.getName().trim().isEmpty()) {
+				return newStatus(IStatus.ERROR, "Empty unit or rule name");
+			}
+			if (!unit.getParameters().isEmpty()) {
+				warning = newStatus(IStatus.WARNING, "Unit or rule parameters are not supported");
+			}
+			if (unit instanceof Rule) {
+				Rule rule = (Rule) unit;
+				if (rule.getMultiRules().size() != 1) {
+					return newStatus(IStatus.ERROR, "Rule " + rule.getName()
+							+ " must have exactly 1 multi-rule, but has " + rule.getMultiRules().size());
+				}
+				if (!rule.getLhs().getNodes().isEmpty() || !rule.getRhs().getNodes().isEmpty()) {
+					return newStatus(IStatus.ERROR, "Rule " + rule.getName() + " must have an empty kernel rule");
+				}
+				if (rule.getLhs().getFormula() != null) {
+					return newStatus(IStatus.ERROR, "Rule " + rule.getName() + " must not have an associated formula");
+				}
+				Rule multiRule = rule.getMultiRules().get(0);
+				if (!multiRule.getMultiRules().isEmpty()) {
+					return newStatus(IStatus.ERROR, "Multi-rule of rule " + rule.getName()
+							+ " must not have nested multi-rules");
+				}
+				if (multiRule.getLhs().getNodes().isEmpty()) {
+					return newStatus(IStatus.ERROR, "Multi-rule LHS of rule " + rule.getName() + " empty");
+				}
+				for (Node node : multiRule.getActionNodes(null)) {
+					if (!node.getAttributes().isEmpty()) {
+						warning = newStatus(IStatus.WARNING, "Attributes are not supported");
+					}
+				}
+				if (!rule.getAttributeConditions().isEmpty() || !multiRule.getAttributeConditions().isEmpty()) {
+					warning = newStatus(IStatus.WARNING, "Attribute conditions are not supported");
+				}
+			}
+		}
+		if (warning != null) {
+			return warning;
+		}
+		return Status.OK_STATUS;
 	}
 
 	public static IStatus validatePlatformForTesting() {
@@ -27,23 +101,6 @@ public class GiraphValidator extends GiraphConfig {
 			return newStatus(IStatus.ERROR, "Test environment not supported on Windows");
 		}
 		return Status.OK_STATUS;
-	}
-
-	public IStatus validateNames() {
-		if (projectName == null || projectName.trim().isEmpty()) {
-			return newStatus(IStatus.ERROR, "Missing project name");
-		}
-		if (packageName == null || packageName.trim().isEmpty()) {
-			return newStatus(IStatus.ERROR, "Missing package name");
-		}
-		if (className == null || className.trim().isEmpty()) {
-			return newStatus(IStatus.ERROR, "Missing class name");
-		}
-		if (inputName == null || inputName.trim().isEmpty()) {
-			return newStatus(IStatus.ERROR, "Missing input name");
-		}
-		return pickSevereStatus(JavaConventions.validatePackageName(packageName, "1.6", "1.6"),
-				JavaConventions.validateJavaTypeName(className, "1.6", "1.6"));
 	}
 
 	public static IStatus validateSshForTesting() {

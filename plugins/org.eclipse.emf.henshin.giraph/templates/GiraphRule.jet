@@ -43,14 +43,6 @@ for (Unit unit : allUnits) {
   }
 }
 
-boolean needsEdgeClass = true;
-/*for (Rule rule : rules) {
-  if (!rule.getLhs().getEdges().isEmpty() || !rule.getRhs().getEdges().isEmpty()) {
-    needsEdgeClass = true;
-    break;
-  }
-}*/
-
 %>
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -83,10 +75,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.giraph.aggregators.LongSumAggregator;
-<% if (needsEdgeClass) { %>
 import org.apache.giraph.edge.Edge;
-<% }
-if (needsEdgeFactory) { %>
+<% if (needsEdgeFactory) { %>
 import org.apache.giraph.edge.EdgeFactory;
 <% } %>
 import org.apache.giraph.examples.Algorithm;
