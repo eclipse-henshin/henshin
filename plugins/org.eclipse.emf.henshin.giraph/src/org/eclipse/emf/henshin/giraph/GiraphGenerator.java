@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.giraph.templates.GetLibsXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.GiraphRuleTemplate;
 import org.eclipse.emf.henshin.giraph.templates.HenshinUtilTemplate;
 import org.eclipse.emf.henshin.giraph.templates.InstallHadoopXmlTemplate;
+import org.eclipse.emf.henshin.giraph.templates.LaunchConfTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchEnvXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.LaunchXmlTemplate;
 import org.eclipse.emf.henshin.giraph.templates.PomXmlTemplate;
@@ -74,7 +75,7 @@ public class GiraphGenerator extends GiraphValidator {
 		monitor.beginTask("Generating Giraph Project", testEnvironment ? 40 : 30);
 
 		monitor.subTask("Executing Templates...");
-		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, launchXml, installHadoopXml, buildJarLaunch, inputCode;
+		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, launchConf, launchXml, installHadoopXml, buildJarLaunch, inputCode;
 		try {
 
 			// Get Java home:
@@ -106,6 +107,7 @@ public class GiraphGenerator extends GiraphValidator {
 			pomXml = new PomXmlTemplate().generate(args);
 			launchEnvXml = new LaunchEnvXmlTemplate().generate(args);
 			launchXml = new LaunchXmlTemplate().generate(args);
+			launchConf = new LaunchConfTemplate().generate(args);
 			installHadoopXml = new InstallHadoopXmlTemplate().generate(args);
 			buildJarLaunch = new BuildJarLaunchTemplate().generate(args);
 
@@ -206,8 +208,9 @@ public class GiraphGenerator extends GiraphValidator {
 		}
 		monitor.worked(1); // 13
 
-		// Launch file:
+		// Launch files:
 		writeFile(launchFolder, className + ".xml", launchXml);
+		writeFile(launchFolder, className + ".launch", launchConf);
 		monitor.worked(1); // 14
 
 		// compile.xml
