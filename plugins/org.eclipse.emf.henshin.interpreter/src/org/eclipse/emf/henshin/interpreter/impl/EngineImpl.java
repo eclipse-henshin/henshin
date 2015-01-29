@@ -762,9 +762,14 @@ public class EngineImpl implements Engine {
 		RuleChangeInfo ruleChange = getRuleInfo(rule).getChangeInfo();
 		List<Change> changes= complexChange.getChanges();
 
+		// Set parameters:
 		for (Parameter param : rule.getParameters()) {
 			Object value = completeMatch.getParameterValue(param);
-			resultMatch.setParameterValue(param, value);
+			if (value != null) {
+				resultMatch.setParameterValue(param, value);
+			} else {
+				value = resultMatch.getParameterValue(param);
+			}
 			scriptEngine.getEngine().put(param.getName(), value);
 		}
 
