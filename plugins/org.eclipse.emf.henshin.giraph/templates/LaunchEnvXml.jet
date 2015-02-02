@@ -1,0 +1,21 @@
+<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="LaunchEnvXmlTemplate" imports="java.util.*"%>
+<%
+@SuppressWarnings("unchecked")
+Map<String,Object> args = (Map<String,Object>) argument;
+String javaHome = (String) args.get("javaHome");
+String hadoopHome = "testenv/hadoop-0.20.203.0";
+String giraphJarWithDeps = "target/giraph-henshin-examples-1.1.0-for-hadoop-0.20.203.0-jar-with-dependencies.jar";
+
+%>
+<project name="launch-env" basedir=".">
+	<description>
+		Common properties for launch environment
+	</description>
+
+	<dirname property="root.dir" file="${ant.file.launch-env}"/>
+
+	<property name="java.home" location="<%= javaHome %>" />
+	<property name="hadoop.home" location="${root.dir}/<%= hadoopHome %>" />
+	<property name="giraph.jar.with.deps" location="${root.dir}/<%= giraphJarWithDeps %>" />
+
+</project>

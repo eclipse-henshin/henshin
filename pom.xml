@@ -10,6 +10,7 @@
     <module>plugins/org.eclipse.emf.henshin.edit</module>
     <module>plugins/org.eclipse.emf.henshin.editor</module>
     <module>plugins/org.eclipse.emf.henshin.examples</module>
+    <module>plugins/org.eclipse.emf.henshin.giraph</module>
     <module>plugins/org.eclipse.emf.henshin.interpreter</module>
     <module>plugins/org.eclipse.emf.henshin.interpreter.ui</module>
     <module>plugins/org.eclipse.emf.henshin.model</module>

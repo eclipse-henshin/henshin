@@ -1,0 +1,76 @@
+<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="LaunchXmlTemplate" imports="java.util.*"%>
+<%
+@SuppressWarnings("unchecked")
+Map<String,Object> args = (Map<String,Object>) argument;
+String packageName = (String) args.get("packageName");
+String className = (String) args.get("className");
+String inputName = (String) args.get("inputName");
+%>
+<project name="<%= className %>" default="main" basedir=".">
+	<description>
+		Launch <%= className %>
+	</description>
+
+	<include file="../launch-env.xml" />
+
+	<property name="hadoop.cmd" value="${hadoop.home}/bin/hadoop" />
+
+	<target name="main">
+		<exec executable="${hadoop.home}/bin/start-dfs.sh" failonerror="true" />
+		<exec executable="${hadoop.home}/bin/start-mapred.sh" failonerror="true" />
+		<exec executable="${hadoop.cmd}">
+			<arg value="dfsadmin" />
+			<arg value="-safemode" />
+			<arg value="leave" />
+		</exec>
+		<exec executable="${hadoop.cmd}">
+			<arg value="fs" />
+			<arg value="-mkdir" />
+			<arg value="/input" />
+		</exec>
+		<exec executable="${hadoop.cmd}">
+			<arg value="fs" />
+			<arg value="-put" />
+			<arg value="${root.dir}/input/<%= inputName %>.json" />
+			<arg value="/input/" />
+		</exec>
+		<exec executable="${hadoop.cmd}">
+			<arg value="jar" />
+			<arg value="${giraph.jar.with.deps}" />
+			<arg value="org.apache.giraph.GiraphRunner" />
+			<arg value="<%= packageName %>.<%= className %>" />
+			<arg value="-vif" />
+			<arg value="<%= packageName %>.HenshinUtil$InputFormat" />
+			<arg value="-vof" />
+			<arg value="<%= packageName %>.HenshinUtil$OutputFormat" />
+			<arg value="-vip" />
+			<arg value="/input/<%= inputName %>.json" />
+			<arg value="-op" />
+			<arg value="/output" />
+			<arg value="-w" />
+			<arg value="2" />
+			<arg value="-mc" />
+			<arg value="<%= packageName %>.<%= className %>$MasterCompute" />
+		</exec>
+		<delete dir="${root.dir}/output" />
+		<mkdir dir="${root.dir}/output" />
+		<exec executable="${hadoop.cmd}">
+			<arg value="fs" />
+			<arg value="-get" />
+			<arg value="/output/*" />
+			<arg value="${root.dir}/output" />
+		</exec>
+		<exec executable="${hadoop.cmd}">
+			<arg value="fs" />
+			<arg value="-rmr" />
+			<arg value="/input" />
+		</exec>
+		<exec executable="${hadoop.cmd}">
+			<arg value="fs" />
+			<arg value="-rmr" />
+			<arg value="/output" />
+		</exec>
+		<exec executable="${hadoop.home}/bin/stop-all.sh" failonerror="true" />
+	</target>
+
+</project>

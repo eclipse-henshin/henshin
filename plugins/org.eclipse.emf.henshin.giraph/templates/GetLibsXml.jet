@@ -1,0 +1,18 @@
+<%@ jet package="org.eclipse.emf.henshin.giraph.templates" class="GetLibsXmlTemplate" imports="java.util.* org.eclipse.emf.henshin.giraph.* org.eclipse.emf.common.util.*"%>
+<project name="get-libs" default="main" basedir=".">
+	<description>
+		Download Giraph and Hadoop JARs for developing in Eclipse
+	</description>
+
+	<target name="main">
+<% for (Map.Entry<URI,URI> entry : GiraphLibraries.LIBRARIES.entrySet()) { %>
+		<get src="<%= entry.getKey() %>"
+			 dest="<%= entry.getKey().lastSegment() %>" usetimestamp="true" verbose="true" />
+<%   if (entry.getValue() != null) { %>
+		<get src="<%= entry.getValue() %>"
+			 dest="<%= entry.getValue().lastSegment() %>" usetimestamp="true" verbose="true" />
+<%   }
+   } %>
+	</target>
+
+</project>

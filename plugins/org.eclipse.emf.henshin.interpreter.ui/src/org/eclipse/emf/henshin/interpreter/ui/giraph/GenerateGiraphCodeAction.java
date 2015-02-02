@@ -2,7 +2,6 @@ package org.eclipse.emf.henshin.interpreter.ui.giraph;
 
 import java.util.Iterator;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
@@ -18,28 +17,30 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class GenerateGiraphCodeAction implements IObjectActionDelegate {
-	
+
 	private Unit mainUnit;
-	
+
 	private IFile file;
 
 	private Shell shell;
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
 	@Override
 	public void run(IAction action) {
-		IContainer container = file.getParent();		
-		GenerateGiraphCodeWizard wizard = new GenerateGiraphCodeWizard(mainUnit, container);
+		GenerateGiraphCodeWizard wizard = new GenerateGiraphCodeWizard(mainUnit);
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
+	 * org.eclipse.jface.viewers.ISelection)
 	 */
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
@@ -54,12 +55,14 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 				}
 			}
 		}
-		action.setEnabled(mainUnit!=null);
+		action.setEnabled(mainUnit != null);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction, org.eclipse.ui.IWorkbenchPart)
+	 * 
+	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction,
+	 * org.eclipse.ui.IWorkbenchPart)
 	 */
 	@Override
 	public void setActivePart(IAction action, IWorkbenchPart part) {
@@ -72,7 +75,7 @@ public class GenerateGiraphCodeAction implements IObjectActionDelegate {
 				file = ((IFileEditorInput) input).getFile();
 			}
 		}
-		action.setEnabled(file!=null);
+		action.setEnabled(file != null);
 	}
 
 }
