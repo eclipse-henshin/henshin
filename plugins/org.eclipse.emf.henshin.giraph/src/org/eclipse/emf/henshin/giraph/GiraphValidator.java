@@ -107,7 +107,7 @@ public class GiraphValidator extends GiraphConfig {
 			return newStatus(IStatus.ERROR, "Error determining hostname");
 		}
 		for (Character ch : hostname.toCharArray()) {
-			if (Character.isLowerCase(ch)) {
+			if (Character.isUpperCase(ch)) {
 				return newStatus(IStatus.WARNING, "Warning: upper-case character in hostname detected (" + hostname
 						+ "). If you get connection errors, consider switching to a lower-case hostname.");
 			}
