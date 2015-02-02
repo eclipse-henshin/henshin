@@ -260,7 +260,7 @@ public class GiraphRuleTemplate
   protected final String TEXT_239 = NL + "\t\t\t\t\t";
   protected final String TEXT_240 = "unit == ";
   protected final String TEXT_241 = NL + "\t\t\t\t\t\tbreak;" + NL + "\t\t\t\t\t}" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t\treturn stack;" + NL + "\t\t}";
-  protected final String TEXT_242 = NL + NL + "\t /**" + NL + "\t\t * Process ";
+  protected final String TEXT_242 = NL + NL + "\t\t/**" + NL + "\t\t * Process ";
   protected final String TEXT_243 = " \"";
   protected final String TEXT_244 = "\"." + NL + "\t\t * @param stack The current application stack.";
   protected final String TEXT_245 = NL + "\t\t * @param segment The current segment.";

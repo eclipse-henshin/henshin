@@ -705,7 +705,7 @@ for (GiraphRuleData data : ruleData.values()) {
 
 for (Unit unit : allUnits) { %>
 
-	 /**
+		/**
 		 * Process <%= unit.eClass().getName() %> "<%= unit.getName() %>".
 		 * @param stack The current application stack.
 <% if (unit instanceof Rule) { %>

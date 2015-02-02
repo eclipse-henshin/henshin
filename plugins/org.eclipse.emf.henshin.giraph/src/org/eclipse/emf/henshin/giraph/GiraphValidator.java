@@ -64,7 +64,9 @@ public class GiraphValidator extends GiraphConfig {
 				Rule rule = (Rule) unit;
 				if (rule.getMultiRules().size() != 1) {
 					return newStatus(IStatus.ERROR, "Rule " + rule.getName()
-							+ " must have exactly 1 multi-rule, but has " + rule.getMultiRules().size());
+							+ " must have exactly 1 multi-rule, but has " + rule.getMultiRules().size() 
+							+ ". You must add '*' to all node actions, e.g. " + ((char) 171) + "create*"
+							+ ((char) 187) + " instead of " + ((char) 171) + "create" + ((char) 187) + ".");
 				}
 				if (!rule.getLhs().getNodes().isEmpty() || !rule.getRhs().getNodes().isEmpty()) {
 					return newStatus(IStatus.ERROR, "Rule " + rule.getName() + " must have an empty kernel rule");
@@ -99,6 +101,16 @@ public class GiraphValidator extends GiraphConfig {
 	public static IStatus validatePlatformForTesting() {
 		if (Platform.OS_WIN32.equals(Platform.getOS())) {
 			return newStatus(IStatus.ERROR, "Test environment not supported on Windows");
+		}
+		String hostname = getHostName();
+		if (hostname == null || hostname.trim().isEmpty()) {
+			return newStatus(IStatus.ERROR, "Error determining hostname");
+		}
+		for (Character ch : hostname.toCharArray()) {
+			if (Character.isLowerCase(ch)) {
+				return newStatus(IStatus.WARNING, "Warning: upper-case character in hostname detected (" + hostname
+						+ "). If you get connection errors, consider switching to a lower-case hostname.");
+			}
 		}
 		return Status.OK_STATUS;
 	}
