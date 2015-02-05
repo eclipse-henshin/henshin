@@ -10,8 +10,9 @@
 package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.script.ScriptException;
@@ -689,34 +690,23 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateNode_atMostOneContainer(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = true;
-		Map<EReference, Node> containments = new HashMap<EReference, Node>();
+		Set<Node> containers = new HashSet<Node>();
 		for (Edge incoming : node.getIncoming()) {
 			EReference type = incoming.getType();
 			if (type != null && type.isContainment()) {
-				Node container = containments.get(type);
-				if (container != null && container != incoming.getSource()) {
-					result = false;
-					break;
-				}
-				containments.put(type, incoming.getSource());
+				containers.add(incoming.getSource());
 			}
 		}
 		for (Edge outgoing : node.getOutgoing()) {
 			EReference type = outgoing.getType();
 			if (type != null && type.isContainer() && type.getEOpposite() != null) {
-				Node container = containments.get(type.getEOpposite());
-				if (container != null && container != outgoing.getTarget()) {
-					result = false;
-					break;
-				}
-				containments.put(type.getEOpposite(), outgoing.getTarget());
+				containers.add(outgoing.getTarget());
 			}
 		}
-		if (!result) {
-			diagnostics.add(createDiagnostic(Diagnostic.ERROR, node, Node.class, "atMostOneContainer", context));
+		if (containers.size() > 1) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, node.getActionNode(), Node.class, "atMostOneContainer", context));
 		}
-		return result;
+		return false;
 	}
 
 	/**
