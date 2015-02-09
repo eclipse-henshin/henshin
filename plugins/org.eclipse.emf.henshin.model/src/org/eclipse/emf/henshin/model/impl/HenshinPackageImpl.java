@@ -1819,7 +1819,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "equalParentGraphs indexValidJavaScript"
+			 "constraints", "equalParentGraphs indexValidJavaScript noContainmentCycles"
 		   });	
 		addAnnotation
 		  (attributeEClass, 

@@ -10,7 +10,9 @@
 package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -77,6 +79,8 @@ public class HenshinValidator extends EObjectValidator {
 	 * JavaScript engine wrapper for validating expressions.
 	 */
 	private static final ScriptEngineWrapper SCRIPT_ENGINE = new ScriptEngineWrapper(new String[0]);
+
+	private static final  String CONTAINMENT_CYCLES_KEY = new String("CONTAINMENT_CYCLES");
 
 	/**
 	 * Creates an instance of the switch.
@@ -764,6 +768,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_equalParentGraphs(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_indexValidJavaScript(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_noContainmentCycles(edge, diagnostics, context);
 		return result;
 	}
 	
@@ -797,6 +802,43 @@ public class HenshinValidator extends EObjectValidator {
 					"indexValidJavaScript", context, e));
 		}
 		return true;
+	}
+
+	/**
+	 * Validates the noContainmentCycles constraint of '<em>Edge</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean validateEdge_noContainmentCycles(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		// Try to retrieve previously created graph-to-cycles map. If not available, create new one.
+		Map<Graph,List<List<Edge>>> cycleMap = new HashMap<Graph,List<List<Edge>>>();
+		if (!context.containsKey(CONTAINMENT_CYCLES_KEY)) 
+			context.put(CONTAINMENT_CYCLES_KEY,cycleMap);
+		 else 
+			cycleMap = (Map<Graph, List<List<Edge>>>) context.get(CONTAINMENT_CYCLES_KEY);
+		
+		// Try to retrieve previously created cycle map for the edge's host graph.
+		// If not available, create new one.
+		List<List<Edge>> cycles = new ArrayList<List<Edge>>();
+		if (cycleMap.containsKey(edge.getGraph())) {
+			cycles = cycleMap.get(edge.getGraph());
+		} else {
+			ContainmentCycleFinder cycleFinder = new ContainmentCycleFinder();
+			cycles = cycleFinder.findContainmentCycles(edge.getGraph());  
+			cycleMap.put(edge.getGraph(), cycles);
+		}
+			
+		// If edge is part of cycle, highlight it.
+		for (List<Edge> cycle : cycles) {
+			if(cycle.contains(edge) && result){
+				result = false;
+				diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class, "noContainmentCycles", context));
+			}
+		}
+		return result;
 	}
 
 	/**
