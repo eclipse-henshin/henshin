@@ -107,7 +107,7 @@ public class PathFinder {
 	public static List<Path> findAllPaths(Graph graph, boolean withPACs) {
 		List<Path> paths = new ArrayList<Path>();
 		for (int i = 0; i < graph.getNodes().size(); i++) {
-			for (int j = 0; i < graph.getNodes().size(); i++) {
+			for (int j = 0; j < graph.getNodes().size(); j++) {
 				paths.addAll(findEdgePaths(graph.getNodes().get(i), graph.getNodes().get(j), true, withPACs));
 			}
 		}

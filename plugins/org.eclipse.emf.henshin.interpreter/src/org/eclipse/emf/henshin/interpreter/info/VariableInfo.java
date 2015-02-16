@@ -41,109 +41,109 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.staticanalysis.PathFinder;
 
 public class VariableInfo {
-	
+
 	// variables which represent nodes when they are first introduced, e.g. if a
 	// mapped node occurs in the LHS and in one condition, only the variable
 	// representing the LHS node will be in this collection
 	private Collection<Variable> mainVariables;
-	
+
 	// node-variable pair
 	private Map<Node, Variable> node2variable;
-	
+
 	// variable-node pair
 	private Map<Variable, Node> variable2node;
-	
+
 	// map between a graph and all variables corresponding to nodes of that
 	// graph
 	private Map<Graph, List<Variable>> graph2variables;
-	
+
 	// map between a key variable and its main variable, e.g. there is a mapping
 	// chain from the node belonging to the main variable to the key variable
 	private Map<Variable, Variable> variable2mainVariable;
-	
+
 	private Rule rule;
 	private EngineImpl engine;
-	
+
 	public VariableInfo(RuleInfo ruleInfo, EngineImpl engine) {
 		this.rule = ruleInfo.getRule();
 		this.engine = engine;
-		
+
 		this.node2variable = new HashMap<Node, Variable>();
 		this.variable2node = new HashMap<Variable, Node>();
-		
+
 		this.graph2variables = new HashMap<Graph, List<Variable>>();
 		this.variable2mainVariable = new HashMap<Variable, Variable>();
-		
+
 		createVariables(rule.getLhs(), null);
-		
+
 		for (Node node : rule.getLhs().getNodes()) {
-			if (rule.getMappings().getImage(node,rule.getRhs())==null)
+			if (rule.getMappings().getImage(node, rule.getRhs()) == null) {
 				createDanglingConstraints(node);
+			}
 		}
-		
+
 		mainVariables = variable2mainVariable.values();
 	}
-	
+
 	private void createVariables(Graph g, Collection<Mapping> mappings) {
 		List<Variable> variables = new ArrayList<Variable>();
-		
+
 		for (Node node : g.getNodes()) {
 			EClass type = node.getType();
 			Variable var = new Variable(type);
 			variables.add(var);
 			node2variable.put(node, var);
 			variable2node.put(var, node);
-			
+
 			Variable mainVariable = var;
 			if (mappings != null) {
 				for (Mapping mapping : mappings) {
 					if (node == mapping.getImage()) {
-						mainVariable = variable2mainVariable.get(node2variable.get(mapping
-								.getOrigin()));
+						mainVariable = variable2mainVariable.get(node2variable.get(mapping.getOrigin()));
 					}
 				}
 			}
-			
+
 			variable2mainVariable.put(var, mainVariable);
 		}
-		
+
 		for (Node node : g.getNodes()) {
 			createConstraints(node);
 		}
-		
+
 		graph2variables.put(g, variables);
-		
+
 		createVariables(g.getFormula());
 	}
-	
+
 	private void createVariables(Formula formula) {
 		if (formula instanceof BinaryFormula) {
 			createVariables(((BinaryFormula) formula).getLeft());
 			createVariables(((BinaryFormula) formula).getRight());
-		} else if (formula instanceof UnaryFormula)
+		} else if (formula instanceof UnaryFormula) {
 			createVariables(((UnaryFormula) formula).getChild());
-		else if (formula instanceof NestedCondition) {
+		} else if (formula instanceof NestedCondition) {
 			NestedCondition nc = (NestedCondition) formula;
 			createVariables(nc.getConclusion(), nc.getMappings());
 		}
 	}
-	
+
 	private void createConstraints(Node node) {
 		Variable var = node2variable.get(node);
-		
+
 		// User-defined node constraints:
 		UnaryConstraint userConstraint = engine.createUserConstraints(node);
-		if (userConstraint != null){
+		if (userConstraint != null) {
 			var.userConstraints.add(userConstraint);
 		}
-		
+
 		// Outgoing edges:
 		for (Edge edge : node.getOutgoing()) {
 			Variable target = node2variable.get(edge.getTarget());
 			ReferenceConstraint constraint;
 			String index = edge.getIndex();
-			if (index!=null && index.length()>0) {
-				if (rule.getParameter(index)!=null) {
+			if (index != null && index.length() > 0) {
+				if (rule.getParameter(index) != null) {
 					constraint = new ReferenceConstraint(target, edge.getType(), index, false);
 					var.requiresFinalCheck = true;
 				} else {
@@ -159,12 +159,12 @@ public class VariableInfo {
 			}
 			var.referenceConstraints.add(constraint);
 			BinaryConstraint binaryUserConstraint = engine.createUserConstraints(edge);
-			if (binaryUserConstraint != null){
+			if (binaryUserConstraint != null) {
 				var.binaryUserConstraints.put(constraint, binaryUserConstraint);
 			}
-			
+
 		}
-		
+
 		// Incoming edges:
 		for (Edge edge : node.getIncoming()) {
 			if (edge.getType().isContainment()) {
@@ -173,16 +173,17 @@ public class VariableInfo {
 				var.containmentConstraints.add(constraint);
 			} else if (edge.getType().getEOpposite() != null) {
 				Variable target = node2variable.get(edge.getSource());
-				ReferenceConstraint constraint = new ReferenceConstraint(target, edge.getType().getEOpposite(), null, true);
+				ReferenceConstraint constraint = new ReferenceConstraint(target, edge.getType().getEOpposite(), null,
+						true);
 				var.referenceConstraints.add(constraint);
 			}
 		}
-		
+
 		// Attributes:
 		for (Attribute attribute : node.getAttributes()) {
 			String value = attribute.getValue();
 			AttributeConstraint constraint;
-			if (rule.getParameter(value)!=null) {
+			if (rule.getParameter(value) != null) {
 				constraint = new AttributeConstraint(attribute.getType(), value, false);
 			} else {
 				Object constant = engine.evalAttributeExpression(attribute, rule);
@@ -190,41 +191,43 @@ public class VariableInfo {
 			}
 			var.attributeConstraints.add(constraint);
 			UnaryConstraint unaryUserConstraint = engine.createUserConstraints(attribute);
-			if (unaryUserConstraint != null){
+			if (unaryUserConstraint != null) {
 				var.attributeUserConstraints.put(constraint, unaryUserConstraint);
 			}
 		}
-		
+
 		// Path constraints:
-		if (!rule.getLhs().getPACs().isEmpty()) {
+		if (node.getGraph() == rule.getLhs() && !rule.getLhs().getPACs().isEmpty()) {
 			for (Node target : node.getGraph().getNodes()) {
-				if (node==target) continue;
-				for (Entry<List<EReference>,Integer> entry : PathFinder.findReferencePaths(node, target, true, true).entrySet()) {
-					if (entry.getKey().size() > 1) { // only paths of length > 1
-						Variable targetVar = node2variable.get(target);
-						PathConstraint constraint = new PathConstraint(targetVar, entry.getKey(), entry.getValue());
-						var.pathConstraints.add(constraint);
-					}
+				if (node == target) {
+					continue;
+				}
+				for (Entry<List<EReference>, Integer> entry : PathFinder.findReferencePaths(node, target, true, true)
+						.entrySet()) {
+					Variable targetVar = node2variable.get(target);
+					PathConstraint constraint = new PathConstraint(targetVar, entry.getKey(), entry.getValue());
+					var.pathConstraints.add(constraint);
 				}
 			}
 		}
-		
+
 	}
-	
+
 	private void createDanglingConstraints(Node node) {
 		Variable var = node2variable.get(node);
-		DanglingConstraint constraint = 
-				new DanglingConstraint(getEdgeCounts(node, false), getEdgeCounts(node, true));
+		DanglingConstraint constraint = new DanglingConstraint(getEdgeCounts(node, false), getEdgeCounts(node, true));
 		var.danglingConstraints.add(constraint);
 	}
-	
+
 	private Map<EReference, Integer> getEdgeCounts(Node node, boolean incoming) {
+
 		Collection<Edge> edges = incoming ? node.getIncoming() : node.getOutgoing();
 		Collection<Edge> oppositeEdges = incoming ? node.getOutgoing() : node.getIncoming();
-		
-		if (edges.size() == 0)
+
+		if (edges.size() == 0) {
 			return null;
-		
+		}
+
 		Map<EReference, Integer> edgeCount = new HashMap<EReference, Integer>();
 		for (Edge edge : edges) {
 			EReference type = edge.getType();
@@ -236,13 +239,13 @@ public class VariableInfo {
 			}
 			edgeCount.put(type, count);
 		}
-		
+
 		for (Edge edge : oppositeEdges) {
 			if (edge.getType().getEOpposite() == null)
 				continue;
-			
+
 			EReference oppType = edge.getType().getEOpposite();
-			
+
 			if (incoming) {
 				// opposite edges are outgoing from the PoV of the node
 				Node remoteNode = edge.getTarget();
@@ -269,35 +272,36 @@ public class VariableInfo {
 				}
 			}
 		}
-		
+
 		return edgeCount;
 	}
-	
+
 	public Node getVariableForNode(Variable variable) {
 		return variable2node.get(variable);
 	}
-	
+
 	public Collection<Variable> getDependendVariables(Variable mainVariable) {
 		Collection<Variable> dependendVariables = new HashSet<Variable>();
 		for (Variable var : variable2mainVariable.keySet()) {
-			if (variable2mainVariable.get(var) == mainVariable)
+			if (variable2mainVariable.get(var) == mainVariable) {
 				dependendVariables.add(var);
+			}
 		}
-		
+
 		return dependendVariables;
 	}
-	
+
 	public Collection<Variable> getMainVariables() {
 		return mainVariables;
 	}
-	
+
 	/**
 	 * @return the graph2variables
 	 */
 	public Map<Graph, List<Variable>> getGraph2variables() {
 		return graph2variables;
 	}
-	
+
 	/**
 	 * @return the node2variable
 	 */
@@ -305,7 +309,7 @@ public class VariableInfo {
 		// TODO: change Solution to get rid of this method
 		return node2variable;
 	}
-		
+
 	private static final Integer ONE = new Integer(1);
-	
+
 }
