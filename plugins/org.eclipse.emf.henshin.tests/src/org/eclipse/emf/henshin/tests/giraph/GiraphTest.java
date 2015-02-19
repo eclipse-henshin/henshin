@@ -142,7 +142,7 @@ public class GiraphTest {
 		iteratedUnit.setName(iteratedUnit.getName() + iterations);
 
 		// Run test:
-		run(iteratedUnit, ((Rule) TEST_MODULE.getUnit(inputRuleName)).getLhs(), aggregateVertices, aggregateEdges);
+		run(iteratedUnit, getInputGraph(inputRuleName), aggregateVertices, aggregateEdges);
 
 		// Restore iterated unit:
 		iteratedUnit.setIterations(backup.getIterations());
@@ -150,9 +150,17 @@ public class GiraphTest {
 
 	}
 
+	private Graph getInputGraph(String inputRuleName) {
+		Rule rule = ((Rule) TEST_MODULE.getUnit(inputRuleName));
+		Assert.assertNotNull(rule);
+		if (!rule.getMultiRules().isEmpty()) {
+			rule = rule.getMultiRules().get(0);
+		}
+		return rule.getLhs();
+	}
+
 	private void run(String mainUnitName, String inputRuleName, int aggregateVertices, int aggregateEdges) {
-		run(TEST_MODULE.getUnit(mainUnitName), ((Rule) TEST_MODULE.getUnit(inputRuleName)).getLhs(), aggregateVertices,
-				aggregateEdges);
+		run(TEST_MODULE.getUnit(mainUnitName), getInputGraph(inputRuleName), aggregateVertices, aggregateEdges);
 	}
 
 	private void run(Unit mainUnit, Graph inputGraph, int aggregateVertices, int aggregateEdges) {
@@ -162,7 +170,7 @@ public class GiraphTest {
 		GiraphGenerator generator = new GiraphGenerator();
 		generator.setMainUnit(mainUnit);
 		generator.setInputGraph(inputGraph);
-		generator.setInputName(inputGraph.getRule().getName());
+		generator.setInputName(inputGraph.getRule().getRootRule().getName());
 
 		if (TEST_PROJECT == null) {
 			System.out.println("Installing Hadoop Test Environment (may take a couple of minutes)...");
