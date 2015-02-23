@@ -769,6 +769,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validateEdge_equalParentGraphs(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_indexValidJavaScript(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_noContainmentCycles(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_EOppositeContainments(edge, diagnostics, context);
 		return result;
 	}
 	
@@ -840,7 +841,25 @@ public class HenshinValidator extends EObjectValidator {
 		}
 		return result;
 	}
-
+	 
+	 /**
+	  * Validates the EOpposite constraint of '<em>Edge</em>'.
+	  * <!-- begin-user-doc -->
+	  * <!-- end-user-doc -->
+	  * @generated NOT
+	  */
+	 public boolean validateEdge_EOppositeContainments(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
+	 	if(edge.getType() != null && edge.getType().getEOpposite() != null && edge.getType().getEOpposite().isContainment()){
+	 		for(Edge potentialCorrespondingContainment : edge.getTarget().getOutgoing()){
+	 			if(potentialCorrespondingContainment.getType() == edge.getType().getEOpposite())
+	 				return true;
+	 		}	
+	 		diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class, "EOppositeContainments", context));
+	 		return false;
+	 	}
+	 	return true;
+	 }
+	 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
