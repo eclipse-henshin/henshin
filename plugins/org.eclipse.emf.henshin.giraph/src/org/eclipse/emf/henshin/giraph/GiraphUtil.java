@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.giraph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -13,8 +14,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Module;
@@ -36,6 +40,42 @@ public class GiraphUtil {
 				json.append("[[" + trg + "]," + types.indexOf(e.getType()) + "]");
 				if (j < n.getOutgoing().size() - 1)
 					json.append(",");
+			}
+			json.append("]]\n");
+		}
+		return json.toString();
+	}
+	
+	public static String getInstanceCode(EGraph graph, Unit unit){
+		StringBuffer json = new StringBuffer();
+		List<ENamedElement> types = new ArrayList<ENamedElement>(getTypeConstants(unit.getModule()).keySet());
+		List<Object> nodes = Arrays.asList(graph.toArray());
+		for (int i = 0; i < nodes.size(); i++) {
+			EObject node = (EObject) nodes.get(i);
+			json.append("[[" + i + "]," + types.indexOf(node.eClass()) + ",[");
+			for (FeatureIterator<EObject> featureIterator = 
+				        (FeatureIterator<EObject>)node.eCrossReferences().iterator();
+				       featureIterator.hasNext(); ){
+				EObject eObject = featureIterator.next();
+				EReference eReference = (EReference)featureIterator.feature();
+				int index = nodes.indexOf(eObject);
+				json.append("[[" + index + "]," + types.indexOf(eReference) + "]");
+				types.indexOf(eReference.eClass());
+				if (featureIterator.hasNext())
+					json.append(",");
+			}
+			for (FeatureIterator<EObject> featureIterator = 
+			        (FeatureIterator<EObject>)node.eContents().iterator();
+			       featureIterator.hasNext(); ){
+				if (json.charAt(json.length()-1) != '['){
+					json.append(",");
+				}
+				EObject eObject = featureIterator.next();
+				EReference eReference = (EReference)featureIterator.feature();
+				int index = nodes.indexOf(eObject);
+				json.append("[[" + index + "]," + types.indexOf(eReference) + "]");
+				types.indexOf(eReference.eClass());
+				
 			}
 			json.append("]]\n");
 		}
