@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.interpreter.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.interpreter.Assignment;
@@ -209,10 +210,13 @@ public class MatchImpl extends AssignmentImpl implements Match {
 		}
 		// Check object types:
 		for (Node node : nodes) {
-			if (node.getType().isSuperTypeOf(((EObject) values.get(node)).eClass())) {
+			EClass nodeType = node.getType();
+			EObject eObject = (EObject) values.get(node);
+			EClass eObjectType = eObject.eClass();
+			if (!nodeType.isSuperTypeOf(eObjectType)) {
 				return false;
 			}
-		}		
+		}
 		// Check if all edges are present:
 		for (Node node : nodes) {
 			EObject source = (EObject) values.get(node);
