@@ -218,8 +218,12 @@ public class NestedConditionImpl extends ModelElementImpl implements NestedCondi
 	 * @generated NOT
 	 */
 	public boolean isFalse() {
-		// There seems to be no situation where we can definitely say it is always false.
-		return false;
+		Formula formula = conclusion.getFormula();
+		if (formula != null && formula.isFalse()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
