@@ -67,5 +67,13 @@
          </action>
       </objectContribution>
 	</extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.emf.henshin.editor.preferences.EditorGeneralPreferencePage"
+            id="org.eclipse.emf.henshin.editor.general"
+            name="%prefpage.org.eclipse.emf.henshin.editor.general">
+      </page>
+   </extension>
 	
 </plugin>

@@ -19,6 +19,10 @@ import java.util.regex.Pattern;
 
 import javax.script.ScriptException;
 
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -31,6 +35,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.*;
+import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * <!-- begin-user-doc -->
@@ -81,6 +86,8 @@ public class HenshinValidator extends EObjectValidator {
 	private static final ScriptEngineWrapper SCRIPT_ENGINE = new ScriptEngineWrapper(new String[0]);
 
 	private static final  String CONTAINMENT_CYCLES_KEY = new String("CONTAINMENT_CYCLES");
+	
+	public static final String PREF_ENABLE_EXTENDED_CONSISTENCY_CHECK = "Global.enableExtendedConsistencyCheck";
 
 	/**
 	 * Creates an instance of the switch.
@@ -337,6 +344,116 @@ public class HenshinValidator extends EObjectValidator {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * Validates the modeling of opposite '<em>Edge</em>'s.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateEdge_oppositeEdgeConsidered(Edge edge,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {
+		EReference eOpposite = edge.getType().getEOpposite();
+		if(eOpposite != null){
+			EList<Edge> allOutgoingEdgesOfTargetNode = edge.getTarget().getOutgoing();
+			for(Edge outgoingEdgeOfTargetNode : allOutgoingEdgesOfTargetNode){
+				if(outgoingEdgeOfTargetNode.getTarget() == edge.getSource()){
+					if(outgoingEdgeOfTargetNode.getType() == eOpposite)
+						return true;
+				}
+			}
+			diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class,"oppositeEdgeConsidered", context));
+			return false;
+		}
+		return true;  
+	}
+	
+	/**
+	 * Validates to have no parallel '<em>Edge</em>'s of the same type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateEdge_noParallelEdgesOfSameType(Edge edge,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {
+		for(Edge outgoindEdgesOfSourceNode : edge.getSource().getOutgoing()){
+			if(outgoindEdgesOfSourceNode != edge) {
+				if(outgoindEdgesOfSourceNode.getTarget() == edge.getTarget() && outgoindEdgesOfSourceNode.getType() == edge.getType())
+					diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class,"noParallelEdgesOfSameType", context));
+					return false;
+			}
+		}
+		return true;  
+	}
+	
+	/**
+	 * Validates the deletion of containment '<em>Edge</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateEdge_containmentEdgeDeletion(Edge edge,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {	
+		Rule rule = edge.getGraph().getRule();
+		MappingList mappings = rule.getMappings();
+		if(rule.getLhs().getEdges().contains(edge)){//checks if the validated edge is part of the LHS
+			if(edge.getType().isContainment()){
+				if(mappings.getImage(edge, rule.getRhs()) == null){ //checks if the edge is deleted
+					Node targetNodeInRhs = mappings.getImage(edge.getTarget(), rule.getRhs());
+					boolean targetNodeDeleted = targetNodeInRhs == null; //the deletion of the  contained node solves the deletion of the containment edge
+					boolean newContainmentEdgeforNodeCreated = false; //the creation of a new containment edge solves the missing container problem
+					if(!targetNodeDeleted){ //required to prevent NPE due to targetNodeInRhs=null
+						for(Edge edgeOfRhs : targetNodeInRhs.getIncoming()){
+							if(edgeOfRhs.getType().isContainment()){
+								if(mappings.getOrigin(edgeOfRhs) == null)
+									newContainmentEdgeforNodeCreated = true;
+							}								
+						}
+					}
+					if((!targetNodeDeleted && !newContainmentEdgeforNodeCreated)){
+						diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class,"containmentEdgeDeletion", context));
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Validates the creation of containment '<em>Edge</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateEdge_containmentEdgeCreation(Edge edge,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {	
+		
+			Rule rule = edge.getGraph().getRule();
+			MappingList mappings = rule.getMappings();
+			if(rule.getRhs().getEdges().contains(edge)){ // only edges of the RHS are relevant
+				if(edge.getType().isContainment()){
+					if(mappings.getOrigin(edge) == null){
+						Node targetNodeInLhs = mappings.getOrigin(edge.getTarget());
+						boolean targetNodeCreated = targetNodeInLhs == null; // creation of the target node solves the created containment edge
+						boolean originalContainmentEdgeDeleted = false; //deletion of the old containment edge solves the creation of a new containment edge 
+						if(targetNodeInLhs != null){
+							for(Edge incomingEdgeOfTargetNodeInLhs : targetNodeInLhs.getIncoming()){
+								if(incomingEdgeOfTargetNodeInLhs.getType().isContainment()){
+									if(mappings.getImage(incomingEdgeOfTargetNodeInLhs, rule.getRhs()) == null)
+										originalContainmentEdgeDeleted = true;
+								}
+							}
+						}
+						if(!targetNodeCreated && !originalContainmentEdgeDeleted){
+							diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class,"containmentEdgeCreation", context));
+							return false;
+						}
+					}
+				}
+			}
+		return false;
 	}
 
 	/**
@@ -660,6 +777,17 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNode_uniqueAttributeTypes(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNode_atMostOneContainer(node, diagnostics, context);
+		
+		//access the global preferences
+		IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(HenshinModelPlugin.PLUGIN_ID);
+				
+		boolean extendedConsistencyChecking = preferences.getBoolean(PREF_ENABLE_EXTENDED_CONSISTENCY_CHECK, false);
+		
+		if(extendedConsistencyChecking){
+			if (result || diagnostics != null) result &= validateNode_NodeDeletionDanglingEdge(node, diagnostics, context);
+			if (result || diagnostics != null) result &= validateNode_NodeCreationWithoutContainment(node, diagnostics, context);
+		}
+		
 		return result;
 	}
 	
@@ -709,6 +837,58 @@ public class HenshinValidator extends EObjectValidator {
 		}
 		if (containers.size() > 1) {
 			diagnostics.add(createDiagnostic(Diagnostic.ERROR, node.getActionNode(), Node.class, "atMostOneContainer", context));
+		}
+		return false;
+	}
+	
+	/**
+	 * Validates the consistent deletion of '<em>Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateNode_NodeDeletionDanglingEdge(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		Rule rule = node.getGraph().getRule();
+		boolean nodeIsDeleted = rule.getLhs().getNodes().contains(node) && rule.getMappings().getImage(node, rule.getRhs()) == null;
+		if(rule.isCheckDangling()){
+			if(nodeIsDeleted){
+				for(Edge edge : node.getIncoming()){
+					if(edge.getType().isContainment()){
+						if(rule.getMappings().getImage(edge, rule.getRhs()) == null){//checks the edge to be deleted
+							return true;
+						}
+						else{ //if the containment edge of the deleted node is not deleted this leads to a dangling edge error.
+							diagnostics.add(createDiagnostic(Diagnostic.WARNING, node.getActionNode(), Node.class, "NodeDeletionDanglingEdge", context));
+						}
+					}
+				}
+				// if there is no associated containment edge which is deleted, this seems to be an inconsistency, since each node has to be contained somewhere and by not deleting this edge it might lead to an dangling edge problem
+				diagnostics.add(createDiagnostic(Diagnostic.WARNING, node.getActionNode(), Node.class, "NodeDeletionDanglingEdge", context));
+			}	
+		}
+		return false;
+	}
+	
+	/**
+	 * Validates the creation of '<em>Node</em>'s with their containment '<em>Edge</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateNode_NodeCreationWithoutContainment(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		Rule rule = node.getGraph().getRule();
+		MappingList mappings = rule.getMappings();
+		if(rule.getRhs().getNodes().contains(node)){//only nodes in the RHS have to be checked
+			if(mappings.getOrigin(node) == null){ //check if node is created
+				for(Edge edge : node.getIncoming()){ 
+					if(edge.getType().isContainment()){ //incoming containment edge is expected
+						if(mappings.getOrigin(edge) == null){ // (containment-)edge should be created 
+							return true;
+						}
+					}
+				}
+				diagnostics.add(createDiagnostic(Diagnostic.WARNING, node.getActionNode(), Node.class, "NodeCreationWithoutContainment", context));
+			}
 		}
 		return false;
 	}
@@ -770,6 +950,18 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validateEdge_indexValidJavaScript(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_noContainmentCycles(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_EOppositeContainments(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_noParallelEdgesOfSameType(edge, diagnostics, context);
+		
+		//access the global preferences
+		IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(HenshinModelPlugin.PLUGIN_ID);
+		boolean extendedConsistencyChecking = preferences.getBoolean(PREF_ENABLE_EXTENDED_CONSISTENCY_CHECK, false);
+		
+		if(extendedConsistencyChecking){
+			if (result || diagnostics != null) result &= validateEdge_oppositeEdgeConsidered(edge, diagnostics, context);
+			if (result || diagnostics != null) result &= validateEdge_containmentEdgeDeletion(edge, diagnostics, context);
+			if (result || diagnostics != null) result &= validateEdge_containmentEdgeCreation(edge, diagnostics, context);
+		}
+		
 		return result;
 	}
 	

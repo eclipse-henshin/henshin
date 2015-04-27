@@ -1813,13 +1813,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "uniqueAttributeTypes atMostOneContainer"
+			 "constraints", "uniqueAttributeTypes atMostOneContainer NodeDeletionDanglingEdge NodeCreationWithoutContainment"
 		   });	
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "equalParentGraphs indexValidJavaScript noContainmentCycles"
+			 "constraints", "equalParentGraphs indexValidJavaScript noContainmentCycles EOppositeContainments oppositeEdgeConsidered noParallelEdgesOfSameType containmentEdgeDeletion containmentEdgeCreation"
 		   });	
 		addAnnotation
 		  (attributeEClass, 

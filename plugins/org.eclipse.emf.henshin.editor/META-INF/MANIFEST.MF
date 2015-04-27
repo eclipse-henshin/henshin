@@ -22,3 +22,4 @@ Export-Package: org.eclipse.emf.henshin.editor,
  org.eclipse.emf.henshin.editor.filter,
  org.eclipse.emf.henshin.editor.menuContributors,
  org.eclipse.emf.henshin.presentation
+Import-Package: org.eclipse.gmf.runtime.common.ui.preferences

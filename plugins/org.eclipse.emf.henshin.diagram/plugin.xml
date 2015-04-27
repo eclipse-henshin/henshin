@@ -131,9 +131,10 @@
    <extension point="org.eclipse.ui.preferencePages" id="prefpages">
       <?gmfgen generated="true"?>
       <page
+            category="org.eclipse.emf.henshin.editor.general"
+            class="org.eclipse.emf.henshin.diagram.preferences.DiagramGeneralPreferencePage"
             id="org.eclipse.emf.henshin.diagram.general"
-            name="%prefpage.org.eclipse.emf.henshin.diagram.general"
-            class="org.eclipse.emf.henshin.diagram.preferences.DiagramGeneralPreferencePage">
+            name="%prefpage.org.eclipse.emf.henshin.diagram.general">
       </page>
       <page
             id="org.eclipse.emf.henshin.diagram.appearance"
