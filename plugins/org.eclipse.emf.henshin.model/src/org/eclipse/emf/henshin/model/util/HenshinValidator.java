@@ -19,8 +19,6 @@ import java.util.regex.Pattern;
 
 import javax.script.ScriptException;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -35,7 +33,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.*;
-import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * <!-- begin-user-doc -->
@@ -354,17 +351,20 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateEdge_oppositeEdgeConsidered(Edge edge,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		EReference eOpposite = edge.getType().getEOpposite();
-		if(eOpposite != null){
-			EList<Edge> allOutgoingEdgesOfTargetNode = edge.getTarget().getOutgoing();
-			for(Edge outgoingEdgeOfTargetNode : allOutgoingEdgesOfTargetNode){
-				if(outgoingEdgeOfTargetNode.getTarget() == edge.getSource()){
-					if(outgoingEdgeOfTargetNode.getType() == eOpposite)
-						return true;
+		if (edge.getType() != null) {
+			EReference eOpposite = edge.getType().getEOpposite();
+			if (eOpposite != null) {
+				EList<Edge> allOutgoingEdgesOfTargetNode = edge.getTarget().getOutgoing();
+				for (Edge outgoingEdgeOfTargetNode : allOutgoingEdgesOfTargetNode) {
+					if (outgoingEdgeOfTargetNode.getTarget() == edge.getSource()) {
+						if (outgoingEdgeOfTargetNode.getType() == eOpposite)
+							return true;
+					}
 				}
+				diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class, "oppositeEdgeConsidered",
+						context));
+				return false;
 			}
-			diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class,"oppositeEdgeConsidered", context));
-			return false;
 		}
 		return true;  
 	}
@@ -377,11 +377,15 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateEdge_noParallelEdgesOfSameType(Edge edge,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		for(Edge outgoindEdgesOfSourceNode : edge.getSource().getOutgoing()){
-			if(outgoindEdgesOfSourceNode != edge) {
-				if(outgoindEdgesOfSourceNode.getTarget() == edge.getTarget() && outgoindEdgesOfSourceNode.getType() == edge.getType())
-					diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class,"noParallelEdgesOfSameType", context));
+		if (edge.getSource() != null) {
+			for (Edge outgoindEdgesOfSourceNode : edge.getSource().getOutgoing()) {
+				if (outgoindEdgesOfSourceNode != edge) {
+					if (outgoindEdgesOfSourceNode.getTarget() == edge.getTarget()
+							&& outgoindEdgesOfSourceNode.getType() == edge.getType())
+						diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class,
+								"noParallelEdgesOfSameType", context));
 					return false;
+				}
 			}
 		}
 		return true;  
@@ -397,21 +401,22 @@ public class HenshinValidator extends EObjectValidator {
 			DiagnosticChain diagnostics, Map<Object, Object> context) {	
 		Rule rule = edge.getGraph().getRule();
 		MappingList mappings = rule.getMappings();
-		if(rule.getLhs().getEdges().contains(edge)){//checks if the validated edge is part of the LHS
-			if(edge.getType().isContainment()){
+		if (rule.getLhs().getEdges().contains(edge)){ //checks if the validated edge is part of the LHS
+			if(edge.getType() != null && edge.getType().isContainment()){
 				if(mappings.getImage(edge, rule.getRhs()) == null){ //checks if the edge is deleted
 					Node targetNodeInRhs = mappings.getImage(edge.getTarget(), rule.getRhs());
 					boolean targetNodeDeleted = targetNodeInRhs == null; //the deletion of the  contained node solves the deletion of the containment edge
 					boolean newContainmentEdgeforNodeCreated = false; //the creation of a new containment edge solves the missing container problem
-					if(!targetNodeDeleted){ //required to prevent NPE due to targetNodeInRhs=null
+					if (!targetNodeDeleted) { //required to prevent NPE due to targetNodeInRhs=null
 						for(Edge edgeOfRhs : targetNodeInRhs.getIncoming()){
-							if(edgeOfRhs.getType().isContainment()){
-								if(mappings.getOrigin(edgeOfRhs) == null)
+							if (edgeOfRhs.getType() != null && edgeOfRhs.getType().isContainment()) {
+								if(mappings.getOrigin(edgeOfRhs) == null) {
 									newContainmentEdgeforNodeCreated = true;
+								}
 							}								
 						}
 					}
-					if((!targetNodeDeleted && !newContainmentEdgeforNodeCreated)){
+					if ((!targetNodeDeleted && !newContainmentEdgeforNodeCreated)){
 						diagnostics.add(createDiagnostic(Diagnostic.WARNING, edge, Edge.class,"containmentEdgeDeletion", context));
 						return false;
 					}
@@ -429,20 +434,20 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateEdge_containmentEdgeCreation(Edge edge,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {	
-		
 			Rule rule = edge.getGraph().getRule();
 			MappingList mappings = rule.getMappings();
-			if(rule.getRhs().getEdges().contains(edge)){ // only edges of the RHS are relevant
-				if(edge.getType().isContainment()){
-					if(mappings.getOrigin(edge) == null){
+			if (rule.getRhs().getEdges().contains(edge)) { // only edges of the RHS are relevant
+				if (edge.getType() != null && edge.getType().isContainment()){
+					if (mappings.getOrigin(edge) == null){
 						Node targetNodeInLhs = mappings.getOrigin(edge.getTarget());
 						boolean targetNodeCreated = targetNodeInLhs == null; // creation of the target node solves the created containment edge
 						boolean originalContainmentEdgeDeleted = false; //deletion of the old containment edge solves the creation of a new containment edge 
-						if(targetNodeInLhs != null){
+						if (targetNodeInLhs != null){
 							for(Edge incomingEdgeOfTargetNodeInLhs : targetNodeInLhs.getIncoming()){
-								if(incomingEdgeOfTargetNodeInLhs.getType().isContainment()){
-									if(mappings.getImage(incomingEdgeOfTargetNodeInLhs, rule.getRhs()) == null)
+								if (incomingEdgeOfTargetNodeInLhs.getType() != null && incomingEdgeOfTargetNodeInLhs.getType().isContainment()){
+									if (mappings.getImage(incomingEdgeOfTargetNodeInLhs, rule.getRhs()) == null) {
 										originalContainmentEdgeDeleted = true;
+									}
 								}
 							}
 						}
