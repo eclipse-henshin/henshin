@@ -819,6 +819,23 @@ public class EngineImpl implements Engine {
 			} else {
 				value = resultMatch.getParameterValue(param);
 			}
+			// Parameter matched by multi-rules?
+			if (value == null && !rule.getMultiRules().isEmpty()) {
+				List<Object> valueList = new ArrayList<Object>();
+				for (Rule multiRule : rule.getMultiRules()) {
+					Parameter p = multiRule.getParameter(param.getName());
+					if (p != null) {
+						for (Match multiMatch : completeMatch.getMultiMatches(multiRule)) {
+							value = multiMatch.getParameterValue(p);
+							if (value != null) {
+								valueList.add(value);
+							}
+						}
+					}
+				}
+				value = valueList;
+			}
+			
 			scriptEngine.getEngine().put(param.getName(), value);
 		}
 

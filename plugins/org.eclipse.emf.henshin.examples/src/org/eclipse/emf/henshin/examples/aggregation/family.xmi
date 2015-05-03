@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<family:Family
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:family="http://www.eclipse.org/Henshin/2015/examples/family"
+    xsi:schemaLocation="http://www.eclipse.org/Henshin/2015/examples/family family.ecore">
+  <members age="25"/>
+  <members age="15"/>
+  <members age="32"/>
+  <members age="8"/>
+</family:Family>

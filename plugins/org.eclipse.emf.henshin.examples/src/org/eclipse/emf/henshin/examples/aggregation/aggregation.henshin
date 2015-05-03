@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Sv_vwPGMEeSTFfi-IxgcSQ">
+  <imports href="family.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_T70CoPGMEeSTFfi-IxgcSQ" name="calcMemberCount">
+    <parameters xmi:id="_cUF8MPGMEeSTFfi-IxgcSQ" name="x">
+      <type xsi:type="ecore:EClass" href="family.ecore#//Person"/>
+    </parameters>
+    <parameters xmi:id="_nNdX0PGfEeSTFfi-IxgcSQ" name="old">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_T9KGcPGMEeSTFfi-IxgcSQ" name="Lhs">
+      <nodes xmi:id="_WuXp0PGMEeSTFfi-IxgcSQ">
+        <type href="family.ecore#//Family"/>
+        <attributes xmi:id="_eaYTQPGMEeSTFfi-IxgcSQ" value="old">
+          <type href="family.ecore#//Family/memberCount"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_T9KGcfGMEeSTFfi-IxgcSQ" name="Rhs">
+      <nodes xmi:id="_WuXp0fGMEeSTFfi-IxgcSQ">
+        <type href="family.ecore#//Family"/>
+        <attributes xmi:id="_eaYTQfGMEeSTFfi-IxgcSQ" value="Aggregations.COUNT(x)">
+          <type href="family.ecore#//Family/memberCount"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_WuXp0vGMEeSTFfi-IxgcSQ" origin="_WuXp0PGMEeSTFfi-IxgcSQ" image="_WuXp0fGMEeSTFfi-IxgcSQ"/>
+    <multiRules xmi:id="_v4csoPGMEeSTFfi-IxgcSQ">
+      <parameters xmi:id="_v5MTgPGMEeSTFfi-IxgcSQ" name="x">
+        <type xsi:type="ecore:EClass" href="family.ecore#//Person"/>
+      </parameters>
+      <parameters xmi:id="_v5MTgfGMEeSTFfi-IxgcSQ" name="old">
+        <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </parameters>
+      <lhs xmi:id="_v4vnkPGMEeSTFfi-IxgcSQ" name="Lhs">
+        <nodes xmi:id="_v4vnmPGMEeSTFfi-IxgcSQ" outgoing="_X80Z8PGMEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Family"/>
+        </nodes>
+        <nodes xmi:id="_XT28gPGMEeSTFfi-IxgcSQ" name="x" incoming="_X80Z8PGMEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Person"/>
+        </nodes>
+        <edges xmi:id="_X80Z8PGMEeSTFfi-IxgcSQ" source="_v4vnmPGMEeSTFfi-IxgcSQ" target="_XT28gPGMEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Family/members"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_v4vnkfGMEeSTFfi-IxgcSQ" name="Rhs">
+        <nodes xmi:id="_v4vnkvGMEeSTFfi-IxgcSQ" outgoing="_X80Z8fGMEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Family"/>
+        </nodes>
+        <nodes xmi:id="_XT28gfGMEeSTFfi-IxgcSQ" name="x" incoming="_X80Z8fGMEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Person"/>
+        </nodes>
+        <edges xmi:id="_X80Z8fGMEeSTFfi-IxgcSQ" source="_v4vnkvGMEeSTFfi-IxgcSQ" target="_XT28gfGMEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Family/members"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_v45YlfGMEeSTFfi-IxgcSQ" origin="_v4vnmPGMEeSTFfi-IxgcSQ" image="_v4vnkvGMEeSTFfi-IxgcSQ"/>
+      <mappings xmi:id="_XT28gvGMEeSTFfi-IxgcSQ" origin="_XT28gPGMEeSTFfi-IxgcSQ" image="_XT28gfGMEeSTFfi-IxgcSQ"/>
+      <multiMappings xmi:id="_v4vnlPGMEeSTFfi-IxgcSQ" origin="_WuXp0fGMEeSTFfi-IxgcSQ" image="_v4vnkvGMEeSTFfi-IxgcSQ"/>
+      <multiMappings xmi:id="_v45YkfGMEeSTFfi-IxgcSQ" origin="_WuXp0PGMEeSTFfi-IxgcSQ" image="_v4vnmPGMEeSTFfi-IxgcSQ"/>
+    </multiRules>
+    <javaImports>org.eclipse.emf.henshin.interpreter.util.Aggregations</javaImports>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_n5NOEPGgEeSTFfi-IxgcSQ" name="calcAverageAge">
+    <parameters xmi:id="_tFEO8PGgEeSTFfi-IxgcSQ" name="a">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_tFEO8fGgEeSTFfi-IxgcSQ" name="old">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameters>
+    <lhs xmi:id="_n5b3kPGgEeSTFfi-IxgcSQ" name="Lhs">
+      <nodes xmi:id="_udEjsPGgEeSTFfi-IxgcSQ">
+        <type href="family.ecore#//Family"/>
+        <attributes xmi:id="_1il04PGgEeSTFfi-IxgcSQ" value="old">
+          <type href="family.ecore#//Family/averageAge"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n5b3kfGgEeSTFfi-IxgcSQ" name="Rhs">
+      <nodes xmi:id="_udFKwPGgEeSTFfi-IxgcSQ">
+        <type href="family.ecore#//Family"/>
+        <attributes xmi:id="_1imb8PGgEeSTFfi-IxgcSQ" value="Aggregations.AVG(a)">
+          <type href="family.ecore#//Family/averageAge"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_udFKwfGgEeSTFfi-IxgcSQ" origin="_udEjsPGgEeSTFfi-IxgcSQ" image="_udFKwPGgEeSTFfi-IxgcSQ"/>
+    <multiRules xmi:id="_ygnRoPGgEeSTFfi-IxgcSQ">
+      <parameters xmi:id="_yhVDUPGgEeSTFfi-IxgcSQ" name="a">
+        <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </parameters>
+      <parameters xmi:id="_yhVDUfGgEeSTFfi-IxgcSQ" name="old">
+        <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      </parameters>
+      <lhs xmi:id="_ygnRofGgEeSTFfi-IxgcSQ" name="Lhs">
+        <nodes xmi:id="_ygpG0PGgEeSTFfi-IxgcSQ" outgoing="_vhEXUPGgEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Family"/>
+        </nodes>
+        <nodes xmi:id="_u88WkPGgEeSTFfi-IxgcSQ" incoming="_vhEXUPGgEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Person"/>
+          <attributes xmi:id="_0RojUPGgEeSTFfi-IxgcSQ" value="a">
+            <type href="family.ecore#//Person/age"/>
+          </attributes>
+        </nodes>
+        <edges xmi:id="_vhEXUPGgEeSTFfi-IxgcSQ" source="_ygpG0PGgEeSTFfi-IxgcSQ" target="_u88WkPGgEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Family/members"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_ygn4sPGgEeSTFfi-IxgcSQ" name="Rhs">
+        <nodes xmi:id="_ygn4sfGgEeSTFfi-IxgcSQ" outgoing="_vhE-YPGgEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Family"/>
+        </nodes>
+        <nodes xmi:id="_u889oPGgEeSTFfi-IxgcSQ" incoming="_vhE-YPGgEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Person"/>
+          <attributes xmi:id="_0RojUfGgEeSTFfi-IxgcSQ" value="a">
+            <type href="family.ecore#//Person/age"/>
+          </attributes>
+        </nodes>
+        <edges xmi:id="_vhE-YPGgEeSTFfi-IxgcSQ" source="_ygn4sfGgEeSTFfi-IxgcSQ" target="_u889oPGgEeSTFfi-IxgcSQ">
+          <type href="family.ecore#//Family/members"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_ygqU8PGgEeSTFfi-IxgcSQ" origin="_ygpG0PGgEeSTFfi-IxgcSQ" image="_ygn4sfGgEeSTFfi-IxgcSQ"/>
+      <mappings xmi:id="_u889ofGgEeSTFfi-IxgcSQ" origin="_u88WkPGgEeSTFfi-IxgcSQ" image="_u889oPGgEeSTFfi-IxgcSQ"/>
+      <multiMappings xmi:id="_ygn4svGgEeSTFfi-IxgcSQ" origin="_udFKwPGgEeSTFfi-IxgcSQ" image="_ygn4sfGgEeSTFfi-IxgcSQ"/>
+      <multiMappings xmi:id="_ygpG0fGgEeSTFfi-IxgcSQ" origin="_udEjsPGgEeSTFfi-IxgcSQ" image="_ygpG0PGgEeSTFfi-IxgcSQ"/>
+    </multiRules>
+    <javaImports>org.eclipse.emf.henshin.interpreter.util.Aggregations</javaImports>
+  </units>
+</henshin:Module>
