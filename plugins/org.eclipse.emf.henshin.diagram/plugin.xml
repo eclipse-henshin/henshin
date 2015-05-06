@@ -129,7 +129,7 @@
    </extension>
 
    <extension point="org.eclipse.ui.preferencePages" id="prefpages">
-      <?gmfgen generated="true"?>
+      <?gmfgen generated="false"?>
       <page
             category="org.eclipse.emf.henshin.editor.general"
             class="org.eclipse.emf.henshin.diagram.preferences.DiagramGeneralPreferencePage"
