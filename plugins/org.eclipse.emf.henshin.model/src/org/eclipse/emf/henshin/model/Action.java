@@ -73,6 +73,14 @@ public final class Action {
 		// The following action types are supported:
 		PRESERVE, CREATE, DELETE, FORBID, REQUIRE;
 		
+		public static final String ALT_REMOVE = "remove";
+
+		public static final String ALT_NEW = "new";
+
+		public static final String ALT_SET = "set";
+
+		public static final String ALT_NONE = "none";
+
 		/**
 		 * Parse an element action type.
 		 * @param value String representation of the action type.
@@ -85,13 +93,13 @@ public final class Action {
 				if (type.name().equalsIgnoreCase(value)) return type;
 			}
 			// Some convenience...
-			if ("remove".equalsIgnoreCase(value)) {
+			if (ALT_REMOVE.equalsIgnoreCase(value)) {
 				return DELETE;
 			}
-			if ("new".equalsIgnoreCase(value)) {
+			if (ALT_NEW.equalsIgnoreCase(value) || ALT_SET.equalsIgnoreCase(value)) {
 				return CREATE;
 			}
-			if ("none".equalsIgnoreCase(value)) {
+			if (ALT_NONE.equalsIgnoreCase(value)) {
 				return PRESERVE;
 			}
 			throw new ParseException("Unknown action type: " + value, 0);
