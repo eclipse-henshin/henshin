@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.tests.examples;
 
+import org.eclipse.emf.henshin.examples.aggregation.AggregationExample;
 import org.eclipse.emf.henshin.examples.bank.BankExample;
 import org.eclipse.emf.henshin.examples.bankmap.BankMapExample;
 import org.eclipse.emf.henshin.examples.combpattern.CombBenchmark;
@@ -156,6 +157,15 @@ public class ExamplesTest {
 	public void testJavaImports() {
 		System.out.println();
 		JavaImportsExample.run(EXAMPLES_PATH + JavaImportsExample.PATH);
+	}
+
+	/**
+	 * Aggregation example.
+	 */
+	@Test
+	public void testAggregation() {
+		System.out.println();
+		AggregationExample.run(EXAMPLES_PATH + AggregationExample.PATH);
 	}
 
 }
