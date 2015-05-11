@@ -49,6 +49,17 @@ public class Aggregations {
 	}
 
 	/**
+	 * Calculate the minimum of a possibly empty collection of numbers.
+	 * 
+	 * @param elements Collection of numbers.
+	 * @param valueForEmptyCollection Value to be used in case of an empty collection.
+	 * @return Minimum of the numbers.
+	 */
+	public static double MIN(Collection<?> elements, Number valueForEmptyCollection) {
+		return elements.isEmpty() ? valueForEmptyCollection.doubleValue() : MIN(elements);
+	}
+
+	/**
 	 * Calculate the maximum of a non-empty collection of numbers.
 	 * 
 	 * @param elements Non-empty collection of numbers.
@@ -65,6 +76,17 @@ public class Aggregations {
 	}
 
 	/**
+	 * Calculate the maximum of a possibly empty collection of numbers.
+	 * 
+	 * @param elements Collection of numbers.
+	 * @param valueForEmptyCollection Value to be used in case of an empty collection.
+	 * @return Maximum of the numbers.
+	 */
+	public static double MAX(Collection<?> elements, Number valueForEmptyCollection) {
+		return elements.isEmpty() ? valueForEmptyCollection.doubleValue() : MAX(elements);
+	}
+
+	/**
 	 * Calculate the average (arithmetic mean) of a non-empty collection of numbers.
 	 * 
 	 * @param elements Non-empty collection of numbers.
@@ -73,6 +95,17 @@ public class Aggregations {
 	public static double AVG(Collection<?> elements) {
 		ensureNonEmpty(elements);
 		return SUM(elements) / COUNT(elements);
+	}
+
+	/**
+	 * Calculate the average (arithmetic mean) of a possibly empty collection of numbers.
+	 * 
+	 * @param elements Collection of numbers.
+	 * @param valueForEmptyCollection Value to be used in case of an empty collection.
+	 * @return Average of the numbers.
+	 */
+	public static double AVG(Collection<?> elements, Number valueForEmptyCollection) {
+		return elements.isEmpty() ? valueForEmptyCollection.doubleValue() : AVG(elements);
 	}
 
 	/**
