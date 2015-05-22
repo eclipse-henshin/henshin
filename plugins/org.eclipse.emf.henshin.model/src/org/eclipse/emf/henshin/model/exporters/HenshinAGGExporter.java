@@ -248,8 +248,6 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 					edgeElem.setAttribute("target", nodeIDs.get(reference.getEReferenceType()));
 					if(reference.isContainment()){
 						edgeElem.setAttribute("sourcemax", "1");
-						edgeElem.setAttribute("sourcemin", "1");
-					} else {
 						edgeElem.setAttribute("sourcemin", "0");
 					}
 					edgeElem.setAttribute("targetmin", reference.getLowerBound()+"");
