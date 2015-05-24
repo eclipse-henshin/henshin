@@ -80,10 +80,10 @@ public class AttributeParser extends AbstractAttributeParser {
 		
 		// We show only FORBID,REQUIRE and certain multi-actions:
 		if (action!=null) {
-			//Type actionType = action.getType();
 			if (!action.equals(nodeAction)) {
-				//if (actionType==FORBID || actionType==REQUIRE) {
-				result = NodeActionParser.addActionQuotes(action.toString()) + " " + result;
+				//if (action.getType()==FORBID || action.getType()==REQUIRE) {
+				String actionName = action.equals(new Action(Action.Type.CREATE)) ? Action.Type.ALT_SET : action.toString();
+				result = NodeActionParser.addActionQuotes(actionName) + " " + result;
 				//}
 			}
 		}
