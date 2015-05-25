@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.model.impl;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -455,6 +456,21 @@ public class RuleImpl extends UnitImpl implements Rule {
 			if (node!=null) nodes.add(node);
 		}
 		return nodes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<String> getAllJavaImports() {
+		Rule rule = getRootRule();
+		Collection<String> imports = new LinkedHashSet<String>();
+		imports.addAll(rule.getJavaImports());
+		for (Rule multiRule : rule.getAllMultiRules()) {
+			imports.addAll(multiRule.getJavaImports());
+		}
+		return ECollections.unmodifiableEList(new BasicEList<String>(imports));
 	}
 
 	/*

@@ -1575,6 +1575,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		addEOperation(ruleEClass, this.getNode(), "getParameterNodes", 0, -1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(ruleEClass, ecorePackage.getEString(), "getAllJavaImports", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		addEOperation(ruleEClass, ecorePackage.getEBoolean(), "isMultiRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(ruleEClass, this.getNode(), "createNode", 0, 1, IS_UNIQUE, IS_ORDERED);

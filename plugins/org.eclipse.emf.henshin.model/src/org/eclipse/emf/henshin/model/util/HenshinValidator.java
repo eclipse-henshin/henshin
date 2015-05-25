@@ -351,6 +351,9 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateEdge_oppositeEdgeConsidered(Edge edge,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!isExtendedConsistencyCheck()) {
+			return true;
+		}
 		if (edge.getType() != null) {
 			EReference eOpposite = edge.getType().getEOpposite();
 			if (eOpposite != null) {
@@ -399,6 +402,9 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateEdge_containmentEdgeDeletion(Edge edge,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {	
+		if (!isExtendedConsistencyCheck()) {
+			return true;
+		}
 		Rule rule = edge.getGraph().getRule();
 		MappingList mappings = rule.getMappings();
 		if (rule.getLhs().getEdges().contains(edge)){ //checks if the validated edge is part of the LHS
@@ -434,6 +440,9 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateEdge_containmentEdgeCreation(Edge edge,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {	
+		if (!isExtendedConsistencyCheck()) {
+			return true;
+		}
 			Rule rule = edge.getGraph().getRule();
 			MappingList mappings = rule.getMappings();
 			if (rule.getRhs().getEdges().contains(edge)) { // only edges of the RHS are relevant
@@ -546,7 +555,7 @@ public class HenshinValidator extends EObjectValidator {
 //		System.out.println(function);
 		synchronized (SCRIPT_ENGINE) {
 			try {
-				SCRIPT_ENGINE.eval(function.toString(), (unit instanceof Rule) ? ((Rule) unit).getJavaImports()
+				SCRIPT_ENGINE.eval(function.toString(), (unit instanceof Rule) ? ((Rule) unit).getAllJavaImports()
 						: new ArrayList<String>());
 			} catch (ScriptException e) {
 				String msg = (e.getMessage() != null) ? e.getMessage().replaceFirst(
@@ -782,18 +791,15 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNode_uniqueAttributeTypes(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNode_atMostOneContainer(node, diagnostics, context);
-		
+		if (result || diagnostics != null) result &= validateNode_NodeDeletionDanglingEdge(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNode_NodeCreationWithoutContainment(node, diagnostics, context);
+		return result;
+	}
+	
+	private boolean isExtendedConsistencyCheck() {
 		//access the global preferences
 		IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(HenshinModelPlugin.PLUGIN_ID);
-				
-		boolean extendedConsistencyChecking = preferences.getBoolean(PREF_ENABLE_EXTENDED_CONSISTENCY_CHECK, false);
-		
-		if(extendedConsistencyChecking){
-			if (result || diagnostics != null) result &= validateNode_NodeDeletionDanglingEdge(node, diagnostics, context);
-			if (result || diagnostics != null) result &= validateNode_NodeCreationWithoutContainment(node, diagnostics, context);
-		}
-		
-		return result;
+		return preferences.getBoolean(PREF_ENABLE_EXTENDED_CONSISTENCY_CHECK, false);
 	}
 	
 	/**
@@ -853,6 +859,9 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateNode_NodeDeletionDanglingEdge(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!isExtendedConsistencyCheck()) {
+			return true;
+		}
 		Rule rule = node.getGraph().getRule();
 		boolean nodeIsDeleted = rule.getLhs().getNodes().contains(node) && rule.getMappings().getImage(node, rule.getRhs()) == null;
 		if(rule.isCheckDangling()){
@@ -881,6 +890,9 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateNode_NodeCreationWithoutContainment(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!isExtendedConsistencyCheck()) {
+			return true;
+		}
 		Rule rule = node.getGraph().getRule();
 		MappingList mappings = rule.getMappings();
 		if(rule.getRhs().getNodes().contains(node)){//only nodes in the RHS have to be checked
@@ -955,18 +967,10 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validateEdge_indexValidJavaScript(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_noContainmentCycles(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_EOppositeContainments(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_oppositeEdgeConsidered(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validateEdge_noParallelEdgesOfSameType(edge, diagnostics, context);
-		
-		//access the global preferences
-		IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(HenshinModelPlugin.PLUGIN_ID);
-		boolean extendedConsistencyChecking = preferences.getBoolean(PREF_ENABLE_EXTENDED_CONSISTENCY_CHECK, false);
-		
-		if(extendedConsistencyChecking){
-			if (result || diagnostics != null) result &= validateEdge_oppositeEdgeConsidered(edge, diagnostics, context);
-			if (result || diagnostics != null) result &= validateEdge_containmentEdgeDeletion(edge, diagnostics, context);
-			if (result || diagnostics != null) result &= validateEdge_containmentEdgeCreation(edge, diagnostics, context);
-		}
-		
+		if (result || diagnostics != null) result &= validateEdge_containmentEdgeDeletion(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_containmentEdgeCreation(edge, diagnostics, context);
 		return result;
 	}
 	

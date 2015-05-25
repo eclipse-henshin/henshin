@@ -219,6 +219,14 @@ public interface Rule extends Unit {
 	 * @model kind="operation"
 	 * @generated
 	 */
+	EList<String> getAllJavaImports();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
 	boolean isMultiRule();
 
 	/**

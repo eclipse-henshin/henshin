@@ -890,7 +890,7 @@ public class EngineImpl implements Engine {
 					newIndex = ((Number) resultMatch.getParameterValue(param)).intValue();
 				} else {
 					try {
-						newIndex = ((Number) scriptEngine.eval(edge.getIndex(), rule.getJavaImports())).intValue();
+						newIndex = ((Number) scriptEngine.eval(edge.getIndex(), rule.getAllJavaImports())).intValue();
 					} catch (ScriptException e) {
 						throw new RuntimeException("Error evaluating edge index expression \"" + edge.getIndex()
 								+ "\": " + e.getMessage(), e);
@@ -956,7 +956,7 @@ public class EngineImpl implements Engine {
 
 		// Try to evaluate the expression and cast it to the correct type:
 		try {
-			Object evalResult = scriptEngine.eval(attribute.getValue(), rule.getJavaImports());
+			Object evalResult = scriptEngine.eval(attribute.getValue(), rule.getAllJavaImports());
 			return castValueToDataType(evalResult, attribute.getType().getEAttributeType(), attribute.getType()
 					.isMany());
 		} catch (ScriptException e) {
