@@ -17,7 +17,9 @@ import java.util.Date;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,6 +56,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.model.impl.EdgeImpl;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -175,8 +178,8 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			}
 			
 			// Sort EClasses using Topological Sort.
-			eclasses = sortEClasses(eclasses);
-
+			eclasses = advancedSortEClasses(eclasses);
+			
 			// Nodes and attribute types:
 			for (EClass eclass : eclasses) {
 
@@ -192,17 +195,11 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 				nodeIDs.put(eclass, nodeElem.getAttribute("ID"));
 
 				// Inheritance:
-				if(eclass.getESuperTypes().size()==1){
-					// handle the case of one super type
-					EClass parentEClass=eclass.getESuperTypes().get(0);
+				for(EClass parentEClass : eclass.getESuperTypes()){
 					Element parentElem = newElement("Parent", nodeTypeElem, false);
 					String parentNodeTypeID = nodeTypeIDs.get(parentEClass);
 					parentElem.setAttribute("pID", parentNodeTypeID);
 					// parent element XML node does not have an own ID in AGG
-				}
-				else if (eclass.getESuperTypes().size()>1){
-					warnings.add(" - multiple inheritance for " + eclass.getName() +  
-							" not supported");							
 				}
 
 				// Attributes:
@@ -389,6 +386,51 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 		return sorted;
 
 	}
+	
+	/*
+	 * Topological sorting of EClasses. In the sorted list superclasses
+	 * precede subclasses. Multiple-inheritance is supported.
+	 * Returns NULL in case of an inheritance-cycle
+	 */
+	private static List<EClass> advancedSortEClasses(List<EClass> eclasses) {
+		
+		List<EClass> sortedEClasses = new LinkedList<EClass>();
+		
+		//set up Map: <EClass,numberOfUnsortedSuperTypes>
+		Map<EClass, Integer> mapOfUnsortedEClasses = new HashMap<EClass, Integer>();
+		for(EClass eclass : eclasses){
+			mapOfUnsortedEClasses.put(eclass, eclass.getESuperTypes().size());			
+		}
+		
+		// sort 
+		while(mapOfUnsortedEClasses.size()>0){
+			
+			EClass processedEClass = null;
+			
+			Iterator<Map.Entry<EClass, Integer>> iterator = mapOfUnsortedEClasses.entrySet().iterator();
+			while(iterator.hasNext() && processedEClass == null){
+				
+			   Map.Entry<EClass, Integer> entry = iterator.next();
+			   
+			   if(entry.getValue() == 0){
+				   processedEClass = entry.getKey();
+				   sortedEClasses.add(processedEClass);
+			   }
+			}
+			mapOfUnsortedEClasses.remove(processedEClass);
+			//reduce SubClasses of the processed EClass
+			if(processedEClass != null){
+				for(Map.Entry<EClass, Integer> entry : mapOfUnsortedEClasses.entrySet()){
+					if(entry.getKey().getESuperTypes().contains(processedEClass))
+						entry.setValue(entry.getValue()-1);
+				}
+			}
+			// when all remaining unsorted EClasses still have at least one unprocessed superclass, then there must be an inheritance cycle
+			if(processedEClass == null)
+				return null;
+		}
+		return sortedEClasses;
+	}
 
 	/*
 	 * Translate a graph into XML.
@@ -439,8 +481,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 					}
 				}
 			}
-		}
-		
+		}		
 		// Edges:
 		for (Edge edge : graph.getEdges()) {
 			Element edgeElem = newElement("Edge", graphElem, true);
