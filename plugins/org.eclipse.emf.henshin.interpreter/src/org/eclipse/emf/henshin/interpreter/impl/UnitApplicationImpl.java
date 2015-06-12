@@ -260,6 +260,8 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 					updateParameterValues(elseUnitApp);
 				}
 				appliedRules.addAll(elseUnitApp.appliedRules);
+			} else {
+				success = true;
 			}
 		}
 		if (monitor.isCanceled()) {
