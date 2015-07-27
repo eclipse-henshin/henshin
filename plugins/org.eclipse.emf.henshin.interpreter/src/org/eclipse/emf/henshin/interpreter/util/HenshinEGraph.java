@@ -87,8 +87,8 @@ public class HenshinEGraph extends EGraphImpl implements Adapter {
 				EClass nodeType = node.getType();
 				EFactory factory = nodeType.getEPackage().getEFactoryInstance();
 				eObject = factory.create(nodeType);
-				add(eObject);
 				addSynchronizedPair(node, eObject);
+				add(eObject);
 			}
 			
 			for (Attribute attr : node.getAttributes()) {
@@ -144,7 +144,8 @@ public class HenshinEGraph extends EGraphImpl implements Adapter {
 			
 			// don't notify me about changes that I made
 			ownerObject.eAdapters().remove(this);
-			
+			targetObject.eAdapters().remove(this);
+
 			if (edgeType.isMany()) {
 				List<Object> edgeValues = (List<Object>) ownerObject.eGet(edgeType);
 				edgeValues.add(targetObject);
@@ -153,6 +154,7 @@ public class HenshinEGraph extends EGraphImpl implements Adapter {
 			}
 			
 			ownerObject.eAdapters().add(this);
+			targetObject.eAdapters().add(this);
 		}
 	}
 	
