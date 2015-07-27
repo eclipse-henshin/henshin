@@ -4,7 +4,8 @@
     editorDirectory="/org.eclipse.emf.henshin.editor/src" modelPluginID="org.eclipse.emf.henshin.model"
     templateDirectory="" modelName="Henshin" modelPluginClass="org.eclipse.emf.henshin.HenshinModelPlugin"
     testsDirectory="/org.eclipse.emf.henshin.tests/src" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="6.0" copyrightFields="false" publicConstructors="true" providerRootExtendsClass="org.eclipse.emf.henshin.provider.HenshinItemProviderAdapter"
+    containmentProxies="true" complianceLevel="6.0" copyrightFields="false" publicConstructors="true"
+    providerRootExtendsClass="org.eclipse.emf.henshin.provider.HenshinItemProviderAdapter"
     editPluginID="org.eclipse.emf.henshin.edit" editorPluginID="org.eclipse.emf.henshin.editor"
     testsPluginID="org.eclipse.emf.henshin.tests" colorProviders="true" runtimeVersion="2.6">
   <foreignModel>henshin.ecore</foreignModel>
@@ -79,6 +80,7 @@
         <genParameters ecoreParameter="henshin.ecore#//Rule/getActionEdges/action"/>
       </genOperations>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getParameterNodes"/>
+      <genOperations ecoreOperation="henshin.ecore#//Rule/getAllJavaImports"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/isMultiRule"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/createNode">
         <genParameters ecoreParameter="henshin.ecore#//Rule/createNode/type"/>

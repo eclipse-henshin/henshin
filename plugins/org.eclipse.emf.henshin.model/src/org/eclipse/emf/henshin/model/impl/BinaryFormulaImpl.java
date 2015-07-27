@@ -82,6 +82,29 @@ public abstract class BinaryFormulaImpl extends ModelElementImpl implements Bina
 	 * @generated
 	 */
 	public Formula getLeft() {
+		if (left != null && left.eIsProxy()) {
+			InternalEObject oldLeft = (InternalEObject)left;
+			left = (Formula)eResolveProxy(oldLeft);
+			if (left != oldLeft) {
+				InternalEObject newLeft = (InternalEObject)left;
+				NotificationChain msgs = oldLeft.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.BINARY_FORMULA__LEFT, null, null);
+				if (newLeft.eInternalContainer() == null) {
+					msgs = newLeft.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.BINARY_FORMULA__LEFT, null, msgs);
+				}
+				if (msgs != null) msgs.dispatch();
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.BINARY_FORMULA__LEFT, oldLeft, left));
+			}
+		}
+		return left;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Formula basicGetLeft() {
 		return left;
 	}
 
@@ -125,6 +148,29 @@ public abstract class BinaryFormulaImpl extends ModelElementImpl implements Bina
 	 * @generated
 	 */
 	public Formula getRight() {
+		if (right != null && right.eIsProxy()) {
+			InternalEObject oldRight = (InternalEObject)right;
+			right = (Formula)eResolveProxy(oldRight);
+			if (right != oldRight) {
+				InternalEObject newRight = (InternalEObject)right;
+				NotificationChain msgs = oldRight.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.BINARY_FORMULA__RIGHT, null, null);
+				if (newRight.eInternalContainer() == null) {
+					msgs = newRight.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.BINARY_FORMULA__RIGHT, null, msgs);
+				}
+				if (msgs != null) msgs.dispatch();
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.BINARY_FORMULA__RIGHT, oldRight, right));
+			}
+		}
+		return right;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Formula basicGetRight() {
 		return right;
 	}
 
@@ -201,9 +247,11 @@ public abstract class BinaryFormulaImpl extends ModelElementImpl implements Bina
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.BINARY_FORMULA__LEFT:
-				return getLeft();
+				if (resolve) return getLeft();
+				return basicGetLeft();
 			case HenshinPackage.BINARY_FORMULA__RIGHT:
-				return getRight();
+				if (resolve) return getRight();
+				return basicGetRight();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

@@ -77,7 +77,7 @@ public abstract class ModelElementImpl extends EObjectImpl implements ModelEleme
 	 */
 	public EList<Annotation> getAnnotations() {
 		if (annotations == null) {
-			annotations = new EObjectContainmentEList<Annotation>(Annotation.class, this, HenshinPackage.MODEL_ELEMENT__ANNOTATIONS);
+			annotations = new EObjectContainmentEList.Resolving<Annotation>(Annotation.class, this, HenshinPackage.MODEL_ELEMENT__ANNOTATIONS);
 		}
 		return annotations;
 	}

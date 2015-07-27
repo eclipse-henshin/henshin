@@ -71,6 +71,29 @@ public abstract class UnaryFormulaImpl extends ModelElementImpl implements Unary
 	 * @generated
 	 */
 	public Formula getChild() {
+		if (child != null && child.eIsProxy()) {
+			InternalEObject oldChild = (InternalEObject)child;
+			child = (Formula)eResolveProxy(oldChild);
+			if (child != oldChild) {
+				InternalEObject newChild = (InternalEObject)child;
+				NotificationChain msgs = oldChild.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.UNARY_FORMULA__CHILD, null, null);
+				if (newChild.eInternalContainer() == null) {
+					msgs = newChild.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.UNARY_FORMULA__CHILD, null, msgs);
+				}
+				if (msgs != null) msgs.dispatch();
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.UNARY_FORMULA__CHILD, oldChild, child));
+			}
+		}
+		return child;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Formula basicGetChild() {
 		return child;
 	}
 
@@ -145,7 +168,8 @@ public abstract class UnaryFormulaImpl extends ModelElementImpl implements Unary
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.UNARY_FORMULA__CHILD:
-				return getChild();
+				if (resolve) return getChild();
+				return basicGetChild();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

@@ -46,7 +46,7 @@ public interface Rule extends Unit {
 	 * @return the value of the '<em>Lhs</em>' containment reference.
 	 * @see #setLhs(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Lhs()
-	 * @model containment="true" required="true"
+	 * @model containment="true" resolveProxies="true" required="true"
 	 * @generated
 	 */
 	Graph getLhs();
@@ -68,7 +68,7 @@ public interface Rule extends Unit {
 	 * @return the value of the '<em>Rhs</em>' containment reference.
 	 * @see #setRhs(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Rhs()
-	 * @model containment="true" required="true"
+	 * @model containment="true" resolveProxies="true" required="true"
 	 * @generated
 	 */
 	Graph getRhs();
@@ -104,7 +104,7 @@ public interface Rule extends Unit {
 	 * @return the value of the '<em>Attribute Conditions</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_AttributeConditions()
 	 * @see org.eclipse.emf.henshin.model.AttributeCondition#getRule
-	 * @model opposite="rule" containment="true"
+	 * @model opposite="rule" containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<AttributeCondition> getAttributeConditions();
@@ -306,7 +306,7 @@ public interface Rule extends Unit {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Multi Rules</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_MultiRules()
-	 * @model containment="true"
+	 * @model containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Rule> getMultiRules();

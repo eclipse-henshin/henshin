@@ -41,7 +41,7 @@ public interface Module extends NamedElement {
 	 * @return the value of the '<em>Sub Modules</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_SubModules()
 	 * @see org.eclipse.emf.henshin.model.Module#getSuperModule
-	 * @model opposite="superModule" containment="true"
+	 * @model opposite="superModule" containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Module> getSubModules();
@@ -89,7 +89,7 @@ public interface Module extends NamedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Units</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_Units()
-	 * @model containment="true"
+	 * @model containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Unit> getUnits();
@@ -102,7 +102,7 @@ public interface Module extends NamedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Instances</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_Instances()
-	 * @model containment="true"
+	 * @model containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Graph> getInstances();

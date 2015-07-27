@@ -112,7 +112,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 */
 	public EList<Module> getSubModules() {
 		if (subModules == null) {
-			subModules = new EObjectContainmentWithInverseEList<Module>(Module.class, this, HenshinPackage.MODULE__SUB_MODULES, HenshinPackage.MODULE__SUPER_MODULE);
+			subModules = new EObjectContainmentWithInverseEList.Resolving<Module>(Module.class, this, HenshinPackage.MODULE__SUB_MODULES, HenshinPackage.MODULE__SUPER_MODULE);
 		}
 		return subModules;
 	}
@@ -123,6 +123,16 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * @generated
 	 */
 	public Module getSuperModule() {
+		if (eContainerFeatureID() != HenshinPackage.MODULE__SUPER_MODULE) return null;
+		return (Module)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Module basicGetSuperModule() {
 		if (eContainerFeatureID() != HenshinPackage.MODULE__SUPER_MODULE) return null;
 		return (Module)eInternalContainer();
 	}
@@ -177,7 +187,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 */
 	public EList<Unit> getUnits() {
 		if (units == null) {
-			units = new EObjectContainmentEList<Unit>(Unit.class, this, HenshinPackage.MODULE__UNITS);
+			units = new EObjectContainmentEList.Resolving<Unit>(Unit.class, this, HenshinPackage.MODULE__UNITS);
 		}
 		return units;
 	}
@@ -190,7 +200,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 */
 	public EList<Graph> getInstances() {
 		if (instances == null) {
-			instances = new EObjectContainmentEList<Graph>(Graph.class, this, HenshinPackage.MODULE__INSTANCES);
+			instances = new EObjectContainmentEList.Resolving<Graph>(Graph.class, this, HenshinPackage.MODULE__INSTANCES);
 		}
 		return instances;
 	}
@@ -293,7 +303,8 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				return getSubModules();
 			case HenshinPackage.MODULE__SUPER_MODULE:
-				return getSuperModule();
+				if (resolve) return getSuperModule();
+				return basicGetSuperModule();
 			case HenshinPackage.MODULE__IMPORTS:
 				return getImports();
 			case HenshinPackage.MODULE__UNITS:
@@ -390,7 +401,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				return subModules != null && !subModules.isEmpty();
 			case HenshinPackage.MODULE__SUPER_MODULE:
-				return getSuperModule() != null;
+				return basicGetSuperModule() != null;
 			case HenshinPackage.MODULE__IMPORTS:
 				return imports != null && !imports.isEmpty();
 			case HenshinPackage.MODULE__UNITS:

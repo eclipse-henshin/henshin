@@ -38,7 +38,7 @@ public interface Unit extends NamedElement {
 	 * @return the value of the '<em>Parameters</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getUnit_Parameters()
 	 * @see org.eclipse.emf.henshin.model.Parameter#getUnit
-	 * @model opposite="unit" containment="true"
+	 * @model opposite="unit" containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Parameter> getParameters();
@@ -50,7 +50,7 @@ public interface Unit extends NamedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parameter Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getUnit_ParameterMappings()
-	 * @model containment="true"
+	 * @model containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<ParameterMapping> getParameterMappings();

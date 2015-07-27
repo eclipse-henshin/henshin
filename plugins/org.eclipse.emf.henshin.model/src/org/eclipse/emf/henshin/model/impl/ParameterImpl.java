@@ -82,6 +82,16 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 */
 	public Unit getUnit() {
 		if (eContainerFeatureID() != HenshinPackage.PARAMETER__UNIT) return null;
+		return (Unit)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Unit basicGetUnit() {
+		if (eContainerFeatureID() != HenshinPackage.PARAMETER__UNIT) return null;
 		return (Unit)eInternalContainer();
 	}
 
@@ -207,7 +217,8 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.PARAMETER__UNIT:
-				return getUnit();
+				if (resolve) return getUnit();
+				return basicGetUnit();
 			case HenshinPackage.PARAMETER__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
@@ -260,7 +271,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case HenshinPackage.PARAMETER__UNIT:
-				return getUnit() != null;
+				return basicGetUnit() != null;
 			case HenshinPackage.PARAMETER__TYPE:
 				return type != null;
 		}

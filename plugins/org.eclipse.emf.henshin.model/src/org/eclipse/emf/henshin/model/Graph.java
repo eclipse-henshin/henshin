@@ -42,7 +42,7 @@ public interface Graph extends NamedElement {
 	 * @return the value of the '<em>Nodes</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getGraph_Nodes()
 	 * @see org.eclipse.emf.henshin.model.Node#getGraph
-	 * @model opposite="graph" containment="true"
+	 * @model opposite="graph" containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Node> getNodes();
@@ -56,7 +56,7 @@ public interface Graph extends NamedElement {
 	 * @return the value of the '<em>Edges</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getGraph_Edges()
 	 * @see org.eclipse.emf.henshin.model.Edge#getGraph
-	 * @model opposite="graph" containment="true"
+	 * @model opposite="graph" containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Edge> getEdges();
@@ -68,7 +68,7 @@ public interface Graph extends NamedElement {
 	 * @return the value of the '<em>Formula</em>' containment reference.
 	 * @see #setFormula(Formula)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getGraph_Formula()
-	 * @model containment="true"
+	 * @model containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	Formula getFormula();

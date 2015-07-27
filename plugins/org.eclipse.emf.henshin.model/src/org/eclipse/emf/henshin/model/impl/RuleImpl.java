@@ -231,6 +231,15 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Graph basicGetLhs() {
+		return lhs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain basicSetLhs(Graph newLhs, NotificationChain msgs) {
 		Graph oldLhs = lhs;
 		lhs = newLhs;
@@ -279,6 +288,15 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Graph basicGetRhs() {
+		return rhs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain basicSetRhs(Graph newRhs, NotificationChain msgs) {
 		Graph oldRhs = rhs;
 		rhs = newRhs;
@@ -315,7 +333,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 */
 	public EList<AttributeCondition> getAttributeConditions() {
 		if (attributeConditions == null) {
-			attributeConditions = new EObjectContainmentWithInverseEList<AttributeCondition>(AttributeCondition.class, this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, HenshinPackage.ATTRIBUTE_CONDITION__RULE);
+			attributeConditions = new EObjectContainmentWithInverseEList.Resolving<AttributeCondition>(AttributeCondition.class, this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, HenshinPackage.ATTRIBUTE_CONDITION__RULE);
 		}
 		return attributeConditions;
 	}
@@ -922,7 +940,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 */
 	public EList<Rule> getMultiRules() {
 		if (multiRules == null) {
-			multiRules = new EObjectContainmentEList<Rule>(Rule.class, this, HenshinPackage.RULE__MULTI_RULES);
+			multiRules = new EObjectContainmentEList.Resolving<Rule>(Rule.class, this, HenshinPackage.RULE__MULTI_RULES);
 		}
 		return multiRules;
 	}
@@ -1001,9 +1019,11 @@ public class RuleImpl extends UnitImpl implements Rule {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.RULE__LHS:
-				return getLhs();
+				if (resolve) return getLhs();
+				return basicGetLhs();
 			case HenshinPackage.RULE__RHS:
-				return getRhs();
+				if (resolve) return getRhs();
+				return basicGetRhs();
 			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
 				return getAttributeConditions();
 			case HenshinPackage.RULE__MAPPINGS:

@@ -38,7 +38,7 @@ public interface NestedCondition extends ModelElement, Formula {
 	 * @return the value of the '<em>Conclusion</em>' containment reference.
 	 * @see #setConclusion(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNestedCondition_Conclusion()
-	 * @model containment="true"
+	 * @model containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	Graph getConclusion();

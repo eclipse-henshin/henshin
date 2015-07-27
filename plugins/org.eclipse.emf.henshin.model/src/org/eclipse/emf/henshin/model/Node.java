@@ -68,7 +68,7 @@ public interface Node extends NamedElement, GraphElement {
 	 * @return the value of the '<em>Attributes</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Attributes()
 	 * @see org.eclipse.emf.henshin.model.Attribute#getNode
-	 * @model opposite="node" containment="true"
+	 * @model opposite="node" containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Attribute> getAttributes();

@@ -367,6 +367,16 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 */
 	public Node getNode() {
 		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE) return null;
+		return (Node)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node basicGetNode() {
+		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE) return null;
 		return (Node)eInternalContainer();
 	}
 
@@ -498,7 +508,8 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 			case HenshinPackage.ATTRIBUTE__VALUE:
 				return getValue();
 			case HenshinPackage.ATTRIBUTE__NODE:
-				return getNode();
+				if (resolve) return getNode();
+				return basicGetNode();
 			case HenshinPackage.ATTRIBUTE__CONSTANT:
 				return getConstant();
 			case HenshinPackage.ATTRIBUTE__NULL:
@@ -569,7 +580,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 			case HenshinPackage.ATTRIBUTE__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 			case HenshinPackage.ATTRIBUTE__NODE:
-				return getNode() != null;
+				return basicGetNode() != null;
 			case HenshinPackage.ATTRIBUTE__CONSTANT:
 				return CONSTANT_EDEFAULT == null ? constant != null : !CONSTANT_EDEFAULT.equals(constant);
 			case HenshinPackage.ATTRIBUTE__NULL:

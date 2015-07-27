@@ -35,7 +35,7 @@ public interface BinaryFormula extends ModelElement, Formula {
 	 * @return the value of the '<em>Left</em>' containment reference.
 	 * @see #setLeft(Formula)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getBinaryFormula_Left()
-	 * @model containment="true" required="true"
+	 * @model containment="true" resolveProxies="true" required="true"
 	 * @generated
 	 */
 	Formula getLeft();
@@ -57,7 +57,7 @@ public interface BinaryFormula extends ModelElement, Formula {
 	 * @return the value of the '<em>Right</em>' containment reference.
 	 * @see #setRight(Formula)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getBinaryFormula_Right()
-	 * @model containment="true" required="true"
+	 * @model containment="true" resolveProxies="true" required="true"
 	 * @generated
 	 */
 	Formula getRight();

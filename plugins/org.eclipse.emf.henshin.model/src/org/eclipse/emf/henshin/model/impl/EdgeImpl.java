@@ -348,6 +348,16 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 */
 	public Graph getGraph() {
 		if (eContainerFeatureID() != HenshinPackage.EDGE__GRAPH) return null;
+		return (Graph)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Graph basicGetGraph() {
+		if (eContainerFeatureID() != HenshinPackage.EDGE__GRAPH) return null;
 		return (Graph)eInternalContainer();
 	}
 
@@ -516,7 +526,8 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 				if (resolve) return getType();
 				return basicGetType();
 			case HenshinPackage.EDGE__GRAPH:
-				return getGraph();
+				if (resolve) return getGraph();
+				return basicGetGraph();
 			case HenshinPackage.EDGE__INDEX:
 				return getIndex();
 			case HenshinPackage.EDGE__INDEX_CONSTANT:
@@ -601,7 +612,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 			case HenshinPackage.EDGE__TYPE:
 				return type != null;
 			case HenshinPackage.EDGE__GRAPH:
-				return getGraph() != null;
+				return basicGetGraph() != null;
 			case HenshinPackage.EDGE__INDEX:
 				return INDEX_EDEFAULT == null ? index != null : !INDEX_EDEFAULT.equals(index);
 			case HenshinPackage.EDGE__INDEX_CONSTANT:

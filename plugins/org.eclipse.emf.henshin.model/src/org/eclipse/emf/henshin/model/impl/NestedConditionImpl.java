@@ -92,9 +92,32 @@ public class NestedConditionImpl extends ModelElementImpl implements NestedCondi
 	 * @generated
 	 */
 	public Graph getConclusion() {
+		if (conclusion != null && conclusion.eIsProxy()) {
+			InternalEObject oldConclusion = (InternalEObject)conclusion;
+			conclusion = (Graph)eResolveProxy(oldConclusion);
+			if (conclusion != oldConclusion) {
+				InternalEObject newConclusion = (InternalEObject)conclusion;
+				NotificationChain msgs = oldConclusion.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.NESTED_CONDITION__CONCLUSION, null, null);
+				if (newConclusion.eInternalContainer() == null) {
+					msgs = newConclusion.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.NESTED_CONDITION__CONCLUSION, null, msgs);
+				}
+				if (msgs != null) msgs.dispatch();
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.NESTED_CONDITION__CONCLUSION, oldConclusion, conclusion));
+			}
+		}
 		return conclusion;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Graph basicGetConclusion() {
+		return conclusion;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -252,7 +275,8 @@ public class NestedConditionImpl extends ModelElementImpl implements NestedCondi
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-				return getConclusion();
+				if (resolve) return getConclusion();
+				return basicGetConclusion();
 			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
 				return getMappings();
 		}

@@ -85,6 +85,16 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	 */
 	public Rule getRule() {
 		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE) return null;
+		return (Rule)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Rule basicGetRule() {
+		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE) return null;
 		return (Rule)eInternalContainer();
 	}
 
@@ -193,7 +203,8 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-				return getRule();
+				if (resolve) return getRule();
+				return basicGetRule();
 			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
 				return getConditionText();
 		}
@@ -245,7 +256,7 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-				return getRule() != null;
+				return basicGetRule() != null;
 			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
 				return CONDITION_TEXT_EDEFAULT == null ? conditionText != null : !CONDITION_TEXT_EDEFAULT.equals(conditionText);
 		}

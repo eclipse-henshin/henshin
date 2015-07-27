@@ -41,7 +41,7 @@ public interface ModelElement extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Annotations</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModelElement_Annotations()
-	 * @model containment="true"
+	 * @model containment="true" resolveProxies="true"
 	 * @generated
 	 */
 	EList<Annotation> getAnnotations();

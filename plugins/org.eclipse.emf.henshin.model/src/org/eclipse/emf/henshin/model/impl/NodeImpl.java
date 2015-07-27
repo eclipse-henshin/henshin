@@ -198,7 +198,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 */
 	public EList<Attribute> getAttributes() {
 		if (attributes == null) {
-			attributes = new EObjectContainmentWithInverseEList<Attribute>(Attribute.class, this, HenshinPackage.NODE__ATTRIBUTES, HenshinPackage.ATTRIBUTE__NODE);
+			attributes = new EObjectContainmentWithInverseEList.Resolving<Attribute>(Attribute.class, this, HenshinPackage.NODE__ATTRIBUTES, HenshinPackage.ATTRIBUTE__NODE);
 		}
 		return attributes;
 	}
@@ -209,6 +209,16 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * @generated
 	 */
 	public Graph getGraph() {
+		if (eContainerFeatureID() != HenshinPackage.NODE__GRAPH) return null;
+		return (Graph)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Graph basicGetGraph() {
 		if (eContainerFeatureID() != HenshinPackage.NODE__GRAPH) return null;
 		return (Graph)eInternalContainer();
 	}
@@ -444,7 +454,8 @@ public class NodeImpl extends NamedElementImpl implements Node {
 			case HenshinPackage.NODE__ATTRIBUTES:
 				return getAttributes();
 			case HenshinPackage.NODE__GRAPH:
-				return getGraph();
+				if (resolve) return getGraph();
+				return basicGetGraph();
 			case HenshinPackage.NODE__INCOMING:
 				return getIncoming();
 			case HenshinPackage.NODE__OUTGOING:
@@ -531,7 +542,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 			case HenshinPackage.NODE__ATTRIBUTES:
 				return attributes != null && !attributes.isEmpty();
 			case HenshinPackage.NODE__GRAPH:
-				return getGraph() != null;
+				return basicGetGraph() != null;
 			case HenshinPackage.NODE__INCOMING:
 				return incoming != null && !incoming.isEmpty();
 			case HenshinPackage.NODE__OUTGOING:

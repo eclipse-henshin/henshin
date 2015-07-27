@@ -148,7 +148,7 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 */
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentWithInverseEList<Parameter>(Parameter.class, this, HenshinPackage.UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
+			parameters = new EObjectContainmentWithInverseEList.Resolving<Parameter>(Parameter.class, this, HenshinPackage.UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
 		}
 		return parameters;
 	}
@@ -160,7 +160,7 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 */
 	public EList<ParameterMapping> getParameterMappings() {
 		if (parameterMappings == null) {
-			parameterMappings = new EObjectContainmentEList<ParameterMapping>(ParameterMapping.class, this, HenshinPackage.UNIT__PARAMETER_MAPPINGS);
+			parameterMappings = new EObjectContainmentEList.Resolving<ParameterMapping>(ParameterMapping.class, this, HenshinPackage.UNIT__PARAMETER_MAPPINGS);
 		}
 		return parameterMappings;
 	}

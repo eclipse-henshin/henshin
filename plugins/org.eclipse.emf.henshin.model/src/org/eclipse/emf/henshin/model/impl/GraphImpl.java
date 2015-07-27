@@ -122,7 +122,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 */
 	public EList<Node> getNodes() {
 		if (nodes == null) {
-			nodes = new EObjectContainmentWithInverseEList<Node>(Node.class, this, HenshinPackage.GRAPH__NODES, HenshinPackage.NODE__GRAPH);
+			nodes = new EObjectContainmentWithInverseEList.Resolving<Node>(Node.class, this, HenshinPackage.GRAPH__NODES, HenshinPackage.NODE__GRAPH);
 		}
 		return nodes;
 	}
@@ -134,7 +134,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 */
 	public EList<Edge> getEdges() {
 		if (edges == null) {
-			edges = new EObjectContainmentWithInverseEList<Edge>(Edge.class, this, HenshinPackage.GRAPH__EDGES, HenshinPackage.EDGE__GRAPH);
+			edges = new EObjectContainmentWithInverseEList.Resolving<Edge>(Edge.class, this, HenshinPackage.GRAPH__EDGES, HenshinPackage.EDGE__GRAPH);
 		}
 		return edges;
 	}
@@ -145,9 +145,32 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * @generated
 	 */
 	public Formula getFormula() {
+		if (formula != null && formula.eIsProxy()) {
+			InternalEObject oldFormula = (InternalEObject)formula;
+			formula = (Formula)eResolveProxy(oldFormula);
+			if (formula != oldFormula) {
+				InternalEObject newFormula = (InternalEObject)formula;
+				NotificationChain msgs = oldFormula.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.GRAPH__FORMULA, null, null);
+				if (newFormula.eInternalContainer() == null) {
+					msgs = newFormula.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.GRAPH__FORMULA, null, msgs);
+				}
+				if (msgs != null) msgs.dispatch();
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.GRAPH__FORMULA, oldFormula, formula));
+			}
+		}
 		return formula;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Formula basicGetFormula() {
+		return formula;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
@@ -540,7 +563,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 			case HenshinPackage.GRAPH__EDGES:
 				return getEdges();
 			case HenshinPackage.GRAPH__FORMULA:
-				return getFormula();
+				if (resolve) return getFormula();
+				return basicGetFormula();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
