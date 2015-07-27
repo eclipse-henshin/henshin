@@ -375,5 +375,9 @@ public class HenshinEGraph extends EGraphImpl implements Adapter {
 	public void setObject2NodeMap(Map<EObject, Node> object2node) {
 		this.object2node = object2node;
 	}
-	
+
+	public Graph getHenshinGraph() {
+		return henshinGraph;
+	}
+
 }
