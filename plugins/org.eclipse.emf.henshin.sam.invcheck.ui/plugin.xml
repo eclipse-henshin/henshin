@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="org.eclipse.emf.henshin.sam.invcheck.launchConfiguration.InvariantCheckingMetaModelTabGroup"
+            id="de.hpi.sam.InvCheckEMF.launchConfigurationTabGroup"
+            type="de.hpi.sam.InvCheckEMF.launchConfigurationType">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.eclipse.emf.henshin.sam.invcheck.launchConfiguration.InvariantCheckingMetaModelLaunchDelegate"
+            id="de.hpi.sam.InvCheckEMF.launchConfigurationType"
+            modes="run"
+            name="Invariant Checking"
+            public="true">
+      </launchConfigurationType>
+   </extension>
+
+</plugin>

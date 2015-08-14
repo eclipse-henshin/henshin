@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<de.hpi.sam.samgraphuniverse.samalgebra:Algebra xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:de.hpi.sam.samgraphuniverse.samalgebra="http://sam.hpi.de/sammodel/samgraphuniverse/samalgebra">
+  <operations name="and">
+    <signature href="standardsignature.signature#//@operationSymbols.0"/>
+  </operations>
+  <operations name="or">
+    <signature href="standardsignature.signature#//@operationSymbols.1"/>
+  </operations>
+  <operations name="not">
+    <signature href="standardsignature.signature#//@operationSymbols.2"/>
+  </operations>
+  <operations name="equalBool">
+    <signature href="standardsignature.signature#//@operationSymbols.3"/>
+  </operations>
+  <operations name="length">
+    <signature href="standardsignature.signature#//@operationSymbols.4"/>
+  </operations>
+  <operations name="concat">
+    <signature href="standardsignature.signature#//@operationSymbols.5"/>
+  </operations>
+  <operations name="substring">
+    <signature href="standardsignature.signature#//@operationSymbols.6"/>
+  </operations>
+  <operations name="equalString">
+    <signature href="standardsignature.signature#//@operationSymbols.7"/>
+  </operations>
+  <operations name="castToInt">
+    <signature href="standardsignature.signature#//@operationSymbols.8"/>
+  </operations>
+  <operations name="castToDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.9"/>
+  </operations>
+  <operations name="addInt">
+    <signature href="standardsignature.signature#//@operationSymbols.10"/>
+  </operations>
+  <operations name="subInt">
+    <signature href="standardsignature.signature#//@operationSymbols.11"/>
+  </operations>
+  <operations name="mulInt">
+    <signature href="standardsignature.signature#//@operationSymbols.12"/>
+  </operations>
+  <operations name="divInt">
+    <signature href="standardsignature.signature#//@operationSymbols.13"/>
+  </operations>
+  <operations name="modInt">
+    <signature href="standardsignature.signature#//@operationSymbols.14"/>
+  </operations>
+  <operations name="lessThanInt">
+    <signature href="standardsignature.signature#//@operationSymbols.15"/>
+  </operations>
+  <operations name="lessOrEqualInt">
+    <signature href="standardsignature.signature#//@operationSymbols.16"/>
+  </operations>
+  <operations name="equalInt">
+    <signature href="standardsignature.signature#//@operationSymbols.17"/>
+  </operations>
+  <operations name="greaterThanInt">
+    <signature href="standardsignature.signature#//@operationSymbols.18"/>
+  </operations>
+  <operations name="greaterOrEqualInt">
+    <signature href="standardsignature.signature#//@operationSymbols.19"/>
+  </operations>
+  <operations name="addDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.20"/>
+  </operations>
+  <operations name="subDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.21"/>
+  </operations>
+  <operations name="mulDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.22"/>
+  </operations>
+  <operations name="divDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.23"/>
+  </operations>
+  <operations name="modDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.24"/>
+  </operations>
+  <operations name="lessThanDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.25"/>
+  </operations>
+  <operations name="lessOrEqualDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.26"/>
+  </operations>
+  <operations name="equalDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.27"/>
+  </operations>
+  <operations name="greaterThanDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.28"/>
+  </operations>
+  <operations name="greaterOrEqualDouble">
+    <signature href="standardsignature.signature#//@operationSymbols.29"/>
+  </operations>
+  <operations name="castFromIntToString">
+    <signature href="standardsignature.signature#//@operationSymbols.30"/>
+  </operations>
+  <operations name="castFromDoubleToString">
+    <signature href="standardsignature.signature#//@operationSymbols.31"/>
+  </operations>
+  <signature href="standardsignature.signature#/"/>
+</de.hpi.sam.samgraphuniverse.samalgebra:Algebra>

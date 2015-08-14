@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="nac" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/nac"
+    nsPrefix="nac">
+  <eClassifiers xsi:type="ecore:EClass" name="NegativeApplicationCondition" eSuperTypes="../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samannotation/AnnotatedElem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="ecore:EClass ../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Edge"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Node"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MatchWithNacs" eSuperTypes="../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samtrace/Match">
+    <eOperations name="clear">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="this.getNodeMatching().clear();&#xA;this.getEdgeMatching().clear();&#xA;this.getNacMatching().clear();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="copy" eType="#//MatchWithNacs">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="MatchWithNacs result = NacFactory.eINSTANCE.createMatchWithNacs();&#xA;result.getNodeMatching().putAll(this.getNodeMatching());&#xA;result.getEdgeMatching().putAll(this.getEdgeMatching());&#xA;result.getNacMatching().putAll(this.getNacMatching());&#xA;return result;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nacMatching" upperBound="-1"
+        containment="true">
+      <eGenericType eClassifier="ecore:EClass ../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samtrace/MatchEntry">
+        <eTypeArguments eClassifier="#//NegativeApplicationCondition"/>
+        <eTypeArguments eClassifier="#//NegativeApplicationCondition"/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GraphWithNacs" abstract="true" interface="true"
+      eSuperTypes="../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Graph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nacs" upperBound="-1" eType="#//NegativeApplicationCondition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatternNode" eSuperTypes="../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Node">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sameInRule" eType="ecore:EClass ../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sameInProp" eType="ecore:EClass ../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatternEdge" eSuperTypes="../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Edge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sameInRule" eType="ecore:EClass ../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Edge"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sameInProp" eType="ecore:EClass ../../org.eclipse.emf.henshin.sam.model/model/SAModel.ecore#//samgraph/Edge"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/typegraph"
+            class="org.eclipse.emf.henshin.sam.model.samtypegraph.SamtypegraphPackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/samalgebra"
+            class="org.eclipse.emf.henshin.sam.model.samalgebra.SamalgebraPackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/samalgebra/use"
+            class="org.eclipse.emf.henshin.sam.model.samalgebra.algebraUse.AlgebraUsePackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/samalgebra/signature"
+            class="org.eclipse.emf.henshin.sam.model.samalgebra.signature.SignaturePackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/samalgebra/signature/term"
+            class="org.eclipse.emf.henshin.sam.model.samalgebra.signature.termAlgebraUse.TermAlgebraUsePackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/graph"
+            class="org.eclipse.emf.henshin.sam.model.samgraph.SamgraphPackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/rules"
+            class="org.eclipse.emf.henshin.sam.model.samrules.SamrulesPackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/samgraphcondition"
+            class="org.eclipse.emf.henshin.sam.model.samgraphcondition.SamgraphconditionPackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/samtrace"
+            class="org.eclipse.emf.henshin.sam.model.samtrace.SamtracePackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SAModel -->
+      <package
+            uri="http://www.eclipse.org/emf/2015/Henshin/sam/samannotation"
+            class="org.eclipse.emf.henshin.sam.model.samannotation.SamannotationPackage"
+            genModel="model/SAModel.genmodel"/>
+   </extension>
+
+</plugin>

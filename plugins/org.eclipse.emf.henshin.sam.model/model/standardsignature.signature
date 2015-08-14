@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<de.hpi.sam.samgraphuniverse.samalgebra.signature:AlgebraSignature xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:de.hpi.sam.samgraphuniverse.samalgebra.signature="http://sam.hpi.de/sammodel/samgraphuniverse/samalgebra/signature">
+  <sorts name="Integer"/>
+  <sorts name="Double"/>
+  <sorts name="Boolean"/>
+  <sorts name="String"/>
+  <sorts name="Unknown"/>
+  <operationSymbols resultSymbol="//@sorts.2" name="and">
+    <operandSymbols sort="//@sorts.2" name="op0"/>
+    <operandSymbols sort="//@sorts.2" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="or">
+    <operandSymbols sort="//@sorts.2" name="op0"/>
+    <operandSymbols sort="//@sorts.2" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="not">
+    <operandSymbols sort="//@sorts.2" name="op0"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="equalBool">
+    <operandSymbols sort="//@sorts.2" name="op0"/>
+    <operandSymbols sort="//@sorts.2" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.0" name="length">
+    <operandSymbols sort="//@sorts.3" name="op0"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.3" name="concat">
+    <operandSymbols sort="//@sorts.3" name="op0"/>
+    <operandSymbols sort="//@sorts.3" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.3" name="substring">
+    <operandSymbols sort="//@sorts.3" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="startIndex"/>
+    <operandSymbols sort="//@sorts.0" name="endIndex"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="equalString">
+    <operandSymbols sort="//@sorts.3" name="op1"/>
+    <operandSymbols sort="//@sorts.3" name="op2"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.0" name="castToInt">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.1" name="castToDouble">
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.0" name="addInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols name="subInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.0" name="mulInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.0" name="divInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.0" name="modInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="lessThanInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="lessOrEqualInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="equalInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="greaterThanInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="greaterOrEqualInt">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+    <operandSymbols sort="//@sorts.0" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.1" name="addDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.1" name="subDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.1" name="mulDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.1" name="divDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.1" name="modDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="lessThanDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="lessOrEqualDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="equalDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="greaterThanDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.2" name="greaterOrEqualDouble">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+    <operandSymbols sort="//@sorts.1" name="op1"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.3" name="castFromIntToString">
+    <operandSymbols sort="//@sorts.0" name="op0"/>
+  </operationSymbols>
+  <operationSymbols resultSymbol="//@sorts.1" name="castFromDoubleToString">
+    <operandSymbols sort="//@sorts.1" name="op0"/>
+  </operationSymbols>
+</de.hpi.sam.samgraphuniverse.samalgebra.signature:AlgebraSignature>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Pipe and Filter Plug-in
+Bundle-SymbolicName: org.eclipse.emf.henshin.sam.paf;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Systemanalysis and Modeling Group, HPI at the University of Potsdam
+Export-Package: org.eclipse.emf.henshin.sam.paf,
+ org.eclipse.emf.henshin.sam.paf.annotation,
+ org.eclipse.emf.henshin.sam.paf.internal,
+ org.eclipse.emf.henshin.sam.paf.preferences
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.5.0",
+ org.eclipse.ui;bundle-version="3.5.0",
+ org.eclipse.emf.ecore;bundle-version="2.5.0"
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.emf.henshin.sam.paf.PAFActivator

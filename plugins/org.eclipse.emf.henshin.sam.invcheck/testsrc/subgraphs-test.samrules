@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="ASCII"?>
+<samrules:GTS xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:samrules="http://www.eclipse.org/emf/2015/Henshin/sam/rules" xmlns:samgraphcondition="http://www.eclipse.org/emf/2015/Henshin/sam/samgraphcondition">
+  <rules name=" endcapsulate_field_1">
+    <left typedOver="//@types.0">
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.0" name="end1_pack" incoming="//@rules.0/@left/@edges.0" refInRule="//@rules.0/@right/@nodes.0"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.1" name="end1_clas_container" outgoing="//@rules.0/@left/@edges.0" incoming="//@rules.0/@left/@edges.1" refInRule="//@rules.0/@right/@nodes.1"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.2" name="end1_attri_variable" outgoing="//@rules.0/@left/@edges.1 //@rules.0/@left/@edges.2" refInRule="//@rules.0/@right/@nodes.2"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.1" name="end1_typ" incoming="//@rules.0/@left/@edges.2" refInRule="//@rules.0/@right/@nodes.3"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.0/@left/@nodes.1" target="//@rules.0/@left/@nodes.0" instanceOf="//@types.0/@edgeTypes.0" refInRule="//@rules.0/@right/@edges.0"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.0/@left/@nodes.2" target="//@rules.0/@left/@nodes.1" instanceOf="//@types.0/@edgeTypes.0" refInRule="//@rules.0/@right/@edges.1"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.0/@left/@nodes.2" target="//@rules.0/@left/@nodes.3" instanceOf="//@types.0/@edgeTypes.1" refInRule="//@rules.0/@right/@edges.2"/>
+    </left>
+    <right typedOver="//@types.0">
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.0" name="end1_pack" incoming="//@rules.0/@right/@edges.0" refInRule="//@rules.0/@left/@nodes.0"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.1" name="end1_clas_container" outgoing="//@rules.0/@right/@edges.0 //@rules.0/@right/@edges.3 //@rules.0/@right/@edges.4" incoming="//@rules.0/@right/@edges.1" refInRule="//@rules.0/@left/@nodes.1"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.2" name="end1_attri_variable" outgoing="//@rules.0/@right/@edges.1 //@rules.0/@right/@edges.2" refInRule="//@rules.0/@left/@nodes.2"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.1" name="end1_typ" incoming="//@rules.0/@right/@edges.2 //@rules.0/@right/@edges.9 //@rules.0/@right/@edges.10" refInRule="//@rules.0/@left/@nodes.3"/>
+      <nodes xsi:type="samrules:CreatedNode" instanceOf="//@types.0/@nodeTypes.3" name="new_getter_getterName" outgoing="//@rules.0/@right/@edges.5" incoming="//@rules.0/@right/@edges.3"/>
+      <nodes xsi:type="samrules:CreatedNode" instanceOf="//@types.0/@nodeTypes.4" name="getter_operation" outgoing="//@rules.0/@right/@edges.7" incoming="//@rules.0/@right/@edges.5"/>
+      <nodes xsi:type="samrules:CreatedNode" instanceOf="//@types.0/@nodeTypes.3" name="new_setter_setterName" outgoing="//@rules.0/@right/@edges.6" incoming="//@rules.0/@right/@edges.4"/>
+      <nodes xsi:type="samrules:CreatedNode" instanceOf="//@types.0/@nodeTypes.4" name="setter_operation" outgoing="//@rules.0/@right/@edges.8" incoming="//@rules.0/@right/@edges.6"/>
+      <nodes xsi:type="samrules:CreatedNode" instanceOf="//@types.0/@nodeTypes.5" name="getter_param" outgoing="//@rules.0/@right/@edges.10" incoming="//@rules.0/@right/@edges.7"/>
+      <nodes xsi:type="samrules:CreatedNode" instanceOf="//@types.0/@nodeTypes.5" name="setter_param" outgoing="//@rules.0/@right/@edges.9" incoming="//@rules.0/@right/@edges.8"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.0/@right/@nodes.1" target="//@rules.0/@right/@nodes.0" instanceOf="//@types.0/@edgeTypes.0" refInRule="//@rules.0/@left/@edges.0"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.0/@right/@nodes.2" target="//@rules.0/@right/@nodes.1" instanceOf="//@types.0/@edgeTypes.0" refInRule="//@rules.0/@left/@edges.1"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.0/@right/@nodes.2" target="//@rules.0/@right/@nodes.3" instanceOf="//@types.0/@edgeTypes.1" refInRule="//@rules.0/@left/@edges.2"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.0/@right/@nodes.1" target="//@rules.0/@right/@nodes.4" instanceOf="//@types.0/@edgeTypes.0"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.0/@right/@nodes.1" target="//@rules.0/@right/@nodes.6" instanceOf="//@types.0/@edgeTypes.0"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.0/@right/@nodes.4" target="//@rules.0/@right/@nodes.5" instanceOf="//@types.0/@edgeTypes.2"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.0/@right/@nodes.6" target="//@rules.0/@right/@nodes.7" instanceOf="//@types.0/@edgeTypes.2"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.0/@right/@nodes.5" target="//@rules.0/@right/@nodes.8" instanceOf="//@types.0/@edgeTypes.3"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.0/@right/@nodes.7" target="//@rules.0/@right/@nodes.9" instanceOf="//@types.0/@edgeTypes.4"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.0/@right/@nodes.9" target="//@rules.0/@right/@nodes.3" instanceOf="//@types.0/@edgeTypes.1"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.0/@right/@nodes.8" target="//@rules.0/@right/@nodes.3" instanceOf="//@types.0/@edgeTypes.1"/>
+    </right>
+  </rules>
+  <rules name=" end2">
+    <left typedOver="//@types.0">
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.6" name="end2" refInRule="//@rules.1/@right/@nodes.0"/>
+    </left>
+    <right typedOver="//@types.0">
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.6" name="end2" refInRule="//@rules.1/@left/@nodes.0"/>
+    </right>
+  </rules>
+  <rules name="pull_up_methode_1">
+    <left typedOver="//@types.0">
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.4" name="pull" refInRule="//@rules.2/@right/@nodes.0"/>
+    </left>
+    <right typedOver="//@types.0">
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.4" name="pull" refInRule="//@rules.2/@left/@nodes.0"/>
+    </right>
+  </rules>
+  <rules name="pull_up">
+    <left typedOver="//@types.0">
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.1" name="pullup_class1_target" incoming="//@rules.3/@left/@edges.0" refInRule="//@rules.3/@right/@nodes.0"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.1" name="pullup_class2_source" outgoing="//@rules.3/@left/@edges.0" incoming="//@rules.3/@left/@edges.1" refInRule="//@rules.3/@right/@nodes.1"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.3" name="pullup_meth" outgoing="//@rules.3/@left/@edges.1" incoming="//@rules.3/@left/@edges.2" refInRule="//@rules.3/@right/@nodes.2"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.4" name="pullup_op" outgoing="//@rules.3/@left/@edges.2" refInRule="//@rules.3/@right/@nodes.3"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.3/@left/@nodes.1" target="//@rules.3/@left/@nodes.0" instanceOf="//@types.0/@edgeTypes.5" refInRule="//@rules.3/@right/@edges.0"/>
+      <edges xsi:type="samrules:DeletedEdge" source="//@rules.3/@left/@nodes.2" target="//@rules.3/@left/@nodes.1" instanceOf="//@types.0/@edgeTypes.0"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.3/@left/@nodes.3" target="//@rules.3/@left/@nodes.2" instanceOf="//@types.0/@edgeTypes.2" refInRule="//@rules.3/@right/@edges.1"/>
+    </left>
+    <right typedOver="//@types.0">
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.1" name="pullup_class1_target" incoming="//@rules.3/@right/@edges.0 //@rules.3/@right/@edges.2" refInRule="//@rules.3/@left/@nodes.0"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.1" name="pullup_class2_souce" outgoing="//@rules.3/@right/@edges.0" refInRule="//@rules.3/@left/@nodes.1"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.3" name="pullup_meth" outgoing="//@rules.3/@right/@edges.2" incoming="//@rules.3/@right/@edges.1" refInRule="//@rules.3/@left/@nodes.2"/>
+      <nodes xsi:type="samrules:PreservedNode" instanceOf="//@types.0/@nodeTypes.4" name="pullup_op" outgoing="//@rules.3/@right/@edges.1" refInRule="//@rules.3/@left/@nodes.3"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.3/@right/@nodes.1" target="//@rules.3/@right/@nodes.0" instanceOf="//@types.0/@edgeTypes.5" refInRule="//@rules.3/@left/@edges.0"/>
+      <edges xsi:type="samrules:PreservedEdge" source="//@rules.3/@right/@nodes.3" target="//@rules.3/@right/@nodes.2" instanceOf="//@types.0/@edgeTypes.2" refInRule="//@rules.3/@left/@edges.2"/>
+      <edges xsi:type="samrules:CreatedEdge" source="//@rules.3/@right/@nodes.2" target="//@rules.3/@right/@nodes.0" instanceOf="//@types.0/@edgeTypes.0"/>
+    </right>
+  </rules>
+  <types>
+    <nodeTypes incoming="//@types.0/@edgeTypes.0" name="package"/>
+    <nodeTypes outgoing="//@types.0/@edgeTypes.0 //@types.0/@edgeTypes.5" incoming="//@types.0/@edgeTypes.1 //@types.0/@edgeTypes.5" name="class"/>
+    <nodeTypes outgoing="//@types.0/@edgeTypes.1" incoming="//@types.0/@edgeTypes.7" name="variable"/>
+    <nodeTypes outgoing="//@types.0/@edgeTypes.2" name="methodbody"/>
+    <nodeTypes outgoing="//@types.0/@edgeTypes.3 //@types.0/@edgeTypes.4" incoming="//@types.0/@edgeTypes.2" name="operation"/>
+    <nodeTypes incoming="//@types.0/@edgeTypes.3 //@types.0/@edgeTypes.4" name="parameter"/>
+    <nodeTypes name="end"/>
+    <nodeTypes name="interface"/>
+    <nodeTypes outgoing="//@types.0/@edgeTypes.6" incoming="//@types.0/@edgeTypes.6" name="expression"/>
+    <nodeTypes name="classifier"/>
+    <nodeTypes outgoing="//@types.0/@edgeTypes.7" name="access"/>
+    <nodeTypes name="literal"/>
+    <nodeTypes name="update"/>
+    <edgeTypes source="//@types.0/@nodeTypes.1" target="//@types.0/@nodeTypes.0" name="belongsTo" direction="DIRECTED"/>
+    <edgeTypes source="//@types.0/@nodeTypes.2" target="//@types.0/@nodeTypes.1" name="type" direction="DIRECTED"/>
+    <edgeTypes source="//@types.0/@nodeTypes.3" target="//@types.0/@nodeTypes.4" name="binding" direction="DIRECTED"/>
+    <edgeTypes source="//@types.0/@nodeTypes.4" target="//@types.0/@nodeTypes.5" name="parameter" direction="DIRECTED"/>
+    <edgeTypes source="//@types.0/@nodeTypes.4" target="//@types.0/@nodeTypes.5" name="paramater" direction="DIRECTED"/>
+    <edgeTypes source="//@types.0/@nodeTypes.1" target="//@types.0/@nodeTypes.1" name="extends" direction="DIRECTED"/>
+    <edgeTypes source="//@types.0/@nodeTypes.8" target="//@types.0/@nodeTypes.8" name="expression"/>
+    <edgeTypes source="//@types.0/@nodeTypes.10" target="//@types.0/@nodeTypes.2" name="link" direction="DIRECTED"/>
+    <conditions xsi:type="samgraphcondition:LogicalGCCoupling" operator="CONJUNCTION">
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.7" name="con_1a_int" incoming="//@types.0/@conditions.0/@operands.0/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_1a_clas" outgoing="//@types.0/@conditions.0/@operands.0/@operand/@context/@edges.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.0/@operand/@context/@nodes.1" target="//@types.0/@conditions.0/@operands.0/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.5"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.7" name="con_1b_int" outgoing="//@types.0/@conditions.0/@operands.1/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_1b_clas" incoming="//@types.0/@conditions.0/@operands.1/@operand/@context/@edges.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.1/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.1/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.5"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_2_clas1" incoming="//@types.0/@conditions.0/@operands.2/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_2_clas2" incoming="//@types.0/@conditions.0/@operands.2/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_2_clas3" outgoing="//@types.0/@conditions.0/@operands.2/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.2/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.2/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.2/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.5"/>
+            <edges source="//@types.0/@conditions.0/@operands.2/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.2/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.5"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_3_clas" incoming="//@types.0/@conditions.0/@operands.3/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.3" name="con_3_mbody" incoming="//@types.0/@conditions.0/@operands.3/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.2" name="con_3_var" outgoing="//@types.0/@conditions.0/@operands.3/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.3/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.3/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.3/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.3/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.3/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.0"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_3b_clas" incoming="//@types.0/@conditions.0/@operands.4/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.8" name="con_3b_exp" incoming="//@types.0/@conditions.0/@operands.4/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.2" name="con_3b_var" outgoing="//@types.0/@conditions.0/@operands.4/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.4/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.4/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.4/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.4/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.4/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.0"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.8" name="con_3c_exp" incoming="//@types.0/@conditions.0/@operands.5/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.3" name="con_3c_mbody" incoming="//@types.0/@conditions.0/@operands.5/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.2" name="con_3c_var" outgoing="//@types.0/@conditions.0/@operands.5/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.5/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.5/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.5/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.5/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.5/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.0"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.9" name="con_4a_clasi" outgoing="//@types.0/@conditions.0/@operands.6/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.6/@operand/@context/@edges.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.6/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.6/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.5"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.0" name="con_4b_pack" outgoing="//@types.0/@conditions.0/@operands.7/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.7/@operand/@context/@edges.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.7/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.7/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.0"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.8" name="con_4c_exp" outgoing="//@types.0/@conditions.0/@operands.8/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.8/@operand/@context/@edges.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.8/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.8/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.6"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_5a_clas" incoming="//@types.0/@conditions.0/@operands.9/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.2" name="con_5a_var" incoming="//@types.0/@conditions.0/@operands.9/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.10" name="con_5a_acc" outgoing="//@types.0/@conditions.0/@operands.9/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.9/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.9/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.9/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.7"/>
+            <edges source="//@types.0/@conditions.0/@operands.9/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.9/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.7"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_5b_clas" incoming="//@types.0/@conditions.0/@operands.10/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.5" name="con_5b_para" incoming="//@types.0/@conditions.0/@operands.10/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.10" name="con_5b_acc" outgoing="//@types.0/@conditions.0/@operands.10/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.10/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.10/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.10/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.7"/>
+            <edges source="//@types.0/@conditions.0/@operands.10/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.10/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.7"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.1" name="con_5c_clas" incoming="//@types.0/@conditions.0/@operands.11/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.11" name="con_5c_lite" incoming="//@types.0/@conditions.0/@operands.11/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.10" name="con_5c_acc" outgoing="//@types.0/@conditions.0/@operands.11/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.11/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.11/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.11/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.7"/>
+            <edges source="//@types.0/@conditions.0/@operands.11/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.11/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.7"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.2" name="con_5d_var" incoming="//@types.0/@conditions.0/@operands.12/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.5" name="con_5d_para" incoming="//@types.0/@conditions.0/@operands.12/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.10" name="con_5d_acc" outgoing="//@types.0/@conditions.0/@operands.12/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.12/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.12/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.12/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.7"/>
+            <edges source="//@types.0/@conditions.0/@operands.12/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.12/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.7"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.2" name="con_5e_var" incoming="//@types.0/@conditions.0/@operands.13/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.11" name="con_5e_lite" incoming="//@types.0/@conditions.0/@operands.13/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.10" name="con_5e_acc" outgoing="//@types.0/@conditions.0/@operands.13/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.13/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.13/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.13/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.7"/>
+            <edges source="//@types.0/@conditions.0/@operands.13/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.13/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.7"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.11" name="con_5f_lite" incoming="//@types.0/@conditions.0/@operands.14/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.5" name="con_5f_para" incoming="//@types.0/@conditions.0/@operands.14/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.10" name="con_5f_acc" outgoing="//@types.0/@conditions.0/@operands.14/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.14/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.14/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.14/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.7"/>
+            <edges source="//@types.0/@conditions.0/@operands.14/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.14/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.7"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.2" name="con_6_var" incoming="//@types.0/@conditions.0/@operands.15/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.5" name="con_6_para" incoming="//@types.0/@conditions.0/@operands.15/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.12" name="con_6_up" outgoing="//@types.0/@conditions.0/@operands.15/@operand/@context/@edges.0 //@types.0/@conditions.0/@operands.15/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.15/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.15/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.7"/>
+            <edges source="//@types.0/@conditions.0/@operands.15/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.15/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.7"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.9" name="con4a1_classi" outgoing="//@types.0/@conditions.0/@operands.16/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.16/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.9" name="con4a1_classi2" outgoing="//@types.0/@conditions.0/@operands.16/@operand/@context/@edges.1" incoming="//@types.0/@conditions.0/@operands.16/@operand/@context/@edges.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.16/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.16/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.5"/>
+            <edges source="//@types.0/@conditions.0/@operands.16/@operand/@context/@nodes.1" target="//@types.0/@conditions.0/@operands.16/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.5"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.9" name="con4a2_classi1" outgoing="//@types.0/@conditions.0/@operands.17/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.17/@operand/@context/@edges.2"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.9" name="con4a2_classi2" outgoing="//@types.0/@conditions.0/@operands.17/@operand/@context/@edges.1" incoming="//@types.0/@conditions.0/@operands.17/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.9" name="con4a2_classi3" outgoing="//@types.0/@conditions.0/@operands.17/@operand/@context/@edges.2" incoming="//@types.0/@conditions.0/@operands.17/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.17/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.17/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.5"/>
+            <edges source="//@types.0/@conditions.0/@operands.17/@operand/@context/@nodes.1" target="//@types.0/@conditions.0/@operands.17/@operand/@context/@nodes.2" instanceOf="//@types.0/@edgeTypes.5"/>
+            <edges source="//@types.0/@conditions.0/@operands.17/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.17/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.5"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.0" name="con4b1_pack1" outgoing="//@types.0/@conditions.0/@operands.18/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.18/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.0" name="con4b1_pack2" outgoing="//@types.0/@conditions.0/@operands.18/@operand/@context/@edges.1" incoming="//@types.0/@conditions.0/@operands.18/@operand/@context/@edges.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.18/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.18/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.18/@operand/@context/@nodes.1" target="//@types.0/@conditions.0/@operands.18/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.0"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.0" name="con4b2_pack1" outgoing="//@types.0/@conditions.0/@operands.19/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.19/@operand/@context/@edges.2"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.0" name="con4b2_pack2" outgoing="//@types.0/@conditions.0/@operands.19/@operand/@context/@edges.1" incoming="//@types.0/@conditions.0/@operands.19/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.0" name="con4b2_pack3" outgoing="//@types.0/@conditions.0/@operands.19/@operand/@context/@edges.2" incoming="//@types.0/@conditions.0/@operands.19/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.19/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.19/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.19/@operand/@context/@nodes.1" target="//@types.0/@conditions.0/@operands.19/@operand/@context/@nodes.2" instanceOf="//@types.0/@edgeTypes.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.19/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.19/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.0"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.8" name="con4c1_expr1" outgoing="//@types.0/@conditions.0/@operands.20/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.20/@operand/@context/@edges.1"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.8" name="con4c1_expr2" outgoing="//@types.0/@conditions.0/@operands.20/@operand/@context/@edges.1" incoming="//@types.0/@conditions.0/@operands.20/@operand/@context/@edges.0"/>
+            <edges source="//@types.0/@conditions.0/@operands.20/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.20/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.6"/>
+            <edges source="//@types.0/@conditions.0/@operands.20/@operand/@context/@nodes.1" target="//@types.0/@conditions.0/@operands.20/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.6"/>
+          </context>
+        </operand>
+      </operands>
+      <operands xsi:type="samgraphcondition:NegatedCondition">
+        <operand xsi:type="samgraphcondition:Quantification">
+          <nesting xsi:type="samgraphcondition:TerminationCondition" isTrue="true"/>
+          <context xsi:type="samrules:RuleGraph" typedOver="//@types.0">
+            <nodes instanceOf="//@types.0/@nodeTypes.8" name="con4c2_expr1" outgoing="//@types.0/@conditions.0/@operands.21/@operand/@context/@edges.0" incoming="//@types.0/@conditions.0/@operands.21/@operand/@context/@edges.2"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.8" name="con4c2_expr2" outgoing="//@types.0/@conditions.0/@operands.21/@operand/@context/@edges.1" incoming="//@types.0/@conditions.0/@operands.21/@operand/@context/@edges.0"/>
+            <nodes instanceOf="//@types.0/@nodeTypes.8" name="con4c2_expr3" outgoing="//@types.0/@conditions.0/@operands.21/@operand/@context/@edges.2" incoming="//@types.0/@conditions.0/@operands.21/@operand/@context/@edges.1"/>
+            <edges source="//@types.0/@conditions.0/@operands.21/@operand/@context/@nodes.0" target="//@types.0/@conditions.0/@operands.21/@operand/@context/@nodes.1" instanceOf="//@types.0/@edgeTypes.6"/>
+            <edges source="//@types.0/@conditions.0/@operands.21/@operand/@context/@nodes.1" target="//@types.0/@conditions.0/@operands.21/@operand/@context/@nodes.2" instanceOf="//@types.0/@edgeTypes.6"/>
+            <edges source="//@types.0/@conditions.0/@operands.21/@operand/@context/@nodes.2" target="//@types.0/@conditions.0/@operands.21/@operand/@context/@nodes.0" instanceOf="//@types.0/@edgeTypes.6"/>
+          </context>
+        </operand>
+      </operands>
+    </conditions>
+  </types>
+</samrules:GTS>

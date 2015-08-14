@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="sam" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam" nsPrefix="sam">
+  <eSubpackages name="samtypegraph" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/typegraph"
+      nsPrefix="samtypegraph">
+    <eClassifiers xsi:type="ecore:EClass" name="NodeType" eSuperTypes="#//samtypegraph/AttributedElem #//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+          eType="#//samtypegraph/EdgeType" eOpposite="#//samtypegraph/EdgeType/source"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+          eType="#//samtypegraph/EdgeType" eOpposite="#//samtypegraph/EdgeType/target"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="typeGraph" lowerBound="1"
+          eType="#//samtypegraph/TypeGraph" eOpposite="#//samtypegraph/TypeGraph/nodeTypes"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="superType" eType="#//samtypegraph/InheritanceRelation"
+          containment="true" eOpposite="#//samtypegraph/InheritanceRelation/subType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subType" upperBound="-1"
+          eType="#//samtypegraph/InheritanceRelation" eOpposite="#//samtypegraph/InheritanceRelation/superType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EdgeType" eSuperTypes="#//samtypegraph/AttributedElem #//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//samtypegraph/NodeType"
+          eOpposite="#//samtypegraph/NodeType/outgoing"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//samtypegraph/NodeType"
+          eOpposite="#//samtypegraph/NodeType/incoming"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="typeGraph" lowerBound="1"
+          eType="#//samtypegraph/TypeGraph" eOpposite="#//samtypegraph/TypeGraph/edgeTypes"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="#//samtypegraph/EdgeDirection"
+          defaultValueLiteral="UNDIRECTED"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sourceCardinality" lowerBound="1"
+          eType="#//samtypegraph/Cardinality" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="targetCardinality" lowerBound="1"
+          eType="#//samtypegraph/Cardinality" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AttributeType" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eOperations name="lookUpSort" eType="#//samalgebra/signature/Sort">
+        <eParameters name="dataType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+      </eOperations>
+      <eOperations name="lookUpEDataType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EDataType">
+        <eParameters name="sort" eType="#//samalgebra/signature/Sort"/>
+      </eOperations>
+      <eOperations name="lookUpSort" eType="#//samalgebra/signature/Sort">
+        <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sort" lowerBound="1"
+          eType="#//samalgebra/signature/Sort"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributedElement" lowerBound="1"
+          eType="#//samtypegraph/AttributedElem" eOpposite="#//samtypegraph/AttributedElem/attributes"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ContinuousAttr" eSuperTypes="#//samtypegraph/AttributeType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="derivation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+          unsettable="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+          unsettable="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InheritanceRelation" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subType" lowerBound="1"
+          eType="#//samtypegraph/NodeType" eOpposite="#//samtypegraph/NodeType/superType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="superType" lowerBound="1"
+          eType="#//samtypegraph/NodeType" eOpposite="#//samtypegraph/NodeType/subType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="EdgeDirection">
+      <eLiterals name="DIRECTED"/>
+      <eLiterals name="UNDIRECTED" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeGraph" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodeTypes" upperBound="-1"
+          eType="#//samtypegraph/NodeType" containment="true" eOpposite="#//samtypegraph/NodeType/typeGraph"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="edgeTypes" upperBound="-1"
+          eType="#//samtypegraph/EdgeType" containment="true" eOpposite="#//samtypegraph/EdgeType/typeGraph"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
+          eType="#//samtypegraph/TypeGraphCondition" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeGraphCondition" abstract="true"
+        interface="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AttributeTypeCondition" eSuperTypes="#//samtypegraph/TypeGraphCondition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operation" lowerBound="1"
+          eType="#//samalgebra/signature/termAlgebraUse/OperationSymbolUse" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Cardinality" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AttributedElem" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+          eType="#//samtypegraph/AttributeType" containment="true" eOpposite="#//samtypegraph/AttributeType/attributedElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DataType" eSuperTypes="#//samtypegraph/NodeType">
+      <eOperations name="lookUpSort" eType="#//samalgebra/signature/Sort">
+        <eParameters name="dataType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sort" eType="#//samalgebra/signature/Sort"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="samalgebra" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/samalgebra"
+      nsPrefix="samalgebra">
+    <eClassifiers xsi:type="ecore:EClass" name="Algebra" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constants" upperBound="-1"
+          eType="#//samalgebra/ConstantDataElementMap" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+          eType="#//samalgebra/Operation" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="signature" lowerBound="1"
+          eType="#//samalgebra/signature/AlgebraSignature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConstantDataElementMap" instanceClassName="java.util.Map.Entry">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>ConstantDataElementMap&lt;/code> assigns a &lt;code>DataElement&lt;/code> to each &lt;code>Operation&lt;/code> referring to a constant symbol (no &lt;code>operandSymbols&lt;/code>).&#xD;&#xA;&#xD;&#xA;TO BE CHECKED: The DataElement should have the same sort as the corresponding OperationSymbol.  The OperationSymbol should not have OperandSymbols."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="#//samalgebra/Operation"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//samalgebra/algebraUse/DataElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="signature" lowerBound="1"
+          eType="#//samalgebra/signature/OperationSymbol"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eSubpackages name="algebraUse" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/samalgebra/use"
+        nsPrefix="samalgebraUse">
+      <eClassifiers xsi:type="ecore:EClass" name="OperationParameter" abstract="true"
+          eSuperTypes="#//samannotation/AnnotatedElem">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="references" eType="#//samalgebra/signature/OperandSymbol"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DataElement" eSuperTypes="#//samalgebra/algebraUse/OperationParameter">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sort" eType="#//samalgebra/signature/Sort"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="AttributeUse" eSuperTypes="#//samalgebra/algebraUse/OperationParameter">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theAttribute" eType="#//samgraph/Attribute"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OperationUse" eSuperTypes="#//samalgebra/algebraUse/OperationParameter">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theOperation" lowerBound="1"
+            eType="#//samalgebra/Operation"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="operands" upperBound="-1"
+            eType="#//samalgebra/algebraUse/OperationParameter" containment="true"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="signature" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/samalgebra/signature"
+        nsPrefix="signature">
+      <eClassifiers xsi:type="ecore:EClass" name="Sort" eSuperTypes="#//samannotation/AnnotatedElem">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OperationSymbol" eSuperTypes="#//samannotation/AnnotatedElem">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="operandSymbols" upperBound="-1"
+            eType="#//samalgebra/signature/OperandSymbol" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="resultSymbol" lowerBound="1"
+            eType="#//samalgebra/signature/Sort"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OperandSymbol" eSuperTypes="#//samannotation/AnnotatedElem">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sort" lowerBound="1"
+            eType="#//samalgebra/signature/Sort"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="AlgebraSignature" eSuperTypes="#//samannotation/AnnotatedElem">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="An &lt;code>Algebra&lt;/code> is given by a number of &lt;code>sorts&lt;/code>, describing the different type of data sets it contains.&#xD;&#xA;The &lt;code>operations&lt;/code> refer to an &lt;code>OperationSignature&lt;/code> defined over these &lt;code>sorts&lt;/code> (TO BE CHECKED).&#xD;&#xA;"/>
+        </eAnnotations>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sorts" upperBound="-1"
+            eType="#//samalgebra/signature/Sort" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="operationSymbols" upperBound="-1"
+            eType="#//samalgebra/signature/OperationSymbol" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//samalgebra/signature/AlgebraSignature"/>
+      </eClassifiers>
+      <eSubpackages name="termAlgebraUse" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/samalgebra/signature/term"
+          nsPrefix="samtermAlgebraUse">
+        <eClassifiers xsi:type="ecore:EClass" name="AttributeTypeUse" eSuperTypes="#//samalgebra/signature/termAlgebraUse/OperationTermParameter">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theAttributeType"
+              lowerBound="1" eType="#//samtypegraph/AttributeType"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="OperationTermParameter" eSuperTypes="#//samannotation/AnnotatedElem">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="references" eType="#//samalgebra/signature/OperandSymbol"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="OperationSymbolUse" eSuperTypes="#//samalgebra/signature/termAlgebraUse/OperationTermParameter">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theOperationSymbol"
+              lowerBound="1" eType="#//samalgebra/signature/OperationSymbol"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="operands" upperBound="-1"
+              eType="#//samalgebra/signature/termAlgebraUse/OperationTermParameter"/>
+        </eClassifiers>
+      </eSubpackages>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="samgraph" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/graph"
+      nsPrefix="samgraph">
+    <eClassifiers xsi:type="ecore:EClass" name="Graph" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>Graph&lt;/code> is typed over a &lt;code>TypeGraph&lt;/code>.&#xD;&#xA;It contains &lt;code>nodes&lt;/code> with types occurring in the &lt;code>TypeGraph&lt;/code> (TO BE CHECKED).&#xD;&#xA;It contains &lt;code>edges&lt;/code> with types occurring in the &lt;code>TypeGraph&lt;/code> such that source and target nodes are typed as described by the source and target type of the corresponding edge type (TO BE CHECKED). "/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+          eType="#//samgraph/Node" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+          eType="#//samgraph/Edge" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="typedOver" eType="#//samtypegraph/TypeGraph"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributeCondition" eType="#//samalgebra/algebraUse/OperationUse"
+          containment="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="An &lt;code>attributeCondition&lt;/code> refers to an &lt;code>Operation&lt;/code> constraining attribute values of nodes and edges in the corresponding &lt;code>Graph&lt;/code>.  &#xD;&#xA;&lt;code>AttributeUse&lt;/code> is an &lt;code>OperationParameter&lt;/code> and needs to refer to an &lt;code>Attribute&lt;/code> belonging to a node or edge of the corresponding &lt;code>Graph&lt;/code> (TO BE CHECKED).&#xD;&#xA;&#xD;&#xA;In general, the &lt;code>attributeCondition&lt;/code> does not constrain each attribute to one concrete value, but to a set of values. Therefore, &lt;code>Graph&lt;/code> may describe a set of graphs, where the node and edge structure is identical, but the attributes may have different valid values. "/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//samgraph/AttributedElem #//samannotation/AnnotatedElem">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=" A &lt;code>Node&lt;/code> is an &lt;code>AttributedElement&lt;/code> and refers to as many &lt;code>Attributes&lt;/code> with &lt;code>AttributeType&lt;/code> as defined for the corresponding node type (TO BE CHECKED)."/>
+      </eAnnotations>
+      <eOperations name="getCondition" eType="#//samgraphcondition/GraphCondition">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="Graph g = (Graph) this.eContainer();&#xA;EObject container = g.eContainer();&#xA;if (container == null) {&#xA;&#x9;return null;&#xA;} else if (SamgraphconditionPackage.eINSTANCE.getGraphCondition().isSuperTypeOf(container.eClass())) {&#xA;&#x9;return (GraphCondition) container;&#xA;} else {&#xA;&#x9;return null;&#xA;}"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="copy" eType="#//samgraph/Node">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="Node result = SamgraphFactory.eINSTANCE.createNode();&#xA;result.setInstanceOf(this.getInstanceOf());&#xA;result.setName(this.getName());&#xA;return result;"/>
+        </eAnnotations>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="instanceOf" lowerBound="1"
+          eType="#//samtypegraph/NodeType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+          eType="#//samgraph/Edge" eOpposite="#//samgraph/Edge/source"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+          eType="#//samgraph/Edge" eOpposite="#//samgraph/Edge/target"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//samgraph/AttributedElem #//samannotation/AnnotatedElem">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=" An &lt;code>Edge&lt;/code> is an &lt;code>AttributedElement&lt;/code> and refers to as many &lt;code>Attributes&lt;/code> with &lt;code>AttributeType&lt;/code> as defined for the corresponding edge type (TO BE CHECKED)."/>
+      </eAnnotations>
+      <eOperations name="partOfNacInterface" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="Graph graph = (Graph) this.eContainer();&#xA;EObject container = graph.eContainer();&#xA;if (container != null &amp;&amp; container.eClass() == SamgraphconditionPackage.eINSTANCE.getQuantification()) {&#xA;&#x9;Quantification q = (Quantification) container;&#xA;&#x9;if (q.eContainer() != null &amp;&amp; q.eContainer().eClass() == SamgraphconditionPackage.eINSTANCE.getNegatedCondition()) {&#xA;&#x9;&#x9;if ((this.getSource().eContainer() != this.eContainer()) || this.getTarget().eContainer() != this.eContainer()) {&#xA;&#x9;&#x9;&#x9;return true;&#xA;&#x9;&#x9;} else {&#xA;&#x9;&#x9;&#x9;if (graph.getNodes().isEmpty()) {&#xA;&#x9;&#x9;&#x9;&#x9;return true;&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}&#xA;return false;"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="getCondition" eType="#//samgraphcondition/GraphCondition">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="Graph g = (Graph) this.eContainer();&#xA;EObject container = g.eContainer();&#xA;if (container == null) {&#xA;&#x9;return null;&#xA;} else if (SamgraphconditionPackage.eINSTANCE.getGraphCondition().isSuperTypeOf(container.eClass())) {&#xA;&#x9;return (GraphCondition) container;&#xA;} else {&#xA;&#x9;return null;&#xA;}"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="copy" eType="#//samgraph/Edge">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="Edge result = SamgraphFactory.eINSTANCE.createEdge();&#xD;&#xA;result.setInstanceOf(this.getInstanceOf());&#xD;&#xA;result.setName(this.getName());&#xD;&#xA;return result;"/>
+        </eAnnotations>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//samgraph/Node"
+          eOpposite="#//samgraph/Node/outgoing"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//samgraph/Node"
+          eOpposite="#//samgraph/Node/incoming"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="instanceOf" lowerBound="1"
+          eType="#//samtypegraph/EdgeType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="instanceOf" lowerBound="1"
+          eType="#//samtypegraph/AttributeType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributedElement" lowerBound="1"
+          eType="#//samgraph/AttributedElem" eOpposite="#//samgraph/AttributedElem/attributes"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AttributedElem" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+          eType="#//samgraph/Attribute" containment="true" eOpposite="#//samgraph/Attribute/attributedElement"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="samrules" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/rules"
+      nsPrefix="samrules">
+    <eClassifiers xsi:type="ecore:EClass" name="GraphRule" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>GraphRule&lt;/code> consists of a &lt;code>left&lt;/code> and &lt;code>right&lt;/code> &lt;code>RuleGraph&lt;/code>, describing the left-hand side and right-hand side of the rule, respectively.&#xD;&#xA;It may have an &lt;code>attributeCondition&lt;/code> referring to an &lt;code>Operation&lt;/code>, constraining the attribute values before and after applying the rule.&#xD;&#xA;If the &lt;code>OperationParameters&lt;/code> consists of some &lt;code>AttributeUse&lt;/code> elements, then the corresponding &lt;code>Attributes&lt;/code> should belong to nodes or edges in one of the &lt;code>RuleGraph&lt;/code>s (TO BE CHECKED).&#xD;&#xA;Rules may have a &lt;code>priority&lt;/code>, applying rules with a higher priority first.&#xD;&#xA;Rules may be &lt;code>urgent&lt;/code> such that their application is triggered as soon as the rule becomes applicable."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//samrules/RuleGraph"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//samrules/RuleGraph"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributeCondition" eType="#//samalgebra/algebraUse/OperationUse"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="urgent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PreservedNode" eSuperTypes="#//samgraph/Node">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>PreservedNode&lt;/code> is preserved by the rule. It is contained in the left as well as in the right &lt;code>RuleGraph&lt;/code> (TO BE CHECKED) and refers to its equivalent in the left or right &lt;code>RuleGraph&lt;/code>, respectively (TO BE CHECKED)."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="refInRule" lowerBound="1"
+          eType="#//samrules/PreservedNode" eOpposite="#//samrules/PreservedNode/refInRule"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PreservedEdge" eSuperTypes="#//samgraph/Edge">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>PreservedEdge&lt;/code> is preserved by the rule. It is contained in the left as well as in the right &lt;code>RuleGraph&lt;/code> (TO BE CHECKED) and refers to its equivalent in the left or right &lt;code>RuleGraph&lt;/code>, respectively (TO BE CHECKED)."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="refInRule" lowerBound="1"
+          eType="#//samrules/PreservedEdge" eOpposite="#//samrules/PreservedEdge/refInRule"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RuleGraph" eSuperTypes="#//samgraph/Graph">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//samgraphcondition/GraphCondition"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GTS">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+          eType="#//samrules/GraphRule" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+          eType="#//samtypegraph/TypeGraph" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CreatedNode" eSuperTypes="#//samgraph/Node"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DeletedNode" eSuperTypes="#//samgraph/Node"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CreatedEdge" eSuperTypes="#//samgraph/Edge"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DeletedEdge" eSuperTypes="#//samgraph/Edge"/>
+  </eSubpackages>
+  <eSubpackages name="samgraphcondition" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/samgraphcondition"
+      nsPrefix="samgraphcondition">
+    <eClassifiers xsi:type="ecore:EClass" name="ProxyNode" eSuperTypes="#//samgraph/Node">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>ProxyNode&lt;/code> refers to a node that is implicitly part of the &lt;code>context&lt;/code> of a &lt;code>Quantification&lt;/code>. In terms of inclusion morphisms &lt;code>ProxyNode&lt;/code>s refer to quantified nodes of the domain. Conversely, quantified nodes belonging to the codomain, but not belonging to the domain of the inclusion morphism are added explicitly to the &lt;code>context&lt;/>."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="referencedNode" lowerBound="1"
+          eType="#//samgraph/Node"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GraphCondition" abstract="true" interface="true"
+        eSuperTypes="#//samtypegraph/TypeGraphCondition #//samannotation/AnnotatedElem">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>GraphCondition&lt;/code> is the abstract super type for graphical conditions (optionally mixed with attribute conditions) that can be attached to a &lt;code>RuleGraph&lt;/code> as left or right application condition or a &lt;code>TypeGraph&lt;/code> as constraint for all graphs typed over the type graph.&#xD;&#xA;A &lt;code>GraphCondition&lt;/code> denotes a constraint for the type graph if it is referenced  by the &lt;code>TypeGraph&lt;/code> via &lt;code>constraints&lt;/code> as a &lt;code>TypeGraphConstraint&lt;/code>. &#xD;&#xA;"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LogicalGCCoupling" eSuperTypes="#//samgraphcondition/GraphCondition">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>GraphCondition&lt;code> may be a disjunction or conjunction (&lt;code>LogicalOperator&lt;/code>) of &lt;code>GraphCondition&lt;/code>s."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//samgraphcondition/LogicalOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operands" lowerBound="2"
+          upperBound="-1" eType="#//samgraphcondition/GraphCondition" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Quantification" eSuperTypes="#//samgraphcondition/GraphCondition">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>Quantification&lt;/code> is the probably most important &lt;code>GraphCondition&lt;/code> to be used. &lt;br/>&#xD;&#xA;Either it looks for nodes and edges in the &lt;code>context&lt;/code> to exist or it looks for all occurrences of the nodes and edges in the &lt;code>context&lt;/code>.&#xD;&#xA;For this one occurrence or for all occurences, respectively, the &lt;code>nesting&lt;/code> &lt;code>GraphCondition&lt;/code> needs to hold.  &#xD;&#xA;An &lt;code>attributeCondition&lt;/code> may constrain the attribute values of the &lt;code>context&lt;/code> (TO BE CHECKED)."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantor" eType="#//samgraphcondition/Quantor"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nesting" lowerBound="1"
+          eType="#//samgraphcondition/GraphCondition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1"
+          eType="#//samgraph/Graph" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributeCondition" eType="#//samalgebra/algebraUse/OperationUse"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Quantor">
+      <eLiterals name="EXISTS"/>
+      <eLiterals name="FORALL" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="LogicalOperator">
+      <eLiterals name="DISJUNCTION"/>
+      <eLiterals name="CONJUNCTION" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TerminationCondition" eSuperTypes="#//samgraphcondition/GraphCondition">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The nesting of a &lt;code>GraphCondition&lt;/code> can be terminated by instantiating this &lt;code>TerminationCondition&lt;/code> being true or false."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTrue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NegatedCondition" eSuperTypes="#//samgraphcondition/GraphCondition">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A &lt;code>NegatedCondition&lt;/code> is false whenever the included &lt;code>GraphCondition&lt;/code> is false and the other way round."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operand" eType="#//samgraphcondition/GraphCondition"
+          containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="samtrace" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/samtrace"
+      nsPrefix="samtrace">
+    <eClassifiers xsi:type="ecore:EClass" name="Trace" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+          eType="#//samtrace/TraceEntry" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TraceEntry" abstract="true" interface="true"
+        eSuperTypes="#//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="#//samgraph/Graph"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ContinuousTraceEntry" eSuperTypes="#//samtrace/TraceEntry">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DiscreteTraceEntry" eSuperTypes="#//samtrace/TraceEntry">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="currentRule" eType="#//samrules/GraphRule"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="currentMatch" eType="#//samtrace/Match"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Match" eSuperTypes="#//samannotation/AnnotatedElem">
+      <eOperations name="clear">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="this.getEdgeMatching().clear();&#xA;this.getNodeMatching().clear();"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="copy" eType="#//samtrace/Match">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="Match result = SamtraceFactory.eINSTANCE.createMatch();&#xA;result.getNodeMatching().putAll(this.getNodeMatching());&#xA;result.getEdgeMatching().putAll(this.getEdgeMatching());&#xA;return result;"/>
+        </eAnnotations>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodeMatching" upperBound="-1"
+          containment="true">
+        <eGenericType eClassifier="#//samtrace/MatchEntry">
+          <eTypeArguments eClassifier="#//samgraph/Node"/>
+          <eTypeArguments eClassifier="#//samgraph/Node"/>
+        </eGenericType>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="edgeMatching" upperBound="-1"
+          containment="true">
+        <eGenericType eClassifier="#//samtrace/MatchEntry">
+          <eTypeArguments eClassifier="#//samgraph/Edge"/>
+          <eTypeArguments eClassifier="#//samgraph/Edge"/>
+        </eGenericType>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MatchEntry" instanceClassName="java.util.Map$Entry">
+      <eTypeParameters name="T"/>
+      <eTypeParameters name="S"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1">
+        <eGenericType eTypeParameter="#//samtrace/MatchEntry/T"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1">
+        <eGenericType eTypeParameter="#//samtrace/MatchEntry/S"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProxyEdge" eSuperTypes="#//samgraph/Edge #//samannotation/AnnotatedElem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="referenceEdge" lowerBound="1"
+          eType="#//samgraph/Edge"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="samannotation" nsURI="http://www.eclipse.org/emf/2015/Henshin/sam/samannotation"
+      nsPrefix="samannotation">
+    <eClassifiers xsi:type="ecore:EClass" name="Annotation">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="details" upperBound="-1"
+          eType="#//samannotation/AnnotationDetails" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="refInRule" eType="#//samannotation/Annotation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AnnotationDetails">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AnnotatedElem" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+          eType="#//samannotation/Annotation" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

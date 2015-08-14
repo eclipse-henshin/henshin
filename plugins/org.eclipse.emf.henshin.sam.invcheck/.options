@@ -1,0 +1,8 @@
+de.uni_paderborn.invariantchecking.core/filter/CheckConstraintFilter/printDebug = false
+de.uni_paderborn.invariantchecking.core/filter/GenerateSubgraphFilter/printDebug = false
+de.uni_paderborn.invariantchecking.core/filter/GenerateSubgraphFilter/verboseDebug = false
+de.uni_paderborn.invariantchecking.core/filter/CombinationProducer/printDebug = false
+de.uni_paderborn.invariantchecking.core/filter/GraphMergeFilter/printDebug = false
+de.uni_paderborn.invariantchecking.core/filter/NotMatchableSubgraphFilter/printDebug = false
+de.uni_paderborn.invariantchecking.core/fileOutput = false
+de.uni_paderborn.invariantchecking.core/filter/VerificationResultConsumer/stopOnWitness = false

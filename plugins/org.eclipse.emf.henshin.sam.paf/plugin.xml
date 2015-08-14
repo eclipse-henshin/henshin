@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.eclipse.emf.henshin.sam.paf.Filter" name="org.eclipse.emf.henshin.sam.paf.FilterExtensionPoint" schema="schema/de.hpi.sam.paf.Filter.exsd"/>
+   <extension-point id="org.eclipse.emf.henshin.sam.paf.Producer" name="org.eclipse.emf.henshin.sam.paf.ProducerExtensionPoint" schema="schema/de.hpi.sam.paf.Producer.exsd"/>
+   <extension-point id="org.eclipse.emf.henshin.sam.paf.Consumer" name="org.eclipse.emf.henshin.sam.paf.ConsumerExtensionPoint" schema="schema/de.hpi.sam.paf.Consumer.exsd"/>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="de.hpi.sam.paf.internal.preferences.AbstractPAFPreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="de.hpi.sam.paf.internal.preferences.PAFPreferencePage"
+            id="de.hpi.sam.paf.PAFPreferencePage"
+            name="Pipe and Filter">
+      </page>
+   </extension>
+
+</plugin>

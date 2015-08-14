@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.emf.henshin.sam.paf" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.emf.henshin.sam.paf" id="org.eclipse.emf.henshin.sam.paf.Filter" name="org.eclipse.emf.henshin.sam.paf.FilterExtensionPoint"/>
+      </appinfo>
+      <documentation>
+         &lt;p&gt;This ExtensionPoint can be used to add a new IFilter to the Eclipse instance. IFilters are used in Pipe and Filter architectures to perform a special computation.  IFilters read their input from a Pipe and pass the result of their computation on to a Pipe. It is not required for an IFilter to be registered by this ExtensionPoint but if the IFilter should be used by a LaunchConfiguration the registration is required.&lt;/p&gt;
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="filter" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="filterChain" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="filter">
+      <annotation>
+         <documentation>
+            Declares an IFilter.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="configurationField" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  make shure that the chosen name is unique!
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="filter_class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The class that represents the IFilter to be added to the system. The class has to implement the interface IFilter. For most tasks it is sufficient to inherit from de.hpi.sam.paf.FilterSkeleton class.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":de.hpi.sam.paf.IFilter"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  Give a short description of your IFilter. Especially you should mention special input requirements etc.
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="filterChain">
+      <complexType>
+         <sequence>
+            <element ref="filterChainEntry" minOccurs="0" maxOccurs="unbounded"/>
+            <sequence>
+               <element ref="consumerFilterChainEntry"/>
+            </sequence>
+            <sequence>
+               <element ref="producerFilterChainEntry"/>
+            </sequence>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The filter chain&apos;s name.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="filterChainEntry">
+      <annotation>
+         <documentation>
+            An entry of a filter chain references a filter extension.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="referencedFilter" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="de.hpi.sam.paf.Filter/filter/@name"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="complexity">
+            <annotation>
+               <documentation>
+                  &lt;p&gt;You can use this attribute to specify the referenced filter&apos;s complexity in relation to the other filters that are referenced in the same filter-chain.&lt;p/&gt;
+&lt;p&gt;A filter that is marked as more complex than other filters will be instantiated more often and will thus make better use of the availble resources. A filter that can not be run with more than one instance, must not be given a high complexity value, although the filter may perform complex computations.&lt;/p&gt;
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="LOW">
+                  </enumeration>
+                  <enumeration value="MEDIUM">
+                  </enumeration>
+                  <enumeration value="HIGH">
+                  </enumeration>
+                  <enumeration value="NONE">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="consumerFilterChainEntry">
+      <complexType>
+         <attribute name="referencedConsumer" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="de.hpi.sam.paf.Consumer/consumer/@name"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="producerFilterChainEntry">
+      <complexType>
+         <attribute name="referencedProducer" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="de.hpi.sam.paf.Producer/producer/@name"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="configurationField">
+      <annotation>
+         <documentation>
+            Declares a configuration field for PaF components.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="defaultValue" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         1.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.sam.model/src" modelPluginID="org.eclipse.emf.henshin.sam.model"
+    modelName="SAModel" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" runtimeVersion="2.8">
+  <foreignModel>SAModel.ecore</foreignModel>
+  <genPackages prefix="Sam" basePackage="org.eclipse.emf.henshin" disposableProviderFactory="true"
+      ecorePackage="SAModel.ecore#/">
+    <nestedGenPackages prefix="Samtypegraph" basePackage="org.eclipse.emf.henshin.sam.model"
+        disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samtypegraph">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="SAModel.ecore#//samtypegraph/EdgeDirection">
+        <genEnumLiterals ecoreEnumLiteral="SAModel.ecore#//samtypegraph/EdgeDirection/DIRECTED"/>
+        <genEnumLiterals ecoreEnumLiteral="SAModel.ecore#//samtypegraph/EdgeDirection/UNDIRECTED"/>
+      </genEnums>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/NodeType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/NodeType/outgoing"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/NodeType/incoming"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/NodeType/name"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/NodeType/typeGraph"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/NodeType/superType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/NodeType/subType"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/EdgeType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/EdgeType/source"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/EdgeType/target"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/EdgeType/name"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/EdgeType/typeGraph"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/EdgeType/direction"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/EdgeType/sourceCardinality"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/EdgeType/targetCardinality"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/AttributeType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/AttributeType/name"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/AttributeType/sort"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/AttributeType/attributedElement"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samtypegraph/AttributeType/lookUpSort">
+          <genParameters ecoreParameter="SAModel.ecore#//samtypegraph/AttributeType/lookUpSort/dataType"/>
+        </genOperations>
+        <genOperations ecoreOperation="SAModel.ecore#//samtypegraph/AttributeType/lookUpEDataType">
+          <genParameters ecoreParameter="SAModel.ecore#//samtypegraph/AttributeType/lookUpEDataType/sort"/>
+        </genOperations>
+        <genOperations ecoreOperation="SAModel.ecore#//samtypegraph/AttributeType/lookUpSort.1">
+          <genParameters ecoreParameter="SAModel.ecore#//samtypegraph/AttributeType/lookUpSort.1/name"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/ContinuousAttr">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/ContinuousAttr/derivation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/ContinuousAttr/lowerBound"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/ContinuousAttr/upperBound"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/InheritanceRelation">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/InheritanceRelation/subType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/InheritanceRelation/superType"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/TypeGraph">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/TypeGraph/nodeTypes"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/TypeGraph/edgeTypes"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/TypeGraph/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/TypeGraph/conditions"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="SAModel.ecore#//samtypegraph/TypeGraphCondition"/>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/AttributeTypeCondition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/AttributeTypeCondition/operation"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/Cardinality">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/Cardinality/lowerBound"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtypegraph/Cardinality/upperBound"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="SAModel.ecore#//samtypegraph/AttributedElem">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/AttributedElem/attributes"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtypegraph/DataType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtypegraph/DataType/sort"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samtypegraph/DataType/lookUpSort">
+          <genParameters ecoreParameter="SAModel.ecore#//samtypegraph/DataType/lookUpSort/dataType"/>
+        </genOperations>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Samalgebra" basePackage="org.eclipse.emf.henshin.sam.model"
+        disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samalgebra">
+      <genClasses ecoreClass="SAModel.ecore#//samalgebra/Algebra">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/Algebra/constants"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/Algebra/operations"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/Algebra/signature"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samalgebra/ConstantDataElementMap">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/ConstantDataElementMap/key"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/ConstantDataElementMap/value"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samalgebra/Operation">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/Operation/signature"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samalgebra/Operation/name"/>
+      </genClasses>
+      <nestedGenPackages prefix="AlgebraUse" basePackage="org.eclipse.emf.henshin.sam.model.samalgebra"
+          disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samalgebra/algebraUse">
+        <genClasses image="false" ecoreClass="SAModel.ecore#//samalgebra/algebraUse/OperationParameter">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/algebraUse/OperationParameter/references"/>
+        </genClasses>
+        <genClasses ecoreClass="SAModel.ecore#//samalgebra/algebraUse/DataElement">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/algebraUse/DataElement/sort"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samalgebra/algebraUse/DataElement/value"/>
+        </genClasses>
+        <genClasses ecoreClass="SAModel.ecore#//samalgebra/algebraUse/AttributeUse">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/algebraUse/AttributeUse/theAttribute"/>
+        </genClasses>
+        <genClasses ecoreClass="SAModel.ecore#//samalgebra/algebraUse/OperationUse">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/algebraUse/OperationUse/theOperation"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/algebraUse/OperationUse/operands"/>
+        </genClasses>
+      </nestedGenPackages>
+      <nestedGenPackages prefix="Signature" basePackage="org.eclipse.emf.henshin.sam.model.samalgebra"
+          disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samalgebra/signature">
+        <genClasses ecoreClass="SAModel.ecore#//samalgebra/signature/Sort">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samalgebra/signature/Sort/name"/>
+        </genClasses>
+        <genClasses ecoreClass="SAModel.ecore#//samalgebra/signature/OperationSymbol">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/OperationSymbol/operandSymbols"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/OperationSymbol/resultSymbol"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samalgebra/signature/OperationSymbol/name"/>
+        </genClasses>
+        <genClasses ecoreClass="SAModel.ecore#//samalgebra/signature/OperandSymbol">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/OperandSymbol/sort"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samalgebra/signature/OperandSymbol/name"/>
+        </genClasses>
+        <genClasses ecoreClass="SAModel.ecore#//samalgebra/signature/AlgebraSignature">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/AlgebraSignature/sorts"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/AlgebraSignature/operationSymbols"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samalgebra/signature/AlgebraSignature/name"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/AlgebraSignature/extends"/>
+        </genClasses>
+        <nestedGenPackages prefix="TermAlgebraUse" basePackage="org.eclipse.emf.henshin.sam.model.samalgebra.signature"
+            disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samalgebra/signature/termAlgebraUse">
+          <genClasses ecoreClass="SAModel.ecore#//samalgebra/signature/termAlgebraUse/AttributeTypeUse">
+            <genFeatures notify="false" createChild="false" propertySortChoices="true"
+                ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/termAlgebraUse/AttributeTypeUse/theAttributeType"/>
+          </genClasses>
+          <genClasses ecoreClass="SAModel.ecore#//samalgebra/signature/termAlgebraUse/OperationTermParameter">
+            <genFeatures notify="false" createChild="false" propertySortChoices="true"
+                ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/termAlgebraUse/OperationTermParameter/references"/>
+          </genClasses>
+          <genClasses ecoreClass="SAModel.ecore#//samalgebra/signature/termAlgebraUse/OperationSymbolUse">
+            <genFeatures notify="false" createChild="false" propertySortChoices="true"
+                ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/termAlgebraUse/OperationSymbolUse/theOperationSymbol"/>
+            <genFeatures notify="false" createChild="false" propertySortChoices="true"
+                ecoreFeature="ecore:EReference SAModel.ecore#//samalgebra/signature/termAlgebraUse/OperationSymbolUse/operands"/>
+          </genClasses>
+        </nestedGenPackages>
+      </nestedGenPackages>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Samgraph" basePackage="org.eclipse.emf.henshin.sam.model"
+        disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samgraph">
+      <genClasses ecoreClass="SAModel.ecore#//samgraph/Graph">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Graph/nodes"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Graph/edges"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Graph/typedOver"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Graph/attributeCondition"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samgraph/Node">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Node/instanceOf"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samgraph/Node/name"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Node/outgoing"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Node/incoming"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samgraph/Node/getCondition"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samgraph/Node/copy"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samgraph/Edge">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Edge/source"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Edge/target"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Edge/instanceOf"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samgraph/Edge/name"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samgraph/Edge/partOfNacInterface"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samgraph/Edge/getCondition"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samgraph/Edge/copy"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samgraph/Attribute">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Attribute/instanceOf"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/Attribute/attributedElement"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="SAModel.ecore#//samgraph/AttributedElem">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraph/AttributedElem/attributes"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Samrules" basePackage="org.eclipse.emf.henshin.sam.model"
+        disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samrules">
+      <genClasses ecoreClass="SAModel.ecore#//samrules/GraphRule">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samrules/GraphRule/left"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samrules/GraphRule/right"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samrules/GraphRule/attributeCondition"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samrules/GraphRule/priority"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samrules/GraphRule/urgent"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samrules/GraphRule/name"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samrules/PreservedNode">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samrules/PreservedNode/refInRule"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samrules/PreservedEdge">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samrules/PreservedEdge/refInRule"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samrules/RuleGraph">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samrules/RuleGraph/condition"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samrules/GTS">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samrules/GTS/rules"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samrules/GTS/types"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samrules/CreatedNode"/>
+      <genClasses ecoreClass="SAModel.ecore#//samrules/DeletedNode"/>
+      <genClasses ecoreClass="SAModel.ecore#//samrules/CreatedEdge"/>
+      <genClasses ecoreClass="SAModel.ecore#//samrules/DeletedEdge"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Samgraphcondition" basePackage="org.eclipse.emf.henshin.sam.model"
+        disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samgraphcondition">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="SAModel.ecore#//samgraphcondition/Quantor">
+        <genEnumLiterals ecoreEnumLiteral="SAModel.ecore#//samgraphcondition/Quantor/EXISTS"/>
+        <genEnumLiterals ecoreEnumLiteral="SAModel.ecore#//samgraphcondition/Quantor/FORALL"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="SAModel.ecore#//samgraphcondition/LogicalOperator">
+        <genEnumLiterals ecoreEnumLiteral="SAModel.ecore#//samgraphcondition/LogicalOperator/DISJUNCTION"/>
+        <genEnumLiterals ecoreEnumLiteral="SAModel.ecore#//samgraphcondition/LogicalOperator/CONJUNCTION"/>
+      </genEnums>
+      <genClasses ecoreClass="SAModel.ecore#//samgraphcondition/ProxyNode">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samgraphcondition/ProxyNode/referencedNode"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="SAModel.ecore#//samgraphcondition/GraphCondition">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samgraphcondition/GraphCondition/name"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samgraphcondition/LogicalGCCoupling">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samgraphcondition/LogicalGCCoupling/operator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraphcondition/LogicalGCCoupling/operands"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samgraphcondition/Quantification">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samgraphcondition/Quantification/quantor"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraphcondition/Quantification/nesting"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraphcondition/Quantification/context"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraphcondition/Quantification/attributeCondition"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samgraphcondition/TerminationCondition">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samgraphcondition/TerminationCondition/isTrue"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samgraphcondition/NegatedCondition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samgraphcondition/NegatedCondition/operand"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Samtrace" basePackage="org.eclipse.emf.henshin.sam.model"
+        disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samtrace">
+      <genClasses ecoreClass="SAModel.ecore#//samtrace/Trace">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/Trace/entries"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="SAModel.ecore#//samtrace/TraceEntry">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/TraceEntry/state"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtrace/ContinuousTraceEntry">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtrace/ContinuousTraceEntry/duration"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtrace/DiscreteTraceEntry">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/DiscreteTraceEntry/currentRule"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/DiscreteTraceEntry/currentMatch"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtrace/Match">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/Match/nodeMatching"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/Match/edgeMatching"/>
+        <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samtrace/Match/size"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samtrace/Match/clear"/>
+        <genOperations ecoreOperation="SAModel.ecore#//samtrace/Match/copy"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtrace/MatchEntry">
+        <genTypeParameters ecoreTypeParameter="SAModel.ecore#//samtrace/MatchEntry/T"/>
+        <genTypeParameters ecoreTypeParameter="SAModel.ecore#//samtrace/MatchEntry/S"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/MatchEntry/key"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/MatchEntry/value"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samtrace/ProxyEdge">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samtrace/ProxyEdge/referenceEdge"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Samannotation" basePackage="org.eclipse.emf.henshin.sam.model"
+        disposableProviderFactory="true" ecorePackage="SAModel.ecore#//samannotation">
+      <genClasses ecoreClass="SAModel.ecore#//samannotation/Annotation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samannotation/Annotation/source"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samannotation/Annotation/target"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samannotation/Annotation/details"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SAModel.ecore#//samannotation/Annotation/refInRule"/>
+      </genClasses>
+      <genClasses ecoreClass="SAModel.ecore#//samannotation/AnnotationDetails">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samannotation/AnnotationDetails/key"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SAModel.ecore#//samannotation/AnnotationDetails/value"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="SAModel.ecore#//samannotation/AnnotatedElem">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SAModel.ecore#//samannotation/AnnotatedElem/annotations"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>
