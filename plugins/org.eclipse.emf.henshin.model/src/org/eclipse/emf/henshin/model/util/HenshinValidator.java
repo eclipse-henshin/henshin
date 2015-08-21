@@ -178,6 +178,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateXor((Xor)value, diagnostics, context);
 			case HenshinPackage.NOT:
 				return validateNot((Not)value, diagnostics, context);
+			case HenshinPackage.PARAMETER_KIND:
+				return validateParameterKind((ParameterKind)value, diagnostics, context);
 			case HenshinPackage.ACTION:
 				return validateAction((Action)value, diagnostics, context);
 			default:
@@ -585,6 +587,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validateParameter_nameNotEmpty(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validateParameter_nameNotTypeName(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_nameNotKindAlias(parameter, diagnostics, context);
 		return result;
 	}
 	
@@ -628,6 +631,20 @@ public class HenshinValidator extends EObjectValidator {
 		return true;
 	}
 
+	/**
+	 * Validates the nameNotKindAlias constraint of '<em>Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateParameter_nameNotKindAlias(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (ParameterKind.getByString(parameter.getName()) != null) {
+			diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameter, Parameter.class, "nameNotKindAlias", context));
+			return false;
+		}
+		return true;
+	}
+	
 	/*
 	 * Helper method for validateParameter_nameNotTypeName.
 	 */
@@ -1383,6 +1400,15 @@ public class HenshinValidator extends EObjectValidator {
 		return validate_EveryDefaultConstraint(not, diagnostics, context);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateParameterKind(ParameterKind parameterKind, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

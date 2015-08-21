@@ -123,10 +123,11 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="nameNotEmpty nameNotTypeName"/>
+      <details key="constraints" value="nameNotEmpty nameNotTypeName nameNotKindAlias"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="#//Unit" eOpposite="#//Unit/parameters"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ParameterKind"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ParameterMapping" eSuperTypes="#//ModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
@@ -316,4 +317,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="Xor" eSuperTypes="#//BinaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//UnaryFormula"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Action" instanceClassName="org.eclipse.emf.henshin.model.Action"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParameterKind">
+    <eLiterals name="UNKNOWN"/>
+    <eLiterals name="IN" value="1"/>
+    <eLiterals name="OUT" value="2"/>
+    <eLiterals name="INOUT" value="3"/>
+    <eLiterals name="VAR" value="4"/>
+  </eClassifiers>
 </ecore:EPackage>

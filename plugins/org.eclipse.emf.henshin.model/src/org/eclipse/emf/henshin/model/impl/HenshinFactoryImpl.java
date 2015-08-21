@@ -104,6 +104,8 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case HenshinPackage.PARAMETER_KIND:
+				return createParameterKindFromString(eDataType, initialValue);
 			case HenshinPackage.ACTION:
 				return createActionFromString(eDataType, initialValue);
 			default:
@@ -119,6 +121,8 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case HenshinPackage.PARAMETER_KIND:
+				return convertParameterKindToString(eDataType, instanceValue);
 			case HenshinPackage.ACTION:
 				return convertActionToString(eDataType, instanceValue);
 			default:
@@ -415,6 +419,26 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public Not createNot() {
 		NotImpl not = new NotImpl();
 		return not;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ParameterKind createParameterKindFromString(EDataType eDataType, String initialValue) {
+		ParameterKind result = ParameterKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertParameterKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

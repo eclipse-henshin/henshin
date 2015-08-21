@@ -25,10 +25,12 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
@@ -60,6 +62,7 @@ public class ParameterItemProvider extends NamedElementItemProvider implements I
 			super.getPropertyDescriptors(object);
 
 			addTypePropertyDescriptor(object);
+			addKindPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -87,14 +90,51 @@ public class ParameterItemProvider extends NamedElementItemProvider implements I
 	}
 
 	/**
-	 * This returns Parameter.gif.
+	 * This adds a property descriptor for the Kind feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	protected void addKindPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Parameter_kind_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Parameter_kind_feature", "_UI_Parameter_type"),
+				 HenshinPackage.Literals.PARAMETER__KIND,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns an icon according to the {@link ParameterKind} of <em>object</em>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Parameter"));
+		ParameterKind parameterKind = ((Parameter) object).getKind();
+		String iconPath = "";
+		
+		if(parameterKind == ParameterKind.IN) {
+			iconPath = "full/obj16/ParameterIn";
+		} else if(parameterKind == ParameterKind.OUT) {
+			iconPath = "full/obj16/ParameterOut";
+		} else if(parameterKind == ParameterKind.INOUT) {
+			iconPath = "full/obj16/ParameterInOut";
+		} else if(parameterKind == ParameterKind.VAR) {
+			iconPath = "full/obj16/ParameterVar";
+		} else {
+			iconPath = "full/obj16/Parameter";
+		}
+		
+		return overlayImage(object, getResourceLocator().getImage(iconPath));
 	}
 	
 	/**

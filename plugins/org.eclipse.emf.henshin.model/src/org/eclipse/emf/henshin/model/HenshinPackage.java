@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.model;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -646,13 +647,22 @@ public interface HenshinPackage extends EPackage {
 	int PARAMETER__TYPE = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__KIND = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Parameter</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int PARAMETER_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.UnaryUnitImpl <em>Unary Unit</em>}' class.
@@ -2121,6 +2131,16 @@ public interface HenshinPackage extends EPackage {
 	int NOT_FEATURE_COUNT = UNARY_FORMULA_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.ParameterKind <em>Parameter Kind</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.ParameterKind
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterKind()
+	 * @generated
+	 */
+	int PARAMETER_KIND = 31;
+
+	/**
 	 * The meta object id for the '<em>Action</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2128,7 +2148,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAction()
 	 * @generated
 	 */
-	int ACTION = 31;
+	int ACTION = 32;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.ModelElement <em>Model Element</em>}'.
@@ -2387,6 +2407,17 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getParameter_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Parameter#getKind <em>Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Kind</em>'.
+	 * @see org.eclipse.emf.henshin.model.Parameter#getKind()
+	 * @see #getParameter()
+	 * @generated
+	 */
+	EAttribute getParameter_Kind();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Graph <em>Graph</em>}'.
@@ -3092,6 +3123,16 @@ public interface HenshinPackage extends EPackage {
 	EClass getNot();
 
 	/**
+	 * Returns the meta object for enum '{@link org.eclipse.emf.henshin.model.ParameterKind <em>Parameter Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Parameter Kind</em>'.
+	 * @see org.eclipse.emf.henshin.model.ParameterKind
+	 * @generated
+	 */
+	EEnum getParameterKind();
+
+	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.model.Action <em>Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3369,6 +3410,14 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PARAMETER__TYPE = eINSTANCE.getParameter_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER__KIND = eINSTANCE.getParameter_Kind();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.GraphImpl <em>Graph</em>}' class.
@@ -3943,6 +3992,16 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NOT = eINSTANCE.getNot();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.ParameterKind <em>Parameter Kind</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.ParameterKind
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterKind()
+		 * @generated
+		 */
+		EEnum PARAMETER_KIND = eINSTANCE.getParameterKind();
 
 		/**
 		 * The meta object literal for the '<em>Action</em>' data type.
