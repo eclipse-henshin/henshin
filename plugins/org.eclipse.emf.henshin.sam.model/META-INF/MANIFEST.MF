@@ -38,8 +38,6 @@ Export-Package: org.eclipse.emf.henshin.sam.model.samalgebra,
  org.eclipse.emf.henshin.sam.model.samtypegraph.impl,
  org.eclipse.emf.henshin.sam.model.samtypegraph.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.xtend.typesystem.emf
+ org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.henshin.sam.model.SamigraActivator
-Import-Package: org.eclipse.emf.ecore.util

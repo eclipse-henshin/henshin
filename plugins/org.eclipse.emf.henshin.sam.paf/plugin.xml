@@ -7,9 +7,10 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="de.hpi.sam.paf.internal.preferences.AbstractPAFPreferenceInitializer">
+            class="org.eclipse.emf.henshin.sam.paf.internal.preferences.AbstractPAFPreferenceInitializer">
       </initializer>
    </extension>
+   <!--
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
@@ -18,5 +19,5 @@
             name="Pipe and Filter">
       </page>
    </extension>
-
+   -->
 </plugin>

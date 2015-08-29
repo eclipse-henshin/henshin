@@ -219,12 +219,9 @@ public class InvariantCheckingMetaModelLaunchDelegate implements
 	}
 
 	private void initNumberOfThreads() {
-		final IPreferenceStore pStore = PAFActivator.getDefault().getPreferenceStore();
-		if (pStore != null) {
-			this.threads_low = pStore.getInt(PAFPreferenceConstants.THREADS_COMPLEXITY_LOW);
-			this.threads_med = pStore.getInt(PAFPreferenceConstants.THREADS_COMPLEXITY_MEDIUM);
-			this.threads_high = pStore.getInt(PAFPreferenceConstants.THREADS_COMPLEXITY_HIGH);
-		}
+		this.threads_low = Platform.getPreferencesService().getInt(PAFActivator.PLUGIN_ID, PAFPreferenceConstants.THREADS_COMPLEXITY_LOW, 1, null);
+		this.threads_med = Platform.getPreferencesService().getInt(PAFActivator.PLUGIN_ID, PAFPreferenceConstants.THREADS_COMPLEXITY_MEDIUM, 1, null);
+		this.threads_high = Platform.getPreferencesService().getInt(PAFActivator.PLUGIN_ID, PAFPreferenceConstants.THREADS_COMPLEXITY_HIGH, 1, null);
 	}
 
 	@SuppressWarnings("unchecked")

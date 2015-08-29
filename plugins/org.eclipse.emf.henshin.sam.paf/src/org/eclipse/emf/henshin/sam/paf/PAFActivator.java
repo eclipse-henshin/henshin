@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.emf.henshin.sam.paf.internal.ConsumerFactoryImpl;
 import org.eclipse.emf.henshin.sam.paf.internal.FilterFactoryImpl;
 import org.eclipse.emf.henshin.sam.paf.internal.ProducerFactoryImpl;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class PAFActivator extends AbstractUIPlugin {
+public class PAFActivator extends Plugin {
 	
 	/**
 	 * the id for the PAF Plugin
 	 */
-	public static final String PLUGIN_ID = "de.hpi.sam.paf";
+	public static final String PLUGIN_ID = "org.eclipse.emf.henshin.sam.paf";
 	
 	/**
 	 * the static field holding the singleton instance.
