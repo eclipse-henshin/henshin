@@ -1,20 +1,20 @@
 package org.eclipse.emf.henshin.sam.invcheck;
 
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.emf.henshin.sam.model.samannotation.Annotation;
 import org.eclipse.emf.henshin.sam.model.samtypegraph.TypeGraphCondition;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * This singleton complies to the <code>Abstract Factory</code> paradigm.
  */
-public class InvariantCheckingCore extends AbstractUIPlugin {
+public class InvariantCheckingCore extends Plugin {
 
-	public static final String SOLVER_STRATEGIES_EXTENSION_POINT = "de.uni_paderborn.invariantchecking.solver";
+	public static final String SOLVER_STRATEGIES_EXTENSION_POINT = "org.eclipse.henshin.sam.invcheck.solver";
 	
 	/**
 	 * The string that has to be used in a {@link TypeGraphCondition}'s {@link Annotation} source property.<br />
-	 * Assumed Proeprties are only used to drop counter examples but not to produce property / rule pairs.
+	 * Assumed properties are only used to drop counter examples but not to produce property / rule pairs.
 	 */
 	public static final String ASSUMED_GUARANTEE_ANNOTATION_SOURCE = "org.eclipse.emf.henshin.sam.invcheck.AssumedGuarantee";
 	

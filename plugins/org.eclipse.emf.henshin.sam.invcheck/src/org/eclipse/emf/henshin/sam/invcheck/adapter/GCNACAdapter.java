@@ -3,7 +3,6 @@ package org.eclipse.emf.henshin.sam.invcheck.adapter;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.Collections;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
