@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.IsomorphicPartMatcher;
@@ -216,7 +216,7 @@ public class IncoherentNACTranslationTest extends TestCase {
 		pattern1E3 = buildEdge("dcConn", pattern1Nac);
 		pattern1E3.setSource(pattern1N4); pattern1E3.setTarget(pattern1N5);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern1Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern1Nac);
 		((RuleGraph) pattern1).setCondition(gc);
 	}
 	
@@ -260,7 +260,7 @@ public class IncoherentNACTranslationTest extends TestCase {
 		Edge e6 = buildEdge("rear", nac);
 		e6.setSource(n3); e6.setTarget(n5); e6.setName("rear");
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) result).setCondition(gc);
 		
 		return result;
@@ -311,7 +311,7 @@ public class IncoherentNACTranslationTest extends TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac1);
 		nacs.add(nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) result).setCondition(gc);
 		
 		return result;
@@ -323,12 +323,12 @@ public class IncoherentNACTranslationTest extends TestCase {
 		Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();
 		
 		for (Edge e : pattern1.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {		
+			if (!InvariantCheckerUtil.isNegated(e)) {		
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern1.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {		
+			if (!InvariantCheckerUtil.isNegated(n)) {		
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
 		}

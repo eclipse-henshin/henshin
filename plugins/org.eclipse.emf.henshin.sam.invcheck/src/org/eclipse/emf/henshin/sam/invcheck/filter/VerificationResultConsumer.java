@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.nac.NegativeApplicationCondition;
 import org.eclipse.emf.henshin.sam.invcheck.nac.PatternEdge;
@@ -230,7 +230,7 @@ public class VerificationResultConsumer extends
 				Trace t = SamtraceFactory.eINSTANCE.createTrace();
 				
 				Annotation anno = SamannotationFactory.eINSTANCE.createAnnotation();
-				anno.setSource(InvariantCheckingCore.ORIGINAL_FORBIDDEN_PATTERN_ANNOTATION_SOURCE);
+				anno.setSource(InvariantCheckerPlugin.ORIGINAL_FORBIDDEN_PATTERN_ANNOTATION_SOURCE);
 				anno.setTarget(gvd.pair.first);
 				t.getAnnotations().add(anno);
 				//System.out.println("forbidden: " + ((NegatedCondition) gvd.pair.first.eContainer().eContainer()).getName());

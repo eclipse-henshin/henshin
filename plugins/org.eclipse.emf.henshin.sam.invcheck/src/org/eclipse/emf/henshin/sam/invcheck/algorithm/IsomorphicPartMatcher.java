@@ -13,7 +13,7 @@ import java.util.Vector;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.GCNACAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
@@ -449,15 +449,15 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 			nacs = new HashSet<NegativeApplicationCondition>();
 			for (AnnotatedElem gI : currentSubGraph) {
 				if (SamgraphPackage.eINSTANCE.getEdge().isSuperTypeOf(gI.eClass())) {
-					if (InvariantCheckingUtil.isNegated((Edge) gI)) {
+					if (InvariantCheckerUtil.isNegated((Edge) gI)) {
 						Edge e = (Edge) gI;					
-						NegativeApplicationCondition nac = GCNACAdapter.getInstance(InvariantCheckingUtil.getHighestCondition(e));
+						NegativeApplicationCondition nac = GCNACAdapter.getInstance(InvariantCheckerUtil.getHighestCondition(e));
 						nacs.add(nac);
 					}
 				} else {
-					if (InvariantCheckingUtil.isNegated((Node) gI)) {
+					if (InvariantCheckerUtil.isNegated((Node) gI)) {
 						Node n = (Node) gI;
-						NegativeApplicationCondition nac = GCNACAdapter.getInstance(InvariantCheckingUtil.getHighestCondition(n));
+						NegativeApplicationCondition nac = GCNACAdapter.getInstance(InvariantCheckerUtil.getHighestCondition(n));
 						nacs.add(nac);
 					}
 				}
@@ -533,10 +533,10 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 			for (Iterator<AnnotatedElem> iter = this.currentSubGraph.iterator(); iter.hasNext(); ) {
 				final AnnotatedElem gi = iter.next();
 				if (SamgraphPackage.eINSTANCE.getNode().isSuperTypeOf(gi.eClass())) {			
-				 if (!InvariantCheckingUtil.isNegated((Node) gi) && !this.nodeDegrees.containsKey(gi)) {
+				 if (!InvariantCheckerUtil.isNegated((Node) gi) && !this.nodeDegrees.containsKey(gi)) {
 					 this.nodeDegrees.put((Node)gi, 0);
 				 }
-				} else if (!InvariantCheckingUtil.isNegated((Edge) gi)) {
+				} else if (!InvariantCheckerUtil.isNegated((Edge) gi)) {
 					final Edge edge = (Edge) gi;
 					if (this.nodeDegrees.containsKey(edge.getSource())){
 						this.nodeDegrees.put(edge.getSource(), this.nodeDegrees.get(edge.getSource()) + 1);
@@ -565,10 +565,10 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 		 *  The matching process will continue while there are unmatched nodes, edges or NACs in the current subgraph.
 		 *  The process may end prematurely in the case of a NAC match call when the host graph is found to be a stricter NAC.
 		 */
-		while ((reentrantCall || (((InvariantCheckingUtil.positiveSize(this.currentMatching) < posSizeOfSubgraph(currentSubGraph)) || (this.currentMatching.getNacMatching().size() < numberOfNacs(currentSubGraph))) && (triedAllHostNodes == false)))) {
+		while ((reentrantCall || (((InvariantCheckerUtil.positiveSize(this.currentMatching) < posSizeOfSubgraph(currentSubGraph)) || (this.currentMatching.getNacMatching().size() < numberOfNacs(currentSubGraph))) && (triedAllHostNodes == false)))) {
 			
 			
-			if (!reentrantCall && mode == MatchMode.MATCH_CALL && InvariantCheckingUtil.positiveSize(this.currentMatching) == posSizeOfSubgraph(currentSubGraph) && numberOfNacs(currentSubGraph) > 0) {
+			if (!reentrantCall && mode == MatchMode.MATCH_CALL && InvariantCheckerUtil.positiveSize(this.currentMatching) == posSizeOfSubgraph(currentSubGraph) && numberOfNacs(currentSubGraph) > 0) {
 				if (nacIterator == null && !positiveFailure) {					
 					// positive matching is complete, build first check nac state
 					addFirstCheckNACState();
@@ -629,15 +629,15 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		for (AnnotatedElem gI : currentSubGraph) {
 			if (SamgraphPackage.eINSTANCE.getEdge().isSuperTypeOf(gI.eClass())) {
-				if (InvariantCheckingUtil.isNegated((Edge) gI)) {
+				if (InvariantCheckerUtil.isNegated((Edge) gI)) {
 					Edge e = (Edge) gI;					
-					NegativeApplicationCondition nac = GCNACAdapter.getInstance(InvariantCheckingUtil.getHighestCondition(e));
+					NegativeApplicationCondition nac = GCNACAdapter.getInstance(InvariantCheckerUtil.getHighestCondition(e));
 					nacs.add(nac);
 				}
 			} else {
-				if (InvariantCheckingUtil.isNegated((Node) gI)) {
+				if (InvariantCheckerUtil.isNegated((Node) gI)) {
 					Node n = (Node) gI;
-					NegativeApplicationCondition nac = GCNACAdapter.getInstance(InvariantCheckingUtil.getHighestCondition(n));
+					NegativeApplicationCondition nac = GCNACAdapter.getInstance(InvariantCheckerUtil.getHighestCondition(n));
 					nacs.add(nac);
 				}
 			}
@@ -655,11 +655,11 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 		int count = 0;
 		for (AnnotatedElem gI : currentSubGraph) {
 			if (SamgraphPackage.eINSTANCE.getEdge().isSuperTypeOf(gI.eClass())) {
-				if (!InvariantCheckingUtil.isNegated((Edge) gI)) {
+				if (!InvariantCheckerUtil.isNegated((Edge) gI)) {
 					count++;
 				}
 			} else {
-				if (!InvariantCheckingUtil.isNegated((Node) gI)) {
+				if (!InvariantCheckerUtil.isNegated((Node) gI)) {
 					count++;
 				}
 			}
@@ -740,7 +740,7 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 			AnnotatedElem next = startNodeIter.next();
 			if (next instanceof Node && !this.currentMatching.getNodeMatching().containsKey((Node)next)) {
 				Node n = (Node) next;
-				if (!InvariantCheckingUtil.isNegated(n)) {
+				if (!InvariantCheckerUtil.isNegated(n)) {
 					this.connectedComponents.get(connectedComponentIndex).startNode = n;
 				}
 			}
@@ -914,7 +914,7 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 				/* "unmatched", thus not contained in currentMatching but in the subgraph
 				 * Only positive edges should be considered. 
 				 */
-				if (this.currentMatching != null && ! this.currentMatching.getEdgeMatching().containsKey(nextEdge) && this.currentSubGraph.contains(nextEdge) && !InvariantCheckingUtil.isNegated(nextEdge)) {
+				if (this.currentMatching != null && ! this.currentMatching.getEdgeMatching().containsKey(nextEdge) && this.currentSubGraph.contains(nextEdge) && !InvariantCheckerUtil.isNegated(nextEdge)) {
 					return nextEdge;
 				}
 			}
@@ -1175,7 +1175,7 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 		} else {
 			if (ms.translatedGraph == null) {				
 				NACTranslator nacT =  new NACTranslator();
-				Match translation = InvariantCheckingUtil.copyAsRuleGraph(hostGraph);
+				Match translation = InvariantCheckerUtil.copyAsRuleGraph(hostGraph);
 				Graph translated = null;
 				if (translation.getNodeMatching().size() > 0) {
 					translated = (Graph) translation.getNodeMatching().get(0).getValue().eContainer();
@@ -1597,7 +1597,7 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 	 */
 	private boolean negatedPredicate(final Edge e1, final Edge e2) {		
 		if (e1 != null && e2 != null) {
-			return (InvariantCheckingUtil.isNegated(e1) == InvariantCheckingUtil.isNegated(e2));
+			return (InvariantCheckerUtil.isNegated(e1) == InvariantCheckerUtil.isNegated(e2));
 		} else if (e1 == e2) {
 			return true;
 		}
@@ -1617,7 +1617,7 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 			return true;
 		}
 		if (n1 != null && n2 != null) {
-			return InvariantCheckingUtil.isNegated(n1) == InvariantCheckingUtil.isNegated(n2);
+			return InvariantCheckerUtil.isNegated(n1) == InvariantCheckerUtil.isNegated(n2);
 		} else if (n1 == n2) {
 			return true;
 		}
@@ -1675,7 +1675,7 @@ public class IsomorphicPartMatcher implements AlgorithmComponent
 			if (mode == MatchMode.NAC_TRANSLATION_CALL || mode == MatchMode.NAC_MATCH_CALL) {
 				return true;
 			}
-			if (InvariantCheckingUtil.isNegated(n1) && InvariantCheckingUtil.isNegated(n2)) {
+			if (InvariantCheckerUtil.isNegated(n1) && InvariantCheckerUtil.isNegated(n2)) {
 				return true;
 			}
 			if (this.nodeDegrees == null || !this.nodeDegrees.containsKey(n2)) {

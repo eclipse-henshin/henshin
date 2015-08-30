@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.GCNACAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
@@ -106,7 +106,7 @@ public class ContextGenerator {
 	}
 	
 	public boolean proof() {
-		Match match = InvariantCheckingUtil.copyAsRuleGraph(this.proofGoal);
+		Match match = InvariantCheckerUtil.copyAsRuleGraph(this.proofGoal);
 		RuleGraph precondition = null;
 		for (Node n : match.getNodeMatching().values()) {
 			precondition = (RuleGraph) n.eContainer();
@@ -192,7 +192,7 @@ public class ContextGenerator {
 		while (first || (nacIter != null && nacIter.hasNext())) {
 			NegativeApplicationCondition targetNac = null;
 			if (first) {
-				tmpMatch = InvariantCheckingUtil.copyAsRuleGraph(this.currentConstraint);
+				tmpMatch = InvariantCheckerUtil.copyAsRuleGraph(this.currentConstraint);
 				for (Node n : tmpMatch.getNodeMatching().values()) {
 					g = (RuleGraph) n.eContainer();
 					break;
@@ -410,7 +410,7 @@ public class ContextGenerator {
 										break;
 									}
 								}
-								this.currentConstraint.setCondition(InvariantCheckingUtil.addNegatedConditions(this.currentConstraint.getCondition(), newNacs));
+								this.currentConstraint.setCondition(InvariantCheckerUtil.addNegatedConditions(this.currentConstraint.getCondition(), newNacs));
 								((LogicalGCCoupling) this.currentConstraint.getCondition()).getOperands().remove(gcToRemove);
 								/*
 								for (Edge e : this.currentConstraint.getEdges()) {
@@ -616,12 +616,12 @@ public class ContextGenerator {
 		Match match = SamtraceFactory.eINSTANCE.createMatch();		
 		
 		for (Node n : nac.getNodes()) {
-			Node newNode = InvariantCheckingUtil.copyAsPattern(n);
+			Node newNode = InvariantCheckerUtil.copyAsPattern(n);
 			match.getNodeMatching().put(n, newNode);
 			newNac.getNodes().add(newNode);
 		}
 		for (Edge e : nac.getEdges()) {
-			Edge newEdge = InvariantCheckingUtil.copyAsPattern(e);
+			Edge newEdge = InvariantCheckerUtil.copyAsPattern(e);
 			match.getEdgeMatching().put(e, newEdge);
 			newNac.getEdges().add(newEdge);
 			if (match.getNodeMatching().get(e.getSource()) != null) {
@@ -665,7 +665,7 @@ public class ContextGenerator {
 		Set<RuleGraph> result = new HashSet<RuleGraph>();
 		for (NegativeApplicationCondition nac : SamGraphInvCheckGraphAdapter.getInstance(targetGraph).getNacs()) {
 			RuleGraph newGraph = null;
-			Match match = InvariantCheckingUtil.copyAsRuleGraph(targetGraph);
+			Match match = InvariantCheckerUtil.copyAsRuleGraph(targetGraph);
 			for (Node n : match.getNodeMatching().values()) {
 				if (n != null) {
 					newGraph = (RuleGraph) n.eContainer();
@@ -698,7 +698,7 @@ public class ContextGenerator {
 		Set<RuleGraph> result = new HashSet<RuleGraph>();
 		for (NegativeApplicationCondition nac : SamGraphInvCheckGraphAdapter.getInstance(targetGraph).getNacs()) {
 			RuleGraph newGraph = null;
-			Match match = InvariantCheckingUtil.copyAsRuleGraph(targetGraph);
+			Match match = InvariantCheckerUtil.copyAsRuleGraph(targetGraph);
 			for (Node n : match.getNodeMatching().values()) {
 				if (n != null) {
 					newGraph = (RuleGraph) n.eContainer();
@@ -742,7 +742,7 @@ public class ContextGenerator {
 				break;
 			}
 		} else {
-			tmpMatch = InvariantCheckingUtil.copyAsRuleGraph(targetGraph);
+			tmpMatch = InvariantCheckerUtil.copyAsRuleGraph(targetGraph);
 			for (Node n : tmpMatch.getNodeMatching().values()) {
 				g = (Graph) n.eContainer();
 				break;

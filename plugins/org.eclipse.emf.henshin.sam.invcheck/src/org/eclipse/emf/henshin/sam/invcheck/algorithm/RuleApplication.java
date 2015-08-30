@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.nac.NacFactory;
@@ -169,7 +169,7 @@ public class RuleApplication implements AlgorithmComponent
             boolean isDeleted = node.eClass() != SamrulesPackage.eINSTANCE.getPreservedNode() || ((PreservedNode) node).getRefInRule() == null;
             if (isDeleted)
             {
-               Node newNode = InvariantCheckingUtil.copyAsPattern(node);//node.copy();
+               Node newNode = InvariantCheckerUtil.copyAsPattern(node);//node.copy();
                g.getNodes().add(newNode);
                //node.addToReferenceItems (newNode);
                ((PatternNode) newNode).setSameInRule(node);
@@ -182,7 +182,7 @@ public class RuleApplication implements AlgorithmComponent
             boolean isDeleted = edge.eClass() != SamrulesPackage.eINSTANCE.getPreservedEdge() || ((PreservedEdge) edge).getRefInRule() == null;
             if (isDeleted)
             {
-               Edge newEdge = InvariantCheckingUtil.copyAsPattern(edge);//edge.copy();
+               Edge newEdge = InvariantCheckerUtil.copyAsPattern(edge);//edge.copy();
                g.getEdges().add(newEdge);
                ((PatternEdge) newEdge).setSameInRule(edge);
                refItems.get(lhs).put(edge, newEdge);
@@ -219,14 +219,14 @@ public class RuleApplication implements AlgorithmComponent
         	 for (Edge e : nac.getEdges()) {
         		 boolean found = false;
         		 //if (e.partOfNacInterface() && !e.getSource().isNegated()) {
-        		 if (e.partOfNacInterface() && !InvariantCheckingUtil.isNegated(e.getSource())) {
+        		 if (e.partOfNacInterface() && !InvariantCheckerUtil.isNegated(e.getSource())) {
         			 if (refItems.get(srcGraph).get(e.getSource()) == null) {
         				 consistent = false;
         			 } else {
         				 currentMatching.getNodeMatching().put(e.getSource(), (Node) refItems.get(srcGraph).get(e.getSource()));
         			 }
         		 }
-        		 if (e.partOfNacInterface() && !InvariantCheckingUtil.isNegated(e.getTarget())){
+        		 if (e.partOfNacInterface() && !InvariantCheckerUtil.isNegated(e.getTarget())){
         			 if (refItems.get(srcGraph).get(e.getTarget()) == null) {
         				 consistent = false;
         			 } else {
@@ -239,14 +239,14 @@ public class RuleApplication implements AlgorithmComponent
         		
         		for (Node n : nac.getNodes()) {
     				//Node newNode = n.copy();
-        			Node newNode = InvariantCheckingUtil.copyAsPattern(n);
+        			Node newNode = InvariantCheckerUtil.copyAsPattern(n);
         			((PatternNode) newNode).setSameInProp(((PatternNode) n).getSameInProp());
     				newNac.getNodes().add(newNode);
     				currentMatching.getNodeMatching().put(n, newNode);
     			}
     			for (Edge e : nac.getEdges()) {
     				//Edge newEdge = e.copy();
-    				Edge newEdge = InvariantCheckingUtil.copyAsPattern(e);
+    				Edge newEdge = InvariantCheckerUtil.copyAsPattern(e);
         			((PatternEdge) newEdge).setSameInProp(((PatternEdge) e).getSameInProp());
     				newNac.getEdges().add(newEdge);
     				newEdge.setSource(currentMatching.getNodeMatching().get(e.getSource()));
@@ -265,7 +265,7 @@ public class RuleApplication implements AlgorithmComponent
     				if (SamrulesPackage.eINSTANCE.getDeletedNode() == n.eClass()) {
     					Node copyInSgp = (Node) refItems.get(lhs).get(n);
     					Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-    					an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);    				
+    					an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);    				
     					an.setTarget(copyInSgp);
     					newNac.getAnnotations().add(an);
     				}
@@ -274,7 +274,7 @@ public class RuleApplication implements AlgorithmComponent
     				if (SamrulesPackage.eINSTANCE.getDeletedEdge() == e.eClass()) {
     					Edge copyInSgp = (Edge) refItems.get(lhs).get(e);
     					Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-    					an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);    				
+    					an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);    				
     					an.setTarget(copyInSgp);
     					newNac.getAnnotations().add(an);
     				}
@@ -284,7 +284,7 @@ public class RuleApplication implements AlgorithmComponent
         	 }
          }
          if (!newNacs.isEmpty()) {
-        	 g.setCondition(InvariantCheckingUtil.addNegatedConditions(g.getCondition(), newNacs)); 
+        	 g.setCondition(InvariantCheckerUtil.addNegatedConditions(g.getCondition(), newNacs)); 
          }                  
          
          return g;
@@ -431,7 +431,7 @@ public class RuleApplication implements AlgorithmComponent
 	            boolean isCreated = node.eClass() != SamrulesPackage.eINSTANCE.getPreservedNode() || ((PreservedNode) node).getRefInRule() == null;
 	            if (isCreated)
 	            {
-	               Node newNode = InvariantCheckingUtil.copyAsPattern(node);//node.copy();
+	               Node newNode = InvariantCheckerUtil.copyAsPattern(node);//node.copy();
 	               g.getNodes().add(newNode);
 	               //node.addToReferenceItems (newNode);
 	               ((PatternNode) newNode).setSameInRule(node);
@@ -444,7 +444,7 @@ public class RuleApplication implements AlgorithmComponent
 	            boolean isCreated = edge.eClass() != SamrulesPackage.eINSTANCE.getPreservedEdge() || ((PreservedEdge) edge).getRefInRule() == null;
 	            if (isCreated)
 	            {
-	               Edge newEdge = InvariantCheckingUtil.copyAsPattern(edge);//edge.copy();
+	               Edge newEdge = InvariantCheckerUtil.copyAsPattern(edge);//edge.copy();
 	               g.getEdges().add(newEdge);
 	               ((PatternEdge) newEdge).setSameInRule(edge);
 	               refItems.get(rhs).put(edge, newEdge);
@@ -461,14 +461,14 @@ public class RuleApplication implements AlgorithmComponent
 	        	 for (Edge e : nac.getEdges()) {
 	        		 boolean found = false;
 	        		 //if (e.partOfNacInterface() && !e.getSource().isNegated()) {
-	        		 if (e.partOfNacInterface() && !InvariantCheckingUtil.isNegated(e.getSource())) {
+	        		 if (e.partOfNacInterface() && !InvariantCheckerUtil.isNegated(e.getSource())) {
 	        			 if (refItems.get(srcGraph).get(e.getSource()) == null) {
 	        				 consistent = false;
 	        			 } else {
 	        				 currentMatching.getNodeMatching().put(e.getSource(), (Node) refItems.get(srcGraph).get(e.getSource()));
 	        			 }
 	        		 }
-	        		 if (e.partOfNacInterface() && !InvariantCheckingUtil.isNegated(e.getTarget())){
+	        		 if (e.partOfNacInterface() && !InvariantCheckerUtil.isNegated(e.getTarget())){
 	        			 if (refItems.get(srcGraph).get(e.getTarget()) == null) {
 	        				 consistent = false;
 	        			 } else {
@@ -481,7 +481,7 @@ public class RuleApplication implements AlgorithmComponent
 	        		
 	        		for (Node n : nac.getNodes()) {
 	    				//Node newNode = n.copy();
-	        			Node newNode = InvariantCheckingUtil.copyAsPattern(n);
+	        			Node newNode = InvariantCheckerUtil.copyAsPattern(n);
 	        			((PatternNode) newNode).setSameInProp(((PatternNode) n).getSameInProp());
 	        			((PatternNode) newNode).setSameInRule(((PatternNode) n).getSameInRule());
 	    				newNac.getNodes().add(newNode);
@@ -489,7 +489,7 @@ public class RuleApplication implements AlgorithmComponent
 	    			}
 	    			for (Edge e : nac.getEdges()) {
 	    				//Edge newEdge = e.copy();
-	    				Edge newEdge = InvariantCheckingUtil.copyAsPattern(e);
+	    				Edge newEdge = InvariantCheckerUtil.copyAsPattern(e);
 	        			((PatternEdge) newEdge).setSameInProp(((PatternEdge) e).getSameInProp());
 	        			((PatternEdge) newEdge).setSameInRule(((PatternEdge) e).getSameInRule());
 	    				newNac.getEdges().add(newEdge);
@@ -500,7 +500,7 @@ public class RuleApplication implements AlgorithmComponent
 	        	 }
 	         }
 	         if (!newNacs.isEmpty()) {
-	        	 g.setCondition(InvariantCheckingUtil.createNegatedConditions(newNacs)); 
+	        	 g.setCondition(InvariantCheckerUtil.createNegatedConditions(newNacs)); 
 	         }
 	                  
 	         
@@ -556,7 +556,7 @@ public class RuleApplication implements AlgorithmComponent
          for (Iterator<Node> iter = src.getNodes().iterator(); iter.hasNext(); )
          {
             PatternNode nextNode = (PatternNode) iter.next();
-            PatternNode newNode = InvariantCheckingUtil.copyAsPattern(nextNode);
+            PatternNode newNode = InvariantCheckerUtil.copyAsPattern(nextNode);
             
             result.getNodes().add (newNode);
             refItems.get(src).put(nextNode, newNode);
@@ -583,7 +583,7 @@ public class RuleApplication implements AlgorithmComponent
          for (Iterator<Edge> iter = src.getEdges().iterator(); iter.hasNext(); )
          {
         	PatternEdge nextEdge = (PatternEdge) iter.next();
-            PatternEdge newEdge = InvariantCheckingUtil.copyAsPattern(nextEdge);
+            PatternEdge newEdge = InvariantCheckerUtil.copyAsPattern(nextEdge);
             
             result.getEdges().add (newEdge);
             refItems.get(src).put(nextEdge, newEdge);

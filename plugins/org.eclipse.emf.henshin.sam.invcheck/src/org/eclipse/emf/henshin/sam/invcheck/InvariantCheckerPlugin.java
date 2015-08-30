@@ -8,7 +8,7 @@ import org.osgi.framework.BundleContext;
 /**
  * This singleton complies to the <code>Abstract Factory</code> paradigm.
  */
-public class InvariantCheckingCore extends Plugin {
+public class InvariantCheckerPlugin extends Plugin {
 
 	public static final String SOLVER_STRATEGIES_EXTENSION_POINT = "org.eclipse.henshin.sam.invcheck.solver";
 	
@@ -59,12 +59,12 @@ public class InvariantCheckingCore extends Plugin {
 	 * No comment provided by developer, please add a comment to improve
 	 * documentation.
 	 */
-	private static InvariantCheckingCore instance = null;
+	private static InvariantCheckerPlugin instance = null;
 
 	/**
 	 * Constructor for class InvariantCheckingCore
 	 */
-	public InvariantCheckingCore() {
+	public InvariantCheckerPlugin() {
 		instance = this;
 	}
 
@@ -74,7 +74,7 @@ public class InvariantCheckingCore extends Plugin {
 	 * 
 	 * @return No description provided
 	 */
-	public static InvariantCheckingCore getDefault() {
+	public static InvariantCheckerPlugin getDefault() {
 		return instance;
 	}
 

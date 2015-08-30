@@ -14,7 +14,7 @@ import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.util.Diagnostician;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.GraphMerger;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.IsomorphicPartMatcher;
@@ -460,7 +460,7 @@ public class GraphMergerTest extends TestCase {
 			Edge ne4 = buildEdge(edgeType, nac);
 			ne4.setSource(nn3);
 			ne4.setTarget(part2.getNodes().get(0));			
-			GraphCondition cond = InvariantCheckingUtil.createNegatedCondition(nac);
+			GraphCondition cond = InvariantCheckerUtil.createNegatedCondition(nac);
 			((RuleGraph) part1).setCondition(cond);
 			
 			part1.getNodes().addAll(part2.getNodes());

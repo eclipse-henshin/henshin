@@ -8,7 +8,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
 import org.eclipse.emf.henshin.sam.model.samannotation.Annotation;
 import org.eclipse.emf.henshin.sam.model.samgraph.Graph;
 import org.eclipse.emf.henshin.sam.model.samgraphcondition.GraphCondition;
@@ -124,7 +124,7 @@ public class CombinationProducer extends AbstractProducer<CombinationProducer.Pa
 	/**
 	 * Tests whether a given {@link GraphCondition} is a so called <emph>Assumed Property</emph><br />
 	 * Technically a <code>GraphCondition</code> is considered as an assumed property if it owns an {@link Annotation},
-	 * whose <code>source</code> property is set to the value of {@link InvariantCheckingCore#ASSUMED_GUARANTEE_ANNOTATION_SOURCE}
+	 * whose <code>source</code> property is set to the value of {@link InvariantCheckerPlugin#ASSUMED_GUARANTEE_ANNOTATION_SOURCE}
 	 * @param cond the <code>GraphCondition</code> to test
 	 * @return <code>true</code> if the <code>GraphCondition</code> is a assumed property, <code>false<code> otherwise. 
 	 */
@@ -132,7 +132,7 @@ public class CombinationProducer extends AbstractProducer<CombinationProducer.Pa
 		boolean result = false;
 		if (cond != null && !cond.getAnnotations().isEmpty()) {
 			for (Annotation anno : cond.getAnnotations()) {
-				if (InvariantCheckingCore.ASSUMED_GUARANTEE_ANNOTATION_SOURCE.equals(anno.getSource())) {
+				if (InvariantCheckerPlugin.ASSUMED_GUARANTEE_ANNOTATION_SOURCE.equals(anno.getSource())) {
 					result = true;
 					break;
 				}

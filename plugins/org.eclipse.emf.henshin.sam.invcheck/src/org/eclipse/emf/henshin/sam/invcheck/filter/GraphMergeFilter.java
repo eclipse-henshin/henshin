@@ -1,6 +1,6 @@
 package org.eclipse.emf.henshin.sam.invcheck.filter;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.GraphMerger;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.RuleApplication;
 import org.eclipse.emf.henshin.sam.invcheck.filter.CombinationProducer.Pair;

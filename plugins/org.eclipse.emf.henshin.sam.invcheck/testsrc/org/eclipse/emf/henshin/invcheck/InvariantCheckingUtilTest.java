@@ -9,7 +9,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.nac.GraphWithNacs;
 import org.eclipse.emf.henshin.sam.invcheck.nac.NacFactory;
@@ -169,7 +169,7 @@ public class InvariantCheckingUtilTest extends TestCase {
 		nac1 = buildNac1();
 		assertNotNull(nac1);
 	
-		gc1 = InvariantCheckingUtil.createNegatedCondition(nac1);
+		gc1 = InvariantCheckerUtil.createNegatedCondition(nac1);
 		assertNotNull(gc1);
 		assertTrue(gc1 instanceof NegatedCondition);
 		
@@ -192,10 +192,10 @@ public class InvariantCheckingUtilTest extends TestCase {
 		assertNotNull(nac23);
 		assertNotNull(nac24);
 	
-		gc21 = InvariantCheckingUtil.createNegatedCondition(nac21);
-		gc22 = InvariantCheckingUtil.createNegatedCondition(nac22);
-		gc23 = InvariantCheckingUtil.createNegatedCondition(nac23);
-		gc24 = InvariantCheckingUtil.createNegatedCondition(nac24);
+		gc21 = InvariantCheckerUtil.createNegatedCondition(nac21);
+		gc22 = InvariantCheckerUtil.createNegatedCondition(nac22);
+		gc23 = InvariantCheckerUtil.createNegatedCondition(nac23);
+		gc24 = InvariantCheckerUtil.createNegatedCondition(nac24);
 		
 		assertNotNull(gc21);
 		assertTrue(gc21 instanceof NegatedCondition);

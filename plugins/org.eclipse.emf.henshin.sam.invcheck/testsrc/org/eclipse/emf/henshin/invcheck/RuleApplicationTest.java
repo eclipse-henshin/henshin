@@ -8,7 +8,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.GCNACAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
@@ -428,7 +428,7 @@ public class RuleApplicationTest extends TestCase {
 		lhs1e3 = buildEdge("EA", ItemType.NONE, lhs1nac1);
 		lhs1e3.setSource(lhs1n3); lhs1e3.setTarget(lhs1n1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(lhs1nac1);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(lhs1nac1);
 		lhs1.setCondition(gc);
 	}
 	
@@ -460,7 +460,7 @@ public class RuleApplicationTest extends TestCase {
 		tgp1e3 = buildEdge("CD", ItemType.NONE, tgp1nac1);
 		tgp1e3.setSource(tgp1n3); tgp1e3.setTarget(tgp1n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(tgp1nac1);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(tgp1nac1);
 		((RuleGraph) tgp1).setCondition(gc);
 		
 		((PatternNode) tgp1n1).setSameInRule(rhs1n1);
@@ -533,7 +533,7 @@ public class RuleApplicationTest extends TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(lhs3nac1);
 		nacs.add(lhs3nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) lhs3).setCondition(gc);
 	}
 	
@@ -568,7 +568,7 @@ public class RuleApplicationTest extends TestCase {
 		tgp3e4 = buildEdge("AH", ItemType.PATTERN, tgp3nac1);
 		tgp3e4.setSource(tgp3n1); tgp3e4.setTarget(tgp3n5);
 				
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(tgp3nac1);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(tgp3nac1);
 		((RuleGraph) tgp3).setCondition(gc);
 		
 		((PatternNode) tgp3n1).setSameInRule(rhs3n1);
@@ -610,7 +610,7 @@ public class RuleApplicationTest extends TestCase {
 		nacs.add(res3nac1);
 		nacs.add(res3nac2);
 		nacs.add(res3nac3);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) res3).setCondition(gc);
 	}
 
@@ -647,7 +647,7 @@ public class RuleApplicationTest extends TestCase {
 		nacs.add(lhs4nac1);
 		nacs.add(lhs4nac2);
 		nacs.add(lhs4nac3);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) lhs4).setCondition(gc);		
 		
 	}
@@ -705,7 +705,7 @@ public class RuleApplicationTest extends TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(tgp4nac1);
 		nacs.add(tgp4nac2);		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) tgp4).setCondition(gc);
 		
 		((PatternNode) tgp4n1).setSameInRule(rhs4n1);
@@ -767,7 +767,7 @@ public class RuleApplicationTest extends TestCase {
 		nacs.add(res4nac3);
 		nacs.add(res4nac4);
 		nacs.add(res4nac5);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) res4).setCondition(gc);
 	}
 	
@@ -783,7 +783,7 @@ public class RuleApplicationTest extends TestCase {
 		lhs5e2 = buildEdge("BC", ItemType.NONE, lhs5nac1);
 		lhs5e2.setSource(lhs5n2); lhs5e2.setTarget(lhs5n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(lhs5nac1);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(lhs5nac1);
 		lhs5.setCondition(gc);
 	}
 	
@@ -802,7 +802,7 @@ public class RuleApplicationTest extends TestCase {
 		lhs5e3 = buildEdge("AB", ItemType.NONE, lhs5);
 		lhs5e3.setSource(lhs5n1); lhs5e3.setTarget(lhs5n4);		
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(lhs5nac1);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(lhs5nac1);
 		lhs5.setCondition(gc);
 	}
 	
@@ -889,7 +889,7 @@ public class RuleApplicationTest extends TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(res5nac1);
 		nacs.add(res5nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) res5).setCondition(gc);
 	}
 	
@@ -909,7 +909,7 @@ public class RuleApplicationTest extends TestCase {
 		res5e2 = buildEdge("BC", ItemType.PATTERN, res5nac1);
 		res5e2.setSource(res5n3); res5e2.setTarget(res5n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(res5nac1);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(res5nac1);
 		((RuleGraph) res5).setCondition(gc);
 	}
 	

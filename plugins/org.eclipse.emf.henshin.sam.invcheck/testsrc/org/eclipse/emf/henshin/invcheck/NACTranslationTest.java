@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.IsomorphicPartMatcher;
@@ -420,7 +420,7 @@ public class NACTranslationTest extends TestCase {
 		pattern1E2 = buildEdge("BC", pattern1Nac);
 		pattern1E2.setSource(pattern1N2); pattern1E2.setTarget(pattern1N3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern1Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern1Nac);
 		((RuleGraph) pattern1).setCondition(gc);
 	}
 	
@@ -463,7 +463,7 @@ public class NACTranslationTest extends TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac1);
 		nacs.add(nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph1).setCondition(gc);
 		
 	}
@@ -497,7 +497,7 @@ public class NACTranslationTest extends TestCase {
 		pattern2E3 = buildEdge("CD", pattern2Nac);
 		pattern2E3.setSource(pattern2N3); pattern2E3.setTarget(pattern2N4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern2Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern2Nac);
 		((RuleGraph) pattern2).setCondition(gc);
 	}
 	
@@ -573,7 +573,7 @@ public class NACTranslationTest extends TestCase {
 		nacs.add(nac2);
 		nacs.add(nac3);
 		nacs.add(nac4);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph2).setCondition(gc);
 		
 		
@@ -605,7 +605,7 @@ public class NACTranslationTest extends TestCase {
 		//pattern3E3 = buildEdge("cd", "CD", pattern3Nac);
 		//pattern3E3.setSource(pattern3N3); pattern3E3.setTarget(pattern3N4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern3Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern3Nac);
 		((RuleGraph) pattern3).setCondition(gc);
 	}
 	
@@ -655,7 +655,7 @@ public class NACTranslationTest extends TestCase {
 		pattern4E4.setSource(pattern4N4); pattern4E4.setTarget(pattern4N5);
 		pattern4E5.setSource(pattern4N5); pattern4E5.setTarget(pattern4N1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern4Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern4Nac);
 		((RuleGraph) pattern4).setCondition(gc);
 	}
 	
@@ -719,7 +719,7 @@ public class NACTranslationTest extends TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac1);
 		nacs.add(nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph4).setCondition(gc);
 	}
 	
@@ -757,7 +757,7 @@ public class NACTranslationTest extends TestCase {
 		pattern5E4.setSource(pattern5N4); pattern5E4.setTarget(pattern5N5);
 		pattern5E5.setSource(pattern5N5); pattern5E5.setTarget(pattern5N1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern5Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern5Nac);
 		((RuleGraph) pattern5).setCondition(gc);
 	}
 	
@@ -847,7 +847,7 @@ public class NACTranslationTest extends TestCase {
 		nacs.add(nac2);
 		nacs.add(nac3);
 		nacs.add(nac4);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph5).setCondition(gc);
 		
 	}
@@ -897,7 +897,7 @@ public class NACTranslationTest extends TestCase {
 		pattern6E5.setSource(pattern6N5); pattern6E5.setTarget(pattern6N6);
 		pattern6E6.setSource(pattern6N6); pattern6E6.setTarget(pattern6N1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern6Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern6Nac);
 		((RuleGraph) pattern6).setCondition(gc);
 	}
 	
@@ -1103,7 +1103,7 @@ public class NACTranslationTest extends TestCase {
 		nacs.add(nac8);
 		//nacs.add(nac9);
 		//nacs.add(nac10);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph6).setCondition(gc);
 
 
@@ -1157,7 +1157,7 @@ public class NACTranslationTest extends TestCase {
 		pattern7E4.setSource(pattern7N3); pattern7E4.setTarget(pattern7N6);
 		pattern7E5.setSource(pattern7N4); pattern7E5.setTarget(pattern7N5);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern7Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern7Nac);
 		((RuleGraph) pattern7).setCondition(gc);
 		
 	}
@@ -1326,7 +1326,7 @@ public class NACTranslationTest extends TestCase {
 		nacs.add(nac6);
 		nacs.add(nac7);
 		nacs.add(nac8);		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph7).setCondition(gc);
 
 	}
@@ -1365,7 +1365,7 @@ public class NACTranslationTest extends TestCase {
 		pattern8E4.setSource(pattern8N4); pattern8E4.setTarget(pattern8N5);
 		pattern8E5.setSource(pattern8N5); pattern8E5.setTarget(pattern8N1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern8Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern8Nac);
 		((RuleGraph) pattern8).setCondition(gc);
 	}
 	
@@ -1469,7 +1469,7 @@ public class NACTranslationTest extends TestCase {
 		nacs.add(nac2);
 		nacs.add(nac3);
 		nacs.add(nac4);				
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph8).setCondition(gc);
 		
 	}
@@ -1498,7 +1498,7 @@ public class NACTranslationTest extends TestCase {
 		sPattern7E4.setSource(sPattern7N3); sPattern7E4.setTarget(sPattern7N6);
 		sPattern7E5.setSource(sPattern7N4); sPattern7E5.setTarget(sPattern7N5);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(sPattern7Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(sPattern7Nac);
 		((RuleGraph) sPattern7).setCondition(gc);
 		
 	}
@@ -1538,13 +1538,13 @@ public class NACTranslationTest extends TestCase {
 		Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();
 		//initialMatching.put(pattern1N1, (Node)pattern1N1.getFromReferenceItems(mergedGraph1));
 		for (Edge e : pattern1.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.put(e, (Edge)e.getFromReferenceItems(mergedGraph1));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern1.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph1));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
@@ -1598,13 +1598,13 @@ public class NACTranslationTest extends TestCase {
 		//initialMatching.put(pattern2N1, (Node)pattern2N1.getFromReferenceItems(mergedGraph2));
 		
 		for (Edge e : pattern2.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.put(e, (Edge)e.getFromReferenceItems(mergedGraph2));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern2.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph2));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
@@ -1676,13 +1676,13 @@ public class NACTranslationTest extends TestCase {
 		
 		
 		for (Edge e : pattern3.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.put(e, (Edge)e.getFromReferenceItems(mergedGraph3));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern3.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph3));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
@@ -1711,13 +1711,13 @@ public class NACTranslationTest extends TestCase {
 		//initialMatching.put(host4E,pattern4E1);
 		
 		for (Edge e : pattern4.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.getEdgeMatching().put(e, (Edge)e.getFromReferenceItems(mergedGraph4));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern4.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph4));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
@@ -1763,13 +1763,13 @@ public class NACTranslationTest extends TestCase {
 		Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();
 
 		for (Edge e : pattern5.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.getEdgeMatching().put(e, (Edge)e.getFromReferenceItems(mergedGraph5));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern5.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph5));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
@@ -1819,13 +1819,13 @@ public class NACTranslationTest extends TestCase {
 		Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();
 
 		for (Edge e : pattern6.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.getEdgeMatching().put(e, (Edge)e.getFromReferenceItems(mergedGraph6));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern6.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph6));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
@@ -1904,13 +1904,13 @@ public class NACTranslationTest extends TestCase {
 		
 
 		for (Edge e : pattern7.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.getEdgeMatching().put(e, (Edge)e.getFromReferenceItems(mergedGraph7));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern7.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph7));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
@@ -2015,13 +2015,13 @@ public class NACTranslationTest extends TestCase {
 		//initialMatching.put(host4E,pattern4E1);
 		
 		for (Edge e : pattern8.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.getEdgeMatching().put(e, (Edge)e.getFromReferenceItems(mergedGraph8));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : pattern8.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph8));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}
@@ -2090,13 +2090,13 @@ public class NACTranslationTest extends TestCase {
 		Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();
 		
 		for (Edge e : sPattern7.getEdges()) {
-			if (!InvariantCheckingUtil.isNegated(e)) {
+			if (!InvariantCheckerUtil.isNegated(e)) {
 				//initialMatching.getEdgeMatching().put(e, (Edge)e.getFromReferenceItems(mergedGraph8));
 				initialMatching.getEdgeMatching().put(e, (Edge) refItems.get(e));
 			}
 		}
 		for (Node n : sPattern7.getNodes()) {
-			if (!InvariantCheckingUtil.isNegated(n)) {
+			if (!InvariantCheckerUtil.isNegated(n)) {
 				//initialMatching.getNodeMatching().put(n, (Node)n.getFromReferenceItems(mergedGraph8));
 				initialMatching.getNodeMatching().put(n, (Node) refItems.get(n));
 			}

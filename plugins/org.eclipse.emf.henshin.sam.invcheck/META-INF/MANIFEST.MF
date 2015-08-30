@@ -15,5 +15,5 @@ Require-Bundle: org.eclipse.emf.henshin.sam.paf,
  org.eclipse.emf.ecore.xmi;bundle-version="2.5.0",
  org.eclipse.emf.henshin.sam.invcheck.nac;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-Activator: org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore
+Bundle-Activator: org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

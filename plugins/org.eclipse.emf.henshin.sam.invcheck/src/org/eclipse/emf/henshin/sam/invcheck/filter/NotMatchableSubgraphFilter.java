@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
 import org.eclipse.emf.henshin.sam.invcheck.filter.CombinationProducer.Pair;
 import org.eclipse.emf.henshin.sam.model.samannotation.AnnotatedElem;
 import org.eclipse.emf.henshin.sam.model.samgraph.Graph;

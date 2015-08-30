@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.invcheck.IsomorphicPartMatcherTest.ItemType;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.GCNACAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.nac.GraphWithNacs;
@@ -304,7 +304,7 @@ public class NACAdapterTest extends TestCase {
 		pattern7E4.setSource(pattern7N3); pattern7E4.setTarget(pattern7N6);
 		pattern7E5.setSource(pattern7N4); pattern7E5.setTarget(pattern7N5);
 		
-		gc1 = InvariantCheckingUtil.createNegatedCondition(pattern7Nac);
+		gc1 = InvariantCheckerUtil.createNegatedCondition(pattern7Nac);
 		((RuleGraph) pattern7).setCondition(gc1);
 		
 		return pattern7;	
@@ -380,10 +380,10 @@ public class NACAdapterTest extends TestCase {
 		e4 = buildEdge("EA", nac4);
 		e4.setSource(nn3); e4.setTarget(n1);
 
-		gc21 = InvariantCheckingUtil.createNegatedCondition(nac1);
-		gc22 = InvariantCheckingUtil.createNegatedCondition(nac2);
-		gc23 = InvariantCheckingUtil.createNegatedCondition(nac3);
-		gc24 = InvariantCheckingUtil.createNegatedCondition(nac4);
+		gc21 = InvariantCheckerUtil.createNegatedCondition(nac1);
+		gc22 = InvariantCheckerUtil.createNegatedCondition(nac2);
+		gc23 = InvariantCheckerUtil.createNegatedCondition(nac3);
+		gc24 = InvariantCheckerUtil.createNegatedCondition(nac4);
 		gc2 = SamgraphconditionFactory.eINSTANCE.createLogicalGCCoupling();
 		((LogicalGCCoupling) gc2).setOperator(LogicalOperator.CONJUNCTION);
 		((LogicalGCCoupling) gc2).getOperands().add(gc21);

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.IsomorphicPartMatcher;
@@ -428,7 +428,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final TestAdapter ta = ipm.new TestAdapter();
 		for (Iterator<Node> niter = pattern.getNodes().iterator(); niter.hasNext(); ) {
 			final Node startNode = niter.next();
-			if (InvariantCheckingUtil.isNegated(startNode) == false) {
+			if (InvariantCheckerUtil.isNegated(startNode) == false) {
 				ipm.reset();
 				ta.setStartNode(startNode);
 				//assertNull(ipm.getNextMatching());
@@ -439,7 +439,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		ipm.setHostGraph(hostGraph);
 		for (Iterator<Node> niter = pattern.getNodes().iterator(); niter.hasNext(); ) {
 			final Node startNode = niter.next();
-			if (InvariantCheckingUtil.isNegated(startNode) == false) {
+			if (InvariantCheckerUtil.isNegated(startNode) == false) {
 				ipm.reset();
 				ta.setStartNode(startNode);
 				//assertCorrectMatch(ipm.getNextMatching()); //the matchers semantic has changed and thus we don't have any match anymore
@@ -493,7 +493,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		for (int i = 0; i < 3; i++) {
 			n = buildNode("a", "A", ItemType.NONE, nac);
 		}
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph)pattern).setCondition(gc);
 		final IsomorphicPartMatcher ipm = new IsomorphicPartMatcher();
 		ipm.setHostGraph(hostGraph);
@@ -604,7 +604,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge pe3 = buildEdge("E", ItemType.NONE, pnac);
 		pe3.setSource(pn2);pe3.setTarget(pn3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pnac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pnac);
 		((RuleGraph) pattern).setCondition(gc);
 		
 		final Graph hostGraph = SamrulesFactory.eINSTANCE.createRuleGraph();
@@ -622,7 +622,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e4 = buildEdge("E", ItemType.NONE, hostGraph);
 		e4.setSource(n2);e4.setTarget(n3);
 		
-		GraphCondition gc2 = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc2 = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc2);
 		
 		final IsomorphicPartMatcher ipm = new IsomorphicPartMatcher();
@@ -643,7 +643,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		Edge higherThan = buildEdge("higher_than", ItemType.NONE, sourceNac);
 		higherThan.setSource(n2); higherThan.setTarget(n1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(sourceNac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(sourceNac);
 		((RuleGraph) sourceGraphPattern).setCondition(gc);
 		
 		final Graph ruleLHS = SamrulesFactory.eINSTANCE.createRuleGraph();
@@ -656,7 +656,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		higherThan = buildEdge("higher_than", ItemType.NONE, ruleNac);
 		higherThan.setSource(n4); higherThan.setTarget(n3);
 		
-		GraphCondition gc2 = InvariantCheckingUtil.createNegatedCondition(ruleNac);
+		GraphCondition gc2 = InvariantCheckerUtil.createNegatedCondition(ruleNac);
 		((RuleGraph) ruleLHS).setCondition(gc2);
 		
 		IsomorphicPartMatcher ipm = new IsomorphicPartMatcher();
@@ -725,14 +725,14 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		e1 = buildEdge("CA", ItemType.NONE, nac3);
 		e1.setSource(n3); e1.setTarget(n5);
 
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) g).setCondition(gc);
 		
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac2);
 		nacs.add(nac3);
 		
-		GraphCondition gc2 = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc2 = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) complexHost).setCondition(gc2);		
 		
 		final IsomorphicPartMatcher ipm = new IsomorphicPartMatcher();
@@ -776,7 +776,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		e1 = buildEdge("CC", ItemType.NONE, nacPattern);
 		e1.setSource(n1); e1.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nacPattern);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nacPattern);
 		((RuleGraph) pattern).setCondition(gc);
 		
 		n1 = buildNode("a", "A", ItemType.NONE, hostGraph);
@@ -808,7 +808,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		e1 = buildEdge("CC", ItemType.NONE, nacHost);
 		e1.setSource(n1); e1.setTarget(n3);
 		
-		GraphCondition gc2 = InvariantCheckingUtil.createNegatedCondition(nacHost);
+		GraphCondition gc2 = InvariantCheckerUtil.createNegatedCondition(nacHost);
 		((RuleGraph) hostGraph).setCondition(gc2);
 		
 		assertContainments(hostGraph);
@@ -847,7 +847,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 			e1 = buildEdge("B", ItemType.NONE, hostNAC);
 			e1.setSource(n1); e1.setTarget(n2);
 			
-			GraphCondition gc2 = InvariantCheckingUtil.createNegatedCondition(hostNAC);
+			GraphCondition gc2 = InvariantCheckerUtil.createNegatedCondition(hostNAC);
 			((RuleGraph) hostGraph).setCondition(gc2);
 			break;
 		}
@@ -858,7 +858,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 			e1 = buildEdge("C", ItemType.NONE, hostNAC);
 			e1.setSource(n1); e1.setTarget(n2);
 			
-			GraphCondition gc3 = InvariantCheckingUtil.createNegatedCondition(hostNAC);
+			GraphCondition gc3 = InvariantCheckerUtil.createNegatedCondition(hostNAC);
 			((RuleGraph) hostGraph).setCondition(gc3);
 			break;
 		}
@@ -872,7 +872,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 			e1 = buildEdge("C", ItemType.NONE, hostNAC);
 			e1.setSource(n1); e1.setTarget(n2);
 			
-			GraphCondition gc3 = InvariantCheckingUtil.createNegatedCondition(hostNAC);
+			GraphCondition gc3 = InvariantCheckerUtil.createNegatedCondition(hostNAC);
 			((RuleGraph) hostGraph).setCondition(gc3);
 			break;
 		}
@@ -885,7 +885,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 			e1 = buildEdge("C", ItemType.NONE, hostNAC);
 			e1.setSource(n1); e1.setTarget(n2);
 			
-			GraphCondition gc3 = InvariantCheckingUtil.createNegatedCondition(hostNAC);
+			GraphCondition gc3 = InvariantCheckerUtil.createNegatedCondition(hostNAC);
 			((RuleGraph) hostGraph).setCondition(gc3);
 			break;
 		}
@@ -907,7 +907,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		e1 = buildEdge("C", ItemType.NONE, patternNAC);
 		e1.setSource(n1); e1.setTarget(n2);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(patternNAC);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(patternNAC);
 		((RuleGraph) pattern).setCondition(gc);
 		
 		Graph hostGraph = buildHostTwoNegative1(0);
@@ -992,7 +992,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		
 		g.getEdges().remove(e2);
 		n.getEdges().add(e2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(n);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(n);
 		((RuleGraph) g).setCondition(gc);
 		assertFalse(ta.testNegatedPredicate(e1, e2));
 		
@@ -1000,14 +1000,14 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		g.getEdges().remove(e1);
 		n.getEdges().add(e1);
 		g.getEdges().add(e2);
-		gc = InvariantCheckingUtil.createNegatedCondition(n);
+		gc = InvariantCheckerUtil.createNegatedCondition(n);
 		((RuleGraph) g).setCondition(gc);		
 		assertFalse(ta.testNegatedPredicate(e1, e2));
 		
 		g.getEdges().remove(e2);
 		n.getEdges().add(e2);
 		n.getEdges().add(e1);
-		gc = InvariantCheckingUtil.createNegatedCondition(n);
+		gc = InvariantCheckerUtil.createNegatedCondition(n);
 		((RuleGraph) g).setCondition(gc);
 
 		assertTrue(ta.testNegatedPredicate(e1, e2));
@@ -1250,7 +1250,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e3 = buildEdge("pays", ItemType.NONE, nac);
 		e3.setSource(n1); e3.setTarget(n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1268,7 +1268,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e3 = buildEdge("pays", ItemType.NONE, nac);
 		e3.setSource(n1); e3.setTarget(n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1293,7 +1293,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e4 = buildEdge("BC", ItemType.NONE, nac);
 		e4.setSource(n5); e4.setTarget(n1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) result).setCondition(gc);
 		
 		return result;
@@ -1313,7 +1313,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e2 = buildEdge("BC", ItemType.NONE, nac);
 		e2.setSource(n2); e2.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) result).setCondition(gc);
 		
 		return result;
@@ -1418,7 +1418,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e3 = buildEdge("CD", ItemType.NONE, nac);
 		e3.setSource(n3); e3.setTarget(n4);		
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1436,7 +1436,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e2 = buildEdge("BC", ItemType.NONE, nac);
 		e2.setSource(n2); e2.setTarget(n3);		
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) subGraph).setCondition(gc);
 		
 		return subGraph;
@@ -1454,7 +1454,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e2 = buildEdge("AC", ItemType.NONE, nac);
 		e2.setSource(n1); e2.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1469,7 +1469,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e1 = buildEdge("AB", ItemType.NONE, nac);
 		e1.setSource(n1); e1.setTarget(n2);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) subGraph).setCondition(gc);
 		
 		return subGraph;
@@ -1492,7 +1492,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		nacs.add(nac1);
 		nacs.add(nac2);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		//nac2.getNodes().add(n3);
@@ -1509,7 +1509,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e1 = buildEdge("AB", ItemType.NONE, nac);
 		e1.setSource(n1); e1.setTarget(n2);				
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) subGraph).setCondition(gc);
 		
 		return subGraph;
@@ -1527,7 +1527,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e2 = buildEdge("BC", ItemType.NONE, nac1);
 		e2.setSource(n2); e2.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac1);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac1);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1578,7 +1578,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e8 = buildEdge("HD", ItemType.NONE, nac);
 		e8.setSource(n8); e8.setTarget(n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1610,7 +1610,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e8 = buildEdge("HD", ItemType.NONE, nac);
 		e8.setSource(n8); e8.setTarget(n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1649,7 +1649,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e8 = buildEdge("HD", ItemType.NONE, nac);
 		e8.setSource(n8); e8.setTarget(n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1684,7 +1684,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e8 = buildEdge("HD", ItemType.NONE, nac);
 		e8.setSource(n8); e8.setTarget(n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1726,7 +1726,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e9 = buildEdge("HI", ItemType.NONE, nac);
 		e9.setSource(n8); e9.setTarget(n9);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1764,7 +1764,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e9 = buildEdge("HI", ItemType.NONE, nac);
 		e9.setSource(n8); e9.setTarget(n9);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1786,7 +1786,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e3 = buildEdge("AC", ItemType.NONE, nac);		
 		e3.setSource(n1); e3.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1808,7 +1808,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		final Edge e3 = buildEdge("AC", ItemType.NONE, nac);		
 		e3.setSource(n1); e3.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		((RuleGraph) hostGraph).setCondition(gc);
 		
 		return hostGraph;
@@ -1838,7 +1838,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		pattern7E4.setSource(pattern7N3); pattern7E4.setTarget(pattern7N6);
 		pattern7E5.setSource(pattern7N4); pattern7E5.setTarget(pattern7N5);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(pattern7Nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(pattern7Nac);
 		((RuleGraph) pattern7).setCondition(gc);
 		
 		return pattern7;	
@@ -1976,7 +1976,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		//nacs.add(nac6);
 		//nacs.add(nac7);
 		//nacs.add(nac8);		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph7).setCondition(gc);
 		
 		return resultGraph7;
@@ -2134,7 +2134,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		nacs.add(nac2);
 		nacs.add(nac3);
 		nacs.add(nac4);				
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) resultGraph8).setCondition(gc);
 		
 		return resultGraph8;
@@ -2255,7 +2255,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		Edge e2 = buildEdge("BC",  ItemType.PATTERN, nac);
 		e2.setSource(n2); e2.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;
@@ -2275,7 +2275,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		Edge e3 = buildEdge("BC",  ItemType.PATTERN, nac);
 		e3.setSource(n3); e3.setTarget(n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;
@@ -2302,7 +2302,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac1);
 		nacs.add(nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;
@@ -2327,7 +2327,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac1);
 		nacs.add(nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;
@@ -2342,7 +2342,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		Edge e2 = buildEdge("BC",  ItemType.PATTERN, nac);
 		e2.setSource(n2); e2.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;
@@ -2369,7 +2369,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac1);
 		nacs.add(nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;
@@ -2399,7 +2399,7 @@ public class IsomorphicPartMatcherTest extends junit.framework.TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac1);
 		nacs.add(nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);		
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;

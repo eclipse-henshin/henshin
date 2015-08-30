@@ -290,10 +290,10 @@ public class SubgraphIterator implements Iterator<Set<AnnotatedElem>> {
 		Map<NodeType, Integer> nodeTypes = null;
 		Map<EdgeType, Integer> edgeTypes = null;
 		if (forbidden != null) {
-			nodeTypes = InvariantCheckingUtil.calculateNodeTypeCount(forbidden);
+			nodeTypes = InvariantCheckerUtil.calculateNodeTypeCount(forbidden);
 		}
 		if (forbidden != null) {
-			edgeTypes = InvariantCheckingUtil.calculateEdgeTypeCount(forbidden);
+			edgeTypes = InvariantCheckerUtil.calculateEdgeTypeCount(forbidden);
 		}
 		
 		if (forbidden == null) {
@@ -683,7 +683,7 @@ public class SubgraphIterator implements Iterator<Set<AnnotatedElem>> {
 			} else {
 				if (!matching.getNodeMatching().containsKey(src)) {
 					for (Annotation an : nac1.getAnnotations()) {
-						if (an.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM) && an.getTarget() == src) {
+						if (an.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM) && an.getTarget() == src) {
 							Node n = src.copy();
 							g.getNodes().add(n);
 							matching.getNodeMatching().put(src, n);
@@ -705,7 +705,7 @@ public class SubgraphIterator implements Iterator<Set<AnnotatedElem>> {
 			} else {
 				if (!matching.getEdgeMatching().containsKey(src)) {
 					for (Annotation an : nac1.getAnnotations()) {
-						if (an.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM) && an.getTarget() == src) {
+						if (an.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM) && an.getTarget() == src) {
 							Edge e = src.copy();
 							g.getEdges().add(e);
 							e.setSource(matching.getNodeMatching().get(src.getSource()));
@@ -774,7 +774,7 @@ public class SubgraphIterator implements Iterator<Set<AnnotatedElem>> {
 			} else {
 				if (!matching.getNodeMatching().containsKey(src)) {
 					for (Annotation an : nac1.getAnnotations()) {
-						if (an.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM) && an.getTarget() == src) {
+						if (an.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM) && an.getTarget() == src) {
 							Node n = src.copy();
 							g.getNodes().add(n);
 							matching.getNodeMatching().put(src, n);
@@ -796,7 +796,7 @@ public class SubgraphIterator implements Iterator<Set<AnnotatedElem>> {
 			} else {
 				if (!matching.getEdgeMatching().containsKey(src)) {
 					for (Annotation an : nac1.getAnnotations()) {
-						if (an.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM) && an.getTarget() == src) {
+						if (an.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM) && an.getTarget() == src) {
 							Edge e = src.copy();
 							g.getEdges().add(e);
 							e.setSource(matching.getNodeMatching().get(src.getSource()));
@@ -855,13 +855,13 @@ public class SubgraphIterator implements Iterator<Set<AnnotatedElem>> {
 		for (Edge src : nac.getEdges()) {
 			if (src.partOfNacInterface()) {
 				//if (!nac.getNodes().contains(src.getSource()) && !tmp.getNodeMatching().containsKey(src.getSource())) {
-				if (!InvariantCheckingUtil.isNegated(src.getSource()) && !tmp.getNodeMatching().containsKey(src.getSource())) {
+				if (!InvariantCheckerUtil.isNegated(src.getSource()) && !tmp.getNodeMatching().containsKey(src.getSource())) {
 					Node n = src.getSource().copy();
 					//n.setGraph(result);
 					result.getNodes().add(n);
 					tmp.getNodeMatching().put(src.getSource(), n);
 				}				
-				if (!InvariantCheckingUtil.isNegated(src.getTarget()) && !tmp.getNodeMatching().containsKey(src.getTarget())) {
+				if (!InvariantCheckerUtil.isNegated(src.getTarget()) && !tmp.getNodeMatching().containsKey(src.getTarget())) {
 					Node n = src.getTarget().copy();
 					//n.setGraph(result);
 					result.getNodes().add(n);
@@ -929,7 +929,7 @@ public class SubgraphIterator implements Iterator<Set<AnnotatedElem>> {
 		if (subgraph != null) {
 			for (Iterator<AnnotatedElem> iter = subgraph.iterator(); iter.hasNext();) {
 				AnnotatedElem next = iter.next();
-				if (next instanceof Node && !(InvariantCheckingUtil.isNegated((Node) next))) {
+				if (next instanceof Node && !(InvariantCheckerUtil.isNegated((Node) next))) {
 					Node node = (Node) next;
 					Integer i = m.get(node.getInstanceOf());
 					if (i != null) {

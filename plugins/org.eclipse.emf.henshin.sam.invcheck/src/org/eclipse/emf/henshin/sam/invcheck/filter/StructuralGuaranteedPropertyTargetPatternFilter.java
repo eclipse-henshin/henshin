@@ -9,7 +9,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
 import org.eclipse.emf.henshin.sam.invcheck.filter.CombinationProducer.Pair;
 import org.eclipse.emf.henshin.sam.invcheck.nac.NegativeApplicationCondition;
 import org.eclipse.emf.henshin.sam.model.samannotation.Annotation;
@@ -94,7 +94,7 @@ public class StructuralGuaranteedPropertyTargetPatternFilter extends
 		boolean result = false;
 		if (cond != null && !cond.getAnnotations().isEmpty()) {
 			for (Annotation anno : cond.getAnnotations()) {
-				if (InvariantCheckingCore.ASSUMED_GUARANTEE_ANNOTATION_SOURCE.equals(anno.getSource())) {
+				if (InvariantCheckerPlugin.ASSUMED_GUARANTEE_ANNOTATION_SOURCE.equals(anno.getSource())) {
 					result = true;
 					break;
 				}

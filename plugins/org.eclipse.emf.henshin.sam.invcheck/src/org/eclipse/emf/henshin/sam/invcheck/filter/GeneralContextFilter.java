@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.ContextGenerator;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.NACTranslator;
@@ -60,7 +60,7 @@ public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, 
 				passed++;
 				return;
 			}
-			Match newSGPMatch = InvariantCheckingUtil.copyAsRuleGraph(sgp);
+			Match newSGPMatch = InvariantCheckerUtil.copyAsRuleGraph(sgp);
 			RuleGraph newSGP = null;
 			for (Map.Entry<Node, Node> entry : newSGPMatch.getNodeMatching()) {
 				if (entry.getValue() != null) {
@@ -74,7 +74,7 @@ public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, 
 					partial = false;
 				}
 				for (Annotation ann : nac.getAnnotations()) {
-					if (ann.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM)) {
+					if (ann.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM)) {
 						if (SamgraphPackage.eINSTANCE.getNode().isSuperTypeOf(ann.getTarget().eClass())) {
 							Node n = (Node) ann.getTarget();
 							if (!initialMatching.getNodeMatching().containsKey(n)) {

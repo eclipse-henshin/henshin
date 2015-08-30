@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.OptimizedSubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
@@ -312,7 +312,7 @@ public class NACTranslator implements AlgorithmComponent {
 			if (incoherentNac) {
 				NegativeApplicationCondition fullNac = NacFactory.eINSTANCE.createNegativeApplicationCondition();
 				for (Node n : nac.getNodes()) {
-					Node newNodeInMerged = InvariantCheckingUtil.copyAsPattern(n);
+					Node newNodeInMerged = InvariantCheckerUtil.copyAsPattern(n);
 					if (fromProperty) {
 						((PatternNode) newNodeInMerged).setSameInProp(n);
 					} else {
@@ -322,7 +322,7 @@ public class NACTranslator implements AlgorithmComponent {
 					currentMatching.getNodeMatching().put(n, newNodeInMerged);
 				}
 				for (Edge e : nac.getEdges()) {
-					Edge newEdgeInMerged = InvariantCheckingUtil.copyAsPattern(e);
+					Edge newEdgeInMerged = InvariantCheckerUtil.copyAsPattern(e);
 					if (fromProperty) {
 						((PatternEdge) newEdgeInMerged).setSameInProp(e);
 					} else {
@@ -512,7 +512,7 @@ public class NACTranslator implements AlgorithmComponent {
 							currentNewm.put(copyInMergedGraph, n); // new
 						} else {
 							// node does not match another node, so create it (copy the orignial node in the NAC)
-							Node newNodeInMerged = InvariantCheckingUtil.copyAsPattern(n);
+							Node newNodeInMerged = InvariantCheckerUtil.copyAsPattern(n);
 							if (fromProperty) {
 								((PatternNode) newNodeInMerged).setSameInProp(n);
 							} else {
@@ -552,7 +552,7 @@ public class NACTranslator implements AlgorithmComponent {
 							// No match was found for the current edge, so copy it and get source
 							// and target node from the currentMatching.
 							// Since all the nodes have been processed before, source and target will exist.
-							Edge newEdgeInMerged = InvariantCheckingUtil.copyAsPattern(e);
+							Edge newEdgeInMerged = InvariantCheckerUtil.copyAsPattern(e);
 							if (fromProperty) {
 								((PatternEdge) newEdgeInMerged).setSameInProp(e);
 							} else {
@@ -687,7 +687,7 @@ public class NACTranslator implements AlgorithmComponent {
 				}
 			}
 			//System.out.println("number of subgraphs: " + number);
-			mergedGraph.setCondition(InvariantCheckingUtil.addNegatedConditions(mergedGraph.getCondition(), newNacs));
+			mergedGraph.setCondition(InvariantCheckerUtil.addNegatedConditions(mergedGraph.getCondition(), newNacs));
 			//System.out.println("np-removed: " + (remNo / (remNo + newNacs.size())));
 			this.reset();
 			//System.out.println("single + number: " + generateAll + ": " + i);
@@ -737,7 +737,7 @@ public class NACTranslator implements AlgorithmComponent {
 	 */
 	private boolean checkSubgraphValidity(Set<AnnotatedElem> subgraph, NegativeApplicationCondition nac, Match nacConversion) {
 		// nac different from graph in iterator!
-		Match tmpMatch = InvariantCheckingUtil.copyAsRuleGraph(this.mergedGraph);
+		Match tmpMatch = InvariantCheckerUtil.copyAsRuleGraph(this.mergedGraph);
 		Graph host = null; 
 		for (Node n : tmpMatch.getNodeMatching().values()) {
 			host = (Graph) n.eContainer();
@@ -880,7 +880,7 @@ public class NACTranslator implements AlgorithmComponent {
 			if (incoherentNac) {
 				NegativeApplicationCondition fullNac = NacFactory.eINSTANCE.createNegativeApplicationCondition();
 				for (Node n : nac.getNodes()) {
-					Node newNodeInMerged = InvariantCheckingUtil.copyAsPattern(n);
+					Node newNodeInMerged = InvariantCheckerUtil.copyAsPattern(n);
 					if (fromProperty) {
 						((PatternNode) newNodeInMerged).setSameInProp(n);
 					} else {
@@ -890,7 +890,7 @@ public class NACTranslator implements AlgorithmComponent {
 					currentMatching.getNodeMatching().put(n, newNodeInMerged);
 				}
 				for (Edge e : nac.getEdges()) {
-					Edge newEdgeInMerged = InvariantCheckingUtil.copyAsPattern(e);
+					Edge newEdgeInMerged = InvariantCheckerUtil.copyAsPattern(e);
 					if (fromProperty) {
 						((PatternEdge) newEdgeInMerged).setSameInProp(e);
 					} else {
@@ -1086,7 +1086,7 @@ public class NACTranslator implements AlgorithmComponent {
 							currentNewm.put(copyInMergedGraph, n); // new
 						} else {
 							// node does not match another node, so create it (copy the orignial node in the NAC)
-							Node newNodeInMerged = InvariantCheckingUtil.copyAsPattern(n);
+							Node newNodeInMerged = InvariantCheckerUtil.copyAsPattern(n);
 							if (fromProperty) {
 								((PatternNode) newNodeInMerged).setSameInProp(n);
 							} else {
@@ -1126,7 +1126,7 @@ public class NACTranslator implements AlgorithmComponent {
 							// No match was found for the current edge, so copy it and get source
 							// and target node from the currentMatching.
 							// Since all the nodes have been processed before, source and target will exist.
-							Edge newEdgeInMerged = InvariantCheckingUtil.copyAsPattern(e);
+							Edge newEdgeInMerged = InvariantCheckerUtil.copyAsPattern(e);
 							if (fromProperty) {
 								((PatternEdge) newEdgeInMerged).setSameInProp(e);
 							} else {
@@ -1208,7 +1208,7 @@ public class NACTranslator implements AlgorithmComponent {
 				}
 			}
 			//System.out.println("number of subgraphs: " + number);
-			mergedGraph.setCondition(InvariantCheckingUtil.addNegatedConditions(mergedGraph.getCondition(), newNacs));
+			mergedGraph.setCondition(InvariantCheckerUtil.addNegatedConditions(mergedGraph.getCondition(), newNacs));
 			//System.out.println("np-removed: " + (remNo / (remNo + newNacs.size())));
 			this.reset();
 			//System.out.println("valid: " + valid);
@@ -1626,7 +1626,7 @@ public class NACTranslator implements AlgorithmComponent {
 			//if (!sgIter.hasNext()) {
 			NegativeApplicationCondition fullNac = NacFactory.eINSTANCE.createNegativeApplicationCondition();
 			for (Node n : nac.getNodes()) {
-				Node newNodeInMerged = InvariantCheckingUtil.copyAsPattern(n);
+				Node newNodeInMerged = InvariantCheckerUtil.copyAsPattern(n);
 				if (fromProperty) {
 					((PatternNode) newNodeInMerged).setSameInProp(n);
 				} else {
@@ -1636,7 +1636,7 @@ public class NACTranslator implements AlgorithmComponent {
 				currentMatching.getNodeMatching().put(n, newNodeInMerged);
 			}
 			for (Edge e : nac.getEdges()) {
-				Edge newEdgeInMerged = InvariantCheckingUtil.copyAsPattern(e);
+				Edge newEdgeInMerged = InvariantCheckerUtil.copyAsPattern(e);
 				if (fromProperty) {
 					((PatternEdge) newEdgeInMerged).setSameInProp(e);
 				} else {
@@ -1654,13 +1654,13 @@ public class NACTranslator implements AlgorithmComponent {
 			}
 			for (Node n : initialMatching.getNodeMatching().values()) {
 				Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-				an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+				an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 				an.setTarget(n);
 				fullNac.getAnnotations().add(an);
 			}
 			for (Edge e : initialMatching.getEdgeMatching().values()) {
 				Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-				an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+				an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 				an.setTarget(e);
 				fullNac.getAnnotations().add(an);
 			}
@@ -1668,7 +1668,7 @@ public class NACTranslator implements AlgorithmComponent {
 			for (Node n : extractedNodes) {
 				if (!initialMatching.getNodeMatching().containsValue(n)) {
 					Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-					an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+					an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 					an.setTarget(n);
 					fullNac.getAnnotations().add(an);
 				}
@@ -1676,7 +1676,7 @@ public class NACTranslator implements AlgorithmComponent {
 			for (Edge e : extractedEdges) {
 				if (!initialMatching.getEdgeMatching().containsValue(e)) {
 					Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-					an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+					an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 					an.setTarget(e);
 					fullNac.getAnnotations().add(an);
 				}
@@ -1857,7 +1857,7 @@ public class NACTranslator implements AlgorithmComponent {
 							newNac.getAnnotations().add(an);*/
 						} else {
 							// node does not match another node, so create it (copy the original node in the NAC)
-							Node newNodeInMerged = InvariantCheckingUtil.copyAsPattern(n);
+							Node newNodeInMerged = InvariantCheckerUtil.copyAsPattern(n);
 							if (fromProperty) {
 								((PatternNode) newNodeInMerged).setSameInProp(n);
 							} else {
@@ -1902,7 +1902,7 @@ public class NACTranslator implements AlgorithmComponent {
 							// No match was found for the current edge, so copy it and get source
 							// and target node from the currentMatching.
 							// Since all the nodes have been processed before, source and target will exist.
-							Edge newEdgeInMerged = InvariantCheckingUtil.copyAsPattern(e);
+							Edge newEdgeInMerged = InvariantCheckerUtil.copyAsPattern(e);
 							if (fromProperty) {
 								((PatternEdge) newEdgeInMerged).setSameInProp(e);
 							} else {
@@ -1930,13 +1930,13 @@ public class NACTranslator implements AlgorithmComponent {
 					// we need to put all items from the pattern as bound items to the annotations of a potentially partial NAC ...
 					for (Node n : initialMatching.getNodeMatching().values()) {
 						Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-						an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+						an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 						an.setTarget(n);
 						newNac.getAnnotations().add(an);
 					}
 					for (Edge e : initialMatching.getEdgeMatching().values()) {
 						Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-						an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+						an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 						an.setTarget(e);
 						newNac.getAnnotations().add(an);
 					}
@@ -1944,7 +1944,7 @@ public class NACTranslator implements AlgorithmComponent {
 					for (Node n : extractedNodes) {
 						if (!initialMatching.getNodeMatching().containsValue(n)) {
 							Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-							an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+							an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 							an.setTarget(n);
 							newNac.getAnnotations().add(an);
 						}
@@ -1952,14 +1952,14 @@ public class NACTranslator implements AlgorithmComponent {
 					for (Edge e : extractedEdges) {
 						if (!initialMatching.getEdgeMatching().containsValue(e)) {
 							Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-							an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+							an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 							an.setTarget(e);
 							newNac.getAnnotations().add(an);
 						}
 					}
 				}
 				
-				mergedGraph.setCondition(InvariantCheckingUtil.addNegatedConditions(mergedGraph.getCondition(), newNacs));
+				mergedGraph.setCondition(InvariantCheckerUtil.addNegatedConditions(mergedGraph.getCondition(), newNacs));
 				if (mergedGraph.getCondition() != null) {
 					if (mergedGraph.getCondition().eClass() == SamgraphconditionPackage.eINSTANCE.getLogicalGCCoupling()) {
 						//System.out.println("repeated: " + ((LogicalGCCoupling) mergedGraph.getCondition()).getOperands().size());						
@@ -2120,7 +2120,7 @@ public class NACTranslator implements AlgorithmComponent {
 							newNac.getAnnotations().add(an);*/
 						} else {
 							// node does not match another node, so create it (copy the original node in the NAC)
-							Node newNodeInMerged = InvariantCheckingUtil.copyAsPattern(n);
+							Node newNodeInMerged = InvariantCheckerUtil.copyAsPattern(n);
 							if (fromProperty) {
 								((PatternNode) newNodeInMerged).setSameInProp(n);
 							} else {
@@ -2165,7 +2165,7 @@ public class NACTranslator implements AlgorithmComponent {
 							// No match was found for the current edge, so copy it and get source
 							// and target node from the currentMatching.
 							// Since all the nodes have been processed before, source and target will exist.
-							Edge newEdgeInMerged = InvariantCheckingUtil.copyAsPattern(e);
+							Edge newEdgeInMerged = InvariantCheckerUtil.copyAsPattern(e);
 							if (fromProperty) {
 								((PatternEdge) newEdgeInMerged).setSameInProp(e);
 							} else {
@@ -2254,13 +2254,13 @@ public class NACTranslator implements AlgorithmComponent {
 						// we need to put all items from the pattern as bound items to the annotations of a potentially partial NAC ...
 						for (Node n : initialMatching.getNodeMatching().values()) {
 							Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-							an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+							an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 							an.setTarget(n);
 							newNac.getAnnotations().add(an);
 						}
 						for (Edge e : initialMatching.getEdgeMatching().values()) {
 							Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-							an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+							an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 							an.setTarget(e);
 							newNac.getAnnotations().add(an);
 						}
@@ -2268,7 +2268,7 @@ public class NACTranslator implements AlgorithmComponent {
 						for (Node n : extractedNodes) {
 							if (!initialMatching.getNodeMatching().containsValue(n)) {
 								Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-								an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+								an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 								an.setTarget(n);
 								newNac.getAnnotations().add(an);
 							}
@@ -2276,7 +2276,7 @@ public class NACTranslator implements AlgorithmComponent {
 						for (Edge e : extractedEdges) {
 							if (!initialMatching.getEdgeMatching().containsValue(e)) {
 								Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-								an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+								an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 								an.setTarget(e);
 								newNac.getAnnotations().add(an);
 							}
@@ -2306,7 +2306,7 @@ public class NACTranslator implements AlgorithmComponent {
 			this.previousMirroredExtractedMatch = mirroredExtractedSGMatch.copy();
 
 			//System.out.println("number of subgraphs: " + number);			
-			mergedGraph.setCondition(InvariantCheckingUtil.addNegatedConditions(mergedGraph.getCondition(), newNacs));
+			mergedGraph.setCondition(InvariantCheckerUtil.addNegatedConditions(mergedGraph.getCondition(), newNacs));
 			this.reset();
 			//System.out.println("removed: " + (remNo / (remNo + newNacs.size())));
 			//System.out.println("twice: " + tw);

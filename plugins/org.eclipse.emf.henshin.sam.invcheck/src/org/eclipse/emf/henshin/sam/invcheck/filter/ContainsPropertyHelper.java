@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.IsomorphicPartPartialMatcher;
 import org.eclipse.emf.henshin.sam.invcheck.filter.CombinationProducer.Pair;
@@ -124,7 +124,7 @@ public class ContainsPropertyHelper {
 		Match m = SamtraceFactory.eINSTANCE.createMatch();
 		for (Node n : sourceGraph.getNodes()) {
 			if (((PatternNode) n).getSameInRule() == null || ((PatternNode) n).getSameInRule().eClass() == SamrulesPackage.eINSTANCE.getPreservedNode()) {
-				Node newNode = InvariantCheckingUtil.copyAsPattern(n);
+				Node newNode = InvariantCheckerUtil.copyAsPattern(n);
 				preservedSubgraph.getNodes().add(newNode);
 				m.getNodeMatching().put(n, newNode);
 			} else if (((PatternNode) n).getSameInRule().eClass() == SamrulesPackage.eINSTANCE.getCreatedNode()) {
@@ -144,7 +144,7 @@ public class ContainsPropertyHelper {
 		}
 		for (Edge e : sourceGraph.getEdges()) {
 			if (((PatternEdge) e).getSameInRule() == null || ((PatternEdge) e).getSameInRule().eClass() == SamrulesPackage.eINSTANCE.getPreservedEdge()) {
-				Edge newEdge = InvariantCheckingUtil.copyAsPattern(e);
+				Edge newEdge = InvariantCheckerUtil.copyAsPattern(e);
 				newEdge.setSource(m.getNodeMatching().get(e.getSource()));
 				newEdge.setTarget(m.getNodeMatching().get(e.getTarget()));
 				preservedSubgraph.getEdges().add(newEdge);				

@@ -1,6 +1,6 @@
 package org.eclipse.emf.henshin.sam.invcheck.filter;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.NACTranslator;
 import org.eclipse.emf.henshin.sam.invcheck.filter.CombinationProducer.Pair;
 import org.eclipse.emf.henshin.sam.invcheck.nac.PatternEdge;
@@ -84,7 +84,7 @@ public class NacTranslationFilter extends FilterSkeleton<Pair<Pair<Graph, GraphR
 			Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();			
 			
 			for (Edge e : pattern.getEdges()) {
-				if (!InvariantCheckingUtil.isNegated(e)) {
+				if (!InvariantCheckerUtil.isNegated(e)) {
 					for (Edge m : mergedGraph.getEdges()) {
 						if (((PatternEdge) m).getSameInProp() == e) {
 							initialMatching.getEdgeMatching().put(e, m);							
@@ -93,7 +93,7 @@ public class NacTranslationFilter extends FilterSkeleton<Pair<Pair<Graph, GraphR
 				}
 			}
 			for (Node n : pattern.getNodes()) {
-				if (!InvariantCheckingUtil.isNegated(n)) {
+				if (!InvariantCheckerUtil.isNegated(n)) {
 					for (Node m : mergedGraph.getNodes()) {
 						if (((PatternNode) m).getSameInProp() == n) {
 							initialMatching.getNodeMatching().put(n, m);

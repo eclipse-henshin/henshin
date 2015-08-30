@@ -1,0 +1,205 @@
+package org.eclipse.emf.henshin.sam.invcheck;
+
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.sam.paf.AbstractFilter;
+import org.eclipse.emf.henshin.sam.paf.ConsumerFactory;
+import org.eclipse.emf.henshin.sam.paf.DefaultPipe;
+import org.eclipse.emf.henshin.sam.paf.FilterDispatcher;
+import org.eclipse.emf.henshin.sam.paf.FilterFactory;
+import org.eclipse.emf.henshin.sam.paf.IConsumer;
+import org.eclipse.emf.henshin.sam.paf.IFilter;
+import org.eclipse.emf.henshin.sam.paf.IPipe;
+import org.eclipse.emf.henshin.sam.paf.IProducer;
+import org.eclipse.emf.henshin.sam.paf.PAFActivator;
+import org.eclipse.emf.henshin.sam.paf.ProducerFactory;
+import org.eclipse.emf.henshin.sam.paf.preferences.PAFPreferenceConstants;
+
+public class InvariantChecker {
+
+	private int threads_low = 1;
+	private int threads_med = 1;
+	private int threads_high = 1;
+
+	public Map<String, Map<String, String>> run(EObject vt, Map<String, Map<String, Boolean>> options,
+			boolean fileOutput, boolean usePredefinedChain, String predefinedChain, String selectedProducer,
+			String selectedConsumer, List<?> filterList, IProgressMonitor monitor) throws CoreException {
+
+		monitor.beginTask("Running Pipe & Filter Configuration", IProgressMonitor.UNKNOWN);
+
+		initNumberOfThreads();
+
+		Map<String, List<IConfigurationElement>> extensions = PAFActivator.getDefault().getFilterFactory()
+				.getAllConfigFields();
+		extensions.putAll(PAFActivator.getDefault().getConsumerFactory().getAllConfigFields());
+		extensions.putAll(PAFActivator.getDefault().getProducerFactory().getAllConfigFields());
+
+		final FilterDispatcher fd = new FilterDispatcher(options, fileOutput);
+		fd.setFilterInput(vt);
+
+		if (!usePredefinedChain) {
+			final Map<String, Integer> filterMap = new LinkedHashMap<String, Integer>();
+			for (Object o : filterList) {
+				filterMap.put(o.toString(), 1);
+			}
+			buildFilterChain(fd, selectedProducer, selectedConsumer, filterMap);
+		} else {
+			final IConfigurationElement[] iCEs = PAFActivator.getDefault().getAllFilterChains();
+			String tmpName = null;
+			int index = -1;
+			for (int i = 0; index < 0 && i < iCEs.length; i++) {
+				tmpName = iCEs[i].getNamespaceIdentifier() + "/" + iCEs[i].getAttribute("name");
+				if (tmpName.equals(predefinedChain)) {
+					index = i;
+				}
+			}
+			final IConfigurationElement theConfigurationElement = iCEs[index];
+			IConfigurationElement[] tmpICEArray = theConfigurationElement.getChildren("consumerFilterChainEntry");
+			IConfigurationElement consumer = tmpICEArray[0];
+			tmpICEArray = theConfigurationElement.getChildren("producerFilterChainEntry");
+			IConfigurationElement producer = tmpICEArray[0];
+			tmpICEArray = theConfigurationElement.getChildren("filterChainEntry");
+			Map<String, Integer> filters = new LinkedHashMap<String, Integer>(tmpICEArray.length);
+			int numOthreads = 1;
+			String complexity;
+			for (IConfigurationElement filter : tmpICEArray) {
+				complexity = filter.getAttribute("complexity");
+				if (complexity != null) {
+					if (complexity.equals("LOW")) {
+						numOthreads = this.threads_low;
+					} else if (complexity.equals("MEDIUM")) {
+						numOthreads = this.threads_med;
+					} else if (complexity.equals("HIGH")) {
+						numOthreads = this.threads_high;
+					} else {
+						numOthreads = 1;
+					}
+				} else {
+					numOthreads = 1;
+				}
+				filters.put(filter.getAttribute("referencedFilter"), numOthreads);
+			}
+
+			buildFilterChain(fd, producer.getAttribute("referencedProducer"),
+					consumer.getAttribute("referencedConsumer"), filters);
+		}
+		final long timeStart = System.currentTimeMillis();
+		long timeEnd = 0L;
+		fd.startFilter();
+
+		/*
+		 * start a small and light thread that periodically checks, whether the
+		 * user has requested to cancel the execution of the currently running
+		 * LaunchConfiguration. The thread wakes up every second.
+		 */
+		final WatchDog watchdog = this.new WatchDog(fd, monitor);
+		new Thread(watchdog, "The monitor monitor").start();
+
+		try {
+			fd.waitOnTermination();
+			watchdog.stop();
+			timeEnd = System.currentTimeMillis();
+			final Map<String, Map<String, String>> compuResults = fd.getComputationDetails();
+			Map<String, String> generalInformation = new LinkedHashMap<String, String>();
+			generalInformation.put("Computation time", Long.toString(timeEnd - timeStart));
+			for (Map.Entry<IFilter<?, ?>, Long> entry : fd.getCPUTimePerFilter().entrySet()) {
+				// generalInformation.put("CPU time for: " +
+				// entry.getKey().getName(), new Long((entry.getValue() /
+				// 1000)).toString());
+				generalInformation.put("CPU time for: " + entry.getKey(), entry.getValue().toString());
+			}
+			generalInformation.put("fileOutput", new Boolean(fileOutput).toString());
+			compuResults.put("General Information", generalInformation);
+			return compuResults;
+
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		} finally {
+			monitor.done();
+		}
+	}
+
+	private void initNumberOfThreads() {
+		this.threads_low = Platform.getPreferencesService().getInt(PAFActivator.PLUGIN_ID,
+				PAFPreferenceConstants.THREADS_COMPLEXITY_LOW, 1, null);
+		this.threads_med = Platform.getPreferencesService().getInt(PAFActivator.PLUGIN_ID,
+				PAFPreferenceConstants.THREADS_COMPLEXITY_MEDIUM, 1, null);
+		this.threads_high = Platform.getPreferencesService().getInt(PAFActivator.PLUGIN_ID,
+				PAFPreferenceConstants.THREADS_COMPLEXITY_HIGH, 1, null);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void buildFilterChain(final FilterDispatcher fd, final String producer, final String consumer,
+			final Map<String, Integer> filter) {
+		final FilterFactory ff = PAFActivator.getDefault().getFilterFactory();
+
+		final ProducerFactory pf = PAFActivator.getDefault().getProducerFactory();
+
+		final ConsumerFactory cf = PAFActivator.getDefault().getConsumerFactory();
+
+		final IProducer<?> theProducer = pf.createProducer(producer);
+		theProducer.setFilterDispatcher(fd);
+		IPipe inputPipe = null;
+		IPipe outputPipe = new DefaultPipe();
+		outputPipe.setFilterDispatcher(fd);
+		theProducer.getOutputPipes().put(AbstractFilter.DEFAULT_OUTPUT, outputPipe);
+
+		for (Iterator<Map.Entry<String, Integer>> iter = filter.entrySet().iterator(); iter.hasNext();) {
+			final Map.Entry<String, Integer> entry = iter.next();
+			inputPipe = outputPipe;
+			outputPipe = new DefaultPipe();
+			outputPipe.setFilterDispatcher(fd);
+			for (int i = 0; i < entry.getValue(); i++) {
+				IFilter<?, ?> theFilter = ff.createFilter(entry.getKey());
+				theFilter.setFilterDispatcher(fd);
+				inputPipe.incrementReaders();
+				theFilter.getInputPipes().put(AbstractFilter.DEFAULT_INPUT, inputPipe);
+				theFilter.getOutputPipes().put(AbstractFilter.DEFAULT_OUTPUT, outputPipe);
+			}
+		}
+
+		final IConsumer theConsumer = cf.createConsumer(consumer);
+		theConsumer.setFilterDispatcher(fd);
+		outputPipe.incrementReaders();
+		theConsumer.getInputPipes().put(AbstractFilter.DEFAULT_INPUT, outputPipe);
+	}
+
+	private class WatchDog implements Runnable {
+		private IProgressMonitor monitor;
+		private FilterDispatcher fd;
+		private boolean running;
+
+		public WatchDog(final FilterDispatcher cFd, final IProgressMonitor cMonitor) {
+			this.monitor = cMonitor;
+			this.fd = cFd;
+			this.running = true;
+		}
+
+		public void stop() {
+			this.running = false;
+		}
+
+		public void run() {
+			while (this.running && fd.isContinueComputation() && (monitor.isCanceled() == false)) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
+				if (monitor.isCanceled()) {
+					fd.setContinueComputation(false);
+				}
+			}
+			fd = null;
+			monitor = null;
+		}
+	}
+
+}

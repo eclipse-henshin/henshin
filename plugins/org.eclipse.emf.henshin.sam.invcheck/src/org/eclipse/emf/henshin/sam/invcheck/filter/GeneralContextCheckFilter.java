@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.IsomorphicPartMatcher;
@@ -241,7 +241,7 @@ public class GeneralContextCheckFilter extends FilterSkeleton<GraphVerificationD
 			Graph sgp = this.currentInput.sourceGraph;
 			// might contain partial NACs. translate NACs to complete graph.
 			
-			Match newSGPMatch = InvariantCheckingUtil.copyAsRuleGraph(sgp);
+			Match newSGPMatch = InvariantCheckerUtil.copyAsRuleGraph(sgp);
 			RuleGraph newSGP = null;
 			for (Map.Entry<Node, Node> entry : newSGPMatch.getNodeMatching()) {
 				if (entry.getValue() != null) {
@@ -252,7 +252,7 @@ public class GeneralContextCheckFilter extends FilterSkeleton<GraphVerificationD
 			for (NegativeApplicationCondition nac : SamGraphInvCheckGraphAdapter.getInstance(sgp).getNacs()) {
 				boolean partial = false;
 				for (Annotation ann : nac.getAnnotations()) {
-					if (ann.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM)) {
+					if (ann.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM)) {
 						partial = true;
 					}
 				}
@@ -261,14 +261,14 @@ public class GeneralContextCheckFilter extends FilterSkeleton<GraphVerificationD
 					Match nacCopy = newSGPMatch.copy();
 					NegativeApplicationCondition newNac = NacFactory.eINSTANCE.createNegativeApplicationCondition();
 					for (Node n : nac.getNodes()) {
-						PatternNode newNode = InvariantCheckingUtil.copyAsPattern(n);
+						PatternNode newNode = InvariantCheckerUtil.copyAsPattern(n);
 						newNode.setSameInProp(((PatternNode) n).getSameInProp());
 						newNode.setSameInRule(((PatternNode) n).getSameInRule());
 						nacCopy.getNodeMatching().put(n,  newNode);
 						newNac.getNodes().add(newNode);
 					}
 					for (Edge e : nac.getEdges()) {
-						PatternEdge newEdge = InvariantCheckingUtil.copyAsPattern(e);
+						PatternEdge newEdge = InvariantCheckerUtil.copyAsPattern(e);
 						newEdge.setSameInProp(((PatternEdge) e).getSameInProp());
 						newEdge.setSameInRule(((PatternEdge) e).getSameInRule());
 						nacCopy.getEdgeMatching().put(e,  newEdge);
@@ -276,12 +276,12 @@ public class GeneralContextCheckFilter extends FilterSkeleton<GraphVerificationD
 						newEdge.setTarget(nacCopy.getNodeMatching().get(e.getTarget()));
 						newNac.getEdges().add(newEdge);
 					}
-					newSGP.setCondition(InvariantCheckingUtil.addNegatedCondition(newSGP.getCondition(), newNac));
+					newSGP.setCondition(InvariantCheckerUtil.addNegatedCondition(newSGP.getCondition(), newNac));
 				} else {
 					// translate NAC
 					Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();
 					for (Annotation ann : nac.getAnnotations()) {
-						if (ann.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM)) {
+						if (ann.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM)) {
 							if (SamgraphPackage.eINSTANCE.getNode().isSuperTypeOf(ann.getTarget().eClass())) {
 								Node n = (Node) ann.getTarget();
 								if (!initialMatching.getNodeMatching().containsKey(n)) {

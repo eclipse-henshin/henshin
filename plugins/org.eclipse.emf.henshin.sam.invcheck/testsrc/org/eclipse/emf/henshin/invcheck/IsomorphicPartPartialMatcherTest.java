@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingCore;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerPlugin;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.SubgraphIterator;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.algorithm.IsomorphicPartPartialMatcher;
@@ -318,7 +318,7 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		Edge e2 = buildEdge("BC",  ItemType.PATTERN, nac);
 		e2.setSource(n2); e2.setTarget(n3);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;
@@ -345,7 +345,7 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac1);
 		nacs.add(nac2);
-		GraphCondition gc = InvariantCheckingUtil.createNegatedConditions(nacs);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) result).setCondition(gc);		
 		
 		return result;
@@ -369,10 +369,10 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		//((PatternNode) n1).setSameInProp(shadow1);
 		
 		Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(n1);		
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		gc.getAnnotations().add(an);
 		((RuleGraph) result).setCondition(gc);		
 		
@@ -399,13 +399,13 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		((PatternNode) n2).setSameInProp(shadow2);*/
 		
 		Annotation an1 = SamannotationFactory.eINSTANCE.createAnnotation();
-		an1.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an1.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an1.setTarget(n1);
 		Annotation an2 = SamannotationFactory.eINSTANCE.createAnnotation();
-		an2.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an2.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an2.setTarget(n2);
 				
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);
 		gc.getAnnotations().add(an1);
 		gc.getAnnotations().add(an2);
 		((RuleGraph) result).setCondition(gc);		
@@ -447,7 +447,7 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		((PatternNode) tgp1n1).setSameInProp(n1);		
 		initialMatching1.getNodeMatching().put(n1, tgp1n1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);
 		
 		return result;
@@ -463,7 +463,7 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		Edge e3 = buildEdge("BC",  ItemType.PATTERN, nac);
 		e3.setSource(n2); e3.setTarget(n4);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);
 		
 		return result;
@@ -536,7 +536,7 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		((PatternNode) tgp2n1).setSameInProp(n1);		
 		initialMatching2.getNodeMatching().put(n1, tgp2n1);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);
 		
 		return result;
@@ -682,7 +682,7 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		Edge e6 = buildEdge("front",  ItemType.PATTERN, nac);
 		e6.setSource(n4); e6.setTarget(n5);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);
 		
 		return result;
@@ -712,44 +712,44 @@ public class IsomorphicPartPartialMatcherTest extends junit.framework.TestCase {
 		Edge e7 = buildEdge("front",  ItemType.PATTERN, nac);
 		e7.setSource(n4); e7.setTarget(n5);
 		
-		GraphCondition gc = InvariantCheckingUtil.createNegatedCondition(nac);		
+		GraphCondition gc = InvariantCheckerUtil.createNegatedCondition(nac);		
 		((RuleGraph) result).setCondition(gc);
 		
 		Annotation an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(n1);
 		gc.getAnnotations().add(an);
 		an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(n2);
 		gc.getAnnotations().add(an);
 		an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(n3);
 		gc.getAnnotations().add(an);
 		an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(n4);
 		gc.getAnnotations().add(an);
 		
 		an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(e1);
 		gc.getAnnotations().add(an);
 		an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(e2);
 		gc.getAnnotations().add(an);
 		an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(e3);
 		gc.getAnnotations().add(an);
 		an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(e4);
 		gc.getAnnotations().add(an);
 		an = SamannotationFactory.eINSTANCE.createAnnotation();
-		an.setSource(InvariantCheckingCore.NAC_BOUND_ITEM);
+		an.setSource(InvariantCheckerPlugin.NAC_BOUND_ITEM);
 		an.setTarget(e5);
 		gc.getAnnotations().add(an);
 		

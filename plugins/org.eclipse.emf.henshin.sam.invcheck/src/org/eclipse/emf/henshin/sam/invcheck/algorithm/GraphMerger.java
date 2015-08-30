@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.nac.PatternEdge;
 import org.eclipse.emf.henshin.sam.invcheck.nac.PatternNode;
 import org.eclipse.emf.henshin.sam.model.samannotation.AnnotatedElem;
@@ -89,7 +89,7 @@ public class GraphMerger implements AlgorithmComponent
          final Node srcNode = iter.next();
          if (!refItems.get(srcGraph).containsKey(srcNode))
          {        	 
-        	PatternNode resultNode = InvariantCheckingUtil.copyAsPattern(srcNode);
+        	PatternNode resultNode = InvariantCheckerUtil.copyAsPattern(srcNode);
         	 
             resultGraph.getNodes().add(resultNode);
             refItems.get(srcGraph).put(srcNode, resultNode);
@@ -105,7 +105,7 @@ public class GraphMerger implements AlgorithmComponent
          final Edge srcEdge = iter.next();
          if (!refItems.get(srcGraph).containsKey(srcEdge))
          {
-        	PatternEdge resultEdge = InvariantCheckingUtil.copyAsPattern(srcEdge);
+        	PatternEdge resultEdge = InvariantCheckerUtil.copyAsPattern(srcEdge);
             resultGraph.getEdges().add(resultEdge);
             refItems.get(srcGraph).put(srcEdge, resultEdge);
             if (isForbidden) {

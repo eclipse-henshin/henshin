@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.invcheck.IsomorphicPartMatcherTest.ItemType;
-import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckingUtil;
+import org.eclipse.emf.henshin.sam.invcheck.InvariantCheckerUtil;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.GCNACAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.adapter.SamGraphInvCheckGraphAdapter;
 import org.eclipse.emf.henshin.sam.invcheck.nac.GraphWithNacs;
@@ -180,7 +180,7 @@ public class GraphAdapterTest extends TestCase {
 		Set<NegativeApplicationCondition> nacs = new HashSet<NegativeApplicationCondition>();
 		nacs.add(nac11);
 		nacs.add(nac12);
-		gc12 = InvariantCheckingUtil.createNegatedConditions(nacs);
+		gc12 = InvariantCheckerUtil.createNegatedConditions(nacs);
 		((RuleGraph) pattern).setCondition(gc12);
 		
 		GraphWithNacs ng2 = (GraphWithNacs) SamGraphInvCheckGraphAdapter.getInstance(pattern);

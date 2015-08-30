@@ -35,7 +35,7 @@ import org.eclipse.emf.henshin.sam.model.samtypegraph.EdgeType;
 import org.eclipse.emf.henshin.sam.model.samtypegraph.NodeType;
 import org.eclipse.emf.henshin.sam.model.samtypegraph.SamtypegraphPackage;
 
-public class InvariantCheckingUtil {
+public class InvariantCheckerUtil {
 	
 	public static PatternNode copyAsPattern(Node n) {
 		PatternNode result = NacFactory.eINSTANCE.createPatternNode();
@@ -272,7 +272,7 @@ public class InvariantCheckingUtil {
 		}
 		for (NegativeApplicationCondition nac : SamGraphInvCheckGraphAdapter.getInstance(graph).getNacs()) {
 			for (Annotation an : nac.getAnnotations()) {
-				if (an.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM)) {
+				if (an.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM)) {
 					if (!graph.getNodes().contains(an.getTarget()) && !graph.getEdges().contains(an.getTarget())) {
 						throw new RuntimeException("something strange happened");
 					}
@@ -286,7 +286,7 @@ public class InvariantCheckingUtil {
 				}
 			}
 			for (Annotation an : nac.getAnnotations()) {
-				if (an.getSource().equals(InvariantCheckingCore.NAC_BOUND_ITEM)) {
+				if (an.getSource().equals(InvariantCheckerPlugin.NAC_BOUND_ITEM)) {
 					if (!graph.getNodes().contains(an.getTarget()) && !graph.getEdges().contains(an.getTarget())) {
 						throw new RuntimeException("something strange happened");
 					}
