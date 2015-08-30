@@ -32,28 +32,25 @@ import org.eclipse.emf.henshin.sam.paf.FilterSkeleton;
 import org.eclipse.emf.henshin.sam.paf.annotation.ResultDictEntry;
 
 public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, GraphVerificationData> {
-	
+
 	private ContextGenerator prover;
-	
+
 	private NACTranslator nacT;
-	
-	private int i = 0;
-	
-	private boolean printDebug;
-	
-	@ResultDictEntry(entryName="discarded")
+
+	@ResultDictEntry(entryName = "discarded")
 	private int discarded = 0;
-	
-	@ResultDictEntry(entryName="passed")
+
+	@ResultDictEntry(entryName = "passed")
 	private int passed = 0;
-	
+
 	private Set<RuleGraph> constraints;
 	private Set<Graph> resConstraints;
-	
+
 	public void produce() {
 		try {
 			RuleGraph sgp;
-			if (SamrulesPackage.eINSTANCE.getRuleGraph().isSuperTypeOf(this.currentInput.sourceGraph.eClass()) && ((RuleGraph) this.currentInput.sourceGraph).getCondition() != null) {
+			if (SamrulesPackage.eINSTANCE.getRuleGraph().isSuperTypeOf(this.currentInput.sourceGraph.eClass())
+					&& ((RuleGraph) this.currentInput.sourceGraph).getCondition() != null) {
 				sgp = (RuleGraph) this.currentInput.sourceGraph;
 			} else {
 				this.defaultOutputPipe.queue(this.currentInput);
@@ -67,8 +64,8 @@ public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, 
 					newSGP = (RuleGraph) entry.getValue().eContainer();
 				}
 			}
-			Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();			
-			boolean partial = true;			
+			Match initialMatching = SamtraceFactory.eINSTANCE.createMatch();
+			boolean partial = true;
 			for (NegativeApplicationCondition nac : SamGraphInvCheckGraphAdapter.getInstance(sgp).getNacs()) {
 				if (nac.getAnnotations().isEmpty()) {
 					partial = false;
@@ -85,7 +82,7 @@ public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, 
 							if (!initialMatching.getEdgeMatching().containsKey(e)) {
 								initialMatching.getEdgeMatching().put(e, newSGPMatch.getEdgeMatching().get(e));
 							}
-						} 
+						}
 					}
 				}
 			}
@@ -94,7 +91,7 @@ public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, 
 			nacT.setMergedGraph(newSGP);
 			nacT.setInitialMatching(initialMatching);
 			nacT.reset();
-			//partial = false;
+			// partial = false;
 			if (partial) {
 				finalSGP = nacT.translate();
 				if (finalSGP == null) {
@@ -104,45 +101,44 @@ public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, 
 				finalSGP = sgp;
 			}
 			prover.setProofGoal(finalSGP);
-				
-						
+
 			if (prover.proof()) {
-				//System.out.println("proven");
+				// System.out.println("proven");
 				discarded++;
 				return;
 			} else {
-				//System.out.println("not proven");
+				// System.out.println("not proven");
 				passed++;
 				this.defaultOutputPipe.queue(this.currentInput);
 			}
-			
+
 		} catch (InterruptedException ie) {
 			this.running = false;
 		}
-		
+
 	}
-	
-	
+
 	@Override
 	protected void initData() {
 		this.prover = new ContextGenerator();
-		
+
 		Assert.isNotNull(this.getFilterDispatcher());
 		Assert.isNotNull(this.getFilterDispatcher().getFilterInput());
-		
+
 		final EObject theEObject = this.getFilterDispatcher().getFilterInput();
 		Assert.isTrue(theEObject.eClass() == SamrulesPackage.eINSTANCE.getGTS());
 		final GTS theGTS = (GTS) theEObject;
 		this.constraints = new HashSet<RuleGraph>();
 		this.resConstraints = new HashSet<Graph>();
-		
+
 		for (TypeGraphCondition g : theGTS.getTypes().get(0).getConditions()) {
 			if (g.eClass() == SamgraphconditionPackage.eINSTANCE.getNegatedCondition()) {
 				NegatedCondition nc = (NegatedCondition) g;
 				if (nc.getOperand().eClass() == SamgraphconditionPackage.eINSTANCE.getQuantification()) {
 					Quantification q = (Quantification) nc.getOperand();
 					Graph graph = q.getContext();
-					if (/*!nc.getName().equals("noFire-noSend") && */SamrulesPackage.eINSTANCE.getRuleGraph().isSuperTypeOf(graph.eClass()) && ((RuleGraph) graph).getCondition() != null) {
+					if (/* !nc.getName().equals("noFire-noSend") && */SamrulesPackage.eINSTANCE.getRuleGraph()
+							.isSuperTypeOf(graph.eClass()) && ((RuleGraph) graph).getCondition() != null) {
 						this.constraints.add((RuleGraph) graph);
 					} else {
 						this.resConstraints.add(graph);
@@ -156,11 +152,12 @@ public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, 
 						if (neg.getOperand().eClass() == SamgraphconditionPackage.eINSTANCE.getQuantification()) {
 							Quantification q = (Quantification) neg.getOperand();
 							Graph graph = q.getContext();
-							if (/*!neg.getName().equals("noFire-noSend") && */SamrulesPackage.eINSTANCE.getRuleGraph().isSuperTypeOf(graph.eClass()) && ((RuleGraph) graph).getCondition() != null) {
+							if (/* !neg.getName().equals("noFire-noSend") && */SamrulesPackage.eINSTANCE.getRuleGraph()
+									.isSuperTypeOf(graph.eClass()) && ((RuleGraph) graph).getCondition() != null) {
 								this.constraints.add((RuleGraph) graph);
 							} else {
 								this.resConstraints.add(graph);
-							}							
+							}
 						}
 					}
 				}
@@ -168,14 +165,13 @@ public class GeneralContextFilter extends FilterSkeleton<GraphVerificationData, 
 		}
 		prover.setGenerationConstraints(this.constraints);
 		prover.setRestrictingConstraints(this.resConstraints);
-		
+
 	}
-	
+
 	@Override
 	protected void initFilter() {
 		super.initFilter();
-		this.filterName = "GeneralContexetFilter";	
+		this.filterName = "GeneralContexetFilter";
 		this.nacT = new NACTranslator();
-		this.printDebug = this.getOption("printDebug");
-	}	
+	}
 }

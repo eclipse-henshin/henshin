@@ -4,8 +4,8 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.emf.henshin.sam.invcheck.nac.NegativeApplicationCondition;
 import org.eclipse.emf.henshin.sam.model.samgraphcondition.GraphCondition;
 
-public class GraphConditionNACAdapterFactory implements IAdapterFactory{
-	
+public class GraphConditionNACAdapterFactory implements IAdapterFactory {
+
 	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adapterType == NegativeApplicationCondition.class) {
@@ -16,7 +16,7 @@ public class GraphConditionNACAdapterFactory implements IAdapterFactory{
 
 	@Override
 	public Class[] getAdapterList() {
-		return new Class[] {NegativeApplicationCondition.class};
+		return new Class[] { NegativeApplicationCondition.class };
 	}
 
 }

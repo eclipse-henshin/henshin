@@ -22,24 +22,28 @@ import org.eclipse.emf.henshin.sam.model.samrules.SamrulesPackage;
 import org.eclipse.emf.henshin.sam.model.samtypegraph.TypeGraph;
 
 public class SamGraphInvCheckGraphAdapter extends EObjectImpl implements GraphWithNacs {
-	
+
 	private EList<NegativeApplicationCondition> nacs;
 	private org.eclipse.emf.henshin.sam.model.samgraph.Graph graph;
-	
-	private static Map<Graph, SamGraphInvCheckGraphAdapter> instances = Collections.synchronizedMap(new WeakHashMap<Graph, SamGraphInvCheckGraphAdapter>());
-//	private static Map<Graph, SamGraphInvCheckGraphAdapter> instances = new ConcurrentHashMap<Graph, SamGraphInvCheckGraphAdapter>();
-	
+
+	private static Map<Graph, SamGraphInvCheckGraphAdapter> instances = Collections
+			.synchronizedMap(new WeakHashMap<Graph, SamGraphInvCheckGraphAdapter>());
+	// private static Map<Graph, SamGraphInvCheckGraphAdapter> instances = new
+	// ConcurrentHashMap<Graph, SamGraphInvCheckGraphAdapter>();
+
 	public static SamGraphInvCheckGraphAdapter getInstance(Graph g) {
 		if (instances.get(g) != null) {
 			if (g.eClass() != SamrulesPackage.eINSTANCE.getRuleGraph()) {
 				return instances.get(g);
 			} else if (((RuleGraph) g).getCondition() == null) {
 				return instances.get(g);
-			} else if (((RuleGraph) g).getCondition().eClass() == SamgraphconditionPackage.eINSTANCE.getNegatedCondition()) {
+			} else if (((RuleGraph) g).getCondition().eClass() == SamgraphconditionPackage.eINSTANCE
+					.getNegatedCondition()) {
 				if (instances.get(g).nacs.size() == 1) {
 					return instances.get(g);
 				}
-			} else if (((RuleGraph) g).getCondition().eClass() == SamgraphconditionPackage.eINSTANCE.getLogicalGCCoupling()) {
+			} else if (((RuleGraph) g).getCondition().eClass() == SamgraphconditionPackage.eINSTANCE
+					.getLogicalGCCoupling()) {
 				RuleGraph rg = (RuleGraph) g;
 				if (((LogicalGCCoupling) rg.getCondition()).getOperands().size() == instances.get(g).nacs.size()) {
 					boolean equal = true;
@@ -54,7 +58,7 @@ public class SamGraphInvCheckGraphAdapter extends EObjectImpl implements GraphWi
 				}
 			}
 		}
-		
+
 		if (g.eClass() == SamrulesPackage.eINSTANCE.getRuleGraph()) {
 			RuleGraph rG = (RuleGraph) g;
 			if (rG.getCondition() != null) {
@@ -62,37 +66,49 @@ public class SamGraphInvCheckGraphAdapter extends EObjectImpl implements GraphWi
 					LogicalGCCoupling conditions = (LogicalGCCoupling) rG.getCondition();
 					EList<NegativeApplicationCondition> nacs = new BasicEList<NegativeApplicationCondition>();
 					for (GraphCondition cond : conditions.getOperands()) {
-						//NegativeApplicationCondition nac = (NegativeApplicationCondition) Platform.getAdapterManager().getAdapter(cond, NegativeApplicationCondition.class);
-						NegativeApplicationCondition nac = (NegativeApplicationCondition) GCNACAdapter.getInstance(cond);
+						// NegativeApplicationCondition nac =
+						// (NegativeApplicationCondition)
+						// Platform.getAdapterManager().getAdapter(cond,
+						// NegativeApplicationCondition.class);
+						NegativeApplicationCondition nac = (NegativeApplicationCondition) GCNACAdapter
+								.getInstance(cond);
 						if (nac != null) {
-							//nacs.add((NegativeApplicationCondition) Platform.getAdapterManager().getAdapter(cond, NegativeApplicationCondition.class));
+							// nacs.add((NegativeApplicationCondition)
+							// Platform.getAdapterManager().getAdapter(cond,
+							// NegativeApplicationCondition.class));
 							nacs.add((NegativeApplicationCondition) GCNACAdapter.getInstance(cond));
-						}						
+						}
 					}
 					SamGraphInvCheckGraphAdapter adapter = new SamGraphInvCheckGraphAdapter(nacs, g);
-					//instances.put(g, adapter);
+					// instances.put(g, adapter);
 					return adapter;
 				} else {
 					EList<NegativeApplicationCondition> nacs = new BasicEList<NegativeApplicationCondition>();
-					//NegativeApplicationCondition nac = (NegativeApplicationCondition) Platform.getAdapterManager().getAdapter(rG.getCondition(), NegativeApplicationCondition.class);
-					NegativeApplicationCondition nac = (NegativeApplicationCondition) GCNACAdapter.getInstance(rG.getCondition());
+					// NegativeApplicationCondition nac =
+					// (NegativeApplicationCondition)
+					// Platform.getAdapterManager().getAdapter(rG.getCondition(),
+					// NegativeApplicationCondition.class);
+					NegativeApplicationCondition nac = (NegativeApplicationCondition) GCNACAdapter
+							.getInstance(rG.getCondition());
 					nacs.add(nac);
 					SamGraphInvCheckGraphAdapter adapter = new SamGraphInvCheckGraphAdapter(nacs, g);
-					//instances.put(g, adapter);
+					// instances.put(g, adapter);
 					return adapter;
 				}
 			} else {
-				SamGraphInvCheckGraphAdapter adapter = new SamGraphInvCheckGraphAdapter(new BasicEList<NegativeApplicationCondition>(), g); 
-				//instances.put(g, adapter);
+				SamGraphInvCheckGraphAdapter adapter = new SamGraphInvCheckGraphAdapter(
+						new BasicEList<NegativeApplicationCondition>(), g);
+				// instances.put(g, adapter);
 				return adapter;
 			}
 		} else {
-			SamGraphInvCheckGraphAdapter adapter = new SamGraphInvCheckGraphAdapter(new BasicEList<NegativeApplicationCondition>(), g); 
-			//instances.put(g, adapter);
+			SamGraphInvCheckGraphAdapter adapter = new SamGraphInvCheckGraphAdapter(
+					new BasicEList<NegativeApplicationCondition>(), g);
+			// instances.put(g, adapter);
 			return adapter;
 		}
 	}
-	
+
 	private SamGraphInvCheckGraphAdapter(EList<NegativeApplicationCondition> nacs, Graph g) {
 		this.nacs = nacs;
 		this.graph = g;
@@ -130,7 +146,7 @@ public class SamGraphInvCheckGraphAdapter extends EObjectImpl implements GraphWi
 
 	@Override
 	public void setTypedOver(TypeGraph value) {
-		graph.setTypedOver(value);		
+		graph.setTypedOver(value);
 	}
 
 	@Override

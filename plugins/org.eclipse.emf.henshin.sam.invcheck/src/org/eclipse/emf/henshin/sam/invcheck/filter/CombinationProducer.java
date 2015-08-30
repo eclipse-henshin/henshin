@@ -26,42 +26,37 @@ import org.eclipse.emf.henshin.sam.paf.IPipe;
 import org.eclipse.emf.henshin.sam.paf.annotation.ResultDictEntry;
 
 public class CombinationProducer extends AbstractProducer<CombinationProducer.Pair<Graph, GraphRule>> {
-	
+
 	private final static String name = "CombinationProducer";
-	
+
 	private boolean printDebug;
-	
+
 	private boolean alive = true;
-	
-	@ResultDictEntry(entryName="generatedPairs")
+
+	@ResultDictEntry(entryName = "generatedPairs")
 	private int producedItems = 0;
-	
-	private Map<String, IPipe<Pair<Graph,GraphRule>>> outputPipes;
-	
-	public static class Pair<T,S> {
+
+	private Map<String, IPipe<Pair<Graph, GraphRule>>> outputPipes;
+
+	public static class Pair<T, S> {
 		public T first;
 		public S second;
+
 		public Pair(T f, S sec) {
 			this.first = f;
 			this.second = sec;
 		}
 	}
-	
-	private Graph[] properties;
-	
-	private GraphRule[] rules;
-	
-	private FilterDispatcher filterDispatcher;
-	
 
-	@Deprecated
-	public CombinationProducer(Graph[] props, GraphRule[] crules) {
-		this.properties = props;
-		this.rules = crules;
+	private Graph[] properties;
+
+	private GraphRule[] rules;
+
+	private FilterDispatcher filterDispatcher;
+
+	public CombinationProducer() {
 	}
-	
-	public CombinationProducer(){}
-	
+
 	public Graph[] getProperties() {
 		return properties;
 	}
@@ -77,27 +72,28 @@ public class CombinationProducer extends AbstractProducer<CombinationProducer.Pa
 	public void setRules(GraphRule[] rules) {
 		this.rules = rules;
 	}
-	
+
 	public Map<String, IPipe<Pair<Graph, GraphRule>>> getOutputPipes() {
 		if (this.outputPipes == null) {
-			this.outputPipes = new HashMap<String, IPipe<Pair<Graph,GraphRule>>>();
+			this.outputPipes = new HashMap<String, IPipe<Pair<Graph, GraphRule>>>();
 		}
 		return this.outputPipes;
 	}
 
 	protected void initData() {
 		this.printDebug = this.getOption("printDebug");
-		
+
 		Assert.isNotNull(this.getFilterDispatcher());
 		Assert.isNotNull(this.getFilterDispatcher().getFilterInput());
-		
+
 		final EObject theEObject = this.getFilterDispatcher().getFilterInput();
 		Assert.isTrue(theEObject.eClass() == SamrulesPackage.eINSTANCE.getGTS());
 		final GTS theGTS = (GTS) theEObject;
-		
+
 		List<Graph> forbidden = new BasicEList<Graph>();
 		for (TypeGraphCondition g : theGTS.getTypes().get(0).getConditions()) {
-			if (g.eClass() == SamgraphconditionPackage.eINSTANCE.getNegatedCondition() && (isAssumedProperty((GraphCondition)g)==false)) {
+			if (g.eClass() == SamgraphconditionPackage.eINSTANCE.getNegatedCondition()
+					&& (isAssumedProperty((GraphCondition) g) == false)) {
 				NegatedCondition nc = (NegatedCondition) g;
 				if (nc.getOperand().eClass() == SamgraphconditionPackage.eINSTANCE.getQuantification()) {
 					Quantification q = (Quantification) nc.getOperand();
@@ -106,7 +102,8 @@ public class CombinationProducer extends AbstractProducer<CombinationProducer.Pa
 			} else if (g.eClass() == SamgraphconditionPackage.eINSTANCE.getLogicalGCCoupling()) {
 				LogicalGCCoupling lgc = (LogicalGCCoupling) g;
 				for (GraphCondition gc : lgc.getOperands()) {
-					if (gc.eClass() == SamgraphconditionPackage.eINSTANCE.getNegatedCondition() && (isAssumedProperty(gc)==false)) {
+					if (gc.eClass() == SamgraphconditionPackage.eINSTANCE.getNegatedCondition()
+							&& (isAssumedProperty(gc) == false)) {
 						NegatedCondition neg = (NegatedCondition) gc;
 						if (neg.getOperand().eClass() == SamgraphconditionPackage.eINSTANCE.getQuantification()) {
 							Quantification q = (Quantification) neg.getOperand();
@@ -118,15 +115,21 @@ public class CombinationProducer extends AbstractProducer<CombinationProducer.Pa
 		}
 		this.properties = forbidden.toArray(new Graph[forbidden.size()]);
 		this.rules = theGTS.getRules().toArray(new GraphRule[theGTS.getRules().size()]);
-		
+
 	}
-	
+
 	/**
-	 * Tests whether a given {@link GraphCondition} is a so called <emph>Assumed Property</emph><br />
-	 * Technically a <code>GraphCondition</code> is considered as an assumed property if it owns an {@link Annotation},
-	 * whose <code>source</code> property is set to the value of {@link InvariantCheckerPlugin#ASSUMED_GUARANTEE_ANNOTATION_SOURCE}
-	 * @param cond the <code>GraphCondition</code> to test
-	 * @return <code>true</code> if the <code>GraphCondition</code> is a assumed property, <code>false<code> otherwise. 
+	 * Tests whether a given {@link GraphCondition} is a so called <emph>Assumed
+	 * Property</emph><br />
+	 * Technically a <code>GraphCondition</code> is considered as an assumed
+	 * property if it owns an {@link Annotation}, whose <code>source</code>
+	 * property is set to the value of
+	 * {@link InvariantCheckerPlugin#ASSUMED_GUARANTEE_ANNOTATION_SOURCE}
+	 * 
+	 * @param cond
+	 *            the <code>GraphCondition</code> to test
+	 * @return <code>true</code> if the <code>GraphCondition</code> is a assumed
+	 *         property, <code>false<code> otherwise.
 	 */
 	private boolean isAssumedProperty(GraphCondition cond) {
 		boolean result = false;
@@ -141,26 +144,26 @@ public class CombinationProducer extends AbstractProducer<CombinationProducer.Pa
 		return result;
 	}
 
-	public String getName() {		
+	public String getName() {
 		return CombinationProducer.name;
 	}
 
 	public void produce() {
 		try {
-			//Arrays.sort(this.rules, new GraphRuleComparator());
+			// Arrays.sort(this.rules, new GraphRuleComparator());
 			for (int i = 0; i < this.properties.length; i++) {
 				for (int j = 0; j < this.rules.length; j++) {
-					Pair<Graph, GraphRule> pair = new Pair<Graph, GraphRule>(
-							this.properties[i], this.rules[j]);
+					Pair<Graph, GraphRule> pair = new Pair<Graph, GraphRule>(this.properties[i], this.rules[j]);
 					producedItems++;
 					if (printDebug) {
-						this.println(">>> DEBUG >>> CombinationProducer >>> produced pair: ("+this.properties[i]+";"+this.rules[j]+")");
+						this.println(">>> DEBUG >>> CombinationProducer >>> produced pair: (" + this.properties[i] + ";"
+								+ this.rules[j] + ")");
 					}
-					for (Iterator<IPipe<Pair<Graph, GraphRule>>> iter = this.getOutputPipes().values().iterator(); iter.hasNext();) {
+					for (Iterator<IPipe<Pair<Graph, GraphRule>>> iter = this.getOutputPipes().values().iterator(); iter
+							.hasNext();) {
 						// TODO: Avoid blocking when enquing in completely
 						// filled IPipe
-						IPipe<Pair<Graph, GraphRule>> nextPipe = iter
-								.next();
+						IPipe<Pair<Graph, GraphRule>> nextPipe = iter.next();
 
 						nextPipe.queue(pair);
 						// check if we have to stop
@@ -170,11 +173,11 @@ public class CombinationProducer extends AbstractProducer<CombinationProducer.Pa
 				}
 			}
 		} catch (InterruptedException ie) {
-			
-		}
-		finally {
+
+		} finally {
 			// close all connected outputpipes before leaving this method!!
-			for (Iterator<IPipe<Pair<Graph, GraphRule>>> iter = this.getOutputPipes().values().iterator(); iter.hasNext();) {
+			for (Iterator<IPipe<Pair<Graph, GraphRule>>> iter = this.getOutputPipes().values().iterator(); iter
+					.hasNext();) {
 				iter.next().close();
 			}
 		}
@@ -192,7 +195,7 @@ public class CombinationProducer extends AbstractProducer<CombinationProducer.Pa
 
 	public void reset() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public boolean setFilterDispatcher(FilterDispatcher value) {

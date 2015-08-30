@@ -4,8 +4,8 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.emf.henshin.sam.invcheck.nac.GraphWithNacs;
 import org.eclipse.emf.henshin.sam.model.samgraph.Graph;
 
-public class SamGraphInvCheckGraphAdapterFactory implements IAdapterFactory{
-	
+public class SamGraphInvCheckGraphAdapterFactory implements IAdapterFactory {
+
 	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adapterType == GraphWithNacs.class) {
@@ -16,7 +16,7 @@ public class SamGraphInvCheckGraphAdapterFactory implements IAdapterFactory{
 
 	@Override
 	public Class[] getAdapterList() {
-		return new Class[] {GraphWithNacs.class};
+		return new Class[] { GraphWithNacs.class };
 	}
 
 }
