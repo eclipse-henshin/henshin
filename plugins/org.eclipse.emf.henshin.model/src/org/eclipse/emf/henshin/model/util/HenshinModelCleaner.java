@@ -121,8 +121,8 @@ public class HenshinModelCleaner {
 			rule.setLhs(HenshinFactory.eINSTANCE.createGraph("Lhs"));
 			debug("added missing Lhs for " + rule);
 		}
-		if (rule.getLhs()==null) {
-			rule.setLhs(HenshinFactory.eINSTANCE.createGraph("Rhs"));
+		if (rule.getRhs()==null) {
+			rule.setRhs(HenshinFactory.eINSTANCE.createGraph("Rhs"));
 			debug("added missing Rhs for " + rule);
 		}
 
