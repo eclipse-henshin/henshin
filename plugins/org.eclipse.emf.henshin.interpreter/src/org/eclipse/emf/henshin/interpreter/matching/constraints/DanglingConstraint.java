@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 
@@ -113,7 +114,9 @@ public class DanglingConstraint implements Constraint {
 			Integer count = result.get(setting.getEStructuralFeature());
 			if (count == null) {
 				count = 1;
-				result.put((EReference) setting.getEStructuralFeature(), count);
+				EStructuralFeature feature = setting.getEStructuralFeature();
+				if (!feature.isDerived())
+					result.put((EReference) feature, count);
 			} else {
 				count++;
 			}
