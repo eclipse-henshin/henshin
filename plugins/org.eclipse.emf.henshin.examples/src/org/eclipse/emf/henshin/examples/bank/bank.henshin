@@ -166,6 +166,8 @@
         <type href="bank.ecore#//Client/accounts"/>
       </edges>
     </rhs>
+    <attributeConditions xmi:id="_kkKAYGwLEeW5Br8zt3c4Qg" name="financial covering 1" conditionText="x>amount"/>
+    <attributeConditions xmi:id="_89rI8GwLEeW5Br8zt3c4Qg" name="financial covering 2" conditionText="y>(-amount)"/>
     <mappings xmi:id="_XG_vAX_5EeKZZICbS5P5TQ" origin="_XGrl8X_5EeKZZICbS5P5TQ" image="_XG2lEX_5EeKZZICbS5P5TQ"/>
     <mappings xmi:id="_XG_vAn_5EeKZZICbS5P5TQ" origin="_XGs0EH_5EeKZZICbS5P5TQ" image="_XG3zMH_5EeKZZICbS5P5TQ"/>
     <mappings xmi:id="_XHAWEH_5EeKZZICbS5P5TQ" origin="_XG1W8H_5EeKZZICbS5P5TQ" image="_XG-g4H_5EeKZZICbS5P5TQ"/>

@@ -147,10 +147,9 @@ account is changed, which is denoted using an arrow notation:
 <i>old value -&gt; new value</i>. In the source account,
 the old credit is matched using a parameter <i>x</i> and set
 to <i>x-amount</i>, analogously for the destination account.
-Note that this rule a check whether <i>x &gt;= amount</i>
-can currently only specified using the tree-based editor.
-For this, you can simply open the rule in the <i>*.henshin</i>
-file and add an attribute condition as an additional check.
+Note that the attribute conditions check whether the credit
+balance on both accounts is high enough for positive and negative
+transfers. If the conditions don’t hold, the rule can’t be applied.
 Note also that <i>x</i> and <i>y</i> have to be specified as 
 parameters. When executing this rule, these parameters will
 be automatically initialized by the found match.

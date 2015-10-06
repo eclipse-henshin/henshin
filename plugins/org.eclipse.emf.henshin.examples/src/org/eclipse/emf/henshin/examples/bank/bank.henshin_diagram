@@ -78,7 +78,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_WzmsI-j2EeCw6tx5JXcQ0g"/>
         </children>
         <element xmi:type="henshin:Node" href="bank.henshin#_XGs0EH_5EeKZZICbS5P5TQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WzleAej2EeCw6tx5JXcQ0g" x="222" y="117"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WzleAej2EeCw6tx5JXcQ0g" x="232" y="117"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_PszzIOj3EeCw6tx5JXcQ0g" type="3001" fontName="Sans">
         <children xmi:type="notation:DecorationNode" xmi:id="_Ps1BQOj3EeCw6tx5JXcQ0g" type="5002"/>
@@ -90,9 +90,25 @@
         <element xmi:type="henshin:Node" href="bank.henshin#_XG1W8H_5EeKZZICbS5P5TQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PszzIej3EeCw6tx5JXcQ0g" x="52" y="18"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_kkQHAGwLEeW5Br8zt3c4Qg" type="3005">
+        <children xmi:type="notation:DecorationNode" xmi:id="_kkRVIGwLEeW5Br8zt3c4Qg" type="5006"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_kkRVIWwLEeW5Br8zt3c4Qg" type="5007"/>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_kkQHAWwLEeW5Br8zt3c4Qg"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_kkQHAmwLEeW5Br8zt3c4Qg" fontName="Segoe UI"/>
+        <element xmi:type="henshin:AttributeCondition" href="bank.henshin#_kkKAYGwLEeW5Br8zt3c4Qg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_kkQHA2wLEeW5Br8zt3c4Qg" x="30" y="206"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_89sXEGwLEeW5Br8zt3c4Qg" type="3005">
+        <children xmi:type="notation:DecorationNode" xmi:id="_89sXFGwLEeW5Br8zt3c4Qg" type="5006"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_89s-IGwLEeW5Br8zt3c4Qg" type="5007"/>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_89sXEWwLEeW5Br8zt3c4Qg"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_89sXEmwLEeW5Br8zt3c4Qg" fontName="Segoe UI"/>
+        <element xmi:type="henshin:AttributeCondition" href="bank.henshin#_89rI8GwLEeW5Br8zt3c4Qg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_89sXE2wLEeW5Br8zt3c4Qg" x="232" y="206"/>
+      </children>
     </children>
     <element xmi:type="henshin:Rule" href="bank.henshin#_XGpwwH_5EeKZZICbS5P5TQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IIZb8ej2EeCw6tx5JXcQ0g" x="51" y="278" width="645" height="234"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IIZb8ej2EeCw6tx5JXcQ0g" x="51" y="278" width="560" height="297"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_3t8w0Oj3EeCw6tx5JXcQ0g" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_3t9-8Oj3EeCw6tx5JXcQ0g" type="5001"/>
