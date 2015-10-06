@@ -25,6 +25,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.impl.ModuleImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -160,10 +161,20 @@ public class ImportPackagesWizardPage extends WizardPage {
 
 	private void add(EPackage ePackage) {
 		if (ePackage!=null) {
-			URI uri = EcoreUtil.getURI(ePackage);
-			if (!packageURIs.contains(uri)) {
-				packageURIs.add(uri);
-				listWidget.add(ePackage.getNsURI());
+			String nsURI = ePackage.getNsURI();
+			if(nsURI != null && !nsURI.trim().isEmpty()){
+				URI uri = EcoreUtil.getURI(ePackage);
+				if (!packageURIs.contains(uri)) {
+					packageURIs.add(uri);
+					listWidget.add(ePackage.getNsURI());
+					setPageComplete(true);
+					getContainer().updateButtons();					
+				}
+			}
+			else{ //ePackage.getNsURI() = null
+				MessageDialog.openError(getShell(), "No 'Ns URI' set", "The EPackage you selected has no 'Ns URI' set! This is a general EMF requirement.");
+				setPageComplete(false);
+				getContainer().updateButtons();
 			}
 		}		
 	}
