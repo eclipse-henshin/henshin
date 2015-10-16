@@ -60,11 +60,11 @@ public class HenshinUtil {
 	 * @return Filtered list.
 	 */
 	public static List<Match> removeDuplicateMatches(Iterable<Match> matches) {
-		Set<Match> result = new LinkedHashSet<Match>();
+		Set<Match> result = new LinkedHashSet<>();
 		for (Match m : matches) {
 			result.add(m);
 		}
-		return new ArrayList<Match>(result);
+		return new ArrayList<>(result);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class HenshinUtil {
 	 * @return Filtered list.
 	 */
 	public static List<Match> removeNonInjectiveMatches(Iterable<Match> matches) {
-		List<Match> result = new ArrayList<Match>();
+		List<Match> result = new ArrayList<>();
 		for (Match m : matches) {
 			if (m.isInjective()) {
 				result.add(m);
@@ -190,6 +190,16 @@ public class HenshinUtil {
 	public static class Match extends Bytes {
 
 		/**
+		 * Number of bytes before match starts
+		 */
+		private final int PREAMBLE = 5;
+		
+		/**
+		 * Microstep position
+		 */
+		 private final int MICROSTEP_POS = 4;
+
+		/**
 		 * Empty match.
 		 */
 		public static final Match EMPTY = new Match();
@@ -205,12 +215,13 @@ public class HenshinUtil {
 		 * Extra constructor.
 		 * @param segment The segment of this match.
 		 */
-		public Match(int segment) {
+		public Match(int segment, int microstep) {
 			super(new byte[] {
 				(byte) (segment >>> 24),
 				(byte) (segment >>> 16),
 				(byte) (segment >>> 8),
-				(byte) segment });
+				(byte) segment,
+				(byte) microstep });
 		}
 
 		/**
@@ -219,6 +230,21 @@ public class HenshinUtil {
 		 */
 		public Match(byte[] data) {
 			super(data);
+		}
+		
+		public byte getMicrostep(){
+			return getBytes()[MICROSTEP_POS];
+		}
+		
+		public Match setMicrostep(byte microstep){
+			return setByte(microstep, MICROSTEP_POS);
+		}
+		
+		private Match setByte(byte data, int position){
+			byte[] bytes = getBytes();
+			byte[] result = Arrays.copyOf(bytes, bytes.length);
+			result[position] = data;
+			return new Match(result);
 		}
 
 		/**
@@ -239,7 +265,7 @@ public class HenshinUtil {
 		 */
 		public int getMatchSize() {
 			byte[] bytes = getBytes();
-			int d = 4;
+			int d = PREAMBLE;
 			int size = 0;
 			while (d < bytes.length) {
 				d += bytes[d] + 1;
@@ -255,7 +281,7 @@ public class HenshinUtil {
 		 */
 		public VertexId getVertexId(int vertexIndex) {
 			byte[] bytes = getBytes();
-			int d = 4;
+			int d = PREAMBLE;
 			for (int i = 0; i < vertexIndex; i++) {
 				if (d >= bytes.length) {
 					return null;
@@ -292,7 +318,7 @@ public class HenshinUtil {
 		 * @return true if this match is injective.
 		 */
 		public boolean isInjective() {
-			Set<VertexId> ids = new HashSet<VertexId>();
+			Set<VertexId> ids = new HashSet<>();
 			int i = 0;
 			VertexId id;
 			do {
@@ -326,9 +352,9 @@ public class HenshinUtil {
 		public Match append(Match match) {
 			byte[] bytes1 = getBytes();
 			byte[] bytes2 = match.getBytes();
-			bytes1 = Arrays.copyOf(bytes1, bytes1.length + bytes2.length - 4);
-			System.arraycopy(bytes2, 4,
-				bytes1, bytes1.length - bytes2.length + 4, bytes2.length - 4);
+			bytes1 = Arrays.copyOf(bytes1, bytes1.length + bytes2.length - PREAMBLE);
+			System.arraycopy(bytes2, PREAMBLE,
+				bytes1, bytes1.length - bytes2.length + PREAMBLE, bytes2.length - PREAMBLE);
 			return new Match(bytes1);
 		}
 
@@ -339,7 +365,7 @@ public class HenshinUtil {
 		 */
 		public Match remove(int vertexIndex) {
 			byte[] bytes = getBytes();
-			int d = 4;
+			int d = PREAMBLE;
 			for (int i = 0; i < vertexIndex; i++) {
 				if (d >= bytes.length) {
 					return null;
@@ -373,7 +399,7 @@ public class HenshinUtil {
 		public String toString() {
 			byte[] bytes = getBytes();
 			StringBuffer result = new StringBuffer();
-			int i = 4;
+			int i = PREAMBLE;
 			while (i < bytes.length) {
 				int len = bytes[i++];
 				result.append("[");
@@ -390,7 +416,7 @@ public class HenshinUtil {
 				}
 			}
 			if (bytes.length > 0) {
-				return getSegment() + ":[" + result + "]";
+				return "s:" + getSegment() + ",m:" + getMicrostep() + ":[" + result + "]";
 			} else {
 				return "[" + result + "]";
 			}
@@ -600,7 +626,7 @@ public class HenshinUtil {
 				JSONArray jsonVertex) throws JSONException, IOException {
 				JSONArray jsonEdgeArray = jsonVertex.getJSONArray(2);
 				List<Edge<VertexId, ByteWritable>> edges =
-					new ArrayList<Edge<VertexId, ByteWritable>>(jsonEdgeArray.length());
+					new ArrayList<>(jsonEdgeArray.length());
 				for (int i = 0; i < jsonEdgeArray.length(); ++i) {
 					JSONArray jsonEdge = jsonEdgeArray.getJSONArray(i);
 					edges.add(EdgeFactory.create(
