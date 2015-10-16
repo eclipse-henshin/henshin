@@ -1630,4 +1630,126 @@
     <mappings xmi:id="_2D-0gg2nEeOm4d6t-utQoQ" origin="_2D-0gA2nEeOm4d6t-utQoQ" image="_2D-0gQ2nEeOm4d6t-utQoQ"/>
     <mappings xmi:id="_2TX7Yg2nEeOm4d6t-utQoQ" origin="_2TX7YA2nEeOm4d6t-utQoQ" image="_2TX7YQ2nEeOm4d6t-utQoQ"/>
   </units>
+  <units xsi:type="henshin:Rule" xmi:id="_NU1ZEHNpEeWVq8HvSwVamw" name="SierpinskiStart">
+    <lhs xmi:id="_NVJiIHNpEeWVq8HvSwVamw" name="Lhs">
+      <nodes xmi:id="_QJKh4HNpEeWVq8HvSwVamw" name="a" outgoing="_TeZYUHNpEeWVq8HvSwVamw _Uacw4HNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_RKzlEHNpEeWVq8HvSwVamw" name="b" incoming="_Uacw4HNpEeWVq8HvSwVamw _VlJCYHNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_SSUmwHNpEeWVq8HvSwVamw" name="c" incoming="_TeZYUHNpEeWVq8HvSwVamw" outgoing="_VlJCYHNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_TeZYUHNpEeWVq8HvSwVamw" source="_QJKh4HNpEeWVq8HvSwVamw" target="_SSUmwHNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex/left"/>
+      </edges>
+      <edges xmi:id="_Uacw4HNpEeWVq8HvSwVamw" source="_QJKh4HNpEeWVq8HvSwVamw" target="_RKzlEHNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex/right"/>
+      </edges>
+      <edges xmi:id="_VlJCYHNpEeWVq8HvSwVamw" source="_SSUmwHNpEeWVq8HvSwVamw" target="_RKzlEHNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex/conn"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_NVJiIXNpEeWVq8HvSwVamw" name="Rhs">
+      <nodes xmi:id="_QJKh4XNpEeWVq8HvSwVamw" name="a" outgoing="_TeZYUXNpEeWVq8HvSwVamw _Uacw4XNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_RKzlEXNpEeWVq8HvSwVamw" name="b" incoming="_Uacw4XNpEeWVq8HvSwVamw _VlJCYXNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_SSUmwXNpEeWVq8HvSwVamw" name="c" incoming="_TeZYUXNpEeWVq8HvSwVamw" outgoing="_VlJCYXNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_TeZYUXNpEeWVq8HvSwVamw" source="_QJKh4XNpEeWVq8HvSwVamw" target="_SSUmwXNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex/left"/>
+      </edges>
+      <edges xmi:id="_Uacw4XNpEeWVq8HvSwVamw" source="_QJKh4XNpEeWVq8HvSwVamw" target="_RKzlEXNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex/right"/>
+      </edges>
+      <edges xmi:id="_VlJCYXNpEeWVq8HvSwVamw" source="_SSUmwXNpEeWVq8HvSwVamw" target="_RKzlEXNpEeWVq8HvSwVamw">
+        <type href="sierpinski.ecore#//Vertex/conn"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_QJLI8HNpEeWVq8HvSwVamw" origin="_QJKh4HNpEeWVq8HvSwVamw" image="_QJKh4XNpEeWVq8HvSwVamw"/>
+    <mappings xmi:id="_RK0MIHNpEeWVq8HvSwVamw" origin="_RKzlEHNpEeWVq8HvSwVamw" image="_RKzlEXNpEeWVq8HvSwVamw"/>
+    <mappings xmi:id="_SSUmwnNpEeWVq8HvSwVamw" origin="_SSUmwHNpEeWVq8HvSwVamw" image="_SSUmwXNpEeWVq8HvSwVamw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_tXMz0HPhEeWJB9HCmD0A5Q" name="TwoTimesThreeStart">
+    <lhs xmi:id="_tXl1YHPhEeWJB9HCmD0A5Q" name="Lhs">
+      <nodes xmi:id="_vQXU4HPhEeWJB9HCmD0A5Q" name="a" outgoing="_34foUHPhEeWJB9HCmD0A5Q _5cvpUHPhEeWJB9HCmD0A5Q _5yxjsHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_zyHBwHPhEeWJB9HCmD0A5Q" name="x" incoming="_34foUHPhEeWJB9HCmD0A5Q _4h81AHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_1CDmsHPhEeWJB9HCmD0A5Q" name="y" incoming="_40IKIHPhEeWJB9HCmD0A5Q _5cvpUHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_1_thwHPhEeWJB9HCmD0A5Q" name="z" incoming="_5IMVoHPhEeWJB9HCmD0A5Q _5yxjsHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_21nPAHPhEeWJB9HCmD0A5Q" name="b" outgoing="_4h81AHPhEeWJB9HCmD0A5Q _40IKIHPhEeWJB9HCmD0A5Q _5IMVoHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_34foUHPhEeWJB9HCmD0A5Q" source="_vQXU4HPhEeWJB9HCmD0A5Q" target="_zyHBwHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/left"/>
+      </edges>
+      <edges xmi:id="_4h81AHPhEeWJB9HCmD0A5Q" source="_21nPAHPhEeWJB9HCmD0A5Q" target="_zyHBwHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/left"/>
+      </edges>
+      <edges xmi:id="_40IKIHPhEeWJB9HCmD0A5Q" source="_21nPAHPhEeWJB9HCmD0A5Q" target="_1CDmsHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/conn"/>
+      </edges>
+      <edges xmi:id="_5IMVoHPhEeWJB9HCmD0A5Q" source="_21nPAHPhEeWJB9HCmD0A5Q" target="_1_thwHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/right"/>
+      </edges>
+      <edges xmi:id="_5cvpUHPhEeWJB9HCmD0A5Q" source="_vQXU4HPhEeWJB9HCmD0A5Q" target="_1CDmsHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/conn"/>
+      </edges>
+      <edges xmi:id="_5yxjsHPhEeWJB9HCmD0A5Q" source="_vQXU4HPhEeWJB9HCmD0A5Q" target="_1_thwHPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/right"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_tXl1YXPhEeWJB9HCmD0A5Q" name="Rhs">
+      <nodes xmi:id="_vQX78HPhEeWJB9HCmD0A5Q" name="a" outgoing="_34foUXPhEeWJB9HCmD0A5Q _5cvpUXPhEeWJB9HCmD0A5Q _5yxjsXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_zyHo0HPhEeWJB9HCmD0A5Q" name="x" incoming="_34foUXPhEeWJB9HCmD0A5Q _4h81AXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_1CDmsXPhEeWJB9HCmD0A5Q" name="y" incoming="_40IKIXPhEeWJB9HCmD0A5Q _5cvpUXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_1_thwXPhEeWJB9HCmD0A5Q" name="z" incoming="_5IMVoXPhEeWJB9HCmD0A5Q _5yxjsXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_21n2EHPhEeWJB9HCmD0A5Q" name="b" outgoing="_4h81AXPhEeWJB9HCmD0A5Q _40IKIXPhEeWJB9HCmD0A5Q _5IMVoXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_34foUXPhEeWJB9HCmD0A5Q" source="_vQX78HPhEeWJB9HCmD0A5Q" target="_zyHo0HPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/left"/>
+      </edges>
+      <edges xmi:id="_4h81AXPhEeWJB9HCmD0A5Q" source="_21n2EHPhEeWJB9HCmD0A5Q" target="_zyHo0HPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/left"/>
+      </edges>
+      <edges xmi:id="_40IKIXPhEeWJB9HCmD0A5Q" source="_21n2EHPhEeWJB9HCmD0A5Q" target="_1CDmsXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/conn"/>
+      </edges>
+      <edges xmi:id="_5IMVoXPhEeWJB9HCmD0A5Q" source="_21n2EHPhEeWJB9HCmD0A5Q" target="_1_thwXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/right"/>
+      </edges>
+      <edges xmi:id="_5cvpUXPhEeWJB9HCmD0A5Q" source="_vQX78HPhEeWJB9HCmD0A5Q" target="_1CDmsXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/conn"/>
+      </edges>
+      <edges xmi:id="_5yxjsXPhEeWJB9HCmD0A5Q" source="_vQX78HPhEeWJB9HCmD0A5Q" target="_1_thwXPhEeWJB9HCmD0A5Q">
+        <type href="sierpinski.ecore#//Vertex/right"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_vQX78XPhEeWJB9HCmD0A5Q" origin="_vQXU4HPhEeWJB9HCmD0A5Q" image="_vQX78HPhEeWJB9HCmD0A5Q"/>
+    <mappings xmi:id="_zyHo0XPhEeWJB9HCmD0A5Q" origin="_zyHBwHPhEeWJB9HCmD0A5Q" image="_zyHo0HPhEeWJB9HCmD0A5Q"/>
+    <mappings xmi:id="_1CDmsnPhEeWJB9HCmD0A5Q" origin="_1CDmsHPhEeWJB9HCmD0A5Q" image="_1CDmsXPhEeWJB9HCmD0A5Q"/>
+    <mappings xmi:id="_1_thwnPhEeWJB9HCmD0A5Q" origin="_1_thwHPhEeWJB9HCmD0A5Q" image="_1_thwXPhEeWJB9HCmD0A5Q"/>
+    <mappings xmi:id="_21n2EXPhEeWJB9HCmD0A5Q" origin="_21nPAHPhEeWJB9HCmD0A5Q" image="_21n2EHPhEeWJB9HCmD0A5Q"/>
+  </units>
 </henshin:Module>
