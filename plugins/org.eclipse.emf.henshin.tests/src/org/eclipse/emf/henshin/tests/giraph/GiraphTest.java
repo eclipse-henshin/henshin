@@ -78,27 +78,27 @@ public class GiraphTest {
 
 	@Test
 	public void sierpinski1() {
-		runIterated("SierpinskiMain", 1, "Sierpinski", 6, 9);
+		runIterated("SierpinskiMain", 1, "SierpinskiStart", 6, 9);
 	}
 
 	@Test
 	public void sierpinski2() {
-		runIterated("SierpinskiMain", 2, "Sierpinski", 15, 27);
+		runIterated("SierpinskiMain", 2, "SierpinskiStart", 15, 27);
 	}
 
 	@Test
 	public void sierpinski3() {
-		runIterated("SierpinskiMain", 3, "Sierpinski", 42, 81);
+		runIterated("SierpinskiMain", 3, "SierpinskiStart", 42, 81);
 	}
 
 	@Test
 	public void sierpinski6() {
-		runIterated("SierpinskiMain", 6, "Sierpinski", 1095, 2187);
+		runIterated("SierpinskiMain", 6, "SierpinskiStart", 1095, 2187);
 	}
 
 	@Test
 	public void sierpinski9() {
-		runIterated("SierpinskiMain", 9, "Sierpinski", 29526, 59049);
+		runIterated("SierpinskiMain", 9, "SierpinskiStart", 29526, 59049);
 	}
 
 	@Test
@@ -123,7 +123,7 @@ public class GiraphTest {
 
 	@Test
 	public void twoTimesThree() {
-		run("TwoTimesThree", "TwoTimesThree", 3, 0);
+		run("TwoTimesThree", "TwoTimesThreeStart", 3, 0);
 	}
 
 	@Test
@@ -134,6 +134,7 @@ public class GiraphTest {
 	private void runIterated(String mainUnitName, int iterations, String inputRuleName, int aggregateVertices,
 			int aggregateEdges) {
 
+
 		// Prepare iterated unit:
 		IteratedUnit iteratedUnit = (IteratedUnit) TEST_MODULE.getUnit(mainUnitName);
 		Assert.assertNotNull(iteratedUnit);
@@ -141,13 +142,19 @@ public class GiraphTest {
 		iteratedUnit.setIterations(iterations + "");
 		iteratedUnit.setName(iteratedUnit.getName() + iterations);
 
+		try {
+		Graph inputGraph = ((Rule) TEST_MODULE.getUnit(inputRuleName)).getLhs();
+		Assert.assertNotNull(inputGraph);
+		Assert.assertNotEquals(0, inputGraph.getNodes().size());
+		
 		// Run test:
-		run(iteratedUnit, ((Rule) TEST_MODULE.getUnit(inputRuleName)).getLhs(), aggregateVertices, aggregateEdges);
-
+		run(iteratedUnit, inputGraph, aggregateVertices, aggregateEdges);
+		}
+		finally {
 		// Restore iterated unit:
 		iteratedUnit.setIterations(backup.getIterations());
 		iteratedUnit.setName(backup.getName());
-
+		}
 	}
 
 	private void run(String mainUnitName, String inputRuleName, int aggregateVertices, int aggregateEdges) {
