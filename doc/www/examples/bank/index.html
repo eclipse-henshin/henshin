@@ -149,7 +149,8 @@ the old credit is matched using a parameter <i>x</i> and set
 to <i>x-amount</i>, analogously for the destination account.
 Note that the conditions check whether the credit balance on
 the source account is high enough and that transfers are always
-positive. If the conditions don’t hold, the rule can’t be applied.
+positive. If the conditions don not hold, the rule can not be applied.
+The conditions are evaluated by the Oracle Nashorn JavaScript Engine.
 Note also that <i>x</i> and <i>y</i> have to be specified as 
 parameters. When executing this rule, these parameters will
 be automatically initialized by the found match.
