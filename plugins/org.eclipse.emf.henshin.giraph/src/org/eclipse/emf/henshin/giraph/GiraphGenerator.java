@@ -99,6 +99,7 @@ public class GiraphGenerator extends GiraphValidator {
 			args.put("vertexLogging", vertexLogging);
 			args.put("useUUIDs", useUUIDs);
 			args.put("segmentCount", 1);
+			args.put("stairCount", 3);
 
 			getLibsXml = new GetLibsXmlTemplate().generate(args);
 			giraphCode = new GiraphRuleTemplate().generate(args);
