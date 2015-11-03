@@ -166,7 +166,7 @@
         <type href="bank.ecore#//Client/accounts"/>
       </edges>
     </rhs>
-    <attributeConditions xmi:id="_kkKAYGwLEeW5Br8zt3c4Qg" name="financial covering" conditionText="(x-amount)>0"/>
+    <attributeConditions xmi:id="_kkKAYGwLEeW5Br8zt3c4Qg" name="financial covering" conditionText="x>amount"/>
     <attributeConditions xmi:id="_89rI8GwLEeW5Br8zt3c4Qg" name="positive transfer only" conditionText="amount>0"/>
     <mappings xmi:id="_XG_vAX_5EeKZZICbS5P5TQ" origin="_XGrl8X_5EeKZZICbS5P5TQ" image="_XG2lEX_5EeKZZICbS5P5TQ"/>
     <mappings xmi:id="_XG_vAn_5EeKZZICbS5P5TQ" origin="_XGs0EH_5EeKZZICbS5P5TQ" image="_XG3zMH_5EeKZZICbS5P5TQ"/>
@@ -226,6 +226,9 @@
     <mappings xmi:id="_XHFOkn_5EeKZZICbS5P5TQ" origin="_XHBkMH_5EeKZZICbS5P5TQ" image="_XHEAcH_5EeKZZICbS5P5TQ"/>
     <mappings xmi:id="_XHF1oH_5EeKZZICbS5P5TQ" origin="_XHBkMX_5EeKZZICbS5P5TQ" image="_XHEAcX_5EeKZZICbS5P5TQ"/>
     <multiRules xmi:id="_XHKuIH_5EeKZZICbS5P5TQ" name="">
+      <parameters xmi:id="_hDQQsHcoEeWYVP_eitzqMg" name="client">
+        <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </parameters>
       <lhs xmi:id="_XHKuIX_5EeKZZICbS5P5TQ" name="LHS">
         <nodes xmi:id="_XHLVMH_5EeKZZICbS5P5TQ" name="client" incoming="_XHMjUX_5EeKZZICbS5P5TQ _XHNKYH_5EeKZZICbS5P5TQ _XHOYgH_5EeKZZICbS5P5TQ">
           <type href="bank.ecore#//Client"/>
