@@ -177,25 +177,59 @@ public class ParameterEditTable {
 					try {
 						switch (paramCfg.getType()) {
 							case ParameterConfig.STRING:
-								paramCfg.setValue(value.toString());
-								break;
+								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+									paramCfg.setValue(value.toString());
+								}
+								else {
+									paramCfg.setValue(null);
+								}	
 							case ParameterConfig.FLOAT:
-								paramCfg.setValue(Float.parseFloat(value.toString()));
-								break;
+								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+									paramCfg.setValue(Float.parseFloat(value.toString()));
+								}
+								else {
+									paramCfg.setValue(null);
+								}	
 							case ParameterConfig.DOUBLE:
-								paramCfg.setValue(Double.parseDouble(value.toString()));
+								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+									paramCfg.setValue(Double.parseDouble(value.toString()));
+								}
+								else {
+									paramCfg.setValue(null);
+								}	
 								break;
 							case ParameterConfig.INT:
-								paramCfg.setValue(Integer.parseInt(value.toString()));
+								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+									paramCfg.setValue(Integer.parseInt(value.toString()));
+								}
+								else {
+									paramCfg.setValue(null);
+								}	
 								break;
 							case ParameterConfig.LONG:
-								paramCfg.setValue(Long.parseLong(value.toString()));
+								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+									paramCfg.setValue(Long.parseLong(value.toString()));
+								}
+								else {
+									paramCfg.setValue(null);
+								}	
 								break;
 							case ParameterConfig.BOOLEAN:
-								paramCfg.setValue((Integer) value > 0 ? true : false);
+								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+									paramCfg.setValue((Integer) value > 0 ? true : false);
+								}
+								else {
+									paramCfg.setValue(null);
+								}	
 								break;
 							default:
-								paramCfg.setValue(value);
+								// should this case not simply throw an exception?
+								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+									paramCfg.setValue(value);
+								}
+								else {
+									paramCfg.setValue(null);
+								}
 						}
 						for (ParameterChangeListener l : listeners)
 							l.parameterChanged(paramCfg);
