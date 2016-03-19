@@ -21,11 +21,12 @@ import org.eclipse.emf.ecore.EClassifier;
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Parameter#getUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Parameter#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Parameter#getKind <em>Kind</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameNotEmpty nameNotTypeName'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameNotEmpty nameNotTypeName nameNotKindAlias'"
  * @generated
  */
 public interface Parameter extends NamedElement {
@@ -75,5 +76,34 @@ public interface Parameter extends NamedElement {
 	 * @generated
 	 */
 	void setType(EClassifier value);
+
+	/**
+	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.emf.henshin.model.ParameterKind}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Kind</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Kind</em>' attribute.
+	 * @see org.eclipse.emf.henshin.model.ParameterKind
+	 * @see #setKind(ParameterKind)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter_Kind()
+	 * @model
+	 * @generated
+	 */
+	ParameterKind getKind();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Parameter#getKind <em>Kind</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Kind</em>' attribute.
+	 * @see org.eclipse.emf.henshin.model.ParameterKind
+	 * @see #getKind()
+	 * @generated
+	 */
+	void setKind(ParameterKind value);
 
 } // Parameter

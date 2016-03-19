@@ -352,8 +352,10 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 		String result = eClass().getName() + (name!=null ? " " + name : "");
 		if (!getParameters().isEmpty()) {
 			result = result + "(";
-			for (int i=0; i<parameters.size(); i++) {
+			int numberOfParameters = parameters.size();
+			for (int i=0; i<numberOfParameters; i++) {
 				Parameter param = parameters.get(i);
+				result = result + param.getKind().getAlias() + " ";
 				result = result + param.getName();
 				if (param.getType()!=null) {
 					result = result + ":" + param.getType().getName();

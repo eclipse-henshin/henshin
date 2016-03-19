@@ -9,6 +9,7 @@
  */
 package org.eclipse.emf.henshin.diagram.parsers;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -26,6 +27,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -56,15 +58,15 @@ public class UnitNameParser extends AbstractAttributeParser {
 	 * comma-separated list of parameter names in brackets. Empty brackets are
 	 * allowed as well and spaces may be between all names, brackets and commas.
 	 * E.g., the following unit names are allowed (separated by semicolon):
-	 * unit; unit(); unit(x); unit ( x ); unit(x, y) etc.
+	 * unit; unit(); unit(x); unit ( x ); unit(x, y) etc. where x and y are parameters
 	 * 
 	 * The indices are as follows:<br>
 	 * 1: unit name <br>
 	 * 2: comma-separated list of parameter names (optional)
 	 */
 	private static final Pattern UNIT_NAME_PATTERN = Pattern
-			.compile("^\\s*(\\w*?)\\s*(?:\\s*\\(([\\w,\\:\\s]*)\\s*\\))?$");
-	
+			.compile("^\\s*(\\w*?)\\s*(?:\\s*\\(([" + ParameterKind.getValidStringItemsRegex() + "\\w,\\:\\s]*)\\s*\\))?$");
+		
 	private static final String PARAMETER_SEPARATOR = ",";
 	
 	// View of the unit to be edited:
@@ -186,22 +188,39 @@ public class UnitNameParser extends AbstractAttributeParser {
 			
 			// Split up the parameters:
 			String[] paramStrings = parametersString.split(PARAMETER_SEPARATOR);
-			
-			// Separate names from types:
+			// Separate names, types and kinds:
 			String[] names = new String[paramStrings.length];
 			String[] types = new String[paramStrings.length];
+			ParameterKind[] kinds = new ParameterKind[paramStrings.length];
+			
+			//Make sure the parameter strings are correct (<kind> <name>:<type>)
 			for (int i=0; i<paramStrings.length; i++) {
-				String[] split = paramStrings[i].split(":");
-				names[i] = split[0].trim();
-				if (split.length>1) {
-					types[i] = split[1].trim();
+				String[] splitKind = paramStrings[i].trim().split("\\s+");
+				String[] splitType = paramStrings[i].trim().split("\\:");
+				String[] splitTypeAndKind = paramStrings[i].trim().split("[\\:\\s+]");
+				int parameterNameStartingIndex = 0;
+				int parameterNameEndingIndex = splitTypeAndKind.length;
+				
+				if (splitKind.length >= 2) {
+					kinds[i] =  ParameterKind.getByString(splitKind[0].trim());
+					if (kinds[i] !=  null) {
+						parameterNameStartingIndex += 1;
+					}
 				}
+				if (splitType.length >= 2) {
+					types[i] = splitType[1].trim();
+					parameterNameEndingIndex -= 1;
+				}
+
+				names[i] = String.join(" ", Arrays.copyOfRange(splitTypeAndKind, 
+						parameterNameStartingIndex, parameterNameEndingIndex));
 			}
 			
-			// Remove duplicate names (and the corresponding types):
+			// Remove duplicate names (and the corresponding kinds and types):
 			for (int i=1; i<names.length; i++) {
 				for (int j=0; j<i; j++) {
 					if (names[i]!=null && names[j]!=null && names[i].equals(names[j])) {
+						kinds[i] = null;
 						names[i] = null;
 						types[i] = null;
 						break;
@@ -277,16 +296,18 @@ public class UnitNameParser extends AbstractAttributeParser {
 				}
 			}
 						
-			// Now we only need to set their types:
+			// Now we only need to set their kinds and types:
 			Module module = unit.getModule();
 			for (int i=0; i<names.length; i++) {
-				if (names[i]!=null && types[i]!=null) {
+				if (names[i]!=null) {
 					EClassifier type = null;
 					EClassifier[] classifiers = ModuleEditHelper.getEClassifiers(module, types[i]);
+					ParameterKind kind = kinds[i];		
 					if (classifiers!=null && classifiers.length>0) {
 						type = classifiers[0];
 					}
 					unit.getParameter(names[i]).setType(type);
+					unit.getParameter(names[i]).setKind(kind);
 				}
 			}
 			

@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
@@ -29,6 +30,7 @@ import org.eclipse.emf.henshin.model.Unit;
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterImpl#getUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterImpl#getKind <em>Kind</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,6 +47,25 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * @ordered
 	 */
 	protected EClassifier type;
+
+	/**
+	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKind()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final ParameterKind KIND_EDEFAULT = ParameterKind.UNKNOWN;
+	/**
+	 * The cached value of the '{@link #getKind() <em>Kind</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKind()
+	 * @generated
+	 * @ordered
+	 */
+	protected ParameterKind kind = KIND_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -169,6 +190,27 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ParameterKind getKind() {
+		return kind;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setKind(ParameterKind newKind) {
+		ParameterKind oldKind = kind;
+		kind = newKind == null ? KIND_EDEFAULT : newKind;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PARAMETER__KIND, oldKind, kind));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -222,6 +264,8 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 			case HenshinPackage.PARAMETER__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
+			case HenshinPackage.PARAMETER__KIND:
+				return getKind();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -239,6 +283,9 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 				return;
 			case HenshinPackage.PARAMETER__TYPE:
 				setType((EClassifier)newValue);
+				return;
+			case HenshinPackage.PARAMETER__KIND:
+				setKind((ParameterKind)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -258,6 +305,9 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 			case HenshinPackage.PARAMETER__TYPE:
 				setType((EClassifier)null);
 				return;
+			case HenshinPackage.PARAMETER__KIND:
+				setKind(KIND_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -274,6 +324,8 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 				return basicGetUnit() != null;
 			case HenshinPackage.PARAMETER__TYPE:
 				return type != null;
+			case HenshinPackage.PARAMETER__KIND:
+				return kind != KIND_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

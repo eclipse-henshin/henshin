@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -48,6 +49,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Or;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
@@ -278,6 +280,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass notEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum parameterKindEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -638,6 +647,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 */
 	public EReference getParameter_Type() {
 		return (EReference)parameterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getParameter_Kind() {
+		return (EAttribute)parameterEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1239,6 +1257,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getParameterKind() {
+		return parameterKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getAction() {
 		return actionEDataType;
 	}
@@ -1347,6 +1374,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		parameterEClass = createEClass(PARAMETER);
 		createEReference(parameterEClass, PARAMETER__UNIT);
 		createEReference(parameterEClass, PARAMETER__TYPE);
+		createEAttribute(parameterEClass, PARAMETER__KIND);
 
 		parameterMappingEClass = createEClass(PARAMETER_MAPPING);
 		createEReference(parameterMappingEClass, PARAMETER_MAPPING__SOURCE);
@@ -1431,6 +1459,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		xorEClass = createEClass(XOR);
 
 		notEClass = createEClass(NOT);
+
+		// Create enums
+		parameterKindEEnum = createEEnum(PARAMETER_KIND);
 
 		// Create data types
 		actionEDataType = createEDataType(ACTION);
@@ -1607,6 +1638,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParameter_Unit(), this.getUnit(), this.getUnit_Parameters(), "unit", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParameter_Type(), ecorePackage.getEClassifier(), null, "type", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParameter_Kind(), this.getParameterKind(), "kind", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parameterMappingEClass, ParameterMapping.class, "ParameterMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParameterMapping_Source(), this.getParameter(), null, "source", null, 1, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1774,6 +1806,14 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		initEClass(notEClass, Not.class, "Not", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		// Initialize enums and add enum literals
+		initEEnum(parameterKindEEnum, ParameterKind.class, "ParameterKind");
+		addEEnumLiteral(parameterKindEEnum, ParameterKind.UNKNOWN);
+		addEEnumLiteral(parameterKindEEnum, ParameterKind.IN);
+		addEEnumLiteral(parameterKindEEnum, ParameterKind.OUT);
+		addEEnumLiteral(parameterKindEEnum, ParameterKind.INOUT);
+		addEEnumLiteral(parameterKindEEnum, ParameterKind.VAR);
+
 		// Initialize data types
 		initEDataType(actionEDataType, Action.class, "Action", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
@@ -1809,7 +1849,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (parameterEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "nameNotEmpty nameNotTypeName"
+			 "constraints", "nameNotEmpty nameNotTypeName nameNotKindAlias"
 		   });	
 		addAnnotation
 		  (nodeEClass, 
