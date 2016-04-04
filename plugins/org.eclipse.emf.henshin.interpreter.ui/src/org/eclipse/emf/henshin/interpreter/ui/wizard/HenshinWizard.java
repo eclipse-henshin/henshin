@@ -281,6 +281,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 				message = e.getCause().getMessage();
 			}
 			MessageDialog.openError(getShell(), getWindowTitle(), message);
+			return false;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
