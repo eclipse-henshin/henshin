@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_nUMEsBcTEeSbraKpw0idnw">
+  <imports href="simpleGraph.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xgNz0BcTEeSbraKpw0idnw" name="Rule1InjectiveMatchingOn">
+    <lhs xmi:id="_xgYy8BcTEeSbraKpw0idnw" name="Lhs">
+      <nodes xmi:id="_z4YlEBcTEeSbraKpw0idnw" outgoing="_bXKckBcUEeSbraKpw0idnw">
+        <type href="simpleGraph.ecore#//A"/>
+      </nodes>
+      <nodes xmi:id="_0Q5LsBcTEeSbraKpw0idnw" incoming="_bXKckBcUEeSbraKpw0idnw">
+        <type href="simpleGraph.ecore#//B"/>
+      </nodes>
+      <edges xmi:id="_bXKckBcUEeSbraKpw0idnw" source="_z4YlEBcTEeSbraKpw0idnw" target="_0Q5LsBcTEeSbraKpw0idnw">
+        <type href="simpleGraph.ecore#//A/ref"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xgZaABcTEeSbraKpw0idnw" name="Rhs">
+      <nodes xmi:id="_z4YlERcTEeSbraKpw0idnw">
+        <type href="simpleGraph.ecore#//A"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_z4YlEhcTEeSbraKpw0idnw" origin="_z4YlEBcTEeSbraKpw0idnw" image="_z4YlERcTEeSbraKpw0idnw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_yoJsQBcTEeSbraKpw0idnw" name="Rule2InjectiveMatchingOn">
+    <lhs xmi:id="_yoPy4BcTEeSbraKpw0idnw" name="Lhs">
+      <nodes xmi:id="_0uiJ8BcTEeSbraKpw0idnw" incoming="_kSeiwBe5EeSevPAqT6im4A">
+        <type href="simpleGraph.ecore#//B"/>
+      </nodes>
+      <nodes xmi:id="_1EyGwBcTEeSbraKpw0idnw" outgoing="_kSeiwBe5EeSevPAqT6im4A">
+        <type href="simpleGraph.ecore#//C"/>
+      </nodes>
+      <edges xmi:id="_kSeiwBe5EeSevPAqT6im4A" source="_1EyGwBcTEeSbraKpw0idnw" target="_0uiJ8BcTEeSbraKpw0idnw">
+        <type href="simpleGraph.ecore#//C/ref"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_yoPy4RcTEeSbraKpw0idnw" name="Rhs">
+      <nodes xmi:id="_0uixABcTEeSbraKpw0idnw" incoming="_kSfJ0Be5EeSevPAqT6im4A">
+        <type href="simpleGraph.ecore#//B"/>
+      </nodes>
+      <nodes xmi:id="_1EyGwRcTEeSbraKpw0idnw" outgoing="_kSfJ0Be5EeSevPAqT6im4A">
+        <type href="simpleGraph.ecore#//C"/>
+      </nodes>
+      <edges xmi:id="_kSfJ0Be5EeSevPAqT6im4A" source="_1EyGwRcTEeSbraKpw0idnw" target="_0uixABcTEeSbraKpw0idnw">
+        <type href="simpleGraph.ecore#//C/ref"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_0uixARcTEeSbraKpw0idnw" origin="_0uiJ8BcTEeSbraKpw0idnw" image="_0uixABcTEeSbraKpw0idnw"/>
+    <mappings xmi:id="_1EyGwhcTEeSbraKpw0idnw" origin="_1EyGwBcTEeSbraKpw0idnw" image="_1EyGwRcTEeSbraKpw0idnw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_KRvGEByNEeSndJGoZT-PTw" name="Rule1InjectiveMatchingOff" description="" injectiveMatching="false">
+    <lhs xmi:id="_KRvGERyNEeSndJGoZT-PTw" name="Lhs">
+      <nodes xmi:id="_KRvGEhyNEeSndJGoZT-PTw" outgoing="_KRvGFByNEeSndJGoZT-PTw">
+        <type href="simpleGraph.ecore#//A"/>
+      </nodes>
+      <nodes xmi:id="_KRvGExyNEeSndJGoZT-PTw" incoming="_KRvGFByNEeSndJGoZT-PTw">
+        <type href="simpleGraph.ecore#//B"/>
+      </nodes>
+      <edges xmi:id="_KRvGFByNEeSndJGoZT-PTw" source="_KRvGEhyNEeSndJGoZT-PTw" target="_KRvGExyNEeSndJGoZT-PTw">
+        <type href="simpleGraph.ecore#//A/ref"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_KRvGFRyNEeSndJGoZT-PTw" name="Rhs">
+      <nodes xmi:id="_KRvGFhyNEeSndJGoZT-PTw">
+        <type href="simpleGraph.ecore#//A"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_KRvGFxyNEeSndJGoZT-PTw" origin="_KRvGEhyNEeSndJGoZT-PTw" image="_KRvGFhyNEeSndJGoZT-PTw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_saUPQCehEeS_3IvmfyQ65w" name="Rule2InjectiveMatchingOff" injectiveMatching="false">
+    <lhs xmi:id="_saU2UCehEeS_3IvmfyQ65w" name="Lhs">
+      <nodes xmi:id="_saU2USehEeS_3IvmfyQ65w" incoming="_saU2UyehEeS_3IvmfyQ65w">
+        <type href="simpleGraph.ecore#//B"/>
+      </nodes>
+      <nodes xmi:id="_saU2UiehEeS_3IvmfyQ65w" outgoing="_saU2UyehEeS_3IvmfyQ65w">
+        <type href="simpleGraph.ecore#//C"/>
+      </nodes>
+      <edges xmi:id="_saU2UyehEeS_3IvmfyQ65w" source="_saU2UiehEeS_3IvmfyQ65w" target="_saU2USehEeS_3IvmfyQ65w">
+        <type href="simpleGraph.ecore#//C/ref"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_saU2VCehEeS_3IvmfyQ65w" name="Rhs">
+      <nodes xmi:id="_saU2VSehEeS_3IvmfyQ65w" incoming="_saU2VyehEeS_3IvmfyQ65w">
+        <type href="simpleGraph.ecore#//B"/>
+      </nodes>
+      <nodes xmi:id="_saU2ViehEeS_3IvmfyQ65w" outgoing="_saU2VyehEeS_3IvmfyQ65w">
+        <type href="simpleGraph.ecore#//C"/>
+      </nodes>
+      <edges xmi:id="_saU2VyehEeS_3IvmfyQ65w" source="_saU2ViehEeS_3IvmfyQ65w" target="_saU2VSehEeS_3IvmfyQ65w">
+        <type href="simpleGraph.ecore#//C/ref"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_saU2WCehEeS_3IvmfyQ65w" origin="_saU2USehEeS_3IvmfyQ65w" image="_saU2VSehEeS_3IvmfyQ65w"/>
+    <mappings xmi:id="_saU2WSehEeS_3IvmfyQ65w" origin="_saU2UiehEeS_3IvmfyQ65w" image="_saU2ViehEeS_3IvmfyQ65w"/>
+  </units>
+</henshin:Module>
