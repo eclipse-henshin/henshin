@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_G7UxwAKgEeSno-Fiywz8bg">
+  <imports href="ClassModel.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_JYSjcAKgEeSno-Fiywz8bg" name="Move_Attribute">
+    <parameters xmi:id="_3faqIAKvEeSno-Fiywz8bg" name="attName"/>
+    <parameters xmi:id="_nttr8AKvEeSno-Fiywz8bg" name="source"/>
+    <parameters xmi:id="_nttr8QKvEeSno-Fiywz8bg" name="target"/>
+    <lhs xmi:id="_JYW04AKgEeSno-Fiywz8bg" name="Lhs">
+      <nodes xmi:id="_N36egAKiEeSno-Fiywz8bg" name="cl1" outgoing="_SiW0YgKiEeSno-Fiywz8bg _i_c48AKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class"/>
+        <attributes xmi:id="_U4XCcAKiEeSno-Fiywz8bg" value="source">
+          <type href="ClassModel.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_PfrtkAKiEeSno-Fiywz8bg" name="cl2" incoming="_i_c48AKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class"/>
+        <attributes xmi:id="_VZ3NAAKiEeSno-Fiywz8bg" value="target">
+          <type href="ClassModel.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_SiWNUAKiEeSno-Fiywz8bg" name="attr" incoming="_SiW0YgKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Attribute"/>
+        <attributes xmi:id="_VL1_IAKiEeSno-Fiywz8bg" value="attName">
+          <type href="ClassModel.ecore#//Attribute/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_SiW0YgKiEeSno-Fiywz8bg" source="_N36egAKiEeSno-Fiywz8bg" target="_SiWNUAKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class/attributes"/>
+      </edges>
+      <edges xmi:id="_i_c48AKiEeSno-Fiywz8bg" source="_N36egAKiEeSno-Fiywz8bg" target="_PfrtkAKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class/references"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_JYW04QKgEeSno-Fiywz8bg" name="Rhs">
+      <nodes xmi:id="_N37soAKiEeSno-Fiywz8bg" name="cl1" outgoing="_gw7EgAKlEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class"/>
+        <attributes xmi:id="_U4XCcQKiEeSno-Fiywz8bg" value="source">
+          <type href="ClassModel.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_PfrtkQKiEeSno-Fiywz8bg" name="cl2" incoming="_gw7EgAKlEeSno-Fiywz8bg" outgoing="_bp7c4AKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class"/>
+        <attributes xmi:id="_VZ3NAQKiEeSno-Fiywz8bg" value="target">
+          <type href="ClassModel.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_SiW0YAKiEeSno-Fiywz8bg" name="attr" incoming="_bp7c4AKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Attribute"/>
+        <attributes xmi:id="_VL2mMAKiEeSno-Fiywz8bg" value="attName">
+          <type href="ClassModel.ecore#//Attribute/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_bp7c4AKiEeSno-Fiywz8bg" source="_PfrtkQKiEeSno-Fiywz8bg" target="_SiW0YAKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class/attributes"/>
+      </edges>
+      <edges xmi:id="_gw7EgAKlEeSno-Fiywz8bg" source="_N37soAKiEeSno-Fiywz8bg" target="_PfrtkQKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class/references"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_N37soQKiEeSno-Fiywz8bg" origin="_N36egAKiEeSno-Fiywz8bg" image="_N37soAKiEeSno-Fiywz8bg"/>
+    <mappings xmi:id="_PfrtkgKiEeSno-Fiywz8bg" origin="_PfrtkAKiEeSno-Fiywz8bg" image="_PfrtkQKiEeSno-Fiywz8bg"/>
+    <mappings xmi:id="_SiW0YQKiEeSno-Fiywz8bg" origin="_SiWNUAKiEeSno-Fiywz8bg" image="_SiW0YAKiEeSno-Fiywz8bg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_RhxzEAKgEeSno-Fiywz8bg" name="Add_Attribute">
+    <parameters xmi:id="_87U5MAKvEeSno-Fiywz8bg" name="clName"/>
+    <parameters xmi:id="_v_MZ8AKvEeSno-Fiywz8bg" name="attName"/>
+    <lhs xmi:id="_RhzoQAKgEeSno-Fiywz8bg" name="Lhs">
+      <nodes xmi:id="_CnZMgAKiEeSno-Fiywz8bg" name="cl">
+        <type href="ClassModel.ecore#//Class"/>
+        <attributes xmi:id="_GFRooAKiEeSno-Fiywz8bg" value="clName">
+          <type href="ClassModel.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_RhzoQQKgEeSno-Fiywz8bg" name="Rhs">
+      <nodes xmi:id="_CnbowAKiEeSno-Fiywz8bg" name="cl" outgoing="_EoGgAAKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class"/>
+        <attributes xmi:id="_GFRooQKiEeSno-Fiywz8bg" value="clName">
+          <type href="ClassModel.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_EoF48AKiEeSno-Fiywz8bg" name="newAttr" incoming="_EoGgAAKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Attribute"/>
+        <attributes xmi:id="_GYgtsAKiEeSno-Fiywz8bg" value="attName">
+          <type href="ClassModel.ecore#//Attribute/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_EoGgAAKiEeSno-Fiywz8bg" source="_CnbowAKiEeSno-Fiywz8bg" target="_EoF48AKiEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Class/attributes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_CnbowQKiEeSno-Fiywz8bg" origin="_CnZMgAKiEeSno-Fiywz8bg" image="_CnbowAKiEeSno-Fiywz8bg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p2iIsAKmEeSno-Fiywz8bg" name="Remove_Empty_Class">
+    <parameters xmi:id="_EHK00AKwEeSno-Fiywz8bg" name="clName"/>
+    <lhs xmi:id="_p2maIAKmEeSno-Fiywz8bg" name="Lhs">
+      <nodes xmi:id="_wUuUIAKmEeSno-Fiywz8bg" name="cl" incoming="_QcHQoANSEeSVBLjQFlOzmQ">
+        <type href="ClassModel.ecore#//Class"/>
+        <attributes xmi:id="_28cPAAKmEeSno-Fiywz8bg" value="clName">
+          <type href="ClassModel.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_NeTbsANSEeSVBLjQFlOzmQ" name="m" outgoing="_QcHQoANSEeSVBLjQFlOzmQ">
+        <type href="ClassModel.ecore#//Model"/>
+      </nodes>
+      <edges xmi:id="_QcHQoANSEeSVBLjQFlOzmQ" source="_NeTbsANSEeSVBLjQFlOzmQ" target="_wUuUIAKmEeSno-Fiywz8bg">
+        <type href="ClassModel.ecore#//Model/classes"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_FwI3YAKoEeSno-Fiywz8bg">
+        <left xsi:type="henshin:And" xmi:id="_DvpmUAKoEeSno-Fiywz8bg">
+          <left xsi:type="henshin:Not" xmi:id="_0KUQMQKnEeSno-Fiywz8bg">
+            <child xsi:type="henshin:NestedCondition" xmi:id="_0KUQMgKnEeSno-Fiywz8bg">
+              <conclusion xmi:id="_0KUQMwKnEeSno-Fiywz8bg" name="noAttr">
+                <nodes xmi:id="_0KUQNgKnEeSno-Fiywz8bg" name="cl" outgoing="_vv9kwgKnEeSno-Fiywz8bg">
+                  <type href="ClassModel.ecore#//Class"/>
+                  <attributes xmi:id="_0KUQNwKnEeSno-Fiywz8bg" value="clName">
+                    <type href="ClassModel.ecore#//Class/name"/>
+                  </attributes>
+                </nodes>
+                <nodes xmi:id="_vv7vkAKnEeSno-Fiywz8bg" name="attr" incoming="_vv9kwgKnEeSno-Fiywz8bg">
+                  <type href="ClassModel.ecore#//Attribute"/>
+                </nodes>
+                <edges xmi:id="_vv9kwgKnEeSno-Fiywz8bg" source="_0KUQNgKnEeSno-Fiywz8bg" target="_vv7vkAKnEeSno-Fiywz8bg">
+                  <type href="ClassModel.ecore#//Class/attributes"/>
+                </edges>
+              </conclusion>
+              <mappings xmi:id="_0KUQOAKnEeSno-Fiywz8bg" origin="_wUuUIAKmEeSno-Fiywz8bg" image="_0KUQNgKnEeSno-Fiywz8bg"/>
+            </child>
+          </left>
+          <right xsi:type="henshin:Not" xmi:id="_DvpmUQKoEeSno-Fiywz8bg">
+            <child xsi:type="henshin:NestedCondition" xmi:id="_DvpmUgKoEeSno-Fiywz8bg">
+              <conclusion xmi:id="_DvpmUwKoEeSno-Fiywz8bg" name="noRefOut">
+                <nodes xmi:id="_DvqNYAKoEeSno-Fiywz8bg" name="cl" outgoing="_4yi_kAKnEeSno-Fiywz8bg">
+                  <type href="ClassModel.ecore#//Class"/>
+                  <attributes xmi:id="_DvqNYQKoEeSno-Fiywz8bg" value="clName">
+                    <type href="ClassModel.ecore#//Class/name"/>
+                  </attributes>
+                </nodes>
+                <nodes xmi:id="_28NwEAKnEeSno-Fiywz8bg" incoming="_4yi_kAKnEeSno-Fiywz8bg">
+                  <type href="ClassModel.ecore#//Class"/>
+                </nodes>
+                <edges xmi:id="_4yi_kAKnEeSno-Fiywz8bg" source="_DvqNYAKoEeSno-Fiywz8bg" target="_28NwEAKnEeSno-Fiywz8bg">
+                  <type href="ClassModel.ecore#//Class/references"/>
+                </edges>
+              </conclusion>
+              <mappings xmi:id="_DvqNYgKoEeSno-Fiywz8bg" origin="_wUuUIAKmEeSno-Fiywz8bg" image="_DvqNYAKoEeSno-Fiywz8bg"/>
+            </child>
+          </right>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_FwI3YQKoEeSno-Fiywz8bg">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_FwI3YgKoEeSno-Fiywz8bg">
+            <conclusion xmi:id="_FwI3YwKoEeSno-Fiywz8bg" name="noRefIn">
+              <nodes xmi:id="_FwI3ZgKoEeSno-Fiywz8bg" name="cl" incoming="_73FuoAKnEeSno-Fiywz8bg">
+                <type href="ClassModel.ecore#//Class"/>
+                <attributes xmi:id="_FwI3ZwKoEeSno-Fiywz8bg" value="clName">
+                  <type href="ClassModel.ecore#//Class/name"/>
+                </attributes>
+              </nodes>
+              <nodes xmi:id="_6qYq8AKnEeSno-Fiywz8bg" name="cl2" outgoing="_73FuoAKnEeSno-Fiywz8bg">
+                <type href="ClassModel.ecore#//Class"/>
+              </nodes>
+              <edges xmi:id="_73FuoAKnEeSno-Fiywz8bg" source="_6qYq8AKnEeSno-Fiywz8bg" target="_FwI3ZgKoEeSno-Fiywz8bg">
+                <type href="ClassModel.ecore#//Class/references"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_FwI3aAKoEeSno-Fiywz8bg" origin="_wUuUIAKmEeSno-Fiywz8bg" image="_FwI3ZgKoEeSno-Fiywz8bg"/>
+          </child>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_p2maIQKmEeSno-Fiywz8bg" name="Rhs">
+      <nodes xmi:id="_NeVQ4ANSEeSVBLjQFlOzmQ" name="m">
+        <type href="ClassModel.ecore#//Model"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_NeVQ4QNSEeSVBLjQFlOzmQ" origin="_NeTbsANSEeSVBLjQFlOzmQ" image="_NeVQ4ANSEeSVBLjQFlOzmQ"/>
+  </units>
+</henshin:Module>
