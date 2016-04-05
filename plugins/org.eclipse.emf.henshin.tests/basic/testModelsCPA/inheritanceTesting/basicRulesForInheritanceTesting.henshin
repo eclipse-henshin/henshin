@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_-uv8UBp6EeWWit5gyWZ7lg">
+  <imports href="vehicleAndTools.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hV_SUBsZEeWWit5gyWZ7lg" name="deleteMotorVehicle">
+    <lhs xmi:id="_hWVQkBsZEeWWit5gyWZ7lg" name="Lhs">
+      <nodes xmi:id="_gBbdsBsaEeWWit5gyWZ7lg" name="anyMotorVehicle">
+        <type href="vehicleAndTools.ecore#//MotorVehicle"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_hWWesBsZEeWWit5gyWZ7lg" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_ckKsoBsaEeWWit5gyWZ7lg" name="useDigger">
+    <lhs xmi:id="_ckO-EBsaEeWWit5gyWZ7lg" name="Lhs">
+      <nodes xmi:id="_j3skoBsaEeWWit5gyWZ7lg" name="anyDigger">
+        <type href="vehicleAndTools.ecore#//Digger"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_ckPlIBsaEeWWit5gyWZ7lg" name="Rhs">
+      <nodes xmi:id="_j3skoRsaEeWWit5gyWZ7lg" name="anyDigger">
+        <type href="vehicleAndTools.ecore#//Digger"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_j3skohsaEeWWit5gyWZ7lg" origin="_j3skoBsaEeWWit5gyWZ7lg" image="_j3skoRsaEeWWit5gyWZ7lg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_2FDF4BsaEeWWit5gyWZ7lg" name="deleteDigger">
+    <lhs xmi:id="_2FFiIBsaEeWWit5gyWZ7lg" name="Lhs">
+      <nodes xmi:id="_3JYQsBsaEeWWit5gyWZ7lg" name="anyDigger">
+        <type href="vehicleAndTools.ecore#//Digger"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_2FGJMBsaEeWWit5gyWZ7lg" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6hSAoBsaEeWWit5gyWZ7lg" name="useMotorVehicle">
+    <lhs xmi:id="_6hVD8BsaEeWWit5gyWZ7lg" name="Lhs">
+      <nodes xmi:id="_8Es7MBsaEeWWit5gyWZ7lg" name="anyMotorVehicle">
+        <type href="vehicleAndTools.ecore#//MotorVehicle"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_6hVD8RsaEeWWit5gyWZ7lg" name="Rhs">
+      <nodes xmi:id="_8Es7MRsaEeWWit5gyWZ7lg" name="anyMotorVehicle">
+        <type href="vehicleAndTools.ecore#//MotorVehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_8Es7MhsaEeWWit5gyWZ7lg" origin="_8Es7MBsaEeWWit5gyWZ7lg" image="_8Es7MRsaEeWWit5gyWZ7lg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_FmNtsBsbEeWWit5gyWZ7lg" name="deleteTruck">
+    <lhs xmi:id="_FmRYEBsbEeWWit5gyWZ7lg" name="Lhs">
+      <nodes xmi:id="_QEcAEBsbEeWWit5gyWZ7lg" name="anyTruck">
+        <type href="vehicleAndTools.ecore#//Truck"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_FmRYERsbEeWWit5gyWZ7lg" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_HPZSABsbEeWWit5gyWZ7lg" name="useConstructionSiteTool">
+    <lhs xmi:id="_HPdjcBsbEeWWit5gyWZ7lg" name="Lhs">
+      <nodes xmi:id="_a9t2wBsbEeWWit5gyWZ7lg" name="anyConstructionSiteTool">
+        <type href="vehicleAndTools.ecore#//ConstructionSiteTool"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_HPdjcRsbEeWWit5gyWZ7lg" name="Rhs">
+      <nodes xmi:id="_a9t2wRsbEeWWit5gyWZ7lg" name="anyConstructionSiteTool">
+        <type href="vehicleAndTools.ecore#//ConstructionSiteTool"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_a9t2whsbEeWWit5gyWZ7lg" origin="_a9t2wBsbEeWWit5gyWZ7lg" image="_a9t2wRsbEeWWit5gyWZ7lg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_sC-ukBsbEeWWit5gyWZ7lg" name="produceMotorVehicle">
+    <lhs xmi:id="_sDCY8BsbEeWWit5gyWZ7lg" name="Lhs"/>
+    <rhs xmi:id="_sDCY8RsbEeWWit5gyWZ7lg" name="Rhs">
+      <nodes xmi:id="_usGF4BsbEeWWit5gyWZ7lg" name="anyMotorVehicle">
+        <type href="vehicleAndTools.ecore#//MotorVehicle"/>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_2d7DcBsbEeWWit5gyWZ7lg" name="forbidDigger">
+    <lhs xmi:id="_2d84oBsbEeWWit5gyWZ7lg" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_53CUUBsbEeWWit5gyWZ7lg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_53CUURsbEeWWit5gyWZ7lg">
+          <conclusion xmi:id="_53CUUhsbEeWWit5gyWZ7lg">
+            <nodes xmi:id="_4ie8MBsbEeWWit5gyWZ7lg" name="anyDigger">
+              <type href="vehicleAndTools.ecore#//Digger"/>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_2d84oRsbEeWWit5gyWZ7lg" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_LnRbwBscEeWWit5gyWZ7lg" name="produceDigger">
+    <lhs xmi:id="_LnVtMBscEeWWit5gyWZ7lg" name="Lhs"/>
+    <rhs xmi:id="_LnVtMRscEeWWit5gyWZ7lg" name="Rhs">
+      <nodes xmi:id="_MeeJgBscEeWWit5gyWZ7lg" name="anyDigger">
+        <type href="vehicleAndTools.ecore#//Digger"/>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VEiAYBscEeWWit5gyWZ7lg" name="forbidMotorVehicle">
+    <lhs xmi:id="_VEkcoBscEeWWit5gyWZ7lg" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_XrrBwBscEeWWit5gyWZ7lg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_XrrBwRscEeWWit5gyWZ7lg">
+          <conclusion xmi:id="_XrrBwhscEeWWit5gyWZ7lg">
+            <nodes xmi:id="_WHn1EBscEeWWit5gyWZ7lg" name="anyMotorVehicle">
+              <type href="vehicleAndTools.ecore#//MotorVehicle"/>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_VEkcoRscEeWWit5gyWZ7lg" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6Rp-UBscEeWWit5gyWZ7lg" name="forbidConstructionSiteTool">
+    <lhs xmi:id="_6RwE8BscEeWWit5gyWZ7lg" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_9CiMRRscEeWWit5gyWZ7lg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_9CiMTRscEeWWit5gyWZ7lg">
+          <conclusion xmi:id="_9CiMTxscEeWWit5gyWZ7lg">
+            <nodes xmi:id="_7fts4BscEeWWit5gyWZ7lg" name="anyConstructionSiteTool">
+              <type href="vehicleAndTools.ecore#//ConstructionSiteTool"/>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_6RwsABscEeWWit5gyWZ7lg" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_QN82gBsdEeWWit5gyWZ7lg" name="produceTruck">
+    <lhs xmi:id="_QN-rsBsdEeWWit5gyWZ7lg" name="Lhs"/>
+    <rhs xmi:id="_QN-rsRsdEeWWit5gyWZ7lg" name="Rhs">
+      <nodes xmi:id="_RUavUBsdEeWWit5gyWZ7lg" name="anyTruck">
+        <type href="vehicleAndTools.ecore#//Truck"/>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_9AVa8CDWEeW9lPIimCl-sQ" name="deleteVehicle">
+    <lhs xmi:id="_9AZsYCDWEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="__uNWcCDWEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicleAndTools.ecore#//Vehicle"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9AZsYSDWEeW9lPIimCl-sQ" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_iPjqoCDXEeW9lPIimCl-sQ" name="useVehicle">
+    <lhs xmi:id="_iPs0kCDXEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_jgAl4CDXEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicleAndTools.ecore#//Vehicle"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_iPs0kSDXEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_jgAl4SDXEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicleAndTools.ecore#//Vehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_jgAl4iDXEeW9lPIimCl-sQ" origin="_jgAl4CDXEeW9lPIimCl-sQ" image="_jgAl4SDXEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_FAmnsCDYEeW9lPIimCl-sQ" name="forbidVehicle">
+    <lhs xmi:id="_FAsHQCDYEeW9lPIimCl-sQ" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_IS3psCDYEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_IS3psSDYEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_IS3psiDYEeW9lPIimCl-sQ">
+            <nodes xmi:id="_GkJeECDYEeW9lPIimCl-sQ" name="anyVehicle">
+              <type href="vehicleAndTools.ecore#//Vehicle"/>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_FAsHQSDYEeW9lPIimCl-sQ" name="Rhs"/>
+  </units>
+</henshin:Module>
