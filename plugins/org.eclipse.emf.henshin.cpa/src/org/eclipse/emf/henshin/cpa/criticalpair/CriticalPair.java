@@ -1,16 +1,17 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package criticalpair;
+package org.eclipse.emf.henshin.cpa.criticalpair;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -20,14 +21,14 @@ import org.eclipse.emf.henshin.model.Rule;
  *
  * <p>
  * The following features are supported:
- * <ul>
- *   <li>{@link criticalpair.CriticalPair#getFirstRule <em>First Rule</em>}</li>
- *   <li>{@link criticalpair.CriticalPair#getSecondRule <em>Second Rule</em>}</li>
- *   <li>{@link criticalpair.CriticalPair#getMinimalModel <em>Minimal Model</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getFirstRule <em>First Rule</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getSecondRule <em>Second Rule</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getMinimalModel <em>Minimal Model</em>}</li>
+ * </ul>
  *
- * @see criticalpair.CriticalpairPackage#getCriticalPair()
+ * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage#getCriticalPair()
  * @model
  * @generated
  */
@@ -42,14 +43,14 @@ public interface CriticalPair extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>First Rule</em>' containment reference.
 	 * @see #setFirstRule(Rule)
-	 * @see criticalpair.CriticalpairPackage#getCriticalPair_FirstRule()
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage#getCriticalPair_FirstRule()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	Rule getFirstRule();
 
 	/**
-	 * Sets the value of the '{@link criticalpair.CriticalPair#getFirstRule <em>First Rule</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getFirstRule <em>First Rule</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>First Rule</em>' containment reference.
@@ -68,14 +69,14 @@ public interface CriticalPair extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Second Rule</em>' containment reference.
 	 * @see #setSecondRule(Rule)
-	 * @see criticalpair.CriticalpairPackage#getCriticalPair_SecondRule()
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage#getCriticalPair_SecondRule()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	Rule getSecondRule();
 
 	/**
-	 * Sets the value of the '{@link criticalpair.CriticalPair#getSecondRule <em>Second Rule</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getSecondRule <em>Second Rule</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Second Rule</em>' containment reference.
@@ -94,14 +95,14 @@ public interface CriticalPair extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Minimal Model</em>' containment reference.
 	 * @see #setMinimalModel(EPackage)
-	 * @see criticalpair.CriticalpairPackage#getCriticalPair_MinimalModel()
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage#getCriticalPair_MinimalModel()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	EPackage getMinimalModel();
 
 	/**
-	 * Sets the value of the '{@link criticalpair.CriticalPair#getMinimalModel <em>Minimal Model</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getMinimalModel <em>Minimal Model</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Minimal Model</em>' containment reference.

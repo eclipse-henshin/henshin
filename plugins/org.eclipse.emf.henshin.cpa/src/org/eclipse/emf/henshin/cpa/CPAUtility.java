@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -45,13 +45,12 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Utility for the critical pair analysis. Up till now mainly used for persisting the results in the file system.  
+ * Utility for the critical pair analysis. Up till now mainly used for persisting the results in the file system.
  * 
  * @author Kristopher Born
  *
  */
 public class CPAUtility {
-
 
 	/**
 	 * Persists the results of a critical pair analysis in the file system.
@@ -88,7 +87,7 @@ public class CPAUtility {
 			} else if (cp instanceof Dependency) {
 				criticalPairKind = ((Dependency) cp).getDependencyKind().toString();
 			}
-			
+
 			String formatedNumberForRulePair = new DecimalFormat("00").format(numberForRulePair);
 
 			String numberedNameOfCPKind = "(" + formatedNumberForRulePair + ") " + criticalPairKind;
@@ -103,7 +102,6 @@ public class CPAUtility {
 		return persistedCPs;
 	}
 
-
 	/**
 	 * Persists a single critical pair (<code>cp</code>) in the file system.
 	 * 
@@ -112,7 +110,8 @@ public class CPAUtility {
 	 * @param path The path for saving the files.
 	 * @return a <code>CriticalPairNode</code>.
 	 */
-	private static CriticalPairNode persistSingleCriticalPair(CriticalPair cp, String numberedNameOfCriticalPair, String path) {
+	private static CriticalPairNode persistSingleCriticalPair(CriticalPair cp, String numberedNameOfCriticalPair,
+			String path) {
 
 		ResourceSet commonResourceSet = new ResourceSetImpl();
 
@@ -135,7 +134,7 @@ public class CPAUtility {
 		Graph firstRuleRHS = firstRule.getRhs();
 		Graph secondRuleLHS = secondRule.getLhs();
 		Graph secondRuleRHS = secondRule.getRhs();
-		
+
 		// serves for naming back the nodes of the involved rules
 		HashMap<Node, String> renameMap = new HashMap<Node, String>();
 
@@ -211,36 +210,33 @@ public class CPAUtility {
 		String fileNameRule1 = "(1)" + firstRule.getName() + ".henshin";
 		String fullPathRule1 = pathForCurrentCriticalPair + fileNameRule1;
 		URI firstRuleURI = saveRuleInFileSystem(commonResourceSet, firstRule, fullPathRule1);
-		
-		
+
 		// save the minimal model in the file system
 		String fileNameMinimalModel = "minimal-model" + ".ecore";
 		String fullPathMinimalModel = pathForCurrentCriticalPair + fileNameMinimalModel;
 
 		URI overlapURI = saveMinimalModelInFileSystem(commonResourceSet, minimalModel, fullPathMinimalModel);
 
-		
 		// save the second rule in the file system
 		String fileNameRule2 = "(2)" + secondRule.getName() + ".henshin";
 		String fullPathRule2 = pathForCurrentCriticalPair + fileNameRule2;
 		URI secondRuleURI = saveRuleInFileSystem(commonResourceSet, secondRule, fullPathRule2);
-		
-		
-		
-		//save a dummy for the HenshinCPEditor
+
+		// save a dummy for the HenshinCPEditor
 		String fileName = "dummy.henshinCp";
 		String fullPath = pathForCurrentCriticalPair + fileName;
-		URI criticalPairURI = saveCriticalPairInFileSystem(commonResourceSet, null/*criticalPairOfThisProcess*/, fullPath);
-		
-		
-		// rename the Nodes of the rules back to have the original rule for the renaming for the next processed critical pair.
-		for(Node node : renameMap.keySet()){
+		URI criticalPairURI = saveCriticalPairInFileSystem(commonResourceSet, null/* criticalPairOfThisProcess */,
+				fullPath);
+
+		// rename the Nodes of the rules back to have the original rule for the renaming for the next processed critical
+		// pair.
+		for (Node node : renameMap.keySet()) {
 			node.setName(renameMap.get(node));
 		}
 
-		return new CriticalPairNode(numberedNameOfCriticalPair, firstRuleURI, secondRuleURI, overlapURI, criticalPairURI);
+		return new CriticalPairNode(numberedNameOfCriticalPair, firstRuleURI, secondRuleURI, overlapURI,
+				criticalPairURI);
 	}
-
 
 	/**
 	 * Renames the nodes of the minimal model based on the names of the rules.
@@ -257,7 +253,6 @@ public class CPAUtility {
 		}
 	}
 
-
 	/**
 	 * Saves an <code>EGraph</code>, which might be a minimal model on the given path within the file system.
 	 * 
@@ -266,7 +261,8 @@ public class CPAUtility {
 	 * @param fullPathMinimalModel The full path of the file.
 	 * @return the <code>URI</code> of the saved file.
 	 */
-	private static URI saveMinimalModelInFileSystem(ResourceSet resourceSet, EPackage minimalModel, String fullPathMinimalModel) {
+	private static URI saveMinimalModelInFileSystem(ResourceSet resourceSet, EPackage minimalModel,
+			String fullPathMinimalModel) {
 		URI overlapURI = URI.createFileURI(fullPathMinimalModel);
 		Resource overlapResource = resourceSet.createResource(overlapURI, "ecore");
 
@@ -341,7 +337,7 @@ public class CPAUtility {
 		}
 		return differentElementsCounter;
 	}
-	
+
 	/**
 	 * Changes the order of the rules within the module based on the order of the strings.
 	 * 
@@ -350,70 +346,73 @@ public class CPAUtility {
 	 */
 	public void changeRuleOrder(Module module, String[] newRuleOrder) {
 		Vector<String> ruleOrderList = new Vector<String>(Arrays.asList(newRuleOrder));
-		
+
 		BasicEList<Unit> newSortedRulesList = new BasicEList<Unit>();
-		
+
 		// 1. order of Rules
-		for(String nameOfOrderedRule : ruleOrderList){
-			for(Unit rule : module.getUnits()){
-				if(rule.getName().equals(nameOfOrderedRule)){
+		for (String nameOfOrderedRule : ruleOrderList) {
+			for (Unit rule : module.getUnits()) {
+				if (rule.getName().equals(nameOfOrderedRule)) {
 					newSortedRulesList.add(rule);
 				}
 			}
 		}
-		
-		//add remaining rules 
+
+		// add remaining rules
 		// 1.1 reduce original rules by already processed ones
-		for(Unit rule : newSortedRulesList){
+		for (Unit rule : newSortedRulesList) {
 			module.getUnits().remove(rule);
 		}
-		// add the remaining rules to the 
+		// add the remaining rules to the
 		newSortedRulesList.addAll(module.getUnits());
-		
-		// 1.2 replace old list by new list		
+
+		// 1.2 replace old list by new list
 		module.getUnits().clear();
 		module.getUnits().addAll(newSortedRulesList);
 	}
 
-
 	/**
-	 * This method clears the both lists. The rules within the <code>Module</code> will be searched for the two of which the names had been passed and each rule will be added to the associated <code>List</code>.
-	 * This method serves for analyzing explicit combinations of rules. Frequently used in the test suite.
+	 * This method clears the both lists. The rules within the <code>Module</code> will be searched for the two of which
+	 * the names had been passed and each rule will be added to the associated <code>List</code>. This method serves for
+	 * analyzing explicit combinations of rules. Frequently used in the test suite.
+	 * 
 	 * @param module The <code>Module</code> containing the rules.
-	 * @param firstRule The first <code>Rule</code> as a <code>List</code>. The <code>List</code> will be cleared and afterwards filled with the first <code>Rule</code> as single containment of the <code>List</code>.
-	 * @param firstRuleName The name of the first <code>Rule</code>, which will be searched in the <code>Module</code> and added to the <code>List</code>.
-	 * @param secondRule The second <code>Rule</code> as a <code>List</code>. The <code>List</code> will be cleared and afterwards filled with the second <code>Rule</code> as single containment of the <code>List</code>.
-	 * @param secondRuleName The name of the second <code>Rule</code>, which will be searched in the <code>Module</code> and added to the <code>List</code>.
+	 * @param firstRule The first <code>Rule</code> as a <code>List</code>. The <code>List</code> will be cleared and
+	 *            afterwards filled with the first <code>Rule</code> as single containment of the <code>List</code>.
+	 * @param firstRuleName The name of the first <code>Rule</code>, which will be searched in the <code>Module</code>
+	 *            and added to the <code>List</code>.
+	 * @param secondRule The second <code>Rule</code> as a <code>List</code>. The <code>List</code> will be cleared and
+	 *            afterwards filled with the second <code>Rule</code> as single containment of the <code>List</code>.
+	 * @param secondRuleName The name of the second <code>Rule</code>, which will be searched in the <code>Module</code>
+	 *            and added to the <code>List</code>.
 	 */
-	public static void extractSingleRules(Module module, List<Rule> firstRule, String firstRuleName, List<Rule> secondRule,
-			String secondRuleName) {
-		for(Unit unit : module.getUnits()){
-			if(unit.getName().equalsIgnoreCase(firstRuleName))
+	public static void extractSingleRules(Module module, List<Rule> firstRule, String firstRuleName,
+			List<Rule> secondRule, String secondRuleName) {
+		for (Unit unit : module.getUnits()) {
+			if (unit.getName().equalsIgnoreCase(firstRuleName))
 				firstRule.add((Rule) unit);
-			if(unit.getName().equalsIgnoreCase(secondRuleName))
+			if (unit.getName().equalsIgnoreCase(secondRuleName))
 				secondRule.add((Rule) unit);
-		}	
+		}
 	}
-
 
 	/**
 	 * Extracts all the rules of a module within a List.
+	 * 
 	 * @param module The <code>Module</code> containing the rules.
 	 * @return a <code>List</code> containing the <code>Rule</code>s within the <code>Module</code>.
 	 */
 	public static List<Rule> extractAllRules(Module module) {
 		List<Rule> allExtractedRules = new LinkedList<Rule>();
-		for(Unit unit : module.getUnits()){
-			if(unit instanceof Rule)
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof Rule)
 				allExtractedRules.add((Rule) unit);
-		}		
+		}
 		return allExtractedRules;
 	}
 
-
-
 	private static URI saveCriticalPairInFileSystem(ResourceSet resourceSet,
-			criticalpair.CriticalPair criticalPairOfThisProcess, String fullPath) {
+			org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair criticalPairOfThisProcess, String fullPath) {
 		URI fileURI = URI.createFileURI(fullPath);
 		Resource criticalPairResource = resourceSet.createResource(fileURI, "henshinCp");
 

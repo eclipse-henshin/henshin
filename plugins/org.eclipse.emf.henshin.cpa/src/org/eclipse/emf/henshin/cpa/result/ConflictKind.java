@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -16,11 +16,9 @@ package org.eclipse.emf.henshin.cpa.result;
  */
 public enum ConflictKind {
 
-	DELETE_USE_CONFLICT("delete-use-conflict"), 
-	PRODUCE_FORBID_CONFLICT("produce-forbid-conflict"), 
-	CHANGE_USE_ATTR_CONFLICT("change-use-attr-conflict"), 
-	CHANGE_FORBID_ATTR_CONFLICT("change-forbid-attr-conflict"),
-	PRODUCE_EDGE_DELETE_NODE_CONFLICT("produce_edge-delete_node-conflict");
+	DELETE_USE_CONFLICT("delete-use-conflict"), PRODUCE_FORBID_CONFLICT("produce-forbid-conflict"), CHANGE_USE_ATTR_CONFLICT(
+			"change-use-attr-conflict"), CHANGE_FORBID_ATTR_CONFLICT("change-forbid-attr-conflict"), PRODUCE_EDGE_DELETE_NODE_CONFLICT(
+			"produce_edge-delete_node-conflict");
 
 	private String name;
 

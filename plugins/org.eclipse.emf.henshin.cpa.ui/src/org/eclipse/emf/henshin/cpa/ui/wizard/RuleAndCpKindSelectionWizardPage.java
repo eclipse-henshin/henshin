@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -16,8 +16,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-
 import org.eclipse.emf.henshin.cpa.InputDataChecker;
 import org.eclipse.emf.henshin.cpa.UnsupportedRuleException;
 import org.eclipse.emf.henshin.model.Rule;
@@ -50,14 +48,14 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 
 	private final class RuleNameComparator implements Comparator<Rule> {
 		public int compare(Rule r1, Rule r2) {
-		    int compareResult = r1.getName().compareTo(r2.getName());
-		    
-		    if(compareResult<0)
-		    	return -1;
-		    else if(compareResult>0)
-		    	return 1;
-		    else
-		    	return 0;
+			int compareResult = r1.getName().compareTo(r2.getName());
+
+			if (compareResult < 0)
+				return -1;
+			else if (compareResult > 0)
+				return 1;
+			else
+				return 0;
 		}
 	}
 
@@ -97,9 +95,9 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 		criticalPairGroup.setLayout(new GridLayout());
 		criticalPairGroup.setText("Calculate...");
 
-		//sort the rules alphabetic
-	    List<Rule> rulesForSelectionList = new ArrayList<Rule>(rulesAndAssociatedFileNames.keySet());
-	    Collections.sort(rulesForSelectionList, new RuleNameComparator());
+		// sort the rules alphabetic
+		List<Rule> rulesForSelectionList = new ArrayList<Rule>(rulesAndAssociatedFileNames.keySet());
+		Collections.sort(rulesForSelectionList, new RuleNameComparator());
 
 		for (Rule rule : rulesForSelectionList) {
 			Button ruleSelectionButton = new Button(rulesGroup, SWT.CHECK);
@@ -177,8 +175,8 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 				setErrorMessage(null);
 			} catch (UnsupportedRuleException e) {
 				setErrorMessage(e.getDetailedMessage());
-				//TODO: differentiate between Errors (no analysis possible) and warnings (realisation see line below) 
-//				setMessage(e.getDetailedMessage(), 2);
+				// TODO: differentiate between Errors (no analysis possible) and warnings (realization see line below)
+				// setMessage(e.getDetailedMessage(), 2);
 			}
 		}
 	};

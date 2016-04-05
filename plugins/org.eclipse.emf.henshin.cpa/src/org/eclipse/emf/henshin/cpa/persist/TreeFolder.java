@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -47,7 +47,7 @@ public class TreeFolder {
 	 * @see java.util.List#add()
 	 */
 	public boolean addChild(CriticalPairNode criticalPairNode) {
-//		criticalPairNode.setParent(this);
+		// criticalPairNode.setParent(this);
 		return singleCriticalPairResults.add(criticalPairNode);
 	}
 
@@ -57,7 +57,7 @@ public class TreeFolder {
 	 * @see java.util.List#remove()
 	 */
 	public boolean removeChild(CriticalPairNode child) {
-//		child.setParent(null);
+		// child.setParent(null);
 		return singleCriticalPairResults.remove(child);
 	}
 

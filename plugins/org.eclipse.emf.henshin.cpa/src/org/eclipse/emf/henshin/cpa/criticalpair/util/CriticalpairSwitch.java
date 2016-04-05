@@ -1,18 +1,20 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package criticalpair.util;
+package org.eclipse.emf.henshin.cpa.criticalpair.util;
 
-import criticalpair.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
+
+import org.eclipse.emf.henshin.cpa.criticalpair.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +26,7 @@ import org.eclipse.emf.ecore.util.Switch;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see criticalpair.CriticalpairPackage
+ * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage
  * @generated
  */
 public class CriticalpairSwitch<T> extends Switch<T> {
@@ -52,7 +54,7 @@ public class CriticalpairSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */

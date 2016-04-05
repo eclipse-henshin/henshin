@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -119,13 +119,11 @@ public class CpEditorUtil {
 		IFile[] iFile1 = workspaceRoot.findFilesForLocationURI(myURI1);
 		FileEditorInput minimalModelFileEditorInput = new FileEditorInput(iFile1[0]);
 		boolean minimalModelFileEditorInputExists = minimalModelFileEditorInput.exists();
-		// System.out.println("minimalModelFileEditorInput exists:" + minimalModelFileEditorInputExists);
 
 		java.net.URI myURI2 = new java.net.URI(modelURIs[2].toString());
 		IFile[] iFile2 = workspaceRoot.findFilesForLocationURI(myURI2);
 		FileEditorInput secondRuleFileEditorInput = new FileEditorInput(iFile2[0]);
 		boolean secondRuleFileEditorInputExists = secondRuleFileEditorInput.exists();
-		// System.out.println("secondRuleFileEditorInput exists:" + secondRuleFileEditorInputExists);
 
 		IEditorInput[] editorInputs = new IEditorInput[3];
 		editorInputs[0] = firstRuleFileEditorInput;

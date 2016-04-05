@@ -6,7 +6,8 @@
     usedGenPackages="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin"
     operationReflection="true" importOrganizing="true">
   <foreignModel>criticalPair.ecore</foreignModel>
-  <genPackages prefix="Criticalpair" disposableProviderFactory="true" ecorePackage="criticalPair.ecore#/">
+  <genPackages prefix="Criticalpair" basePackage="org.eclipse.emf.henshin.cpa" disposableProviderFactory="true"
+      ecorePackage="criticalPair.ecore#/">
     <genClasses ecoreClass="criticalPair.ecore#//CriticalPair">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference criticalPair.ecore#//CriticalPair/firstRule"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference criticalPair.ecore#//CriticalPair/secondRule"/>

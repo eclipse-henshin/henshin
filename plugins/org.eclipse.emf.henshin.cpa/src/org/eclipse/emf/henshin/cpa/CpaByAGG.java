@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -13,11 +13,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EReference;
@@ -42,8 +39,10 @@ import agg.xt_basis.GraGra;
 import agg.xt_basis.GraTraOptions;
 import agg.xt_basis.MorphCompletionStrategy;
 import agg.xt_basis.Rule;
+
 /**
- * The Implementation of the critical pair analysis for the <code>ICriticalPairAnalysis</code> interface by using the analysis implemented in AGG.
+ * The Implementation of the critical pair analysis for the <code>ICriticalPairAnalysis</code> interface by using the
+ * analysis implemented in AGG.
  * 
  * @author Kristopher Born
  *
@@ -69,7 +68,6 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	private boolean generateCpxFile = false;
 	private boolean createRuleParameterForAllAttributes = true;
-	
 
 	private String resultDirectory = File.separator.concat("files").concat(File.separator).concat("results")
 			.concat(File.separator);
@@ -104,7 +102,8 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * @throws UnsupportedRuleException in case of invalid rules.
 	 */
 	@Override
-	public void init(List<org.eclipse.emf.henshin.model.Rule> rules, CPAOptions options) throws UnsupportedRuleException {
+	public void init(List<org.eclipse.emf.henshin.model.Rule> rules, CPAOptions options)
+			throws UnsupportedRuleException {
 		init(rules, rules, options);
 	}
 
@@ -231,45 +230,47 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 			morphCompletionStrategy.removeProperty(GraTraOptions.INJECTIVE);
 	}
 
-	// this refactoring of the rules may be extractet into another class and rewritten as an Henshin inplace transformation 
+	// this refactoring of the rules may be extractet into another class and rewritten as an Henshin inplace
+	// transformation
 	private void completeRulesByEOppositeEdges() {
 		// 1. have to be done for all the rules
-		for(Unit unit : module.getUnits()){
-			if(unit instanceof org.eclipse.emf.henshin.model.Rule){
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof org.eclipse.emf.henshin.model.Rule) {
 				// 2. all graphs of a rule have to be refactored, to be complete
 				org.eclipse.emf.henshin.model.Rule rule = (org.eclipse.emf.henshin.model.Rule) unit;
 				completeGraphByMissingEOppositeEdges(rule.getLhs());
 
 				completeGraphByMissingEOppositeEdges(rule.getRhs());
-				
+
 				// 3. even the nested conditions have to be completed
 				EList<NestedCondition> nestedConditionsOfLhs = rule.getLhs().getNestedConditions();
-				for(NestedCondition nestedCondition : nestedConditionsOfLhs){
+				for (NestedCondition nestedCondition : nestedConditionsOfLhs) {
 					completeGraphByMissingEOppositeEdges(nestedCondition.getConclusion());
 				}
-				
+
 				EList<NestedCondition> nestedConditionsOfRhs = rule.getLhs().getNestedConditions();
-				for(NestedCondition nestedCondition : nestedConditionsOfRhs){
+				for (NestedCondition nestedCondition : nestedConditionsOfRhs) {
 					completeGraphByMissingEOppositeEdges(nestedCondition.getConclusion());
-				}				
-			}			
+				}
+			}
 		}
 	}
 
 	private void completeGraphByMissingEOppositeEdges(Graph graph) {
 		List<Edge> listOfEdgeWithMissingEOpposites = new LinkedList<Edge>();
-		for(Edge edge : graph.getEdges()) {
+		for (Edge edge : graph.getEdges()) {
 			EReference eOppositeTypeOfEdge = edge.getType().getEOpposite();
-			if(eOppositeTypeOfEdge != null){
-				if(edge.getTarget().getOutgoing(eOppositeTypeOfEdge, edge.getSource()) == null){
-					//the EOpposite edge does not exist within the graph
+			if (eOppositeTypeOfEdge != null) {
+				if (edge.getTarget().getOutgoing(eOppositeTypeOfEdge, edge.getSource()) == null) {
+					// the EOpposite edge does not exist within the graph
 					listOfEdgeWithMissingEOpposites.add(edge);
 				}
 			}
 		}
-		for(Edge edgeWithMissingEOpposite : listOfEdgeWithMissingEOpposites){
-			new EdgeImpl(edgeWithMissingEOpposite.getTarget(), edgeWithMissingEOpposite.getSource(), edgeWithMissingEOpposite.getType().getEOpposite());
-		}	
+		for (Edge edgeWithMissingEOpposite : listOfEdgeWithMissingEOpposites) {
+			new EdgeImpl(edgeWithMissingEOpposite.getTarget(), edgeWithMissingEOpposite.getSource(),
+					edgeWithMissingEOpposite.getType().getEOpposite());
+		}
 	}
 
 	/**
@@ -289,12 +290,13 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * Saves the result of the <code>HenshinAGGExporter</code>.
 	 * 
 	 * @param savePath The path for saving the AGG file of the export process.
-	 * @return 
+	 * @return
 	 */
 	private IStatus exportModuleToAGG(String savePath) {
 		URI uri = URI.createFileURI(savePath);
 		HenshinAGGExporter exporter = new HenshinAGGExporter();
-//		exporter.setCreateRuleParameterForAllAttributes(createRuleParameterForAllAttributes); //reintroduce with Henshin 1.3
+		// exporter.setCreateRuleParameterForAllAttributes(createRuleParameterForAllAttributes); //reintroduce with
+		// Henshin 1.3
 		return exporter.doExport(module, uri);
 	}
 
@@ -326,7 +328,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	@Override
 	public CPAResult runConflictAnalysis() {
 		ExcludePairContainer epc = (ExcludePairContainer) ParserFactory.createEmptyCriticalPairs(gragra,
-				CriticalPairOption.EXCLUDEONLY, false/* defaultValue */);  //TODO: add "NULL"-check for gragra
+				CriticalPairOption.EXCLUDEONLY, false/* defaultValue */); // TODO: add "NULL"-check for gragra
 		epc.enablePACs(true);
 		setOptionsOnContainer(epc, options);
 		computeCriticalPairs(firstAggRuleSetForAnalysis, secondAggRuleSetForAnalysis, epc);
@@ -393,9 +395,9 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * @param rules2 second list of rules (vertical order)
 	 */
 	private void computeCriticalPairs(List<Rule> rules1, List<Rule> rules2, ExcludePairContainer exclude) {
-		
-		if(firstHenshinRuleSetForAnalysis.size() == 0 || secondHenshinRuleSetForAnalysis.size() == 0)
-			return; //TODO: hier muss mehr/etwas besseres hin als ein reines "return"
+
+		if (firstHenshinRuleSetForAnalysis.size() == 0 || secondHenshinRuleSetForAnalysis.size() == 0)
+			return; // TODO: hier muss mehr/etwas besseres hin als ein reines "return"
 
 		if (exclude != null) {
 
@@ -412,14 +414,14 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 				for (Rule r2 : rules2) {
 					try {
-//						BenchmarkUtility.startTimeMeasurement();
-//						Long startTime = System.currentTimeMillis(:)
-//								TimeUnit.MILLISECONDS.
-//						System.out.println("time: ");
-						
+						// BenchmarkUtility.startTimeMeasurement();
+						// Long startTime = System.currentTimeMillis(:)
+						// TimeUnit.MILLISECONDS.
+						// System.out.println("time: ");
+
 						exclude.getCriticalPair(r1, r2, agg.parser.CriticalPair.EXCLUDE, true);
-						
-//						System.out.println("duration: ");
+
+						// System.out.println("duration: ");
 
 					} catch (Exception ex) {
 						ex.printStackTrace();
@@ -464,7 +466,8 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * @param epc The container with the rules, options and many more within AGG for calculating the critical pairs.
 	 * @param options The options set for the calculation by the henshin interface.
 	 */
-	private void setOptionsOnContainer(ExcludePairContainer epc, CPAOptions options) { //TODO: add "NULL"-check for the input values 
+	private void setOptionsOnContainer(ExcludePairContainer epc, CPAOptions options) { // TODO: add "NULL"-check for the
+																						// input values
 		epc.enableComplete(options.isComplete());
 		// no more supported, since theses parameters are predefined
 		// epc.enableReduce(options.isEssential());
@@ -479,10 +482,11 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	}
 
 	/**
-	 * Sets the creation of rule parameters for all attributes used in a rule. 
-	 * The default case is to create rule parameters for all attributes used in a rule.
+	 * Sets the creation of rule parameters for all attributes used in a rule. The default case is to create rule
+	 * parameters for all attributes used in a rule.
 	 * 
-	 * @param createRuleParameterForAllAttributes The new boolean value for the creation of rule parameters for all rules beeing exported to AGG. 
+	 * @param createRuleParameterForAllAttributes The new boolean value for the creation of rule parameters for all
+	 *            rules beeing exported to AGG.
 	 */
 	public void setCreateRuleParameterForAllAttributes(boolean createRuleParameterForAllAttributes) {
 		this.createRuleParameterForAllAttributes = createRuleParameterForAllAttributes;

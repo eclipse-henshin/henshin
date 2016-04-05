@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -16,15 +16,14 @@ package org.eclipse.emf.henshin.cpa.result;
  */
 public enum DependencyKind {
 
-	DELETE_FORBID_DEPENDENCY("delete-forbid-dependency"), 
-	PRODUCE_USE_DEPENDENCY("produce-use-dependency"), 
-	CHANGE_USE_ATTR_DEPENDENCY("change-use-attr-dependency"), 
-	CHANGE_FORBID_ATTR_DEPENDENCY("change-forbid-attr-dependency");
+	DELETE_FORBID_DEPENDENCY("delete-forbid-dependency"), PRODUCE_USE_DEPENDENCY("produce-use-dependency"), CHANGE_USE_ATTR_DEPENDENCY(
+			"change-use-attr-dependency"), CHANGE_FORBID_ATTR_DEPENDENCY("change-forbid-attr-dependency");
 
 	private String name;
 
 	/**
 	 * Default internal constructor.
+	 * 
 	 * @param name The name of the dependency kind.
 	 */
 	private DependencyKind(String name) {

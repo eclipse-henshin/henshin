@@ -1,21 +1,24 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package criticalpair.impl;
+package org.eclipse.emf.henshin.cpa.criticalpair.impl;
 
-import criticalpair.CriticalPair;
-import criticalpair.CriticalpairFactory;
-import criticalpair.CriticalpairPackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
+import org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair;
+import org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairFactory;
+import org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage;
+
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
@@ -43,7 +46,7 @@ public class CriticalpairPackageImpl extends EPackageImpl implements Criticalpai
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see criticalpair.CriticalpairPackage#eNS_URI
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */

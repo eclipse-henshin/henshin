@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -33,7 +33,8 @@ public interface ICriticalPairAnalysis {
 	void init(List<Rule> rules, CPAOptions options) throws UnsupportedRuleException;
 
 	/**
-	 * Initializes the critical pair calculation with <code>r1</code> as first rules and <code>r2</code> as second rules of the critical pairs as well as the <code>options</code>.
+	 * Initializes the critical pair calculation with <code>r1</code> as first rules and <code>r2</code> as second rules
+	 * of the critical pairs as well as the <code>options</code>.
 	 * 
 	 * @param r1 the first rules for the critical pair analysis.
 	 * @param r2 the second rules for the critical pair analysis.

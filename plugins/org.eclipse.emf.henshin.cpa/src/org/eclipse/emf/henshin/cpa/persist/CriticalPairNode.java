@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -18,24 +18,24 @@ import org.eclipse.emf.common.util.URI;
  *
  */
 public class CriticalPairNode {
-	
+
 	/**
 	 * A String concatenation of a sorting number and the kind of conflict/dependency.
 	 */
 	String numberedNameOfCPKind;
-	
+
 	/**
 	 * The <code>TreeFolder</code> in which the <code>CriticalPairNode</code> is contained.
 	 */
 	TreeFolder parent;
-	
+
 	/**
 	 * The <code>URI</code>s of the three involved files.
 	 */
 	URI firstRuleURI, secondRuleURI, minimalModelURI;
 
 	private URI criticalPairDummyURI;
-	
+
 	/**
 	 * Default constructor.
 	 * 
@@ -43,9 +43,10 @@ public class CriticalPairNode {
 	 * @param firstRuleURI The <code>URI</code> of the first rule.
 	 * @param secondRuleURI The <code>URI</code> of the second rule.
 	 * @param minimalModelURI The <code>URI</code> of the minimal model.
-	 * @param criticalPairURI 
+	 * @param criticalPairURI
 	 */
-	public CriticalPairNode(String numberedNameOfCPKind, URI firstRuleURI, URI secondRuleURI, URI minimalModelURI, URI criticalPairURI) {
+	public CriticalPairNode(String numberedNameOfCPKind, URI firstRuleURI, URI secondRuleURI, URI minimalModelURI,
+			URI criticalPairURI) {
 		this.numberedNameOfCPKind = numberedNameOfCPKind;
 		this.firstRuleURI = firstRuleURI;
 		this.secondRuleURI = secondRuleURI;
@@ -61,7 +62,7 @@ public class CriticalPairNode {
 	public void setParent(TreeFolder containgTreeFolder) {
 		parent = containgTreeFolder;
 	}
-	
+
 	/**
 	 * Returns the <code>TreeFolder> in which this <code>CriticalPairdNode</code> is contained.
 	 * 
@@ -70,7 +71,7 @@ public class CriticalPairNode {
 	public TreeFolder getParent() {
 		return parent;
 	}
-	
+
 	/**
 	 * Returns the String concatenation of a sorting number and the kind of conflict/dependency.
 	 * 
@@ -79,31 +80,31 @@ public class CriticalPairNode {
 	public String toString() {
 		return numberedNameOfCPKind;
 	}
-	
+
 	/**
 	 * Returns the <code>URI</code> of the first rule.
 	 * 
 	 * @return The <code>URI</code> of the first rule.
 	 */
-	public URI getFirstRuleURI(){
+	public URI getFirstRuleURI() {
 		return firstRuleURI;
 	}
-	
+
 	/**
 	 * Returns the <code>URI</code> of the second rule.
 	 * 
 	 * @return The <code>URI</code> of the second rule.
 	 */
-	public URI getSecondRuleURI(){
+	public URI getSecondRuleURI() {
 		return secondRuleURI;
 	}
-	
+
 	/**
 	 * Returns the <code>URI</code> of the minimal model.
 	 * 
 	 * @return The <code>URI</code> of the minimal model.
 	 */
-	public URI getMinimalModelURI(){
+	public URI getMinimalModelURI() {
 		return minimalModelURI;
 	}
 
