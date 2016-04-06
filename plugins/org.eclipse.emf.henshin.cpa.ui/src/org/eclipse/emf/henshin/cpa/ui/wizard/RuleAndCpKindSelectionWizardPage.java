@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.cpa.UnsupportedRuleException;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -38,9 +39,8 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 
-	private Composite container;
+	private Composite containerForBothGroups;
 	private Group rulesGroup;
-	private Group criticalPairGroup;
 	private boolean sufficientRulesSelected;
 	private HashMap<Rule, String> rulesAndAssociatedFileNames;
 	private final String CONFLICT_BUTTON_TXT = "Conflicts";
@@ -80,20 +80,32 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 		setPageComplete(false);
 	}
 
+	/**
+	 * A main container ‚containerForBothGroups‘ contains two groups side by side. On the left side the ‘rulesGroup’,
+	 * containing a button for each rule to select or deselect it. On the right side the criticalPairKindGroup to select
+	 * whether conflicts, dependencies or both shall be analysed.
+	 */
 	@Override
 	public void createControl(Composite parent) {
 
-		container = new Composite(parent, SWT.NONE);
+		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+
+		containerForBothGroups = new Composite(scrolledComposite, SWT.NONE);
+
+		scrolledComposite.setContent(containerForBothGroups);
+
 		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
+		containerForBothGroups.setLayout(layout);
 		layout.numColumns = 2;
-		rulesGroup = new Group(container, SWT.NONE);
+		rulesGroup = new Group(containerForBothGroups, SWT.NONE);
 		rulesGroup.setLayout(new GridLayout());
 		rulesGroup.setText("Rules");
 
-		criticalPairGroup = new Group(container, SWT.NONE);
-		criticalPairGroup.setLayout(new GridLayout());
-		criticalPairGroup.setText("Calculate...");
+		Group criticalPairKindGroup = new Group(containerForBothGroups, SWT.TOP);
+		criticalPairKindGroup.setLayout(new GridLayout());
+		criticalPairKindGroup.setText("Calculate...");
 
 		// sort the rules alphabetic
 		List<Rule> rulesForSelectionList = new ArrayList<Rule>(rulesAndAssociatedFileNames.keySet());
@@ -101,30 +113,32 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 
 		for (Rule rule : rulesForSelectionList) {
 			Button ruleSelectionButton = new Button(rulesGroup, SWT.CHECK);
-			ruleSelectionButton.setText((rule.getName() == null) ? "null" : rule.getName()); // handle unnamed rules
+			String ruleName = (rule.getName() == null) ? "null" : rule.getName(); // handle unnamed rules
+			ruleSelectionButton.setText(ruleName);
 			ruleSelectionButton.setData(rule);
 			ruleSelectionButton.setToolTipText(rulesAndAssociatedFileNames.get(rule));
 			ruleSelectionButton.addListener(SWT.Selection, checkListener);
 		}
 
-		Button selectAllButton = new Button(container, SWT.CHECK);
+		Button selectAllButton = new Button(containerForBothGroups, SWT.CHECK);
 		selectAllButton.setText("Select all");
 		selectAllButton.addListener(SWT.Selection, selectAllListener);
 		selectAllButton.addListener(SWT.Selection, checkListener);
 
-		Button conflictAnalysisButton = new Button(criticalPairGroup, SWT.CHECK);
+		Button conflictAnalysisButton = new Button(criticalPairKindGroup, SWT.CHECK);
 		conflictAnalysisButton.setText(CONFLICT_BUTTON_TXT);
 		conflictAnalysisButton.setData(CPTypesEnum.CONFLICT);
 		conflictAnalysisButton.addListener(SWT.Selection, calcListener);
 
-		Button dependencyAnalysisButton = new Button(criticalPairGroup, SWT.CHECK);
+		Button dependencyAnalysisButton = new Button(criticalPairKindGroup, SWT.CHECK);
 		dependencyAnalysisButton.setText(DEPENDENCY_BUTTON_TXT);
 		dependencyAnalysisButton.setData(CPTypesEnum.DEPENDENCY);
 		dependencyAnalysisButton.addListener(SWT.Selection, calcListener);
 
-		setControl(container);
-		setPageComplete(false);
+		scrolledComposite.setMinSize(containerForBothGroups.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
+		setControl(scrolledComposite);
+		setPageComplete(false);
 	}
 
 	/**
@@ -162,7 +176,9 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 				}
 			}
 
-			for (Control elem : container.getChildren()) {
+			// ensures to set the "Select all" when all the rules had been
+			// selected manually
+			for (Control elem : containerForBothGroups.getChildren()) {
 				if (elem instanceof Button) {
 					((Button) elem).setSelection(selectAll);
 				}
@@ -175,7 +191,8 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 				setErrorMessage(null);
 			} catch (UnsupportedRuleException e) {
 				setErrorMessage(e.getDetailedMessage());
-				// TODO: differentiate between Errors (no analysis possible) and warnings (realization see line below)
+				// TODO: differentiate between Errors (no analysis possible) and
+				// warnings (realisation see line below)
 				// setMessage(e.getDetailedMessage(), 2);
 			}
 		}
