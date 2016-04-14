@@ -1,0 +1,195 @@
+
+<h1>Henshin Example: Simple Class Modeling Refactoring</h1>
+
+<p>
+<small><i>contributed by Thorsten Arend and Kristopher Born</i></small>
+</p>
+
+<p>
+This is an example for the Critical Pair Analysis(CPA) in Henshin. It is 
+described in the paper <i>Analyzing Conflicts and Dependencies of Rule-Based 
+Transformations in Henshin</i> submitted to FASE 2015. We explain how to use 
+the analysis (wizard and programmatically) to find all potential conflicts and 
+dependencies in a set of rules.
+</p>
+
+<p>
+The transformation model and source code can be found
+<a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/simpleclassmodelingrefactoring">here</a>.
+</p>
+
+
+<h2>Metamodel</h2>
+
+<p>
+<a href="examples/simpleclassmodelingrefactoring/classModel.png"><image src="examples/simpleclassmodelingrefactoring/classModel.png" align="center" width="639" /></a>
+<br>
+The metamodel is defined in the file <i>ClassModel.ecore</i>. We used 
+the Ecore Tools to draw a diagram (depicted above). 
+The diagram is stored in the file <i>ClassModel.ecore_diagram</i>.
+</p>
+
+<p>
+The EMF Ecore specification of a simple class modeling language can be used to model 
+the main static aspects of a given domain. Such a <i>Model</i> consists of a number 
+of <i>Classes</i> where each one can have a number of <i>Attributes</i>. Finally, 
+a class may be associated to other classes by <i>references</i>.
+</p>
+
+<h2>Refactoring Transformation Rules</h2>
+
+<p>
+<a href="examples/simpleclassmodelingrefactoring/refactoringRules.png"><image src="examples/simpleclassmodelingrefactoring/refactoringRules.png" align="right" width="400" /></a>
+Since refactoring is a specific kind of model transformation, refactorings for EMF-based 
+models can be specified in Henshin and then integrated into a model refactoring framework 
+such as <a href="http://www.eclipse.org/emf-refactor/">EMF Refactor</a>. 
+Rule <i>Add Attribute</i> inserts a new attribute into an exiting class whose name is 
+given by parameter clName</i>. Rule <i>Move Attribute</i> shifts an attribute from its 
+owning class to an associated one along the corresponding reference. Finally, rule
+<i>Remove Empty Class</i> deletes an existing class if it has no relation to further 
+model elements, i.e., the class has neither attributes or references nor it is referenced 
+by another class.
+</p>
+
+<h2>Scenario</h2>
+
+<p>
+<a href="examples/simpleclassmodelingrefactoring/scenario.png"><image src="examples/simpleclassmodelingrefactoring/scenario.png" align="right" width="300" /></a>
+Lets assume that a software developer wants to know which refactoring rules need to be 
+applied in order to restructure a class model. More specifically, we refer to the class 
+model shown in the following figure representing an early analysis model in the development 
+of an address book system.
+</p>
+
+<p>
+Typically, many different refactoring rules may be applicable, and it is not easy to find 
+out the best way to apply these rules. On the one hand, simultaneous applications of specific 
+refactoring rules may not be possible due to parallel dependencies between them, and on the 
+other hand, some refactoring rules may sequentially depend on other ones. Considering the 
+refactorings and the class model presented above, we observe the following:
+<ul>
+Class <i>Account</i> is not used so far and makes no sense. Two refactorings are applicable here. 
+Either the class is extended by a new <i>attribute</i>, e.g. <i>accountnumber</i>, or it is 
+removed from the model (refactorings <i>Add Attribute</i> respectively <i>Remove Empty Class</i>). 
+However, if one refactoring is executed the other becomes inapplicable, i.e., these refactorings are in conflict.
+</ul>
+<ul>
+Attribute <i>landlineNo</i> of class Person should be shifted to either class <i>Home</i> or 
+class <i>Office</i> (both by using refactoring <i>Move Attribute</i>). However, if it is shifted 
+to class <i>Home</i> the other refactoring becomes inapplicable (and vice versa). 
+This means, refactoring <i>Move Attribute</i> is in conflict with itself.
+</ul>
+</p>
+
+<h2>Applying the Critical Pair Analysis</h2>
+
+<p>
+The CPA in Henshin can be used in two different ways: Its application programming interface (API) 
+can be used to integrate the CPA into other tools of different application domains. In addition, 
+a user interface (UI) is provided supporting domain experts in developing rules by providing the 
+CPA interactively.
+</p>
+
+<h3>Execution using the CPA Wizard</h3>
+
+<p>
+The CPA is called on a Henshin file in the Eclipse Package Explorer (Right click &rarr; Henshin 
+&rarr; Calculate Critical Pairs).
+</p>
+
+<a href="examples/simpleclassmodelingrefactoring/callCPAWizard.png"><image src="examples/simpleclassmodelingrefactoring/callCPAWizard.png" align="center" width="300" /></a>
+
+<p>
+This brings up a wizard to specify the rule set to be analyzed and the kind of critical 
+pairs that shall be analyzed. 
+</p>
+
+<a href="examples/simpleclassmodelingrefactoring/CPAWizard.png"><image src="examples/simpleclassmodelingrefactoring/CPAWizard.png" align="center" width="300" /></a>
+
+<p>
+After the CPA, a dedicated results view provides an overview on all conflicts and dependencies 
+found. The resulting list of critical pairs is ordered along conflicts and dependencies as well 
+as rule pairs. For each pair, a set of conflicts (dependencies) is listed named by their kinds. 
+</p>
+
+<a href="examples/simpleclassmodelingrefactoring/CPAResultView.png"><image src="examples/simpleclassmodelingrefactoring/CPAResultView.png" align="right" width="300" /></a>
+
+<p>
+Here, three conflics are found. The conflicts of the first and the third rule pair in the results 
+view present a <i>produce-forbid-conflict</i> and a <i>delete-use-conflict</i>, as informally 
+described in item (1) at the scenario description above. Item (2) of the running example describes 
+the <i>delete-use-conflict</i> for rule pair (<i>Move Attribute</i>, <i>Move Attribute</i>) which 
+is also listed in the CPA results view.
+</p>
+
+<p>
+For each critical pair, a minimal EMF model can be viewed after double-clicking on a specific 
+conflict (dependency). The following figure shows a minimal model in the tree-based Ecore instance editor.
+</p>
+
+<a href="examples/simpleclassmodelingrefactoring/CPAEditor.png"><image src="examples/simpleclassmodelingrefactoring/CPAEditor.png" align="center" width="600" /></a>
+
+<p>
+The minimal model (see center of the figure above) is related to the first <i>produce-forbid-conflict</i> 
+of the example. Both rules (shown on the left- and the right-hand-side of the figure above; here 
+using the tree-based Henshin editor) overlap in model elements of types <i>Class</i> and <i>Attribute</i>. 
+Element <i>Attribute</i> is marked by hash tags to state that it causes the conflict. 
+Numbers indicate corresponding matches of rule nodes to model nodes. 
+</p>
+
+
+<h3>Execution using the API</h3>
+
+<p>
+The usage of the API is straightforward. There are two main steps to obtain a 
+result: (1) Initialize the meta-model and the rules, and (2) start the execution 
+of the conflict (dependency) analysis. The following figure shows the 
+corresponding API. 
+</p>
+
+<a href="examples/simpleclassmodelingrefactoring/ICriticalPairAnalysis.png"><image src="examples/simpleclassmodelingrefactoring/ICriticalPairAnalysis.png" align="center" width="471" /></a>
+
+<p>
+The initialization can be done with one or two rule sets containing Henshin 
+transformation rules. Providing one rule set using method 
+<i>init( List<Rule> rules, CPAOptions options)</i> leads to the analysis of all 
+combinations between them leading to a quadratic number of pairs. Passing two 
+sets of rules using method <i>init( List<Rule> r1, List<Rule> r2, CPAOptions options)</i> 
+is useful to define sequences of rules which means that only conflicts 
+(dependencies) with rules of set <i>r1</i> as first rule an rules of set <i>r2</i> 
+as second rule are analyzed. Another parameter is the <i>CPAOptions</i>. 
+Generally it can be used with its default values. In detail, this provides 
+options to stop the calculation after finding a first conflict (dependency) 
+[isComplete], to ignore critical pairs of same rules [ignore], and to reduce the 
+result by critical pairs which are based on the same match [reduceSameMatch]. 
+After rule initialization, an optional check can be performed (method <i>check()</i>). 
+This proves for instance whether the passed rules are based on a common meta model. 
+The calculation of the conflicts (dependencies) starts by the corresponding methods 
+<i>runConflictAnalysis()</i> and <i>runDependencyAnalysis()</i>. Since the 
+calculation can be time-consuming the interface provides additionally the methods 
+<i>runConflictAnalysis(IProgressMonitor monitor)</i> and 
+<i>runDependencyAnalysis(IProgressMonitor monitor)</i> to get feedback by the monitor.
+</p>
+
+<p>The following figure shows the results API.</p>
+
+<a href="examples/simpleclassmodelingrefactoring/CPAResultAPI.png"><image src="examples/simpleclassmodelingrefactoring/CPAResultAPI.png" align="center" width="400" /></a>
+
+<p>
+All conflicts (dependencies) are within the container <i>CPAResult</i>. Conflict 
+and Dependency are concrete instances of the general concept <i>CriticalPair</i>. 
+A critical pair always contains two rules and a minimal model showing the 
+conflict or dependency. Two mappings are required to map rule elements to 
+corresponding ones in the minimal model. Although <i>Dependency</i> and 
+<i>Conflict</i> share this requirement, it is not part of a critical pair in 
+general, since different mappings are reported. A conflict is based on the 
+left-hand sides (LHSs) of both rules, such that both mappings are <i>matches</i>. 
+A dependency is based on the right-hand side (RHS) of the first rule <i>r1</i> 
+and the LHS of the second rule <i>r2</i>. Therefore, the first mapping is a 
+<i>comatch</i> of RHS to the minimal model. Finally, there are different kinds 
+of conflicts and dependencies as introduced above. Two enumerations list these 
+kinds (see following figure). Note that dependency and conflict kinds are 
+strictly separated.
+</p>
+
+<a href="examples/simpleclassmodelingrefactoring/CPKinds.png"><image src="examples/simpleclassmodelingrefactoring/CPKinds.png" align="center" width="429" /></a>
