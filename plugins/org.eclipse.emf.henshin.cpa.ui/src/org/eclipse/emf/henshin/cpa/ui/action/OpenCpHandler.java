@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -17,7 +17,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -48,19 +47,17 @@ public class OpenCpHandler extends AbstractHandler {
 		ISelectionService service = window.getSelectionService();
 		ISelection iSelection = service.getSelection();
 		IStructuredSelection iStructuredSelection = (IStructuredSelection) iSelection;
-		List<IResource> selection = iStructuredSelection.toList();// ((IStructuredSelection)
-																	// service.getSelection()).toList();
+		List<IResource> selection = iStructuredSelection.toList();
 
 		createEditorInputsAndModelURIs(selection);
 		IWorkspace iWorkspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot workspaceRoot = iWorkspace.getRoot();
 
 		CpEditorUtil.openResultInCpEditor(firstRuleUri, overlapUri, secondRuleUri);
 
 		return null;
 	}
 
-	private void /* IEditorInput[] */createEditorInputsAndModelURIs(List<IResource> selection) {
+	private void createEditorInputsAndModelURIs(List<IResource> selection) {
 
 		try {
 
@@ -102,9 +99,9 @@ public class OpenCpHandler extends AbstractHandler {
 						// fullPathOfMinimalModel = iFile.getFullPath();
 						secondRuleUri = URI.createFileURI(resource.getRawLocation().toString());
 						// editorInputs[1] = secondRuleFileEditorInput;
-					} else if (fileName.endsWith(".henshinCp")) { // TODO: die spezifische Dateiendung sollte in einem
-																	// Feld abgelegt werden und somit nur an einer
-																	// Stelle hinterlegt sein.
+					} else if (fileName.endsWith(".henshinCp")) {
+						// TODO: the specific file extension should be placed in a central field, being accessible from
+						// different classes.
 
 					} else if (fileName.equals("minimal-model.ecore")) {
 						FileEditorInput minimalModelFileEditorInput = new FileEditorInput(iFile);

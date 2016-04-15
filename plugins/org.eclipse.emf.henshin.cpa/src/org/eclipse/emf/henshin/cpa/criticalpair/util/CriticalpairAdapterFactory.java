@@ -1,26 +1,29 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package criticalpair.util;
+package org.eclipse.emf.henshin.cpa.criticalpair.util;
 
-import criticalpair.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.emf.henshin.cpa.criticalpair.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see criticalpair.CriticalpairPackage
+ * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage
  * @generated
  */
 public class CriticalpairAdapterFactory extends AdapterFactoryImpl {
@@ -96,13 +99,13 @@ public class CriticalpairAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link criticalpair.CriticalPair <em>Critical Pair</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair <em>Critical Pair</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see criticalpair.CriticalPair
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair
 	 * @generated
 	 */
 	public Adapter createCriticalPairAdapter() {

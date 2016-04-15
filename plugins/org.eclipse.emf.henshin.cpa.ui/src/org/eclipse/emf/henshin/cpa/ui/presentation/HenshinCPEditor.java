@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -94,7 +94,7 @@ public class HenshinCPEditor extends MultiEditor {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				// folder.setSelection(getIndex(getActiveEditor())); //wirklcih notwendig?
+				// folder.setSelection(getIndex(getActiveEditor())); //seems to be superfluous?
 				updateOutlineView();
 				updatePropertyView();
 				setFocus();
@@ -125,8 +125,6 @@ public class HenshinCPEditor extends MultiEditor {
 			viewForm.setContent(content);
 			editorContainer[i] = viewForm;
 
-			final int index = i;
-
 			selectionListenerEditorParts.add(i, new ISelectionChangedListener() {
 				@Override
 				public void selectionChanged(SelectionChangedEvent event) {
@@ -153,7 +151,7 @@ public class HenshinCPEditor extends MultiEditor {
 	 * @param newPageIndex New tab/page index
 	 */
 	protected void pageChange(int newPageIndex) {
-		// folder.setSelection(newPageIndex); //notwendig?
+		// folder.setSelection(newPageIndex); //superfluous?
 		updateActionBarContributor(newPageIndex);
 		updateOutlineView();
 		updatePropertyView();

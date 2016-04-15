@@ -1,13 +1,13 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package criticalpair;
+package org.eclipse.emf.henshin.cpa.criticalpair;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see criticalpair.CriticalpairFactory
+ * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairFactory
  * @model kind="package"
  * @generated
  */
@@ -44,7 +44,7 @@ public interface CriticalpairPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://criticalpair/1.0";
+	String eNS_URI = "http://www.eclipse.org/emf/2016/Henshin/CriticalPair";
 
 	/**
 	 * The package namespace name.
@@ -60,14 +60,14 @@ public interface CriticalpairPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	CriticalpairPackage eINSTANCE = criticalpair.impl.CriticalpairPackageImpl.init();
+	CriticalpairPackage eINSTANCE = org.eclipse.emf.henshin.cpa.criticalpair.impl.CriticalpairPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link criticalpair.impl.CriticalPairImpl <em>Critical Pair</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.cpa.criticalpair.impl.CriticalPairImpl <em>Critical Pair</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see criticalpair.impl.CriticalPairImpl
-	 * @see criticalpair.impl.CriticalpairPackageImpl#getCriticalPair()
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.impl.CriticalPairImpl
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.impl.CriticalpairPackageImpl#getCriticalPair()
 	 * @generated
 	 */
 	int CRITICAL_PAIR = 0;
@@ -117,44 +117,45 @@ public interface CriticalpairPackage extends EPackage {
 	 */
 	int CRITICAL_PAIR_OPERATION_COUNT = 0;
 
+
 	/**
-	 * Returns the meta object for class '{@link criticalpair.CriticalPair <em>Critical Pair</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair <em>Critical Pair</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Critical Pair</em>'.
-	 * @see criticalpair.CriticalPair
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair
 	 * @generated
 	 */
 	EClass getCriticalPair();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link criticalpair.CriticalPair#getFirstRule <em>First Rule</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getFirstRule <em>First Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>First Rule</em>'.
-	 * @see criticalpair.CriticalPair#getFirstRule()
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getFirstRule()
 	 * @see #getCriticalPair()
 	 * @generated
 	 */
 	EReference getCriticalPair_FirstRule();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link criticalpair.CriticalPair#getSecondRule <em>Second Rule</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getSecondRule <em>Second Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Second Rule</em>'.
-	 * @see criticalpair.CriticalPair#getSecondRule()
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getSecondRule()
 	 * @see #getCriticalPair()
 	 * @generated
 	 */
 	EReference getCriticalPair_SecondRule();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link criticalpair.CriticalPair#getMinimalModel <em>Minimal Model</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getMinimalModel <em>Minimal Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Minimal Model</em>'.
-	 * @see criticalpair.CriticalPair#getMinimalModel()
+	 * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalPair#getMinimalModel()
 	 * @see #getCriticalPair()
 	 * @generated
 	 */
@@ -184,11 +185,11 @@ public interface CriticalpairPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link criticalpair.impl.CriticalPairImpl <em>Critical Pair</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.cpa.criticalpair.impl.CriticalPairImpl <em>Critical Pair</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see criticalpair.impl.CriticalPairImpl
-		 * @see criticalpair.impl.CriticalpairPackageImpl#getCriticalPair()
+		 * @see org.eclipse.emf.henshin.cpa.criticalpair.impl.CriticalPairImpl
+		 * @see org.eclipse.emf.henshin.cpa.criticalpair.impl.CriticalpairPackageImpl#getCriticalPair()
 		 * @generated
 		 */
 		EClass CRITICAL_PAIR = eINSTANCE.getCriticalPair();

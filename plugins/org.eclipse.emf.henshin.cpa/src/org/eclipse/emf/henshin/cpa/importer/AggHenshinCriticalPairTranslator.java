@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -40,10 +40,6 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 
-import criticalpair.CriticalPair;
-import criticalpair.CriticalpairFactory;
-import criticalpair.MinimalModel;
-import criticalpair.impl.CriticalpairFactoryImpl;
 import agg.attribute.AttrInstance;
 import agg.attribute.AttrMember;
 import agg.attribute.impl.ValueTuple;
@@ -74,8 +70,8 @@ public class AggHenshinCriticalPairTranslator {
 
 	private CPType criticalPairType;
 
-//	private Module module;
-	
+	// private Module module;
+
 	List<org.eclipse.emf.henshin.model.Rule> rulesToMapTheResultsOn;
 
 	EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
@@ -85,7 +81,7 @@ public class AggHenshinCriticalPairTranslator {
 	Map<Integer, String> hashToName;
 
 	private List<CriticalElement> criticalElements;
-	
+
 	/**
 	 * Default constructor for the translator.
 	 * 
@@ -140,8 +136,9 @@ public class AggHenshinCriticalPairTranslator {
 		criticalElements = new LinkedList<CriticalElement>();
 
 		boolean validCriticalPair = true;
-		
-		cpaEPackage = ecoreFactory.createEPackage(); //WARUM ist cpaEPackage ein Field und keine lokale Variable? Letzteres scheint mir sinnvoller!
+
+		cpaEPackage = ecoreFactory.createEPackage(); // WARUM ist cpaEPackage ein Field und keine lokale Variable?
+														// Letzteres scheint mir sinnvoller!
 		cpaEPackage.setName(rule1.getQualifiedName() + ", " + rule2.getQualifiedName());
 		cpaEPackage.setNsPrefix("CPAPackage");
 
@@ -220,10 +217,12 @@ public class AggHenshinCriticalPairTranslator {
 
 				if (criticalPairType == CPType.Dependency) {
 					DependencyKind depKind = transformCriticalKindOfDependency(cpd);
-					if (depKind == DependencyKind.PRODUCE_USE_DEPENDENCY); 
-						criticalGraphMapping.addFirstRuleMapping(morph1TargetObject, henshinNodeRhs);
-					if (depKind == DependencyKind.DELETE_FORBID_DEPENDENCY);
-						criticalGraphMapping.addFirstRuleMapping(morph1TargetObject, henshinNodeLhs);
+					if (depKind == DependencyKind.PRODUCE_USE_DEPENDENCY)
+						;
+					criticalGraphMapping.addFirstRuleMapping(morph1TargetObject, henshinNodeRhs);
+					if (depKind == DependencyKind.DELETE_FORBID_DEPENDENCY)
+						;
+					criticalGraphMapping.addFirstRuleMapping(morph1TargetObject, henshinNodeLhs);
 				} else if (criticalPairType == CPType.Conflict) {
 					ConflictKind conflKind = transformCriticalKindOfConflict(cpd);
 					if (conflKind == ConflictKind.DELETE_USE_CONFLICT)
@@ -273,15 +272,33 @@ public class AggHenshinCriticalPairTranslator {
 										anyAttributeProcessed = true;
 									} else {
 										CriticalElement criticalElementforFurtherChangedAttribute = new CriticalElement();
-										criticalElements.add(criticalElementforFurtherChangedAttribute); //when this critical element is added, its still unclear if the attribute does occur in the second rule. If not, the critical elemnt will be dropped later on.
+										criticalElements.add(criticalElementforFurtherChangedAttribute); // when this
+																											// critical
+																											// element
+																											// is added,
+																											// its still
+																											// unclear
+																											// if the
+																											// attribute
+																											// does
+																											// occur in
+																											// the
+																											// second
+																											// rule. If
+																											// not, the
+																											// critical
+																											// elemnt
+																											// will be
+																											// dropped
+																											// later on.
 										criticalElementforFurtherChangedAttribute.commonElementOfCriticalGraph = morph1TargetObject;
 										criticalElementforFurtherChangedAttribute.elementInFirstRule = henshinRhsAttribute;
 									}
 								}
 							}
 							if (!anyAttributeProcessed) {
-//								System.err
-//										.println("critical node in CHANGE_USE_ATTR_CONFLICT detected without any attribute change. Not fully implemented yet. had been treated like a created node, if it might be a deleted one.");
+								// System.err
+								// .println("critical node in CHANGE_USE_ATTR_CONFLICT detected without any attribute change. Not fully implemented yet. had been treated like a created node, if it might be a deleted one.");
 								criticalElement.elementInFirstRule = henshinNodeRhs;
 							}
 						}
@@ -324,8 +341,8 @@ public class AggHenshinCriticalPairTranslator {
 							}
 							// add the node if no change of the value occurred
 							if (!anyAttributeProcessed) {
-//								System.err
-//										.println("critical node in CHANGE_USE_ATTR_CONFLICT detected without any attribute change. Not fully implemented yet. had been treated like a created node, if it might be a deleted one.");
+								// System.err
+								// .println("critical node in CHANGE_USE_ATTR_CONFLICT detected without any attribute change. Not fully implemented yet. had been treated like a created node, if it might be a deleted one.");
 								criticalElement.elementInFirstRule = henshinNodeRhs;
 							}
 						}
@@ -368,7 +385,8 @@ public class AggHenshinCriticalPairTranslator {
 							processEdgeOfAGGResult(morph1TargetObject, SequentialRule.FirstRule, arcIsCritical,
 									criticalGraphMapping);
 							System.err.println("Unimplemented yet");
-//							throw new Exception("processing of CHANGE_USE_ATTR_DEPENDENCY edges unimpleted yet"); //TODO: 02.08.2015: implementation sufficient???
+							// throw new Exception("processing of CHANGE_USE_ATTR_DEPENDENCY edges unimpleted yet");
+							// //TODO: 02.08.2015: implementation sufficient???
 						}
 						if (transformCriticalKindOfDependency(cpd) == DependencyKind.CHANGE_FORBID_ATTR_DEPENDENCY) {
 							System.err.println("Unimplemented yet");
@@ -524,8 +542,8 @@ public class AggHenshinCriticalPairTranslator {
 	}
 
 	private org.eclipse.emf.henshin.model.Rule getResultRule(String ruleName) {
-		for(org.eclipse.emf.henshin.model.Rule rule : rulesToMapTheResultsOn){
-			if(rule.getName().equals(ruleName))
+		for (org.eclipse.emf.henshin.model.Rule rule : rulesToMapTheResultsOn) {
+			if (rule.getName().equals(ruleName))
 				return rule;
 		}
 		return null;
@@ -585,7 +603,7 @@ public class AggHenshinCriticalPairTranslator {
 				}
 			}
 			if (transformCriticalKindOfConflict(criticalPairData) == ConflictKind.CHANGE_FORBID_ATTR_CONFLICT
-					|| transformCriticalKindOfConflict(criticalPairData) == ConflictKind.PRODUCE_FORBID_CONFLICT){
+					|| transformCriticalKindOfConflict(criticalPairData) == ConflictKind.PRODUCE_FORBID_CONFLICT) {
 				if (existingCritElem.elementInFirstRule instanceof Attribute) {
 					if (existingCritElem.commonElementOfCriticalGraph == morph2TargetObject) {
 						for (Attribute attributeOfCriticalNode : henshinNodeNac.getAttributes()) {
@@ -790,9 +808,9 @@ public class AggHenshinCriticalPairTranslator {
 			if (sequentialRule == SequentialRule.SecondRule) {
 				Node henshinSourceNode = criticalGraphMapping.getSecondRuleNode(sourceNode);
 				Node henshinTargetNode = criticalGraphMapping.getSecondRuleNode(targetNode);
-//				if (henshinSourceNode == null || henshinTargetNode == null)
-//					System.err.println("WARNING! - cant process the critical edge '" + morphismTargetObject.toString()
-//							+ "' since related henshin node cant be resolved.");
+				// if (henshinSourceNode == null || henshinTargetNode == null)
+				// System.err.println("WARNING! - cant process the critical edge '" + morphismTargetObject.toString()
+				// + "' since related henshin node cant be resolved.");
 				// 1. extraction of the edge in the Henshin rule
 				Edge correspondingHenshinEdge = null;
 				for (Edge edge : henshinSourceNode.getOutgoing()) {
@@ -835,9 +853,9 @@ public class AggHenshinCriticalPairTranslator {
 	 */
 	private String getCriticalPairKindString(CriticalPairData cpd) {
 		if (criticalPairType == CPType.Conflict) {
-			return transformCriticalKindOfConflict(cpd).toString(); //TODO: may return NULL - handle this case
+			return transformCriticalKindOfConflict(cpd).toString(); // TODO: may return NULL - handle this case
 		} else if (criticalPairType == CPType.Dependency) {
-			return transformCriticalKindOfDependency(cpd).toString(); //TODO: may return NULL - handle this case
+			return transformCriticalKindOfDependency(cpd).toString(); // TODO: may return NULL - handle this case
 		}
 		return null;
 	}

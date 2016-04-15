@@ -1,13 +1,13 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package criticalpair;
+package org.eclipse.emf.henshin.cpa.criticalpair;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see criticalpair.CriticalpairPackage
+ * @see org.eclipse.emf.henshin.cpa.criticalpair.CriticalpairPackage
  * @generated
  */
 public interface CriticalpairFactory extends EFactory {
@@ -26,7 +26,7 @@ public interface CriticalpairFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	CriticalpairFactory eINSTANCE = criticalpair.impl.CriticalpairFactoryImpl.init();
+	CriticalpairFactory eINSTANCE = org.eclipse.emf.henshin.cpa.criticalpair.impl.CriticalpairFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Critical Pair</em>'.

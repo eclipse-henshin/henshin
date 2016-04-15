@@ -1,6 +1,6 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
  * This program and the accompanying materials are made available 
  * under the terms of the Eclipse Public License v1.0 which 
  * accompanies this distribution, and is available at
@@ -14,15 +14,12 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorLauncher;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.registry.EditorDescriptor;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiEditorInput;
@@ -60,9 +57,9 @@ public class MultiEditorLauncher implements IEditorLauncher {
 
 		IPath cloneOfPathOfDummyFile = (IPath) pathOfDummyFile.clone();
 		IPath pathOfCriticalPair = cloneOfPathOfDummyFile.removeLastSegments(1);
-		IPath pathOfLeftRule = pathOfCriticalPair.append("firstRule.henshin"); // DONE
-		IPath pathOfRightRule = pathOfCriticalPair.append("secondRule.henshin"); // TESTING
-		IPath pathOfMinimalModel = pathOfCriticalPair.append("minimal-model.ecore"); // //FOR FUTURE USE
+		IPath pathOfLeftRule = pathOfCriticalPair.append("firstRule.henshin");
+		IPath pathOfRightRule = pathOfCriticalPair.append("secondRule.henshin");
+		IPath pathOfMinimalModel = pathOfCriticalPair.append("minimal-model.ecore");
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot workspaceRoot = workspace.getRoot();
