@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vehicleandtools" nsURI="http://vehicleandtools/1.0" nsPrefix="vehicleandtools">
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MotorVehicle" eSuperTypes="#//Vehicle"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstructionSiteTool" eSuperTypes="#//MotorVehicle #//MechanicalTool"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Tool" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MechanicalTool" eSuperTypes="#//Tool"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Digger" eSuperTypes="#//ConstructionSiteTool"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Truck" eSuperTypes="#//MotorVehicle"/>
+</ecore:EPackage>
