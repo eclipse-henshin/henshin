@@ -92,8 +92,6 @@ public class InputDataChecker {
 				throw new UnsupportedRuleException(UnsupportedRuleException.multipleDomainImport);
 			if (nsUri == null) {
 				nsUri = rule.getModule().getImports().get(0).getNsURI();
-				// TODO: results in an NPE in case of zero imports!
-
 			} else if (!rule.getModule().getImports().get(0).getNsURI().equals(nsUri)) {
 				throw new UnsupportedRuleException(UnsupportedRuleException.differentDomain);
 			}
