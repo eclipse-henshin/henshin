@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5wob8CPPEeW9lPIimCl-sQ">
+  <imports href="vehicles.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_sTGJsCPYEeW9lPIimCl-sQ" name="removeVehicleFromFleet">
+    <lhs xmi:id="_sTLCMCPYEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_4oV9MCPaEeW9lPIimCl-sQ" name="anyFleet" outgoing="_kCd-ACPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="__ikkYCPaEeW9lPIimCl-sQ" name="containedVehicle" incoming="_kCd-ACPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <edges xmi:id="_kCd-ACPdEeW9lPIimCl-sQ" source="_4oV9MCPaEeW9lPIimCl-sQ" target="__ikkYCPaEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet/vehicles"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_sTLCMSPYEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_4oWkQCPaEeW9lPIimCl-sQ" name="anyFleet">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="__ikkYSPaEeW9lPIimCl-sQ" name="containedVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4oWkQSPaEeW9lPIimCl-sQ" origin="_4oV9MCPaEeW9lPIimCl-sQ" image="_4oWkQCPaEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="__ikkYiPaEeW9lPIimCl-sQ" origin="__ikkYCPaEeW9lPIimCl-sQ" image="__ikkYSPaEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_wJRKACPYEeW9lPIimCl-sQ" name="getMotorVehicleFromFleet">
+    <lhs xmi:id="_wJS_MCPYEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_6IlA4CPaEeW9lPIimCl-sQ" name="anyFleet" outgoing="_mhzHMCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="_-sVOACPcEeW9lPIimCl-sQ" name="containedMotorVehicle" incoming="_mhzHMCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <edges xmi:id="_mhzHMCPdEeW9lPIimCl-sQ" source="_6IlA4CPaEeW9lPIimCl-sQ" target="_-sVOACPcEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet/vehicles"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wJS_MSPYEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_6IlA4SPaEeW9lPIimCl-sQ" name="anyFleet" outgoing="_mhzHMSPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="_-sVOASPcEeW9lPIimCl-sQ" name="containedMotorVehicle" incoming="_mhzHMSPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <edges xmi:id="_mhzHMSPdEeW9lPIimCl-sQ" source="_6IlA4SPaEeW9lPIimCl-sQ" target="_-sVOASPcEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet/vehicles"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_6IlA4iPaEeW9lPIimCl-sQ" origin="_6IlA4CPaEeW9lPIimCl-sQ" image="_6IlA4SPaEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_-sVOAiPcEeW9lPIimCl-sQ" origin="_-sVOACPcEeW9lPIimCl-sQ" image="_-sVOASPcEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_zwcFACPYEeW9lPIimCl-sQ" name="removeMotorVehicleFromFleet">
+    <lhs xmi:id="_zwehQCPYEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_7wc9oCPaEeW9lPIimCl-sQ" name="anyFuhrpark" outgoing="_r3_IwCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="__y2KICPcEeW9lPIimCl-sQ" name="containedMotorVehicle" incoming="_r3_IwCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <edges xmi:id="_r3_IwCPdEeW9lPIimCl-sQ" source="_7wc9oCPaEeW9lPIimCl-sQ" target="__y2KICPcEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet/vehicles"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_zwehQSPYEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_7wdksCPaEeW9lPIimCl-sQ" name="anyFuhrpark">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="__y2KISPcEeW9lPIimCl-sQ" name="containedMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_7wdksSPaEeW9lPIimCl-sQ" origin="_7wc9oCPaEeW9lPIimCl-sQ" image="_7wdksCPaEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="__y2KIiPcEeW9lPIimCl-sQ" origin="__y2KICPcEeW9lPIimCl-sQ" image="__y2KISPcEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_H65zMCPZEeW9lPIimCl-sQ" name="getVehicleFromFleet">
+    <lhs xmi:id="_H68PcCPZEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_9GRhECPaEeW9lPIimCl-sQ" name="anyFuhrpark" outgoing="_tkHTYCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="_B6HDgCPbEeW9lPIimCl-sQ" name="containedFahrzeug" incoming="_tkHTYCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <edges xmi:id="_tkHTYCPdEeW9lPIimCl-sQ" source="_9GRhECPaEeW9lPIimCl-sQ" target="_B6HDgCPbEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet/vehicles"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_H68PcSPZEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_9GRhESPaEeW9lPIimCl-sQ" name="anyFuhrpark" outgoing="_u44G4CPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="_B6HDgSPbEeW9lPIimCl-sQ" name="containedFahrzeug" incoming="_u44G4CPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <edges xmi:id="_u44G4CPdEeW9lPIimCl-sQ" source="_9GRhESPaEeW9lPIimCl-sQ" target="_B6HDgSPbEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet/vehicles"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9GRhEiPaEeW9lPIimCl-sQ" origin="_9GRhECPaEeW9lPIimCl-sQ" image="_9GRhESPaEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_B6HqkCPbEeW9lPIimCl-sQ" origin="_B6HDgCPbEeW9lPIimCl-sQ" image="_B6HDgSPbEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_YfMPcCPaEeW9lPIimCl-sQ" name="removeDriverFromVehicle">
+    <lhs xmi:id="_YfOEoCPaEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_VexggCPcEeW9lPIimCl-sQ" name="anyVehicle" outgoing="_28zhECPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_SuTHgCPdEeW9lPIimCl-sQ" name="driver" incoming="_28zhECPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <edges xmi:id="_28zhECPdEeW9lPIimCl-sQ" source="_VexggCPcEeW9lPIimCl-sQ" target="_SuTHgCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/driver"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_YfOEoSPaEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_VexggSPcEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_SuTHgSPdEeW9lPIimCl-sQ" name="driver">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_VeyHkCPcEeW9lPIimCl-sQ" origin="_VexggCPcEeW9lPIimCl-sQ" image="_VexggSPcEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_SuTHgiPdEeW9lPIimCl-sQ" origin="_SuTHgCPdEeW9lPIimCl-sQ" image="_SuTHgSPdEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_aGPFwCPaEeW9lPIimCl-sQ" name="getDriverOfMotorVehicle">
+    <lhs xmi:id="_aGRiACPaEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_FJznwCPdEeW9lPIimCl-sQ" name="anyVehicle" outgoing="_5_IpoCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_U1Z98CPdEeW9lPIimCl-sQ" name="driver" incoming="_5_IpoCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <edges xmi:id="_5_IpoCPdEeW9lPIimCl-sQ" source="_FJznwCPdEeW9lPIimCl-sQ" target="_U1Z98CPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/driver"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_aGRiASPaEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_FJznwSPdEeW9lPIimCl-sQ" name="anyVehicle" outgoing="_5_IpoSPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_U1Z98SPdEeW9lPIimCl-sQ" name="driver" incoming="_5_IpoSPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <edges xmi:id="_5_IpoSPdEeW9lPIimCl-sQ" source="_FJznwSPdEeW9lPIimCl-sQ" target="_U1Z98SPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/driver"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_FJznwiPdEeW9lPIimCl-sQ" origin="_FJznwCPdEeW9lPIimCl-sQ" image="_FJznwSPdEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_U1doUCPdEeW9lPIimCl-sQ" origin="_U1Z98CPdEeW9lPIimCl-sQ" image="_U1Z98SPdEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_bs0pECPaEeW9lPIimCl-sQ" name="removeDriverFromMotorVehicle">
+    <lhs xmi:id="_bs2eQCPaEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_DnncQCPdEeW9lPIimCl-sQ" name="anyMotorVehicle" outgoing="_XGKYQCPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_T92D0CPdEeW9lPIimCl-sQ" name="driver" incoming="_XGKYQCPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <edges xmi:id="_XGKYQCPgEeW9lPIimCl-sQ" source="_DnncQCPdEeW9lPIimCl-sQ" target="_T92D0CPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/driver"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_bs2eQSPaEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_DnncQSPdEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_T92D0SPdEeW9lPIimCl-sQ" name="driver">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_DnncQiPdEeW9lPIimCl-sQ" origin="_DnncQCPdEeW9lPIimCl-sQ" image="_DnncQSPdEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_T92D0iPdEeW9lPIimCl-sQ" origin="_T92D0CPdEeW9lPIimCl-sQ" image="_T92D0SPdEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_dczY8CPaEeW9lPIimCl-sQ" name="getDriverOfVehicle">
+    <lhs xmi:id="_dc7UwCPaEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_WtHi8CPcEeW9lPIimCl-sQ" name="anyVehicle" outgoing="_bKfwYCPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_VliaYCPdEeW9lPIimCl-sQ" name="driver" incoming="_bKfwYCPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <edges xmi:id="_bKfwYCPgEeW9lPIimCl-sQ" source="_WtHi8CPcEeW9lPIimCl-sQ" target="_VliaYCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/driver"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_dc7UwSPaEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_WtIKACPcEeW9lPIimCl-sQ" name="anyVehicle" outgoing="_bKfwYSPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_VliaYSPdEeW9lPIimCl-sQ" name="driver" incoming="_bKfwYSPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <edges xmi:id="_bKfwYSPgEeW9lPIimCl-sQ" source="_WtIKACPcEeW9lPIimCl-sQ" target="_VliaYSPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/driver"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_WtIKASPcEeW9lPIimCl-sQ" origin="_WtHi8CPcEeW9lPIimCl-sQ" image="_WtIKACPcEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_VliaYiPdEeW9lPIimCl-sQ" origin="_VliaYCPdEeW9lPIimCl-sQ" image="_VliaYSPdEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_hAIVwCPaEeW9lPIimCl-sQ" name="removeOwnerOfVehicle">
+    <lhs xmi:id="_hAKK8CPaEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_Y2NWYCPcEeW9lPIimCl-sQ" name="anyVehicle" outgoing="_j8vpICPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_Y2FlICPdEeW9lPIimCl-sQ" name="OwnerOfVehicle" incoming="_j8vpICPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <edges xmi:id="_j8vpICPgEeW9lPIimCl-sQ" source="_Y2NWYCPcEeW9lPIimCl-sQ" target="_Y2FlICPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/owner"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hAKK8SPaEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_Y2NWYSPcEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_Y2GMMCPdEeW9lPIimCl-sQ" name="OwnerOfVehicle">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Y2NWYiPcEeW9lPIimCl-sQ" origin="_Y2NWYCPcEeW9lPIimCl-sQ" image="_Y2NWYSPcEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_Y2GMMSPdEeW9lPIimCl-sQ" origin="_Y2FlICPdEeW9lPIimCl-sQ" image="_Y2GMMCPdEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_qOCPwCPaEeW9lPIimCl-sQ" name="getMotorVehicleInOwnershipOfPerson">
+    <lhs xmi:id="_qOEsACPaEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_HY-1ECPdEeW9lPIimCl-sQ" name="anyVehicle" incoming="_lLFrkCPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_azcCoCPdEeW9lPIimCl-sQ" name="anyPerson" outgoing="_lLFrkCPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <edges xmi:id="_lLFrkCPgEeW9lPIimCl-sQ" source="_azcCoCPdEeW9lPIimCl-sQ" target="_HY-1ECPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qOEsASPaEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_HY-1ESPdEeW9lPIimCl-sQ" name="anyVehicle" incoming="_lLGSoCPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_azcCoSPdEeW9lPIimCl-sQ" name="anyPerson" outgoing="_lLGSoCPgEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <edges xmi:id="_lLGSoCPgEeW9lPIimCl-sQ" source="_azcCoSPdEeW9lPIimCl-sQ" target="_HY-1ESPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_HY-1EiPdEeW9lPIimCl-sQ" origin="_HY-1ECPdEeW9lPIimCl-sQ" image="_HY-1ESPdEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_azcCoiPdEeW9lPIimCl-sQ" origin="_azcCoCPdEeW9lPIimCl-sQ" image="_azcCoSPdEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_spXpwCPaEeW9lPIimCl-sQ" name="removeOwnerOfMotorVehicle">
+    <lhs xmi:id="_spZe8CPaEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_IyatMCPdEeW9lPIimCl-sQ" name="anyMotorVehicle" outgoing="_tQzZACPhEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_cKOPYCPdEeW9lPIimCl-sQ" name="OwnerOfMotorVehicle" incoming="_tQzZACPhEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <edges xmi:id="_tQzZACPhEeW9lPIimCl-sQ" source="_IyatMCPdEeW9lPIimCl-sQ" target="_cKOPYCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/owner"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_spZe8SPaEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_IyatMSPdEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_cKOPYSPdEeW9lPIimCl-sQ" name="OwnerOfMotorVehicle">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_IyatMiPdEeW9lPIimCl-sQ" origin="_IyatMCPdEeW9lPIimCl-sQ" image="_IyatMSPdEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_cKOPYiPdEeW9lPIimCl-sQ" origin="_cKOPYCPdEeW9lPIimCl-sQ" image="_cKOPYSPdEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_wHJ_QCPaEeW9lPIimCl-sQ" name="getVehicleInOwnershipOfPerson">
+    <lhs xmi:id="_wHL0cCPaEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_a--ZsCPcEeW9lPIimCl-sQ" name="anyVehicle" incoming="_uHdUMCPhEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_eY9-4CPdEeW9lPIimCl-sQ" name="anyPerson" outgoing="_uHdUMCPhEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <edges xmi:id="_uHdUMCPhEeW9lPIimCl-sQ" source="_eY9-4CPdEeW9lPIimCl-sQ" target="_a--ZsCPcEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wHMbgCPaEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_a--ZsSPcEeW9lPIimCl-sQ" name="anyVehicle" incoming="_uHdUMSPhEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_eY-l8CPdEeW9lPIimCl-sQ" name="anyPerson" outgoing="_uHdUMSPhEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <edges xmi:id="_uHdUMSPhEeW9lPIimCl-sQ" source="_eY-l8CPdEeW9lPIimCl-sQ" target="_a--ZsSPcEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_a--ZsiPcEeW9lPIimCl-sQ" origin="_a--ZsCPcEeW9lPIimCl-sQ" image="_a--ZsSPcEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_eY-l8SPdEeW9lPIimCl-sQ" origin="_eY9-4CPdEeW9lPIimCl-sQ" image="_eY-l8CPdEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_NWtTkCPkEeW9lPIimCl-sQ" name="addMotorVehicleToFleet">
+    <lhs xmi:id="_NWwW4CPkEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_4KfHQCQAEeW9lPIimCl-sQ" name="anyFleet">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="_NOHcoCQCEeW9lPIimCl-sQ" name="anyKFZ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_NWw98CPkEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_4KgVYCQAEeW9lPIimCl-sQ" name="anyFleet" outgoing="_7q3EcCQFEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="_NOHcoSQCEeW9lPIimCl-sQ" name="anyKFZ" incoming="_7q3EcCQFEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <edges xmi:id="_7q3EcCQFEeW9lPIimCl-sQ" source="_4KgVYCQAEeW9lPIimCl-sQ" target="_NOHcoSQCEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet/vehicles"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_4KgVYSQAEeW9lPIimCl-sQ" origin="_4KfHQCQAEeW9lPIimCl-sQ" image="_4KgVYCQAEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_NOHcoiQCEeW9lPIimCl-sQ" origin="_NOHcoCQCEeW9lPIimCl-sQ" image="_NOHcoSQCEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_snLHACP-EeW9lPIimCl-sQ" name="noVehicleInFleet">
+    <lhs xmi:id="_sqNM4CP-EeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_5uIrUCQAEeW9lPIimCl-sQ" name="anyFleet">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="_FczR4CQBEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_KywwUCQJEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_Kyx-cCQJEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_Kyx-cSQJEeW9lPIimCl-sQ">
+            <nodes xmi:id="_KyylgCQJEeW9lPIimCl-sQ" name="anyFuhrpark" outgoing="_8l1e8CQFEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Fleet"/>
+            </nodes>
+            <nodes xmi:id="_KyylgiQJEeW9lPIimCl-sQ" name="anyFZG" incoming="_8l1e8CQFEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Vehicle"/>
+            </nodes>
+            <edges xmi:id="_8l1e8CQFEeW9lPIimCl-sQ" source="_KyylgCQJEeW9lPIimCl-sQ" target="_KyylgiQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Fleet/vehicles"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_KyylgSQJEeW9lPIimCl-sQ" origin="_5uIrUCQAEeW9lPIimCl-sQ" image="_KyylgCQJEeW9lPIimCl-sQ"/>
+          <mappings xmi:id="_KyylgyQJEeW9lPIimCl-sQ" origin="_FczR4CQBEeW9lPIimCl-sQ" image="_KyylgiQJEeW9lPIimCl-sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_suKf0CP-EeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_5uIrUSQAEeW9lPIimCl-sQ" name="anyFleet">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <nodes xmi:id="_FczR4SQBEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_5uIrUiQAEeW9lPIimCl-sQ" origin="_5uIrUCQAEeW9lPIimCl-sQ" image="_5uIrUSQAEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_FczR4iQBEeW9lPIimCl-sQ" origin="_FczR4CQBEeW9lPIimCl-sQ" image="_FczR4SQBEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_xIFtcCP-EeW9lPIimCl-sQ" name="assignDriverToVehicle">
+    <lhs xmi:id="_xIJX0CP-EeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="__LwxoCQAEeW9lPIimCl-sQ" name="anyDriver">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <nodes xmi:id="_IW3PQCQBEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xIJX0SP-EeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="__LwxoSQAEeW9lPIimCl-sQ" name="anyDriver" incoming="_rQiqQCQJEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <nodes xmi:id="_IW3PQSQBEeW9lPIimCl-sQ" name="anyVehicle" outgoing="_rQiqQCQJEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <edges xmi:id="_rQiqQCQJEeW9lPIimCl-sQ" source="_IW3PQSQBEeW9lPIimCl-sQ" target="__LwxoSQAEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/driver"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="__LwxoiQAEeW9lPIimCl-sQ" origin="__LwxoCQAEeW9lPIimCl-sQ" image="__LwxoSQAEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_IW3PQiQBEeW9lPIimCl-sQ" origin="_IW3PQCQBEeW9lPIimCl-sQ" image="_IW3PQSQBEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_0QXtACP-EeW9lPIimCl-sQ" name="noDriverOfMotorVehicle">
+    <lhs xmi:id="_0QclgCP-EeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="__sUhACQAEeW9lPIimCl-sQ" name="anyDriver">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <nodes xmi:id="_0HTB0CQEEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_ybywACQJEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_ybywASQJEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_ybywAiQJEeW9lPIimCl-sQ">
+            <nodes xmi:id="_ybywAyQJEeW9lPIimCl-sQ" name="anyKraftfahrzeug" outgoing="_r71qACQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//MotorVehicle"/>
+            </nodes>
+            <nodes xmi:id="_ybywBSQJEeW9lPIimCl-sQ" name="Fahrer" incoming="_r71qACQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Driver"/>
+            </nodes>
+            <edges xmi:id="_r71qACQJEeW9lPIimCl-sQ" source="_ybywAyQJEeW9lPIimCl-sQ" target="_ybywBSQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Vehicle/driver"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_ybywBCQJEeW9lPIimCl-sQ" origin="_0HTB0CQEEeW9lPIimCl-sQ" image="_ybywAyQJEeW9lPIimCl-sQ"/>
+          <mappings xmi:id="_ybywBiQJEeW9lPIimCl-sQ" origin="__sUhACQAEeW9lPIimCl-sQ" image="_ybywBSQJEeW9lPIimCl-sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_0QclgSP-EeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="__sUhASQAEeW9lPIimCl-sQ" name="anyDriver">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <nodes xmi:id="_0HTB0SQEEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="__sUhAiQAEeW9lPIimCl-sQ" origin="__sUhACQAEeW9lPIimCl-sQ" image="__sUhASQAEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_0HTB0iQEEeW9lPIimCl-sQ" origin="_0HTB0CQEEeW9lPIimCl-sQ" image="_0HTB0SQEEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_3u30MCP-EeW9lPIimCl-sQ" name="addVehicleToFleet">
+    <lhs xmi:id="_3u6QcCP-EeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_BkXAsCQBEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_SDDAsCQBEeW9lPIimCl-sQ" name="anyFleet">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_3u6QcSP-EeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_BkXAsSQBEeW9lPIimCl-sQ" name="anyVehicle" incoming="_9eOfgCQFEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_SDDnwCQBEeW9lPIimCl-sQ" name="anyFleet" outgoing="_9eOfgCQFEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <edges xmi:id="_9eOfgCQFEeW9lPIimCl-sQ" source="_SDDnwCQBEeW9lPIimCl-sQ" target="_BkXAsSQBEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Fleet/vehicles"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_BkXAsiQBEeW9lPIimCl-sQ" origin="_BkXAsCQBEeW9lPIimCl-sQ" image="_BkXAsSQBEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_SDDnwSQBEeW9lPIimCl-sQ" origin="_SDDAsCQBEeW9lPIimCl-sQ" image="_SDDnwCQBEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_8OXeUCP-EeW9lPIimCl-sQ" name="noMotorVehicleInFleet">
+    <lhs xmi:id="_8OgBMCP-EeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_PrnZ0CQCEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="__HzFYCQFEeW9lPIimCl-sQ" name="anyFleet">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_Md3nQCQJEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_Md3nQSQJEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_Md3nQiQJEeW9lPIimCl-sQ">
+            <nodes xmi:id="_Md4OUCQJEeW9lPIimCl-sQ" name="anyFuhrpark" outgoing="_AtFBICQGEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Fleet"/>
+            </nodes>
+            <nodes xmi:id="_Md41YCQJEeW9lPIimCl-sQ" name="anyKFZ" incoming="_AtFBICQGEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//MotorVehicle"/>
+            </nodes>
+            <edges xmi:id="_AtFBICQGEeW9lPIimCl-sQ" source="_Md4OUCQJEeW9lPIimCl-sQ" target="_Md41YCQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Fleet/vehicles"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_Md4OUSQJEeW9lPIimCl-sQ" origin="__HzFYCQFEeW9lPIimCl-sQ" image="_Md4OUCQJEeW9lPIimCl-sQ"/>
+          <mappings xmi:id="_Md41YSQJEeW9lPIimCl-sQ" origin="_PrnZ0CQCEeW9lPIimCl-sQ" image="_Md41YCQJEeW9lPIimCl-sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_8OgBMSP-EeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_PrnZ0SQCEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="__HzFYSQFEeW9lPIimCl-sQ" name="anyFleet">
+        <type href="vehicles.ecore#//Fleet"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_PrnZ0iQCEeW9lPIimCl-sQ" origin="_PrnZ0CQCEeW9lPIimCl-sQ" image="_PrnZ0SQCEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="__HzFYiQFEeW9lPIimCl-sQ" origin="__HzFYCQFEeW9lPIimCl-sQ" image="__HzFYSQFEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_g1G8QCQAEeW9lPIimCl-sQ" name="assignDriverToMotorVehicle">
+    <lhs xmi:id="_g1JYgCQAEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_4VcdQCQEEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_bsax4CQFEeW9lPIimCl-sQ" name="anyDriver">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_g1JYgSQAEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_4VdEUCQEEeW9lPIimCl-sQ" name="anyMotorVehicle" outgoing="_sMWyQCQJEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_bsax4SQFEeW9lPIimCl-sQ" name="anyDriver" incoming="_sMWyQCQJEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <edges xmi:id="_sMWyQCQJEeW9lPIimCl-sQ" source="_4VdEUCQEEeW9lPIimCl-sQ" target="_bsax4SQFEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/driver"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_4VdEUSQEEeW9lPIimCl-sQ" origin="_4VcdQCQEEeW9lPIimCl-sQ" image="_4VdEUCQEEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_bsax4iQFEeW9lPIimCl-sQ" origin="_bsax4CQFEeW9lPIimCl-sQ" image="_bsax4SQFEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_jF6hQCQAEeW9lPIimCl-sQ" name="noDriverOfVehicle">
+    <lhs xmi:id="_jF8WcCQAEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_MC8fcCQBEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_crYUgCQFEeW9lPIimCl-sQ" name="anyDriver">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_1I-vACQJEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_1I-vASQJEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_1I-vAiQJEeW9lPIimCl-sQ">
+            <nodes xmi:id="_1I-vAyQJEeW9lPIimCl-sQ" name="anyFahrzeug" outgoing="_sdx5cCQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Vehicle"/>
+            </nodes>
+            <nodes xmi:id="_1I-vBSQJEeW9lPIimCl-sQ" name="anyFahrer" incoming="_sdx5cCQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Driver"/>
+            </nodes>
+            <edges xmi:id="_sdx5cCQJEeW9lPIimCl-sQ" source="_1I-vAyQJEeW9lPIimCl-sQ" target="_1I-vBSQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Vehicle/driver"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_1I-vBCQJEeW9lPIimCl-sQ" origin="_MC8fcCQBEeW9lPIimCl-sQ" image="_1I-vAyQJEeW9lPIimCl-sQ"/>
+          <mappings xmi:id="_1I-vBiQJEeW9lPIimCl-sQ" origin="_crYUgCQFEeW9lPIimCl-sQ" image="_1I-vBSQJEeW9lPIimCl-sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_jF8WcSQAEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_MC8fcSQBEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <nodes xmi:id="_crYUgSQFEeW9lPIimCl-sQ" name="anyDriver">
+        <type href="vehicles.ecore#//Driver"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_MC8fciQBEeW9lPIimCl-sQ" origin="_MC8fcCQBEeW9lPIimCl-sQ" image="_MC8fcSQBEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_crY7kCQFEeW9lPIimCl-sQ" origin="_crYUgCQFEeW9lPIimCl-sQ" image="_crYUgSQFEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_qMPDsCQAEeW9lPIimCl-sQ" name="assignVehicleOwnershipToPerson">
+    <lhs xmi:id="_qMTVICQAEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_eSy-QCQFEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <nodes xmi:id="_m-MoICQFEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qMTVISQAEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_eSy-QSQFEeW9lPIimCl-sQ" name="anyPerson" outgoing="_uF9_QCQJEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <nodes xmi:id="_m-MoISQFEeW9lPIimCl-sQ" name="anyVehicle" incoming="_uF9_QCQJEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <edges xmi:id="_uF9_QCQJEeW9lPIimCl-sQ" source="_eSy-QSQFEeW9lPIimCl-sQ" target="_m-MoISQFEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_eSzlUCQFEeW9lPIimCl-sQ" origin="_eSy-QCQFEeW9lPIimCl-sQ" image="_eSy-QSQFEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_m-MoIiQFEeW9lPIimCl-sQ" origin="_m-MoICQFEeW9lPIimCl-sQ" image="_m-MoISQFEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_vT46ACQAEeW9lPIimCl-sQ" name="noOwnerOfMotorVehicle">
+    <lhs xmi:id="_vT7WQCQAEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_6F01wCQEEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_fFCTgCQFEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_6FSJkCQMEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_6FSJkSQMEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_6FSJkiQMEeW9lPIimCl-sQ">
+            <nodes xmi:id="_6FSJkyQMEeW9lPIimCl-sQ" name="anyKFZ" outgoing="_v9wnUCQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//MotorVehicle"/>
+            </nodes>
+            <nodes xmi:id="_6FSwoSQMEeW9lPIimCl-sQ" name="anyPerson" incoming="_v9wnUCQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Person"/>
+            </nodes>
+            <edges xmi:id="_v9wnUCQJEeW9lPIimCl-sQ" source="_6FSJkyQMEeW9lPIimCl-sQ" target="_6FSwoSQMEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Vehicle/owner"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_6FSwoCQMEeW9lPIimCl-sQ" origin="_6F01wCQEEeW9lPIimCl-sQ" image="_6FSJkyQMEeW9lPIimCl-sQ"/>
+          <mappings xmi:id="_6FSwoiQMEeW9lPIimCl-sQ" origin="_fFCTgCQFEeW9lPIimCl-sQ" image="_6FSwoSQMEeW9lPIimCl-sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_vT7WQSQAEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_6F1c0CQEEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_fFCTgSQFEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_6F1c0SQEEeW9lPIimCl-sQ" origin="_6F01wCQEEeW9lPIimCl-sQ" image="_6F1c0CQEEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_fFCTgiQFEeW9lPIimCl-sQ" origin="_fFCTgCQFEeW9lPIimCl-sQ" image="_fFCTgSQFEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_xRlVwCQAEeW9lPIimCl-sQ" name="assignMotorVehicleOwnershipToPerson">
+    <lhs xmi:id="_xRnK8CQAEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="__DrP0CQEEeW9lPIimCl-sQ" name="nyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_iiIsgCQFEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xRnK8SQAEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="__DrP0SQEEeW9lPIimCl-sQ" name="nyMotorVehicle" incoming="_uY3tICQJEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <nodes xmi:id="_iiIsgSQFEeW9lPIimCl-sQ" name="anyPerson" outgoing="_uY3tICQJEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <edges xmi:id="_uY3tICQJEeW9lPIimCl-sQ" source="_iiIsgSQFEeW9lPIimCl-sQ" target="__DrP0SQEEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="__DrP0iQEEeW9lPIimCl-sQ" origin="__DrP0CQEEeW9lPIimCl-sQ" image="__DrP0SQEEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_iiIsgiQFEeW9lPIimCl-sQ" origin="_iiIsgCQFEeW9lPIimCl-sQ" image="_iiIsgSQFEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_zzR2cCQAEeW9lPIimCl-sQ" name="noOwnerOfVehicle">
+    <lhs xmi:id="_zzU5wCQAEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_gEmTECQFEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <nodes xmi:id="_n69yYCQFEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_8eutMCQMEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_8eutMSQMEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_8eutMiQMEeW9lPIimCl-sQ">
+            <nodes xmi:id="_8evUQCQMEeW9lPIimCl-sQ" name="anyFZG" outgoing="_wRusMCQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Vehicle"/>
+            </nodes>
+            <nodes xmi:id="_8evUQiQMEeW9lPIimCl-sQ" name="anyPerson" incoming="_wRusMCQJEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Person"/>
+            </nodes>
+            <edges xmi:id="_wRusMCQJEeW9lPIimCl-sQ" source="_8evUQCQMEeW9lPIimCl-sQ" target="_8evUQiQMEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Vehicle/owner"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_8evUQSQMEeW9lPIimCl-sQ" origin="_n69yYCQFEeW9lPIimCl-sQ" image="_8evUQCQMEeW9lPIimCl-sQ"/>
+          <mappings xmi:id="_8evUQyQMEeW9lPIimCl-sQ" origin="_gEmTECQFEeW9lPIimCl-sQ" image="_8evUQiQMEeW9lPIimCl-sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_zzU5wSQAEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_gEmTESQFEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <nodes xmi:id="_n69yYSQFEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_gEmTEiQFEeW9lPIimCl-sQ" origin="_gEmTECQFEeW9lPIimCl-sQ" image="_gEmTESQFEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_n69yYiQFEeW9lPIimCl-sQ" origin="_n69yYCQFEeW9lPIimCl-sQ" image="_n69yYSQFEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_ipty0CQTEeW9lPIimCl-sQ" name="PersonOwnsNoMotorVehicle">
+    <lhs xmi:id="_ipvoACQTEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_1-vGwCQTEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <nodes xmi:id="_42R7oCQTEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_8qkFkCQTEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_8qkFkSQTEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_8qkFkiQTEeW9lPIimCl-sQ">
+            <nodes xmi:id="_8qksoCQTEeW9lPIimCl-sQ" name="anyPerson" outgoing="_5uIwsCQTEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Person"/>
+            </nodes>
+            <nodes xmi:id="_8qksoiQTEeW9lPIimCl-sQ" name="anyKFZ" incoming="_5uIwsCQTEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//MotorVehicle"/>
+            </nodes>
+            <edges xmi:id="_5uIwsCQTEeW9lPIimCl-sQ" source="_8qksoCQTEeW9lPIimCl-sQ" target="_8qksoiQTEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_8qksoSQTEeW9lPIimCl-sQ" origin="_1-vGwCQTEeW9lPIimCl-sQ" image="_8qksoCQTEeW9lPIimCl-sQ"/>
+          <mappings xmi:id="_8qksoyQTEeW9lPIimCl-sQ" origin="_42R7oCQTEeW9lPIimCl-sQ" image="_8qksoiQTEeW9lPIimCl-sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_ipvoASQTEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_1-vGwSQTEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <nodes xmi:id="_42R7oSQTEeW9lPIimCl-sQ" name="anyMotorVehicle">
+        <type href="vehicles.ecore#//MotorVehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_1-vGwiQTEeW9lPIimCl-sQ" origin="_1-vGwCQTEeW9lPIimCl-sQ" image="_1-vGwSQTEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_42R7oiQTEeW9lPIimCl-sQ" origin="_42R7oCQTEeW9lPIimCl-sQ" image="_42R7oSQTEeW9lPIimCl-sQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_knqGMCQTEeW9lPIimCl-sQ" name="PersonOwnsNoVehicle">
+    <lhs xmi:id="_knvlwCQTEeW9lPIimCl-sQ" name="Lhs">
+      <nodes xmi:id="_2nDD8CQTEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <nodes xmi:id="_34CKsCQTEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_-0IaICQTEeW9lPIimCl-sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_-0IaISQTEeW9lPIimCl-sQ">
+          <conclusion xmi:id="_-0IaIiQTEeW9lPIimCl-sQ">
+            <nodes xmi:id="_-0IaIyQTEeW9lPIimCl-sQ" name="anyPerson" outgoing="_6RbrACQTEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Person"/>
+            </nodes>
+            <nodes xmi:id="_-0IaJSQTEeW9lPIimCl-sQ" name="anyFZG" incoming="_6RbrACQTEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Vehicle"/>
+            </nodes>
+            <edges xmi:id="_6RbrACQTEeW9lPIimCl-sQ" source="_-0IaIyQTEeW9lPIimCl-sQ" target="_-0IaJSQTEeW9lPIimCl-sQ">
+              <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_-0IaJCQTEeW9lPIimCl-sQ" origin="_2nDD8CQTEeW9lPIimCl-sQ" image="_-0IaIyQTEeW9lPIimCl-sQ"/>
+          <mappings xmi:id="_-0IaJiQTEeW9lPIimCl-sQ" origin="_34CKsCQTEeW9lPIimCl-sQ" image="_-0IaJSQTEeW9lPIimCl-sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_knvlwSQTEeW9lPIimCl-sQ" name="Rhs">
+      <nodes xmi:id="_2nDrACQTEeW9lPIimCl-sQ" name="anyPerson">
+        <type href="vehicles.ecore#//Person"/>
+      </nodes>
+      <nodes xmi:id="_34CKsSQTEeW9lPIimCl-sQ" name="anyVehicle">
+        <type href="vehicles.ecore#//Vehicle"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_2nDrASQTEeW9lPIimCl-sQ" origin="_2nDD8CQTEeW9lPIimCl-sQ" image="_2nDrACQTEeW9lPIimCl-sQ"/>
+    <mappings xmi:id="_34CxwCQTEeW9lPIimCl-sQ" origin="_34CKsCQTEeW9lPIimCl-sQ" image="_34CKsSQTEeW9lPIimCl-sQ"/>
+  </units>
+</henshin:Module>
