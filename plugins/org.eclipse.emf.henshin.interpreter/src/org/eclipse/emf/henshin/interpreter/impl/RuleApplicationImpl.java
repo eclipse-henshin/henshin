@@ -9,6 +9,7 @@
  */
 package org.eclipse.emf.henshin.interpreter.impl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.Change;
@@ -17,6 +18,7 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
@@ -73,6 +75,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		if (unit==null) {
 			throw new NullPointerException("No transformation unit set");
 		}
+		
 		// Already executed?
 		if (isExecuted) {
 			if (isCompleteMatchDerived) {
@@ -97,6 +100,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		}
 		resultMatch = new MatchImpl((Rule) unit, true);
 		change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);
+
 		if (change==null) {
 			if (monitor!=null) {
 				monitor.notifyExecute(this, false);
@@ -209,6 +213,17 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		else {
 			partialMatch = new MatchImpl(assignment, false);
 		}
+		
+		if(partialMatch != null) {
+			EList<Parameter> unitParameters = unit.getParameters();
+			for (Parameter param : unitParameters) {
+				ParameterKind kind = param.getKind();
+				if((kind == ParameterKind.INOUT || kind == ParameterKind.IN) && partialMatch.getParameterValue(param) == null) {
+					throw new IllegalStateException(unit.getName() + ": " + kind + " Parameter " + param.getName() + " not set");
+				}
+			}
+		}
+		
 		this.completeMatch = null;
 		this.resultMatch = null;
 		this.change = null;
@@ -230,6 +245,10 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in rule \"" + unit.getName() + "\" found" );
 		}
+		ParameterKind paramKind = param.getKind();
+		if(paramKind == ParameterKind.VAR || paramKind == ParameterKind.IN) {
+			throw new RuntimeException(paramKind.getAlias() + " parameter \"" + paramName + "\" may not be read manually in rule \"" + unit.getName() + "\"");
+		}
 		if (resultMatch!=null) {
 			return resultMatch.getParameterValue(param);
 		}
@@ -248,6 +267,10 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		Parameter param = unit.getParameter(paramName);
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in rule \"" + unit.getName() + "\" found" );
+		}
+		ParameterKind paramKind = param.getKind();
+		if (paramKind == ParameterKind.OUT || paramKind == ParameterKind.VAR) {
+			throw new RuntimeException(paramKind.getAlias() + " parameter \"" + paramName + "\" may not be set before the application of rule \"" + unit.getName() + "\"");
 		}
 		if (partialMatch==null) {
 			partialMatch = new MatchImpl((Rule) unit);

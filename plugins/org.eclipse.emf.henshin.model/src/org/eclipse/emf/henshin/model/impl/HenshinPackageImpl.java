@@ -1843,13 +1843,19 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames"
+			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames varParametersOccurOnLeftSide multiRuleParametersSameKind"
 		   });	
 		addAnnotation
 		  (parameterEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "nameNotEmpty nameNotTypeName nameNotKindAlias"
+			 "constraints", "nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated"
+		   });	
+		addAnnotation
+		  (parameterMappingEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "inParameterMappingIsCausal outParameterMappingIsCausal inoutParameterMappingIsCausal varParameterMappingIsCausal"
 		   });	
 		addAnnotation
 		  (nodeEClass, 

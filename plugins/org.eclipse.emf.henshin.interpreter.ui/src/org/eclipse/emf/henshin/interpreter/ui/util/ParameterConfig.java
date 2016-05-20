@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 
 /**
  * Manages a parameter's type and value.
@@ -53,7 +54,8 @@ public class ParameterConfig {
 	protected String name;
 	protected Object value;
 	protected int type;
-
+	protected ParameterKind kind;
+	
 	public ParameterConfig() {
 	}
 
@@ -81,6 +83,7 @@ public class ParameterConfig {
 				break;
 			}
 		}
+		kind = param.getKind();
 		initValue();
 	}
 	
@@ -98,6 +101,10 @@ public class ParameterConfig {
 	
 	public String getTypeLabel() {
 		return getSupportedTypes().get(type);
+	}
+	
+	public ParameterKind getKind() {
+		return kind;
 	}
 	
 	public boolean isClear() {

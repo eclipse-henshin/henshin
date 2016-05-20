@@ -29,6 +29,7 @@ import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
@@ -503,6 +504,10 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		Parameter param = unit.getParameter(paramName);
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in unit \"" + unit.getName() + "\" found" );
+		}
+		ParameterKind paramKind = param.getKind();
+		if (paramKind == ParameterKind.OUT || paramKind == ParameterKind.VAR) {
+			throw new RuntimeException(paramKind.getAlias() + " parameter \"" + paramName + "\" may not be set before the execution of u \"" + unit.getName() + "\"");
 		}
 		if (assignment==null) {
 			assignment = new AssignmentImpl(unit);

@@ -158,6 +158,7 @@ public class RuleNameParser extends UnitNameParser {
 				Parameter t = multiRule.getParameters().get(i);
 				t.setName(s.getName());
 				t.setType(s.getType());
+				t.setKind(s.getKind());
 				t.setDescription(s.getDescription());
 			}
 			handleParametersChange(multiRule);

@@ -337,10 +337,28 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	public String toString() {
 		String type = (this.type!=null) ? this.type.getName() : null;
 		if (type!=null) {
-			return "Parameter (name: " + name + ", type: " + type + ")";
+			return "Parameter (name: " + name + ", kind: " + kind + ", type: " + type + ")";
 		} else {
-			return "Parameter (name: " + name + ")";			
+			return "Parameter (name: " + name + ", kind: " + kind + ")";			
 		}
 	}
+
+	@Override
+	public String toCompactString() {
+		StringBuilder paramStringBuilder = new StringBuilder();
+		
+		if(this.kind != ParameterKind.UNKNOWN) {
+			paramStringBuilder.append(kind.getAlias());
+			paramStringBuilder.append(" ");
+		}
+		paramStringBuilder.append(name);
+		if (this.type != null && this.type.getName() != null) {
+			paramStringBuilder.append(":");
+			paramStringBuilder.append(this.type.getName());
+		}
+		return paramStringBuilder.toString();
+	}
+	
+	
 
 } //ParameterImpl

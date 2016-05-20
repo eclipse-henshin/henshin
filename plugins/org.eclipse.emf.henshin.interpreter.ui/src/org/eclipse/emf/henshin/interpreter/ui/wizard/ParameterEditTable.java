@@ -11,9 +11,11 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfig;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -75,7 +77,17 @@ public class ParameterEditTable {
 			@Override
 			public Object[] getElements(Object inputElement) {
 				@SuppressWarnings("unchecked")
-				Collection<ParameterConfig> paramCfgs = (Collection<ParameterConfig>) inputElement;
+				Collection<ParameterConfig> paramCfgs = (Collection<ParameterConfig>) inputElement;	
+				Iterator<ParameterConfig> it = paramCfgs.iterator();
+				
+				//Remove configs of parameters that may not be set from outside (OUT & VAR)
+				while(it.hasNext()) {
+					ParameterConfig paramCfg = it.next();
+					if(paramCfg.getKind() == ParameterKind.VAR || paramCfg.getKind() == ParameterKind.OUT) {
+						it.remove();
+					}
+				}
+				
 				return paramCfgs.toArray();
 			}
 			

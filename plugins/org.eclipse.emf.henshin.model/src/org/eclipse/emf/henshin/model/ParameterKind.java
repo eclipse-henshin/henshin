@@ -27,11 +27,10 @@ public enum ParameterKind implements Enumerator {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #UNKNOWN_VALUE
-	 * @generated NOT
-	 * This is necessary to be able to set the alias to "?"
+	 * @generated
 	 * @ordered
 	 */
-	UNKNOWN(0, "UNKNOWN", "UNKNOWN", "?"),
+	UNKNOWN(0, "UNKNOWN", "UNKNOWN"),
 
 	/**
 	 * The '<em><b>IN</b></em>' literal object.
@@ -76,10 +75,6 @@ public enum ParameterKind implements Enumerator {
 	/**
 	 * The '<em><b>UNKNOWN</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>UNKNOWN</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UNKNOWN
 	 * @model
@@ -91,10 +86,6 @@ public enum ParameterKind implements Enumerator {
 	/**
 	 * The '<em><b>IN</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>IN</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #IN
 	 * @model
@@ -106,10 +97,6 @@ public enum ParameterKind implements Enumerator {
 	/**
 	 * The '<em><b>OUT</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>OUT</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OUT
 	 * @model
@@ -121,10 +108,6 @@ public enum ParameterKind implements Enumerator {
 	/**
 	 * The '<em><b>INOUT</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>INOUT</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #INOUT
 	 * @model
@@ -136,10 +119,6 @@ public enum ParameterKind implements Enumerator {
 	/**
 	 * The '<em><b>VAR</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>VAR</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #VAR
 	 * @model
@@ -175,6 +154,8 @@ public enum ParameterKind implements Enumerator {
 	 * Returns the '<em><b>Parameter Kind</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ParameterKind get(String literal) {
@@ -191,6 +172,8 @@ public enum ParameterKind implements Enumerator {
 	 * Returns the '<em><b>Parameter Kind</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ParameterKind getByName(String name) {
@@ -222,6 +205,8 @@ public enum ParameterKind implements Enumerator {
 	 * Returns the '<em><b>Parameter Kind</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ParameterKind get(int value) {

@@ -228,7 +228,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 		}
 		IFile file = getFile(transformOperation.getOutputUri().toString());
 		page.setMessage(null);
-		if (file.exists()) {
+		if (file != null && file.exists()) {
 			page.setMessage("Warning: Output file exists already and will be overridden.", IMessageProvider.WARNING);
 		}
 		return true;

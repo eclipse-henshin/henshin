@@ -56,7 +56,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//Unit">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames"/>
+      <details key="constraints" value="mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames varParametersOccurOnLeftSide multiRuleParametersSameKind"/>
     </eAnnotations>
     <eOperations name="getKernelRule" eType="#//Rule"/>
     <eOperations name="getRootRule" eType="#//Rule"/>
@@ -123,13 +123,16 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="nameNotEmpty nameNotTypeName nameNotKindAlias"/>
+      <details key="constraints" value="nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="#//Unit" eOpposite="#//Unit/parameters"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ParameterKind"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ParameterMapping" eSuperTypes="#//ModelElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="inParameterMappingIsCausal outParameterMappingIsCausal inoutParameterMappingIsCausal varParameterMappingIsCausal"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"

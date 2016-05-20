@@ -226,6 +226,10 @@ public class HenshinDiagramEditorUtil {
 		IDiagramGraphicalViewer viewer = (IDiagramGraphicalViewer) diagramPart.getViewer();
 		final int intialNumOfEditParts = editPartCollector.size();
 
+		if (viewer == null) {
+			return -1;
+		}
+		
 		if (element instanceof View) { // support notation element lookup
 			EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(element);
 			if (editPart != null) {

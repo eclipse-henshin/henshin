@@ -12,6 +12,13 @@
   <genPackages prefix="Henshin" basePackage="org.eclipse.emf" disposableProviderFactory="true"
       interfacePackageSuffix="model" metaDataPackageSuffix="model" classPackageSuffix="model.impl"
       utilityPackageSuffix="model.util" ecorePackage="henshin.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="henshin.ecore#//ParameterKind">
+      <genEnumLiterals ecoreEnumLiteral="henshin.ecore#//ParameterKind/UNKNOWN"/>
+      <genEnumLiterals ecoreEnumLiteral="henshin.ecore#//ParameterKind/IN"/>
+      <genEnumLiterals ecoreEnumLiteral="henshin.ecore#//ParameterKind/OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="henshin.ecore#//ParameterKind/INOUT"/>
+      <genEnumLiterals ecoreEnumLiteral="henshin.ecore#//ParameterKind/VAR"/>
+    </genEnums>
     <genDataTypes ecoreDataType="henshin.ecore#//Action"/>
     <genClasses image="false" ecoreClass="henshin.ecore#//ModelElement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ModelElement/annotations"/>
@@ -111,6 +118,7 @@
     <genClasses ecoreClass="henshin.ecore#//Parameter">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Parameter/unit"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Parameter/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Parameter/kind"/>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//ParameterMapping">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//ParameterMapping/source"/>

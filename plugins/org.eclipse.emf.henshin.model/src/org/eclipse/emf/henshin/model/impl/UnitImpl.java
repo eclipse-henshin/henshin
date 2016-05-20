@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -25,6 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Unit;
 
@@ -349,24 +351,38 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 */
 	@Override
 	public String toString() {
-		String result = eClass().getName() + (name!=null ? " " + name : "");
+		StringBuilder unitStringBuilder = new StringBuilder();
+		
+		unitStringBuilder.append(eClass().getName());
+
+		if(name != null) {
+			unitStringBuilder.append(" ");
+			unitStringBuilder.append(name);
+		}
+
 		if (!getParameters().isEmpty()) {
-			result = result + "(";
+			String delimiter = "";
 			int numberOfParameters = parameters.size();
+			LinkedList<Parameter> varParameters = new LinkedList<Parameter>();
+			
+			unitStringBuilder.append("(");
 			for (int i=0; i<numberOfParameters; i++) {
 				Parameter param = parameters.get(i);
-				result = result + param.getKind().getAlias() + " ";
-				result = result + param.getName();
-				if (param.getType()!=null) {
-					result = result + ":" + param.getType().getName();
-				}
-				if (i<parameters.size()-1) {
-					result = result + ", ";
+				if (param.getKind() == ParameterKind.VAR) {
+					varParameters.add(param);
+				} else {
+					unitStringBuilder.append(delimiter);	
+					unitStringBuilder.append(param.toCompactString());
+					delimiter = ", ";	
 				}
 			}
-			result = result + ")";
+			for(Parameter param : varParameters) {
+				unitStringBuilder.append(delimiter);
+				unitStringBuilder.append(param.toCompactString());
+				delimiter = ", ";
+			}
+			unitStringBuilder.append(")");
 		}
-		return result;		
-	}
-	
+		return unitStringBuilder.toString();		
+	}	
 } // UnitImpl

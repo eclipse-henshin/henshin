@@ -238,6 +238,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validateRule_createdEdgesNotDerived(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_deletedEdgesNotDerived(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_uniqueNodeNames(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_varParametersOccurOnLeftSide(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_multiRuleParametersSameKind(rule, diagnostics, context);
 		return result;
 	}
 	
@@ -344,7 +346,149 @@ public class HenshinValidator extends EObjectValidator {
 		}
 		return result;
 	}
+
+	private List<Parameter> getVarParameters(Unit unit) {
+		EList<Parameter> parameterList = unit.getParameters();
+		List<Parameter> varParameterList = new ArrayList<Parameter>();
+		
+		for(Parameter param : parameterList) {
+			if (param.getKind() == ParameterKind.VAR) {
+				varParameterList.add(param);
+			}
+		}
+		
+		return varParameterList;
+	}
 	
+	private boolean parameterContainedInRule(Rule rule, String paramName) {
+		EList<Edge> edges = rule.getLhs().getEdges();
+		EList<Node> nodes = rule.getLhs().getNodes();
+		EList<NestedCondition> ncs = rule.getLhs().getNestedConditions();
+		
+		return parameterContainedInEdges(edges, paramName) ||
+				parameterContainedInNodes(nodes, paramName) ||
+				parameterContainedInNestedConditions(ncs, paramName);
+	}
+
+	private boolean parameterContainedInEdges(EList<Edge> edges, String paramName) {
+		boolean containsParam = false;
+		
+		for (Edge edge : edges) {
+			if (edge.getIndex() != null && edge.getIndex().equals(paramName)) {
+				containsParam = true;
+				break;
+			}
+		}
+		
+		return containsParam;
+	}
+
+	private boolean parameterContainedInNodes(EList<Node> nodes, String paramName) {
+		boolean containsParam = false;
+
+		for (Node node : nodes) {
+			if (node.getName() != null && node.getName().equals(paramName)) {
+				containsParam = true;
+				break;
+			}
+			EList<Attribute> attributes = node.getAttributes();
+			for (Attribute attribute : attributes) {
+				if (attribute.getValue().equals(paramName)) {
+					containsParam = true;
+					break;
+				}
+			}
+			if(containsParam) {
+				break;
+			}
+		}
+		
+		return containsParam;
+	}
+
+	private boolean parameterContainedInNestedConditions(EList<NestedCondition> ncs, String paramName) {
+		boolean containsParam = false;
+		
+		for(NestedCondition nc : ncs) {		Graph conclusion = nc.getConclusion();
+			EList<Edge> edges = conclusion.getEdges();
+			EList<Node> nodes = conclusion.getNodes();
+			
+			containsParam = parameterContainedInEdges(edges, paramName) ||
+					parameterContainedInNodes(nodes, paramName) ||
+					parameterContainedInNestedConditions(conclusion.getNestedConditions(), paramName);
+			
+			if(containsParam) {
+				break;
+			}
+		}
+		return containsParam;
+	}
+	
+	/**
+	 * Validates the varParametersOccurOnLeftSide constraint of '<em>Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateRule_varParametersOccurOnLeftSide(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		//Multirules are considered together with their kernel rule
+		if(rule.isMultiRule()) {
+			return true;
+		}
+		
+		boolean result = true;
+		List<Parameter> varParameterList = getVarParameters(rule);	
+			
+		for(Parameter param : varParameterList) {
+			String paramName = param.getName();
+			boolean lhsContainsParam = false;
+			
+			//Check if the parameter is contained in the LHS of the rule itself
+			if(parameterContainedInRule(rule, paramName)) {
+				lhsContainsParam = true;
+				break;
+			}			
+			
+			//Check if multirules contain the parameter
+			for(Rule multiRule : rule.getAllMultiRules()) {	
+				if(parameterContainedInRule(multiRule, paramName)) {
+					lhsContainsParam = true;
+					break;
+				}			
+			}
+
+			if (!lhsContainsParam) {
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, param, Rule.class, "varParametersOccurOnLeftSide", context));
+				result = false;
+			}
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Validates the multiRuleParametersSameKind constraint of '<em>Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateRule_multiRuleParametersSameKind(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = true;
+		
+		for (Rule multiRule : rule.getMultiRules()) {
+			EList<Parameter> multiRuleParams = multiRule.getParameters();
+			
+			for(Parameter param : multiRuleParams) {
+				Parameter kernelParam = rule.getParameter(param.getName());
+				if(kernelParam != null && param.getKind() != kernelParam.getKind()) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, param, Rule.class, "sameParameterKinds", context));
+					result = false;
+				}
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * Validates the modeling of opposite '<em>Edge</em>'s.
 	 * <!-- begin-user-doc -->
@@ -588,6 +732,7 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validateParameter_nameNotEmpty(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validateParameter_nameNotTypeName(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validateParameter_nameNotKindAlias(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_unknownKindDeprecated(parameter, diagnostics, context);
 		return result;
 	}
 	
@@ -638,13 +783,27 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateParameter_nameNotKindAlias(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (ParameterKind.getByString(parameter.getName()) != null) {
+		if (parameter != null && ParameterKind.getByString(parameter.getName()) != null) {
 			diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameter, Parameter.class, "nameNotKindAlias", context));
 			return false;
 		}
 		return true;
 	}
 	
+	/**
+	 * Validates the unknownKindDeprecated constraint of '<em>Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateParameter_unknownKindDeprecated(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		EObject container = parameter.eContainer();
+		if (parameter != null && parameter.getKind() == ParameterKind.UNKNOWN && !(container instanceof Rule && ((Rule)container).isMultiRule())) {
+			diagnostics.add(createDiagnostic(Diagnostic.WARNING, parameter, Parameter.class, "unknownKindDeprecated", context));
+		}
+		return true;
+	}
+
 	/*
 	 * Helper method for validateParameter_nameNotTypeName.
 	 */
@@ -1434,9 +1593,162 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateParameterMapping(ParameterMapping parameterMapping,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(parameterMapping, diagnostics, context);
+		if (!validate_NoCircularContainment(parameterMapping, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameterMapping_inParameterMappingIsCausal(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameterMapping_outParameterMappingIsCausal(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameterMapping_inoutParameterMappingIsCausal(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameterMapping_varParameterMappingIsCausal(parameterMapping, diagnostics, context);
+		return result;
 	}
 	
+	/**
+	 * Validates the inParameterMappingIsCausal constraint of '<em>Parameter Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * If the source of a parameter mapping is an in parameter contained in a unit,
+	 * the target parameter has to be of the kinds in, inout or unknown.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateParameterMapping_inParameterMappingIsCausal(ParameterMapping parameterMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		final Parameter source = parameterMapping.getSource();
+		final Parameter target = parameterMapping.getTarget();
+		boolean result = true;
+		
+		if(source != null && target != null && source.getKind() == ParameterKind.IN && eObjectIsUnit(source.eContainer())) {
+			ParameterKind targetKind = target.getKind();
+			if(targetKind != ParameterKind.UNKNOWN && targetKind != ParameterKind.IN && targetKind != ParameterKind.INOUT) {
+				result = false;
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameterMapping, ParameterMapping.class, "inParameterMappingIsCausal", context));
+			}
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Validates the outParameterMappingIsCausal constraint of '<em>Parameter Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * If the source of a parameter mapping is an out parameter contained in a unit,
+	 * tha target parameter has to be of the kinds out, inout, or unknown.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateParameterMapping_outParameterMappingIsCausal(ParameterMapping parameterMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		final Parameter source = parameterMapping.getSource();
+		final Parameter target = parameterMapping.getTarget();
+		boolean result = true;
+		
+		if(source != null && target != null && source.getKind() == ParameterKind.OUT && eObjectIsUnit(source.eContainer())) {
+			ParameterKind targetKind = target.getKind();
+			if(targetKind != ParameterKind.UNKNOWN && targetKind != ParameterKind.OUT && targetKind != ParameterKind.INOUT) {
+				result = false;
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameterMapping, ParameterMapping.class, "outParameterMappingIsCausal", context));
+			}
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Validates the inoutParameterMappingIsCausal constraint of '<em>Parameter Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * If the source of a parameter mapping is an inout parameter contained in a unit,
+	 * the target parameter must not be of the kind var.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateParameterMapping_inoutParameterMappingIsCausal(ParameterMapping parameterMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		final Parameter source = parameterMapping.getSource();
+		final Parameter target = parameterMapping.getTarget();
+		boolean result = true;
+		
+		if(source != null && target != null && source.getKind() == ParameterKind.INOUT && eObjectIsUnit(source.eContainer())) {
+			ParameterKind targetKind = target.getKind();
+			if(targetKind == ParameterKind.VAR) {
+				result = false;
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameterMapping, ParameterMapping.class, "inoutParameterMappingIsCausal", context));
+			}
+		}
+		
+		return result;
+	}
+	
+	private boolean mappingChainIsCausal(Parameter firstParameter, Parameter secondParameter) {
+		ParameterKind firstParameterKind = firstParameter.getKind();
+		ParameterKind secondParameterKind = secondParameter.getKind();
+		
+		return (firstParameterKind == ParameterKind.OUT || firstParameterKind == ParameterKind.INOUT || firstParameterKind == ParameterKind.UNKNOWN) &&
+				(secondParameterKind == ParameterKind.IN || secondParameterKind == ParameterKind.INOUT || secondParameterKind == ParameterKind.UNKNOWN);
+	}
+	
+	/**
+	 * Validates the varParameterMappingIsCausal constraint of '<em>Parameter Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * If the source of a parameter mapping is a var parameter contained in a unit,
+	 * and the target parameter is of the kind in, the mapping is valid if:
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateParameterMapping_varParameterMappingIsCausal(ParameterMapping parameterMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		final Parameter source = parameterMapping.getSource();
+		final Parameter target = parameterMapping.getTarget();
+		boolean result = true;
+		
+		if(source != null && target != null && source.getKind() == ParameterKind.VAR && eObjectIsUnit(source.eContainer())) {
+			ParameterKind targetKind = target.getKind();
+			
+			if(targetKind == ParameterKind.VAR) {
+				result = false;
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameterMapping, ParameterMapping.class, "varParameterMappingIsCausal", context));
+			} else if(targetKind == ParameterKind.IN || targetKind == ParameterKind.OUT || targetKind == ParameterKind.UNKNOWN) {
+				final Unit unit = (Unit) source.eContainer();
+				final EList<ParameterMapping> mappings = unit.getParameterMappings();
+				final Unit targetUnit = target.getUnit();
+				final EList<Unit> subUnits = unit.getSubUnits(false);
+				final int targetUnitIndex = subUnits.indexOf(targetUnit);
+				boolean causalityChainFound = false;
+
+				for(ParameterMapping mapping : mappings) {
+					Parameter mappingSource = mapping.getSource();
+					Parameter mappingTarget = mapping.getTarget();
+					Unit mappingSourceUnit = mappingSource.getUnit();
+					boolean mappingIsCausal = false;
+					
+					if(mappingTarget.equals(source)) {
+						if(subUnits.indexOf(mappingSourceUnit) < targetUnitIndex) {
+							mappingIsCausal = mappingChainIsCausal(mappingSource, target);
+						} else {
+							mappingIsCausal = mappingChainIsCausal(target, mappingSource);
+						}
+						
+						if(mappingIsCausal) {
+							causalityChainFound = true;
+							break;
+						}
+					}
+				}
+				
+				if(!causalityChainFound) {
+					result = false;
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameterMapping, ParameterMapping.class, "varParameterMappingIsCausal", context));
+				}
+			}
+		}
+		return result;
+	}
+
+	private boolean eObjectIsUnit(EObject object) {
+		return object != null && object instanceof Unit && !(object instanceof Rule);
+	}
+
 	/**
 	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
 	 * <!-- begin-user-doc -->
@@ -1469,6 +1781,7 @@ public class HenshinValidator extends EObjectValidator {
 				new Object[] { object }, context, "_Constraint_Msg_" + typeName + "_"
 						+ constraint);
 	}
+	
 	/*
 	 * Private helper for creating diagnostics.
 	 */

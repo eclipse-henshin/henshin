@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EClassifier;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameNotEmpty nameNotTypeName nameNotKindAlias'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated'"
  * @generated
  */
 public interface Parameter extends NamedElement {
@@ -105,5 +105,9 @@ public interface Parameter extends NamedElement {
 	 * @generated
 	 */
 	void setKind(ParameterKind value);
-
+	
+	/**
+	 *@generated NOT
+	*/
+	String toCompactString();
 } // Parameter
