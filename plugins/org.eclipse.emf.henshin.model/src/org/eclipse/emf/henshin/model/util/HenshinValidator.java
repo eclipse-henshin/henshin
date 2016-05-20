@@ -330,16 +330,20 @@ public class HenshinValidator extends EObjectValidator {
 	public boolean validateRule_uniqueNodeNames(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = true;
 		EList<Node> nodes = rule.getActionNodes(null);
-		int size = nodes.size();
-		for (int i = 0; i < size; i++) {
-			Node n1 = nodes.get(i);
-			if (n1.getName() != null && n1.getName().trim().length() != 0) {
-				for (int j = i + 1; j < size; j++) {
-					Node n2 = nodes.get(j);
-					if (n2.getName() != null && n1.getName().trim().equals(n2.getName().trim())) {
-						diagnostics.add(createDiagnostic(Diagnostic.ERROR, n1, Rule.class, "uniqueNodeNames", context));
-						diagnostics.add(createDiagnostic(Diagnostic.ERROR, n2, Rule.class, "uniqueNodeNames", context));
-						result = false;
+		
+		if(nodes != null) {
+			int size = nodes.size();
+			for (int i = 0; i < size; i++) {
+				Node n1 = nodes.get(i);
+				if (n1.getName() != null && n1.getName().trim().length() != 0) {
+					for (int j = i + 1; j < size; j++) {
+						Node n2 = nodes.get(j);
+						if (n2.getName() != null && n1.getName().trim().equals(n2.getName().trim()) &&
+								n1.getGraph().equals(n2.getGraph())) {
+							diagnostics.add(createDiagnostic(Diagnostic.ERROR, n1, Rule.class, "uniqueNodeNames", context));
+							diagnostics.add(createDiagnostic(Diagnostic.ERROR, n2, Rule.class, "uniqueNodeNames", context));
+							result = false;
+						}
 					}
 				}
 			}
