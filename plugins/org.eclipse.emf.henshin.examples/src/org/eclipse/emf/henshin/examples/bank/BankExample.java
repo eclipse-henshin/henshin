@@ -48,31 +48,35 @@ public class BankExample {
 		
 		// Create an engine and a rule application:
 		Engine engine = new EngineImpl();
-		UnitApplication app = new UnitApplicationImpl(engine);
-		app.setEGraph(graph);
+		UnitApplication createAccountApp = new UnitApplicationImpl(engine);
+		createAccountApp.setEGraph(graph);
 		
 		// Creating a new account for Alice...
-		app.setUnit(module.getUnit("createAccount"));
-		app.setParameterValue("client", "Alice");
-		app.setParameterValue("accountId", 5);
-		if (!app.execute(null)) {
+		createAccountApp.setUnit(module.getUnit("createAccount"));
+		createAccountApp.setParameterValue("client", "Alice");
+		createAccountApp.setParameterValue("accountId", 5);
+		if (!createAccountApp.execute(null)) {
 			throw new RuntimeException("Error creating account for Alice");
 		}
-		
+
+		UnitApplication transferMoneyApp = new UnitApplicationImpl(engine);
+		transferMoneyApp.setEGraph(graph);
 		// Transferring some money:
-		app.setUnit(module.getUnit("transferMoney"));
-		app.setParameterValue("client", "Alice");
-		app.setParameterValue("fromId", 1);
-		app.setParameterValue("toId", 2);
-		app.setParameterValue("amount", 50.0d); // double
-		if (!app.execute(null)) { // parameters x and y will be matched by the engine
+		transferMoneyApp.setUnit(module.getUnit("transferMoney"));
+		transferMoneyApp.setParameterValue("client", "Alice");
+		transferMoneyApp.setParameterValue("fromId", 1);
+		transferMoneyApp.setParameterValue("toId", 2);
+		transferMoneyApp.setParameterValue("amount", 50.0d); // double
+		if (!transferMoneyApp.execute(null)) { // parameters x and y will be matched by the engine
 			throw new RuntimeException("Error transferring money");
 		}
 		
 		// Deleting all accounts of Charles:
-		app.setUnit(module.getUnit("deleteAllAccounts"));
-		app.setParameterValue("client", "Charles");
-		if (!app.execute(null)) {
+		UnitApplication deleteAccountsApp = new UnitApplicationImpl(engine);
+		deleteAccountsApp.setEGraph(graph);
+		deleteAccountsApp.setUnit(module.getUnit("deleteAllAccounts"));
+		deleteAccountsApp.setParameterValue("client", "Charles");
+		if (!deleteAccountsApp.execute(null)) {
 			throw new RuntimeException("Error deleting Charles' accounts");
 		}
 		
