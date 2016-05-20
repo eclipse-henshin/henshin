@@ -332,6 +332,7 @@ public class HenshinValidator extends EObjectValidator {
 		EList<Node> nodes = rule.getActionNodes(null);
 		
 		if(nodes != null) {
+		
 			int size = nodes.size();
 			for (int i = 0; i < size; i++) {
 				Node n1 = nodes.get(i);
@@ -450,7 +451,7 @@ public class HenshinValidator extends EObjectValidator {
 			//Check if the parameter is contained in the LHS of the rule itself
 			if(parameterContainedInRule(rule, paramName)) {
 				lhsContainsParam = true;
-				break;
+				continue;
 			}			
 			
 			//Check if multirules contain the parameter
