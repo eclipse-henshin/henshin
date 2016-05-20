@@ -52,7 +52,7 @@
     <lhs xmi:id="_-e6doFj2EeK9E4myB4OBQQ" name="Lhs"/>
     <rhs xmi:id="_-fBLUFj2EeK9E4myB4OBQQ" name="Rhs"/>
     <multiRules xmi:id="_VbiDAFj6EeK9E4myB4OBQQ">
-      <parameters xmi:id="_1zO7YFkAEeKp3JUc7Iqueg" name="x" description=""/>
+      <parameters xmi:id="_1zO7YFkAEeKp3JUc7Iqueg" name="x" description="" kind="VAR"/>
       <lhs xmi:id="_VbpXwFj6EeK9E4myB4OBQQ" name="Lhs">
         <nodes xmi:id="_HFa5EFj6EeK9E4myB4OBQQ" incoming="_zlr4AFj7EeKp3JUc7Iqueg" outgoing="_1MihEFj7EeKp3JUc7Iqueg">
           <type href="http://www.eclipse.org/emf/2013/Henshin/Wrap#//WObject"/>

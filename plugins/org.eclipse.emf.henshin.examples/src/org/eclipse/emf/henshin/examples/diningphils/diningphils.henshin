@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_al_qMHi1EeGAk55CL1NFNw">
-  <rules xmi:id="_d1KU4Hi1EeGAk55CL1NFNw" name="left">
-    <parameters xmi:id="_szY24HqmEeGha8YiNsL7gw" name="p"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_al_qMHi1EeGAk55CL1NFNw">
+  <imports href="diningphils.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_d1KU4Hi1EeGAk55CL1NFNw" name="left">
+    <parameters xmi:id="_szY24HqmEeGha8YiNsL7gw" name="p" kind="IN"/>
     <lhs xmi:id="_d1KU4Xi1EeGAk55CL1NFNw" name="LHS">
       <nodes xmi:id="_hKUS0Hi1EeGAk55CL1NFNw" outgoing="_kYgtIHi1EeGAk55CL1NFNw _mSvlMHi1EeGAk55CL1NFNw">
         <type href="diningphils.ecore#//Table"/>
@@ -58,9 +59,9 @@
     <mappings xmi:id="_iCyL4Hi1EeGAk55CL1NFNw" origin="_iCw9wHi1EeGAk55CL1NFNw" image="_iCxk0Hi1EeGAk55CL1NFNw"/>
     <mappings xmi:id="_iVZl4Hi1EeGAk55CL1NFNw" origin="_iVYXwHi1EeGAk55CL1NFNw" image="_iVY-0Hi1EeGAk55CL1NFNw"/>
     <mappings xmi:id="_ivPCMXi1EeGAk55CL1NFNw" origin="_ivObIHi1EeGAk55CL1NFNw" image="_ivPCMHi1EeGAk55CL1NFNw"/>
-  </rules>
-  <rules xmi:id="_w7lzMHi1EeGAk55CL1NFNw" name="right">
-    <parameters xmi:id="_t7P20HqmEeGha8YiNsL7gw" name="p"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_w7lzMHi1EeGAk55CL1NFNw" name="right">
+    <parameters xmi:id="_t7P20HqmEeGha8YiNsL7gw" name="p" kind="IN"/>
     <lhs xmi:id="_w7lzMXi1EeGAk55CL1NFNw" name="LHS">
       <nodes xmi:id="_w7lzMni1EeGAk55CL1NFNw" outgoing="_w7lzNni1EeGAk55CL1NFNw _w7lzOHi1EeGAk55CL1NFNw">
         <type href="diningphils.ecore#//Table"/>
@@ -117,9 +118,9 @@
     <mappings xmi:id="_w7maR3i1EeGAk55CL1NFNw" origin="_w7lzM3i1EeGAk55CL1NFNw" image="_w7lzPHi1EeGAk55CL1NFNw"/>
     <mappings xmi:id="_w7maSHi1EeGAk55CL1NFNw" origin="_w7lzNHi1EeGAk55CL1NFNw" image="_w7maQHi1EeGAk55CL1NFNw"/>
     <mappings xmi:id="_w7maSXi1EeGAk55CL1NFNw" origin="_w7lzNXi1EeGAk55CL1NFNw" image="_w7maQXi1EeGAk55CL1NFNw"/>
-  </rules>
-  <rules xmi:id="_9Q7YMHi1EeGAk55CL1NFNw" name="release">
-    <parameters xmi:id="_w3HLAHqmEeGha8YiNsL7gw" name="p"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_9Q7YMHi1EeGAk55CL1NFNw" name="release">
+    <parameters xmi:id="_w3HLAHqmEeGha8YiNsL7gw" name="p" kind="IN"/>
     <lhs xmi:id="_9Q7YMXi1EeGAk55CL1NFNw" name="LHS">
       <nodes xmi:id="_9Q7YMni1EeGAk55CL1NFNw" outgoing="_9Q7_QXi1EeGAk55CL1NFNw">
         <type href="diningphils.ecore#//Table"/>
@@ -195,9 +196,9 @@
     <mappings xmi:id="_9Q8mW3i1EeGAk55CL1NFNw" origin="_9Q7YNHi1EeGAk55CL1NFNw" image="_9Q8mU3i1EeGAk55CL1NFNw"/>
     <mappings xmi:id="_9Q8mXHi1EeGAk55CL1NFNw" origin="_9Q7_QHi1EeGAk55CL1NFNw" image="_9Q8mVHi1EeGAk55CL1NFNw"/>
     <mappings xmi:id="_Ah6n0Hi2EeGAk55CL1NFNw" origin="_Ah1vUHi2EeGAk55CL1NFNw" image="_Ah4yoHi2EeGAk55CL1NFNw"/>
-  </rules>
-  <rules xmi:id="_WrotsHz4EeGXJIunC--O0A" name="createPhil">
-    <parameters xmi:id="_EX9FgHz5EeGXJIunC--O0A" name="x"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_WrotsHz4EeGXJIunC--O0A" name="createPhil">
+    <parameters xmi:id="_EX9FgHz5EeGXJIunC--O0A" name="x" kind="OUT"/>
     <lhs xmi:id="_WrotsXz4EeGXJIunC--O0A" name="LHS">
       <nodes xmi:id="_1oGJYHz5EeGXJIunC--O0A" name="root" outgoing="_1pAIUHz5EeGXJIunC--O0A _1qLNAHz5EeGXJIunC--O0A _1rVqoHz5EeGXJIunC--O0A _1sjyoHz5EeGXJIunC--O0A _1u1qkHz5EeGXJIunC--O0A">
         <type href="diningphils.ecore#//Table"/>
@@ -346,6 +347,5 @@
     <mappings xmi:id="_eaIDYHz4EeGXJIunC--O0A" origin="_eaDx8Hz4EeGXJIunC--O0A" image="_eaGOMHz4EeGXJIunC--O0A"/>
     <mappings xmi:id="_1oi1UHz5EeGXJIunC--O0A" origin="_1oGJYHz5EeGXJIunC--O0A" image="_1oPTUHz5EeGXJIunC--O0A"/>
     <mappings xmi:id="_9FscAHz8EeGPAdHQOIIyvA" origin="_fS8hwHz4EeGXJIunC--O0A" image="_9FNT0Hz8EeGPAdHQOIIyvA"/>
-  </rules>
-  <imports href="diningphils.ecore#/"/>
-</henshin:TransformationSystem>
+  </units>
+</henshin:Module>

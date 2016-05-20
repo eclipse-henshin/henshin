@@ -7,7 +7,7 @@
     <lhs xmi:id="_FFEzEPqhEeGh2oGuZgC45Q" name="Lhs"/>
     <rhs xmi:id="_FFEzEfqhEeGh2oGuZgC45Q" name="Rhs"/>
     <multiRules xmi:id="_0AWWcA7bEeKUPdwkmgHfHA" name="pack">
-      <parameters xmi:id="_v6qc4BfCEeKrxb-85yBLDg" name="x">
+      <parameters xmi:id="_v6qc4BfCEeKrxb-85yBLDg" name="x" kind="VAR">
         <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </parameters>
       <lhs xmi:id="_0AW9gA7bEeKUPdwkmgHfHA" name="Lhs">
@@ -43,7 +43,7 @@
       </rhs>
       <mappings xmi:id="_0AVIUA7bEeKUPdwkmgHfHA" origin="_0ANMgA7bEeKUPdwkmgHfHA" image="_0AT6MA7bEeKUPdwkmgHfHA"/>
       <multiRules xmi:id="_FoeDsA7cEeKUPdwkmgHfHA" name="class">
-        <parameters xmi:id="_2hkfcBfCEeKrxb-85yBLDg" name="y">
+        <parameters xmi:id="_2hkfcBfCEeKrxb-85yBLDg" name="y" kind="VAR">
           <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </parameters>
         <lhs xmi:id="_FoeqwA7cEeKUPdwkmgHfHA" name="Lhs">
@@ -112,7 +112,7 @@
         <multiMappings xmi:id="_zcnh0A7cEeKUPdwkmgHfHA" origin="_2Y_o0A7bEeKUPdwkmgHfHA" image="_zchbMA7cEeKUPdwkmgHfHA"/>
       </multiRules>
       <multiRules xmi:id="_iAqBQA7cEeKUPdwkmgHfHA" name="data">
-        <parameters xmi:id="_7OjzABfCEeKrxb-85yBLDg" name="z">
+        <parameters xmi:id="_7OjzABfCEeKrxb-85yBLDg" name="z" kind="VAR">
           <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </parameters>
         <lhs xmi:id="_iAr2cA7cEeKUPdwkmgHfHA" name="Lhs">
@@ -307,7 +307,7 @@
         <mappings xmi:id="_DQ3zMBjtEeKMzYYBBXn_qg" origin="_DQ0I0BjtEeKMzYYBBXn_qg" image="_DQxFgBjtEeKMzYYBBXn_qg"/>
         <mappings xmi:id="_N1zKgBjtEeKMzYYBBXn_qg" origin="_N1wHMBjtEeKMzYYBBXn_qg" image="_N1x8YBjtEeKMzYYBBXn_qg"/>
         <multiRules xmi:id="_SeInkBjtEeKMzYYBBXn_qg" name="att">
-          <parameters xmi:id="_0C4AIBnKEeKjPeFnJPdbZA" name="x">
+          <parameters xmi:id="_0C4AIBnKEeKjPeFnJPdbZA" name="x" kind="VAR">
             <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
           </parameters>
           <lhs xmi:id="_SeJ1sBjtEeKMzYYBBXn_qg" name="Lhs">
@@ -488,7 +488,7 @@
           <multiMappings xmi:id="_Sf13wBjtEeKMzYYBBXn_qg" origin="_N1wHMBjtEeKMzYYBBXn_qg" image="_SfyNYBjtEeKMzYYBBXn_qg"/>
         </multiRules>
         <multiRules xmi:id="_khkX0BjtEeKMzYYBBXn_qg" name="ref">
-          <parameters xmi:id="_2bHC0BnKEeKjPeFnJPdbZA" name="y">
+          <parameters xmi:id="_2bHC0BnKEeKjPeFnJPdbZA" name="y" kind="VAR">
             <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
           </parameters>
           <lhs xmi:id="_khmNABjtEeKMzYYBBXn_qg" name="Lhs">

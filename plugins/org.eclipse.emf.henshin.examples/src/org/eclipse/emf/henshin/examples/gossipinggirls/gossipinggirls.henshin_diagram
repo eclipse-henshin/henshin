@@ -78,7 +78,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_URxMwdSvEeGQhMvzqn4H7w" x="38" y="38" width="155"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_0ULBAdSpEeG9M9qn3DU1vA"/>
-  <element xmi:type="henshin:TransformationSystem" href="gossipinggirls.henshin#_0Q2AMNSpEeG9M9qn3DU1vA"/>
+  <element xmi:type="henshin:Module" href="gossipinggirls.henshin#_0Q2AMNSpEeG9M9qn3DU1vA"/>
   <edges xmi:type="notation:Connector" xmi:id="_9mMMsNSuEeGQhMvzqn4H7w" type="4001" source="_bC57oNSqEeG9M9qn3DU1vA" target="_SQcVkNSsEeGQhMvzqn4H7w">
     <children xmi:type="notation:DecorationNode" xmi:id="_9mNa0NSuEeGQhMvzqn4H7w" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_9mNa0dSuEeGQhMvzqn4H7w" x="7" y="23"/>

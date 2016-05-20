@@ -2,8 +2,8 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_0Q2AMNSpEeG9M9qn3DU1vA">
   <imports href="gossipinggirls.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_WG1qQNSqEeG9M9qn3DU1vA" name="exchangeSecrets">
-    <parameters xmi:id="_Fdgg4NT0EeGUZu_gkNNb3Q" name="g1"/>
-    <parameters xmi:id="_Fd0p8NT0EeGUZu_gkNNb3Q" name="g2"/>
+    <parameters xmi:id="_Fdgg4NT0EeGUZu_gkNNb3Q" name="g1" kind="OUT"/>
+    <parameters xmi:id="_Fd0p8NT0EeGUZu_gkNNb3Q" name="g2" kind="OUT"/>
     <lhs xmi:id="_WG2RUNSqEeG9M9qn3DU1vA" name="LHS">
       <nodes xmi:id="_bCz1ANSqEeG9M9qn3DU1vA" name="g1">
         <type href="gossipinggirls.ecore#//Girl"/>
@@ -23,6 +23,8 @@
     <mappings xmi:id="_bC0cEdSqEeG9M9qn3DU1vA" origin="_bCz1ANSqEeG9M9qn3DU1vA" image="_bC0cENSqEeG9M9qn3DU1vA"/>
     <mappings xmi:id="_b25kYNSqEeG9M9qn3DU1vA" origin="_b23vMNSqEeG9M9qn3DU1vA" image="_b24WQNSqEeG9M9qn3DU1vA"/>
     <multiRules xmi:id="_Tkk28NSsEeGQhMvzqn4H7w">
+      <parameters xmi:id="_DicrsB3QEea8Q6OPV8zz-g" name="g1" kind="OUT"/>
+      <parameters xmi:id="_DicrsR3QEea8Q6OPV8zz-g" name="g2" kind="OUT"/>
       <lhs xmi:id="_TkleANSsEeGQhMvzqn4H7w" name="LHS">
         <nodes xmi:id="_Tk4Y8NSsEeGQhMvzqn4H7w" outgoing="_VWzpkNSsEeGQhMvzqn4H7w">
           <type href="gossipinggirls.ecore#//Girl"/>

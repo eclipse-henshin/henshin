@@ -2,9 +2,9 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_G7UxwAKgEeSno-Fiywz8bg">
   <imports href="ClassModel.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_JYSjcAKgEeSno-Fiywz8bg" name="Move_Attribute">
-    <parameters xmi:id="_3faqIAKvEeSno-Fiywz8bg" name="attName"/>
-    <parameters xmi:id="_nttr8AKvEeSno-Fiywz8bg" name="source"/>
-    <parameters xmi:id="_nttr8QKvEeSno-Fiywz8bg" name="target"/>
+    <parameters xmi:id="_3faqIAKvEeSno-Fiywz8bg" name="attName" kind="IN"/>
+    <parameters xmi:id="_nttr8AKvEeSno-Fiywz8bg" name="source" kind="IN"/>
+    <parameters xmi:id="_nttr8QKvEeSno-Fiywz8bg" name="target" kind="IN"/>
     <lhs xmi:id="_JYW04AKgEeSno-Fiywz8bg" name="Lhs">
       <nodes xmi:id="_N36egAKiEeSno-Fiywz8bg" outgoing="_SiW0YgKiEeSno-Fiywz8bg _i_c48AKiEeSno-Fiywz8bg">
         <type href="ClassModel.ecore#//Class"/>
@@ -62,8 +62,8 @@
     <mappings xmi:id="_SiW0YQKiEeSno-Fiywz8bg" origin="_SiWNUAKiEeSno-Fiywz8bg" image="_SiW0YAKiEeSno-Fiywz8bg"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_RhxzEAKgEeSno-Fiywz8bg" name="Add_Attribute">
-    <parameters xmi:id="_87U5MAKvEeSno-Fiywz8bg" name="clName"/>
-    <parameters xmi:id="_v_MZ8AKvEeSno-Fiywz8bg" name="attName"/>
+    <parameters xmi:id="_87U5MAKvEeSno-Fiywz8bg" name="clName" kind="IN"/>
+    <parameters xmi:id="_v_MZ8AKvEeSno-Fiywz8bg" name="attName" kind="IN"/>
     <lhs xmi:id="_RhzoQAKgEeSno-Fiywz8bg" name="Lhs">
       <nodes xmi:id="_CnZMgAKiEeSno-Fiywz8bg">
         <type href="ClassModel.ecore#//Class"/>
@@ -92,7 +92,7 @@
     <mappings xmi:id="_CnbowQKiEeSno-Fiywz8bg" origin="_CnZMgAKiEeSno-Fiywz8bg" image="_CnbowAKiEeSno-Fiywz8bg"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_p2iIsAKmEeSno-Fiywz8bg" name="Remove_Empty_Class">
-    <parameters xmi:id="_EHK00AKwEeSno-Fiywz8bg" name="clName"/>
+    <parameters xmi:id="_4IlkACJPEeaiAbUM19MMgg" name="clName" kind="IN"/>
     <lhs xmi:id="_p2maIAKmEeSno-Fiywz8bg" name="Lhs">
       <nodes xmi:id="_wUuUIAKmEeSno-Fiywz8bg" incoming="_QcHQoANSEeSVBLjQFlOzmQ">
         <type href="ClassModel.ecore#//Class"/>

@@ -25,7 +25,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI9csKMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6HJoaWUEeGjVP6k_rKtyg" x="263" y="240" width="327" height="125"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6HJoaWUEeGjVP6k_rKtyg" x="263" y="448" width="327" height="125"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6KM8KWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6KM8qWUEeGjVP6k_rKtyg" type="5001"/>
@@ -82,7 +82,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI9cu6MdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6KM8aWUEeGjVP6k_rKtyg" x="37" y="660" width="553" height="186"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6KM8aWUEeGjVP6k_rKtyg" x="37" y="868" width="553" height="186"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6K0AKWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6K0AqWUEeGjVP6k_rKtyg" type="5001"/>
@@ -149,7 +149,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI9cy6MdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6K0AaWUEeGjVP6k_rKtyg" x="37" y="1001" width="553" height="212"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6K0AaWUEeGjVP6k_rKtyg" x="37" y="1209" width="553" height="212"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6K0BKWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6LbEKWUEeGjVP6k_rKtyg" type="5001"/>
@@ -196,7 +196,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI9c6qMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6K0BaWUEeGjVP6k_rKtyg" x="616" y="725" width="318" height="251"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6K0BaWUEeGjVP6k_rKtyg" x="616" y="933" width="318" height="251"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6LbEqWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6LbFKWUEeGjVP6k_rKtyg" type="5001"/>
@@ -243,7 +243,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI-D1aMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6LbE6WUEeGjVP6k_rKtyg" x="616" y="1001" width="318" height="212"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6LbE6WUEeGjVP6k_rKtyg" x="616" y="1209" width="318" height="212"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6MCIKWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6MCIqWUEeGjVP6k_rKtyg" type="5001"/>
@@ -400,7 +400,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI-D8aMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6MCIaWUEeGjVP6k_rKtyg" x="37" y="1495" width="683" height="452"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6MCIaWUEeGjVP6k_rKtyg" x="37" y="1703" width="683" height="452"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6MpMKWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_22Ma8J1hEeKdv-vVCwrkmw" source="defaultAction">
@@ -450,7 +450,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI-q46MdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6MpMaWUEeGjVP6k_rKtyg" x="37" y="1982" width="244" height="266"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6MpMaWUEeGjVP6k_rKtyg" x="37" y="2190" width="244" height="266"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6MpNKWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6NQQKWUEeGjVP6k_rKtyg" type="5001"/>
@@ -497,7 +497,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI-q-KMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6MpNaWUEeGjVP6k_rKtyg" x="315" y="1982" width="237" height="266"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6MpNaWUEeGjVP6k_rKtyg" x="315" y="2190" width="237" height="266"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6NQQqWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Bra4EJ1iEeKdv-vVCwrkmw" source="defaultAction">
@@ -547,7 +547,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI-rDaMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6NQQ6WUEeGjVP6k_rKtyg" x="1010" y="1982" width="278" height="266"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6NQQ6WUEeGjVP6k_rKtyg" x="1010" y="2190" width="278" height="266"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6N3UKWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_DdZMAJ1iEeKdv-vVCwrkmw" source="defaultAction">
@@ -597,7 +597,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI-rIqMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6N3UaWUEeGjVP6k_rKtyg" x="475" y="2273" width="276" height="271"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6N3UaWUEeGjVP6k_rKtyg" x="475" y="2481" width="276" height="271"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6N3VKWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_HnOIIJ1iEeKdv-vVCwrkmw" source="defaultAction">
@@ -687,7 +687,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI_R9KMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6N3VaWUEeGjVP6k_rKtyg" x="37" y="2273" width="402" height="445"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6N3VaWUEeGjVP6k_rKtyg" x="37" y="2481" width="402" height="445"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6OeYqWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_-ftKAJ1hEeKdv-vVCwrkmw" source="defaultAction">
@@ -757,7 +757,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI_SH6MdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6OeY6WUEeGjVP6k_rKtyg" x="590" y="1982" width="385" height="266"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6OeY6WUEeGjVP6k_rKtyg" x="590" y="2190" width="385" height="266"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6PFcKWUEeGjVP6k_rKtyg" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6PFcqWUEeGjVP6k_rKtyg" type="5001"/>
@@ -874,7 +874,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI_SPKMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6PFcaWUEeGjVP6k_rKtyg" x="616" y="240" width="672" height="460"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6PFcaWUEeGjVP6k_rKtyg" x="616" y="448" width="672" height="460"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6PFdKWUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6PsgKWUEeGjVP6k_rKtyg" type="5004"/>
@@ -919,7 +919,7 @@
       </children>
     </children>
     <element xmi:type="henshin:SequentialUnit" href="java2statemachine.henshin#_sJAgAKMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6PFdaWUEeGjVP6k_rKtyg" x="37" y="35" width="195" height="330"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6PFdaWUEeGjVP6k_rKtyg" x="37" y="35" width="209" height="330"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6T98KWUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6UlAKWUEeGjVP6k_rKtyg" type="5004"/>
@@ -984,7 +984,7 @@
       </children>
     </children>
     <element xmi:type="henshin:PriorityUnit" href="java2statemachine.henshin#_sJAgCaMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6YPYaWUEeGjVP6k_rKtyg" x="37" y="398" width="262" height="242"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6YPYaWUEeGjVP6k_rKtyg" x="37" y="606" width="262" height="242"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6ZdiKWUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6aEkKWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1010,16 +1010,21 @@
       <children xmi:type="notation:Shape" xmi:id="_eKtKYKWUEeGjVP6k_rKtyg" type="3003" fontName="Ubuntu" italic="true" lineColor="0">
         <children xmi:type="notation:DecorationNode" xmi:id="_eKtKYqWUEeGjVP6k_rKtyg" type="5005"/>
         <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_sI9cy6MdEeGKmOPbc3bMpQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eKtKYaWUEeGjVP6k_rKtyg" x="80" y="24"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eKtKYaWUEeGjVP6k_rKtyg" x="75" y="20"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_eKtxdKWUEeGjVP6k_rKtyg" type="3003" fontName="Ubuntu" italic="true" lineColor="0">
         <children xmi:type="notation:DecorationNode" xmi:id="_eKuYgKWUEeGjVP6k_rKtyg" type="5005"/>
         <element xmi:type="henshin:LoopUnit" href="java2statemachine.henshin#_sJAgBqMdEeGKmOPbc3bMpQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eKtxdaWUEeGjVP6k_rKtyg" x="325" y="24"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eKtxdaWUEeGjVP6k_rKtyg" x="326" y="1"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_0iCBQB5jEea8Q6OPV8zz-g" type="3003" fontName="Segoe UI" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_0iCBQh5jEea8Q6OPV8zz-g" type="5005"/>
+        <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_cjbTEB5jEea8Q6OPV8zz-g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0iCBQR5jEea8Q6OPV8zz-g" x="330" y="38"/>
       </children>
     </children>
     <element xmi:type="henshin:ConditionalUnit" href="java2statemachine.henshin#_sJBHEKMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6ZdiaWUEeGjVP6k_rKtyg" x="37" y="870" width="554" height="106"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6ZdiaWUEeGjVP6k_rKtyg" x="37" y="1061" width="554" height="106"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6arp6WUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6bSsKWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1084,7 +1089,7 @@
       </children>
     </children>
     <element xmi:type="henshin:SequentialUnit" href="java2statemachine.henshin#_sJBHE6MdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6cg0aWUEeGjVP6k_rKtyg" x="315" y="398" width="275" height="242"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6cg0aWUEeGjVP6k_rKtyg" x="315" y="606" width="275" height="242"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6du8aWUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6iAYKWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1114,7 +1119,7 @@
       </children>
     </children>
     <element xmi:type="henshin:LoopUnit" href="java2statemachine.henshin#_sJBHF6MdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6du8qWUEeGjVP6k_rKtyg" x="958" y="726" width="330" height="250"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6du8qWUEeGjVP6k_rKtyg" x="958" y="934" width="330" height="250"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6j1kKWUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6j1kqWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1149,7 +1154,7 @@
       </children>
     </children>
     <element xmi:type="henshin:SequentialUnit" href="java2statemachine.henshin#_sJBHGqMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6j1kaWUEeGjVP6k_rKtyg" x="957" y="1001" width="331" height="212"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6j1kaWUEeGjVP6k_rKtyg" x="957" y="1209" width="331" height="212"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6lDs6WUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6lDtaWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1179,7 +1184,7 @@
       </children>
     </children>
     <element xmi:type="henshin:LoopUnit" href="java2statemachine.henshin#_sJBHJKMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6lDtKWUEeGjVP6k_rKtyg" x="37" y="1242" width="312" height="226"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6lDtKWUEeGjVP6k_rKtyg" x="37" y="1450" width="329" height="226"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6rKUKWUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6rxYKWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1214,7 +1219,7 @@
       </children>
     </children>
     <element xmi:type="henshin:PriorityUnit" href="java2statemachine.henshin#_sJBHK6MdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6rKUaWUEeGjVP6k_rKtyg" x="377" y="1242" width="343" height="226"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6rKUaWUEeGjVP6k_rKtyg" x="377" y="1450" width="343" height="226"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6sYd6WUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6s_gKWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1247,9 +1252,14 @@
         <element xmi:type="henshin:LoopUnit" href="java2statemachine.henshin#_sJBHJKMdEeGKmOPbc3bMpQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eLiQ1qWUEeGjVP6k_rKtyg" x="147" y="109"/>
       </children>
+      <children xmi:type="notation:Shape" xmi:id="_yAIvcB5nEea287_11ziSuA" type="3003" fontName="Segoe UI" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_yAIvch5nEea287_11ziSuA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_cjbTEB5jEea8Q6OPV8zz-g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_yAIvcR5nEea287_11ziSuA" x="57" y="139"/>
+      </children>
     </children>
     <element xmi:type="henshin:ConditionalUnit" href="java2statemachine.henshin#_sJBHLqMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6sYeKWUEeGjVP6k_rKtyg" x="750" y="1242" width="538" height="216"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6sYeKWUEeGjVP6k_rKtyg" x="750" y="1450" width="538" height="216"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6uNoKWUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d6uNoqWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1304,7 +1314,7 @@
       </children>
     </children>
     <element xmi:type="henshin:PriorityUnit" href="java2statemachine.henshin#_sJBHOKMdEeGKmOPbc3bMpQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6uNoaWUEeGjVP6k_rKtyg" x="753" y="1495" width="535" height="452"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6uNoaWUEeGjVP6k_rKtyg" x="753" y="1703" width="535" height="452"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_d6wC0aWUEeGjVP6k_rKtyg" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_d61iYKWUEeGjVP6k_rKtyg" type="5004"/>
@@ -1335,6 +1345,26 @@
     </children>
     <element xmi:type="henshin:LoopUnit" href="java2statemachine.henshin#_sJBHSaMdEeGKmOPbc3bMpQ"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d6wC0qWUEeGjVP6k_rKtyg" x="774" y="35" width="184" height="180"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_jlu4MB5jEea8Q6OPV8zz-g" type="2001" fontName="Segoe UI" italic="true" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_m2PmsB5jEea8Q6OPV8zz-g" source="defaultAction">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_m2QNwB5jEea8Q6OPV8zz-g" key="value" value="forbid"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_jlu4Mh5jEea8Q6OPV8zz-g" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_jlu4Mx5jEea8Q6OPV8zz-g" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_m2Rb4B5jEea8Q6OPV8zz-g" type="3001" fontName="Segoe UI">
+        <children xmi:type="notation:DecorationNode" xmi:id="_m2Rb4h5jEea8Q6OPV8zz-g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_m2Rb4x5jEea8Q6OPV8zz-g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_m2Rb5B5jEea8Q6OPV8zz-g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_m2Rb5R5jEea8Q6OPV8zz-g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_m2Rb5h5jEea8Q6OPV8zz-g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="java2statemachine.henshin#_m2NxgB5jEea8Q6OPV8zz-g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m2Rb4R5jEea8Q6OPV8zz-g" x="13" y="4"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="java2statemachine.henshin#_cjbTEB5jEea8Q6OPV8zz-g"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jlu4MR5jEea8Q6OPV8zz-g" x="774" y="2481" width="135" height="97"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_dhOIgaWUEeGjVP6k_rKtyg"/>
   <element xmi:type="henshin:Module" href="java2statemachine.henshin#_r_94waMdEeGKmOPbc3bMpQ"/>

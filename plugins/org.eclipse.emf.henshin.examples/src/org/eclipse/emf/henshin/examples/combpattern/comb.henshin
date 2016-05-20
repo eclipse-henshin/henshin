@@ -316,7 +316,7 @@
     <mappings xmi:id="_0sEXoLfhEeGgKfdtjnLQtA" origin="_0sDJgLfhEeGgKfdtjnLQtA" image="_0sDwkLfhEeGgKfdtjnLQtA"/>
   </units>
   <units xsi:type="henshin:IteratedUnit" xmi:id="_nIrcYLfnEeGgKfdtjnLQtA" name="buildCombPattern" subUnit="_1Ge5gKo9EeGWmNM0TiX1dQ" iterations="width-1">
-    <parameters xmi:id="_rRGDQLfnEeGgKfdtjnLQtA" name="width">
+    <parameters xmi:id="_rRGDQLfnEeGgKfdtjnLQtA" name="width" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
   </units>

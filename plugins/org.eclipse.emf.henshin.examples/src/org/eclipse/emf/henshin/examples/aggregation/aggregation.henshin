@@ -2,11 +2,11 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Sv_vwPGMEeSTFfi-IxgcSQ">
   <imports href="family.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_T70CoPGMEeSTFfi-IxgcSQ" name="calcMemberCount">
-    <parameters xmi:id="_cUF8MPGMEeSTFfi-IxgcSQ" name="x">
-      <type xsi:type="ecore:EClass" href="family.ecore#//Person"/>
-    </parameters>
-    <parameters xmi:id="_nNdX0PGfEeSTFfi-IxgcSQ" name="old">
+    <parameters xmi:id="_nNdX0PGfEeSTFfi-IxgcSQ" name="old" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_cUF8MPGMEeSTFfi-IxgcSQ" name="x" kind="VAR">
+      <type xsi:type="ecore:EClass" href="family.ecore#//Person"/>
     </parameters>
     <lhs xmi:id="_T9KGcPGMEeSTFfi-IxgcSQ" name="Lhs">
       <nodes xmi:id="_WuXp0PGMEeSTFfi-IxgcSQ">
@@ -26,11 +26,11 @@
     </rhs>
     <mappings xmi:id="_WuXp0vGMEeSTFfi-IxgcSQ" origin="_WuXp0PGMEeSTFfi-IxgcSQ" image="_WuXp0fGMEeSTFfi-IxgcSQ"/>
     <multiRules xmi:id="_v4csoPGMEeSTFfi-IxgcSQ">
-      <parameters xmi:id="_v5MTgPGMEeSTFfi-IxgcSQ" name="x">
-        <type xsi:type="ecore:EClass" href="family.ecore#//Person"/>
-      </parameters>
-      <parameters xmi:id="_v5MTgfGMEeSTFfi-IxgcSQ" name="old">
+      <parameters xmi:id="_v5MTgPGMEeSTFfi-IxgcSQ" name="old" kind="VAR">
         <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </parameters>
+      <parameters xmi:id="_v5MTgfGMEeSTFfi-IxgcSQ" name="x" kind="VAR">
+        <type xsi:type="ecore:EClass" href="family.ecore#//Person"/>
       </parameters>
       <lhs xmi:id="_v4vnkPGMEeSTFfi-IxgcSQ" name="Lhs">
         <nodes xmi:id="_v4vnmPGMEeSTFfi-IxgcSQ" outgoing="_X80Z8PGMEeSTFfi-IxgcSQ">
@@ -62,10 +62,10 @@
     <javaImports>org.eclipse.emf.henshin.interpreter.util.Aggregations</javaImports>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_n5NOEPGgEeSTFfi-IxgcSQ" name="calcAverageAge">
-    <parameters xmi:id="_tFEO8PGgEeSTFfi-IxgcSQ" name="a">
+    <parameters xmi:id="_tFEO8PGgEeSTFfi-IxgcSQ" name="a" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_tFEO8fGgEeSTFfi-IxgcSQ" name="old">
+    <parameters xmi:id="_tFEO8fGgEeSTFfi-IxgcSQ" name="old" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </parameters>
     <lhs xmi:id="_n5b3kPGgEeSTFfi-IxgcSQ" name="Lhs">
@@ -86,10 +86,10 @@
     </rhs>
     <mappings xmi:id="_udFKwfGgEeSTFfi-IxgcSQ" origin="_udEjsPGgEeSTFfi-IxgcSQ" image="_udFKwPGgEeSTFfi-IxgcSQ"/>
     <multiRules xmi:id="_ygnRoPGgEeSTFfi-IxgcSQ">
-      <parameters xmi:id="_yhVDUPGgEeSTFfi-IxgcSQ" name="a">
+      <parameters xmi:id="_yhVDUPGgEeSTFfi-IxgcSQ" name="a" kind="VAR">
         <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       </parameters>
-      <parameters xmi:id="_yhVDUfGgEeSTFfi-IxgcSQ" name="old">
+      <parameters xmi:id="_yhVDUfGgEeSTFfi-IxgcSQ" name="old" kind="VAR">
         <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
       </parameters>
       <lhs xmi:id="_ygnRofGgEeSTFfi-IxgcSQ" name="Lhs">

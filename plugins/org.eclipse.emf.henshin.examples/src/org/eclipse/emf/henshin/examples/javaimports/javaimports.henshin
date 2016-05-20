@@ -2,7 +2,7 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_dXEckDeGEeSK9qk0Cph73g">
   <imports href="javaimports.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_ou53gDeGEeSK9qk0Cph73g" name="simple">
-    <parameters xmi:id="_De2E4DeHEeSK9qk0Cph73g" name="x">
+    <parameters xmi:id="_De2E4DeHEeSK9qk0Cph73g" name="x" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
     <lhs xmi:id="_pAWM0DeGEeSK9qk0Cph73g" name="Lhs"/>

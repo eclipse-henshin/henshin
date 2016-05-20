@@ -2,16 +2,16 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Qql58MePEeKE5P5x88_Sag">
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_SGdbAMePEeKE5P5x88_Sag" name="swap">
-    <parameters xmi:id="_VZU58MePEeKE5P5x88_Sag" name="x">
+    <parameters xmi:id="_VZU58MePEeKE5P5x88_Sag" name="x" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameters xmi:id="_VZU58cePEeKE5P5x88_Sag" name="y">
+    <parameters xmi:id="_VZU58cePEeKE5P5x88_Sag" name="y" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameters xmi:id="_gx9wsMeQEeKlGqkssSuc-g" name="i">
+    <parameters xmi:id="_gx9wsMeQEeKlGqkssSuc-g" name="i" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_gx9wsceQEeKlGqkssSuc-g" name="j">
+    <parameters xmi:id="_gx9wsceQEeKlGqkssSuc-g" name="j" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
     <lhs xmi:id="_SKV1cMePEeKE5P5x88_Sag" name="Lhs">

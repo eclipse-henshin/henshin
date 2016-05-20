@@ -2,10 +2,10 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_XF6w8H_5EeKZZICbS5P5TQ">
   <imports href="bank.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_XF6w8X_5EeKZZICbS5P5TQ" name="createAccount">
-    <parameters xmi:id="_XF7_EH_5EeKZZICbS5P5TQ" name="client">
+    <parameters xmi:id="_XF7_EH_5EeKZZICbS5P5TQ" name="client" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameters xmi:id="_XF7_EX_5EeKZZICbS5P5TQ" name="accountId">
+    <parameters xmi:id="_XF7_EX_5EeKZZICbS5P5TQ" name="accountId" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
     <lhs xmi:id="_XGBeoH_5EeKZZICbS5P5TQ" name="LHS">
@@ -90,22 +90,22 @@
     <mappings xmi:id="_XGpJsn_5EeKZZICbS5P5TQ" origin="_XGWOwH_5EeKZZICbS5P5TQ" image="_XGnUgH_5EeKZZICbS5P5TQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_XGpwwH_5EeKZZICbS5P5TQ" name="transferMoney">
-    <parameters xmi:id="_XGpwwX_5EeKZZICbS5P5TQ" name="client">
+    <parameters xmi:id="_XGpwwX_5EeKZZICbS5P5TQ" name="client" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameters xmi:id="_XGpwwn_5EeKZZICbS5P5TQ" name="fromId">
+    <parameters xmi:id="_XGpwwn_5EeKZZICbS5P5TQ" name="fromId" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_XGqX0H_5EeKZZICbS5P5TQ" name="toId">
+    <parameters xmi:id="_XGqX0H_5EeKZZICbS5P5TQ" name="toId" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_XGqX0X_5EeKZZICbS5P5TQ" name="amount">
+    <parameters xmi:id="_XGqX0X_5EeKZZICbS5P5TQ" name="amount" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </parameters>
-    <parameters xmi:id="_XGq-4H_5EeKZZICbS5P5TQ" name="x">
+    <parameters xmi:id="_XGq-4H_5EeKZZICbS5P5TQ" name="x" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </parameters>
-    <parameters xmi:id="_XGq-4X_5EeKZZICbS5P5TQ" name="y">
+    <parameters xmi:id="_XGq-4X_5EeKZZICbS5P5TQ" name="y" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </parameters>
     <lhs xmi:id="_XGrl8H_5EeKZZICbS5P5TQ" name="LHS">
@@ -173,7 +173,7 @@
     <mappings xmi:id="_XHAWEH_5EeKZZICbS5P5TQ" origin="_XG1W8H_5EeKZZICbS5P5TQ" image="_XG-g4H_5EeKZZICbS5P5TQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_XHAWEX_5EeKZZICbS5P5TQ" name="deleteAllAccounts" checkDangling="false">
-    <parameters xmi:id="_XHAWEn_5EeKZZICbS5P5TQ" name="client">
+    <parameters xmi:id="_XHAWEn_5EeKZZICbS5P5TQ" name="client" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
     <lhs xmi:id="_XHAWE3_5EeKZZICbS5P5TQ" name="LHS">
@@ -226,7 +226,7 @@
     <mappings xmi:id="_XHFOkn_5EeKZZICbS5P5TQ" origin="_XHBkMH_5EeKZZICbS5P5TQ" image="_XHEAcH_5EeKZZICbS5P5TQ"/>
     <mappings xmi:id="_XHF1oH_5EeKZZICbS5P5TQ" origin="_XHBkMX_5EeKZZICbS5P5TQ" image="_XHEAcX_5EeKZZICbS5P5TQ"/>
     <multiRules xmi:id="_XHKuIH_5EeKZZICbS5P5TQ" name="">
-      <parameters xmi:id="_hDQQsHcoEeWYVP_eitzqMg" name="client">
+      <parameters xmi:id="_hDQQsHcoEeWYVP_eitzqMg" name="client" kind="IN">
         <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </parameters>
       <lhs xmi:id="_XHKuIX_5EeKZZICbS5P5TQ" name="LHS">

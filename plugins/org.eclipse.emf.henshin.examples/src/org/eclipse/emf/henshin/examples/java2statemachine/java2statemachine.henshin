@@ -21,8 +21,8 @@
   <imports href="statemachine.ecore#/"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin/Trace#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_sI9csKMdEeGKmOPbc3bMpQ" name="init">
-    <parameters xmi:id="_sI9csaMdEeGKmOPbc3bMpQ" name="sm"/>
-    <parameters xmi:id="_sI9csqMdEeGKmOPbc3bMpQ" name="class"/>
+    <parameters xmi:id="_sI9csaMdEeGKmOPbc3bMpQ" name="sm" kind="OUT"/>
+    <parameters xmi:id="_sI9csqMdEeGKmOPbc3bMpQ" name="cls" kind="OUT"/>
     <lhs xmi:id="_sI9cs6MdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI9ctKMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/2/Class"/>
@@ -35,7 +35,7 @@
       <nodes xmi:id="_sI9ct6MdEeGKmOPbc3bMpQ" name="sm">
         <type href="statemachine.ecore#//StateMachine"/>
       </nodes>
-      <nodes xmi:id="_sI9cuKMdEeGKmOPbc3bMpQ" name="class">
+      <nodes xmi:id="_sI9cuKMdEeGKmOPbc3bMpQ" name="cls">
         <type href="java.ecore#/2/Class"/>
         <attributes xmi:id="_sI9cuaMdEeGKmOPbc3bMpQ" value="&quot;State&quot;">
           <type href="java.ecore#/3/NamedElement/name"/>
@@ -45,10 +45,10 @@
     <mappings xmi:id="_sI9cuqMdEeGKmOPbc3bMpQ" origin="_sI9ctKMdEeGKmOPbc3bMpQ" image="_sI9cuKMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI9cu6MdEeGKmOPbc3bMpQ" name="createState">
-    <parameters xmi:id="_sI9cvKMdEeGKmOPbc3bMpQ" name="stateName"/>
-    <parameters xmi:id="_sI9cvaMdEeGKmOPbc3bMpQ" name="class"/>
+    <parameters xmi:id="_sI9cvKMdEeGKmOPbc3bMpQ" name="stateName" kind="VAR"/>
+    <parameters xmi:id="_sI9cvaMdEeGKmOPbc3bMpQ" name="cls" kind="IN"/>
     <lhs xmi:id="_sI9cvqMdEeGKmOPbc3bMpQ" name="LHS">
-      <nodes xmi:id="_sI9cv6MdEeGKmOPbc3bMpQ" name="class">
+      <nodes xmi:id="_sI9cv6MdEeGKmOPbc3bMpQ" name="cls">
         <type href="java.ecore#/2/Class"/>
         <attributes xmi:id="_sI9cwKMdEeGKmOPbc3bMpQ" value="stateName">
           <type href="java.ecore#/3/NamedElement/name"/>
@@ -112,8 +112,8 @@
     <mappings xmi:id="_sI9cyqMdEeGKmOPbc3bMpQ" origin="_sI9cwaMdEeGKmOPbc3bMpQ" image="_sI9cxaMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI9cy6MdEeGKmOPbc3bMpQ" name="checkClassHasChild">
-    <parameters xmi:id="_sI9czKMdEeGKmOPbc3bMpQ" name="class"/>
-    <parameters xmi:id="_sI9czaMdEeGKmOPbc3bMpQ" name="child"/>
+    <parameters xmi:id="_sI9czKMdEeGKmOPbc3bMpQ" name="cls" kind="IN"/>
+    <parameters xmi:id="_sI9czaMdEeGKmOPbc3bMpQ" name="child" kind="OUT"/>
     <lhs xmi:id="_sI9czqMdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI9cz6MdEeGKmOPbc3bMpQ" outgoing="_sI9c06MdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/2/Class"/>
@@ -124,7 +124,7 @@
       <nodes xmi:id="_sI9c0aMdEeGKmOPbc3bMpQ" incoming="_sI9c1KMdEeGKmOPbc3bMpQ" outgoing="_sI9c1aMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/16/ClassifierReference"/>
       </nodes>
-      <nodes xmi:id="_sI9c0qMdEeGKmOPbc3bMpQ" name="class" incoming="_sI9c1aMdEeGKmOPbc3bMpQ">
+      <nodes xmi:id="_sI9c0qMdEeGKmOPbc3bMpQ" name="cls" incoming="_sI9c1aMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/2/Class"/>
       </nodes>
       <edges xmi:id="_sI9c06MdEeGKmOPbc3bMpQ" source="_sI9cz6MdEeGKmOPbc3bMpQ" target="_sI9c0KMdEeGKmOPbc3bMpQ">
@@ -188,8 +188,8 @@
     <mappings xmi:id="_sI9c6aMdEeGKmOPbc3bMpQ" origin="_sI9c0qMdEeGKmOPbc3bMpQ" image="_sI9c4KMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI9c6qMdEeGKmOPbc3bMpQ" name="nextClass">
-    <parameters xmi:id="_sI9c66MdEeGKmOPbc3bMpQ" name="c"/>
-    <parameters xmi:id="_sI-DwKMdEeGKmOPbc3bMpQ" name="stateName"/>
+    <parameters xmi:id="_sI9c66MdEeGKmOPbc3bMpQ" name="c" kind="OUT"/>
+    <parameters xmi:id="_sI-DwKMdEeGKmOPbc3bMpQ" name="stateName" kind="VAR"/>
     <lhs xmi:id="_sI-DwaMdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI-DwqMdEeGKmOPbc3bMpQ">
         <type href="statemachine.ecore#//State"/>
@@ -244,9 +244,9 @@
     <mappings xmi:id="_sI-D1KMdEeGKmOPbc3bMpQ" origin="_sI-DwqMdEeGKmOPbc3bMpQ" image="_sI-DzaMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI-D1aMdEeGKmOPbc3bMpQ" name="nextClassMethod">
-    <parameters xmi:id="_sI-D1qMdEeGKmOPbc3bMpQ" name="cm"/>
-    <parameters xmi:id="_sI-D16MdEeGKmOPbc3bMpQ" name="baseClass"/>
-    <parameters xmi:id="_sI-D2KMdEeGKmOPbc3bMpQ" name="cmName"/>
+    <parameters xmi:id="_sI-D1qMdEeGKmOPbc3bMpQ" name="cm" kind="OUT"/>
+    <parameters xmi:id="_sI-D16MdEeGKmOPbc3bMpQ" name="baseClass" kind="IN"/>
+    <parameters xmi:id="_sI-D2KMdEeGKmOPbc3bMpQ" name="cmName" kind="VAR"/>
     <lhs xmi:id="_sI-D2aMdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI-D2qMdEeGKmOPbc3bMpQ" name="baseClass" outgoing="_sI-D3aMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/2/Class"/>
@@ -309,11 +309,11 @@
     <mappings xmi:id="_sI-D8KMdEeGKmOPbc3bMpQ" origin="_sI-D26MdEeGKmOPbc3bMpQ" image="_sI-D6aMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI-D8aMdEeGKmOPbc3bMpQ" name="createTransition">
-    <parameters xmi:id="_sI-D8qMdEeGKmOPbc3bMpQ" name="baseClass"/>
-    <parameters xmi:id="_sI-D86MdEeGKmOPbc3bMpQ" name="parent"/>
-    <parameters xmi:id="_sI-D9KMdEeGKmOPbc3bMpQ" name="trigger"/>
-    <parameters xmi:id="_sI-D9aMdEeGKmOPbc3bMpQ" name="srcName"/>
-    <parameters xmi:id="_sI-D9qMdEeGKmOPbc3bMpQ" name="trgName"/>
+    <parameters xmi:id="_sI-D8qMdEeGKmOPbc3bMpQ" name="baseClass" kind="IN"/>
+    <parameters xmi:id="_sI-D9KMdEeGKmOPbc3bMpQ" name="trigger" kind="IN"/>
+    <parameters xmi:id="_sI-D86MdEeGKmOPbc3bMpQ" name="parent" kind="IN"/>
+    <parameters xmi:id="_sI-D9aMdEeGKmOPbc3bMpQ" name="srcName" kind="VAR"/>
+    <parameters xmi:id="_sI-D9qMdEeGKmOPbc3bMpQ" name="trgName" kind="VAR"/>
     <lhs xmi:id="_sI-D96MdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI-D-KMdEeGKmOPbc3bMpQ" name="parent" outgoing="_sI-ECaMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/15/ExpressionStatement"/>
@@ -505,8 +505,6 @@
         <type href="statemachine.ecore#//Transition/dst"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_sI-q1qMdEeGKmOPbc3bMpQ" origin="_sI-D-KMdEeGKmOPbc3bMpQ" image="_sI-EIaMdEeGKmOPbc3bMpQ"/>
-    <mappings xmi:id="_sI-q16MdEeGKmOPbc3bMpQ" origin="_sI-D-aMdEeGKmOPbc3bMpQ" image="_sI-EHqMdEeGKmOPbc3bMpQ"/>
     <mappings xmi:id="_sI-q2KMdEeGKmOPbc3bMpQ" origin="_sI-D-aMdEeGKmOPbc3bMpQ" image="_sI-EHqMdEeGKmOPbc3bMpQ"/>
     <mappings xmi:id="_sI-q2aMdEeGKmOPbc3bMpQ" origin="_sI-D-KMdEeGKmOPbc3bMpQ" image="_sI-EIaMdEeGKmOPbc3bMpQ"/>
     <mappings xmi:id="_sI-q2qMdEeGKmOPbc3bMpQ" origin="_sI-D-qMdEeGKmOPbc3bMpQ" image="_sI-EIqMdEeGKmOPbc3bMpQ"/>
@@ -520,8 +518,8 @@
     <mappings xmi:id="_sI-q4qMdEeGKmOPbc3bMpQ" origin="_sI-EB6MdEeGKmOPbc3bMpQ" image="_sI-EGqMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI-q46MdEeGKmOPbc3bMpQ" name="descendSLC">
-    <parameters xmi:id="_sI-q5KMdEeGKmOPbc3bMpQ" name="parent"/>
-    <parameters xmi:id="_sI-q5aMdEeGKmOPbc3bMpQ" name="child"/>
+    <parameters xmi:id="_sI-q5KMdEeGKmOPbc3bMpQ" name="parent" kind="IN"/>
+    <parameters xmi:id="_sI-q5aMdEeGKmOPbc3bMpQ" name="child" kind="OUT"/>
     <lhs xmi:id="_sI-q5qMdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI-q56MdEeGKmOPbc3bMpQ" name="parent" outgoing="_sI-q6aMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/15/StatementListContainer"/>
@@ -577,8 +575,8 @@
     <mappings xmi:id="_sI-q96MdEeGKmOPbc3bMpQ" origin="_sI-q6KMdEeGKmOPbc3bMpQ" image="_sI-q8qMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI-q-KMdEeGKmOPbc3bMpQ" name="descendSC">
-    <parameters xmi:id="_sI-q-aMdEeGKmOPbc3bMpQ" name="parent"/>
-    <parameters xmi:id="_sI-q-qMdEeGKmOPbc3bMpQ" name="child"/>
+    <parameters xmi:id="_sI-q-aMdEeGKmOPbc3bMpQ" name="parent" kind="IN"/>
+    <parameters xmi:id="_sI-q-qMdEeGKmOPbc3bMpQ" name="child" kind="OUT"/>
     <lhs xmi:id="_sI-q-6MdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI-q_KMdEeGKmOPbc3bMpQ" name="parent" outgoing="_sI-q_qMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/15/StatementContainer"/>
@@ -634,8 +632,8 @@
     <mappings xmi:id="_sI-rDKMdEeGKmOPbc3bMpQ" origin="_sI-q_aMdEeGKmOPbc3bMpQ" image="_sI-rB6MdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI-rDaMdEeGKmOPbc3bMpQ" name="descendCondition">
-    <parameters xmi:id="_sI-rDqMdEeGKmOPbc3bMpQ" name="parent"/>
-    <parameters xmi:id="_sI-rD6MdEeGKmOPbc3bMpQ" name="child"/>
+    <parameters xmi:id="_sI-rDqMdEeGKmOPbc3bMpQ" name="parent" kind="IN"/>
+    <parameters xmi:id="_sI-rD6MdEeGKmOPbc3bMpQ" name="child" kind="OUT"/>
     <lhs xmi:id="_sI-rEKMdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI-rEaMdEeGKmOPbc3bMpQ" name="parent" outgoing="_sI-rE6MdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/15/Condition"/>
@@ -691,8 +689,8 @@
     <mappings xmi:id="_sI-rIaMdEeGKmOPbc3bMpQ" origin="_sI-rEqMdEeGKmOPbc3bMpQ" image="_sI-rHKMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI-rIqMdEeGKmOPbc3bMpQ" name="descendTryFinally">
-    <parameters xmi:id="_sI_R4KMdEeGKmOPbc3bMpQ" name="parent"/>
-    <parameters xmi:id="_sI_R4aMdEeGKmOPbc3bMpQ" name="child"/>
+    <parameters xmi:id="_sI_R4KMdEeGKmOPbc3bMpQ" name="parent" kind="IN"/>
+    <parameters xmi:id="_sI_R4aMdEeGKmOPbc3bMpQ" name="child" kind="OUT"/>
     <lhs xmi:id="_sI_R4qMdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI_R46MdEeGKmOPbc3bMpQ" name="parent" outgoing="_sI_R5aMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/15/TryBlock"/>
@@ -748,9 +746,9 @@
     <mappings xmi:id="_sI_R86MdEeGKmOPbc3bMpQ" origin="_sI_R5KMdEeGKmOPbc3bMpQ" image="_sI_R7qMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI_R9KMdEeGKmOPbc3bMpQ" name="descendTryCatch">
-    <parameters xmi:id="_sI_R9aMdEeGKmOPbc3bMpQ" name="parent"/>
-    <parameters xmi:id="_sI_R9qMdEeGKmOPbc3bMpQ" name="child"/>
-    <parameters xmi:id="_sI_R96MdEeGKmOPbc3bMpQ" name="trigger"/>
+    <parameters xmi:id="_sI_R9aMdEeGKmOPbc3bMpQ" name="parent" kind="IN"/>
+    <parameters xmi:id="_sI_R9qMdEeGKmOPbc3bMpQ" name="child" kind="OUT"/>
+    <parameters xmi:id="_sI_R96MdEeGKmOPbc3bMpQ" name="trigger" kind="OUT"/>
     <lhs xmi:id="_sI_R-KMdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI_R-aMdEeGKmOPbc3bMpQ" name="parent" outgoing="_sI_SAKMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/15/TryBlock"/>
@@ -895,9 +893,9 @@
     <mappings xmi:id="_sI_SHqMdEeGKmOPbc3bMpQ" origin="_sI_R_qMdEeGKmOPbc3bMpQ" image="_sI_SDqMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI_SH6MdEeGKmOPbc3bMpQ" name="descendSwitch">
-    <parameters xmi:id="_sI_SIKMdEeGKmOPbc3bMpQ" name="parent"/>
-    <parameters xmi:id="_sI_SIaMdEeGKmOPbc3bMpQ" name="child"/>
-    <parameters xmi:id="_sI_SIqMdEeGKmOPbc3bMpQ" name="trigger"/>
+    <parameters xmi:id="_sI_SIKMdEeGKmOPbc3bMpQ" name="parent" kind="IN"/>
+    <parameters xmi:id="_sI_SIaMdEeGKmOPbc3bMpQ" name="child" kind="OUT"/>
+    <parameters xmi:id="_sI_SIqMdEeGKmOPbc3bMpQ" name="trigger" kind="OUT"/>
     <lhs xmi:id="_sI_SI6MdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI_SJKMdEeGKmOPbc3bMpQ" name="parent" outgoing="_sI_SKaMdEeGKmOPbc3bMpQ">
         <type href="java.ecore#/15/Switch"/>
@@ -1002,7 +1000,7 @@
     <mappings xmi:id="_sI_SO6MdEeGKmOPbc3bMpQ" origin="_sI_SJ6MdEeGKmOPbc3bMpQ" image="_sI_SMqMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_sI_SPKMdEeGKmOPbc3bMpQ" name="updateAction">
-    <parameters xmi:id="_sI_SPaMdEeGKmOPbc3bMpQ" name="actionName"/>
+    <parameters xmi:id="_sI_SPaMdEeGKmOPbc3bMpQ" name="actionName" kind="VAR"/>
     <lhs xmi:id="_sI_SPqMdEeGKmOPbc3bMpQ" name="LHS">
       <nodes xmi:id="_sI_SP6MdEeGKmOPbc3bMpQ" incoming="_sI_STaMdEeGKmOPbc3bMpQ">
         <type href="statemachine.ecore#//Transition"/>
@@ -1150,43 +1148,57 @@
     <mappings xmi:id="_sI_SdKMdEeGKmOPbc3bMpQ" origin="_sI_SSaMdEeGKmOPbc3bMpQ" image="_sI_SYaMdEeGKmOPbc3bMpQ"/>
     <mappings xmi:id="_sI_SdaMdEeGKmOPbc3bMpQ" origin="_sI_SSqMdEeGKmOPbc3bMpQ" image="_sI_SYqMdEeGKmOPbc3bMpQ"/>
   </units>
+  <units xsi:type="henshin:Rule" xmi:id="_cjbTEB5jEea8Q6OPV8zz-g" name="inapplicableRule">
+    <lhs xmi:id="_cjuOAB5jEea8Q6OPV8zz-g" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_ndMR8B5jEea8Q6OPV8zz-g">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_ndMR8R5jEea8Q6OPV8zz-g">
+          <conclusion xmi:id="_ndMR8h5jEea8Q6OPV8zz-g">
+            <nodes xmi:id="_m2NxgB5jEea8Q6OPV8zz-g">
+              <type href="statemachine.ecore#//StateMachine"/>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_cjuOAR5jEea8Q6OPV8zz-g" name="Rhs"/>
+  </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_sJAgAKMdEeGKmOPbc3bMpQ" name="Start" description="" subUnits="_sI9csKMdEeGKmOPbc3bMpQ _sJAgBqMdEeGKmOPbc3bMpQ _sJBHEqMdEeGKmOPbc3bMpQ _sJBHSaMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJAgAaMdEeGKmOPbc3bMpQ" name="sm"/>
-    <parameters xmi:id="_sJAgAqMdEeGKmOPbc3bMpQ" name="class"/>
+    <parameters xmi:id="_sJAgAaMdEeGKmOPbc3bMpQ" name="sm" kind="OUT"/>
+    <parameters xmi:id="_sJAgAqMdEeGKmOPbc3bMpQ" name="cls" kind="VAR"/>
     <parameterMappings xmi:id="_sJAgA6MdEeGKmOPbc3bMpQ" source="_sI9csaMdEeGKmOPbc3bMpQ" target="_sJAgAaMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJAgBKMdEeGKmOPbc3bMpQ" source="_sI9csqMdEeGKmOPbc3bMpQ" target="_sJAgAqMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJAgBaMdEeGKmOPbc3bMpQ" source="_sJAgAqMdEeGKmOPbc3bMpQ" target="_sJAgB6MdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:LoopUnit" xmi:id="_sJAgBqMdEeGKmOPbc3bMpQ" name="StatesLoop" description="" subUnit="_sJAgCaMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJAgB6MdEeGKmOPbc3bMpQ" name="class"/>
+    <parameters xmi:id="_sJAgB6MdEeGKmOPbc3bMpQ" name="cls" kind="IN"/>
     <parameterMappings xmi:id="_sJAgCKMdEeGKmOPbc3bMpQ" source="_sJAgB6MdEeGKmOPbc3bMpQ" target="_sJAgCqMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:PriorityUnit" xmi:id="_sJAgCaMdEeGKmOPbc3bMpQ" name="CreateStateAndChildren" description="" subUnits="_sI9cu6MdEeGKmOPbc3bMpQ _sJBHEKMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJAgCqMdEeGKmOPbc3bMpQ" name="class"/>
+    <parameters xmi:id="_sJAgCqMdEeGKmOPbc3bMpQ" name="cls" kind="IN"/>
     <parameterMappings xmi:id="_sJAgC6MdEeGKmOPbc3bMpQ" source="_sJAgCqMdEeGKmOPbc3bMpQ" target="_sI9cvaMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJAgDKMdEeGKmOPbc3bMpQ" source="_sJAgCqMdEeGKmOPbc3bMpQ" target="_sJBHEaMdEeGKmOPbc3bMpQ"/>
   </units>
-  <units xsi:type="henshin:ConditionalUnit" xmi:id="_sJBHEKMdEeGKmOPbc3bMpQ" name="ProcessChildren" description="" if="_sI9cy6MdEeGKmOPbc3bMpQ" then="_sJAgBqMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJBuJaMdEeGKmOPbc3bMpQ" name="child"/>
-    <parameters xmi:id="_sJBHEaMdEeGKmOPbc3bMpQ" name="class"/>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_sJBHEKMdEeGKmOPbc3bMpQ" name="ProcessChildren" description="" if="_sI9cy6MdEeGKmOPbc3bMpQ" then="_sJAgBqMdEeGKmOPbc3bMpQ" else="_cjbTEB5jEea8Q6OPV8zz-g">
+    <parameters xmi:id="_sJBuJaMdEeGKmOPbc3bMpQ" name="child" kind="VAR"/>
+    <parameters xmi:id="_sJBHEaMdEeGKmOPbc3bMpQ" name="cls" kind="IN"/>
     <parameterMappings xmi:id="_sJBuJqMdEeGKmOPbc3bMpQ" source="_sJBHEaMdEeGKmOPbc3bMpQ" target="_sI9czKMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBuJ6MdEeGKmOPbc3bMpQ" source="_sI9czaMdEeGKmOPbc3bMpQ" target="_sJBuJaMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBuKKMdEeGKmOPbc3bMpQ" source="_sJBuJaMdEeGKmOPbc3bMpQ" target="_sJAgB6MdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:LoopUnit" xmi:id="_sJBHEqMdEeGKmOPbc3bMpQ" name="TransitionsLoop" description="" subUnit="_sJBHE6MdEeGKmOPbc3bMpQ"/>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_sJBHE6MdEeGKmOPbc3bMpQ" name="CreateTransitions" subUnits="_sI9c6qMdEeGKmOPbc3bMpQ _sJBHF6MdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJBHFKMdEeGKmOPbc3bMpQ" name="baseClass"/>
+    <parameters xmi:id="_sJBHFKMdEeGKmOPbc3bMpQ" name="baseClass" kind="IN"/>
     <parameterMappings xmi:id="_sJBHFaMdEeGKmOPbc3bMpQ" source="_sJBHFKMdEeGKmOPbc3bMpQ" target="_sJBHGKMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHFqMdEeGKmOPbc3bMpQ" source="_sI9c66MdEeGKmOPbc3bMpQ" target="_sJBHFKMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:LoopUnit" xmi:id="_sJBHF6MdEeGKmOPbc3bMpQ" name="ClassMethodsLoop" subUnit="_sJBHGqMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJBHGKMdEeGKmOPbc3bMpQ" name="baseClass"/>
+    <parameters xmi:id="_sJBHGKMdEeGKmOPbc3bMpQ" name="baseClass" kind="IN"/>
     <parameterMappings xmi:id="_sJBHGaMdEeGKmOPbc3bMpQ" source="_sJBHGKMdEeGKmOPbc3bMpQ" target="_sJBHG6MdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_sJBHGqMdEeGKmOPbc3bMpQ" name="ProcessClassMethod" subUnits="_sI-D1aMdEeGKmOPbc3bMpQ _sJBHJKMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJBHG6MdEeGKmOPbc3bMpQ" name="baseClass"/>
-    <parameters xmi:id="_sJBHHKMdEeGKmOPbc3bMpQ" name="classMethod"/>
-    <parameters xmi:id="_sJBHHaMdEeGKmOPbc3bMpQ" name="trigger"/>
+    <parameters xmi:id="_sJBHG6MdEeGKmOPbc3bMpQ" name="baseClass" kind="IN"/>
+    <parameters xmi:id="_sJBHHKMdEeGKmOPbc3bMpQ" name="classMethod" kind="INOUT"/>
+    <parameters xmi:id="_sJBHHaMdEeGKmOPbc3bMpQ" name="trigger" kind="INOUT"/>
     <parameterMappings xmi:id="_sJBHHqMdEeGKmOPbc3bMpQ" source="_sJBHG6MdEeGKmOPbc3bMpQ" target="_sI-D16MdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHH6MdEeGKmOPbc3bMpQ" source="_sI-D1qMdEeGKmOPbc3bMpQ" target="_sJBHHKMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHIKMdEeGKmOPbc3bMpQ" source="_sJBHHKMdEeGKmOPbc3bMpQ" target="_sJBHJaMdEeGKmOPbc3bMpQ"/>
@@ -1195,17 +1207,17 @@
     <parameterMappings xmi:id="_sJBHI6MdEeGKmOPbc3bMpQ" source="_sI-D2KMdEeGKmOPbc3bMpQ" target="_sJBHHaMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:LoopUnit" xmi:id="_sJBHJKMdEeGKmOPbc3bMpQ" name="DescendLoop" subUnit="_sJBHK6MdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJBHJaMdEeGKmOPbc3bMpQ" name="current"/>
-    <parameters xmi:id="_sJBHJqMdEeGKmOPbc3bMpQ" name="baseClass"/>
-    <parameters xmi:id="_sJBHJ6MdEeGKmOPbc3bMpQ" name="trigger"/>
+    <parameters xmi:id="_sJBHJaMdEeGKmOPbc3bMpQ" name="current" kind="IN"/>
+    <parameters xmi:id="_sJBHJqMdEeGKmOPbc3bMpQ" name="baseClass" kind="IN"/>
+    <parameters xmi:id="_sJBHJ6MdEeGKmOPbc3bMpQ" name="trigger" kind="OUT"/>
     <parameterMappings xmi:id="_sJBHKKMdEeGKmOPbc3bMpQ" source="_sJBHJaMdEeGKmOPbc3bMpQ" target="_sJBHLaMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHKaMdEeGKmOPbc3bMpQ" source="_sJBHJqMdEeGKmOPbc3bMpQ" target="_sKcDYaMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHKqMdEeGKmOPbc3bMpQ" source="_sJBHJ6MdEeGKmOPbc3bMpQ" target="_sJBHLKMdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:PriorityUnit" xmi:id="_sJBHK6MdEeGKmOPbc3bMpQ" name="CreateOrDescend" subUnits="_sI-D8aMdEeGKmOPbc3bMpQ _sJBHLqMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJBHLaMdEeGKmOPbc3bMpQ" name="current"/>
-    <parameters xmi:id="_sKcDYaMdEeGKmOPbc3bMpQ" name="baseClass"/>
-    <parameters xmi:id="_sJBHLKMdEeGKmOPbc3bMpQ" name="trigger"/>
+    <parameters xmi:id="_sJBHLaMdEeGKmOPbc3bMpQ" name="current" kind="INOUT"/>
+    <parameters xmi:id="_sKcDYaMdEeGKmOPbc3bMpQ" name="baseClass" kind="INOUT"/>
+    <parameters xmi:id="_sJBHLKMdEeGKmOPbc3bMpQ" name="trigger" kind="INOUT"/>
     <parameterMappings xmi:id="_sKcDYqMdEeGKmOPbc3bMpQ" source="_sJBHLaMdEeGKmOPbc3bMpQ" target="_sI-D86MdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sKcDY6MdEeGKmOPbc3bMpQ" source="_sJBHLaMdEeGKmOPbc3bMpQ" target="_sJBHL6MdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sKcDZKMdEeGKmOPbc3bMpQ" source="_sKcDYaMdEeGKmOPbc3bMpQ" target="_sI-D8qMdEeGKmOPbc3bMpQ"/>
@@ -1214,10 +1226,10 @@
     <parameterMappings xmi:id="_sKcDZ6MdEeGKmOPbc3bMpQ" source="_sJBHLKMdEeGKmOPbc3bMpQ" target="_sJBHMaMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sKcDaKMdEeGKmOPbc3bMpQ" source="_sI-D9aMdEeGKmOPbc3bMpQ" target="_sJBHLaMdEeGKmOPbc3bMpQ"/>
   </units>
-  <units xsi:type="henshin:ConditionalUnit" xmi:id="_sJBHLqMdEeGKmOPbc3bMpQ" name="Descend" if="_sJBHOKMdEeGKmOPbc3bMpQ" then="_sJBHJKMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJBHL6MdEeGKmOPbc3bMpQ" name="current"/>
-    <parameters xmi:id="_sJBHMKMdEeGKmOPbc3bMpQ" name="baseClass"/>
-    <parameters xmi:id="_sJBHMaMdEeGKmOPbc3bMpQ" name="trigger"/>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_sJBHLqMdEeGKmOPbc3bMpQ" name="Descend" description="" if="_sJBHOKMdEeGKmOPbc3bMpQ" then="_sJBHJKMdEeGKmOPbc3bMpQ" else="_cjbTEB5jEea8Q6OPV8zz-g">
+    <parameters xmi:id="_sJBHL6MdEeGKmOPbc3bMpQ" name="current" kind="IN"/>
+    <parameters xmi:id="_sJBHMKMdEeGKmOPbc3bMpQ" name="baseClass" kind="IN"/>
+    <parameters xmi:id="_sJBHMaMdEeGKmOPbc3bMpQ" name="trigger" kind="OUT"/>
     <parameterMappings xmi:id="_sJBHMqMdEeGKmOPbc3bMpQ" source="_sJBHL6MdEeGKmOPbc3bMpQ" target="_sJBHOaMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHM6MdEeGKmOPbc3bMpQ" source="_sJBHOaMdEeGKmOPbc3bMpQ" target="_sJBHL6MdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHNKMdEeGKmOPbc3bMpQ" source="_sJBHOqMdEeGKmOPbc3bMpQ" target="_sJBHMaMdEeGKmOPbc3bMpQ"/>
@@ -1226,8 +1238,8 @@
     <parameterMappings xmi:id="_sJBHN6MdEeGKmOPbc3bMpQ" source="_sJBHMaMdEeGKmOPbc3bMpQ" target="_sJBHJ6MdEeGKmOPbc3bMpQ"/>
   </units>
   <units xsi:type="henshin:PriorityUnit" xmi:id="_sJBHOKMdEeGKmOPbc3bMpQ" name="TryDescending" subUnits="_sI-q46MdEeGKmOPbc3bMpQ _sI-q-KMdEeGKmOPbc3bMpQ _sI_SH6MdEeGKmOPbc3bMpQ _sI-rDaMdEeGKmOPbc3bMpQ _sI_R9KMdEeGKmOPbc3bMpQ _sI-rIqMdEeGKmOPbc3bMpQ">
-    <parameters xmi:id="_sJBHOaMdEeGKmOPbc3bMpQ" name="current"/>
-    <parameters xmi:id="_sJBHOqMdEeGKmOPbc3bMpQ" name="trigger"/>
+    <parameters xmi:id="_sJBHOaMdEeGKmOPbc3bMpQ" name="current" kind="IN"/>
+    <parameters xmi:id="_sJBHOqMdEeGKmOPbc3bMpQ" name="trigger" kind="OUT"/>
     <parameterMappings xmi:id="_sJBHO6MdEeGKmOPbc3bMpQ" source="_sJBHOaMdEeGKmOPbc3bMpQ" target="_sI-q5KMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHPKMdEeGKmOPbc3bMpQ" source="_sI-q5aMdEeGKmOPbc3bMpQ" target="_sJBHOaMdEeGKmOPbc3bMpQ"/>
     <parameterMappings xmi:id="_sJBHPaMdEeGKmOPbc3bMpQ" source="_sJBHOaMdEeGKmOPbc3bMpQ" target="_sI-q-aMdEeGKmOPbc3bMpQ"/>

@@ -165,7 +165,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_d838A9h7EeC6BbOnv_qqkQ" x="925" y="21"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_dgb3odh7EeC6BbOnv_qqkQ"/>
-  <element xmi:type="henshin:TransformationSystem" href="petriM.henshin#_iqzK8GK4EeGEopi1QdEPhA"/>
+  <element xmi:type="henshin:Module" href="petriM.henshin#_iqzK8GK4EeGEopi1QdEPhA"/>
   <edges xmi:type="notation:Connector" xmi:id="_eQ6SUNh7EeC6BbOnv_qqkQ" type="4001" source="_eHCkoNh7EeC6BbOnv_qqkQ" target="_eHEZ2th7EeC6BbOnv_qqkQ" routing="Rectilinear" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_eQ65YNh7EeC6BbOnv_qqkQ" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_eQ65Ydh7EeC6BbOnv_qqkQ" x="3" y="7"/>
@@ -285,10 +285,10 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_eSzvwNh7EeC6BbOnv_qqkQ" type="4001" source="_eHCkoNh7EeC6BbOnv_qqkQ" target="_eHFn99h7EeC6BbOnv_qqkQ" routing="Rectilinear" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_eSzvw9h7EeC6BbOnv_qqkQ" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_eSzvxNh7EeC6BbOnv_qqkQ" x="6" y="60"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_eSzvxNh7EeC6BbOnv_qqkQ" x="81" y="8"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_eSzvxdh7EeC6BbOnv_qqkQ" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_eSzvxth7EeC6BbOnv_qqkQ" x="-12" y="38"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_eSzvxth7EeC6BbOnv_qqkQ" x="82" y="23"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_eSzvwdh7EeC6BbOnv_qqkQ" fontName="Segoe UI"/>
     <element xmi:type="henshin:Edge" href="petriM.henshin#_is6D52K4EeGEopi1QdEPhA"/>

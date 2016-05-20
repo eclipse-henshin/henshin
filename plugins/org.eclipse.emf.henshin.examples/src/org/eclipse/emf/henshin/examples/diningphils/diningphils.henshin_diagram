@@ -258,7 +258,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WvrgMHz4EeGXJIunC--O0A" x="57" y="969" width="465" height="239"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_amCGcXi1EeGAk55CL1NFNw"/>
-  <element xmi:type="henshin:TransformationSystem" href="diningphils.henshin#_al_qMHi1EeGAk55CL1NFNw"/>
+  <element xmi:type="henshin:Module" href="diningphils.henshin#_al_qMHi1EeGAk55CL1NFNw"/>
   <edges xmi:type="notation:Connector" xmi:id="_kYjwcHi1EeGAk55CL1NFNw" type="4001" source="_hKZyYHi1EeGAk55CL1NFNw" target="_iVeeYHi1EeGAk55CL1NFNw">
     <children xmi:type="notation:DecorationNode" xmi:id="_kYkXgXi1EeGAk55CL1NFNw" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_kYkXgni1EeGAk55CL1NFNw" x="10" y="-58"/>

@@ -2,19 +2,19 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mEyzANA-EeOyV8rYnRtUGQ">
   <imports href="bankmap.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_27-7gNCfEeOyV8rYnRtUGQ" name="transferMoney">
-    <parameters xmi:id="_6Niy4NCfEeOyV8rYnRtUGQ" name="fromID">
+    <parameters xmi:id="_6Niy4NCfEeOyV8rYnRtUGQ" name="fromID" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_6NjZ8NCfEeOyV8rYnRtUGQ" name="toID">
+    <parameters xmi:id="_6NjZ8NCfEeOyV8rYnRtUGQ" name="toID" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_6NjZ8dCfEeOyV8rYnRtUGQ" name="money">
+    <parameters xmi:id="_6NjZ8dCfEeOyV8rYnRtUGQ" name="money" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </parameters>
-    <parameters xmi:id="_4eLcINChEeOyV8rYnRtUGQ" name="x">
+    <parameters xmi:id="_4eLcINChEeOyV8rYnRtUGQ" name="x" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_C3eLMNCiEeOyV8rYnRtUGQ" name="y">
+    <parameters xmi:id="_C3eLMNCiEeOyV8rYnRtUGQ" name="y" kind="VAR">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
     <lhs xmi:id="_3InCQNCfEeOyV8rYnRtUGQ" name="Lhs">

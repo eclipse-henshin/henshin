@@ -108,7 +108,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="bank.henshin#_XGpwwH_5EeKZZICbS5P5TQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IIZb8ej2EeCw6tx5JXcQ0g" x="51" y="278" width="560" height="297"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IIZb8ej2EeCw6tx5JXcQ0g" x="51" y="278" width="656" height="297"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_3t8w0Oj3EeCw6tx5JXcQ0g" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_3t9-8Oj3EeCw6tx5JXcQ0g" type="5001"/>

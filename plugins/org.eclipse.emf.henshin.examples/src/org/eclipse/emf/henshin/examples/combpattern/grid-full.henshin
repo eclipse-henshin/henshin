@@ -2,7 +2,7 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_op50IKopEeGlvMpQNzqMMA">
   <imports href="grid.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_Cpq9QKo0EeGWmNM0TiX1dQ" name="initGrid">
-    <parameters xmi:id="_yRymQLcgEeGQre7dAX2kZQ" name="grid">
+    <parameters xmi:id="_yRymQLcgEeGQre7dAX2kZQ" name="grid" kind="OUT">
       <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
     </parameters>
     <lhs xmi:id="_Cpq9Qao0EeGWmNM0TiX1dQ" name="LHS"/>
@@ -274,13 +274,13 @@
     <mappings xmi:id="_rcJ4gapZEeGWmNM0TiX1dQ" origin="_rcJRcKpZEeGWmNM0TiX1dQ" image="_rcJ4gKpZEeGWmNM0TiX1dQ"/>
   </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_xS9gILcYEeGQre7dAX2kZQ" name="buildGrid" subUnits="_Cpq9QKo0EeGWmNM0TiX1dQ _HmDuwLcZEeGQre7dAX2kZQ _0mMrILcbEeGQre7dAX2kZQ">
-    <parameters xmi:id="_y8Xt8LcYEeGQre7dAX2kZQ" name="width">
+    <parameters xmi:id="_y8Xt8LcYEeGQre7dAX2kZQ" name="width" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_y8gQ0LcYEeGQre7dAX2kZQ" name="height">
+    <parameters xmi:id="_y8gQ0LcYEeGQre7dAX2kZQ" name="height" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_r2K4ILeYEeGgKfdtjnLQtA" name="grid">
+    <parameters xmi:id="_r2K4ILeYEeGgKfdtjnLQtA" name="grid" kind="OUT">
       <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
     </parameters>
     <parameterMappings xmi:id="_EBi0QLcbEeGQre7dAX2kZQ" source="_y8gQ0LcYEeGQre7dAX2kZQ" target="_uDkhELcaEeGQre7dAX2kZQ"/>
@@ -293,27 +293,27 @@
     <parameterMappings xmi:id="_s05KMLeYEeGgKfdtjnLQtA" source="_yRymQLcgEeGQre7dAX2kZQ" target="_r2K4ILeYEeGgKfdtjnLQtA"/>
   </units>
   <units xsi:type="henshin:IteratedUnit" xmi:id="_HmDuwLcZEeGQre7dAX2kZQ" name="buildFirstColumn" subUnit="_IddhAKpZEeGWmNM0TiX1dQ" iterations="height-2">
-    <parameters xmi:id="_uDkhELcaEeGQre7dAX2kZQ" name="height">
+    <parameters xmi:id="_uDkhELcaEeGQre7dAX2kZQ" name="height" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
   </units>
   <units xsi:type="henshin:IteratedUnit" xmi:id="_K_5tgLcbEeGQre7dAX2kZQ" name="expandNextColumn" subUnit="_lOp0cKpZEeGWmNM0TiX1dQ" iterations="height-1">
-    <parameters xmi:id="_blauQLcbEeGQre7dAX2kZQ" name="height">
+    <parameters xmi:id="_blauQLcbEeGQre7dAX2kZQ" name="height" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
   </units>
   <units xsi:type="henshin:IteratedUnit" xmi:id="_0mMrILcbEeGQre7dAX2kZQ" name="addColumns" subUnit="_Lqd4ALccEeGQre7dAX2kZQ" iterations="width-1">
-    <parameters xmi:id="_8Ck9ILcbEeGQre7dAX2kZQ" name="width">
+    <parameters xmi:id="_8Ck9ILcbEeGQre7dAX2kZQ" name="width" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_euZb8LccEeGQre7dAX2kZQ" name="height">
+    <parameters xmi:id="_euZb8LccEeGQre7dAX2kZQ" name="height" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
     <parameterMappings xmi:id="_fi73QLccEeGQre7dAX2kZQ" source="_euZb8LccEeGQre7dAX2kZQ" target="_OK6bgLccEeGQre7dAX2kZQ"/>
     <parameterMappings xmi:id="_fjCk8LccEeGQre7dAX2kZQ" source="_OK6bgLccEeGQre7dAX2kZQ" target="_euZb8LccEeGQre7dAX2kZQ"/>
   </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_Lqd4ALccEeGQre7dAX2kZQ" name="buildNextColumn" subUnits="_sHWKYKo0EeGWmNM0TiX1dQ _K_5tgLcbEeGQre7dAX2kZQ">
-    <parameters xmi:id="_OK6bgLccEeGQre7dAX2kZQ" name="height">
+    <parameters xmi:id="_OK6bgLccEeGQre7dAX2kZQ" name="height" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
     <parameterMappings xmi:id="_TIZCILccEeGQre7dAX2kZQ" source="_OK6bgLccEeGQre7dAX2kZQ" target="_blauQLcbEeGQre7dAX2kZQ"/>

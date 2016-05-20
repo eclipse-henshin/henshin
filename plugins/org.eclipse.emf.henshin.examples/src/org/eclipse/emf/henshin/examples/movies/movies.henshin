@@ -201,7 +201,7 @@
     </rhs>
   </units>
   <units xsi:type="henshin:IteratedUnit" xmi:id="_EKLqMGitEeOaeph0C5BmPA" name="createExample" subUnit="_edTa4Gi8EeOaeph0C5BmPA" iterations="n">
-    <parameters xmi:id="_IlvPgGitEeOaeph0C5BmPA" name="n">
+    <parameters xmi:id="_IlvPgGitEeOaeph0C5BmPA" name="n" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
   </units>

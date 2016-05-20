@@ -513,7 +513,7 @@
     <mappings xmi:id="_3HiekFpCEeKhx-4B-aqrNg" origin="_2ATwwFpCEeKhx-4B-aqrNg" image="_3HVDMFpCEeKhx-4B-aqrNg"/>
     <mappings xmi:id="_hI-gEFpDEeKhx-4B-aqrNg" origin="_hI3LUFpDEeKhx-4B-aqrNg" image="_hI61sFpDEeKhx-4B-aqrNg"/>
     <multiRules xmi:id="_HA7ZIFpDEeKhx-4B-aqrNg" name="bounded">
-      <parameters xmi:id="_jZD24FpEEeK9bc_jkcce_g" name="x"/>
+      <parameters xmi:id="_jZD24FpEEeK9bc_jkcce_g" name="x" kind="VAR"/>
       <lhs xmi:id="_HBHmYFpDEeKhx-4B-aqrNg" name="Lhs">
         <nodes xmi:id="_HEtF4FpDEeKhx-4B-aqrNg" incoming="_HFUJ4FpDEeKhx-4B-aqrNg _EgmKYFpDEeKhx-4B-aqrNg" outgoing="_rCeUwFpDEeKhx-4B-aqrNg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -642,7 +642,7 @@
       <multiMappings xmi:id="_rCs-QFpDEeKhx-4B-aqrNg" origin="_hI61sFpDEeKhx-4B-aqrNg" image="_rClpgFpDEeKhx-4B-aqrNg"/>
     </multiRules>
     <multiRules xmi:id="_JD2TIFpDEeKhx-4B-aqrNg" name="unbounded">
-      <parameters xmi:id="_lFpUgFpEEeK9bc_jkcce_g" name="y"/>
+      <parameters xmi:id="_lFpUgFpEEeK9bc_jkcce_g" name="y" kind="VAR"/>
       <lhs xmi:id="_JD8ZwFpDEeKhx-4B-aqrNg" name="Lhs">
         <nodes xmi:id="_JGNqoFpDEeKhx-4B-aqrNg" incoming="_JHSosFpDEeKhx-4B-aqrNg _FEED0FpDEeKhx-4B-aqrNg" outgoing="_rDV3cFpDEeKhx-4B-aqrNg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>

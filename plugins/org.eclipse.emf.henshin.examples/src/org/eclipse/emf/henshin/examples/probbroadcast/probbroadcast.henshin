@@ -2,7 +2,7 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_JM7_UVSoEeGUbrZWeWd1QA">
   <imports href="probbroadcast.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_VApBcFSpEeGUbrZWeWd1QA" name="send">
-    <parameters xmi:id="_BHtfYGkGEeGb_5KBsEqP-w" name="x"/>
+    <parameters xmi:id="_BHtfYGkGEeGb_5KBsEqP-w" name="x" kind="VAR"/>
     <lhs xmi:id="_VApBcVSpEeGUbrZWeWd1QA" name="LHS">
       <nodes xmi:id="_W-aVsFSpEeGUbrZWeWd1QA" name="x" outgoing="_dt_zIFSpEeGUbrZWeWd1QA">
         <type href="probbroadcast.ecore#//Node"/>
@@ -50,6 +50,7 @@
     <mappings xmi:id="_W-a8wVSpEeGUbrZWeWd1QA" origin="_W-aVsFSpEeGUbrZWeWd1QA" image="_W-a8wFSpEeGUbrZWeWd1QA"/>
     <mappings xmi:id="_dIQBwFSpEeGUbrZWeWd1QA" origin="_dIM-cFSpEeGUbrZWeWd1QA" image="_dIOzoFSpEeGUbrZWeWd1QA"/>
     <multiRules xmi:id="_xBMiIFSpEeGUbrZWeWd1QA">
+      <parameters xmi:id="_Zf6Z0B3WEea8Q6OPV8zz-g" name="x" kind="VAR"/>
       <lhs xmi:id="_xBMiIVSpEeGUbrZWeWd1QA" name="LHS">
         <nodes xmi:id="_xBk8oFSpEeGUbrZWeWd1QA" outgoing="_xBv7wFSpEeGUbrZWeWd1QA _oBnYAFSpEeGUbrZWeWd1QA">
           <type href="probbroadcast.ecore#//Node"/>
@@ -106,7 +107,7 @@
     </multiRules>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_G-jxUFSqEeGUbrZWeWd1QA" name="send">
-    <parameters xmi:id="__yagYGkFEeGb_5KBsEqP-w" name="x"/>
+    <parameters xmi:id="__yagYGkFEeGb_5KBsEqP-w" name="x" kind="VAR"/>
     <lhs xmi:id="_G-jxUVSqEeGUbrZWeWd1QA" name="LHS">
       <nodes xmi:id="_JAWC4FSqEeGUbrZWeWd1QA" name="x" outgoing="_MmaKoFSqEeGUbrZWeWd1QA">
         <type href="probbroadcast.ecore#//Node"/>
@@ -155,7 +156,7 @@
     <mappings xmi:id="_JsdiAFSqEeGUbrZWeWd1QA" origin="_Jsbs0FSqEeGUbrZWeWd1QA" image="_JscT4FSqEeGUbrZWeWd1QA"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_b6Xc4FSqEeGUbrZWeWd1QA" name="reset">
-    <parameters xmi:id="_79h5gGkFEeGb_5KBsEqP-w" name="x"/>
+    <parameters xmi:id="_79h5gGkFEeGb_5KBsEqP-w" name="x" kind="IN"/>
     <lhs xmi:id="_b6Xc4VSqEeGUbrZWeWd1QA" name="LHS">
       <nodes xmi:id="_dhxfkFSqEeGUbrZWeWd1QA" name="x" outgoing="_gcBDIFSqEeGUbrZWeWd1QA _hKvKUFSqEeGUbrZWeWd1QA">
         <type href="probbroadcast.ecore#//Node"/>
@@ -186,6 +187,7 @@
     </rhs>
     <mappings xmi:id="_dhytsFSqEeGUbrZWeWd1QA" origin="_dhxfkFSqEeGUbrZWeWd1QA" image="_dhyGoFSqEeGUbrZWeWd1QA"/>
     <multiRules xmi:id="_mVbGgFSqEeGUbrZWeWd1QA">
+      <parameters xmi:id="_Zf5ywB3WEea8Q6OPV8zz-g" name="x" kind="IN"/>
       <lhs xmi:id="_mVbGgVSqEeGUbrZWeWd1QA" name="LHS">
         <nodes xmi:id="_mVpwAFSqEeGUbrZWeWd1QA" outgoing="_hsJ1UFSqEeGUbrZWeWd1QA">
           <type href="probbroadcast.ecore#//Node"/>

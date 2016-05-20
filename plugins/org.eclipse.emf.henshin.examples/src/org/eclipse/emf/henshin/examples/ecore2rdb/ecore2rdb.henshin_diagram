@@ -407,7 +407,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="ecore2rdb.henshin#_Db5edyTVEeKC19tMV_uCkA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_iwYTEe4kEeGujehQP4xvUA" x="-114" y="643" width="1907" height="665"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_iwYTEe4kEeGujehQP4xvUA" x="-54" y="647" width="1907" height="665"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_iwaIQO4kEeGujehQP4xvUA" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_iwavUO4kEeGujehQP4xvUA" type="5004"/>

@@ -1,15 +1,16 @@
-<?xml version="1.0" encoding="ASCII"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_iqzK8GK4EeGEopi1QdEPhA">
-  <rules xmi:id="_ircrMGK4EeGEopi1QdEPhA" description="Create a new reference class with dedicated references to source and target class. After application we need to remember only one edge (to be deleted later), since source, target and opposite edge can be uniquely deduced." name="MM_CreateRefClass">
-    <parameters xmi:id="_isAE0GK4EeGEopi1QdEPhA" name="objSource"/>
-    <parameters xmi:id="_ircrMmK4EeGEopi1QdEPhA" name="objTarget"/>
-    <parameters xmi:id="_isInsGK4EeGEopi1QdEPhA" name="objRefclass"/>
-    <parameters xmi:id="_ircrNGK4EeGEopi1QdEPhA" description="The reference to delete (due to its eOpposite relation, we do not save the oppsite explicitly)" name="objRef"/>
-    <parameters xmi:id="_ircrMWK4EeGEopi1QdEPhA" description="Reference to Refclass heading from soure to target " name="objRefSrcTrg"/>
-    <parameters xmi:id="_ircrM2K4EeGEopi1QdEPhA" description="Reference to Refclass heading from target to source" name="objRefTrgSrc"/>
-    <parameters xmi:id="_ircrNWK4EeGEopi1QdEPhA" name="srcName"/>
-    <parameters xmi:id="_isMSEGK4EeGEopi1QdEPhA" name="trgName"/>
-    <parameters xmi:id="_is6DwGK4EeGEopi1QdEPhA" name="refclassName"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_iqzK8GK4EeGEopi1QdEPhA">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ircrMGK4EeGEopi1QdEPhA" name="MM_CreateRefClass" description="Create a new reference class with dedicated references to source and target class. After application we need to remember only one edge (to be deleted later), since source, target and opposite edge can be uniquely deduced.">
+    <parameters xmi:id="_ircrNWK4EeGEopi1QdEPhA" name="srcName" kind="IN"/>
+    <parameters xmi:id="_isMSEGK4EeGEopi1QdEPhA" name="trgName" kind="IN"/>
+    <parameters xmi:id="_is6DwGK4EeGEopi1QdEPhA" name="refclassName" kind="IN"/>
+    <parameters xmi:id="_isAE0GK4EeGEopi1QdEPhA" name="objSource" kind="OUT"/>
+    <parameters xmi:id="_ircrMmK4EeGEopi1QdEPhA" name="objTarget" kind="OUT"/>
+    <parameters xmi:id="_isInsGK4EeGEopi1QdEPhA" name="objRefclass" kind="OUT"/>
+    <parameters xmi:id="_ircrNGK4EeGEopi1QdEPhA" name="objRef" description="The reference to delete (due to its eOpposite relation, we do not save the oppsite explicitly)" kind="OUT"/>
+    <parameters xmi:id="_ircrMWK4EeGEopi1QdEPhA" name="objRefSrcTrg" description="Reference to Refclass heading from soure to target " kind="OUT"/>
+    <parameters xmi:id="_ircrM2K4EeGEopi1QdEPhA" name="objRefTrgSrc" description="Reference to Refclass heading from target to source" kind="OUT"/>
     <lhs xmi:id="_is6DwWK4EeGEopi1QdEPhA" name="LHS">
       <nodes xmi:id="_is6DwmK4EeGEopi1QdEPhA" name="objSource" incoming="_is6DzGK4EeGEopi1QdEPhA _is6Dz2K4EeGEopi1QdEPhA" outgoing="_is6DyWK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -193,9 +194,9 @@
     <mappings xmi:id="_is6q0mK4EeGEopi1QdEPhA" origin="_is6Dx2K4EeGEopi1QdEPhA" image="_is6D42K4EeGEopi1QdEPhA"/>
     <mappings xmi:id="_is6q02K4EeGEopi1QdEPhA" origin="_is6DxmK4EeGEopi1QdEPhA" image="_is6D5GK4EeGEopi1QdEPhA"/>
     <mappings xmi:id="_is6q1GK4EeGEopi1QdEPhA" origin="_is6DyGK4EeGEopi1QdEPhA" image="_is6D5WK4EeGEopi1QdEPhA"/>
-  </rules>
-  <rules xmi:id="_ircrOGK4EeGEopi1QdEPhA" description="Deletes old direct references between a source and target class." name="MM_DeleteOldRefs">
-    <parameters xmi:id="_ircrOWK4EeGEopi1QdEPhA" name="objDelRef"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_ircrOGK4EeGEopi1QdEPhA" name="MM_DeleteOldRefs" description="Deletes old direct references between a source and target class.">
+    <parameters xmi:id="_ircrOWK4EeGEopi1QdEPhA" name="objDelRef" kind="IN"/>
     <lhs xmi:id="_isNgMGK4EeGEopi1QdEPhA" name="LHS">
       <nodes xmi:id="_isNgMWK4EeGEopi1QdEPhA" incoming="_isNgOGK4EeGEopi1QdEPhA" outgoing="_isNgNWK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -238,6 +239,5 @@
     </rhs>
     <mappings xmi:id="_isOHQGK4EeGEopi1QdEPhA" origin="_isNgMWK4EeGEopi1QdEPhA" image="_isNgPGK4EeGEopi1QdEPhA"/>
     <mappings xmi:id="_isOHQWK4EeGEopi1QdEPhA" origin="_isNgMmK4EeGEopi1QdEPhA" image="_isNgPWK4EeGEopi1QdEPhA"/>
-  </rules>
-  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
-</henshin:TransformationSystem>
+  </units>
+</henshin:Module>

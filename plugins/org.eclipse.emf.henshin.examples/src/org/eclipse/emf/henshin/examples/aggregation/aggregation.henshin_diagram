@@ -18,7 +18,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_WuXp2_GMEeSTFfi-IxgcSQ"/>
         </children>
         <element xmi:type="henshin:Node" href="aggregation.henshin#_WuXp0PGMEeSTFfi-IxgcSQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WuXp1vGMEeSTFfi-IxgcSQ" x="25" y="20"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WuXp1vGMEeSTFfi-IxgcSQ" x="26" y="25"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_XT28g_GMEeSTFfi-IxgcSQ" type="3001" fontName="Segoe UI">
         <children xmi:type="notation:DecorationNode" xmi:id="_XT28hfGMEeSTFfi-IxgcSQ" type="5002"/>
@@ -32,7 +32,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="aggregation.henshin#_T70CoPGMEeSTFfi-IxgcSQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_T9AVcfGMEeSTFfi-IxgcSQ" x="50" y="36" width="330" height="225"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_T9AVcfGMEeSTFfi-IxgcSQ" x="50" y="36" width="360" height="225"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_n5Vw8PGgEeSTFfi-IxgcSQ" type="2001" fontName="Segoe UI" italic="true" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_udFKwvGgEeSTFfi-IxgcSQ" source="defaultAction">

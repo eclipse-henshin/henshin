@@ -98,7 +98,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="grid-sparse.henshin#_L6YjwKptEeGWmNM0TiX1dQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_L6cOIaptEeGWmNM0TiX1dQ" x="513" y="26" width="313" height="200"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_L6cOIaptEeGWmNM0TiX1dQ" x="513" y="26" width="326" height="200"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_WoH40KptEeGWmNM0TiX1dQ" type="2001" fontName="Segoe UI" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_WoIf4KptEeGWmNM0TiX1dQ" type="5001"/>
@@ -186,7 +186,7 @@
       </children>
     </children>
     <element xmi:type="henshin:IteratedUnit" href="grid-sparse.henshin#_13FjcLeYEeGgKfdtjnLQtA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_13RwsbeYEeGgKfdtjnLQtA" x="453" y="257" width="373" height="111"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_13RwsbeYEeGgKfdtjnLQtA" x="453" y="257" width="386" height="111"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_ItpZwLeZEeGgKfdtjnLQtA" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_ItrO8LeZEeGgKfdtjnLQtA" type="5004"/>
@@ -257,7 +257,7 @@
       </children>
     </children>
     <element xmi:type="henshin:IteratedUnit" href="grid-sparse.henshin#_hjLI4LeZEeGgKfdtjnLQtA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hjR2kbeZEeGgKfdtjnLQtA" x="453" y="388" width="373" height="99"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hjR2kbeZEeGgKfdtjnLQtA" x="443" y="388" width="396" height="99"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_zJ2S4KorEeGlvMpQNzqMMA"/>
   <element xmi:type="henshin:Module" href="grid-sparse.henshin#_op50IKopEeGlvMpQNzqMMA"/>
