@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Edge#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Edge#getTarget <em>Target</em>}</li>
@@ -26,10 +27,9 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.eclipse.emf.henshin.model.Edge#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Edge#getIndexConstant <em>Index Constant</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='equalParentGraphs indexValidJavaScript noContainmentCycles EOppositeContainments oppositeEdgeConsidered noParallelEdgesOfSameType containmentEdgeDeletion containmentEdgeCreation'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='equalParentGraphs indexValidJavaScript indexAllParametersAreDeclared noContainmentCycles EOppositeContainments oppositeEdgeConsidered noParallelEdgesOfSameType containmentEdgeDeletion containmentEdgeCreation'"
  * @generated
  */
 public interface Edge extends ModelElement, GraphElement {

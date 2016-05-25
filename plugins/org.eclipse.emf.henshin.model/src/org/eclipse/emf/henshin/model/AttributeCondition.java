@@ -16,14 +16,14 @@ package org.eclipse.emf.henshin.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.AttributeCondition#getRule <em>Rule</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.AttributeCondition#getConditionText <em>Condition Text</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttributeCondition()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='conditionTextNotEmpty conditionValidJavaScript'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='conditionTextNotEmpty conditionValidJavaScript conditionAllParametersAreDeclared'"
  * @generated
  */
 public interface AttributeCondition extends NamedElement {

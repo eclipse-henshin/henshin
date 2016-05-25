@@ -123,7 +123,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated"/>
+      <details key="constraints" value="nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated nameNotKeyword"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="#//Unit" eOpposite="#//Unit/parameters"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
@@ -221,7 +221,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//ModelElement #//GraphElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="equalParentGraphs indexValidJavaScript noContainmentCycles EOppositeContainments oppositeEdgeConsidered noParallelEdgesOfSameType containmentEdgeDeletion containmentEdgeCreation"/>
+      <details key="constraints" value="equalParentGraphs indexValidJavaScript indexAllParametersAreDeclared noContainmentCycles EOppositeContainments oppositeEdgeConsidered noParallelEdgesOfSameType containmentEdgeDeletion containmentEdgeCreation"/>
     </eAnnotations>
     <eOperations name="getActionEdge" eType="#//Edge"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
@@ -237,7 +237,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//ModelElement #//GraphElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="valueValidJavaScript"/>
+      <details key="constraints" value="valueValidJavaScript valueAllParametersAreDeclared"/>
     </eAnnotations>
     <eOperations name="getActionAttribute" eType="#//Attribute"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
@@ -250,7 +250,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeCondition" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="conditionTextNotEmpty conditionValidJavaScript"/>
+      <details key="constraints" value="conditionTextNotEmpty conditionValidJavaScript conditionAllParametersAreDeclared"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
         eOpposite="#//Rule/attributeConditions"/>
@@ -284,7 +284,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PriorityUnit" eSuperTypes="#//MultiUnit"/>
   <eClassifiers xsi:type="ecore:EClass" name="IteratedUnit" eSuperTypes="#//UnaryUnit">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="iterationsNotEmpty iterationsValidJavaScript"/>
+      <details key="constraints" value="iterationsNotEmpty iterationsValidJavaScript iterationsAllParametersAreDeclared"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iterations" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>

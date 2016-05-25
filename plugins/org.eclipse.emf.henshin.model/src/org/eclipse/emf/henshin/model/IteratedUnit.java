@@ -16,13 +16,13 @@ package org.eclipse.emf.henshin.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.IteratedUnit#getIterations <em>Iterations</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getIteratedUnit()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='iterationsNotEmpty iterationsValidJavaScript'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='iterationsNotEmpty iterationsValidJavaScript iterationsAllParametersAreDeclared'"
  * @generated
  */
 public interface IteratedUnit extends UnaryUnit {

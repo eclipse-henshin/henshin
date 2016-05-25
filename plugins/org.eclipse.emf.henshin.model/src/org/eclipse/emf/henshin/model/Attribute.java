@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EAttribute;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Attribute#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Attribute#getValue <em>Value</em>}</li>
@@ -25,10 +26,9 @@ import org.eclipse.emf.ecore.EAttribute;
  *   <li>{@link org.eclipse.emf.henshin.model.Attribute#getConstant <em>Constant</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Attribute#isNull <em>Null</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='valueValidJavaScript'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='valueValidJavaScript valueAllParametersAreDeclared'"
  * @generated
  */
 public interface Attribute extends ModelElement, GraphElement {
