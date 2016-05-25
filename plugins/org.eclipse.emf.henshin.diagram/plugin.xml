@@ -582,6 +582,25 @@
          sequence="F5"/>
    </extension>
 
+   <extension point="org.eclipse.ui.commands" id="reveal-cmd">
+      <?gmfgen generated="true"?>
+      <command
+         categoryId="org.eclipse.ui.category.navigate"
+         defaultHandler="org.eclipse.emf.henshin.diagram.part.HenshinDiagramRevealUnitCommand"
+         description="%update.diagram.description"
+         id="org.eclipse.emf.henshin.diagram.revealUnit"
+         name="%update.diagram.name"/>
+   </extension>
+   
+   <extension point="org.eclipse.ui.bindings" id="reveal-cmd-binding">
+      <?gmfgen generated="true"?>
+      <key 
+         commandId="org.eclipse.emf.henshin.diagram.revealUnit"
+         contextId="org.eclipse.emf.henshin.diagram.ui.diagramContext"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+         sequence="F3"/>
+   </extension>
+   
    <extension point="org.eclipse.ui.menus" id="context-menus">
       <?gmfgen generated="true"?>
       <!-- menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=">
