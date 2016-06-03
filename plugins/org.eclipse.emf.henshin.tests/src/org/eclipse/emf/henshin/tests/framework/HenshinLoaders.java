@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.tests.framework;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
@@ -48,6 +49,8 @@ public class HenshinLoaders {
 	 */
 	public static EGraph loadGraph(String modelFileName, String modelFileExt) {
 		HenshinResourceSet resourceSet = new HenshinResourceSet();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("testmodel",
+				new XMIResourceFactoryImpl());
 		resourceSet.registerXMIResourceFactories(modelFileExt);
 		Resource resource = resourceSet.getResource(modelFileName);
 		return new EGraphImpl(resource);
@@ -60,7 +63,10 @@ public class HenshinLoaders {
 	 * @return The loaded file
 	 */
 	public static EGraph loadGraph(URI graphUri) {
-		Resource resource = new ResourceSetImpl().getResource(graphUri, true);
+		ResourceSetImpl resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("testmodel",
+				new XMIResourceFactoryImpl());
+		Resource resource = resourceSet.getResource(graphUri, true);
 		EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
 		graph.addTree(resource.getContents().get(0));
 		return graph;
