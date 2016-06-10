@@ -1152,10 +1152,10 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_tn22sCh9EeCpEKbqdQztQg" type="4001" source="_tUcygCh9EeCpEKbqdQztQg" target="_tUeAoCh9EeCpEKbqdQztQg">
     <children xmi:type="notation:DecorationNode" xmi:id="_tn4E0Ch9EeCpEKbqdQztQg" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_tn4E0Sh9EeCpEKbqdQztQg" x="-6" y="-18"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_tn4E0Sh9EeCpEKbqdQztQg" x="32" y="10"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_tn4E0ih9EeCpEKbqdQztQg" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_tn4r4Ch9EeCpEKbqdQztQg" x="30" y="25"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_tn4r4Ch9EeCpEKbqdQztQg" x="24" y="19"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_tn22sSh9EeCpEKbqdQztQg" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="Ecore2Genmodel.henshin#_Cy04cGRbEeGG0NrfTXvizQ"/>
@@ -1163,7 +1163,7 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_toDD8Ch9EeCpEKbqdQztQg" type="4001" source="_tUcygCh9EeCpEKbqdQztQg" target="_tUfOwCh9EeCpEKbqdQztQg">
     <children xmi:type="notation:DecorationNode" xmi:id="_toDrACh9EeCpEKbqdQztQg" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_toDrASh9EeCpEKbqdQztQg" x="1" y="15"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_toDrASh9EeCpEKbqdQztQg" x="34" y="-17"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_toESECh9EeCpEKbqdQztQg" type="6002">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_toESESh9EeCpEKbqdQztQg" x="22" y="-28"/>
@@ -1207,10 +1207,10 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_topg4Ch9EeCpEKbqdQztQg" type="4001" source="_tUi5ICh9EeCpEKbqdQztQg" target="_tUgc4Ch9EeCpEKbqdQztQg">
     <children xmi:type="notation:DecorationNode" xmi:id="_toqH8Ch9EeCpEKbqdQztQg" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_toqH8Sh9EeCpEKbqdQztQg" x="-19" y="-13"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_toqH8Sh9EeCpEKbqdQztQg" x="-70" y="-20"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_toqH8ih9EeCpEKbqdQztQg" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_toqH8yh9EeCpEKbqdQztQg" x="-10" y="14"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_toqH8yh9EeCpEKbqdQztQg" x="-69" y="-7"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_topg4Sh9EeCpEKbqdQztQg" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="Ecore2Genmodel.henshin#_DGhQcGRbEeGG0NrfTXvizQ"/>
@@ -1276,7 +1276,7 @@
       <layoutConstraint xmi:type="notation:Location" xmi:id="_tqJVsSh9EeCpEKbqdQztQg" x="9" y="38"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_tqJVsih9EeCpEKbqdQztQg" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_tqJ8wCh9EeCpEKbqdQztQg" y="60"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_tqJ8wCh9EeCpEKbqdQztQg" x="-6" y="42"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_tqIuoSh9EeCpEKbqdQztQg" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="Ecore2Genmodel.henshin#_Cy04bmRbEeGG0NrfTXvizQ"/>
@@ -1295,10 +1295,10 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_tqbpkCh9EeCpEKbqdQztQg" type="4001" source="_tUq08Ch9EeCpEKbqdQztQg" target="_tUl8cCh9EeCpEKbqdQztQg">
     <children xmi:type="notation:DecorationNode" xmi:id="_tqcQoCh9EeCpEKbqdQztQg" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_tqcQoSh9EeCpEKbqdQztQg" x="-15" y="-13"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_tqcQoSh9EeCpEKbqdQztQg" x="-8" y="-20"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_tqcQoih9EeCpEKbqdQztQg" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_tqc3sCh9EeCpEKbqdQztQg" x="33" y="14"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_tqc3sCh9EeCpEKbqdQztQg" x="-2" y="-7"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_tqbpkSh9EeCpEKbqdQztQg" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="Ecore2Genmodel.henshin#_C_BhUGRbEeGG0NrfTXvizQ"/>
@@ -1328,7 +1328,7 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_trBfcCh9EeCpEKbqdQztQg" type="4001" source="_tUl8cCh9EeCpEKbqdQztQg" target="_tUTokCh9EeCpEKbqdQztQg">
     <children xmi:type="notation:DecorationNode" xmi:id="_trCGgCh9EeCpEKbqdQztQg" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_trCGgSh9EeCpEKbqdQztQg" x="33" y="22"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_trCGgSh9EeCpEKbqdQztQg" x="25" y="37"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_trCGgih9EeCpEKbqdQztQg" type="6002">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_trCtkCh9EeCpEKbqdQztQg" x="11" y="34"/>
@@ -1628,10 +1628,10 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_Sqyo0L9vEeGVpJhnGUJrLg" type="4001" source="_tUeAoCh9EeCpEKbqdQztQg" target="_tUsDEih9EeCpEKbqdQztQg">
     <children xmi:type="notation:DecorationNode" xmi:id="_SqzP4b9vEeGVpJhnGUJrLg" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_SqzP4r9vEeGVpJhnGUJrLg" x="32" y="-14"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_SqzP4r9vEeGVpJhnGUJrLg" x="42" y="-20"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_SqzP479vEeGVpJhnGUJrLg" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_Sqz28L9vEeGVpJhnGUJrLg" x="36" y="12"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Sqz28L9vEeGVpJhnGUJrLg" x="31" y="-16"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_Sqyo0b9vEeGVpJhnGUJrLg" fontName="Ubuntu"/>
     <element xmi:type="henshin:Edge" href="Ecore2Genmodel.henshin#_SqkmYL9vEeGVpJhnGUJrLg"/>
@@ -1639,10 +1639,10 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_TzO3kL9vEeGVpJhnGUJrLg" type="4001" source="_tUeAoCh9EeCpEKbqdQztQg" target="_tUl8cCh9EeCpEKbqdQztQg">
     <children xmi:type="notation:DecorationNode" xmi:id="_TzPeoL9vEeGVpJhnGUJrLg" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_TzPeob9vEeGVpJhnGUJrLg" x="13" y="-30"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_TzPeob9vEeGVpJhnGUJrLg" x="20" y="-24"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_TzPeor9vEeGVpJhnGUJrLg" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_TzPeo79vEeGVpJhnGUJrLg" x="-2" y="-25"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_TzPeo79vEeGVpJhnGUJrLg" x="8" y="-24"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_TzO3kb9vEeGVpJhnGUJrLg" fontName="Ubuntu"/>
     <element xmi:type="henshin:Edge" href="Ecore2Genmodel.henshin#_Ty_nAL9vEeGVpJhnGUJrLg"/>
