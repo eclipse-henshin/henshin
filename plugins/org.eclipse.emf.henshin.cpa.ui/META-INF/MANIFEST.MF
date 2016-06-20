@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.emf.henshin.cpa.ui;singleton:=true
-Bundle-Version: 1.4.0.qualifier
+Bundle-Version: 1.5.0.qualifier
 Bundle-Localization: plugin
 Bundle-Activator: org.eclipse.emf.henshin.cpa.ui.CriticalPairAnalysisUIPlugin
 Require-Bundle: org.eclipse.ui.ide;bundle-version="3.10.1",
