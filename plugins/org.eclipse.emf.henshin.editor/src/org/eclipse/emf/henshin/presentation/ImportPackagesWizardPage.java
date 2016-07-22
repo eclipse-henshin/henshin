@@ -189,6 +189,7 @@ public class ImportPackagesWizardPage extends WizardPage {
 		if (selected.length==1 && listWidget.getItemCount()>0) {
 			listWidget.select(Math.min(selected[0], listWidget.getItemCount()-1));
 		}
+		getContainer().updateButtons();
 	}
 
 	public ArrayList<URI> getPackageURIs() {
