@@ -633,7 +633,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		}
 
 		// Get the real source and target:
-		List<Node> sourceAndTarget = getSourceAndTargetForEdgeCreation(source, target, false);
+		List<Node> sourceAndTarget = getSourceAndTargetForEdgeCreation(source, target, type, false);
 		source = sourceAndTarget.get(0);
 		target = sourceAndTarget.get(1);
 
@@ -700,7 +700,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		}
 
 		// Check whether we get the proper source and target nodes for the edges creation:
-		List<Node> sourceAndTarget = getSourceAndTargetForEdgeCreation(source, target, false);
+		List<Node> sourceAndTarget = getSourceAndTargetForEdgeCreation(source, target, type, false);
 		if (sourceAndTarget==null || sourceAndTarget.size()!=2) {
 			return false;
 		}
@@ -721,7 +721,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * Get the source and target nodes to be used for creating an edge.
 	 * This returns either a list of two nodes in the same graph, or null.
 	 */
-	private List<Node> getSourceAndTargetForEdgeCreation(Node source, Node target, boolean reverse) {
+	private List<Node> getSourceAndTargetForEdgeCreation(Node source, Node target, EReference type, boolean reverse) {
 
 		// Get the source and target graphs:
 		Graph sourceGraph = source.getGraph();
@@ -752,8 +752,21 @@ public class RuleImpl extends UnitImpl implements Rule {
 		// Same rule?
 		if (sourceRule==targetRule) {
 			if (sourceGraph==targetGraph) {		// same graphs?
-				result.add(source);
-				result.add(target);
+				if (!forbidEdgeExists(source, target, type)) {
+					result.add(source);
+					result.add(target);					
+				} else {  						// create the edge only in the RHS
+					Node rhsSource = null;
+					Node rhsTarget = null;
+					for (Node node : rhs.getNodes()) {
+						if (node.getActionNode() == source)
+							rhsSource = node;
+						if (node.getActionNode() == target)
+							rhsTarget = node;
+					}
+					result.add(rhsSource);
+					result.add(rhsTarget);
+				}
 			}
 			else if (sourceGraph.isLhs()) {		// otherwise at least one graph should be an LHS
 				MappingList mappings = null;				
@@ -771,7 +784,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 				}
 			}
 			else if (targetGraph.isLhs()) {		// symmetric case
-				result = getSourceAndTargetForEdgeCreation(target, source, true);
+				result = getSourceAndTargetForEdgeCreation(target, source, type, true);
 			}
 		}
 		else {
@@ -789,13 +802,13 @@ public class RuleImpl extends UnitImpl implements Rule {
 				
 				// If the new source was found, we can use it instead of the old one:
 				if (newSource!=null) {
-					return getSourceAndTargetForEdgeCreation(newSource, target, reverse);
+					return getSourceAndTargetForEdgeCreation(newSource, target, type, reverse);
 				}
 			}
 			else {
 				path = targetRule.getMultiRulePath(sourceRule);
 				if (!path.isEmpty()) {		// symmetric case
-					result = getSourceAndTargetForEdgeCreation(target, source, true);
+					result = getSourceAndTargetForEdgeCreation(target, source, type, true);
 				}
 			}
 		}
@@ -810,6 +823,33 @@ public class RuleImpl extends UnitImpl implements Rule {
 		
 	}
 	
+
+	private boolean forbidEdgeExists(Node source, Node target, EReference type) {
+		if (source.getAction().getType() != Action.Type.PRESERVE &&
+				target.getAction().getType() != Action.Type.PRESERVE)
+			return false;
+	
+		for (NestedCondition nac : source.getGraph().getNACs()) {
+			Node src = null;
+			Node trg = null;
+			for (Node node : nac.getConclusion().getNodes()) {
+				if (node.getActionNode() == source) {
+					src = node;
+				} else if (node.getActionNode() == target) {
+					trg = node;
+				}
+			}
+			
+			if (src != null && trg != null) {
+				Edge edge = src.getOutgoing(type, trg);
+				if (edge != null)
+					if (edge.getAction().getType() == Action.Type.FORBID)
+						return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
