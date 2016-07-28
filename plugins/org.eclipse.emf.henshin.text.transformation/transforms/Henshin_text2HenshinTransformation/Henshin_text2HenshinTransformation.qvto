@@ -1,0 +1,808 @@
+modeltype henshintext uses henshin_text("http://www.eclipse.org/emf/henshin/text/Henshin_text");
+modeltype henshin uses henshin("http://www.eclipse.org/emf/2011/Henshin");
+modeltype ecore uses ecore("http://www.eclipse.org/emf/2002/Ecore");
+
+transformation Henshin_text2HenshinTransformation(in sourceIn:henshintext,out targetOut:henshin);
+
+main() {
+	sourceIn.rootObjects()[Model]->map Model2Module();
+}
+
+ 
+mapping henshin_text::Model::Model2Module():henshin::Module{
+	result.name:="HenshinDSL";
+	self.ePackageimports->forEach(ePackageimport){
+		result.imports+=ePackageimport.ref;
+	};
+	result.units+=self.transformationsystem->selectByType(Rule) ->map ModelElementRule2Rule();
+	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2SequentialUnit();
+	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2ConditionalUnit();
+	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2IteratedUnit();
+	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2LoopUnit();
+	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2IndependentUnit();
+	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementRule2PriorityUnit();	
+} 
+
+//--------------------------------------------------------------------------------------------------------------
+//General
+//--------------------------------------------------------------------------------------------------------------
+mapping henshin_text::Parameter::Parameter2Parameter():henshin::Parameter{
+	result.name:=self.name;
+	result.type:=getType(self.type);
+}
+
+
+//--------------------------------------------------------------------------------------------------------------
+//Rule
+//--------------------------------------------------------------------------------------------------------------
+
+mapping henshin_text::Rule::ModelElementRule2Rule():henshin::Rule{
+	result.name:=self.name;
+	result.parameters:=self.parameters->map Parameter2Parameter();
+	result.javaImports:=self.ruleElements->selectByType(JavaImport).packagename;
+	result.checkDangling:=self.ruleElements->selectByType(CheckDangling)->first().checkDangling;
+	result.injectiveMatching:=self.ruleElements->selectByType(InjectiveMatching)->first().injectiveMatching;
+	result.attributeConditions:=self.ruleElements->selectByType(Conditions).attributeConditions->map Expression2AttributeCondition();
+	var graphs:=self.ruleElements->selectByType(Graph)->first().MergeGraph2LHS_RHS_GraphSequence(self.name,false);
+	result.lhs:=graphs->first();
+	result.rhs:=graphs->last();
+	result.mappings:=result.lhs.nodes->map LHS_RHS_Nodes2Mapping(result.rhs.nodes);
+	result.multiRules:=self.ruleElements->selectByType(Graph).graphElements->selectByType(MultiRule)->map MultiRule2Rule(result.parameters,result.mappings,result.lhs.nodes,result.lhs.edges,result.rhs.nodes,result.rhs.edges);	
+}
+
+
+mapping henshin_text::Expression::Expression2AttributeCondition():henshin::AttributeCondition{
+	result.conditionText:=self.castExpressionValue();
+}
+
+mapping henshin::Node::LHS_RHS_Nodes2Mapping(rhsnodes:OrderedSet(henshin::Node)):henshin::Mapping
+when{rhsnodes->any(name=self.name)<>null}{
+	result.origin:=self;
+	result.image:=rhsnodes->any(name=self.name);
+}
+
+//--------------------------------------------------------------------------------------------------------------
+//MultiRule
+//--------------------------------------------------------------------------------------------------------------
+
+
+mapping henshin_text::MultiRule:: MultiRule2Rule(parameters:OrderedSet(henshin::Parameter),lhsRhsMapping:OrderedSet(henshin::Mapping),lhsNodes:OrderedSet(henshin::Node),lhsEdges:OrderedSet(henshin::Edge),rhsNodes:OrderedSet(henshin::Node),rhsEdges:OrderedSet(henshin::Edge)): henshin::Rule{ 
+  	result.name:=self.name;
+	result.parameters:=parameters.clone().oclAsType(henshin::Parameter);
+	result.javaImports:=self.multiruleElements->selectByType(JavaImport).packagename;
+	result.checkDangling:=self.multiruleElements->selectByType(CheckDangling)->first().checkDangling;
+	result.injectiveMatching:=self.multiruleElements->selectByType(InjectiveMatching)->first().injectiveMatching;
+	result.attributeConditions:=self.multiruleElements->selectByType(Conditions).attributeConditions->map Expression2AttributeCondition();
+	var graphs:=self.multiruleElements->selectByType(Graph)->first().MergeGraph2LHS_RHS_GraphSequence(self.name,true);
+	result.lhs:=graphs->first();
+	result.rhs:=graphs->last();
+	result.mappings:=result.lhs.nodes->map LHS_RHS_Nodes2Mapping(result.rhs.nodes);
+	lhsNodes->forEach(node){
+		var lhsNode:=node.clone().oclAsType(henshin::Node);
+		result.lhs.nodes+=lhsNode;
+		var rhsNode:=rhsNodes->any(name=node.name).clone().oclAsType(henshin::Node);
+		if(rhsNode<>null){
+			var newMapping:=new henshin::Mapping();
+			newMapping.origin:=lhsNode;
+			newMapping.image:=rhsNode;
+			result.mappings+=newMapping;
+			result.rhs.nodes+=rhsNode;
+		};
+	};
+	rhsNodes->forEach(node){
+			if(null=lhsNodes->any(name=node.name)){
+			result.rhs.nodes+=node.clone().oclAsType(henshin::Node)
+		};
+	};
+	self.multiruleElements->selectByType(Graph)->first().graphElements->selectByType(MultiRuleReuseNode)->forEach(reuse){
+		if(reuse.name.actiontype="create"){
+			result.rhs.nodes->any(name=reuse.name.name).attributes+=reuse.attribute-> map Attribute2Attribute("create");
+		}else if(reuse.name.actiontype="delete"){
+			result.lhs.nodes->any(name=reuse.name.name).attributes+=reuse.attribute-> map Attribute2Attribute("delete");
+		}else if((reuse.name.actiontype="preserve")or(reuse.name.actiontype=null)){
+			reuse.attribute->forEach(attribute){
+				if(attribute.actiontype="delete"){
+					result.lhs.nodes->any(name=reuse.name.name).attributes+=attribute->map NodeAttribute2NodeAttribute("delete");
+				}else if(attribute.actiontype="create"){
+					result.rhs.nodes->any(name=reuse.name.name).attributes+=attribute->map NodeAttribute2NodeAttribute("create");
+				}else if(attribute.actiontype="preserve"){
+					var henshinAttribute:=attribute->map Attribute2Attribute("preserve");
+					result.lhs.nodes->any(name=reuse.name.name).attributes+=henshinAttribute;
+					result.rhs.nodes->any(name=reuse.name.name).attributes+=henshinAttribute.deepclone().oclAsType(henshin::Attribute);
+				};
+			};
+		};
+	};
+	lhsEdges->forEach(edge){
+		var helpEdge:=new henshin::Edge();
+		helpEdge.type:=edge.type;
+		helpEdge.source:=result.lhs.nodes->any(name=edge.source.name);
+		helpEdge.target:=result.lhs.nodes->any(name=edge.target.name);
+		result.lhs.edges+=helpEdge;
+	};
+	rhsEdges->forEach(edge){
+		var helpEdge:=new henshin::Edge();
+		helpEdge.type:=edge.type;
+		helpEdge.source:=result.rhs.nodes->any(name=edge.source.name);
+		helpEdge.target:=result.rhs.nodes->any(name=edge.target.name);
+		result.rhs.edges+=helpEdge;
+	};
+	self.multiruleElements->selectByType(Graph)->first().graphElements->selectByType(Edges).edges->forEach(edge){
+		 if((edge.actiontype<>"forbid")and(edge.actiontype<>"require")){
+			var helpSource:henshin_text::Node;
+			var helpTarget:henshin_text::Node;
+			if(edge.source.oclIsTypeOf(henshin_text::Node)){
+				helpSource:=edge.source.oclAsType(henshin_text::Node);
+			}else{
+				helpSource:=edge.source.oclAsType(henshin_text::MultiRuleReuseNode).name;
+			};
+			if(edge.target.oclIsTypeOf(henshin_text::Node)){
+				helpTarget:=edge.target.oclAsType(henshin_text::Node);
+			}else{
+				helpTarget:=edge.target.oclAsType(henshin_text::MultiRuleReuseNode).name;
+			};	
+	 		if((helpSource.actiontype<>"forbid")and(helpSource.actiontype<>"require")and(helpTarget.actiontype<>"forbid")and(helpTarget.actiontype<>"require")){
+				var helpEdge:=new henshin::Edge();
+				helpEdge.type:=edge.type;
+				if(helpSource.actiontype="create"){
+					helpEdge.source:=result.rhs.nodes->any(name=helpSource.name);
+				}else if((helpSource.actiontype="delete")or(helpSource.actiontype="preserve")or(helpSource.actiontype=null)){
+					helpEdge.source:=result.lhs.nodes->any(name=helpSource.name);
+				};
+				if(helpTarget.actiontype="create"){
+					helpEdge.target:=result.rhs.nodes->any(name=helpTarget.name);
+				}else if((helpTarget.actiontype="delete")or(helpTarget.actiontype="preserve")or(helpTarget.actiontype=null)){
+					helpEdge.target:=result.lhs.nodes->any(name=helpTarget.name);
+				};
+				if(edge.actiontype="create"){
+					result.rhs.edges+=helpEdge;
+				}else if(edge.actiontype="delete"){
+					result.lhs.edges+=helpEdge;
+				}else if((edge.actiontype="preserve")or(edge.actiontype=null)){
+					result.lhs.edges+=helpEdge;
+					var helpEdgeRHS:=new henshin::Edge();
+					helpEdgeRHS.type:=helpEdge.type;
+					helpEdgeRHS.source:=result.rhs.nodes->any(name=helpEdge.source.name);
+					helpEdgeRHS.target:=result.rhs.nodes->any(name=helpEdge.target.name);
+					result.rhs.edges+=helpEdgeRHS;
+				};
+			};
+		};
+	};
+	result.multiMappings+=result.lhs.nodes->Graph2MultiMapping(lhsNodes);
+	result.multiMappings+=result.rhs.nodes->Graph2MultiMapping(rhsNodes);
+	result.lhs.formula:=self.multiruleElements->selectByType(Graph)->first().createFormula(result.lhs);
+	result.multiRules:=self.multiruleElements->selectByType(Graph).graphElements->selectByType(MultiRule)->map MultiRule2Rule(parameters,result.mappings,result.lhs.nodes,result.lhs.edges,result.rhs.nodes,result.rhs.edges);
+}
+
+
+mapping henshin::Node ::Graph2MultiMapping(nodes:OrderedSet(henshin::Node)):henshin::Mapping
+when{(nodes->any(name=self.name and type=self.type)<>null) and self.name<>null}{
+	result.origin:=nodes->any(name=self.name);
+	result.image:=self;
+}
+
+//--------------------------------------------------------------------------------------------------------------
+//Graph
+//--------------------------------------------------------------------------------------------------------------
+
+query henshin_text::Graph::MergeGraph2LHS_RHS_GraphSequence(ruleName:String,multi:Boolean):Sequence(henshin::Graph){
+	var graphs:Sequence(henshin::Graph);
+	var lhs:henshin::Graph:=new henshin::Graph();
+	var rhs:henshin::Graph:=new henshin::Graph();
+	lhs.name:=ruleName+"_LHS";
+ 	rhs.name:=ruleName+"_RHS";
+  	lhs.nodes+=self.graphElements->selectByType(Node)->map Node2Node("preserve");
+  	lhs.nodes+=self.graphElements->selectByType(Node)->map Node2Node(null);
+  	rhs.nodes+=lhs.nodes->deepclone()->oclAsType(henshin::Node);
+	rhs.nodes->setValuesForSetAttribute(self.graphElements->selectByType(Node));
+ 	lhs.nodes->setPreserveNodesAttributes(self.graphElements->selectByType(Node),"delete");
+ 	rhs.nodes->setPreserveNodesAttributes(self.graphElements->selectByType(Node),"create");
+ 	rhs.nodes+=self.graphElements->selectByType(Node)->map Node2Node("create");
+	lhs.nodes+=self.graphElements->selectByType(Node)->map Node2Node("delete");
+	if(not multi){
+   		self.graphElements->selectByType(Edges).edges->forEach(edge){
+   			if((edge.actiontype<>"forbid")and(edge.actiontype<>"require")){
+				var helpSource:henshin_text::Node;
+       			var helpTarget:henshin_text::Node;
+     			if(edge.source.oclIsTypeOf(henshin_text::Node)){
+	   				helpSource:=edge.source.oclAsType(henshin_text::Node);
+	   			}else{
+	   				helpSource:=edge.source.oclAsType(henshin_text::MultiRuleReuseNode).name;
+	   			};
+  				if(edge.target.oclIsTypeOf(henshin_text::Node)){
+	   				helpTarget:=edge.target.oclAsType(henshin_text::Node);
+	   			}else{
+	   				helpTarget:=edge.target.oclAsType(henshin_text::MultiRuleReuseNode).name;
+	   			};	
+				if((helpSource.actiontype<>"forbid")and(helpSource.actiontype<>"require")and(helpTarget.actiontype<>"forbid")and(helpTarget.actiontype<>"require")){
+					var helpEdge:=new henshin::Edge();
+					helpEdge.type:=edge.type;
+					if((helpSource.actiontype="create")or(helpTarget.actiontype="create")){
+						helpEdge.source:=rhs.nodes->any(name=helpSource.name);
+						helpEdge.target:=rhs.nodes->any(name=helpTarget.name);
+						if(edge.actiontype<>"create"){
+							rhs.edges+=helpEdge;
+						};
+					}else{
+						helpEdge.source:=lhs.nodes->any(name=helpSource.name);
+						helpEdge.target:=lhs.nodes->any(name=helpTarget.name);
+					};
+					if(edge.actiontype="create"){
+						rhs.edges+=helpEdge;
+					}else if(edge.actiontype="delete"){
+						lhs.edges+=helpEdge;
+					}else if((edge.actiontype="preserve")or(edge.actiontype=null)){
+						lhs.edges+=helpEdge;
+						var helpEdgeRHS:=new henshin::Edge();
+						helpEdgeRHS.type:=edge.type;
+						if(edge.source.oclIsTypeOf(henshin_text::Node)){
+							helpEdgeRHS.source:=rhs.nodes->any(name=edge.source.oclAsType(henshin_text::Node).name);
+						}else{
+							helpEdgeRHS.source:=rhs.nodes->any(name=edge.source.oclAsType(henshin_text::MultiRuleReuseNode).name.name);
+						};
+						if(edge.target.oclIsTypeOf(henshin_text::Node)){
+							helpEdgeRHS.target:=rhs.nodes->any(name=edge.target.oclAsType(henshin_text::Node).name);
+						}else{
+							helpEdgeRHS.target:=rhs.nodes->any(name=edge.target.oclAsType(henshin_text::MultiRuleReuseNode).name.name);	
+						};
+						rhs.edges+=helpEdgeRHS;
+					};
+				};
+   			};
+   		};
+   };
+   if(not multi){
+   	lhs.formula:=self.createFormula(lhs);
+   };
+  	graphs+=lhs;
+  	graphs+=rhs;
+  	return graphs
+}
+
+mapping henshin_text::Attribute::Attribute2Attribute(action:String):henshin::Attribute 
+when {(self.actiontype=action and self.update=null)or(self.actiontype=null and self.update=null);}{
+	result.type:=self.name;
+	result.value:=self.value.castExpressionValue();
+}
+
+mapping henshin_text::Node::Node2Node(action:String):henshin::Node 
+when{self.actiontype=action;}{
+	result.name:=self.name;
+	result.type:=self.nodetype;
+	result.attributes+=self.attribute-> map Attribute2Attribute(action);	
+}
+
+query henshin::Node::setValuesForSetAttribute(nodes:OrderedSet(henshin_text::Node)){
+	nodes->forEach(node){
+		node.attribute->forEach(attribute){
+			if(attribute.update<>null){
+				self->any(name=node.name).attributes->any(type=attribute.name).value:=attribute.value.castExpressionValue();
+			};
+		};
+	};
+}
+
+mapping henshin_text::Attribute::NodeAttribute2NodeAttribute(action:String):henshin::Attribute 
+when {self.actiontype=action and self.update=null;}{
+	result.type:=self.name;
+	result.value:=self.value.castExpressionValue();
+}
+
+query henshin::Node::setPreserveNodesAttributes(nodes:OrderedSet(henshin_text::Node),action:String){
+	self->forEach(node){
+		var helpNode=nodes->any(name=node.name).oclAsType(henshin_text::Node);
+		helpNode.attribute->forEach(attribute){
+			if(attribute.actiontype=action){
+				node.attributes+=attribute->map NodeAttribute2NodeAttribute(action);	
+			};
+		};
+	};
+}
+
+
+
+//--------------------------------------------------------------------------------------------------------------
+//Formula
+//--------------------------------------------------------------------------------------------------------------
+
+query henshin_text::Graph:: createFormula(lhs:henshin::Graph):henshin::Formula{
+	var forbid:=false;
+	var require:=false;
+	self.graphElements->selectByType(henshin_text::Node)->forEach(node){
+		if(node.actiontype="forbid"){
+			forbid:=true;
+		}else if(node.actiontype="require"){
+			require:=true;
+		}else if((node.actiontype="preserve")or(node.actiontype=null)or(node.actiontype="delete")){
+			var helpNode:=node.attribute->any(actiontype="forbid");
+			if(helpNode<>null){
+				forbid:=true;
+			};
+			helpNode:=node.attribute->any(actiontype="require");
+			if(helpNode<>null){
+				require:=true;
+			};
+		};
+		if(forbid and require){
+			break;
+		};
+	}; 
+	if(false=(forbid and require)){
+		self.graphElements->selectByType(henshin_text::Edges).edges->forEach(edge){
+			if(edge.actiontype="forbid"){
+				forbid:=true;
+			}else if(edge.actiontype="require"){
+				require:=true;
+			};
+			if(forbid and require){
+				break;
+			};
+		};
+	};
+	if(self.graphElements->selectByType(henshin_text::Formula)->size()<>0){
+		if(forbid or require){
+			var andFormula:henshin::And:=new henshin::And();
+			andFormula.left:= self.createConditionByToken(forbid,require,lhs);
+			andFormula.right:=self.graphElements->selectByType(henshin_text::Formula)->first().formula.createConditionByLogic(lhs);
+			return andFormula;
+		}else{
+			return self.graphElements->selectByType(henshin_text::Formula)->first().formula.createConditionByLogic(lhs);
+		};	
+	}else if(forbid or require){
+		return self.createConditionByToken(forbid,require,lhs); 
+	};
+	return null;
+}
+
+query henshin_text::Graph::createConditionByToken(forbid:Boolean,require:Boolean,lhs:henshin::Graph):henshin::Formula{
+	if(forbid and require){
+		var andFormula:henshin::And:=new henshin::And();
+		andFormula.left:= self.map Graph2Not("forbid",lhs);
+		andFormula.right:=self.map Graph2NestedCondition("require",lhs);
+		return andFormula;
+	}else if(forbid){
+		return self.map Graph2Not("forbid",lhs);
+	}else if(require){
+		return self.map Graph2NestedCondition("require",lhs);
+	};
+	return null;
+}
+
+mapping henshin_text::Graph::Graph2Not(action:String,lhs:henshin::Graph):henshin::Not{
+	result.child:=self.map Graph2NestedCondition(action,lhs);
+}
+
+mapping henshin_text::Graph::Graph2NestedCondition(action:String,lhs:henshin::Graph):henshin::NestedCondition{
+	result.conclusion:=self.map Graph2ConclusionGraph(action,lhs);
+	result.mappings:=result.conclusion.nodes->map Conclusion_LHS_Nodes2Mapping(lhs);
+}
+
+
+
+mapping henshin_text::Graph::Graph2ConclusionGraph(action:String,lhs:henshin::Graph):henshin::Graph{
+	result.name:=action;
+	result.nodes+=self.graphElements->selectByType(henshin_text::Node)->map Node2Node(action);
+	self.graphElements->selectByType(henshin_text::Node)->forEach(node){
+		if((node.actiontype="preserve")or(node.actiontype=null)or(node.actiontype="delete")){
+			var helpAttribute:=node.attribute->any(actiontype=action);
+			if(helpAttribute<>null){
+				var addNodes:=lhs.nodes->any(name=node.name).clone().oclAsType(henshin::Node)->asSequence()->first();
+				addNodes.attributes:=node.attribute->map NodeAttribute2NodeAttribute(action);
+				result.nodes+=addNodes;
+			};
+		};
+	}; 
+	self.graphElements->selectByType(henshin_text::Edges).edges->forEach(edge){
+		var helpSource:henshin_text::Node;
+		var helpTarget:henshin_text::Node;
+		if(edge.source.oclIsTypeOf(henshin_text::Node)){
+			helpSource:=edge.source.oclAsType(henshin_text::Node);
+		}else{
+			helpSource:=edge.source.oclAsType(henshin_text::MultiRuleReuseNode).name;
+		};
+		if(edge.target.oclIsTypeOf(henshin_text::Node)){
+			helpTarget:=edge.target.oclAsType(henshin_text::Node);
+		}else{
+			helpTarget:=edge.target.oclAsType(henshin_text::MultiRuleReuseNode).name;
+		};
+		if((edge.actiontype=action)or(helpSource.actiontype=action)or(helpTarget.actiontype=action)){
+			var addEdge:=new henshin::Edge();
+			addEdge.type:=edge.type;
+			if(result.nodes->any(name=helpSource.name)=null){
+				result.nodes+=lhs.nodes->any(name=helpSource.name).deepclone().oclAsType(henshin::Node);
+			};
+			addEdge.source:=result.nodes->any(name=helpSource.name);
+			if(result.nodes->any(name=helpTarget.name)=null){
+				result.nodes+=lhs.nodes->any(name=helpTarget.name).deepclone().oclAsType(henshin::Node);
+			};
+			addEdge.target:=result.nodes->any(name=helpTarget.name);
+			result.edges+=addEdge;
+		};
+	};
+}
+
+mapping henshin::Node::Conclusion_LHS_Nodes2Mapping(lhs:henshin::Graph):henshin::Mapping
+when {lhs.nodes->any(name=self.name)<>null}{
+	result.origin:=lhs.nodes->any(name=self.name);
+	result.image:=self;
+}
+
+
+
+query henshin_text::Logic::createConditionByLogic(lhs:henshin::Graph):henshin::Formula{
+	if(self.oclIsTypeOf(henshin_text::AND)){
+		var andFormula:henshin::And:=new henshin::And();
+		andFormula.left:=self.oclAsType(henshin_text::AND).left.createConditionByLogic(lhs);
+		andFormula.right:=self.oclAsType(henshin_text::AND).right.createConditionByLogic(lhs);
+		return andFormula;
+	}else if(self.oclIsTypeOf(henshin_text::ORorXOR)){
+		if(self.oclAsType(henshin_text::ORorXOR).op="OR"){
+			var orFormula:henshin::Or:=new henshin::Or();
+			orFormula.left:=self.oclAsType(henshin_text::ORorXOR).left.createConditionByLogic(lhs);
+			orFormula.right:=self.oclAsType(henshin_text::ORorXOR).right.createConditionByLogic(lhs);
+			return orFormula;
+		}else{
+			var xorFormula:henshin::Xor:=new henshin::Xor();
+			xorFormula.left:=self.oclAsType(henshin_text::ORorXOR).left.createConditionByLogic(lhs);
+			xorFormula.right:=self.oclAsType(henshin_text::ORorXOR).right.createConditionByLogic(lhs);
+			return xorFormula;
+		};
+	}else if(self.oclIsTypeOf(henshin_text::Not)){
+		var notFormula:henshin::Not:=new henshin::Not();
+		notFormula.child:=self.oclAsType(henshin_text::Not).negation.createConditionByLogic(lhs);
+		return notFormula;
+	}else if(self.oclIsTypeOf(henshin_text::ConditionGraphRef)){
+		var nestedCondition:henshin::NestedCondition:=new henshin::NestedCondition();
+		nestedCondition.conclusion:=self.oclAsType(henshin_text::ConditionGraphRef).conditionGraphRef.map conditionGraph2conclusionGraph();
+		var reuseNodesList:Sequence(henshin::Node);
+		self.oclAsType(henshin_text::ConditionGraphRef).conditionGraphRef.conditionGraphElements->selectByType(henshin_text::ConditionReuseNode)->forEach(reuseNode){
+			var helpReuseNode:=lhs.nodes->any(name=reuseNode.name.name).clone().oclAsType(henshin::Node);
+			helpReuseNode.attributes+=reuseNode.attribute->map conditionAttribute2conclusionAttribute(); 
+			reuseNodesList+=helpReuseNode;
+		};
+		nestedCondition.conclusion.nodes+=reuseNodesList;
+		var nodeList:=lhs.nodes;
+		nodeList+=nestedCondition.conclusion.nodes;
+		nestedCondition.conclusion.formula:=self.oclAsType(henshin_text::ConditionGraphRef).conditionGraphRef.createFormula(nodeList);
+		nestedCondition.mappings+=reuseNodesList->map reuseNode2Mapping(lhs.nodes);
+		self.oclAsType(henshin_text::ConditionGraphRef).conditionGraphRef.conditionGraphElements->selectByType(henshin_text::ConditionEdges).edges->forEach(edge){
+			var helpEdge:=new henshin::Edge();
+			helpEdge.type:=edge.type;
+			helpEdge.source:=nestedCondition.conclusion.nodes->any(name=edge.source.name);
+			if(helpEdge.source=null){
+				var helpNode:=lhs.nodes->any(name=edge.source.name).deepclone().oclAsType(henshin::Node);
+				helpEdge.source:=helpNode;
+				nestedCondition.conclusion.nodes+=helpNode;
+				nestedCondition.mappings+=helpNode->map reuseNode2Mapping(lhs.nodes);
+			};
+			helpEdge.target:=nestedCondition.conclusion.nodes->any(name=edge.target.name);
+			if(helpEdge.target=null){
+				var helpNode:=lhs.nodes->any(name=edge.target.name).deepclone().oclAsType(henshin::Node);
+				helpEdge.target:=helpNode;
+				nestedCondition.conclusion.nodes+=helpNode;
+				nestedCondition.mappings+=helpNode->map reuseNode2Mapping(lhs.nodes);
+			};
+			nestedCondition.conclusion.edges+=helpEdge;
+		};
+		return nestedCondition;
+	};
+	return null
+}
+
+mapping henshin_text::ConditionGraph::conditionGraph2conclusionGraph():henshin::Graph{
+	result.name:=self.name;
+	result.nodes:=self.conditionGraphElements->selectByType(henshin_text::ConditionNode)->map conditionNode2conclusionNode();
+}
+
+
+mapping henshin_text::ConditionNode::conditionNode2conclusionNode():henshin::Node{
+	result.name:=self.name;
+	result.type:=self.type;
+	result.attributes:=self.attribute->map conditionAttribute2conclusionAttribute();
+}
+
+mapping henshin_text::Match::conditionAttribute2conclusionAttribute():henshin::Attribute{ 
+	result.type:=self.name; 
+	result.value:=self.value.castExpressionValue();
+}
+
+query henshin_text::ConditionGraph::createFormula(nodes:OrderedSet(henshin::Node)):henshin::Formula{ 
+	if(self.conditionGraphElements->selectByType(henshin_text::Formula)->size()<>0){
+		return self.conditionGraphElements->selectByType(henshin_text::Formula)->first().formula.createConditionByLogic(nodes);
+	};	
+	return null;	
+}
+
+query henshin_text::Logic::createConditionByLogic(nodes:OrderedSet(henshin::Node)):henshin::Formula{
+	if(self.oclIsTypeOf(henshin_text::AND)){
+		var andFormula:henshin::And:=new henshin::And();
+		andFormula.left:=self.oclAsType(henshin_text::AND).left.createConditionByLogic(nodes);
+		andFormula.right:=self.oclAsType(henshin_text::AND).right.createConditionByLogic(nodes);
+		return andFormula;
+	}else if(self.oclIsTypeOf(henshin_text::ORorXOR)){
+		if(self.oclAsType(henshin_text::ORorXOR).op="OR"){
+			var orFormula:henshin::Or:=new henshin::Or();
+			orFormula.left:=self.oclAsType(henshin_text::ORorXOR).left.createConditionByLogic(nodes);
+			orFormula.right:=self.oclAsType(henshin_text::ORorXOR).right.createConditionByLogic(nodes);
+			return orFormula;
+		}else{
+			var xorFormula:henshin::Xor:=new henshin::Xor();
+			xorFormula.left:=self.oclAsType(henshin_text::ORorXOR).left.createConditionByLogic(nodes);
+			xorFormula.right:=self.oclAsType(henshin_text::ORorXOR).right.createConditionByLogic(nodes);
+			return xorFormula;
+		};
+	}else if(self.oclIsTypeOf(henshin_text::Not)){
+		var notFormula:henshin::Not:=new henshin::Not();
+		notFormula.child:=self.oclAsType(henshin_text::Not).negation.createConditionByLogic(nodes);
+		return notFormula;
+	}else if(self.oclIsTypeOf(henshin_text::ConditionGraphRef)){
+		var nestedCondition:henshin::NestedCondition:=new henshin::NestedCondition();
+		nestedCondition.conclusion:=self.oclAsType(henshin_text::ConditionGraphRef).conditionGraphRef.map conditionGraph2conclusionGraph();
+		var reuseNodesList:Sequence(henshin::Node);
+		self.oclAsType(henshin_text::ConditionGraphRef).conditionGraphRef.conditionGraphElements->selectByType(henshin_text::ConditionReuseNode)->forEach(reuseNode){
+			var helpReuseNode:=nodes->any(name=reuseNode.name.name).clone().oclAsType(henshin::Node);
+			helpReuseNode.attributes+=reuseNode.attribute->map conditionAttribute2conclusionAttribute(); 
+			reuseNodesList+=helpReuseNode;
+		};
+		nestedCondition.conclusion.nodes+=reuseNodesList;
+		var nodeList:=nodes;
+		nodeList+=nestedCondition.conclusion.nodes;
+		nestedCondition.conclusion.formula:=self.oclAsType(henshin_text::ConditionGraphRef).conditionGraphRef.createFormula(nodeList);
+		nestedCondition.mappings+=reuseNodesList->map reuseNode2Mapping(nodes);
+		self.oclAsType(henshin_text::ConditionGraphRef).conditionGraphRef.conditionGraphElements->selectByType(henshin_text::ConditionEdges).edges->forEach(edge){
+			var helpEdge:=new henshin::Edge();
+			helpEdge.type:=edge.type;
+			helpEdge.source:=nestedCondition.conclusion.nodes->any(name=edge.source.name);
+			if(helpEdge.source=null){
+				var helpNode:=nodes->any(name=edge.source.name).deepclone().oclAsType(henshin::Node);
+				helpEdge.source:=helpNode;
+				nestedCondition.conclusion.nodes+=helpNode;
+				nestedCondition.mappings+=helpNode->map reuseNode2Mapping(nodes);
+			};
+			helpEdge.target:=nestedCondition.conclusion.nodes->any(name=edge.target.name);
+			if(helpEdge.target=null){
+				var helpNode:=nodes->any(name=edge.target.name).deepclone().oclAsType(henshin::Node);
+				helpEdge.target:=helpNode;
+				nestedCondition.conclusion.nodes+=helpNode;
+				nestedCondition.mappings+=helpNode->map reuseNode2Mapping(nodes);
+			};
+			nestedCondition.conclusion.edges+=helpEdge;
+		};
+		return nestedCondition;
+	};
+	return null
+}
+
+mapping henshin::Node::reuseNode2Mapping(nodes:OrderedSet(henshin::Node)):henshin::Mapping{
+	result.origin:=nodes->any(name=self.name);
+	result.image:=self;
+}
+
+//--------------------------------------------------------------------------------------------------------------
+//Units
+//--------------------------------------------------------------------------------------------------------------
+mapping henshin_text::Unit::ModelElementUnit2SequentialUnit():henshin::SequentialUnit 
+when{self.unitElements->selectByType(Call)->size()<>0;}{
+	result.name:=self.name; 
+	result.parameters+=self.parameters->map Parameter2Parameter();
+	result.subUnits+=self.unitElements->selectByType(henshin_text::Call).elementCall.late resolve(henshin::Unit);
+	result.strict:=self.unitElements->selectByType(henshin_text::Strict)->first().strict;
+	result.rollback:=self.unitElements->selectByType(henshin_text::Rollback)->first().rollback;
+	self.unitElements->selectByType(henshin_text::Call)->forEach(call){
+		result.parameterMappings+=call.Parameter2ParameterMapping(result.parameters,result.name);
+		result.parameterMappings+=call.Parameter2ParameterMappingReverse(result.parameters,result.name);
+	};
+}
+
+
+mapping henshin_text::Unit::ModelElementUnit2ConditionalUnit():henshin::ConditionalUnit 
+when{self.unitElements->selectByType(henshin_text::ConditionalUnit)->size()<>0;}{
+	result.name:=self.name;
+	result.parameters+=self.parameters->map Parameter2Parameter();
+	result._if:=self.unitElements->selectByType(henshin_text::ConditionalUnit)->_if->first()->selectByType(henshin_text::Call).elementCall->first().late resolveone(henshin::Unit);
+	result._then:=self.unitElements->selectByType(henshin_text::ConditionalUnit)->_then->first()->selectByType(henshin_text::Call).elementCall->first().late resolveone(henshin::Unit);
+	if(self.unitElements->selectByType(henshin_text::ConditionalUnit)->first()._else<>null){
+		result._else:=self.unitElements->selectByType(henshin_text::ConditionalUnit)->_else->first()->selectByType(henshin_text::Call).elementCall->first().late resolveone(henshin::Unit);
+	};
+	self.unitElements->selectByType(henshin_text::ConditionalUnit)->_if->first()->selectByType(henshin_text::Call)->forEach(call){
+		result.parameterMappings+=call.Parameter2ParameterMapping(result.parameters,result.name);
+		result.parameterMappings+=call.Parameter2ParameterMappingReverse(result.parameters,result.name);
+	};
+	self.unitElements->selectByType(henshin_text::ConditionalUnit)->_then->first()->selectByType(henshin_text::Call)->forEach(call){
+		result.parameterMappings+=call.Parameter2ParameterMapping(result.parameters,result.name);
+		result.parameterMappings+=call.Parameter2ParameterMappingReverse(result.parameters,result.name);
+	};
+	if(self.unitElements->selectByType(henshin_text::ConditionalUnit)->first()._else<>null){
+		self.unitElements->selectByType(henshin_text::ConditionalUnit)->_else->first()->selectByType(henshin_text::Call)->forEach(call){
+			result.parameterMappings+=call.Parameter2ParameterMapping(result.parameters,result.name);
+			result.parameterMappings+=call.Parameter2ParameterMappingReverse(result.parameters,result.name);
+		};
+	};
+}
+
+
+mapping henshin_text::Unit::ModelElementUnit2IteratedUnit():henshin::IteratedUnit
+when{self.unitElements->selectByType(henshin_text::IteratedUnit)->size()<>0;}{
+	result.name:=self.name;
+	result.parameters+=self.parameters->map Parameter2Parameter();
+	result.subUnit:=self.unitElements->selectByType(henshin_text::IteratedUnit)->subElement->first()->selectByType(henshin_text::Call).elementCall->first().late resolveone(henshin::Unit);
+	result.iterations:=self.unitElements->selectByType(henshin_text::IteratedUnit)->first().iterations.castExpressionValue();
+	self.unitElements->selectByType(henshin_text::IteratedUnit)->subElement->first()->selectByType(henshin_text::Call)->forEach(call){
+		result.parameterMappings+=call.Parameter2ParameterMapping(result.parameters,result.name);
+		result.parameterMappings+=call.Parameter2ParameterMappingReverse(result.parameters,result.name);
+	};
+}
+
+
+mapping henshin_text::Unit::ModelElementUnit2LoopUnit():henshin::LoopUnit 
+when{self.unitElements->selectByType(henshin_text::LoopUnit)->size()<>0;}{
+	result.name:=self.name;
+	result.parameters+=self.parameters->map Parameter2Parameter();
+	result.subUnit:=self.unitElements->selectByType(henshin_text::LoopUnit)->subElement->first()->selectByType(henshin_text::Call).elementCall->first().late resolveone(henshin::Unit);
+	self.unitElements->selectByType(henshin_text::LoopUnit)->subElement->first()->selectByType(henshin_text::Call)->forEach(call){
+		result.parameterMappings+=call.Parameter2ParameterMapping(result.parameters,result.name);
+		result.parameterMappings+=call.Parameter2ParameterMappingReverse(result.parameters,result.name);
+	};
+}
+
+mapping henshin_text::Unit::ModelElementUnit2IndependentUnit():henshin::IndependentUnit 
+when{ self.unitElements->selectByType(henshin_text::IndependentUnit)->size()<>0;}{
+	result.name:=self.name; 
+	result.parameters+=self.parameters->map Parameter2Parameter();
+	result.subUnits+=self.unitElements->selectByType(henshin_text::IndependentUnit).listOfLists->subElements.selectByType(henshin_text::Call).elementCall->late resolve(henshin::Unit);
+	self.unitElements->selectByType(henshin_text::IndependentUnit).listOfLists->subElements.selectByType(henshin_text::Call)->forEach(call){
+		result.parameterMappings+=call.Parameter2ParameterMapping(result.parameters,result.name);
+		result.parameterMappings+=call.Parameter2ParameterMappingReverse(result.parameters,result.name);
+	};
+}
+
+
+mapping henshin_text::Unit::ModelElementRule2PriorityUnit():henshin::PriorityUnit 
+when{self.unitElements->selectByType(henshin_text::PriorityUnit)->size()<>0; }{
+	result.name:=self.name;
+	result.parameters+=self.parameters->map Parameter2Parameter();
+	result.subUnits+=self.unitElements->selectByType(henshin_text::PriorityUnit).listOfLists->subElements.selectByType(henshin_text::Call).elementCall->late resolve(henshin::Unit);
+	result.subUnits+=self.unitElements->selectByType(henshin_text::PriorityUnit).listOfLists->subElements.selectByType(henshin_text::Call)->forEach(call){
+		result.parameterMappings+=call.Parameter2ParameterMapping(result.parameters,result.name);
+		result.parameterMappings+=call.Parameter2ParameterMappingReverse(result.parameters,result.name);
+	};
+}
+
+query henshin_text::Call::Parameter2ParameterMapping(parameters:OrderedSet(henshin::Parameter),unitName:String):OrderedSet(henshin::ParameterMapping){
+	var index=1;
+	var parameterMappingSet:OrderedSet(henshin::ParameterMapping);
+	self.parameters->forEach(parameter){
+		var parameterMapping:henshin::ParameterMapping:=new henshin::ParameterMapping();
+		parameterMapping.source:=parameters->any(name=parameter.name+"_"+unitName or name=parameter.name);
+		parameterMapping.target:=self.elementCall.parameters->at(index).late resolveone(henshin::Parameter);
+		parameterMappingSet+=parameterMapping;
+		index:=index+1;
+	};
+	return parameterMappingSet;
+}
+
+query henshin_text::Call::Parameter2ParameterMappingReverse(parameters:OrderedSet(henshin::Parameter),unitName:String):OrderedSet(henshin::ParameterMapping){
+	var index=1;
+	var parameterMappingSet:OrderedSet(henshin::ParameterMapping);
+	self.parameters->forEach(parameter){
+		var parameterMapping:henshin::ParameterMapping:=new henshin::ParameterMapping();
+		parameterMapping.source:=self.elementCall.parameters->at(index).late resolveone(henshin::Parameter);
+		parameterMapping.target:=parameters->any(name=parameter.name+"_"+unitName or name=parameter.name);
+		parameterMappingSet+=parameterMapping;
+		index:=index+1;
+	};
+	return parameterMappingSet;
+}
+
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------
+//Help
+//--------------------------------------------------------------------------------------------------------------
+query getType(type:henshin_text::ParameterType):ecore::EClassifier{
+	if(type.type=null){
+		switch{ 
+			case (type.enumType.toString()="EBigDecimal") {return ecore::EBigDecimal.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EBigInteger") {return ecore::EBigInteger.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EBoolean") {return ecore::EBoolean.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="EBooleanObject") {return ecore::EBooleanObject.oclAsType(ecore::EClassifier);}  
+			case (type.enumType.toString()="EByte") {return ecore::EByte.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EByteArray") {return ecore::EByteArray.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EByteObject") {return ecore::EByteObject.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EChar") {return ecore::EChar.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="ECharacterObject") {return ecore::ECharacterObject.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EDate") {return ecore::EDate.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EDiagnosticChain") { return ecore::EDiagnosticChain.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="EDouble") {return ecore::EDouble.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EDoubleObject") {return ecore::EDoubleObject.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EEList") {return ecore::EEList.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EEnumerator") {return ecore::EEnumerator.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EFeatureMap") {return ecore::EFeatureMap.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EFeatureMapEntry") {return ecore::EFeatureMapEntry.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EFloat") {return ecore::EFloat.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EFloatObject") {return ecore::EFloatObject.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EInt") {return ecore::EInt.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EIntegerObject") {return ecore::EIntegerObject.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="ETreeIterator") {return ecore::ETreeIterator.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EInvocationTargetException") {return ecore::EInvocationTargetException.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EJavaClass") {return ecore::EJavaClass.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="EJavaObject") {return ecore::EJavaObject.oclAsType(ecore::EClassifier);} 
+			case (type.enumType.toString()="ELong") {return ecore::ELong.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="ELongObject") {return ecore::ELongObject.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="EMap") {return ecore::EMap.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="EResource") {return ecore::EResource.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="EResourceSet") {return ecore::EResourceSet.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="EShort") {return ecore::EShort.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="EShortObject") {return ecore::EShortObject.oclAsType(ecore::EClassifier);}
+			case (type.enumType.toString()="EString") {return ecore::EString.oclAsType(ecore::EClassifier);}
+ 		};
+	}else{
+		return type.type;
+	};
+	return ecore::EClassifier.oclAsType(ecore::EClassifier);
+}
+
+
+query henshin_text::Expression::castExpressionValue():oclstdlib::String {
+	var castResult:="";
+	if(self.oclIsTypeOf(henshin_text::OrExpression)){
+		castResult:=self.oclAsType(henshin_text::OrExpression).left.castExpressionValue();
+		castResult:=castResult+" || "+self.oclAsType(henshin_text::OrExpression).right.castExpressionValue();
+	}else if(self.oclIsTypeOf(henshin_text::AndExpression)){
+		castResult:=self.oclAsType(henshin_text::AndExpression).left.castExpressionValue();
+		castResult:=castResult+" && "+self.oclAsType(henshin_text::AndExpression).right.castExpressionValue();
+	}else if(self.oclIsTypeOf(henshin_text::EqualityExpression)){
+		castResult:=self.oclAsType(henshin_text::EqualityExpression).left.castExpressionValue();
+		castResult:=castResult+self.oclAsType(henshin_text::EqualityExpression).op+self.oclAsType(henshin_text::EqualityExpression).right.castExpressionValue();
+	}else if(self.oclIsTypeOf(henshin_text::ComparisonExpression)){
+		castResult:=self.oclAsType(henshin_text::ComparisonExpression).left.castExpressionValue();
+		castResult:=castResult+self.oclAsType(henshin_text::ComparisonExpression).op+self.oclAsType(henshin_text::ComparisonExpression).right.castExpressionValue();
+	}else if(self.oclIsTypeOf(henshin_text::PlusExpression)){
+		castResult:=self.oclAsType(henshin_text::PlusExpression).left.castExpressionValue();
+		castResult:=castResult+"+"+self.oclAsType(henshin_text::PlusExpression).right.castExpressionValue();
+	}else if(self.oclIsTypeOf(henshin_text::MinusExpression)){
+		castResult:=self.oclAsType(henshin_text::MinusExpression).left.castExpressionValue();
+		castResult:=castResult+"-"+self.oclAsType(henshin_text::MinusExpression).right.castExpressionValue();
+	}else if(self.oclIsTypeOf(henshin_text::MulOrDivExpression)){
+		castResult:=self.oclAsType(henshin_text::MulOrDivExpression).left.castExpressionValue();
+		castResult:=castResult+self.oclAsType(henshin_text::MulOrDivExpression).op+self.oclAsType(henshin_text::MulOrDivExpression).right.castExpressionValue();
+	}else if(self.oclIsTypeOf(henshin_text::BracketExpression)){
+		castResult:="("+self.oclAsType(henshin_text::BracketExpression).expression.castExpressionValue()+")";
+	}else if(self.oclIsTypeOf(henshin_text::NotExpression)){
+		castResult:="!"+self.oclAsType(henshin_text::NotExpression).expression.castExpressionValue();
+	}else if(self.oclIsTypeOf(henshin_text::ParameterValue)){
+		castResult:=self.oclAsType(henshin_text::ParameterValue).value.name;
+	}else if(self.oclIsTypeOf(henshin_text::JavaClassValue)){
+		var callJava:="";
+		var index:=1; 
+		self.oclAsType(henshin_text::JavaClassValue).javaParameter->forEach(parameter){
+			callJava:=callJava+parameter.castExpressionValue();
+			if(index<>self.oclAsType(henshin_text::JavaClassValue).javaParameter->size()){
+				callJava:=callJava+",";
+			};
+			index:=index+1;
+		};
+		castResult:=self.oclAsType(henshin_text::JavaClassValue).value+"("+callJava+")";
+	}
+	else if(self.oclIsTypeOf(henshin_text::JavaAttributeValue)){
+		castResult:=self.oclAsType(henshin_text::JavaAttributeValue).value;
+	}else if(self.oclIsTypeOf(henshin_text::StringValue)){
+		castResult:=self.oclAsType(henshin_text::StringValue).value;
+	}else if(self.oclIsTypeOf(henshin_text::NumberValue)){
+		castResult:=self.oclAsType(henshin_text::NumberValue).value;
+	}else if(self.oclIsTypeOf(henshin_text::IntegerValue)){
+		castResult:=self.oclAsType(henshin_text::IntegerValue).value;
+	}else if(self.oclIsTypeOf(henshin_text::NaturalValue)){
+		castResult:=self.oclAsType(henshin_text::NaturalValue).value.toString();
+	}else if(self.oclIsTypeOf(henshin_text::BoolValue)){
+		castResult:=self.oclAsType(henshin_text::BoolValue).value.toString();
+	};
+	return castResult
+}
+
+
+

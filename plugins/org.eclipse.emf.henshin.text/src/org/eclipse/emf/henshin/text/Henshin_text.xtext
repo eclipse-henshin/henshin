@@ -1,0 +1,375 @@
+grammar org.eclipse.emf.henshin.text.Henshin_text with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate henshin_text "http://www.eclipse.org/emf/henshin/text/Henshin_text"
+
+
+//main element
+Model:
+	ePackageimports+=EPackageImport+
+	transformationsystem+=ModelElement*
+;
+
+
+//EPackage import
+EPackageImport:
+	'ePackageImport' ref=[ecore::EPackage|EString] 
+;
+
+
+
+EString: 
+	ID ('.' ID)*
+;
+
+
+//rule and unit definition
+ModelElement:
+	'rule'{Rule} name=ID '('(parameters+=Parameter(',' parameters+=Parameter)*)?')''{'ruleElements+=RuleElement+'}'| 
+	'unit'{Unit} name=ID '('(parameters+=Parameter(',' parameters+=Parameter)*)?')''{'unitElements+=UnitElement+'}'
+;
+
+//rule elements
+RuleElement:
+	JavaImport | CheckDangling | InjectiveMatching | Conditions | Graph	
+;
+
+
+//Java class import
+JavaImport:
+	'javaImport' packagename=EString
+;
+
+
+//option CheckDangling  
+CheckDangling:
+	'checkDangling' checkDangling=EBoolean
+; 
+
+
+//option InjectiveMatching
+InjectiveMatching:
+	'injectiveMatching' injectiveMatching=EBoolean
+;
+
+//Conditions (henshin:attributeCondition) 
+Conditions:
+	'conditions' '[' attributeConditions+=Expression ( "," attributeConditions+=Expression)* ']'
+;
+
+
+//transformation graph
+Graph:
+	{Graph}
+	'graph' '{'graphElements+=GraphElements*'}'
+;
+
+
+//marks for nodes and edges (default:preserve)
+ActionType:
+	'preserve' | 'create' | 'delete' | 'forbid' | 'require'
+;
+
+
+//transformation graph elements
+GraphElements:
+	Edges | Node | Formula | MultiRule | MultiRuleReuseNode
+;
+
+
+//list of transformation graph edges
+Edges:
+	'edges' '[' edges+=Edge ( ',' edges+=Edge)* ']'
+;
+
+
+//transformation graph edge (default:preserve)
+Edge:
+	'('(actiontype=ActionType)? source=[RuleNodeTypes]'->'target=[RuleNodeTypes]':'type=[ecore::EReference|EString]')'
+;
+
+//node types (Edge definition)
+RuleNodeTypes:
+	Node| MultiRuleReuseNode
+;
+
+//transformation graph node
+Node:
+	(actiontype=ActionType)? 'node' name=ID':' nodetype=[ecore::EClass|EString] ('{'attribute+=Attribute*'}')?
+;
+
+
+//reused transformation graph node (see documentation:MultiRule)
+MultiRuleReuseNode:
+	'reuse' name=[Node] ('{'attribute+=Attribute*'}')?
+;
+
+
+//transformation graph node attribute
+Attribute:
+	(actiontype=ActionType)? name=[ecore::EAttribute|EString] '=' value=Expression | 
+	update='set' name=[ecore::EAttribute|EString] '=' value=Expression
+;
+
+//multi-rule (amalgamation)
+MultiRule:
+	'multiRule' name=ID '{' multiruleElements+=RuleElement+'}'
+;
+
+
+//formula
+Formula:
+	'matchingFormula' '{'
+		'formula' formula=Logic
+		conditionGraphs+=ConditionGraph+	
+	'}'
+;
+
+
+//logical expressions
+Logic:
+	ORorXOR
+;
+
+//logical expressions: OR and XOR
+ORorXOR returns Logic:
+  AND ({ORorXOR.left=current} op=('OR'|'XOR') right=AND )*
+;
+
+//logical expressions: AND
+AND returns Logic:
+  Primary ( {AND.left=current}  'AND' right=Primary )*
+;
+
+//logical expressions: brackets and NOT
+Primary returns Logic:
+  '(' Logic ')' |
+  {Not} '!' negation=Primary |
+  Atomic
+;
+
+//logical expressions: atomic value
+Atomic returns Logic:
+	{ConditionGraphRef} conditionGraphRef=[ConditionGraph]
+;
+
+//conditionGraph
+ConditionGraph:
+	'conditionGraph' name=ID '{'conditionGraphElements+=ConditionGraphElements*'}'
+;
+
+//conditionGraph elements
+ConditionGraphElements:
+	ConditionEdges | ConditionNode  | Formula | ConditionReuseNode
+;
+
+//list of conditionGraph edges
+ConditionEdges:
+	'edges' '['edges+=ConditionEdge ( "," edges+=ConditionEdge)* ']'
+;
+
+//conditionGraph edge
+ConditionEdge:
+	'(' source=[ConditionNodeTypes]'->'target=[ConditionNodeTypes]':'type=[ecore::EReference|EString]')'
+;
+
+//node types (ConditionEdge definition)
+ConditionNodeTypes:
+	ConditionNode | Node
+;
+
+//conditionGraph node
+ConditionNode: 
+	 'node' name=ID':'type=[ecore::EClass|EString] ('{'attribute+=Match*'}')? 
+	 
+;
+
+
+//reused conditionGraph node (see documentation:ConditionGraph)
+ConditionReuseNode:
+	'reuse' name=[ConditionNodeTypes] ('{'attribute+=Match*'}')? 
+;
+
+
+//conditionGraph node attribute
+Match:
+ name=[ecore::EAttribute|EString] '=' value=Expression
+;
+
+
+//unit elements
+UnitElement:
+	{Call} elementCall=[ModelElement] '('(parameters+=[Parameter](',' parameters+=[Parameter])*)?')' |
+	'{'subSequence+=UnitElement+'}' |
+	SequentialProperties |
+	IndependentUnit |
+	ConditionalUnit |
+	PriorityUnit |
+	IteratedUnit |
+	LoopUnit
+	
+;
+
+//sequentialUnit properties
+SequentialProperties:
+	 Strict | Rollback	
+;
+
+
+//option Strict
+Strict:
+	'strict' strict=EBoolean
+;
+
+
+//option Rollback
+Rollback:
+	'rollback' rollback=EBoolean 
+;
+
+//list of unit elements
+List:
+	subElements+=UnitElement+
+;
+
+//independentUnit
+IndependentUnit:
+	'independent' '[' listOfLists+=List (',' listOfLists+=List)*']'
+;
+
+
+//conditionalUnit
+ConditionalUnit:
+	'if' '('if+=UnitElement+')' 
+	'then' '{' then+=UnitElement+ '}' 
+	('else' '{' else+=UnitElement+'}')?	
+;
+	
+//priorityUnit
+PriorityUnit:
+	'priority' '['listOfLists+=List (',' listOfLists+=List)*']'
+;
+
+//iteratedUnit
+IteratedUnit:
+	{IteratedUnit}
+	'for' '('iterations=Expression')''{'subElement+=UnitElement+'}'
+;
+
+
+//loopUnit
+LoopUnit:
+	'while' '{'subElement+=UnitElement+'}'
+;	
+
+
+//parameter
+Parameter:
+	name=ID':'type=ParameterType
+;
+
+//parameter types
+ParameterType:
+	 enumType=Type | type=[ecore::EClass|EString] 
+;
+
+//types
+enum Type:
+	eBigDecimal='EBigDecimal' | eBigInteger='EBigInteger' | eBoolean='EBoolean' | eBooleanObject='EBooleanObject' | 
+	eByte='EByte' | eByteArray='EByteArray' | eByteObject='EByteObject' | eChar='EChar' | eCharacterObject='ECharacterObject' | 
+	eDate='EDate' | eDiagnosticChain='EDiagnosticChain' | eDouble='EDouble' | eDoubleObject='EDoubleObject' | eEList='EEList' | 
+	eEnumerator='EEnumerator' | eFeatureMap='EFeatureMap' | eFeatureMapEntry='EFeatureMapEntry' | eFloat='EFloat' | 
+	eFloatObject='EFloatObject' | eInt='EInt' | eIntegerObject='EIntegerObject' | eTreeIterator='ETreeIterator' |
+	eInvocationTargetException='EInvocationTargetException' | eJavaClass='EJavaClass' | eJavaObject='EJavaObject' | 
+	eLong='ELong' | eLongObject='ELongObject' | eMap='EMap' | eResource='EResource' | eResourceSet='EResourceSet' | 
+	eShort='EShort' | eShortObject='EShortObject' | eString='EString' 
+;
+
+
+//decimal
+terminal DECIMAL:
+	('-')?('0'..'9')+'.'('0'..'9')+
+;
+
+
+//negative integer
+terminal NEGATIVE:
+	'-'('0'..'9')+
+;
+
+
+//boolean
+EBoolean returns ecore::EBoolean:
+	'true' | 'false'
+;
+	
+//expressions
+Expression:
+	OrExpression
+;
+
+//expressions: OR
+OrExpression returns Expression:
+  AndExpression ({OrExpression.left=current} "OR" right=AndExpression)*
+;
+
+//expressions: AND
+AndExpression returns Expression:
+  EqualityExpression ({AndExpression.left=current} "AND" right=EqualityExpression)*
+;
+
+//expressions: equal and not equal  
+EqualityExpression returns Expression:
+  ComparisonExpression (
+    {EqualityExpression.left=current} op=("=="|"!=")
+    right=ComparisonExpression
+  )*
+;
+
+//expressions: relational operators 
+ComparisonExpression returns Expression:
+  PlusOrMinusExpression (
+    {ComparisonExpression.left=current} op=(">="|"<="|">"|"<")
+    right=PlusOrMinusExpression
+  )*
+;
+
+//expressions: addition and subtraction 
+PlusOrMinusExpression returns Expression:
+  MulOrDivExpression (
+    ({PlusExpression.left=current} '+' | {MinusExpression.left=current} '-') 
+    right=MulOrDivExpression
+  )*
+;
+
+//expressions: multiplication and division
+MulOrDivExpression returns Expression:
+  PrimaryExpression (
+    {MulOrDivExpression.left=current} op=('*'|'/') 
+    right=PrimaryExpression
+  )*
+;
+
+//expressions: brackets and NOT
+PrimaryExpression returns Expression:
+   {BracketExpression}'(' expression=Expression ')' |
+  {NotExpression} "!" expression=PrimaryExpression |
+  AtomicExpression
+;
+
+//expressions: atomic values
+AtomicExpression returns Expression:
+	{ParameterValue} value=[Parameter]|
+	{JavaClassValue} value=EString'('(javaParameter+=Expression(','javaParameter+=Expression)*)?')'|
+	{JavaAttributeValue} value=JavaAttribute|
+  	{StringValue} value=STRING |
+  	{NumberValue} value=DECIMAL |
+  	{IntegerValue} value=NEGATIVE |
+  	{NaturalValue} value=INT |
+   {BoolValue} value=EBoolean 
+;
+
+JavaAttribute:
+	ID'.'ID
+;

@@ -1,0 +1,81 @@
+ePackageImport bank
+
+//Input: client= any name, accountId=any id
+unit newClient(client:EString,accountId:EInt){
+	if(clientNotExist(client))then{
+		createNewClient(client)
+        createAccount(client,accountId)
+	}else{
+		createAccount(client,accountId)
+	}
+}
+
+//Input: client1="Bob", accountId1=2, amount1=200,client2="Alice", accountId2=1, amount2=517.93
+unit winInLottery(client1:EString,accountId1:EInt,amount1:EDouble,client2:EString,accountId2:EInt,amount2:EDouble){
+	independent [win(client1,accountId1,amount1),lose(),win(client2,accountId2,amount2)]
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//Rules used in Units
+///////////////////////////////////////////////////////////////////////////////////////////
+
+//Input: client= any name
+rule clientNotExist(client:EString){
+		graph{
+		node BankNode:bank.Bank
+		node ManagerNode:bank.Manager{}
+		forbid node ForbidNode:bank.Client{
+			name=client
+		}
+		edges[(BankNode->ManagerNode:managers),
+			(forbid BankNode->ForbidNode:clients)]
+	}
+}
+
+//Input: client= any name
+rule createNewClient(client:EString){
+	graph{
+		node BankNode:bank.Bank
+		node ManagerNode:bank.Manager
+		create node ClientNode:bank.Client{
+			name=client
+		}
+		forbid node ForbidNode:bank.Client{
+			name=client
+		}
+		edges[(BankNode->ManagerNode:managers),
+			(create BankNode->ClientNode:clients),
+			(create ManagerNode->ClientNode:clients),
+			(forbid BankNode->ForbidNode:clients)]
+	}
+}
+
+//Input: client="Bob", accountId=2, amount=200
+rule win(client:EString,accountId:EInt,amount:EDouble){
+		graph{
+		node BankNode:bank.Bank
+		node ClientNode:bank.Client{
+			name=client
+		}
+		node AccountNode:bank.Account{
+			id=accountId
+			credit=amount
+			set credit=amount+100
+		}
+		
+		edges[(BankNode->ClientNode:clients),
+			(ClientNode->AccountNode:accounts)]
+	}
+}
+
+rule lose(){
+	graph{}
+}
+
+
+
+

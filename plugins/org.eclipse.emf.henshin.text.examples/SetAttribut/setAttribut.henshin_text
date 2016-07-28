@@ -1,0 +1,36 @@
+ePackageImport bank
+
+
+//Input: name=Bob, newName=Boby
+rule setName(name:EString,newName:EString){
+	graph{
+		node BankNode:bank.Bank
+		node ClientNode:bank.Client{
+			name=name
+			set name=newName
+		}
+		edges[(BankNode->ClientNode:clients)]
+	}
+}
+
+//Input: client=Charles, fromId=3, toId=4, amount=5 x=1012.63 y=17.45
+rule transferMoney(client:EString,fromId:EInt,toId:EInt,amount:EDouble,x:EDouble,y:EDouble){
+	conditions [x>amount,amount>0]
+	graph{
+		node fromAccount:bank.Account{
+			id=fromId
+			credit=x
+			set credit=x-amount
+		}
+		node toAccount:bank.Account{
+			id=toId
+			credit=y
+			set credit=y-amount
+		}
+		
+		node clientNode:bank.Client{
+			name=client
+		}
+		edges[(clientNode->fromAccount:accounts)]
+	}
+}

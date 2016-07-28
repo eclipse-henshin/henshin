@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.eclipse.emf.henshin.text.transformation;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.m2m.qvt.oml

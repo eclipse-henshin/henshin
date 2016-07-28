@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package 
+			uri = "http://www.eclipse.org/emf/henshin/text/Henshin_text"
+			class = "org.eclipse.emf.henshin.text.henshin_text.Henshin_textPackage"
+			genModel = "model/generated/Henshin_text.genmodel" />
+	</extension>
+</plugin>
