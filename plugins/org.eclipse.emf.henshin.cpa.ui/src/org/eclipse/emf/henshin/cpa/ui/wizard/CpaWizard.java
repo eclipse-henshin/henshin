@@ -66,19 +66,25 @@ public class CpaWizard extends Wizard {
 		for (Object selection : selectedFiles) {
 			if (selection instanceof IFile) {
 
-				IPath path = ((IFile) selection).getLocation();
-				String pathAsString = path.toString();
-				String pathWithoutFile = pathAsString.substring(0, pathAsString.indexOf(path.lastSegment()));
+				IPath pathOfSelection = ((IFile) selection).getLocation();
+				String pathAsString = pathOfSelection.toString();
+				String pathWithoutFile = pathAsString.substring(0, pathAsString.indexOf(pathOfSelection.lastSegment()));
 
 				if (resultPath.equals(""))
 					resultPath = pathWithoutFile;
 				resultPath = greatestCommonPrefix(resultPath, pathWithoutFile);
-				String fileName = path.segment(path.segmentCount() - 1);
+				IPath pathOfHenshinTransformationRules = pathOfSelection;
+				//adapt file selection in case of a henshin_diagram files
+				if(pathOfSelection.getFileExtension().equals("henshin_diagram")){
+					pathOfHenshinTransformationRules = pathOfSelection.removeFileExtension();
+					pathOfHenshinTransformationRules = pathOfHenshinTransformationRules.addFileExtension("henshin");					
+				}
+				String fileNameOfTransformationRules = pathOfHenshinTransformationRules.segment(pathOfHenshinTransformationRules.segmentCount() - 1);
 				HenshinResourceSet henshinResourceSet = new HenshinResourceSet();
-				Module module = henshinResourceSet.getModule(path.toOSString());
+				Module module = henshinResourceSet.getModule(pathOfHenshinTransformationRules.toOSString());
 				for (Unit unit : module.getUnits()) {
 					if (unit instanceof Rule) {
-						rulesAndAssociatedFileNames.put((Rule) unit, fileName);
+						rulesAndAssociatedFileNames.put((Rule) unit, fileNameOfTransformationRules);
 					}
 				}
 			}
