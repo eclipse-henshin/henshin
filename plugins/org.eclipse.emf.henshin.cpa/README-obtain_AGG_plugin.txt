@@ -12,5 +12,6 @@ But just follow these simple steps and you'll have it checked out into your work
 3. Check your project out into your workspace.
 4. Note that the project will be empty. (this is ok)
 5. In the Navigator (or Package Explorer, etc) right-click on the project 
-   and choose Replace With -> Another Branch or Version... and select the branch that you want to work with. (the branch names are the versions)
-   - use <Refresh Tags> und use the latest version in <Branches>
+   and choose Replace With -> Another Branch or Version...
+   - do <Refresh Tags>
+   - from the list of Branches, pick the one resembling the most up-do-date version (currently v2_1)
