@@ -15,11 +15,14 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.tests.framework.HenshinTest;
 import org.eclipse.emf.henshin.tests.framework.Matches;
 import org.eclipse.emf.henshin.tests.framework.Rules;
 import org.eclipse.emf.henshin.tests.framework.Tools;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
+import org.eclipse.emf.henshin.tests.testmodel.TestmodelFactory;
 import org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage;
 import org.eclipse.emf.henshin.tests.testmodel.Val;
 import org.junit.Assert;
@@ -37,9 +40,12 @@ public class MatchTest extends HenshinTest {
 
 	@Before
 	public void setUp() throws Exception {
+		TestmodelPackage.eINSTANCE.eClass();
+		initFactory("testmodel", new XMIResourceFactoryImpl());
 		init("basic/rules/basicMatchingTests.henshin");
 		setEGraphPath("basic/models/matchTestsModels/", "testmodel");
 	}
+
 
 	@Test
 	public void testACMatchNoNodes() {
@@ -257,6 +263,22 @@ public class MatchTest extends HenshinTest {
 		result.add(3);
 		result.add(4);
 		Assert.assertEquals("Unexpected integer list result: " + val.getIntlist(), result, val.getIntlist());
+	}
+	
+	
+	@Test
+	public void removeOverlappingMultiMappingsTest() {
+		TestmodelPackage.eINSTANCE.eClass();
+
+		loadEGraph("multiMatches");
+		loadRule("multiMatches1MultiNodes");
+		
+		//Argue over number of matches, not via collection of anticipated matches
+		Matches.assertOverlappingMultiMatchesRemoved(htRule, htEGraph, null, htEngine, 5);
+		loadRule("multiMatches2MultiNodes");
+		Matches.assertOverlappingMultiMatchesRemoved(htRule, htEGraph, null, htEngine, 10);
+		loadRule("multiMatches3MultiNodes");
+		Matches.assertOverlappingMultiMatchesRemoved(htRule, htEGraph, null, htEngine, 15);
 	}
 
 }

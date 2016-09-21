@@ -350,29 +350,23 @@ public class Matches {
 		}
 	}
 	
-	public static void assertOverlappingMultiMatchesRemoved(Rule rule, EGraph graph, Match partialMatch, Engine engine,
-			Collection<? extends EObject> group) throws AssertionError {
-		
-		//Just trying to print information on matches
-		System.out.println("RUNNING FILTER TEST");
+	public static void assertOverlappingMultiMatchesRemoved(Rule rule, EGraph graph, Match partialMatch, Engine engine, int numExpected) throws AssertionError {
 		List<Match> matches = new ArrayList<Match>();
 		int count = 0;
 		for(Rule r : rule.getAllMultiRules()){
-			System.out.println("Is Multirule? " + r.isMultiRule());
 			if(r.isMultiRule()){
 				for (Match m : engine.findMatches(rule, graph, null)) {
 					matches = InterpreterUtil.removeOverlappingMultiMatches(m, r);
-					for (Match m2 : matches){//m.getMultiMatches(r)){
-						System.out.println(m2.toString());
+					for (Match m2 : matches){
 						count = count + 1;
 					}
 				}
 			}
 		}
-		System.out.println(count);
-		/*if(!group.containsAll(matches)){
-			throw new AssertionError("expected: group contains all target nodes, but not all target nodes were contained");
-		}*/
+		if(count != numExpected){
+			throw new AssertionError(
+					"expected: number of matches equals " + numExpected + " but instead was " + count);
+		}
 	}
 
 }
