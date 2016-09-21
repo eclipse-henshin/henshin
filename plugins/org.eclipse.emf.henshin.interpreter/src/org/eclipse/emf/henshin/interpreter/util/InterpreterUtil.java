@@ -223,6 +223,8 @@ public class InterpreterUtil {
 
 	}
 
+
+
 	/**
 	 * Method for removing empty and duplicated matches, which appear during the rule reduction.
 	 * 
@@ -255,6 +257,42 @@ public class InterpreterUtil {
 		return resultingMatches;
 	}
 
+
+	/**
+	 * Establishes that the set of multi-matches for the given multi-rule
+	 * is overlap-free, i.e., no object in the input model is a node target
+	 * of more than one multi-match.
+	 * 
+	 * @param match match with a list of multi-matches for the given multi-rule
+	 * @param multiRule multi-rule 
+	 * @return A reduced list of matches without duplicate target nodes
+	 */
+	public static List<Match> removeOverlappingMultiMatches(Match match, Rule multiRule) {
+		List<Match> remainingMatches = new ArrayList<Match>();
+
+		for (Match m : match.getMultiMatches(multiRule)) {
+			boolean addMatch = true;
+			for (Match resultingMatch : remainingMatches) {
+
+				// Compare node targets
+				for (EObject eo : resultingMatch.getNodeTargets()) {
+					if (m.getNodeTargets().contains(eo)) {
+						addMatch = false;
+						break;
+					}
+				}
+				if (!addMatch) {
+					break;
+				}
+			}
+			if (addMatch) {
+				remainingMatches.add(m);
+			}
+		}
+
+		return remainingMatches;
+	}
+	
 	/**
 	 * This method finds a partial match per rule from the given module or for an already reduced rule.
 	 * 
