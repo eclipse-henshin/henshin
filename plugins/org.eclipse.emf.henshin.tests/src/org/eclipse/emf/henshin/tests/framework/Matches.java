@@ -9,8 +9,10 @@
  */
 package org.eclipse.emf.henshin.tests.framework;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,7 +21,9 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Rule;
+import org.junit.internal.runners.statements.Fail;
 
 /**
  * Assertions for everything related to matches, e.g. matches produced by {@link RuleApplication}s,
@@ -344,6 +348,31 @@ public class Matches {
 						"expected: match is group, but some elements in the group are not in the match");
 			}
 		}
+	}
+	
+	public static void assertOverlappingMultiMatchesRemoved(Rule rule, EGraph graph, Match partialMatch, Engine engine,
+			Collection<? extends EObject> group) throws AssertionError {
+		
+		//Just trying to print information on matches
+		System.out.println("RUNNING FILTER TEST");
+		List<Match> matches = new ArrayList<Match>();
+		int count = 0;
+		for(Rule r : rule.getAllMultiRules()){
+			System.out.println("Is Multirule? " + r.isMultiRule());
+			if(r.isMultiRule()){
+				for (Match m : engine.findMatches(rule, graph, null)) {
+					matches = InterpreterUtil.removeOverlappingMultiMatches(m, r);
+					for (Match m2 : matches){//m.getMultiMatches(r)){
+						System.out.println(m2.toString());
+						count = count + 1;
+					}
+				}
+			}
+		}
+		System.out.println(count);
+		/*if(!group.containsAll(matches)){
+			throw new AssertionError("expected: group contains all target nodes, but not all target nodes were contained");
+		}*/
 	}
 
 }

@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
@@ -26,6 +28,8 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.emf.henshin.tests.testmodel.TestmodelFactory;
 import org.junit.After;
 
 /**
@@ -47,6 +51,11 @@ import org.junit.After;
  */
 public class HenshinTest {
 
+	/**
+	 * Resource set which has been automatically created for you to use.
+	 */
+	protected HenshinResourceSet resourceSet;
+	
 	/**
 	 * Module which has been automatically loaded and set-up for you to use.
 	 */
@@ -111,10 +120,20 @@ public class HenshinTest {
 	 * @param henshinFile Henshin file to be loaded.
 	 */
 	protected void init(String henshinFile) {
-		htModule = (Module) HenshinLoaders.loadHenshin(henshinFile);
+		if (resourceSet == null)
+			resourceSet = new HenshinResourceSet();
+		htModule = (Module) HenshinLoaders.loadHenshin(henshinFile, resourceSet);
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
+	
 
+
+	protected void initFactory(String extension, XMIResourceFactoryImpl xmiResourceFactoryImpl) {
+		if (resourceSet == null)
+			resourceSet = new HenshinResourceSet();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(extension, xmiResourceFactoryImpl);
+	}
+	
 	/**
 	 * Initialize the tests. Loads a module, a model graph and creates an engine.
 	 * 
@@ -268,7 +287,7 @@ public class HenshinTest {
 	protected void loadEGraph(String graphName) {
 		URI graphURI = URI.createFileURI(new File(graphBasePath + graphName + "." + graphFileExtension)
 				.getAbsolutePath());
-		loadEGraph(HenshinLoaders.loadGraph(graphURI));
+		loadEGraph(HenshinLoaders.loadGraph(graphURI, resourceSet));
 	}
 
 	/**

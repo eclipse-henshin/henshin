@@ -39,6 +39,16 @@ public class HenshinLoaders {
 		HenshinResourceSet resourceSet = new HenshinResourceSet();
 		return resourceSet.getModule(fileName, false);
 	}
+	
+	/**
+	 * Load a Henshin file.
+	 * 
+	 * @param fileName Path to the Henshin file
+	 * @return Module Loaded module
+	 */
+	public static Module loadHenshin(String fileName, HenshinResourceSet resourceSet) {
+		return resourceSet.getModule(fileName, false);
+	}
 
 	/**
 	 * Load model from file and create an {@link EGraph}.
@@ -63,13 +73,19 @@ public class HenshinLoaders {
 	 * @return The loaded file
 	 */
 	public static EGraph loadGraph(URI graphUri) {
-		ResourceSetImpl resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("testmodel",
-				new XMIResourceFactoryImpl());
+		return loadGraph(graphUri, new HenshinResourceSet());
+	}
+
+	/**
+	 * Load a graph.
+	 * 
+	 * @param graphUri URI to the model file
+	 * @return The loaded file
+	 */
+	public static EGraph loadGraph(URI graphUri, HenshinResourceSet resourceSet) {
 		Resource resource = resourceSet.getResource(graphUri, true);
 		EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
 		graph.addTree(resource.getContents().get(0));
 		return graph;
 	}
-
 }

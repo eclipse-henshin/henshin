@@ -23,12 +23,12 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.Val#getIntvl <em>Intvl</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.Val#getValname <em>Valname</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.Val#getIntlist <em>Intlist</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getVal()
  * @model kind="class"

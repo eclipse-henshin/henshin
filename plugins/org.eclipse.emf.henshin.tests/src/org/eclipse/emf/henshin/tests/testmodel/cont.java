@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.cont#getContainsNode <em>Contains Node</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.tests.testmodel.cont#getContainsVal <em>Contains Val</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getcont()
  * @model kind="class"
