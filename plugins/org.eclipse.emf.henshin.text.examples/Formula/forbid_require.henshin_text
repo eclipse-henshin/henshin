@@ -1,0 +1,57 @@
+ePackageImport bank
+
+//Input: client=John, accountId=20  
+rule createAccount(client:EString,accountId:EInt){
+	graph{
+		node BankNode:bank.Bank
+		node ManagerNode:bank.Manager
+		node ClientNode:bank.Client{
+			name=client
+		}
+		create node AccountNode:bank.Account{
+			id=accountId
+		}
+		forbid node ForbidNode:bank.Account{
+			id=accountId
+		}
+		edges[(BankNode->ManagerNode:managers),
+			(BankNode->ClientNode:clients),
+			(ManagerNode->ClientNode:clients),
+			(create BankNode->AccountNode:accounts),
+			(create ClientNode->AccountNode:bank.Client.accounts),
+			(forbid BankNode->ForbidNode:bank.Bank.accounts)]
+	}
+}
+
+//Input: client= any name
+rule clientNotExist(client:EString){
+		graph{
+		node BankNode:bank.Bank
+		node ManagerNode:bank.Manager{
+		}
+		forbid node ForbidNode:bank.Client{
+			name=client
+		}
+		edges[(BankNode->ManagerNode:managers),
+			(forbid BankNode->ForbidNode:clients)]
+	}
+}
+
+
+//Input: client= any name
+rule createNewClient(client:EString){
+	graph{
+		node BankNode:bank.Bank
+		node ManagerNode:bank.Manager
+		create node ClientNode:bank.Client{
+			name=client
+		}
+		forbid node ForbidNode:bank.Client{
+			name=client
+		}
+		edges[(BankNode->ManagerNode:managers),
+			(create BankNode->ClientNode:clients),
+			(create ManagerNode->ClientNode:clients),
+			(forbid BankNode->ForbidNode:clients)]
+	}
+}

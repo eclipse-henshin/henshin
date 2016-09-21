@@ -1,0 +1,23 @@
+ePackageImport bank
+
+//Input: client=Charles
+rule deleteAllAccounts(client:EString){
+	graph{
+		node ClientNode:bank.Client{
+			name=client
+		}
+		node BankNode:bank.Bank
+		node ManagerNode:bank.Manager
+		edges[(BankNode->ManagerNode:managers),
+			(BankNode->ClientNode:clients),
+			(ManagerNode->ClientNode:clients)]
+		multiRule deleteAccounts{
+			graph{
+				delete node DeleteAccountNode:bank.Account
+				edges[(delete BankNode->DeleteAccountNode:accounts),
+					(delete DeleteAccountNode->ClientNode:owner)
+				]
+			}
+		}
+	}
+}

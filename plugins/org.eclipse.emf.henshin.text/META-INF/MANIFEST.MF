@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.eclipse.emf.henshin.text
+Bundle-Vendor: Eclipse Modeling Project
+Bundle-Version: 1.5.0.qualifier
+Bundle-SymbolicName: org.eclipse.emf.henshin.text; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext;bundle-version="2.10.0",
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,
+ org.eclipse.xtext.util,
+ org.eclipse.xtend.lib,
+ org.eclipse.emf.common
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.emf.henshin.text.henshin_text.impl,
+ org.eclipse.emf.henshin.text.validation,
+ org.eclipse.emf.henshin.text.henshin_text,
+ org.eclipse.emf.henshin.text.services,
+ org.eclipse.emf.henshin.text.serializer,
+ org.eclipse.emf.henshin.text,
+ org.eclipse.emf.henshin.text.parser.antlr,
+ org.eclipse.emf.henshin.text.henshin_text.util,
+ org.eclipse.emf.henshin.text.scoping,
+ org.eclipse.emf.henshin.text.parser.antlr.internal,
+ org.eclipse.emf.henshin.text.generator
+Import-Package: org.apache.log4j

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uriMap:MappingContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:uriMap="http:///www.eclipse.org/m2m/qvt/oml/MModelUriMap/1.0.0">
+  <mapping sourceURI="http://www.eclipse.org/emf/henshin/text/Henshin_text" targetURI="platform:/resource/org.eclipse.emf.henshin.text/model/generated/Henshin_text.ecore"/>
+  <mapping sourceURI="http://www.eclipse.org/emf/2011/Henshin" targetURI="platform:/resource/org.eclipse.emf.henshin.model/model/henshin.ecore"/>
+</uriMap:MappingContainer>

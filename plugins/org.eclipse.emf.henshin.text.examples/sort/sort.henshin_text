@@ -1,0 +1,21 @@
+ePackageImport ecore
+
+rule swap(x:EString,y:EString,i:EInt,j:EInt){
+	conditions[(i<j)AND(x>y)]
+	graph{
+		node xNode:ecore.EClassifier{
+			name=x
+		}
+		node yNode:ecore.EClassifier{
+			name=y
+		}
+		node package:ecore.EPackage
+		edges[(package->xNode:eClassifiers),(package->yNode:eClassifiers)]
+	}
+}
+
+unit sort(x:EString,y:EString,i:EInt,j:EInt){
+	while{
+		swap(x,y,i,j)
+	}
+}
