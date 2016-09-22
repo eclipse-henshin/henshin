@@ -49,7 +49,8 @@ import com.google.inject.Inject;
 public class ApplyTransformationHandler extends AbstractHandler implements IHandler{
 
 	/**
-	 * Transformiert eine henshin_text-Datei in eine henshin-Datei und ruft den ApplyTransformation-Dialog auf.
+	 * 
+	 * Transforms a henshin_text file to a henshin file and calls the ApplyTransformation dialog.
 	 * 
 	 * @param event ExecutionEvent
 	 */
@@ -110,7 +111,7 @@ public class ApplyTransformationHandler extends AbstractHandler implements IHand
 						if(modelElement instanceof Unit){
 							unitList.add((Unit)modelElement);	
 						}
-						if(modelElement.getName().equals(modelElementName)){ // why not check here for Rule?
+						if(modelElement.getName() != null && modelElement.getName().equals(modelElementName)){ // why not check here for Rule?
 							comment=false;
 						}
 					}
