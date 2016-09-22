@@ -23,7 +23,7 @@ class TransformationTests {
 	@Inject extension ParseHelper<Model>
 	
 	/**
-	* T1: Teste preserve Kanten und Knoten
+	* T1: Test of nodes and edges with <preserve> action
 	*/
 	@Test
 	def testPreserve(){
@@ -78,7 +78,7 @@ class TransformationTests {
 	 }
 
 	/**
-	* T2: Teste create Kanten und Knoten
+	* T2: Test of nodes and edges with <create> action
 	*/
 	@Test
 	def testCreate(){
@@ -116,7 +116,7 @@ class TransformationTests {
 	
 	
 	/**
-	* T3: Teste delete Kanten und Knoten
+	* T3: Test of nodes and edges with <delete> action
 	*/
 	@Test
 	def testDelete(){
@@ -153,7 +153,7 @@ class TransformationTests {
 	}	
 	
 	/**
-	* T4: Teste Transformation
+	* T4: Test of transformation
 	*/
 	@Test
 	def testTransformation(){
