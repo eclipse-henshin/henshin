@@ -413,11 +413,6 @@
 		<handler
 				class="org.eclipse.emf.henshin.text.ui.Henshin_textExecutableExtensionFactory:org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationHandler"
 				commandId="org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationCommand">
-			<enabledWhen>
-        		<iterate ifEmpty="false">
-   					<instanceof value=" org.eclipse.jface.text.TextSelection"/>
- 	    		</iterate>
-			</enabledWhen>
     	</handler>
 	</extension>
    	
@@ -425,6 +420,30 @@
 		<command name="Apply Transformation" id="org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationCommand">
 		</command>
 	</extension>
+	
+	  <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.emf.henshin.menu">
+         <command
+               commandId="org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationCommand"
+               icon="icons/henshin-apply.gif"
+               label="Apply Transformation Text"
+               style="push">
+               <visibleWhen>
+        		<iterate ifEmpty="false">
+        			<or>
+   						<instanceof value="org.eclipse.jface.text.TextSelection"/>
+   						<and>
+   							<instanceof value="org.eclipse.core.resources.IResource"/>
+   							<test property="org.eclipse.core.resources.name" value="*.henshin_text"/>
+   						</and>
+					</or>
+ 	    		</iterate>
+			</visibleWhen> 
+         </command>
+      </menuContribution>
+   </extension>
 
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution locationURI="popup:#TextEditorContext?after=additions">
