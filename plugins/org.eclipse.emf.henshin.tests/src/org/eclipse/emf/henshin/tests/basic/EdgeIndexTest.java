@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
@@ -26,6 +27,7 @@ import org.eclipse.emf.henshin.model.impl.EdgeImpl;
 import org.eclipse.emf.henshin.model.impl.NodeImpl;
 import org.eclipse.emf.henshin.model.impl.ParameterImpl;
 import org.eclipse.emf.henshin.model.impl.RuleImpl;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.tests.framework.HenshinTest;
 import org.eclipse.emf.henshin.tests.framework.Rules;
 import org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage;
@@ -33,6 +35,8 @@ import org.eclipse.emf.henshin.tests.testmodel.cont;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import agg.gui.icons.NewAtomicIcon;
 
 public class EdgeIndexTest extends HenshinTest {
 	
@@ -49,7 +53,9 @@ public class EdgeIndexTest extends HenshinTest {
 
 		htEngine = new EngineImpl();
 		tm = TestmodelPackage.eINSTANCE;
-
+		resourceSet = new HenshinResourceSet();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("testmodel", new XMIResourceFactoryImpl());
+		
 		// Load the test graph and get the number of child nodes in the graph:
 		setEGraphPath("basic/models/matchTestsModels/", "testmodel");
 		loadEGraph("manyNodes");
