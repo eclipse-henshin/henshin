@@ -825,7 +825,8 @@ public class RuleImpl extends UnitImpl implements Rule {
 	
 
 	private boolean forbidEdgeExists(Node source, Node target, EReference type) {
-		if (source.getAction().getType() != Action.Type.PRESERVE &&
+		if (source.getAction() == null || target.getAction() == null || 
+				source.getAction().getType() != Action.Type.PRESERVE &&
 				target.getAction().getType() != Action.Type.PRESERVE)
 			return false;
 	
