@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
@@ -32,6 +34,7 @@ import org.eclipse.emf.henshin.model.Unit;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getSubModules <em>Sub Modules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getSuperModule <em>Super Module</em>}</li>
@@ -39,7 +42,6 @@ import org.eclipse.emf.henshin.model.Unit;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getUnits <em>Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getInstances <em>Instances</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -237,6 +239,20 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Rule> getAllRules() {
+		EList<Rule> result = new BasicEList<Rule>();
+		for (Unit unit : getUnits()) {
+			if (unit instanceof Rule) 
+				result.add((Rule) unit);
+		}
+		return result;
 	}
 
 	/**

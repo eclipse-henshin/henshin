@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EPackage;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getSubModules <em>Sub Modules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getSuperModule <em>Super Module</em>}</li>
@@ -24,7 +25,6 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getUnits <em>Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getInstances <em>Instances</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule()
  * @model
@@ -124,5 +124,13 @@ public interface Module extends NamedElement {
 	 * @generated
 	 */
 	Module getSubModule(String name);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<Rule> getAllRules();
 
 } // Module

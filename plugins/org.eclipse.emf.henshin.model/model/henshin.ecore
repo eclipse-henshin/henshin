@@ -25,6 +25,7 @@
     <eOperations name="getSubModule" eType="#//Module">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="getAllRules" upperBound="-1" eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subModules" upperBound="-1"
         eType="#//Module" containment="true" eOpposite="#//Module/superModule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="superModule" eType="#//Module"
