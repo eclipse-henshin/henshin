@@ -28,6 +28,16 @@ import org.eclipse.emf.henshin.text.henshin_text.Type
 
 public class ModifyModelUnits {
 	
+	private var long seed
+	private var testSetup=false
+	
+	new(long seed){
+		this.seed=seed
+		this.testSetup=true
+	}
+	
+	new(){}
+	
 	/**
 	 * Entpackt die in einer Unit geschachtelten Subunits in einzelne elementare Units
 	 * 
@@ -37,12 +47,12 @@ public class ModifyModelUnits {
 	 */
 	def List<Unit> flat(Unit unit,int level,Call unitCall){
 		var List<Unit> erg=new ArrayList<Unit>()
-		var randomGenerator = new Random()
+		
 		if(isSequence(unit.unitElements)==false){
 			if(unit.unitElements.get(0) instanceof ConditionalUnitImpl){
 				var help=unit.unitElements.get(0) as ConditionalUnit
 				if(!isCallOnly(help.getIf)){
-					var Unit newSubUnit=createUnit(unit.name+"IF"+level+"_"+randomGenerator.nextInt(1000),help.getIf,unit.parameters.clone())
+					var Unit newSubUnit=createUnit(unit.name+"IF"+level+"_"+returnRandomeNumber(),help.getIf,unit.parameters.clone())
 					(unit.unitElements.get(0)as ConditionalUnit).getIf.clear()
 					var Call call=Henshin_textFactory.eINSTANCE.createCall()
 					call.setElementCall(newSubUnit)
@@ -61,7 +71,7 @@ public class ModifyModelUnits {
 					}
 				}
 				if(!isCallOnly(help.getThen)){
-					var Unit newSubUnit=createUnit(unit.name+"THEN"+level+"_"+randomGenerator.nextInt(1000),help.getThen,unit.parameters.clone())
+					var Unit newSubUnit=createUnit(unit.name+"THEN"+level+"_"+returnRandomeNumber(),help.getThen,unit.parameters.clone())
 					(unit.unitElements.get(0)as ConditionalUnit).getThen.clear()
 					var Call call=Henshin_textFactory.eINSTANCE.createCall()
 					call.setElementCall(newSubUnit)
@@ -81,7 +91,7 @@ public class ModifyModelUnits {
 				}
 				if(help.getElse().size>0){
 					if(!isCallOnly(help.getElse)){
-						var Unit newSubUnit=createUnit(unit.name+"ELSE"+level+"_"+randomGenerator.nextInt(1000),help.getElse,unit.parameters.clone())
+						var Unit newSubUnit=createUnit(unit.name+"ELSE"+level+"_"+returnRandomeNumber(),help.getElse,unit.parameters.clone())
 						(unit.unitElements.get(0)as ConditionalUnit).getElse.clear()
 						var Call call=Henshin_textFactory.eINSTANCE.createCall()
 						call.setElementCall(newSubUnit)
@@ -104,7 +114,7 @@ public class ModifyModelUnits {
 			}else if(unit.unitElements.get(0) instanceof IteratedUnitImpl){
 				var help=unit.unitElements.get(0) as IteratedUnit
 				if(!isCallOnly(help.subElement)){
-					var Unit newSubUnit=createUnit(unit.name+"ITERATED"+level+"_"+randomGenerator.nextInt(1000),help.subElement,unit.parameters.clone())
+					var Unit newSubUnit=createUnit(unit.name+"ITERATED"+level+"_"+returnRandomeNumber(),help.subElement,unit.parameters.clone())
 					(unit.unitElements.get(0)as IteratedUnit).subElement.clear()
 					var Call call=Henshin_textFactory.eINSTANCE.createCall()
 					call.setElementCall(newSubUnit)
@@ -132,7 +142,7 @@ public class ModifyModelUnits {
 			}else if(unit.unitElements.get(0) instanceof LoopUnitImpl){
 				var help=unit.unitElements.get(0) as LoopUnit
 				if(!isCallOnly(help.subElement)){
-					var Unit newSubUnit=createUnit(unit.name+"LOOP"+level+"_"+randomGenerator.nextInt(1000),help.subElement,unit.parameters.clone())
+					var Unit newSubUnit=createUnit(unit.name+"LOOP"+level+"_"+returnRandomeNumber(),help.subElement,unit.parameters.clone())
 					(unit.unitElements.get(0)as LoopUnit).subElement.clear()
 					var Call call=Henshin_textFactory.eINSTANCE.createCall()
 					call.setElementCall(newSubUnit)
@@ -159,7 +169,7 @@ public class ModifyModelUnits {
 				var index=0
 				for(sub:help.listOfLists){
 					if(!isCallOnly(sub.subElements)){
-						var Unit newSubUnit=createUnit(unit.name+"PRIORITY"+level+"_"+index+"_"+randomGenerator.nextInt(1000),sub.subElements,unit.parameters.clone())
+						var Unit newSubUnit=createUnit(unit.name+"PRIORITY"+level+"_"+index+"_"+returnRandomeNumber(),sub.subElements,unit.parameters.clone())
 						(unit.unitElements.get(0)as PriorityUnit).listOfLists.get(index).subElements.clear()
 						var Call call=Henshin_textFactory.eINSTANCE.createCall()
 						call.setElementCall(newSubUnit)
@@ -185,7 +195,7 @@ public class ModifyModelUnits {
 				var index=0
 				for(sub:help.listOfLists){
 					if(!isCallOnly(sub.subElements)){
-						var Unit newSubUnit=createUnit(unit.name+"INDEPENDENT"+level+"_"+index+"_"+randomGenerator.nextInt(1000),sub.subElements,unit.parameters.clone())
+						var Unit newSubUnit=createUnit(unit.name+"INDEPENDENT"+level+"_"+index+"_"+returnRandomeNumber(),sub.subElements,unit.parameters.clone())
 						(unit.unitElements.get(0)as IndependentUnit).listOfLists.get(index).subElements.clear()
 						var Call call=Henshin_textFactory.eINSTANCE.createCall()
 						call.setElementCall(newSubUnit)
@@ -221,7 +231,7 @@ public class ModifyModelUnits {
 						}else{
 							subElements.add(element)
 						}
-						var Unit newSubUnit=createUnit(unit.name+"Sequence"+level+"_"+index+"_"+randomGenerator.nextInt(1000),subElements,unit.parameters.clone())
+						var Unit newSubUnit=createUnit(unit.name+"Sequence"+level+"_"+index+"_"+returnRandomeNumber(),subElements,unit.parameters.clone())
 						var Call call=Henshin_textFactory.eINSTANCE.createCall()
 						call.setElementCall(newSubUnit)
 						call.parameters.addAll(unit.parameters)
@@ -244,6 +254,17 @@ public class ModifyModelUnits {
 			}
 		}
 		return erg
+	}
+	
+	private def returnRandomeNumber(){
+		if(this.testSetup){
+			var randomGenerator = new Random(this.seed)
+			return randomGenerator.nextInt(1000)
+		}else{
+			var randomGenerator = new Random()
+			return randomGenerator.nextInt(1000)
+		}
+		
 	}
 	
 /**

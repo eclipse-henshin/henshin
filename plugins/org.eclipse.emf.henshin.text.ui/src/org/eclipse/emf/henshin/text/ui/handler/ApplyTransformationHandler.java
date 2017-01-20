@@ -7,6 +7,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -18,24 +19,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
+
 import org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinWizard;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinWizardDialog;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.text.henshin_text.Model;
 import org.eclipse.emf.henshin.text.henshin_text.ModelElement;
-import org.eclipse.emf.henshin.text.henshin_text.Rule;
-import org.eclipse.emf.henshin.text.henshin_text.Unit;
-import org.eclipse.emf.henshin.text.ui.util.ModifyModelUnits;
+import org.eclipse.emf.henshin.text.ui.util.Transformation;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.m2m.qvt.oml.BasicModelExtent;
-import org.eclipse.m2m.qvt.oml.ExecutionContext;
-import org.eclipse.m2m.qvt.oml.ExecutionContextImpl;
-import org.eclipse.m2m.qvt.oml.ExecutionDiagnostic;
-import org.eclipse.m2m.qvt.oml.ModelExtent;
-import org.eclipse.m2m.qvt.oml.TransformationExecutor;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.EObjectAtOffsetHelper;
 import org.eclipse.xtext.resource.XtextResource;
@@ -44,6 +37,7 @@ import org.eclipse.xtext.ui.editor.utils.EditorUtils;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.google.inject.Inject;
+
 
 
 public class ApplyTransformationHandler extends AbstractHandler implements IHandler{
@@ -100,46 +94,21 @@ public class ApplyTransformationHandler extends AbstractHandler implements IHand
 
 		if (henshin_textResource != null) {
 			Diagnostic diagnostic = Diagnostician.INSTANCE.validate(henshin_textResource.getContents().get(0));
-			boolean comment=true;       
+			//boolean comment=true;       
 			if(henshin_textResource.getErrors().isEmpty()&&((diagnostic.getSeverity()==Diagnostic.OK)||(diagnostic.getSeverity()==Diagnostic.WARNING))){
 				if(((Model) henshin_textResource.getContents().get(0)).getTransformationsystem().size()>0){
 
-					//Modify Units
-					List<Unit> unitList=new ArrayList<Unit>();
-					List<Unit> resultUnitList=new ArrayList<Unit>();
-					for (ModelElement modelElement : ((Model) henshin_textResource.getContents().get(0)).getTransformationsystem()) {
-						if(modelElement instanceof Unit){
-							unitList.add((Unit)modelElement);	
-						}
-						if(modelElement.getName() != null && modelElement.getName().equals(modelElementName)){ // why not check here for Rule?
-							comment=false;
-						}
-					}
-					ModifyModelUnits modifyUnit=new ModifyModelUnits();
-					for(Unit unit:unitList){
-						resultUnitList.addAll(modifyUnit.flat(unit,0,null));
-					}
-					((Model) henshin_textResource.getContents().get(0)).getTransformationsystem().removeAll(unitList);
-					((Model) henshin_textResource.getContents().get(0)).getTransformationsystem().addAll(resultUnitList);
-
-					//Transform henshin_text2henshin
-					URI transformationURI = URI.createURI("platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin_text2HenshinTransformation.qvto");
-					TransformationExecutor executor = new TransformationExecutor(transformationURI);
-					ExecutionContext context = new ExecutionContextImpl();
-					ModelExtent source_HenshinText = new BasicModelExtent(henshin_textResource.getContents());		
-					ModelExtent target_Henshin = new BasicModelExtent();
-					ExecutionDiagnostic result = executor.execute(context, source_HenshinText, target_Henshin);
-
-					if(result.getSeverity() == Diagnostic.OK){
+					ResourceSet resourceSetTransform = new ResourceSetImpl();
+					String uriMy=henshin_textResource.getURI().toString().replace(".","_")+".henshin";
+					Resource resourceResult = resourceSetTransform.createResource(URI.createURI(uriMy));
+					Transformation transformation=new Transformation();
+					resourceResult=transformation.transformHenshin_textToHenshin(henshin_textResource,"platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin_text2HenshinTransformation.qvto","");
+					if(resourceResult!=null){
 						//Prepare for Transformation-Dialog
-						ResourceSet resourceSetTransform = new ResourceSetImpl();
-						String uriMy=henshin_textResource.getURI().toString().replace(".","_")+".henshin";
-						Resource resourceResult = resourceSetTransform.createResource(URI.createURI(uriMy));
-						resourceResult.getContents().addAll(target_Henshin.getContents());
-						List <org.eclipse.emf.henshin.model.Unit> help=orderUnits(((Module) target_Henshin.getContents().get(0)).getUnits());
-						((Module) target_Henshin.getContents().get(0)).getUnits().clear();
-						((Module) target_Henshin.getContents().get(0)).getUnits().addAll(help);
-						org.eclipse.emf.henshin.model.Unit unit=getUnitByName(((Module) target_Henshin.getContents().get(0)).getUnits(),modelElementName);
+						List <org.eclipse.emf.henshin.model.Unit> help=orderUnits(((Module) resourceResult.getContents().get(0)).getUnits());
+						((Module) resourceResult.getContents().get(0)).getUnits().clear();
+						((Module) resourceResult.getContents().get(0)).getUnits().addAll(help);
+						org.eclipse.emf.henshin.model.Unit unit=getUnitByName(((Module) resourceResult.getContents().get(0)).getUnits(),modelElementName);
 
 						//Call Transformation-Dialog
 						HenshinWizard tWiz;
@@ -148,7 +117,7 @@ public class ApplyTransformationHandler extends AbstractHandler implements IHand
 							tWiz = new HenshinWizard(unit);
 						}
 						else {
-							tWiz = new HenshinWizard((Module) target_Henshin.getContents().get(0));
+							tWiz = new HenshinWizard((Module) resourceResult.getContents().get(0));
 						}
 						HenshinWizardDialog dialog = new HenshinWizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), tWiz);
 						dialog.open();
@@ -204,6 +173,13 @@ public class ApplyTransformationHandler extends AbstractHandler implements IHand
 	
 	
 	
+
+	/**
+	 * Order the list of units by normal defined units and automatically created nested units.
+	 * 
+	 * @param units List of units
+	 * @return Ordered list 
+	*/
     private List<org.eclipse.emf.henshin.model.Unit> orderUnits(EList<org.eclipse.emf.henshin.model.Unit> units){
     	List<org.eclipse.emf.henshin.model.Unit> outerUnits=new ArrayList<org.eclipse.emf.henshin.model.Unit>();
     	List<org.eclipse.emf.henshin.model.Unit> innerUnits=new ArrayList<org.eclipse.emf.henshin.model.Unit>();
@@ -225,6 +201,14 @@ public class ApplyTransformationHandler extends AbstractHandler implements IHand
 		return innerUnits;		
 	}
 
+
+    /**
+     * Search in a list of units a unit by its name
+     * 
+     * @param units List of units
+     * @param name Name of the searched unit
+     * @return Unit-Object with the given name
+     */
    private org.eclipse.emf.henshin.model.Unit getUnitByName(List<org.eclipse.emf.henshin.model.Unit> units,String name){
     	for(org.eclipse.emf.henshin.model.Unit unit:units){
     		if(unit.getName().equals(name)){

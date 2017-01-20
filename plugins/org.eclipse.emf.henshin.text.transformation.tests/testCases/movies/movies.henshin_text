@@ -1,0 +1,88 @@
+ePackageImport movies
+
+rule findCouples(){
+	graph{
+		multiRule multiFindCouples{
+			graph{
+				node first:Person
+				node second:Person
+				create node newNode:Couple
+				require node movie1:Movie
+				require node movie2:Movie
+				require node movie3:Movie
+				edges[(create newNode->first:p1),
+					(create newNode->second:p2),
+					(require second->movie3:movies),
+					(require first->movie3:movies),
+					(require first->movie2:movies),
+					(require second->movie2:movies),
+					(require first->movie1:movies),
+					(require second->movie1:movies)
+				]
+			}
+		} 
+	}
+}
+
+rule createPositive(){
+	graph{
+		create node actor1:Actor
+		create node actress1:Actress
+		create node movie1:Movie
+		create node movie2:Movie
+		create node movie3:Movie
+		create node movie4:Movie
+		create node movie5:Movie
+		create node actor2:Actor
+		create node actress2:Actress
+		
+		edges[(create actor2->movie4:movies),
+			(create actor1->movie4:movies),
+			(create actor1->movie1:movies),
+			(create actor1->movie2:movies),
+			(create actor1->movie3:movies),
+			(create actress1->movie1:movies),
+			(create actress1->movie2:movies),
+			(create actress1->movie3:movies),
+			(create actress1->movie5:movies),
+			(create actress2->movie5:movies),
+			(create actor2->movie1:movies),
+			(create actress2->movie3:movies)
+		]
+	}
+}
+
+rule createNegative(){
+	graph{
+		create node actor1:Actor
+		create node actress1:Actress
+		create node movie1:Movie
+		create node movie2:Movie
+		create node movie3:Movie
+		create node movie4:Movie
+		create node actor2:Actor
+		create node actress2:Actress
+		edges[(create actor2->movie3:movies),
+			(create actor1->movie3:movies),
+			(create actor1->movie1:movies),
+			(create actor1->movie2:movies),
+			(create actress1->movie1:movies),
+			(create actress1->movie2:movies),
+			(create actress1->movie4:movies),
+			(create actress2->movie4:movies),
+			(create actor2->movie1:movies),
+			(create actress2->movie2:movies)
+		]
+	}
+}
+
+unit createExample(n:EInt){
+	for(n){
+		createTest()
+	}
+}
+
+unit createTest(){
+	createPositive()
+	createNegative()
+}

@@ -413,15 +413,15 @@
 		<handler
 				class="org.eclipse.emf.henshin.text.ui.Henshin_textExecutableExtensionFactory:org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationHandler"
 				commandId="org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationCommand">
-    	</handler>
+    		</handler>
 	</extension>
    	
 	<extension point="org.eclipse.ui.commands">
 		<command name="Apply Transformation" id="org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationCommand">
 		</command>
 	</extension>
-	
-	  <extension
+
+	<extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="popup:org.eclipse.emf.henshin.menu">

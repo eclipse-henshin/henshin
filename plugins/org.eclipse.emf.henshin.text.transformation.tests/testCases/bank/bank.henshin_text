@@ -1,0 +1,73 @@
+ePackageImport bank
+
+rule createAccount(client:EString,accountId:EInt){
+	graph{
+		node bankNode:Bank
+		node clientNode:Client{
+			name=client
+		}
+		node managerNode:Manager
+		forbid node forbidAccountNode:Account{
+			id=accountId
+		}
+		create node accountNode:Account{
+			id=accountId
+		}
+		edges[
+			(bankNode->clientNode:clients),
+			(bankNode->managerNode:managers),
+			(managerNode->clientNode:clients),
+			(forbid bankNode->forbidAccountNode:accounts),
+			(create bankNode->accountNode:accounts),
+			(create clientNode->accountNode:accounts)
+		]
+	}
+}
+	
+rule transferMoney(client:EString, fromId:EInt, toId:EInt, amount:EDouble, x:EDouble, y:EDouble){
+	conditions[x>amount,amount>0]
+	graph{
+		node xAccountNode:Account{
+			id=fromId
+			credit=x
+			set credit=x-amount
+		}
+		node yAccountNode:Account{
+			id=toId
+			credit=y
+			set credit=y+amount
+		}
+		node clientNode:Client{
+			name=client
+		}
+		edges[
+			(clientNode->xAccountNode:accounts)
+		]
+	}
+}
+
+rule deleteAllAccounts(client:EString){
+	checkDangling false
+	graph{
+		node clientNode:Client{
+			name=client
+		}
+		node bankNode:Bank
+		node managerNode:Manager
+		edges[
+			(bankNode->managerNode:managers),
+			(bankNode->clientNode:clients),
+			(managerNode->clientNode:clients)
+		]
+		multiRule deleteAccount{
+			graph{
+				delete node accountNode:Account
+				edges[
+					(delete bankNode->accountNode:accounts),
+					(delete accountNode->clientNode:owner)
+				]
+			}
+		}
+		
+	}
+}

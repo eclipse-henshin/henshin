@@ -1,0 +1,354 @@
+ePackageImport mutualexclusion
+
+rule newRule(){
+	graph{
+		node root:Net
+		node process1:Process
+		node process2:Process
+		create node newProcess:Process
+		edges[(delete process1->process2:next),
+			(root->process1:processes),
+			(root->process2:processes),
+			(create newProcess->process2:next),
+			(create process1->newProcess:next),
+			(create root->newProcess:processes)
+		]
+	}
+}
+
+rule mountRule(){
+	graph{
+		node root:Net
+		node process:Process
+		create node newResource:Resource
+		edges[(root->process:processes),
+			(create newResource->process:token),
+			(create root->newResource:resources)
+		]
+	}
+}
+
+rule requestRule(){
+	graph{
+		node resource:Resource
+		multiRule multiRequestRule{
+			graph{
+				node process:Process
+				forbid node m:Resource
+				edges[(create process->resource:request),
+					(forbid resource->process:held_by),
+					(forbid process->m:request)
+				]				
+			}
+		}
+	}
+}
+
+
+rule takeRule(){
+	graph{
+		node process:Process
+		node resource:Resource
+		edges[(delete process->resource:request),
+			(delete resource->process:token),
+			(create resource->process:held_by)
+		]
+	}
+}
+
+rule releaseRule(){
+	graph{
+		node process:Process
+		node resource:Resource
+		edges[(delete resource->process:held_by),
+			(create resource->process:release)
+		]
+		matchingFormula{
+			formula !default
+			conditionGraph default{
+				reuse resource
+				node forbidResource:Resource
+				edges[(process->forbidResource:request)]
+			}
+		}
+	}
+}
+
+
+rule giveRule(){
+	graph{
+		node resource:Resource
+		node process1:Process
+		node process2:Process
+		edges[(process1->process2:next),
+			(create resource->process2:token),
+			(delete resource->process1:release)
+		]
+	}
+}
+
+
+rule requestStarRule(){
+	graph{
+		multiRule multiRequestStarRule{
+			graph{
+				node resource1:Resource
+				node process1:Process
+				node resource2:Resource
+				node process2:Process
+				edges[(process2->process1:next),
+					(resource1->process1:held_by),
+					(resource2->process2:held_by),
+					(create process1->resource2:request),
+					(forbid process1->resource2:request)
+				]
+			}
+		}
+	}
+}
+
+
+rule blockedRule(){
+	graph{
+		node process1:Process
+		node resource:Resource
+		node process2:Process
+		edges[(process1->resource:request),
+			(resource->process2:held_by),
+			(create resource->process1:blocked)
+		]
+	}
+}
+
+rule waitingRule(){
+	graph{
+		node process1:Process
+		node resource1:Resource
+		node process2:Process
+		node resource2:Resource
+		edges[(resource1->process2:held_by),
+			(process1->resource1:request),
+			(delete resource2->process2:blocked),
+			(create resource2->process1:blocked)
+		]
+	}
+}
+
+rule unlockRule(){
+	graph{
+		node resource:Resource
+		node process:Process
+		edges[(delete resource->process:blocked),
+			(delete resource->process:held_by),
+			(create resource->process:release)
+		]
+	}
+}
+
+rule ignoreRule(){
+	graph{
+		node resource:Resource
+		node process:Process
+		edges[(delete resource->process:blocked)
+		]
+		matchingFormula{
+			formula !default
+			conditionGraph default{
+				reuse resource
+				node forbidResource:Resource
+				edges[(forbidResource->process:held_by)]
+			}
+		}
+	}
+}
+
+rule releaseStarRule(){
+	graph{
+		node process1:Process
+		node resource1:Resource
+		node resource2:Resource
+		node process2:Process
+		edges[(process1->process2:next),
+			(process2->resource2:request),
+			(resource1->process1:held_by),
+			(delete resource2->process1:held_by),
+			(create resource2->process1:release)
+		]
+	}
+}
+
+
+rule requestSimpleRule(){
+	graph{
+		multiRule multiRequestSimpleRule{
+			graph{
+				node resource:Resource
+				node process:Process
+				edges[(resource->process:token),
+					(create process->resource:request),
+					(forbid process->resource:request)
+				]
+			}
+		}
+	}
+}
+
+rule mountAllRule(){
+	graph{
+		node root:Net
+		multiRule mulitMountAllRule{
+			graph{
+				node process:Process
+				create node resource:Resource
+				edges[(root->process:processes),
+					(create resource->process:held_by),
+					(create root->resource:resources)
+				]
+			}
+		}
+	}
+}
+
+rule releaseAllRule(){
+	graph{
+		multiRule multiReleaseAllRule{
+			graph{
+				node r:Resource
+				node p:Process
+				forbid node m:Resource
+				edges[(delete r->p:held_by),
+					(create r->p:release),
+					(forbid p->m:request)
+				]
+			}
+		}
+	}
+}
+
+
+rule giveAllRule(){
+	graph{
+		multiRule multiGiveAllRule{
+			graph{
+				node root:Net
+				node resource:Resource
+				node process1:Process
+				node process2:Process
+				edges[(root->resource:resources),
+					(root->process1:processes),
+					(root->process2:processes),
+					(process1->process2:next),
+					(delete resource->process1:release),
+					(create resource->process2:token)
+				]
+			}
+		}
+	}
+}
+
+
+rule takeAllRule(){
+	graph{
+		multiRule multiTakeAllRule{
+			graph{
+				node process:Process
+				node resource:Resource
+				edges[(delete resource->process:token),
+					(delete process->resource:request),
+					(create resource->process:held_by)
+				]
+			}
+		}
+	}
+}
+
+
+rule requestSimple2Rule(){
+	graph{
+		node resource:Resource
+		node process:Process
+		edges[(resource->process:token),
+			(create process->resource:request),
+			(forbid process->resource:request)
+		]	
+	}
+}
+
+unit sts(){
+	mountRule()
+	requestRule()
+}
+
+unit loopSts(){
+	takeRule()
+	releaseRule()
+	giveRule()
+}
+
+unit loopLts(){
+	giveRule()
+	takeRule()
+	releaseStarRule()
+}
+
+unit finalLts(){
+	giveRule()
+	takeRule()
+}
+
+unit alap(){
+	mountAllRule()
+	releaseAllRule()
+	giveAllRule()
+	requestSimpleRule()
+	takeAllRule()
+}
+
+unit waitingAllRule(){
+	while{
+		waitingRule()
+	}
+}
+
+unit lts2(){
+	requestStarRule()
+	blockedRule()
+	waitingAllRule()
+	unlockRule()
+	blockedRule()
+	waitingAllRule()
+	ignoreRule()
+}
+
+unit alap2(){
+	mountAllRule()
+	release2AllRule()
+	giveAllRule()
+	requestSimpleRule()
+	takeAllRule()
+}
+
+unit release2AllRule(){
+	while{
+		releaseRule()
+	}
+}
+
+
+unit give2AllRule(){
+	while{
+		giveRule()
+	}
+}
+
+unit requestSimpleAllRule(){
+	while{
+		requestSimple2Rule()
+	}
+}
+
+unit take2AllRule(){
+	while{
+		takeRule()
+	}
+}

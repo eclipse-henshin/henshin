@@ -1,9 +1,7 @@
 package org.eclipse.emf.henshin.text.ui.handler;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -20,17 +18,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 
-import org.eclipse.emf.henshin.text.henshin_text.Model;
-import org.eclipse.emf.henshin.text.henshin_text.ModelElement;
-import org.eclipse.emf.henshin.text.henshin_text.Unit;
-import org.eclipse.emf.henshin.text.ui.util.ModifyModelUnits;
+import org.eclipse.emf.henshin.text.ui.util.Transformation;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.m2m.qvt.oml.BasicModelExtent;
-import org.eclipse.m2m.qvt.oml.ExecutionContext;
-import org.eclipse.m2m.qvt.oml.ExecutionContextImpl;
-import org.eclipse.m2m.qvt.oml.ExecutionDiagnostic;
-import org.eclipse.m2m.qvt.oml.ModelExtent;
-import org.eclipse.m2m.qvt.oml.TransformationExecutor;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -56,35 +45,12 @@ public class TransformHenshin_TextHandler extends AbstractHandler implements IHa
         Resource henshin_textResource = henshin_textResourceSet.getResource(henshin_textUri, true);
         Diagnostic diagnostic = Diagnostician.INSTANCE.validate(henshin_textResource.getContents().get(0));
         if(henshin_textResource.getErrors().isEmpty()&&((diagnostic.getSeverity()==Diagnostic.OK)||(diagnostic.getSeverity()==Diagnostic.WARNING))){
-        
-        	//Modify Units
-            List<Unit> unitList=new ArrayList<Unit>();
-            List<Unit> resultUnitList=new ArrayList<Unit>();
-            ModifyModelUnits modifyUnit=new ModifyModelUnits();
-    		for (ModelElement modelElement : ((Model) henshin_textResource.getContents().get(0)).getTransformationsystem()) {
-    			if(modelElement instanceof Unit){
-    				unitList.add((Unit)modelElement);	
-    			}
-    		}
-    		for(Unit unit:unitList){
-				resultUnitList.addAll(modifyUnit.flat(unit,0,null));
-			}
-			((Model) henshin_textResource.getContents().get(0)).getTransformationsystem().removeAll(unitList);
-			((Model) henshin_textResource.getContents().get(0)).getTransformationsystem().addAll(resultUnitList);
-      
-			//Transform henshin_text2henshin
-			URI transformationURI = URI.createURI("platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin_text2HenshinTransformation.qvto");
-			TransformationExecutor executor = new TransformationExecutor(transformationURI);
-			ExecutionContext context = new ExecutionContextImpl();
-			ModelExtent source_HenshinText = new BasicModelExtent(henshin_textResource.getContents());		
-			ModelExtent target_Henshin = new BasicModelExtent();
-			ExecutionDiagnostic result = executor.execute(context, source_HenshinText, target_Henshin);
-       
-			if(result.getSeverity() == Diagnostic.OK){
-				ResourceSet resourceSetTransform = new ResourceSetImpl();
-				String henshinUri=henshin_textUri.toString().replace(".henshin_text","_henshin_text")+".henshin";
-				Resource resourceResult = resourceSetTransform.createResource(URI.createURI(henshinUri));
-				resourceResult.getContents().addAll(target_Henshin.getContents());
+			ResourceSet resourceSetTransform = new ResourceSetImpl();
+			String henshinUri=henshin_textUri.toString().replace(".henshin_text","_henshin_text")+".henshin";
+			Resource resourceResult = resourceSetTransform.createResource(URI.createURI(henshinUri));
+			Transformation transformation=new Transformation();
+			resourceResult=transformation.transformHenshin_textToHenshin(henshin_textResource,"platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin_text2HenshinTransformation.qvto","");
+			if(resourceResult!=null){
 				try {
 					resourceResult.save(Collections.EMPTY_MAP);
 					

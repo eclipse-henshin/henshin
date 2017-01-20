@@ -1,0 +1,94 @@
+ePackageImport grid
+
+rule initGrid(grid:Grid){
+	graph{
+		create node first:Node
+		create node second:Node
+		create node grid:Grid
+		edges[(create first->second:ver),
+			(create grid->first:nodes),
+			(create grid->second:nodes)
+		]
+	}
+}
+
+rule startNextColumn(){
+	graph{
+		node root:Grid
+		node unnamed:Node
+		create node newNode:Node
+		edges[(root->unnamed:nodes),
+			(create root->newNode:nodes),
+			(create unnamed->newNode:hor)
+		]
+		matchingFormula{
+			formula !graph1 AND !graph2
+			conditionGraph graph1{
+				node forbidNode:Node
+				edges[(root->forbidNode:nodes),
+					(forbidNode->unnamed:ver)
+				]
+			}
+			conditionGraph graph2{
+				node forbidNode:Node
+				edges[(root->forbidNode:nodes),
+					(unnamed->forbidNode:hor),
+					(root->unnamed:nodes)
+				]
+			}
+		}
+	}
+}
+
+rule extendFirstColumn(){
+	graph{
+		node root:Grid
+		node first:Node
+		node second:Node
+		create node newNode:Node
+		edges[(root->first:nodes),
+			(root->second:nodes),
+			(delete first->second:ver),
+			(create root->newNode:nodes),
+			(create first->newNode:ver),
+			(create newNode->second:ver)
+		]
+	}
+}
+
+rule extendNextColumn(){
+	graph{
+		node root:Grid
+		node first:Node
+		node second:Node
+		node third:Node
+		forbid node forbidNode:Node
+		create node newNode:Node
+		edges[(root->first:nodes),
+			(root->second:nodes),
+			(root->third:nodes),
+			(first->third:hor),
+			(first->second:ver),
+			(forbid root->forbidNode:nodes),
+			(forbid third->forbidNode:ver),
+			(forbid second->forbidNode:hor),
+			(create root->newNode:nodes),
+			(create third->newNode:ver),
+			(create second->newNode:hor)
+		]
+	}
+}
+
+unit buildGrid(width:EInt, height:EInt, grid:Grid){
+	initGrid(grid)
+	for(height - 2){
+		extendFirstColumn()
+	}
+	for(width - 1){
+		startNextColumn()
+		for(height - 1){
+			extendNextColumn()
+		}
+	}
+	
+}
