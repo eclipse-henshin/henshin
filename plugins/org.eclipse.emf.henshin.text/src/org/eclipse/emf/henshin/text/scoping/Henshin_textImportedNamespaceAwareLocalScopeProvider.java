@@ -37,227 +37,256 @@ public class Henshin_textImportedNamespaceAwareLocalScopeProvider  extends Impor
 			Model model=(Model) context;
 			for(EPackageImport ePackageImport:model.getEPackageimports()){
 				List<INode> nodes = NodeModelUtils.findNodesForFeature(ePackageImport, Henshin_textPackage.Literals.EPACKAGE_IMPORT__REF);
-				INode inode = nodes.get(0);
-				String packageName = NodeModelUtils.getTokenText(inode);
-				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+				if(nodes.size()>0){
+					INode inode = nodes.get(0);
+					String packageName = NodeModelUtils.getTokenText(inode);
+					importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+				}
 			}
 		}
 		if(context instanceof Node){
 			Node node=(Node) context;
 			List<INode> nodes = NodeModelUtils.findNodesForFeature(node, Henshin_textPackage.Literals.NODE__NODETYPE);
-	        INode inode = nodes.get(0);
-	        String packageName = NodeModelUtils.getTokenText(inode);
-			importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
-			String splitPackageName[]=packageName.split("\\.");
-			if(splitPackageName.length==1){ 
-				splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+			if(nodes.size()>0){
+				INode inode = nodes.get(0);
+				String packageName = NodeModelUtils.getTokenText(inode);
+				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+				String splitPackageName[]=packageName.split("\\.");
+				if(splitPackageName.length==1){ 
+					splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+				}
+				addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
 			}
-			addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
 		}
 		if(context instanceof ConditionNode){
 			ConditionNode node=(ConditionNode) context;
 			List<INode> nodes = NodeModelUtils.findNodesForFeature(node, Henshin_textPackage.Literals.CONDITION_NODE__TYPE);
-	        INode inode = nodes.get(0);
-	        String packageName = NodeModelUtils.getTokenText(inode);
-			importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
-			String splitPackageName[]=packageName.split("\\.");
-			if(splitPackageName.length==1){ 
-				splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+			if(nodes.size()>0){
+				INode inode = nodes.get(0);
+				String packageName = NodeModelUtils.getTokenText(inode);
+				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+				String splitPackageName[]=packageName.split("\\.");
+				if(splitPackageName.length==1){ 
+					splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+				}
+				addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
 			}
-			addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
 		}
 		if(context instanceof ConditionReuseNode){
 			ConditionReuseNode node=(ConditionReuseNode) context;
 			List<INode> nodes = NodeModelUtils.findNodesForFeature(node, Henshin_textPackage.Literals.CONDITION_REUSE_NODE__NAME);
-			INode inode = nodes.get(0);
-	        String nodeName = NodeModelUtils.getTokenText(inode);
+			if(nodes.size()>0){
+				INode inode = nodes.get(0);
+				String nodeName = NodeModelUtils.getTokenText(inode);
 	        
-			Node reusedNode=null;
-			ConditionNode reusedConNode=null;
-			boolean nodeFound=false;
-			EObject container=node.eContainer().eContainer();
-			while (nodeFound!=true){
-				if(container instanceof Graph){
-					Graph graph=(Graph) container;
-					for(GraphElements element:graph.getGraphElements()){
-						if(element instanceof Node){
-							if(((Node) element).getName().equals(nodeName)){
-								reusedNode=(Node) element;
-								nodeFound=true;
+				Node reusedNode=null;
+				ConditionNode reusedConNode=null;
+				boolean nodeFound=false;
+				EObject container=node.eContainer().eContainer();
+				while (nodeFound!=true){
+					if(container instanceof Graph){
+						Graph graph=(Graph) container;
+						for(GraphElements element:graph.getGraphElements()){
+							if(element instanceof Node){
+								if(((Node) element).getName().equals(nodeName)){
+									reusedNode=(Node) element;
+									nodeFound=true;
+								}
+							}
+						}
+					}else if(container instanceof ConditionGraph){
+						ConditionGraph graph=(ConditionGraph) container;
+						for(ConditionGraphElements element:graph.getConditionGraphElements()){
+							if(element instanceof ConditionNode){
+								if(((ConditionNode) element).getName().equals(nodeName)){
+									reusedConNode=(ConditionNode) element;
+									nodeFound=true;
+								}
 							}
 						}
 					}
-				}else if(container instanceof ConditionGraph){
-					ConditionGraph graph=(ConditionGraph) container;
-					for(ConditionGraphElements element:graph.getConditionGraphElements()){
-						if(element instanceof ConditionNode){
-							if(((ConditionNode) element).getName().equals(nodeName)){
-								reusedConNode=(ConditionNode) element;
-								nodeFound=true;
-							}
-						}
+					container=container.eContainer();
+					if(container instanceof Model){
+						break;
 					}
 				}
-				container=container.eContainer();
-				if(container instanceof Model){
-					break;
-				}
+				if((reusedNode!=null)&&(reusedConNode==null)){
+					List<INode> reNodes = NodeModelUtils.findNodesForFeature(reusedNode, Henshin_textPackage.Literals.NODE__NODETYPE);
+					if(reNodes.size()>0){
+						INode reInode = reNodes.get(0);
+						String packageName = NodeModelUtils.getTokenText(reInode);
+						importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+						String splitPackageName[]=packageName.split("\\.");
+						if(splitPackageName.length==1){ 
+							splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+						}
+						addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
+					}
+				}else if((reusedNode==null)&&(reusedConNode!=null)){
+					List<INode> reConNodes = NodeModelUtils.findNodesForFeature(reusedConNode, Henshin_textPackage.Literals.CONDITION_NODE__TYPE);
+					if(reConNodes.size()>0){
+						INode reConInode = reConNodes.get(0);
+						String packageName = NodeModelUtils.getTokenText(reConInode);
+						importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+						String splitPackageName[]=packageName.split("\\.");
+						if(splitPackageName.length==1){ 
+							splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+						}
+						addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
+					}
+				} 
 			}
-			if((reusedNode!=null)&&(reusedConNode==null)){
-				List<INode> reNodes = NodeModelUtils.findNodesForFeature(reusedNode, Henshin_textPackage.Literals.NODE__NODETYPE);
-		        INode reInode = reNodes.get(0);
-		        String packageName = NodeModelUtils.getTokenText(reInode);
-				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
-				String splitPackageName[]=packageName.split("\\.");
-				if(splitPackageName.length==1){ 
-					splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
-				}
-				addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
-			}else if((reusedNode==null)&&(reusedConNode!=null)){
-				List<INode> reConNodes = NodeModelUtils.findNodesForFeature(reusedConNode, Henshin_textPackage.Literals.CONDITION_NODE__TYPE);
-		        INode reConInode = reConNodes.get(0);
-		        String packageName = NodeModelUtils.getTokenText(reConInode);
-				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
-				String splitPackageName[]=packageName.split("\\.");
-				if(splitPackageName.length==1){ 
-					splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
-				}
-				addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
-			} 
 		}
 		if(context instanceof MultiRuleReuseNode){
 			MultiRuleReuseNode node=(MultiRuleReuseNode) context;
 			List<INode> nodes = NodeModelUtils.findNodesForFeature(node, Henshin_textPackage.Literals.MULTI_RULE_REUSE_NODE__NAME);
-			INode inode = nodes.get(0);
-	        String nodeName = NodeModelUtils.getTokenText(inode);
+			if(nodes.size()>0){
+				INode inode = nodes.get(0);
+
+				String nodeName = NodeModelUtils.getTokenText(inode);
 	        
-			Node reusedNode=null;
+				Node reusedNode=null;
 			
-			boolean nodeFound=false;
-			EObject container=node.eContainer().eContainer();
-			while (nodeFound!=true){
-				if(container instanceof Graph){
-					Graph graph=(Graph) container;
-					for(GraphElements element:graph.getGraphElements()){
-						if(element instanceof Node){
-							if(((Node) element).getName().equals(nodeName)){
-								reusedNode=(Node) element;
-								nodeFound=true;
+				boolean nodeFound=false;
+				EObject container=node.eContainer().eContainer();
+				while (nodeFound!=true){
+					if(container instanceof Graph){
+						Graph graph=(Graph) container;
+						for(GraphElements element:graph.getGraphElements()){
+							if(element instanceof Node){
+								if(((Node) element).getName().equals(nodeName)){
+									reusedNode=(Node) element;
+									nodeFound=true;
+								}
 							}
 						}
 					}
+					container=container.eContainer();
+					if(container instanceof Model){
+						break;
+					}
 				}
-				container=container.eContainer();
-				if(container instanceof Model){
-					break;
+				if(reusedNode!=null){
+					List<INode> reNodes = NodeModelUtils.findNodesForFeature(reusedNode, Henshin_textPackage.Literals.NODE__NODETYPE);
+					if(reNodes.size()>0){
+						INode reInode = reNodes.get(0);
+						String packageName = NodeModelUtils.getTokenText(reInode);
+						importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+						String splitPackageName[]=packageName.split("\\.");
+						if(splitPackageName.length==1){ 
+							splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+						}
+						addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
+					}
 				}
-			}
-			if(reusedNode!=null){
-				List<INode> reNodes = NodeModelUtils.findNodesForFeature(reusedNode, Henshin_textPackage.Literals.NODE__NODETYPE);
-		        INode reInode = reNodes.get(0);
-		        String packageName = NodeModelUtils.getTokenText(reInode);
-				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
-				String splitPackageName[]=packageName.split("\\.");
-				if(splitPackageName.length==1){ 
-					splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
-				}
-				addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
 			}
 		}
 		if(context instanceof Edge){
 			Edge edge=(Edge) context;
 			List<INode> sourceNodes = NodeModelUtils.findNodesForFeature(edge, Henshin_textPackage.Literals.EDGE__SOURCE);
-			INode inode = sourceNodes.get(0);
-	        String nodeName = NodeModelUtils.getTokenText(inode);
-			Node sourceNode=null;
-			boolean nodeFound=false;
-			EObject container=edge.eContainer();
-			while (nodeFound!=true){
-				if(container instanceof Graph){
-					Graph graph=(Graph) container;
-					for(GraphElements element:graph.getGraphElements()){
-						if(element instanceof Node){
-							if(((Node) element).getName().equals(nodeName)){
-								sourceNode=(Node) element;
-								nodeFound=true;
+			if(sourceNodes.size()>0){
+				INode inode = sourceNodes.get(0);
+				String nodeName = NodeModelUtils.getTokenText(inode);
+				Node sourceNode=null;
+				boolean nodeFound=false;
+				EObject container=edge.eContainer();
+				while (nodeFound!=true){
+					if(container instanceof Graph){
+						Graph graph=(Graph) container;
+						for(GraphElements element:graph.getGraphElements()){
+							if(element instanceof Node){
+								if(((Node) element).getName()!=null){
+									if(((Node) element).getName().equals(nodeName)){
+										sourceNode=(Node) element;
+										nodeFound=true;
+									}
+								}
 							}
 						}
 					}
+					container=container.eContainer();
+					if(container instanceof Model){
+						break;
+					}
 				}
-				container=container.eContainer();
-				if(container instanceof Model){
-					break;
+				if(sourceNode!=null){
+					List<INode> reNodes = NodeModelUtils.findNodesForFeature(sourceNode, Henshin_textPackage.Literals.NODE__NODETYPE);
+					if(reNodes.size()>0){
+						INode reInode = reNodes.get(0);
+						String packageName = NodeModelUtils.getTokenText(reInode);
+						importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+						String splitPackageName[]=packageName.split("\\.");
+						if(splitPackageName.length==1){ 
+							splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+						}
+						addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
+					}
 				}
 			}
-			if(sourceNode!=null){
-				List<INode> reNodes = NodeModelUtils.findNodesForFeature(sourceNode, Henshin_textPackage.Literals.NODE__NODETYPE);
-		        INode reInode = reNodes.get(0);
-		        String packageName = NodeModelUtils.getTokenText(reInode);
-				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
-				String splitPackageName[]=packageName.split("\\.");
-				if(splitPackageName.length==1){ 
-					splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
-				}
-				addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
-			} 
 		}
 		if(context instanceof ConditionEdge){
 			ConditionEdge edge=(ConditionEdge) context;
 			List<INode> sourceNodes = NodeModelUtils.findNodesForFeature(edge, Henshin_textPackage.Literals.CONDITION_EDGE__SOURCE);
-			INode inode = sourceNodes.get(0);
-	        String nodeName = NodeModelUtils.getTokenText(inode);
-			Node sourceNode=null;
-			ConditionNode conSourceNode=null;
-			boolean nodeFound=false;
-			EObject container=edge.eContainer();
-			while (nodeFound!=true){
-				if(container instanceof Graph){
-					Graph graph=(Graph) container;
-					for(GraphElements element:graph.getGraphElements()){
-						if(element instanceof Node){
-							if(((Node) element).getName().equals(nodeName)){
-								sourceNode=(Node) element;
-								nodeFound=true;
+			if(sourceNodes.size()>0){
+				INode inode = sourceNodes.get(0);
+				String nodeName = NodeModelUtils.getTokenText(inode);
+				Node sourceNode=null;
+				ConditionNode conSourceNode=null;
+				boolean nodeFound=false;
+				EObject container=edge.eContainer();
+				while (nodeFound!=true){
+					if(container instanceof Graph){
+						Graph graph=(Graph) container;
+						for(GraphElements element:graph.getGraphElements()){
+							if(element instanceof Node){
+								if(((Node) element).getName().equals(nodeName)){
+									sourceNode=(Node) element;
+									nodeFound=true;
+								}
+							}
+						}
+					}else if(container instanceof ConditionGraph){
+						ConditionGraph graph=(ConditionGraph) container;
+						for(ConditionGraphElements element:graph.getConditionGraphElements()){
+							if(element instanceof ConditionNode){
+								if(((ConditionNode) element).getName().equals(nodeName)){
+									conSourceNode=(ConditionNode) element;
+									nodeFound=true;
+								}
 							}
 						}
 					}
-				}else if(container instanceof ConditionGraph){
-					ConditionGraph graph=(ConditionGraph) container;
-					for(ConditionGraphElements element:graph.getConditionGraphElements()){
-						if(element instanceof ConditionNode){
-							if(((ConditionNode) element).getName().equals(nodeName)){
-								conSourceNode=(ConditionNode) element;
-								nodeFound=true;
-							}
-						}
+					container=container.eContainer();
+					if(container instanceof Model){
+						break;
 					}
 				}
-				container=container.eContainer();
-				if(container instanceof Model){
-					break;
+				if((sourceNode!=null)&&(conSourceNode==null)){
+					List<INode> sourNodes = NodeModelUtils.findNodesForFeature(sourceNode, Henshin_textPackage.Literals.NODE__NODETYPE);
+					if(sourNodes.size()>0){
+						INode sourInode = sourNodes.get(0);
+						String packageName = NodeModelUtils.getTokenText(sourInode);
+						importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+						String splitPackageName[]=packageName.split("\\.");
+						if(splitPackageName.length==1){ 
+							splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+						}
+						addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
+					}
+				}else if((sourceNode==null)&&(conSourceNode!=null)){
+					List<INode> sourConNodes = NodeModelUtils.findNodesForFeature(conSourceNode, Henshin_textPackage.Literals.CONDITION_NODE__TYPE);
+					if(sourConNodes.size()>0){
+						INode sourConInode = sourConNodes.get(0);
+						String packageName = NodeModelUtils.getTokenText(sourConInode);
+						importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
+						String splitPackageName[]=packageName.split("\\.");
+						if(splitPackageName.length==1){ 
+							splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
+						}
+						addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
+					}
 				}
 			}
-			if((sourceNode!=null)&&(conSourceNode==null)){
-				List<INode> sourNodes = NodeModelUtils.findNodesForFeature(sourceNode, Henshin_textPackage.Literals.NODE__NODETYPE);
-		        INode sourInode = sourNodes.get(0);
-		        String packageName = NodeModelUtils.getTokenText(sourInode);
-				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
-				String splitPackageName[]=packageName.split("\\.");
-				if(splitPackageName.length==1){ 
-					splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
-				}
-				addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
-			}else if((sourceNode==null)&&(conSourceNode!=null)){
-				List<INode> sourConNodes = NodeModelUtils.findNodesForFeature(conSourceNode, Henshin_textPackage.Literals.CONDITION_NODE__TYPE);
-		        INode sourConInode = sourConNodes.get(0);
-		        String packageName = NodeModelUtils.getTokenText(sourConInode);
-				importedNamespaceResolvers.add(createImportedNamespaceResolver(packageName, ignoreCase));
-				String splitPackageName[]=packageName.split("\\.");
-				if(splitPackageName.length==1){ 
-					splitPackageName=(getPackageName(packageName,context)+"."+packageName).split("\\.");
-				}
-				addSuperclasses(splitPackageName,context,ignoreCase,importedNamespaceResolvers);
-			} 	
 		}
 	    return importedNamespaceResolvers;
 	}
@@ -343,3 +372,4 @@ public class Henshin_textImportedNamespaceAwareLocalScopeProvider  extends Impor
 		return names;
 	}
 }
+
