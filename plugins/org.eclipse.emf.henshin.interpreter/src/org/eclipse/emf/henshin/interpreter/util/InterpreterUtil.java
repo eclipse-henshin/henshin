@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
@@ -33,6 +34,7 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
@@ -499,6 +501,40 @@ public class InterpreterUtil {
 			}
 		}
 		return String.valueOf(object); // object could be null
+	}
+	
+	/**
+	 * Finds a single {@link Match} for a {@link Rule}.
+	 * 
+	 * @param engine The {@link Engine}.
+	 * @param rule Rule to be matched.
+	 * @param graph Target graph.
+	 * @param partialMatch Partial match or <code>null</code>.
+	 * @return a {@link Match} or <code>null</code>.
+	 */
+	public Match findSingleMatch(Engine engine, Rule rule, EGraph graph, Match partialMatch){
+		Match match = null;
+		Iterable<Match> iterable =  engine.findMatches(rule, graph, partialMatch);
+		try {
+			match = iterable.iterator().next();
+		} catch (NoSuchElementException e) {
+			// no matches.
+		}
+		return match;
+	}
+	
+	/**
+	 * Check whether the {@link Rule} is applicable on the {@link EGraph}.
+	 * 
+	 * @param engine The {@link Engine}.
+	 * @param rule Rule to be matched.
+	 * @param graph Target graph.
+	 * @param partialMatch Partial match or <code>null</code>.
+	 * @return <code>true</code> if the <code>rule<code> is applicable on the <code>graph<code>.
+	 */
+	public boolean isApplicable(Engine engine, Rule rule, EGraph graph, Match partialMatch){
+		Match match = this.findSingleMatch(engine, rule, graph, partialMatch);
+		return (match != null) ? true : false;
 	}
 
 }
