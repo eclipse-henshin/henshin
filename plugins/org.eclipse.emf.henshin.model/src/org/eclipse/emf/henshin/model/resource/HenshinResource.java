@@ -40,11 +40,6 @@ public class HenshinResource extends XMIResourceImpl {
 		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 	}
 	
-	@Override
-	protected boolean useIDs() {
-		return true;
-	}
-	
 	/**
 	 * Constructor.
 	 * @param uri URI of a Henshin resource.
