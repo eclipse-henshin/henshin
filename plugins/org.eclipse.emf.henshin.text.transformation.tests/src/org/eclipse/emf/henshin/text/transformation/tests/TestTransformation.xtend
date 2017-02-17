@@ -78,7 +78,7 @@ class TestTransformation {
 		}
 		adaptID.adaptID(originalXML,transformationXML,adaptPath)
 		transformationXML = document.getDocument(adaptPath)
-		var message=compare.compareAttributesbyNode(originalXML.getChildNodes(),transformationXML.getChildNodes())
+		var message=compare.compareAttributesByNode(originalXML.getChildNodes(),transformationXML.getChildNodes())
 		if(!(message.equals(""))){
 			Assert::fail(message)
 		}
