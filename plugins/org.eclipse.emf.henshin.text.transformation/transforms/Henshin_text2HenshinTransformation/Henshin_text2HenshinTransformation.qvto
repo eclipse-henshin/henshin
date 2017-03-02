@@ -124,7 +124,7 @@ mapping henshin_text::MultiRule:: MultiRule2Rule(parameters:OrderedSet(henshin::
 		var helpEdge:=new henshin::Edge();
 		helpEdge.type:=edge.type;
 		helpEdge.source:=result.rhs.nodes->any(name=edge.source.name);
-		helpEdge.target:=result.rhs.nodes->any(name=edge.target.name);
+		helpEdge.target:=result.rhs.nodes->any(name=edge.target.name);		
 		result.rhs.edges+=helpEdge;
 	};
 	self.multiruleElements->selectByType(Graph)->first().graphElements->selectByType(Edges).edges->forEach(edge){
@@ -144,21 +144,27 @@ mapping henshin_text::MultiRule:: MultiRule2Rule(parameters:OrderedSet(henshin::
 	 		if((helpSource.actiontype<>"forbid")and(helpSource.actiontype<>"require")and(helpTarget.actiontype<>"forbid")and(helpTarget.actiontype<>"require")){
 				var helpEdge:=new henshin::Edge();
 				helpEdge.type:=edge.type;
-				if(helpSource.actiontype="create"){
-					helpEdge.source:=result.rhs.nodes->any(name=helpSource.name);
-				}else if((helpSource.actiontype="delete")or(helpSource.actiontype="preserve")or(helpSource.actiontype=null)){
-					helpEdge.source:=result.lhs.nodes->any(name=helpSource.name);
-				};
-				if(helpTarget.actiontype="create"){
-					helpEdge.target:=result.rhs.nodes->any(name=helpTarget.name);
-				}else if((helpTarget.actiontype="delete")or(helpTarget.actiontype="preserve")or(helpTarget.actiontype=null)){
-					helpEdge.target:=result.lhs.nodes->any(name=helpTarget.name);
-				};
+//				if(helpSource.actiontype="create"){
+//					helpEdge.source:=result.rhs.nodes->any(name=helpSource.name);
+//				}else if((helpSource.actiontype="delete")or(helpSource.actiontype="preserve")or(helpSource.actiontype=null)){
+//					helpEdge.source:=result.lhs.nodes->any(name=helpSource.name);
+//				};
+//				if(helpTarget.actiontype="create"){
+//					helpEdge.target:=result.rhs.nodes->any(name=helpTarget.name);
+//				}else if((helpTarget.actiontype="delete")or(helpTarget.actiontype="preserve")or(helpTarget.actiontype=null)){
+//					helpEdge.target:=result.lhs.nodes->any(name=helpTarget.name);
+//				};
 				if(edge.actiontype="create"){
+					helpEdge.source:=result.rhs.nodes->any(name=helpSource.name);
+					helpEdge.target:=result.rhs.nodes->any(name=helpTarget.name);
 					result.rhs.edges+=helpEdge;
 				}else if(edge.actiontype="delete"){
+					helpEdge.source:=result.lhs.nodes->any(name=helpSource.name);
+					helpEdge.target:=result.lhs.nodes->any(name=helpTarget.name);
 					result.lhs.edges+=helpEdge;
 				}else if((edge.actiontype="preserve")or(edge.actiontype=null)){
+					helpEdge.source:=result.lhs.nodes->any(name=helpSource.name);
+					helpEdge.target:=result.lhs.nodes->any(name=helpTarget.name);
 					result.lhs.edges+=helpEdge;
 					var helpEdgeRHS:=new henshin::Edge();
 					helpEdgeRHS.type:=helpEdge.type;
@@ -218,7 +224,7 @@ query henshin_text::Graph::MergeGraph2LHS_RHS_GraphSequence(ruleName:String,mult
 				if((helpSource.actiontype<>"forbid")and(helpSource.actiontype<>"require")and(helpTarget.actiontype<>"forbid")and(helpTarget.actiontype<>"require")){
 					var helpEdge:=new henshin::Edge();
 					helpEdge.type:=edge.type;
-					if((helpSource.actiontype="create")or(helpTarget.actiontype="create")){
+					if((helpSource.actiontype="create")or(helpTarget.actiontype="create")or(edge.actiontype="create")){
 						helpEdge.source:=rhs.nodes->any(name=helpSource.name);
 						helpEdge.target:=rhs.nodes->any(name=helpTarget.name);
 						if(edge.actiontype<>"create"){
@@ -277,7 +283,8 @@ query henshin::Node::setValuesForSetAttribute(nodes:OrderedSet(henshin_text::Nod
 	nodes->forEach(node){
 		node.attribute->forEach(attribute){
 			if(attribute.update<>null){
-				self->any(name=node.name).attributes->any(type=attribute.name).value:=attribute.value.castExpressionValue();
+				self->any(name=node.name).attributes->select(type=attribute.name)->first().value:=attribute.value.castExpressionValue();
+				//self->any(name=node.name).attributes->any(type=attribute.name).value:=attribute.value.castExpressionValue();
 			};
 		};
 	};
