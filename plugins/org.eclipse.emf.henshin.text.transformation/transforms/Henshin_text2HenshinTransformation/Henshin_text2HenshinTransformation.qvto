@@ -20,7 +20,7 @@ mapping henshin_text::Model::Model2Module():henshin::Module{
 	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2IteratedUnit();
 	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2LoopUnit();
 	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2IndependentUnit();
-	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementRule2PriorityUnit();	
+	result.units+=self.transformationsystem->selectByType(Unit) ->map ModelElementUnit2PriorityUnit();	
 } 
 
 //--------------------------------------------------------------------------------------------------------------
@@ -29,6 +29,7 @@ mapping henshin_text::Model::Model2Module():henshin::Module{
 mapping henshin_text::Parameter::Parameter2Parameter():henshin::Parameter{
 	result.name:=self.name;
 	result.type:=getType(self.type);
+	result.kind:=getKind(self.kind);
 }
 
 
@@ -665,7 +666,7 @@ when{ self.unitElements->selectByType(henshin_text::IndependentUnit)->size()<>0;
 }
 
 
-mapping henshin_text::Unit::ModelElementRule2PriorityUnit():henshin::PriorityUnit 
+mapping henshin_text::Unit::ModelElementUnit2PriorityUnit():henshin::PriorityUnit 
 when{self.unitElements->selectByType(henshin_text::PriorityUnit)->size()<>0; }{
 	result.name:=self.name;
 	result.parameters+=self.parameters->map Parameter2Parameter();
@@ -677,28 +678,40 @@ when{self.unitElements->selectByType(henshin_text::PriorityUnit)->size()<>0; }{
 }
 
 query henshin_text::Call::Parameter2ParameterMapping(parameters:OrderedSet(henshin::Parameter),unitName:String):OrderedSet(henshin::ParameterMapping){
-	var index=1;
 	var parameterMappingSet:OrderedSet(henshin::ParameterMapping);
-	self.parameters->forEach(parameter){
+	
+	var i : EInt := 1;
+	self.parameters->forEach(parameter)
+	{
+		// skip VAR parameters as they are irrelevant
+		while (self.elementCall.parameters->at(i).kind = ParameterKind::VAR) { i:=i+1;};
+
 		var parameterMapping:henshin::ParameterMapping:=new henshin::ParameterMapping();
 		parameterMapping.source:=parameters->any(name=parameter.name+"_"+unitName or name=parameter.name);
-		parameterMapping.target:=self.elementCall.parameters->at(index).late resolveone(henshin::Parameter);
+		parameterMapping.target:=self.elementCall.parameters->at(i).late resolveone(henshin::Parameter);
 		parameterMappingSet+=parameterMapping;
-		index:=index+1;
-	};
+		i:=i+1;
+	};	
+
 	return parameterMappingSet;
 }
 
 query henshin_text::Call::Parameter2ParameterMappingReverse(parameters:OrderedSet(henshin::Parameter),unitName:String):OrderedSet(henshin::ParameterMapping){
-	var index=1;
 	var parameterMappingSet:OrderedSet(henshin::ParameterMapping);
-	self.parameters->forEach(parameter){
+	
+	var i : EInt = 1;
+	self.parameters->forEach(parameter)
+	{
+		// skip VAR parameters
+		while (self.elementCall.parameters->at(i).kind = ParameterKind::VAR) { i:=i+1;};
+
 		var parameterMapping:henshin::ParameterMapping:=new henshin::ParameterMapping();
-		parameterMapping.source:=self.elementCall.parameters->at(index).late resolveone(henshin::Parameter);
+		parameterMapping.source:=self.elementCall.parameters->at(i).late resolveone(henshin::Parameter);
 		parameterMapping.target:=parameters->any(name=parameter.name+"_"+unitName or name=parameter.name);
 		parameterMappingSet+=parameterMapping;
-		index:=index+1;
-	};
+		i:=i+1;
+	};	
+
 	return parameterMappingSet;
 }
 
@@ -710,6 +723,18 @@ query henshin_text::Call::Parameter2ParameterMappingReverse(parameters:OrderedSe
 //--------------------------------------------------------------------------------------------------------------
 //Help
 //--------------------------------------------------------------------------------------------------------------
+query getKind(kind:henshin_text::ParameterKind):henshin::ParameterKind {
+	switch {
+		case (kind = ParameterKind::VAR) {return henshin::ParameterKind::VAR;}
+		case (kind = ParameterKind::UNKNOWN) {return henshin::ParameterKind::UNKNOWN;}
+		case (kind = ParameterKind::IN) {return henshin::ParameterKind::IN;}
+		case (kind = ParameterKind::OUT) {return henshin::ParameterKind::OUT;}
+		case (kind = ParameterKind::INOUT) {return henshin::ParameterKind::INOUT;}
+	};
+	// fall back, should be handlded in the switch since the switch statement is exhaustive
+	return henshin::ParameterKind::UNKNOWN;
+}
+
 query getType(type:henshin_text::ParameterType):ecore::EClassifier{
 	if(type.type=null){
 		switch{ 

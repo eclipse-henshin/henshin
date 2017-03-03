@@ -145,6 +145,8 @@ public class Henshin_textFactoryImpl extends EFactoryImpl implements Henshin_tex
   {
     switch (eDataType.getClassifierID())
     {
+      case Henshin_textPackage.PARAMETER_KIND:
+        return createParameterKindFromString(eDataType, initialValue);
       case Henshin_textPackage.TYPE:
         return createTypeFromString(eDataType, initialValue);
       default:
@@ -162,6 +164,8 @@ public class Henshin_textFactoryImpl extends EFactoryImpl implements Henshin_tex
   {
     switch (eDataType.getClassifierID())
     {
+      case Henshin_textPackage.PARAMETER_KIND:
+        return convertParameterKindToString(eDataType, instanceValue);
       case Henshin_textPackage.TYPE:
         return convertTypeToString(eDataType, instanceValue);
       default:
@@ -871,6 +875,28 @@ public class Henshin_textFactoryImpl extends EFactoryImpl implements Henshin_tex
   {
     BoolValueImpl boolValue = new BoolValueImpl();
     return boolValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ParameterKind createParameterKindFromString(EDataType eDataType, String initialValue)
+  {
+    ParameterKind result = ParameterKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertParameterKindToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**

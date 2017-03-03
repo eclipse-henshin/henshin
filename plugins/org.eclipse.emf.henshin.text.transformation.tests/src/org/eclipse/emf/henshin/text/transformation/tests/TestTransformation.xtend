@@ -90,7 +90,7 @@ class TestTransformation {
 	
 	def void cleanUp(String path){
 		val File currentFile = new File(path);
-   		currentFile.delete()
+   		//currentFile.delete()
 	}
 
 }

@@ -336,6 +336,7 @@ def getParameterType(ParameterType type){
 		for(param:parameter){
 			var Parameter helpParameter=Henshin_textFactory.eINSTANCE.createParameter()
 			helpParameter.setName(param.name+"_"+name)
+			helpParameter.setKind(param.kind)
 			helpParameter.setType(getParameterType(param.type))
 			helpUnit.parameters.add(helpParameter)
 		}

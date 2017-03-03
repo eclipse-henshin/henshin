@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.internal.spec.AttributeChangeSpec;
+import org.eclipse.emf.compare.impl.ReferenceChangeImpl;
 import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.compare.scope.IComparisonScope;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -81,18 +81,12 @@ public class Compare {
 		Comparison comparison = EMFCompare.builder().build().compare(scope);
 		List<Diff> differences = comparison.getDifferences();
 		for (Diff difference : differences) {
-			if (difference instanceof AttributeChangeSpec) {
-				if (((AttributeChangeSpec) difference).getAttribute().eContainer() instanceof EClass) {
-					if (!((EClass) ((AttributeChangeSpec) difference).getAttribute().eContainer()).getName()
-							.equals("Parameter")
-							|| !(((AttributeChangeSpec) difference).basicGetAttribute().getName().equals("kind"))) {
-						message = message + difference + "\n";
-					}
-				}
+			// we ignore differences in ordering of references 
+			if (! (difference instanceof ReferenceChangeImpl && difference.getKind() == DifferenceKind.MOVE ))
+			{
+				message = message + difference + "\n";
 			}
-
 		}
 		return message;
 	}
-
 }

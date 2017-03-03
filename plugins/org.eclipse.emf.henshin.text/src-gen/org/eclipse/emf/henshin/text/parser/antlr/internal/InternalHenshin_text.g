@@ -3004,9 +3004,28 @@ ruleParameter returns [EObject current=null]
 	(
 		(
 			(
-				lv_name_0_0=RULE_ID
 				{
-					newLeafNode(lv_name_0_0, grammarAccess.getParameterAccess().getNameIDTerminalRuleCall_0_0());
+					newCompositeNode(grammarAccess.getParameterAccess().getKindParameterKindRuleEnumRuleCall_0_0());
+				}
+				lv_kind_0_0=ruleParameterKindRule
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getParameterRule());
+					}
+					set(
+						$current,
+						"kind",
+						lv_kind_0_0,
+						"org.eclipse.emf.henshin.text.Henshin_text.ParameterKindRule");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)?
+		(
+			(
+				lv_name_1_0=RULE_ID
+				{
+					newLeafNode(lv_name_1_0, grammarAccess.getParameterAccess().getNameIDTerminalRuleCall_1_0());
 				}
 				{
 					if ($current==null) {
@@ -3015,21 +3034,21 @@ ruleParameter returns [EObject current=null]
 					setWithLastConsumed(
 						$current,
 						"name",
-						lv_name_0_0,
+						lv_name_1_0,
 						"org.eclipse.xtext.common.Terminals.ID");
 				}
 			)
 		)
-		otherlv_1=':'
+		otherlv_2=':'
 		{
-			newLeafNode(otherlv_1, grammarAccess.getParameterAccess().getColonKeyword_1());
+			newLeafNode(otherlv_2, grammarAccess.getParameterAccess().getColonKeyword_2());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getParameterAccess().getTypeParameterTypeParserRuleCall_2_0());
+					newCompositeNode(grammarAccess.getParameterAccess().getTypeParameterTypeParserRuleCall_3_0());
 				}
-				lv_type_2_0=ruleParameterType
+				lv_type_3_0=ruleParameterType
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getParameterRule());
@@ -3037,7 +3056,7 @@ ruleParameter returns [EObject current=null]
 					set(
 						$current,
 						"type",
-						lv_type_2_0,
+						lv_type_3_0,
 						"org.eclipse.emf.henshin.text.Henshin_text.ParameterType");
 					afterParserOrEnumRuleCall();
 				}
@@ -4045,6 +4064,49 @@ ruleJavaAttribute returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleT
 		{
 			newLeafNode(this_ID_2, grammarAccess.getJavaAttributeAccess().getIDTerminalRuleCall_2());
 		}
+	)
+;
+
+// Rule ParameterKindRule
+ruleParameterKindRule returns [Enumerator current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			enumLiteral_0='IN'
+			{
+				$current = grammarAccess.getParameterKindRuleAccess().getINEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getParameterKindRuleAccess().getINEnumLiteralDeclaration_0());
+			}
+		)
+		    |
+		(
+			enumLiteral_1='OUT'
+			{
+				$current = grammarAccess.getParameterKindRuleAccess().getOUTEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getParameterKindRuleAccess().getOUTEnumLiteralDeclaration_1());
+			}
+		)
+		    |
+		(
+			enumLiteral_2='INOUT'
+			{
+				$current = grammarAccess.getParameterKindRuleAccess().getINOUTEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_2, grammarAccess.getParameterKindRuleAccess().getINOUTEnumLiteralDeclaration_2());
+			}
+		)
+		    |
+		(
+			enumLiteral_3='VAR'
+			{
+				$current = grammarAccess.getParameterKindRuleAccess().getVAREnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_3, grammarAccess.getParameterKindRuleAccess().getVAREnumLiteralDeclaration_3());
+			}
+		)
 	)
 ;
 

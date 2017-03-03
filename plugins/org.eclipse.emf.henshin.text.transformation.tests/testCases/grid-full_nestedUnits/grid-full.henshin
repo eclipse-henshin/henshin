@@ -274,13 +274,13 @@
     <mappings xmi:id="_rcJ4gapZEeGWmNM0TiX1dQ" origin="_rcJRcKpZEeGWmNM0TiX1dQ" image="_rcJ4gKpZEeGWmNM0TiX1dQ"/>
   </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_Lqd4ALccEeGQre7dAX2kZQ" name="buildGridSequence0_2_782ITERATED1_782" subUnits="_sHWKYKo0EeGWmNM0TiX1dQ _K_5tgLcbEeGQre7dAX2kZQ">
-    <parameters xmi:id="_T6Rb8LQAEeaa4pHfXx_Y4A" name="width_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782" description="">
+    <parameters xmi:id="_T6Rb8LQAEeaa4pHfXx_Y4A" name="width_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782" description="" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
     <parameters xmi:id="_OK6bgLccEeGQre7dAX2kZQ" name="height_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_ZcnqMLQAEeaa4pHfXx_Y4A" name="grid_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782" description="">
+    <parameters xmi:id="_ZcnqMLQAEeaa4pHfXx_Y4A" name="grid_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782" description="" kind="OUT">
       <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
     </parameters>
     <parameterMappings xmi:id="_RHt_ULQBEeaa4pHfXx_Y4A" source="_T6Rb8LQAEeaa4pHfXx_Y4A" target="_F5aT0LQBEeaa4pHfXx_Y4A"/>
@@ -316,13 +316,13 @@
     <parameterMappings xmi:id="_GOh9ULQDEeaa4pHfXx_Y4A" source="__wueULQAEeaa4pHfXx_Y4A" target="_r2K4ILeYEeGgKfdtjnLQtA"/>
   </units>
   <units xsi:type="henshin:IteratedUnit" xmi:id="_HmDuwLcZEeGQre7dAX2kZQ" name="buildGridSequence0_1_782" subUnit="_IddhAKpZEeGWmNM0TiX1dQ" iterations="height-2">
-    <parameters xmi:id="_llxNULQAEeaa4pHfXx_Y4A" name="width_buildGridSequence0_1_782" description="">
+    <parameters xmi:id="_llxNULQAEeaa4pHfXx_Y4A" name="width_buildGridSequence0_1_782" description="" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
     <parameters xmi:id="_uDkhELcaEeGQre7dAX2kZQ" name="height_buildGridSequence0_1_782" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_0T2LULQAEeaa4pHfXx_Y4A" name="grid_buildGridSequence0_1_782">
+    <parameters xmi:id="_0T2LULQAEeaa4pHfXx_Y4A" name="grid_buildGridSequence0_1_782" kind="OUT">
       <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
     </parameters>
   </units>
@@ -333,7 +333,7 @@
     <parameters xmi:id="_euZb8LccEeGQre7dAX2kZQ" name="height_buildGridSequence0_2_782" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="__wueULQAEeaa4pHfXx_Y4A" name="grid_buildGridSequence0_2_782">
+    <parameters xmi:id="__wueULQAEeaa4pHfXx_Y4A" name="grid_buildGridSequence0_2_782" kind="OUT">
       <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
     </parameters>
     <parameterMappings xmi:id="_5Ka74LQEEeaa4pHfXx_Y4A" source="_8Ck9ILcbEeGQre7dAX2kZQ" target="_T6Rb8LQAEeaa4pHfXx_Y4A"/>
@@ -344,13 +344,13 @@
     <parameterMappings xmi:id="_FNE1cLQFEeaa4pHfXx_Y4A" source="_ZcnqMLQAEeaa4pHfXx_Y4A" target="__wueULQAEeaa4pHfXx_Y4A"/>
   </units>
   <units xsi:type="henshin:IteratedUnit" xmi:id="_K_5tgLcbEeGQre7dAX2kZQ" name="buildGridSequence0_2_782ITERATED1_782Sequence2_1_782" subUnit="_lOp0cKpZEeGWmNM0TiX1dQ" iterations="height-1">
-    <parameters xmi:id="_F5aT0LQBEeaa4pHfXx_Y4A" name="width_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782_buildGridSequence0_2_782ITERATED1_782Sequence2_1_782">
+    <parameters xmi:id="_F5aT0LQBEeaa4pHfXx_Y4A" name="width_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782_buildGridSequence0_2_782ITERATED1_782Sequence2_1_782" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
     <parameters xmi:id="_blauQLcbEeGQre7dAX2kZQ" name="height_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782_buildGridSequence0_2_782ITERATED1_782Sequence2_1_782" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_K8mg4LQBEeaa4pHfXx_Y4A" name="grid_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782_buildGridSequence0_2_782ITERATED1_782Sequence2_1_782">
+    <parameters xmi:id="_K8mg4LQBEeaa4pHfXx_Y4A" name="grid_buildGridSequence0_2_782_buildGridSequence0_2_782ITERATED1_782_buildGridSequence0_2_782ITERATED1_782Sequence2_1_782" kind="OUT">
       <type xsi:type="ecore:EClass" href="grid.ecore#//Grid"/>
     </parameters>
   </units>

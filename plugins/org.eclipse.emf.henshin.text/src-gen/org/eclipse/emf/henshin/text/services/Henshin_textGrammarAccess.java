@@ -1943,34 +1943,42 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	public class ParameterElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.henshin.text.Henshin_text.Parameter");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cNameIDTerminalRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
-		private final Keyword cColonKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cTypeParameterTypeParserRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
+		private final Assignment cKindAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cKindParameterKindRuleEnumRuleCall_0_0 = (RuleCall)cKindAssignment_0.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Keyword cColonKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cTypeAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cTypeParameterTypeParserRuleCall_3_0 = (RuleCall)cTypeAssignment_3.eContents().get(0);
 		
 		////parameter
 		//Parameter:
-		//	name=ID ':' type=ParameterType;
+		//	kind=ParameterKindRule? name=ID ':' type=ParameterType;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//name=ID ':' type=ParameterType
+		//kind=ParameterKindRule? name=ID ':' type=ParameterType
 		public Group getGroup() { return cGroup; }
 		
+		//kind=ParameterKindRule?
+		public Assignment getKindAssignment_0() { return cKindAssignment_0; }
+		
+		//ParameterKindRule
+		public RuleCall getKindParameterKindRuleEnumRuleCall_0_0() { return cKindParameterKindRuleEnumRuleCall_0_0; }
+		
 		//name=ID
-		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
 		
 		//ID
-		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
 		
 		//':'
-		public Keyword getColonKeyword_1() { return cColonKeyword_1; }
+		public Keyword getColonKeyword_2() { return cColonKeyword_2; }
 		
 		//type=ParameterType
-		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
+		public Assignment getTypeAssignment_3() { return cTypeAssignment_3; }
 		
 		//ParameterType
-		public RuleCall getTypeParameterTypeParserRuleCall_2_0() { return cTypeParameterTypeParserRuleCall_2_0; }
+		public RuleCall getTypeParameterTypeParserRuleCall_3_0() { return cTypeParameterTypeParserRuleCall_3_0; }
 	}
 	public class ParameterTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.henshin.text.Henshin_text.ParameterType");
@@ -2586,6 +2594,100 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getIDTerminalRuleCall_2() { return cIDTerminalRuleCall_2; }
 	}
 	
+	public class ParameterKindElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.henshin.text.Henshin_text.ParameterKind");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cUNKNOWNEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cUNKNOWNUNKNOWNKeyword_0_0 = (Keyword)cUNKNOWNEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cINEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cININKeyword_1_0 = (Keyword)cINEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cOUTEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cOUTOUTKeyword_2_0 = (Keyword)cOUTEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cINOUTEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cINOUTINOUTKeyword_3_0 = (Keyword)cINOUTEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cVAREnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
+		private final Keyword cVARVARKeyword_4_0 = (Keyword)cVAREnumLiteralDeclaration_4.eContents().get(0);
+		
+		//enum ParameterKind:
+		//	UNKNOWN | IN | OUT | INOUT | VAR;
+		public EnumRule getRule() { return rule; }
+		
+		//UNKNOWN | IN | OUT | INOUT | VAR
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//UNKNOWN
+		public EnumLiteralDeclaration getUNKNOWNEnumLiteralDeclaration_0() { return cUNKNOWNEnumLiteralDeclaration_0; }
+		
+		//"UNKNOWN"
+		public Keyword getUNKNOWNUNKNOWNKeyword_0_0() { return cUNKNOWNUNKNOWNKeyword_0_0; }
+		
+		//IN
+		public EnumLiteralDeclaration getINEnumLiteralDeclaration_1() { return cINEnumLiteralDeclaration_1; }
+		
+		//"IN"
+		public Keyword getININKeyword_1_0() { return cININKeyword_1_0; }
+		
+		//OUT
+		public EnumLiteralDeclaration getOUTEnumLiteralDeclaration_2() { return cOUTEnumLiteralDeclaration_2; }
+		
+		//"OUT"
+		public Keyword getOUTOUTKeyword_2_0() { return cOUTOUTKeyword_2_0; }
+		
+		//INOUT
+		public EnumLiteralDeclaration getINOUTEnumLiteralDeclaration_3() { return cINOUTEnumLiteralDeclaration_3; }
+		
+		//"INOUT"
+		public Keyword getINOUTINOUTKeyword_3_0() { return cINOUTINOUTKeyword_3_0; }
+		
+		//VAR
+		public EnumLiteralDeclaration getVAREnumLiteralDeclaration_4() { return cVAREnumLiteralDeclaration_4; }
+		
+		//"VAR"
+		public Keyword getVARVARKeyword_4_0() { return cVARVARKeyword_4_0; }
+	}
+	public class ParameterKindRuleElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.henshin.text.Henshin_text.ParameterKindRule");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cINEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cININKeyword_0_0 = (Keyword)cINEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cOUTEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cOUTOUTKeyword_1_0 = (Keyword)cOUTEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cINOUTEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cINOUTINOUTKeyword_2_0 = (Keyword)cINOUTEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cVAREnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cVARVARKeyword_3_0 = (Keyword)cVAREnumLiteralDeclaration_3.eContents().get(0);
+		
+		//enum ParameterKindRule returns ParameterKind:
+		//	IN | OUT | INOUT | VAR;
+		public EnumRule getRule() { return rule; }
+		
+		//IN | OUT | INOUT | VAR
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//IN
+		public EnumLiteralDeclaration getINEnumLiteralDeclaration_0() { return cINEnumLiteralDeclaration_0; }
+		
+		//'IN'
+		public Keyword getININKeyword_0_0() { return cININKeyword_0_0; }
+		
+		//OUT
+		public EnumLiteralDeclaration getOUTEnumLiteralDeclaration_1() { return cOUTEnumLiteralDeclaration_1; }
+		
+		//'OUT'
+		public Keyword getOUTOUTKeyword_1_0() { return cOUTOUTKeyword_1_0; }
+		
+		//INOUT
+		public EnumLiteralDeclaration getINOUTEnumLiteralDeclaration_2() { return cINOUTEnumLiteralDeclaration_2; }
+		
+		//'INOUT'
+		public Keyword getINOUTINOUTKeyword_2_0() { return cINOUTINOUTKeyword_2_0; }
+		
+		//VAR
+		public EnumLiteralDeclaration getVAREnumLiteralDeclaration_3() { return cVAREnumLiteralDeclaration_3; }
+		
+		//'VAR'
+		public Keyword getVARVARKeyword_3_0() { return cVARVARKeyword_3_0; }
+	}
 	public class TypeElements extends AbstractEnumRuleElementFinder {
 		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.henshin.text.Henshin_text.Type");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -2923,6 +3025,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	private final IteratedUnitElements pIteratedUnit;
 	private final LoopUnitElements pLoopUnit;
 	private final ParameterElements pParameter;
+	private final ParameterKindElements eParameterKind;
+	private final ParameterKindRuleElements eParameterKindRule;
 	private final ParameterTypeElements pParameterType;
 	private final TypeElements eType;
 	private final TerminalRule tDECIMAL;
@@ -2992,6 +3096,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		this.pIteratedUnit = new IteratedUnitElements();
 		this.pLoopUnit = new LoopUnitElements();
 		this.pParameter = new ParameterElements();
+		this.eParameterKind = new ParameterKindElements();
+		this.eParameterKindRule = new ParameterKindRuleElements();
 		this.pParameterType = new ParameterTypeElements();
 		this.eType = new TypeElements();
 		this.tDECIMAL = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.henshin.text.Henshin_text.DECIMAL");
@@ -3524,13 +3630,33 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	
 	////parameter
 	//Parameter:
-	//	name=ID ':' type=ParameterType;
+	//	kind=ParameterKindRule? name=ID ':' type=ParameterType;
 	public ParameterElements getParameterAccess() {
 		return pParameter;
 	}
 	
 	public ParserRule getParameterRule() {
 		return getParameterAccess().getRule();
+	}
+	
+	//enum ParameterKind:
+	//	UNKNOWN | IN | OUT | INOUT | VAR;
+	public ParameterKindElements getParameterKindAccess() {
+		return eParameterKind;
+	}
+	
+	public EnumRule getParameterKindRule() {
+		return getParameterKindAccess().getRule();
+	}
+	
+	//enum ParameterKindRule returns ParameterKind:
+	//	IN | OUT | INOUT | VAR;
+	public ParameterKindRuleElements getParameterKindRuleAccess() {
+		return eParameterKindRule;
+	}
+	
+	public EnumRule getParameterKindRuleRule() {
+		return getParameterKindRuleAccess().getRule();
 	}
 	
 	////parameter types

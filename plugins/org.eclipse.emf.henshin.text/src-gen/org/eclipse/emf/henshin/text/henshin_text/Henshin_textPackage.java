@@ -1339,13 +1339,22 @@ public interface Henshin_textPackage extends EPackage
   int PARAMETER = 37;
 
   /**
+   * The feature id for the '<em><b>Kind</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PARAMETER__KIND = 0;
+
+  /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PARAMETER__NAME = 0;
+  int PARAMETER__NAME = 1;
 
   /**
    * The feature id for the '<em><b>Type</b></em>' containment reference.
@@ -1354,7 +1363,7 @@ public interface Henshin_textPackage extends EPackage
    * @generated
    * @ordered
    */
-  int PARAMETER__TYPE = 1;
+  int PARAMETER__TYPE = 2;
 
   /**
    * The number of structural features of the '<em>Parameter</em>' class.
@@ -1363,7 +1372,7 @@ public interface Henshin_textPackage extends EPackage
    * @generated
    * @ordered
    */
-  int PARAMETER_FEATURE_COUNT = 2;
+  int PARAMETER_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.henshin.text.henshin_text.impl.ParameterTypeImpl <em>Parameter Type</em>}' class.
@@ -2274,6 +2283,16 @@ public interface Henshin_textPackage extends EPackage
   int BOOL_VALUE_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.henshin.text.henshin_text.ParameterKind <em>Parameter Kind</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.henshin.text.henshin_text.ParameterKind
+   * @see org.eclipse.emf.henshin.text.henshin_text.impl.Henshin_textPackageImpl#getParameterKind()
+   * @generated
+   */
+  int PARAMETER_KIND = 64;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.henshin.text.henshin_text.Type <em>Type</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2281,7 +2300,7 @@ public interface Henshin_textPackage extends EPackage
    * @see org.eclipse.emf.henshin.text.henshin_text.impl.Henshin_textPackageImpl#getType()
    * @generated
    */
-  int TYPE = 64;
+  int TYPE = 65;
 
 
   /**
@@ -3248,6 +3267,17 @@ public interface Henshin_textPackage extends EPackage
   EClass getParameter();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.text.henshin_text.Parameter#getKind <em>Kind</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Kind</em>'.
+   * @see org.eclipse.emf.henshin.text.henshin_text.Parameter#getKind()
+   * @see #getParameter()
+   * @generated
+   */
+  EAttribute getParameter_Kind();
+
+  /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.text.henshin_text.Parameter#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3979,6 +4009,16 @@ public interface Henshin_textPackage extends EPackage
    * @generated
    */
   EAttribute getBoolValue_Value();
+
+  /**
+   * Returns the meta object for enum '{@link org.eclipse.emf.henshin.text.henshin_text.ParameterKind <em>Parameter Kind</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Parameter Kind</em>'.
+   * @see org.eclipse.emf.henshin.text.henshin_text.ParameterKind
+   * @generated
+   */
+  EEnum getParameterKind();
 
   /**
    * Returns the meta object for enum '{@link org.eclipse.emf.henshin.text.henshin_text.Type <em>Type</em>}'.
@@ -4818,6 +4858,14 @@ public interface Henshin_textPackage extends EPackage
     EClass PARAMETER = eINSTANCE.getParameter();
 
     /**
+     * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PARAMETER__KIND = eINSTANCE.getParameter_Kind();
+
+    /**
      * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5420,6 +5468,16 @@ public interface Henshin_textPackage extends EPackage
      * @generated
      */
     EAttribute BOOL_VALUE__VALUE = eINSTANCE.getBoolValue_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.henshin.text.henshin_text.ParameterKind <em>Parameter Kind</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.henshin.text.henshin_text.ParameterKind
+     * @see org.eclipse.emf.henshin.text.henshin_text.impl.Henshin_textPackageImpl#getParameterKind()
+     * @generated
+     */
+    EEnum PARAMETER_KIND = eINSTANCE.getParameterKind();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.henshin.text.henshin_text.Type <em>Type</em>}' enum.

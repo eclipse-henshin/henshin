@@ -1,6 +1,6 @@
 ePackageImport grid
 
-rule initGrid(grid:Grid){
+rule initGrid(OUT grid:Grid){
 	graph{
 		create node first:Node
 		create node second:Node
@@ -79,7 +79,7 @@ rule extendNextColumn(){
 	}
 }
 
-unit buildGrid(width:EInt, height:EInt, grid:Grid){
+unit buildGrid(IN width:EInt, IN height:EInt, OUT grid:Grid){
 	initGrid(grid)
 	for(height - 2){
 		extendFirstColumn()

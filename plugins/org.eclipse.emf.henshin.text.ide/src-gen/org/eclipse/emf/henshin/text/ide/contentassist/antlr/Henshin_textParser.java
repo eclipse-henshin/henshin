@@ -55,6 +55,8 @@ public class Henshin_textParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMulOrDivExpressionAccess().getOpAlternatives_1_1_0(), "rule__MulOrDivExpression__OpAlternatives_1_1_0");
 					put(grammarAccess.getPrimaryExpressionAccess().getAlternatives(), "rule__PrimaryExpression__Alternatives");
 					put(grammarAccess.getAtomicExpressionAccess().getAlternatives(), "rule__AtomicExpression__Alternatives");
+					put(grammarAccess.getParameterKindAccess().getAlternatives(), "rule__ParameterKind__Alternatives");
+					put(grammarAccess.getParameterKindRuleAccess().getAlternatives(), "rule__ParameterKindRule__Alternatives");
 					put(grammarAccess.getTypeAccess().getAlternatives(), "rule__Type__Alternatives");
 					put(grammarAccess.getModelAccess().getGroup(), "rule__Model__Group__0");
 					put(grammarAccess.getEPackageImportAccess().getGroup(), "rule__EPackageImport__Group__0");
@@ -216,8 +218,9 @@ public class Henshin_textParser extends AbstractContentAssistParser {
 					put(grammarAccess.getIteratedUnitAccess().getIterationsAssignment_3(), "rule__IteratedUnit__IterationsAssignment_3");
 					put(grammarAccess.getIteratedUnitAccess().getSubElementAssignment_6(), "rule__IteratedUnit__SubElementAssignment_6");
 					put(grammarAccess.getLoopUnitAccess().getSubElementAssignment_2(), "rule__LoopUnit__SubElementAssignment_2");
-					put(grammarAccess.getParameterAccess().getNameAssignment_0(), "rule__Parameter__NameAssignment_0");
-					put(grammarAccess.getParameterAccess().getTypeAssignment_2(), "rule__Parameter__TypeAssignment_2");
+					put(grammarAccess.getParameterAccess().getKindAssignment_0(), "rule__Parameter__KindAssignment_0");
+					put(grammarAccess.getParameterAccess().getNameAssignment_1(), "rule__Parameter__NameAssignment_1");
+					put(grammarAccess.getParameterAccess().getTypeAssignment_3(), "rule__Parameter__TypeAssignment_3");
 					put(grammarAccess.getParameterTypeAccess().getEnumTypeAssignment_0(), "rule__ParameterType__EnumTypeAssignment_0");
 					put(grammarAccess.getParameterTypeAccess().getTypeAssignment_1(), "rule__ParameterType__TypeAssignment_1");
 					put(grammarAccess.getOrExpressionAccess().getRightAssignment_1_2(), "rule__OrExpression__RightAssignment_1_2");

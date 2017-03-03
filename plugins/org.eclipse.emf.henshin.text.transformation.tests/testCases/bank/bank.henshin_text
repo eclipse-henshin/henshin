@@ -1,6 +1,6 @@
 ePackageImport bank
 
-rule createAccount(client:EString,accountId:EInt){
+rule createAccount(IN client:EString, IN accountId:EInt){
 	graph{
 		node bankNode:Bank
 		node clientNode:Client{
@@ -24,7 +24,7 @@ rule createAccount(client:EString,accountId:EInt){
 	}
 }
 	
-rule transferMoney(client:EString, fromId:EInt, toId:EInt, amount:EDouble, x:EDouble, y:EDouble){
+rule transferMoney(IN client:EString, IN fromId:EInt, IN toId:EInt, IN amount:EDouble, VAR x:EDouble, VAR y:EDouble){
 	conditions[x>amount,amount>0]
 	graph{
 		node xAccountNode:Account{
@@ -46,7 +46,7 @@ rule transferMoney(client:EString, fromId:EInt, toId:EInt, amount:EDouble, x:EDo
 	}
 }
 
-rule deleteAllAccounts(client:EString){
+rule deleteAllAccounts(IN client:EString){
 	checkDangling false
 	graph{
 		node clientNode:Client{

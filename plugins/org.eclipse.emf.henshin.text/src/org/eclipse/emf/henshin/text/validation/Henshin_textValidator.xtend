@@ -4,69 +4,71 @@
 package org.eclipse.emf.henshin.text.validation
 
 import com.google.common.collect.Iterables
+import com.google.inject.Inject
+import java.lang.reflect.Field
+import java.lang.reflect.Method
+import java.util.ArrayList
+import java.util.List
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.emf.henshin.text.henshin_text.AndExpression
+import org.eclipse.emf.henshin.text.henshin_text.Attribute
 import org.eclipse.emf.henshin.text.henshin_text.Call
+import org.eclipse.emf.henshin.text.henshin_text.ComparisonExpression
+import org.eclipse.emf.henshin.text.henshin_text.ConditionEdge
+import org.eclipse.emf.henshin.text.henshin_text.ConditionGraph
+import org.eclipse.emf.henshin.text.henshin_text.ConditionGraphRef
+import org.eclipse.emf.henshin.text.henshin_text.ConditionNode
+import org.eclipse.emf.henshin.text.henshin_text.ConditionReuseNode
 import org.eclipse.emf.henshin.text.henshin_text.ConditionalUnit
+import org.eclipse.emf.henshin.text.henshin_text.EPackageImport
+import org.eclipse.emf.henshin.text.henshin_text.Edge
+import org.eclipse.emf.henshin.text.henshin_text.Edges
+import org.eclipse.emf.henshin.text.henshin_text.EqualityExpression
+import org.eclipse.emf.henshin.text.henshin_text.Expression
 import org.eclipse.emf.henshin.text.henshin_text.Formula
+import org.eclipse.emf.henshin.text.henshin_text.Graph
 import org.eclipse.emf.henshin.text.henshin_text.Henshin_textPackage
 import org.eclipse.emf.henshin.text.henshin_text.IndependentUnit
+import org.eclipse.emf.henshin.text.henshin_text.IntegerValue
+import org.eclipse.emf.henshin.text.henshin_text.IteratedUnit
+import org.eclipse.emf.henshin.text.henshin_text.JavaAttributeValue
+import org.eclipse.emf.henshin.text.henshin_text.JavaClassValue
+import org.eclipse.emf.henshin.text.henshin_text.JavaImport
+import org.eclipse.emf.henshin.text.henshin_text.Logic
 import org.eclipse.emf.henshin.text.henshin_text.LoopUnit
+import org.eclipse.emf.henshin.text.henshin_text.Match
+import org.eclipse.emf.henshin.text.henshin_text.MinusExpression
+import org.eclipse.emf.henshin.text.henshin_text.Model
+import org.eclipse.emf.henshin.text.henshin_text.MulOrDivExpression
+import org.eclipse.emf.henshin.text.henshin_text.MultiRule
+import org.eclipse.emf.henshin.text.henshin_text.MultiRuleReuseNode
 import org.eclipse.emf.henshin.text.henshin_text.Node
+import org.eclipse.emf.henshin.text.henshin_text.NotExpression
+import org.eclipse.emf.henshin.text.henshin_text.NumberValue
+import org.eclipse.emf.henshin.text.henshin_text.OrExpression
+import org.eclipse.emf.henshin.text.henshin_text.Parameter
+import org.eclipse.emf.henshin.text.henshin_text.ParameterKind
+import org.eclipse.emf.henshin.text.henshin_text.ParameterValue
+import org.eclipse.emf.henshin.text.henshin_text.PlusExpression
 import org.eclipse.emf.henshin.text.henshin_text.PriorityUnit
 import org.eclipse.emf.henshin.text.henshin_text.Rule
 import org.eclipse.emf.henshin.text.henshin_text.Unit
 import org.eclipse.emf.henshin.text.henshin_text.UnitElement
+import org.eclipse.emf.henshin.text.henshin_text.impl.ANDImpl
 import org.eclipse.emf.henshin.text.henshin_text.impl.CheckDanglingImpl
 import org.eclipse.emf.henshin.text.henshin_text.impl.ConditionsImpl
 import org.eclipse.emf.henshin.text.henshin_text.impl.GraphImpl
 import org.eclipse.emf.henshin.text.henshin_text.impl.InjectiveMatchingImpl
 import org.eclipse.emf.henshin.text.henshin_text.impl.JavaImportImpl
+import org.eclipse.emf.henshin.text.henshin_text.impl.NotImpl
+import org.eclipse.emf.henshin.text.henshin_text.impl.ORorXORImpl
 import org.eclipse.emf.henshin.text.henshin_text.impl.RollbackImpl
 import org.eclipse.emf.henshin.text.henshin_text.impl.StrictImpl
-import org.eclipse.xtext.validation.Check
-import org.eclipse.emf.henshin.text.henshin_text.ConditionGraph
-import java.util.ArrayList
-import org.eclipse.emf.henshin.text.henshin_text.Logic
-import java.util.List
-import org.eclipse.emf.henshin.text.henshin_text.ConditionGraphRef
-import org.eclipse.emf.henshin.text.henshin_text.Graph
-import org.eclipse.emf.henshin.text.henshin_text.Edge
-import org.eclipse.emf.henshin.text.henshin_text.ConditionNode
-import org.eclipse.emf.henshin.text.henshin_text.impl.ANDImpl
-import org.eclipse.emf.henshin.text.henshin_text.impl.ORorXORImpl
-import org.eclipse.emf.henshin.text.henshin_text.impl.NotImpl
-import org.eclipse.emf.henshin.text.henshin_text.ConditionReuseNode
-import org.eclipse.emf.henshin.text.henshin_text.Edges
-import org.eclipse.emf.henshin.text.henshin_text.MultiRuleReuseNode
-import org.eclipse.emf.henshin.text.henshin_text.MultiRule
-import org.eclipse.emf.henshin.text.henshin_text.ConditionEdge
-import org.eclipse.emf.henshin.text.henshin_text.IteratedUnit
-import org.eclipse.emf.ecore.EClass
-import com.google.inject.Inject
-import org.eclipse.emf.henshin.text.typesystem.Henshin_textTypeProvider
-import org.eclipse.emf.henshin.text.henshin_text.NotExpression
-import org.eclipse.emf.henshin.text.henshin_text.MulOrDivExpression
-import org.eclipse.emf.henshin.text.henshin_text.MinusExpression
-import org.eclipse.emf.henshin.text.henshin_text.AndExpression
-import org.eclipse.emf.henshin.text.henshin_text.OrExpression
-import org.eclipse.emf.henshin.text.henshin_text.EqualityExpression
-import org.eclipse.emf.henshin.text.henshin_text.ComparisonExpression
-import org.eclipse.emf.henshin.text.henshin_text.PlusExpression
 import org.eclipse.emf.henshin.text.typesystem.Henshin_textType
-import org.eclipse.emf.ecore.EReference
-import org.eclipse.emf.henshin.text.henshin_text.Expression
-import org.eclipse.emf.henshin.text.henshin_text.Attribute
-import org.eclipse.emf.henshin.text.henshin_text.ParameterValue
-import org.eclipse.emf.henshin.text.henshin_text.JavaClassValue
-import org.eclipse.emf.henshin.text.henshin_text.JavaImport
-import java.lang.reflect.Method
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.henshin.text.henshin_text.Match
-import org.eclipse.emf.henshin.text.henshin_text.Model
-import org.eclipse.emf.henshin.text.henshin_text.JavaAttributeValue
-import java.lang.reflect.Field
-import org.eclipse.emf.henshin.text.henshin_text.EPackageImport
-import org.eclipse.emf.henshin.text.henshin_text.NumberValue
-import org.eclipse.emf.henshin.text.henshin_text.IntegerValue
+import org.eclipse.emf.henshin.text.typesystem.Henshin_textTypeProvider
+import org.eclipse.xtext.validation.Check
 
 /**
  * This class contains custom validation rules. 
@@ -78,24 +80,39 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Inject extension Henshin_textTypeProvider
 	
 	/**
- 	* Fehler wenn einem Unit- oder Regelaufruf nicht genügend Parameter übergeben werden oder den falschen Typ besitzen
+ 	* Check that the number and type of parameters match in a unit or rule call
+ 	* This ignores VAR variables in the to-be-called unit / rule (call.elementCall) as they denote local variables
  	* 
- 	* @param call Zu überprüfender Aufruf
+ 	* @param call to-be-checked call
  	*/
 	@Check
 	def checkCallParameter(Call call){
-		if(call.elementCall.parameters.size!=call.parameters.size){
+		if(call.elementCall.parameters.filter[kind != ParameterKind.VAR].size!=call.parameters.size){
 			error("Bad Parameter Count.'",  Henshin_textPackage::eINSTANCE.call_ElementCall)
 		}else{
-			for(var i=0;i<call.elementCall.parameters.size;i++){
-				if(typeFor(call.elementCall.parameters.get(i).type)!=typeFor(call.parameters.get(i).type)){
-					error("Call expected " +typeFor(call.elementCall.parameters.get(i).type).toString+ " type, but was " +typeFor(call.parameters.get(i).type).toString+".'",call, Henshin_textPackage::eINSTANCE.call_Parameters)
+			for(var i=0;i<call.elementCall.parameters.filter[kind != ParameterKind.VAR].size;i++){
+				val param = call.elementCall.parameters.get(i)
+				if(typeFor(param.type)!=typeFor(call.parameters.get(i).type)){
+					error("Call expected " +typeFor(param.type).toString+ " type, but was " +typeFor(call.parameters.get(i).type).toString+".'",call, Henshin_textPackage::eINSTANCE.call_Parameters)
 				}
 			}
 		}
 	}
 	
-
+	
+	/** 
+	 * Warning if a parameter has the parameter kind UNKNOWN which is deprecated.
+	 * 
+	 * @param param to be checked parameter
+	 */
+	 @Check
+	 def checkParameterKind(Parameter param)
+	 {
+		 if (param.kind == ParameterKind.UNKNOWN)
+		 {
+		 	warning("Parameter " + param.name + " should have a parameter kind of IN, INOUT, OUR or VAR. Specifying no parameter kind is deprecated.", param, Henshin_textPackage.Literals.PARAMETER__KIND)
+		 }
+	 }
 	
 	
 	

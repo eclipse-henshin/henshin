@@ -1,21 +1,22 @@
 package org.eclipse.emf.henshin.text.tests
 
-import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.InjectWith
 import javax.inject.Inject
-import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.emf.henshin.text.henshin_text.CheckDangling
+import org.eclipse.emf.henshin.text.henshin_text.ComparisonExpression
+import org.eclipse.emf.henshin.text.henshin_text.Conditions
+import org.eclipse.emf.henshin.text.henshin_text.EqualityExpression
+import org.eclipse.emf.henshin.text.henshin_text.Graph
+import org.eclipse.emf.henshin.text.henshin_text.InjectiveMatching
+import org.eclipse.emf.henshin.text.henshin_text.JavaImport
 import org.eclipse.emf.henshin.text.henshin_text.Model
+import org.eclipse.emf.henshin.text.henshin_text.ParameterKind
+import org.eclipse.emf.henshin.text.henshin_text.Rule
+import org.eclipse.xtext.junit4.InjectWith
+import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.junit4.util.ParseHelper
 import org.junit.Assert
 import org.junit.Test
-import org.eclipse.emf.henshin.text.henshin_text.InjectiveMatching
-import org.eclipse.emf.henshin.text.henshin_text.CheckDangling
-import org.eclipse.emf.henshin.text.henshin_text.Conditions
-import org.eclipse.emf.henshin.text.henshin_text.JavaImport
-import org.eclipse.emf.henshin.text.henshin_text.Graph
-import org.eclipse.emf.henshin.text.henshin_text.Rule
-import org.eclipse.emf.henshin.text.henshin_text.ComparisonExpression
-import org.eclipse.emf.henshin.text.henshin_text.EqualityExpression
+import org.junit.runner.RunWith
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(Henshin_textInjectorProvider))
@@ -206,4 +207,20 @@ class RuleTests {
 		Assert::assertEquals("!=",(conditions.attributeConditions.get(0) as EqualityExpression).op)
 	 }
 	
+	/**
+	 * Test parameterkind
+	 */
+	 @Test
+	 def testParmeterKinds(){
+	 	val model = ''' ePackageImport testmodel
+						rule rulename(VAR value:EInt, IN v2:EInt, OUT v3:EInt, INOUT v4:EInt, v5:EInt){
+							graph{}
+						}'''.parse
+		val rule = model.transformationsystem.get(0) as Rule
+		Assert::assertEquals(rule.parameters.get(0).kind, ParameterKind.VAR)
+		Assert::assertEquals(rule.parameters.get(1).kind, ParameterKind.IN)
+		Assert::assertEquals(rule.parameters.get(2).kind, ParameterKind.OUT)
+		Assert::assertEquals(rule.parameters.get(3).kind, ParameterKind.INOUT)
+		Assert::assertEquals(rule.parameters.get(4).kind, ParameterKind.UNKNOWN)
+	 }
 }

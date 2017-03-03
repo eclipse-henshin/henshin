@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_DECIMAL", "RULE_NEGATIVE", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'ePackageImport'", "'.'", "'rule'", "'('", "','", "')'", "'{'", "'}'", "'unit'", "'javaImport'", "'checkDangling'", "'injectiveMatching'", "'conditions'", "'['", "']'", "'graph'", "'preserve'", "'create'", "'delete'", "'forbid'", "'require'", "'edges'", "'->'", "':'", "'node'", "'reuse'", "'='", "'set'", "'multiRule'", "'matchingFormula'", "'formula'", "'OR'", "'XOR'", "'AND'", "'!'", "'conditionGraph'", "'strict'", "'rollback'", "'independent'", "'if'", "'then'", "'else'", "'priority'", "'for'", "'while'", "'true'", "'false'", "'=='", "'!='", "'>='", "'<='", "'>'", "'<'", "'+'", "'-'", "'*'", "'/'", "'EBigDecimal'", "'EBigInteger'", "'EBoolean'", "'EBooleanObject'", "'EByte'", "'EByteArray'", "'EByteObject'", "'EChar'", "'ECharacterObject'", "'EDate'", "'EDiagnosticChain'", "'EDouble'", "'EDoubleObject'", "'EEList'", "'EEnumerator'", "'EFeatureMap'", "'EFeatureMapEntry'", "'EFloat'", "'EFloatObject'", "'EInt'", "'EIntegerObject'", "'ETreeIterator'", "'EInvocationTargetException'", "'EJavaClass'", "'EJavaObject'", "'ELong'", "'ELongObject'", "'EMap'", "'EResource'", "'EResourceSet'", "'EShort'", "'EShortObject'", "'EString'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_DECIMAL", "RULE_NEGATIVE", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'ePackageImport'", "'.'", "'rule'", "'('", "','", "')'", "'{'", "'}'", "'unit'", "'javaImport'", "'checkDangling'", "'injectiveMatching'", "'conditions'", "'['", "']'", "'graph'", "'preserve'", "'create'", "'delete'", "'forbid'", "'require'", "'edges'", "'->'", "':'", "'node'", "'reuse'", "'='", "'set'", "'multiRule'", "'matchingFormula'", "'formula'", "'OR'", "'XOR'", "'AND'", "'!'", "'conditionGraph'", "'strict'", "'rollback'", "'independent'", "'if'", "'then'", "'else'", "'priority'", "'for'", "'while'", "'true'", "'false'", "'=='", "'!='", "'>='", "'<='", "'>'", "'<'", "'+'", "'-'", "'*'", "'/'", "'IN'", "'OUT'", "'INOUT'", "'VAR'", "'EBigDecimal'", "'EBigInteger'", "'EBoolean'", "'EBooleanObject'", "'EByte'", "'EByteArray'", "'EByteObject'", "'EChar'", "'ECharacterObject'", "'EDate'", "'EDiagnosticChain'", "'EDouble'", "'EDoubleObject'", "'EEList'", "'EEnumerator'", "'EFeatureMap'", "'EFeatureMapEntry'", "'EFloat'", "'EFloatObject'", "'EInt'", "'EIntegerObject'", "'ETreeIterator'", "'EInvocationTargetException'", "'EJavaClass'", "'EJavaObject'", "'ELong'", "'ELongObject'", "'EMap'", "'EResource'", "'EResourceSet'", "'EShort'", "'EShortObject'", "'EString'"
     };
     public static final int T__50=50;
     public static final int T__59=59;
@@ -121,9 +121,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
     public static final int T__88=88;
     public static final int T__89=89;
     public static final int T__84=84;
+    public static final int T__104=104;
     public static final int T__85=85;
+    public static final int T__103=103;
     public static final int T__86=86;
+    public static final int T__106=106;
     public static final int T__87=87;
+    public static final int T__105=105;
 
     // delegates
     // delegators
@@ -719,7 +723,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     int alt5=2;
                     int LA5_0 = input.LA(1);
 
-                    if ( (LA5_0==RULE_ID) ) {
+                    if ( (LA5_0==RULE_ID||(LA5_0>=70 && LA5_0<=73)) ) {
                         alt5=1;
                     }
                     switch (alt5) {
@@ -772,7 +776,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                             	case 1 :
                             	    // InternalHenshin_text.g:271:6: otherlv_5= ',' ( (lv_parameters_6_0= ruleParameter ) )
                             	    {
-                            	    otherlv_5=(Token)match(input,17,FOLLOW_5); 
+                            	    otherlv_5=(Token)match(input,17,FOLLOW_10); 
 
                             	    						newLeafNode(otherlv_5, grammarAccess.getModelElementAccess().getCommaKeyword_0_4_1_0());
                             	    					
@@ -822,11 +826,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_7=(Token)match(input,18,FOLLOW_10); 
+                    otherlv_7=(Token)match(input,18,FOLLOW_11); 
 
                     				newLeafNode(otherlv_7, grammarAccess.getModelElementAccess().getRightParenthesisKeyword_0_5());
                     			
-                    otherlv_8=(Token)match(input,19,FOLLOW_11); 
+                    otherlv_8=(Token)match(input,19,FOLLOW_12); 
 
                     				newLeafNode(otherlv_8, grammarAccess.getModelElementAccess().getLeftCurlyBracketKeyword_0_6());
                     			
@@ -852,7 +856,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     	    						newCompositeNode(grammarAccess.getModelElementAccess().getRuleElementsRuleElementParserRuleCall_0_7_0());
                     	    					
-                    	    pushFollow(FOLLOW_12);
+                    	    pushFollow(FOLLOW_13);
                     	    lv_ruleElements_9_0=ruleRuleElement();
 
                     	    state._fsp--;
@@ -949,7 +953,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     int alt8=2;
                     int LA8_0 = input.LA(1);
 
-                    if ( (LA8_0==RULE_ID) ) {
+                    if ( (LA8_0==RULE_ID||(LA8_0>=70 && LA8_0<=73)) ) {
                         alt8=1;
                     }
                     switch (alt8) {
@@ -1002,7 +1006,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                             	case 1 :
                             	    // InternalHenshin_text.g:384:6: otherlv_16= ',' ( (lv_parameters_17_0= ruleParameter ) )
                             	    {
-                            	    otherlv_16=(Token)match(input,17,FOLLOW_5); 
+                            	    otherlv_16=(Token)match(input,17,FOLLOW_10); 
 
                             	    						newLeafNode(otherlv_16, grammarAccess.getModelElementAccess().getCommaKeyword_1_4_1_0());
                             	    					
@@ -1052,11 +1056,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_18=(Token)match(input,18,FOLLOW_10); 
+                    otherlv_18=(Token)match(input,18,FOLLOW_11); 
 
                     				newLeafNode(otherlv_18, grammarAccess.getModelElementAccess().getRightParenthesisKeyword_1_5());
                     			
-                    otherlv_19=(Token)match(input,19,FOLLOW_13); 
+                    otherlv_19=(Token)match(input,19,FOLLOW_14); 
 
                     				newLeafNode(otherlv_19, grammarAccess.getModelElementAccess().getLeftCurlyBracketKeyword_1_6());
                     			
@@ -1082,7 +1086,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     	    						newCompositeNode(grammarAccess.getModelElementAccess().getUnitElementsUnitElementParserRuleCall_1_7_0());
                     	    					
-                    	    pushFollow(FOLLOW_14);
+                    	    pushFollow(FOLLOW_15);
                     	    lv_unitElements_20_0=ruleUnitElement();
 
                     	    state._fsp--;
@@ -1520,7 +1524,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:564:2: (otherlv_0= 'checkDangling' ( (lv_checkDangling_1_0= ruleEBoolean ) ) )
             // InternalHenshin_text.g:565:3: otherlv_0= 'checkDangling' ( (lv_checkDangling_1_0= ruleEBoolean ) )
             {
-            otherlv_0=(Token)match(input,23,FOLLOW_15); 
+            otherlv_0=(Token)match(input,23,FOLLOW_16); 
 
             			newLeafNode(otherlv_0, grammarAccess.getCheckDanglingAccess().getCheckDanglingKeyword_0());
             		
@@ -1632,7 +1636,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:606:2: (otherlv_0= 'injectiveMatching' ( (lv_injectiveMatching_1_0= ruleEBoolean ) ) )
             // InternalHenshin_text.g:607:3: otherlv_0= 'injectiveMatching' ( (lv_injectiveMatching_1_0= ruleEBoolean ) )
             {
-            otherlv_0=(Token)match(input,24,FOLLOW_15); 
+            otherlv_0=(Token)match(input,24,FOLLOW_16); 
 
             			newLeafNode(otherlv_0, grammarAccess.getInjectiveMatchingAccess().getInjectiveMatchingKeyword_0());
             		
@@ -1749,11 +1753,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:648:2: (otherlv_0= 'conditions' otherlv_1= '[' ( (lv_attributeConditions_2_0= ruleExpression ) ) (otherlv_3= ',' ( (lv_attributeConditions_4_0= ruleExpression ) ) )* otherlv_5= ']' )
             // InternalHenshin_text.g:649:3: otherlv_0= 'conditions' otherlv_1= '[' ( (lv_attributeConditions_2_0= ruleExpression ) ) (otherlv_3= ',' ( (lv_attributeConditions_4_0= ruleExpression ) ) )* otherlv_5= ']'
             {
-            otherlv_0=(Token)match(input,25,FOLLOW_16); 
+            otherlv_0=(Token)match(input,25,FOLLOW_17); 
 
             			newLeafNode(otherlv_0, grammarAccess.getConditionsAccess().getConditionsKeyword_0());
             		
-            otherlv_1=(Token)match(input,26,FOLLOW_17); 
+            otherlv_1=(Token)match(input,26,FOLLOW_18); 
 
             			newLeafNode(otherlv_1, grammarAccess.getConditionsAccess().getLeftSquareBracketKeyword_1());
             		
@@ -1766,7 +1770,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getConditionsAccess().getAttributeConditionsExpressionParserRuleCall_2_0());
             				
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_19);
             lv_attributeConditions_2_0=ruleExpression();
 
             state._fsp--;
@@ -1803,7 +1807,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	case 1 :
             	    // InternalHenshin_text.g:677:4: otherlv_3= ',' ( (lv_attributeConditions_4_0= ruleExpression ) )
             	    {
-            	    otherlv_3=(Token)match(input,17,FOLLOW_17); 
+            	    otherlv_3=(Token)match(input,17,FOLLOW_18); 
 
             	    				newLeafNode(otherlv_3, grammarAccess.getConditionsAccess().getCommaKeyword_3_0());
             	    			
@@ -1816,7 +1820,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    						newCompositeNode(grammarAccess.getConditionsAccess().getAttributeConditionsExpressionParserRuleCall_3_1_0());
             	    					
-            	    pushFollow(FOLLOW_18);
+            	    pushFollow(FOLLOW_19);
             	    lv_attributeConditions_4_0=ruleExpression();
 
             	    state._fsp--;
@@ -1941,11 +1945,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,28,FOLLOW_10); 
+            otherlv_1=(Token)match(input,28,FOLLOW_11); 
 
             			newLeafNode(otherlv_1, grammarAccess.getGraphAccess().getGraphKeyword_1());
             		
-            otherlv_2=(Token)match(input,19,FOLLOW_19); 
+            otherlv_2=(Token)match(input,19,FOLLOW_20); 
 
             			newLeafNode(otherlv_2, grammarAccess.getGraphAccess().getLeftCurlyBracketKeyword_2());
             		
@@ -1970,7 +1974,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getGraphAccess().getGraphElementsGraphElementsParserRuleCall_3_0());
             	    				
-            	    pushFollow(FOLLOW_19);
+            	    pushFollow(FOLLOW_20);
             	    lv_graphElements_3_0=ruleGraphElements();
 
             	    state._fsp--;
@@ -2459,7 +2463,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:891:2: (otherlv_0= 'edges' otherlv_1= '[' ( (lv_edges_2_0= ruleEdge ) ) (otherlv_3= ',' ( (lv_edges_4_0= ruleEdge ) ) )* otherlv_5= ']' )
             // InternalHenshin_text.g:892:3: otherlv_0= 'edges' otherlv_1= '[' ( (lv_edges_2_0= ruleEdge ) ) (otherlv_3= ',' ( (lv_edges_4_0= ruleEdge ) ) )* otherlv_5= ']'
             {
-            otherlv_0=(Token)match(input,34,FOLLOW_16); 
+            otherlv_0=(Token)match(input,34,FOLLOW_17); 
 
             			newLeafNode(otherlv_0, grammarAccess.getEdgesAccess().getEdgesKeyword_0());
             		
@@ -2476,7 +2480,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getEdgesAccess().getEdgesEdgeParserRuleCall_2_0());
             				
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_19);
             lv_edges_2_0=ruleEdge();
 
             state._fsp--;
@@ -2526,7 +2530,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    						newCompositeNode(grammarAccess.getEdgesAccess().getEdgesEdgeParserRuleCall_3_1_0());
             	    					
-            	    pushFollow(FOLLOW_18);
+            	    pushFollow(FOLLOW_19);
             	    lv_edges_4_0=ruleEdge();
 
             	    state._fsp--;
@@ -2643,7 +2647,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:966:2: (otherlv_0= '(' ( (lv_actiontype_1_0= ruleActionType ) )? ( (otherlv_2= RULE_ID ) ) otherlv_3= '->' ( (otherlv_4= RULE_ID ) ) otherlv_5= ':' ( ( ruleEString ) ) otherlv_7= ')' )
             // InternalHenshin_text.g:967:3: otherlv_0= '(' ( (lv_actiontype_1_0= ruleActionType ) )? ( (otherlv_2= RULE_ID ) ) otherlv_3= '->' ( (otherlv_4= RULE_ID ) ) otherlv_5= ':' ( ( ruleEString ) ) otherlv_7= ')'
             {
-            otherlv_0=(Token)match(input,16,FOLLOW_20); 
+            otherlv_0=(Token)match(input,16,FOLLOW_21); 
 
             			newLeafNode(otherlv_0, grammarAccess.getEdgeAccess().getLeftParenthesisKeyword_0());
             		
@@ -2700,7 +2704,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             						current = createModelElement(grammarAccess.getEdgeRule());
             					}
             				
-            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_21); 
+            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_22); 
 
             					newLeafNode(otherlv_2, grammarAccess.getEdgeAccess().getSourceRuleNodeTypesCrossReference_2_0());
             				
@@ -2725,7 +2729,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             						current = createModelElement(grammarAccess.getEdgeRule());
             					}
             				
-            otherlv_4=(Token)match(input,RULE_ID,FOLLOW_22); 
+            otherlv_4=(Token)match(input,RULE_ID,FOLLOW_23); 
 
             					newLeafNode(otherlv_4, grammarAccess.getEdgeAccess().getTargetRuleNodeTypesCrossReference_4_0());
             				
@@ -2753,7 +2757,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getEdgeAccess().getTypeEReferenceCrossReference_6_0());
             				
-            pushFollow(FOLLOW_23);
+            pushFollow(FOLLOW_24);
             ruleEString();
 
             state._fsp--;
@@ -2871,7 +2875,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     					newCompositeNode(grammarAccess.getNodeAccess().getActiontypeActionTypeParserRuleCall_0_0());
                     				
-                    pushFollow(FOLLOW_24);
+                    pushFollow(FOLLOW_25);
                     lv_actiontype_0_0=ruleActionType();
 
                     state._fsp--;
@@ -2906,7 +2910,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:1087:4: (lv_name_2_0= RULE_ID )
             // InternalHenshin_text.g:1088:5: lv_name_2_0= RULE_ID
             {
-            lv_name_2_0=(Token)match(input,RULE_ID,FOLLOW_22); 
+            lv_name_2_0=(Token)match(input,RULE_ID,FOLLOW_23); 
 
             					newLeafNode(lv_name_2_0, grammarAccess.getNodeAccess().getNameIDTerminalRuleCall_2_0());
             				
@@ -2944,7 +2948,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getNodeAccess().getNodetypeEClassCrossReference_4_0());
             				
-            pushFollow(FOLLOW_25);
+            pushFollow(FOLLOW_26);
             ruleEString();
 
             state._fsp--;
@@ -2969,7 +2973,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                 case 1 :
                     // InternalHenshin_text.g:1125:4: otherlv_5= '{' ( (lv_attribute_6_0= ruleAttribute ) )* otherlv_7= '}'
                     {
-                    otherlv_5=(Token)match(input,19,FOLLOW_26); 
+                    otherlv_5=(Token)match(input,19,FOLLOW_27); 
 
                     				newLeafNode(otherlv_5, grammarAccess.getNodeAccess().getLeftCurlyBracketKeyword_5_0());
                     			
@@ -2994,7 +2998,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     	    						newCompositeNode(grammarAccess.getNodeAccess().getAttributeAttributeParserRuleCall_5_1_0());
                     	    					
-                    	    pushFollow(FOLLOW_26);
+                    	    pushFollow(FOLLOW_27);
                     	    lv_attribute_6_0=ruleAttribute();
 
                     	    state._fsp--;
@@ -3127,7 +3131,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             						current = createModelElement(grammarAccess.getMultiRuleReuseNodeRule());
             					}
             				
-            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_25); 
+            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_26); 
 
             					newLeafNode(otherlv_1, grammarAccess.getMultiRuleReuseNodeAccess().getNameNodeCrossReference_1_0());
             				
@@ -3148,7 +3152,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                 case 1 :
                     // InternalHenshin_text.g:1190:4: otherlv_2= '{' ( (lv_attribute_3_0= ruleAttribute ) )* otherlv_4= '}'
                     {
-                    otherlv_2=(Token)match(input,19,FOLLOW_26); 
+                    otherlv_2=(Token)match(input,19,FOLLOW_27); 
 
                     				newLeafNode(otherlv_2, grammarAccess.getMultiRuleReuseNodeAccess().getLeftCurlyBracketKeyword_2_0());
                     			
@@ -3173,7 +3177,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     	    						newCompositeNode(grammarAccess.getMultiRuleReuseNodeAccess().getAttributeAttributeParserRuleCall_2_1_0());
                     	    					
-                    	    pushFollow(FOLLOW_26);
+                    	    pushFollow(FOLLOW_27);
                     	    lv_attribute_3_0=ruleAttribute();
 
                     	    state._fsp--;
@@ -3370,7 +3374,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     						newCompositeNode(grammarAccess.getAttributeAccess().getNameEAttributeCrossReference_0_1_0());
                     					
-                    pushFollow(FOLLOW_27);
+                    pushFollow(FOLLOW_28);
                     ruleEString();
 
                     state._fsp--;
@@ -3384,7 +3388,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_2=(Token)match(input,39,FOLLOW_17); 
+                    otherlv_2=(Token)match(input,39,FOLLOW_18); 
 
                     				newLeafNode(otherlv_2, grammarAccess.getAttributeAccess().getEqualsSignKeyword_0_2());
                     			
@@ -3467,7 +3471,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     						newCompositeNode(grammarAccess.getAttributeAccess().getNameEAttributeCrossReference_1_1_0());
                     					
-                    pushFollow(FOLLOW_27);
+                    pushFollow(FOLLOW_28);
                     ruleEString();
 
                     state._fsp--;
@@ -3481,7 +3485,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_6=(Token)match(input,39,FOLLOW_17); 
+                    otherlv_6=(Token)match(input,39,FOLLOW_18); 
 
                     				newLeafNode(otherlv_6, grammarAccess.getAttributeAccess().getEqualsSignKeyword_1_2());
                     			
@@ -3612,7 +3616,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:1377:4: (lv_name_1_0= RULE_ID )
             // InternalHenshin_text.g:1378:5: lv_name_1_0= RULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_10); 
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_11); 
 
             					newLeafNode(lv_name_1_0, grammarAccess.getMultiRuleAccess().getNameIDTerminalRuleCall_1_0());
             				
@@ -3632,7 +3636,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,19,FOLLOW_11); 
+            otherlv_2=(Token)match(input,19,FOLLOW_12); 
 
             			newLeafNode(otherlv_2, grammarAccess.getMultiRuleAccess().getLeftCurlyBracketKeyword_2());
             		
@@ -3658,7 +3662,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getMultiRuleAccess().getMultiruleElementsRuleElementParserRuleCall_3_0());
             	    				
-            	    pushFollow(FOLLOW_12);
+            	    pushFollow(FOLLOW_13);
             	    lv_multiruleElements_3_0=ruleRuleElement();
 
             	    state._fsp--;
@@ -3776,15 +3780,15 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:1439:2: (otherlv_0= 'matchingFormula' otherlv_1= '{' otherlv_2= 'formula' ( (lv_formula_3_0= ruleLogic ) ) ( (lv_conditionGraphs_4_0= ruleConditionGraph ) )+ otherlv_5= '}' )
             // InternalHenshin_text.g:1440:3: otherlv_0= 'matchingFormula' otherlv_1= '{' otherlv_2= 'formula' ( (lv_formula_3_0= ruleLogic ) ) ( (lv_conditionGraphs_4_0= ruleConditionGraph ) )+ otherlv_5= '}'
             {
-            otherlv_0=(Token)match(input,42,FOLLOW_10); 
+            otherlv_0=(Token)match(input,42,FOLLOW_11); 
 
             			newLeafNode(otherlv_0, grammarAccess.getFormulaAccess().getMatchingFormulaKeyword_0());
             		
-            otherlv_1=(Token)match(input,19,FOLLOW_28); 
+            otherlv_1=(Token)match(input,19,FOLLOW_29); 
 
             			newLeafNode(otherlv_1, grammarAccess.getFormulaAccess().getLeftCurlyBracketKeyword_1());
             		
-            otherlv_2=(Token)match(input,43,FOLLOW_29); 
+            otherlv_2=(Token)match(input,43,FOLLOW_30); 
 
             			newLeafNode(otherlv_2, grammarAccess.getFormulaAccess().getFormulaKeyword_2());
             		
@@ -3797,7 +3801,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getFormulaAccess().getFormulaLogicParserRuleCall_3_0());
             				
-            pushFollow(FOLLOW_30);
+            pushFollow(FOLLOW_31);
             lv_formula_3_0=ruleLogic();
 
             state._fsp--;
@@ -3841,7 +3845,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getFormulaAccess().getConditionGraphsConditionGraphParserRuleCall_4_0());
             	    				
-            	    pushFollow(FOLLOW_31);
+            	    pushFollow(FOLLOW_32);
             	    lv_conditionGraphs_4_0=ruleConditionGraph();
 
             	    state._fsp--;
@@ -4042,7 +4046,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             			newCompositeNode(grammarAccess.getORorXORAccess().getANDParserRuleCall_0());
             		
-            pushFollow(FOLLOW_32);
+            pushFollow(FOLLOW_33);
             this_AND_0=ruleAND();
 
             state._fsp--;
@@ -4103,7 +4107,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	        case 1 :
             	            // InternalHenshin_text.g:1557:7: lv_op_2_1= 'OR'
             	            {
-            	            lv_op_2_1=(Token)match(input,44,FOLLOW_29); 
+            	            lv_op_2_1=(Token)match(input,44,FOLLOW_30); 
 
             	            							newLeafNode(lv_op_2_1, grammarAccess.getORorXORAccess().getOpORKeyword_1_1_0_0());
             	            						
@@ -4119,7 +4123,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	        case 2 :
             	            // InternalHenshin_text.g:1568:7: lv_op_2_2= 'XOR'
             	            {
-            	            lv_op_2_2=(Token)match(input,45,FOLLOW_29); 
+            	            lv_op_2_2=(Token)match(input,45,FOLLOW_30); 
 
             	            							newLeafNode(lv_op_2_2, grammarAccess.getORorXORAccess().getOpXORKeyword_1_1_0_1());
             	            						
@@ -4150,7 +4154,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    						newCompositeNode(grammarAccess.getORorXORAccess().getRightANDParserRuleCall_1_2_0());
             	    					
-            	    pushFollow(FOLLOW_32);
+            	    pushFollow(FOLLOW_33);
             	    lv_right_3_0=ruleAND();
 
             	    state._fsp--;
@@ -4263,7 +4267,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             			newCompositeNode(grammarAccess.getANDAccess().getPrimaryParserRuleCall_0());
             		
-            pushFollow(FOLLOW_33);
+            pushFollow(FOLLOW_34);
             this_Primary_0=rulePrimary();
 
             state._fsp--;
@@ -4298,7 +4302,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    otherlv_2=(Token)match(input,46,FOLLOW_29); 
+            	    otherlv_2=(Token)match(input,46,FOLLOW_30); 
 
             	    				newLeafNode(otherlv_2, grammarAccess.getANDAccess().getANDKeyword_1_1());
             	    			
@@ -4311,7 +4315,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    						newCompositeNode(grammarAccess.getANDAccess().getRightPrimaryParserRuleCall_1_2_0());
             	    					
-            	    pushFollow(FOLLOW_33);
+            	    pushFollow(FOLLOW_34);
             	    lv_right_3_0=rulePrimary();
 
             	    state._fsp--;
@@ -4454,14 +4458,14 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     // InternalHenshin_text.g:1679:3: (otherlv_0= '(' this_Logic_1= ruleLogic otherlv_2= ')' )
                     // InternalHenshin_text.g:1680:4: otherlv_0= '(' this_Logic_1= ruleLogic otherlv_2= ')'
                     {
-                    otherlv_0=(Token)match(input,16,FOLLOW_29); 
+                    otherlv_0=(Token)match(input,16,FOLLOW_30); 
 
                     				newLeafNode(otherlv_0, grammarAccess.getPrimaryAccess().getLeftParenthesisKeyword_0_0());
                     			
 
                     				newCompositeNode(grammarAccess.getPrimaryAccess().getLogicParserRuleCall_0_1());
                     			
-                    pushFollow(FOLLOW_23);
+                    pushFollow(FOLLOW_24);
                     this_Logic_1=ruleLogic();
 
                     state._fsp--;
@@ -4497,7 +4501,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_4=(Token)match(input,47,FOLLOW_29); 
+                    otherlv_4=(Token)match(input,47,FOLLOW_30); 
 
                     				newLeafNode(otherlv_4, grammarAccess.getPrimaryAccess().getExclamationMarkKeyword_1_1());
                     			
@@ -4753,7 +4757,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:1802:4: (lv_name_1_0= RULE_ID )
             // InternalHenshin_text.g:1803:5: lv_name_1_0= RULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_10); 
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_11); 
 
             					newLeafNode(lv_name_1_0, grammarAccess.getConditionGraphAccess().getNameIDTerminalRuleCall_1_0());
             				
@@ -4773,7 +4777,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,19,FOLLOW_34); 
+            otherlv_2=(Token)match(input,19,FOLLOW_35); 
 
             			newLeafNode(otherlv_2, grammarAccess.getConditionGraphAccess().getLeftCurlyBracketKeyword_2());
             		
@@ -4798,7 +4802,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getConditionGraphAccess().getConditionGraphElementsConditionGraphElementsParserRuleCall_3_0());
             	    				
-            	    pushFollow(FOLLOW_34);
+            	    pushFollow(FOLLOW_35);
             	    lv_conditionGraphElements_3_0=ruleConditionGraphElements();
 
             	    state._fsp--;
@@ -5094,7 +5098,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:1918:2: (otherlv_0= 'edges' otherlv_1= '[' ( (lv_edges_2_0= ruleConditionEdge ) ) (otherlv_3= ',' ( (lv_edges_4_0= ruleConditionEdge ) ) )* otherlv_5= ']' )
             // InternalHenshin_text.g:1919:3: otherlv_0= 'edges' otherlv_1= '[' ( (lv_edges_2_0= ruleConditionEdge ) ) (otherlv_3= ',' ( (lv_edges_4_0= ruleConditionEdge ) ) )* otherlv_5= ']'
             {
-            otherlv_0=(Token)match(input,34,FOLLOW_16); 
+            otherlv_0=(Token)match(input,34,FOLLOW_17); 
 
             			newLeafNode(otherlv_0, grammarAccess.getConditionEdgesAccess().getEdgesKeyword_0());
             		
@@ -5111,7 +5115,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getConditionEdgesAccess().getEdgesConditionEdgeParserRuleCall_2_0());
             				
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_19);
             lv_edges_2_0=ruleConditionEdge();
 
             state._fsp--;
@@ -5161,7 +5165,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    						newCompositeNode(grammarAccess.getConditionEdgesAccess().getEdgesConditionEdgeParserRuleCall_3_1_0());
             	    					
-            	    pushFollow(FOLLOW_18);
+            	    pushFollow(FOLLOW_19);
             	    lv_edges_4_0=ruleConditionEdge();
 
             	    state._fsp--;
@@ -5291,7 +5295,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             						current = createModelElement(grammarAccess.getConditionEdgeRule());
             					}
             				
-            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_21); 
+            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_22); 
 
             					newLeafNode(otherlv_1, grammarAccess.getConditionEdgeAccess().getSourceConditionNodeTypesCrossReference_1_0());
             				
@@ -5316,7 +5320,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             						current = createModelElement(grammarAccess.getConditionEdgeRule());
             					}
             				
-            otherlv_3=(Token)match(input,RULE_ID,FOLLOW_22); 
+            otherlv_3=(Token)match(input,RULE_ID,FOLLOW_23); 
 
             					newLeafNode(otherlv_3, grammarAccess.getConditionEdgeAccess().getTargetConditionNodeTypesCrossReference_3_0());
             				
@@ -5344,7 +5348,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getConditionEdgeAccess().getTypeEReferenceCrossReference_5_0());
             				
-            pushFollow(FOLLOW_23);
+            pushFollow(FOLLOW_24);
             ruleEString();
 
             state._fsp--;
@@ -5453,7 +5457,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:2076:4: (lv_name_1_0= RULE_ID )
             // InternalHenshin_text.g:2077:5: lv_name_1_0= RULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_22); 
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_23); 
 
             					newLeafNode(lv_name_1_0, grammarAccess.getConditionNodeAccess().getNameIDTerminalRuleCall_1_0());
             				
@@ -5491,7 +5495,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getConditionNodeAccess().getTypeEClassCrossReference_3_0());
             				
-            pushFollow(FOLLOW_25);
+            pushFollow(FOLLOW_26);
             ruleEString();
 
             state._fsp--;
@@ -5516,7 +5520,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                 case 1 :
                     // InternalHenshin_text.g:2114:4: otherlv_4= '{' ( (lv_attribute_5_0= ruleMatch ) )* otherlv_6= '}'
                     {
-                    otherlv_4=(Token)match(input,19,FOLLOW_35); 
+                    otherlv_4=(Token)match(input,19,FOLLOW_36); 
 
                     				newLeafNode(otherlv_4, grammarAccess.getConditionNodeAccess().getLeftCurlyBracketKeyword_4_0());
                     			
@@ -5541,7 +5545,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     	    						newCompositeNode(grammarAccess.getConditionNodeAccess().getAttributeMatchParserRuleCall_4_1_0());
                     	    					
-                    	    pushFollow(FOLLOW_35);
+                    	    pushFollow(FOLLOW_36);
                     	    lv_attribute_5_0=ruleMatch();
 
                     	    state._fsp--;
@@ -5674,7 +5678,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             						current = createModelElement(grammarAccess.getConditionReuseNodeRule());
             					}
             				
-            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_25); 
+            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_26); 
 
             					newLeafNode(otherlv_1, grammarAccess.getConditionReuseNodeAccess().getNameConditionNodeTypesCrossReference_1_0());
             				
@@ -5695,7 +5699,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                 case 1 :
                     // InternalHenshin_text.g:2179:4: otherlv_2= '{' ( (lv_attribute_3_0= ruleMatch ) )* otherlv_4= '}'
                     {
-                    otherlv_2=(Token)match(input,19,FOLLOW_35); 
+                    otherlv_2=(Token)match(input,19,FOLLOW_36); 
 
                     				newLeafNode(otherlv_2, grammarAccess.getConditionReuseNodeAccess().getLeftCurlyBracketKeyword_2_0());
                     			
@@ -5720,7 +5724,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     	    						newCompositeNode(grammarAccess.getConditionReuseNodeAccess().getAttributeMatchParserRuleCall_2_1_0());
                     	    					
-                    	    pushFollow(FOLLOW_35);
+                    	    pushFollow(FOLLOW_36);
                     	    lv_attribute_3_0=ruleMatch();
 
                     	    state._fsp--;
@@ -5849,7 +5853,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getMatchAccess().getNameEAttributeCrossReference_0_0());
             				
-            pushFollow(FOLLOW_27);
+            pushFollow(FOLLOW_28);
             ruleEString();
 
             state._fsp--;
@@ -5863,7 +5867,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,39,FOLLOW_17); 
+            otherlv_1=(Token)match(input,39,FOLLOW_18); 
 
             			newLeafNode(otherlv_1, grammarAccess.getMatchAccess().getEqualsSignKeyword_1());
             		
@@ -6081,7 +6085,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_2=(Token)match(input,16,FOLLOW_8); 
+                    otherlv_2=(Token)match(input,16,FOLLOW_37); 
 
                     				newLeafNode(otherlv_2, grammarAccess.getUnitElementAccess().getLeftParenthesisKeyword_0_2());
                     			
@@ -6188,7 +6192,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     // InternalHenshin_text.g:2349:3: (otherlv_7= '{' ( (lv_subSequence_8_0= ruleUnitElement ) )+ otherlv_9= '}' )
                     // InternalHenshin_text.g:2350:4: otherlv_7= '{' ( (lv_subSequence_8_0= ruleUnitElement ) )+ otherlv_9= '}'
                     {
-                    otherlv_7=(Token)match(input,19,FOLLOW_13); 
+                    otherlv_7=(Token)match(input,19,FOLLOW_14); 
 
                     				newLeafNode(otherlv_7, grammarAccess.getUnitElementAccess().getLeftCurlyBracketKeyword_1_0());
                     			
@@ -6214,7 +6218,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     	    						newCompositeNode(grammarAccess.getUnitElementAccess().getSubSequenceUnitElementParserRuleCall_1_1_0());
                     	    					
-                    	    pushFollow(FOLLOW_14);
+                    	    pushFollow(FOLLOW_15);
                     	    lv_subSequence_8_0=ruleUnitElement();
 
                     	    state._fsp--;
@@ -6569,7 +6573,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:2486:2: (otherlv_0= 'strict' ( (lv_strict_1_0= ruleEBoolean ) ) )
             // InternalHenshin_text.g:2487:3: otherlv_0= 'strict' ( (lv_strict_1_0= ruleEBoolean ) )
             {
-            otherlv_0=(Token)match(input,49,FOLLOW_15); 
+            otherlv_0=(Token)match(input,49,FOLLOW_16); 
 
             			newLeafNode(otherlv_0, grammarAccess.getStrictAccess().getStrictKeyword_0());
             		
@@ -6681,7 +6685,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:2528:2: (otherlv_0= 'rollback' ( (lv_rollback_1_0= ruleEBoolean ) ) )
             // InternalHenshin_text.g:2529:3: otherlv_0= 'rollback' ( (lv_rollback_1_0= ruleEBoolean ) )
             {
-            otherlv_0=(Token)match(input,50,FOLLOW_15); 
+            otherlv_0=(Token)match(input,50,FOLLOW_16); 
 
             			newLeafNode(otherlv_0, grammarAccess.getRollbackAccess().getRollbackKeyword_0());
             		
@@ -6811,7 +6815,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    				newCompositeNode(grammarAccess.getListAccess().getSubElementsUnitElementParserRuleCall_0());
             	    			
-            	    pushFollow(FOLLOW_36);
+            	    pushFollow(FOLLOW_38);
             	    lv_subElements_0_0=ruleUnitElement();
 
             	    state._fsp--;
@@ -6922,11 +6926,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:2606:2: (otherlv_0= 'independent' otherlv_1= '[' ( (lv_listOfLists_2_0= ruleList ) ) (otherlv_3= ',' ( (lv_listOfLists_4_0= ruleList ) ) )* otherlv_5= ']' )
             // InternalHenshin_text.g:2607:3: otherlv_0= 'independent' otherlv_1= '[' ( (lv_listOfLists_2_0= ruleList ) ) (otherlv_3= ',' ( (lv_listOfLists_4_0= ruleList ) ) )* otherlv_5= ']'
             {
-            otherlv_0=(Token)match(input,51,FOLLOW_16); 
+            otherlv_0=(Token)match(input,51,FOLLOW_17); 
 
             			newLeafNode(otherlv_0, grammarAccess.getIndependentUnitAccess().getIndependentKeyword_0());
             		
-            otherlv_1=(Token)match(input,26,FOLLOW_13); 
+            otherlv_1=(Token)match(input,26,FOLLOW_14); 
 
             			newLeafNode(otherlv_1, grammarAccess.getIndependentUnitAccess().getLeftSquareBracketKeyword_1());
             		
@@ -6939,7 +6943,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getIndependentUnitAccess().getListOfListsListParserRuleCall_2_0());
             				
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_19);
             lv_listOfLists_2_0=ruleList();
 
             state._fsp--;
@@ -6976,7 +6980,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	case 1 :
             	    // InternalHenshin_text.g:2635:4: otherlv_3= ',' ( (lv_listOfLists_4_0= ruleList ) )
             	    {
-            	    otherlv_3=(Token)match(input,17,FOLLOW_13); 
+            	    otherlv_3=(Token)match(input,17,FOLLOW_14); 
 
             	    				newLeafNode(otherlv_3, grammarAccess.getIndependentUnitAccess().getCommaKeyword_3_0());
             	    			
@@ -6989,7 +6993,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    						newCompositeNode(grammarAccess.getIndependentUnitAccess().getListOfListsListParserRuleCall_3_1_0());
             	    					
-            	    pushFollow(FOLLOW_18);
+            	    pushFollow(FOLLOW_19);
             	    lv_listOfLists_4_0=ruleList();
 
             	    state._fsp--;
@@ -7117,7 +7121,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_0, grammarAccess.getConditionalUnitAccess().getIfKeyword_0());
             		
-            otherlv_1=(Token)match(input,16,FOLLOW_13); 
+            otherlv_1=(Token)match(input,16,FOLLOW_14); 
 
             			newLeafNode(otherlv_1, grammarAccess.getConditionalUnitAccess().getLeftParenthesisKeyword_1());
             		
@@ -7143,7 +7147,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getConditionalUnitAccess().getIfUnitElementParserRuleCall_2_0());
             	    				
-            	    pushFollow(FOLLOW_37);
+            	    pushFollow(FOLLOW_39);
             	    lv_if_2_0=ruleUnitElement();
 
             	    state._fsp--;
@@ -7175,15 +7179,15 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                 cnt45++;
             } while (true);
 
-            otherlv_3=(Token)match(input,18,FOLLOW_38); 
+            otherlv_3=(Token)match(input,18,FOLLOW_40); 
 
             			newLeafNode(otherlv_3, grammarAccess.getConditionalUnitAccess().getRightParenthesisKeyword_3());
             		
-            otherlv_4=(Token)match(input,53,FOLLOW_10); 
+            otherlv_4=(Token)match(input,53,FOLLOW_11); 
 
             			newLeafNode(otherlv_4, grammarAccess.getConditionalUnitAccess().getThenKeyword_4());
             		
-            otherlv_5=(Token)match(input,19,FOLLOW_13); 
+            otherlv_5=(Token)match(input,19,FOLLOW_14); 
 
             			newLeafNode(otherlv_5, grammarAccess.getConditionalUnitAccess().getLeftCurlyBracketKeyword_5());
             		
@@ -7209,7 +7213,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getConditionalUnitAccess().getThenUnitElementParserRuleCall_6_0());
             	    				
-            	    pushFollow(FOLLOW_14);
+            	    pushFollow(FOLLOW_15);
             	    lv_then_6_0=ruleUnitElement();
 
             	    state._fsp--;
@@ -7241,7 +7245,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                 cnt46++;
             } while (true);
 
-            otherlv_7=(Token)match(input,20,FOLLOW_39); 
+            otherlv_7=(Token)match(input,20,FOLLOW_41); 
 
             			newLeafNode(otherlv_7, grammarAccess.getConditionalUnitAccess().getRightCurlyBracketKeyword_7());
             		
@@ -7256,11 +7260,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                 case 1 :
                     // InternalHenshin_text.g:2745:4: otherlv_8= 'else' otherlv_9= '{' ( (lv_else_10_0= ruleUnitElement ) )+ otherlv_11= '}'
                     {
-                    otherlv_8=(Token)match(input,54,FOLLOW_10); 
+                    otherlv_8=(Token)match(input,54,FOLLOW_11); 
 
                     				newLeafNode(otherlv_8, grammarAccess.getConditionalUnitAccess().getElseKeyword_8_0());
                     			
-                    otherlv_9=(Token)match(input,19,FOLLOW_13); 
+                    otherlv_9=(Token)match(input,19,FOLLOW_14); 
 
                     				newLeafNode(otherlv_9, grammarAccess.getConditionalUnitAccess().getLeftCurlyBracketKeyword_8_1());
                     			
@@ -7286,7 +7290,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     	    						newCompositeNode(grammarAccess.getConditionalUnitAccess().getElseUnitElementParserRuleCall_8_2_0());
                     	    					
-                    	    pushFollow(FOLLOW_14);
+                    	    pushFollow(FOLLOW_15);
                     	    lv_else_10_0=ruleUnitElement();
 
                     	    state._fsp--;
@@ -7410,11 +7414,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:2795:2: (otherlv_0= 'priority' otherlv_1= '[' ( (lv_listOfLists_2_0= ruleList ) ) (otherlv_3= ',' ( (lv_listOfLists_4_0= ruleList ) ) )* otherlv_5= ']' )
             // InternalHenshin_text.g:2796:3: otherlv_0= 'priority' otherlv_1= '[' ( (lv_listOfLists_2_0= ruleList ) ) (otherlv_3= ',' ( (lv_listOfLists_4_0= ruleList ) ) )* otherlv_5= ']'
             {
-            otherlv_0=(Token)match(input,55,FOLLOW_16); 
+            otherlv_0=(Token)match(input,55,FOLLOW_17); 
 
             			newLeafNode(otherlv_0, grammarAccess.getPriorityUnitAccess().getPriorityKeyword_0());
             		
-            otherlv_1=(Token)match(input,26,FOLLOW_13); 
+            otherlv_1=(Token)match(input,26,FOLLOW_14); 
 
             			newLeafNode(otherlv_1, grammarAccess.getPriorityUnitAccess().getLeftSquareBracketKeyword_1());
             		
@@ -7427,7 +7431,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getPriorityUnitAccess().getListOfListsListParserRuleCall_2_0());
             				
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_19);
             lv_listOfLists_2_0=ruleList();
 
             state._fsp--;
@@ -7464,7 +7468,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	case 1 :
             	    // InternalHenshin_text.g:2824:4: otherlv_3= ',' ( (lv_listOfLists_4_0= ruleList ) )
             	    {
-            	    otherlv_3=(Token)match(input,17,FOLLOW_13); 
+            	    otherlv_3=(Token)match(input,17,FOLLOW_14); 
 
             	    				newLeafNode(otherlv_3, grammarAccess.getPriorityUnitAccess().getCommaKeyword_3_0());
             	    			
@@ -7477,7 +7481,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    						newCompositeNode(grammarAccess.getPriorityUnitAccess().getListOfListsListParserRuleCall_3_1_0());
             	    					
-            	    pushFollow(FOLLOW_18);
+            	    pushFollow(FOLLOW_19);
             	    lv_listOfLists_4_0=ruleList();
 
             	    state._fsp--;
@@ -7610,7 +7614,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getIteratedUnitAccess().getForKeyword_1());
             		
-            otherlv_2=(Token)match(input,16,FOLLOW_17); 
+            otherlv_2=(Token)match(input,16,FOLLOW_18); 
 
             			newLeafNode(otherlv_2, grammarAccess.getIteratedUnitAccess().getLeftParenthesisKeyword_2());
             		
@@ -7623,7 +7627,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getIteratedUnitAccess().getIterationsExpressionParserRuleCall_3_0());
             				
-            pushFollow(FOLLOW_23);
+            pushFollow(FOLLOW_24);
             lv_iterations_3_0=ruleExpression();
 
             state._fsp--;
@@ -7645,11 +7649,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,18,FOLLOW_10); 
+            otherlv_4=(Token)match(input,18,FOLLOW_11); 
 
             			newLeafNode(otherlv_4, grammarAccess.getIteratedUnitAccess().getRightParenthesisKeyword_4());
             		
-            otherlv_5=(Token)match(input,19,FOLLOW_13); 
+            otherlv_5=(Token)match(input,19,FOLLOW_14); 
 
             			newLeafNode(otherlv_5, grammarAccess.getIteratedUnitAccess().getLeftCurlyBracketKeyword_5());
             		
@@ -7675,7 +7679,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getIteratedUnitAccess().getSubElementUnitElementParserRuleCall_6_0());
             	    				
-            	    pushFollow(FOLLOW_14);
+            	    pushFollow(FOLLOW_15);
             	    lv_subElement_6_0=ruleUnitElement();
 
             	    state._fsp--;
@@ -7790,11 +7794,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             // InternalHenshin_text.g:2954:2: (otherlv_0= 'while' otherlv_1= '{' ( (lv_subElement_2_0= ruleUnitElement ) )+ otherlv_3= '}' )
             // InternalHenshin_text.g:2955:3: otherlv_0= 'while' otherlv_1= '{' ( (lv_subElement_2_0= ruleUnitElement ) )+ otherlv_3= '}'
             {
-            otherlv_0=(Token)match(input,57,FOLLOW_10); 
+            otherlv_0=(Token)match(input,57,FOLLOW_11); 
 
             			newLeafNode(otherlv_0, grammarAccess.getLoopUnitAccess().getWhileKeyword_0());
             		
-            otherlv_1=(Token)match(input,19,FOLLOW_13); 
+            otherlv_1=(Token)match(input,19,FOLLOW_14); 
 
             			newLeafNode(otherlv_1, grammarAccess.getLoopUnitAccess().getLeftCurlyBracketKeyword_1());
             		
@@ -7820,7 +7824,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getLoopUnitAccess().getSubElementUnitElementParserRuleCall_2_0());
             	    				
-            	    pushFollow(FOLLOW_14);
+            	    pushFollow(FOLLOW_15);
             	    lv_subElement_2_0=ruleUnitElement();
 
             	    state._fsp--;
@@ -7915,34 +7919,78 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleParameter"
-    // InternalHenshin_text.g:2997:1: ruleParameter returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleParameterType ) ) ) ;
+    // InternalHenshin_text.g:2997:1: ruleParameter returns [EObject current=null] : ( ( (lv_kind_0_0= ruleParameterKindRule ) )? ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleParameterType ) ) ) ;
     public final EObject ruleParameter() throws RecognitionException {
         EObject current = null;
 
-        Token lv_name_0_0=null;
-        Token otherlv_1=null;
-        EObject lv_type_2_0 = null;
+        Token lv_name_1_0=null;
+        Token otherlv_2=null;
+        Enumerator lv_kind_0_0 = null;
+
+        EObject lv_type_3_0 = null;
 
 
 
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3003:2: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleParameterType ) ) ) )
-            // InternalHenshin_text.g:3004:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleParameterType ) ) )
+            // InternalHenshin_text.g:3003:2: ( ( ( (lv_kind_0_0= ruleParameterKindRule ) )? ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleParameterType ) ) ) )
+            // InternalHenshin_text.g:3004:2: ( ( (lv_kind_0_0= ruleParameterKindRule ) )? ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleParameterType ) ) )
             {
-            // InternalHenshin_text.g:3004:2: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleParameterType ) ) )
-            // InternalHenshin_text.g:3005:3: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleParameterType ) )
+            // InternalHenshin_text.g:3004:2: ( ( (lv_kind_0_0= ruleParameterKindRule ) )? ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleParameterType ) ) )
+            // InternalHenshin_text.g:3005:3: ( (lv_kind_0_0= ruleParameterKindRule ) )? ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleParameterType ) )
             {
-            // InternalHenshin_text.g:3005:3: ( (lv_name_0_0= RULE_ID ) )
-            // InternalHenshin_text.g:3006:4: (lv_name_0_0= RULE_ID )
-            {
-            // InternalHenshin_text.g:3006:4: (lv_name_0_0= RULE_ID )
-            // InternalHenshin_text.g:3007:5: lv_name_0_0= RULE_ID
-            {
-            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_22); 
+            // InternalHenshin_text.g:3005:3: ( (lv_kind_0_0= ruleParameterKindRule ) )?
+            int alt52=2;
+            int LA52_0 = input.LA(1);
 
-            					newLeafNode(lv_name_0_0, grammarAccess.getParameterAccess().getNameIDTerminalRuleCall_0_0());
+            if ( ((LA52_0>=70 && LA52_0<=73)) ) {
+                alt52=1;
+            }
+            switch (alt52) {
+                case 1 :
+                    // InternalHenshin_text.g:3006:4: (lv_kind_0_0= ruleParameterKindRule )
+                    {
+                    // InternalHenshin_text.g:3006:4: (lv_kind_0_0= ruleParameterKindRule )
+                    // InternalHenshin_text.g:3007:5: lv_kind_0_0= ruleParameterKindRule
+                    {
+
+                    					newCompositeNode(grammarAccess.getParameterAccess().getKindParameterKindRuleEnumRuleCall_0_0());
+                    				
+                    pushFollow(FOLLOW_5);
+                    lv_kind_0_0=ruleParameterKindRule();
+
+                    state._fsp--;
+
+
+                    					if (current==null) {
+                    						current = createModelElementForParent(grammarAccess.getParameterRule());
+                    					}
+                    					set(
+                    						current,
+                    						"kind",
+                    						lv_kind_0_0,
+                    						"org.eclipse.emf.henshin.text.Henshin_text.ParameterKindRule");
+                    					afterParserOrEnumRuleCall();
+                    				
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+            // InternalHenshin_text.g:3024:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalHenshin_text.g:3025:4: (lv_name_1_0= RULE_ID )
+            {
+            // InternalHenshin_text.g:3025:4: (lv_name_1_0= RULE_ID )
+            // InternalHenshin_text.g:3026:5: lv_name_1_0= RULE_ID
+            {
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_23); 
+
+            					newLeafNode(lv_name_1_0, grammarAccess.getParameterAccess().getNameIDTerminalRuleCall_1_0());
             				
 
             					if (current==null) {
@@ -7951,7 +7999,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             					setWithLastConsumed(
             						current,
             						"name",
-            						lv_name_0_0,
+            						lv_name_1_0,
             						"org.eclipse.xtext.common.Terminals.ID");
             				
 
@@ -7960,21 +8008,21 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,36,FOLLOW_40); 
+            otherlv_2=(Token)match(input,36,FOLLOW_42); 
 
-            			newLeafNode(otherlv_1, grammarAccess.getParameterAccess().getColonKeyword_1());
+            			newLeafNode(otherlv_2, grammarAccess.getParameterAccess().getColonKeyword_2());
             		
-            // InternalHenshin_text.g:3027:3: ( (lv_type_2_0= ruleParameterType ) )
-            // InternalHenshin_text.g:3028:4: (lv_type_2_0= ruleParameterType )
+            // InternalHenshin_text.g:3046:3: ( (lv_type_3_0= ruleParameterType ) )
+            // InternalHenshin_text.g:3047:4: (lv_type_3_0= ruleParameterType )
             {
-            // InternalHenshin_text.g:3028:4: (lv_type_2_0= ruleParameterType )
-            // InternalHenshin_text.g:3029:5: lv_type_2_0= ruleParameterType
+            // InternalHenshin_text.g:3047:4: (lv_type_3_0= ruleParameterType )
+            // InternalHenshin_text.g:3048:5: lv_type_3_0= ruleParameterType
             {
 
-            					newCompositeNode(grammarAccess.getParameterAccess().getTypeParameterTypeParserRuleCall_2_0());
+            					newCompositeNode(grammarAccess.getParameterAccess().getTypeParameterTypeParserRuleCall_3_0());
             				
             pushFollow(FOLLOW_2);
-            lv_type_2_0=ruleParameterType();
+            lv_type_3_0=ruleParameterType();
 
             state._fsp--;
 
@@ -7985,7 +8033,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             					set(
             						current,
             						"type",
-            						lv_type_2_0,
+            						lv_type_3_0,
             						"org.eclipse.emf.henshin.text.Henshin_text.ParameterType");
             					afterParserOrEnumRuleCall();
             				
@@ -8018,7 +8066,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleParameterType"
-    // InternalHenshin_text.g:3050:1: entryRuleParameterType returns [EObject current=null] : iv_ruleParameterType= ruleParameterType EOF ;
+    // InternalHenshin_text.g:3069:1: entryRuleParameterType returns [EObject current=null] : iv_ruleParameterType= ruleParameterType EOF ;
     public final EObject entryRuleParameterType() throws RecognitionException {
         EObject current = null;
 
@@ -8026,8 +8074,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3050:54: (iv_ruleParameterType= ruleParameterType EOF )
-            // InternalHenshin_text.g:3051:2: iv_ruleParameterType= ruleParameterType EOF
+            // InternalHenshin_text.g:3069:54: (iv_ruleParameterType= ruleParameterType EOF )
+            // InternalHenshin_text.g:3070:2: iv_ruleParameterType= ruleParameterType EOF
             {
              newCompositeNode(grammarAccess.getParameterTypeRule()); 
             pushFollow(FOLLOW_1);
@@ -8054,7 +8102,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleParameterType"
-    // InternalHenshin_text.g:3057:1: ruleParameterType returns [EObject current=null] : ( ( (lv_enumType_0_0= ruleType ) ) | ( ( ruleEString ) ) ) ;
+    // InternalHenshin_text.g:3076:1: ruleParameterType returns [EObject current=null] : ( ( (lv_enumType_0_0= ruleType ) ) | ( ( ruleEString ) ) ) ;
     public final EObject ruleParameterType() throws RecognitionException {
         EObject current = null;
 
@@ -8065,34 +8113,34 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3063:2: ( ( ( (lv_enumType_0_0= ruleType ) ) | ( ( ruleEString ) ) ) )
-            // InternalHenshin_text.g:3064:2: ( ( (lv_enumType_0_0= ruleType ) ) | ( ( ruleEString ) ) )
+            // InternalHenshin_text.g:3082:2: ( ( ( (lv_enumType_0_0= ruleType ) ) | ( ( ruleEString ) ) ) )
+            // InternalHenshin_text.g:3083:2: ( ( (lv_enumType_0_0= ruleType ) ) | ( ( ruleEString ) ) )
             {
-            // InternalHenshin_text.g:3064:2: ( ( (lv_enumType_0_0= ruleType ) ) | ( ( ruleEString ) ) )
-            int alt52=2;
-            int LA52_0 = input.LA(1);
+            // InternalHenshin_text.g:3083:2: ( ( (lv_enumType_0_0= ruleType ) ) | ( ( ruleEString ) ) )
+            int alt53=2;
+            int LA53_0 = input.LA(1);
 
-            if ( ((LA52_0>=70 && LA52_0<=102)) ) {
-                alt52=1;
+            if ( ((LA53_0>=74 && LA53_0<=106)) ) {
+                alt53=1;
             }
-            else if ( (LA52_0==RULE_ID) ) {
-                alt52=2;
+            else if ( (LA53_0==RULE_ID) ) {
+                alt53=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 52, 0, input);
+                    new NoViableAltException("", 53, 0, input);
 
                 throw nvae;
             }
-            switch (alt52) {
+            switch (alt53) {
                 case 1 :
-                    // InternalHenshin_text.g:3065:3: ( (lv_enumType_0_0= ruleType ) )
+                    // InternalHenshin_text.g:3084:3: ( (lv_enumType_0_0= ruleType ) )
                     {
-                    // InternalHenshin_text.g:3065:3: ( (lv_enumType_0_0= ruleType ) )
-                    // InternalHenshin_text.g:3066:4: (lv_enumType_0_0= ruleType )
+                    // InternalHenshin_text.g:3084:3: ( (lv_enumType_0_0= ruleType ) )
+                    // InternalHenshin_text.g:3085:4: (lv_enumType_0_0= ruleType )
                     {
-                    // InternalHenshin_text.g:3066:4: (lv_enumType_0_0= ruleType )
-                    // InternalHenshin_text.g:3067:5: lv_enumType_0_0= ruleType
+                    // InternalHenshin_text.g:3085:4: (lv_enumType_0_0= ruleType )
+                    // InternalHenshin_text.g:3086:5: lv_enumType_0_0= ruleType
                     {
 
                     					newCompositeNode(grammarAccess.getParameterTypeAccess().getEnumTypeTypeEnumRuleCall_0_0());
@@ -8123,13 +8171,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalHenshin_text.g:3085:3: ( ( ruleEString ) )
+                    // InternalHenshin_text.g:3104:3: ( ( ruleEString ) )
                     {
-                    // InternalHenshin_text.g:3085:3: ( ( ruleEString ) )
-                    // InternalHenshin_text.g:3086:4: ( ruleEString )
+                    // InternalHenshin_text.g:3104:3: ( ( ruleEString ) )
+                    // InternalHenshin_text.g:3105:4: ( ruleEString )
                     {
-                    // InternalHenshin_text.g:3086:4: ( ruleEString )
-                    // InternalHenshin_text.g:3087:5: ruleEString
+                    // InternalHenshin_text.g:3105:4: ( ruleEString )
+                    // InternalHenshin_text.g:3106:5: ruleEString
                     {
 
                     					if (current==null) {
@@ -8179,7 +8227,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEBoolean"
-    // InternalHenshin_text.g:3105:1: entryRuleEBoolean returns [String current=null] : iv_ruleEBoolean= ruleEBoolean EOF ;
+    // InternalHenshin_text.g:3124:1: entryRuleEBoolean returns [String current=null] : iv_ruleEBoolean= ruleEBoolean EOF ;
     public final String entryRuleEBoolean() throws RecognitionException {
         String current = null;
 
@@ -8187,8 +8235,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3105:48: (iv_ruleEBoolean= ruleEBoolean EOF )
-            // InternalHenshin_text.g:3106:2: iv_ruleEBoolean= ruleEBoolean EOF
+            // InternalHenshin_text.g:3124:48: (iv_ruleEBoolean= ruleEBoolean EOF )
+            // InternalHenshin_text.g:3125:2: iv_ruleEBoolean= ruleEBoolean EOF
             {
              newCompositeNode(grammarAccess.getEBooleanRule()); 
             pushFollow(FOLLOW_1);
@@ -8215,7 +8263,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEBoolean"
-    // InternalHenshin_text.g:3112:1: ruleEBoolean returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'true' | kw= 'false' ) ;
+    // InternalHenshin_text.g:3131:1: ruleEBoolean returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'true' | kw= 'false' ) ;
     public final AntlrDatatypeRuleToken ruleEBoolean() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -8225,28 +8273,28 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3118:2: ( (kw= 'true' | kw= 'false' ) )
-            // InternalHenshin_text.g:3119:2: (kw= 'true' | kw= 'false' )
+            // InternalHenshin_text.g:3137:2: ( (kw= 'true' | kw= 'false' ) )
+            // InternalHenshin_text.g:3138:2: (kw= 'true' | kw= 'false' )
             {
-            // InternalHenshin_text.g:3119:2: (kw= 'true' | kw= 'false' )
-            int alt53=2;
-            int LA53_0 = input.LA(1);
+            // InternalHenshin_text.g:3138:2: (kw= 'true' | kw= 'false' )
+            int alt54=2;
+            int LA54_0 = input.LA(1);
 
-            if ( (LA53_0==58) ) {
-                alt53=1;
+            if ( (LA54_0==58) ) {
+                alt54=1;
             }
-            else if ( (LA53_0==59) ) {
-                alt53=2;
+            else if ( (LA54_0==59) ) {
+                alt54=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 53, 0, input);
+                    new NoViableAltException("", 54, 0, input);
 
                 throw nvae;
             }
-            switch (alt53) {
+            switch (alt54) {
                 case 1 :
-                    // InternalHenshin_text.g:3120:3: kw= 'true'
+                    // InternalHenshin_text.g:3139:3: kw= 'true'
                     {
                     kw=(Token)match(input,58,FOLLOW_2); 
 
@@ -8257,7 +8305,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalHenshin_text.g:3126:3: kw= 'false'
+                    // InternalHenshin_text.g:3145:3: kw= 'false'
                     {
                     kw=(Token)match(input,59,FOLLOW_2); 
 
@@ -8290,7 +8338,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleExpression"
-    // InternalHenshin_text.g:3135:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
+    // InternalHenshin_text.g:3154:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
     public final EObject entryRuleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -8298,8 +8346,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3135:51: (iv_ruleExpression= ruleExpression EOF )
-            // InternalHenshin_text.g:3136:2: iv_ruleExpression= ruleExpression EOF
+            // InternalHenshin_text.g:3154:51: (iv_ruleExpression= ruleExpression EOF )
+            // InternalHenshin_text.g:3155:2: iv_ruleExpression= ruleExpression EOF
             {
              newCompositeNode(grammarAccess.getExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -8326,7 +8374,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExpression"
-    // InternalHenshin_text.g:3142:1: ruleExpression returns [EObject current=null] : this_OrExpression_0= ruleOrExpression ;
+    // InternalHenshin_text.g:3161:1: ruleExpression returns [EObject current=null] : this_OrExpression_0= ruleOrExpression ;
     public final EObject ruleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -8337,8 +8385,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3148:2: (this_OrExpression_0= ruleOrExpression )
-            // InternalHenshin_text.g:3149:2: this_OrExpression_0= ruleOrExpression
+            // InternalHenshin_text.g:3167:2: (this_OrExpression_0= ruleOrExpression )
+            // InternalHenshin_text.g:3168:2: this_OrExpression_0= ruleOrExpression
             {
 
             		newCompositeNode(grammarAccess.getExpressionAccess().getOrExpressionParserRuleCall());
@@ -8372,7 +8420,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleOrExpression"
-    // InternalHenshin_text.g:3160:1: entryRuleOrExpression returns [EObject current=null] : iv_ruleOrExpression= ruleOrExpression EOF ;
+    // InternalHenshin_text.g:3179:1: entryRuleOrExpression returns [EObject current=null] : iv_ruleOrExpression= ruleOrExpression EOF ;
     public final EObject entryRuleOrExpression() throws RecognitionException {
         EObject current = null;
 
@@ -8380,8 +8428,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3160:53: (iv_ruleOrExpression= ruleOrExpression EOF )
-            // InternalHenshin_text.g:3161:2: iv_ruleOrExpression= ruleOrExpression EOF
+            // InternalHenshin_text.g:3179:53: (iv_ruleOrExpression= ruleOrExpression EOF )
+            // InternalHenshin_text.g:3180:2: iv_ruleOrExpression= ruleOrExpression EOF
             {
              newCompositeNode(grammarAccess.getOrExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -8408,7 +8456,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOrExpression"
-    // InternalHenshin_text.g:3167:1: ruleOrExpression returns [EObject current=null] : (this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )* ) ;
+    // InternalHenshin_text.g:3186:1: ruleOrExpression returns [EObject current=null] : (this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )* ) ;
     public final EObject ruleOrExpression() throws RecognitionException {
         EObject current = null;
 
@@ -8422,16 +8470,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3173:2: ( (this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )* ) )
-            // InternalHenshin_text.g:3174:2: (this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )* )
+            // InternalHenshin_text.g:3192:2: ( (this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )* ) )
+            // InternalHenshin_text.g:3193:2: (this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )* )
             {
-            // InternalHenshin_text.g:3174:2: (this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )* )
-            // InternalHenshin_text.g:3175:3: this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )*
+            // InternalHenshin_text.g:3193:2: (this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )* )
+            // InternalHenshin_text.g:3194:3: this_AndExpression_0= ruleAndExpression ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )*
             {
 
             			newCompositeNode(grammarAccess.getOrExpressionAccess().getAndExpressionParserRuleCall_0());
             		
-            pushFollow(FOLLOW_41);
+            pushFollow(FOLLOW_43);
             this_AndExpression_0=ruleAndExpression();
 
             state._fsp--;
@@ -8440,23 +8488,23 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             			current = this_AndExpression_0;
             			afterParserOrEnumRuleCall();
             		
-            // InternalHenshin_text.g:3183:3: ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )*
-            loop54:
+            // InternalHenshin_text.g:3202:3: ( () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) ) )*
+            loop55:
             do {
-                int alt54=2;
-                int LA54_0 = input.LA(1);
+                int alt55=2;
+                int LA55_0 = input.LA(1);
 
-                if ( (LA54_0==44) ) {
-                    alt54=1;
+                if ( (LA55_0==44) ) {
+                    alt55=1;
                 }
 
 
-                switch (alt54) {
+                switch (alt55) {
             	case 1 :
-            	    // InternalHenshin_text.g:3184:4: () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) )
+            	    // InternalHenshin_text.g:3203:4: () otherlv_2= 'OR' ( (lv_right_3_0= ruleAndExpression ) )
             	    {
-            	    // InternalHenshin_text.g:3184:4: ()
-            	    // InternalHenshin_text.g:3185:5: 
+            	    // InternalHenshin_text.g:3203:4: ()
+            	    // InternalHenshin_text.g:3204:5: 
             	    {
 
             	    					current = forceCreateModelElementAndSet(
@@ -8466,20 +8514,20 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    otherlv_2=(Token)match(input,44,FOLLOW_17); 
+            	    otherlv_2=(Token)match(input,44,FOLLOW_18); 
 
             	    				newLeafNode(otherlv_2, grammarAccess.getOrExpressionAccess().getORKeyword_1_1());
             	    			
-            	    // InternalHenshin_text.g:3195:4: ( (lv_right_3_0= ruleAndExpression ) )
-            	    // InternalHenshin_text.g:3196:5: (lv_right_3_0= ruleAndExpression )
+            	    // InternalHenshin_text.g:3214:4: ( (lv_right_3_0= ruleAndExpression ) )
+            	    // InternalHenshin_text.g:3215:5: (lv_right_3_0= ruleAndExpression )
             	    {
-            	    // InternalHenshin_text.g:3196:5: (lv_right_3_0= ruleAndExpression )
-            	    // InternalHenshin_text.g:3197:6: lv_right_3_0= ruleAndExpression
+            	    // InternalHenshin_text.g:3215:5: (lv_right_3_0= ruleAndExpression )
+            	    // InternalHenshin_text.g:3216:6: lv_right_3_0= ruleAndExpression
             	    {
 
             	    						newCompositeNode(grammarAccess.getOrExpressionAccess().getRightAndExpressionParserRuleCall_1_2_0());
             	    					
-            	    pushFollow(FOLLOW_41);
+            	    pushFollow(FOLLOW_43);
             	    lv_right_3_0=ruleAndExpression();
 
             	    state._fsp--;
@@ -8493,167 +8541,6 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	    							"right",
             	    							lv_right_3_0,
             	    							"org.eclipse.emf.henshin.text.Henshin_text.AndExpression");
-            	    						afterParserOrEnumRuleCall();
-            	    					
-
-            	    }
-
-
-            	    }
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop54;
-                }
-            } while (true);
-
-
-            }
-
-
-            }
-
-
-            	leaveRule();
-
-        }
-
-            catch (RecognitionException re) {
-                recover(input,re);
-                appendSkippedTokens();
-            }
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "ruleOrExpression"
-
-
-    // $ANTLR start "entryRuleAndExpression"
-    // InternalHenshin_text.g:3219:1: entryRuleAndExpression returns [EObject current=null] : iv_ruleAndExpression= ruleAndExpression EOF ;
-    public final EObject entryRuleAndExpression() throws RecognitionException {
-        EObject current = null;
-
-        EObject iv_ruleAndExpression = null;
-
-
-        try {
-            // InternalHenshin_text.g:3219:54: (iv_ruleAndExpression= ruleAndExpression EOF )
-            // InternalHenshin_text.g:3220:2: iv_ruleAndExpression= ruleAndExpression EOF
-            {
-             newCompositeNode(grammarAccess.getAndExpressionRule()); 
-            pushFollow(FOLLOW_1);
-            iv_ruleAndExpression=ruleAndExpression();
-
-            state._fsp--;
-
-             current =iv_ruleAndExpression; 
-            match(input,EOF,FOLLOW_2); 
-
-            }
-
-        }
-
-            catch (RecognitionException re) {
-                recover(input,re);
-                appendSkippedTokens();
-            }
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "entryRuleAndExpression"
-
-
-    // $ANTLR start "ruleAndExpression"
-    // InternalHenshin_text.g:3226:1: ruleAndExpression returns [EObject current=null] : (this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )* ) ;
-    public final EObject ruleAndExpression() throws RecognitionException {
-        EObject current = null;
-
-        Token otherlv_2=null;
-        EObject this_EqualityExpression_0 = null;
-
-        EObject lv_right_3_0 = null;
-
-
-
-        	enterRule();
-
-        try {
-            // InternalHenshin_text.g:3232:2: ( (this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )* ) )
-            // InternalHenshin_text.g:3233:2: (this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )* )
-            {
-            // InternalHenshin_text.g:3233:2: (this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )* )
-            // InternalHenshin_text.g:3234:3: this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )*
-            {
-
-            			newCompositeNode(grammarAccess.getAndExpressionAccess().getEqualityExpressionParserRuleCall_0());
-            		
-            pushFollow(FOLLOW_33);
-            this_EqualityExpression_0=ruleEqualityExpression();
-
-            state._fsp--;
-
-
-            			current = this_EqualityExpression_0;
-            			afterParserOrEnumRuleCall();
-            		
-            // InternalHenshin_text.g:3242:3: ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )*
-            loop55:
-            do {
-                int alt55=2;
-                int LA55_0 = input.LA(1);
-
-                if ( (LA55_0==46) ) {
-                    alt55=1;
-                }
-
-
-                switch (alt55) {
-            	case 1 :
-            	    // InternalHenshin_text.g:3243:4: () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) )
-            	    {
-            	    // InternalHenshin_text.g:3243:4: ()
-            	    // InternalHenshin_text.g:3244:5: 
-            	    {
-
-            	    					current = forceCreateModelElementAndSet(
-            	    						grammarAccess.getAndExpressionAccess().getAndExpressionLeftAction_1_0(),
-            	    						current);
-            	    				
-
-            	    }
-
-            	    otherlv_2=(Token)match(input,46,FOLLOW_17); 
-
-            	    				newLeafNode(otherlv_2, grammarAccess.getAndExpressionAccess().getANDKeyword_1_1());
-            	    			
-            	    // InternalHenshin_text.g:3254:4: ( (lv_right_3_0= ruleEqualityExpression ) )
-            	    // InternalHenshin_text.g:3255:5: (lv_right_3_0= ruleEqualityExpression )
-            	    {
-            	    // InternalHenshin_text.g:3255:5: (lv_right_3_0= ruleEqualityExpression )
-            	    // InternalHenshin_text.g:3256:6: lv_right_3_0= ruleEqualityExpression
-            	    {
-
-            	    						newCompositeNode(grammarAccess.getAndExpressionAccess().getRightEqualityExpressionParserRuleCall_1_2_0());
-            	    					
-            	    pushFollow(FOLLOW_33);
-            	    lv_right_3_0=ruleEqualityExpression();
-
-            	    state._fsp--;
-
-
-            	    						if (current==null) {
-            	    							current = createModelElementForParent(grammarAccess.getAndExpressionRule());
-            	    						}
-            	    						set(
-            	    							current,
-            	    							"right",
-            	    							lv_right_3_0,
-            	    							"org.eclipse.emf.henshin.text.Henshin_text.EqualityExpression");
             	    						afterParserOrEnumRuleCall();
             	    					
 
@@ -8690,11 +8577,172 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
+    // $ANTLR end "ruleOrExpression"
+
+
+    // $ANTLR start "entryRuleAndExpression"
+    // InternalHenshin_text.g:3238:1: entryRuleAndExpression returns [EObject current=null] : iv_ruleAndExpression= ruleAndExpression EOF ;
+    public final EObject entryRuleAndExpression() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleAndExpression = null;
+
+
+        try {
+            // InternalHenshin_text.g:3238:54: (iv_ruleAndExpression= ruleAndExpression EOF )
+            // InternalHenshin_text.g:3239:2: iv_ruleAndExpression= ruleAndExpression EOF
+            {
+             newCompositeNode(grammarAccess.getAndExpressionRule()); 
+            pushFollow(FOLLOW_1);
+            iv_ruleAndExpression=ruleAndExpression();
+
+            state._fsp--;
+
+             current =iv_ruleAndExpression; 
+            match(input,EOF,FOLLOW_2); 
+
+            }
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleAndExpression"
+
+
+    // $ANTLR start "ruleAndExpression"
+    // InternalHenshin_text.g:3245:1: ruleAndExpression returns [EObject current=null] : (this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )* ) ;
+    public final EObject ruleAndExpression() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_2=null;
+        EObject this_EqualityExpression_0 = null;
+
+        EObject lv_right_3_0 = null;
+
+
+
+        	enterRule();
+
+        try {
+            // InternalHenshin_text.g:3251:2: ( (this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )* ) )
+            // InternalHenshin_text.g:3252:2: (this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )* )
+            {
+            // InternalHenshin_text.g:3252:2: (this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )* )
+            // InternalHenshin_text.g:3253:3: this_EqualityExpression_0= ruleEqualityExpression ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )*
+            {
+
+            			newCompositeNode(grammarAccess.getAndExpressionAccess().getEqualityExpressionParserRuleCall_0());
+            		
+            pushFollow(FOLLOW_34);
+            this_EqualityExpression_0=ruleEqualityExpression();
+
+            state._fsp--;
+
+
+            			current = this_EqualityExpression_0;
+            			afterParserOrEnumRuleCall();
+            		
+            // InternalHenshin_text.g:3261:3: ( () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) ) )*
+            loop56:
+            do {
+                int alt56=2;
+                int LA56_0 = input.LA(1);
+
+                if ( (LA56_0==46) ) {
+                    alt56=1;
+                }
+
+
+                switch (alt56) {
+            	case 1 :
+            	    // InternalHenshin_text.g:3262:4: () otherlv_2= 'AND' ( (lv_right_3_0= ruleEqualityExpression ) )
+            	    {
+            	    // InternalHenshin_text.g:3262:4: ()
+            	    // InternalHenshin_text.g:3263:5: 
+            	    {
+
+            	    					current = forceCreateModelElementAndSet(
+            	    						grammarAccess.getAndExpressionAccess().getAndExpressionLeftAction_1_0(),
+            	    						current);
+            	    				
+
+            	    }
+
+            	    otherlv_2=(Token)match(input,46,FOLLOW_18); 
+
+            	    				newLeafNode(otherlv_2, grammarAccess.getAndExpressionAccess().getANDKeyword_1_1());
+            	    			
+            	    // InternalHenshin_text.g:3273:4: ( (lv_right_3_0= ruleEqualityExpression ) )
+            	    // InternalHenshin_text.g:3274:5: (lv_right_3_0= ruleEqualityExpression )
+            	    {
+            	    // InternalHenshin_text.g:3274:5: (lv_right_3_0= ruleEqualityExpression )
+            	    // InternalHenshin_text.g:3275:6: lv_right_3_0= ruleEqualityExpression
+            	    {
+
+            	    						newCompositeNode(grammarAccess.getAndExpressionAccess().getRightEqualityExpressionParserRuleCall_1_2_0());
+            	    					
+            	    pushFollow(FOLLOW_34);
+            	    lv_right_3_0=ruleEqualityExpression();
+
+            	    state._fsp--;
+
+
+            	    						if (current==null) {
+            	    							current = createModelElementForParent(grammarAccess.getAndExpressionRule());
+            	    						}
+            	    						set(
+            	    							current,
+            	    							"right",
+            	    							lv_right_3_0,
+            	    							"org.eclipse.emf.henshin.text.Henshin_text.EqualityExpression");
+            	    						afterParserOrEnumRuleCall();
+            	    					
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop56;
+                }
+            } while (true);
+
+
+            }
+
+
+            }
+
+
+            	leaveRule();
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
     // $ANTLR end "ruleAndExpression"
 
 
     // $ANTLR start "entryRuleEqualityExpression"
-    // InternalHenshin_text.g:3278:1: entryRuleEqualityExpression returns [EObject current=null] : iv_ruleEqualityExpression= ruleEqualityExpression EOF ;
+    // InternalHenshin_text.g:3297:1: entryRuleEqualityExpression returns [EObject current=null] : iv_ruleEqualityExpression= ruleEqualityExpression EOF ;
     public final EObject entryRuleEqualityExpression() throws RecognitionException {
         EObject current = null;
 
@@ -8702,8 +8750,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3278:59: (iv_ruleEqualityExpression= ruleEqualityExpression EOF )
-            // InternalHenshin_text.g:3279:2: iv_ruleEqualityExpression= ruleEqualityExpression EOF
+            // InternalHenshin_text.g:3297:59: (iv_ruleEqualityExpression= ruleEqualityExpression EOF )
+            // InternalHenshin_text.g:3298:2: iv_ruleEqualityExpression= ruleEqualityExpression EOF
             {
              newCompositeNode(grammarAccess.getEqualityExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -8730,7 +8778,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEqualityExpression"
-    // InternalHenshin_text.g:3285:1: ruleEqualityExpression returns [EObject current=null] : (this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )* ) ;
+    // InternalHenshin_text.g:3304:1: ruleEqualityExpression returns [EObject current=null] : (this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )* ) ;
     public final EObject ruleEqualityExpression() throws RecognitionException {
         EObject current = null;
 
@@ -8745,16 +8793,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3291:2: ( (this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )* ) )
-            // InternalHenshin_text.g:3292:2: (this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )* )
+            // InternalHenshin_text.g:3310:2: ( (this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )* ) )
+            // InternalHenshin_text.g:3311:2: (this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )* )
             {
-            // InternalHenshin_text.g:3292:2: (this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )* )
-            // InternalHenshin_text.g:3293:3: this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )*
+            // InternalHenshin_text.g:3311:2: (this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )* )
+            // InternalHenshin_text.g:3312:3: this_ComparisonExpression_0= ruleComparisonExpression ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )*
             {
 
             			newCompositeNode(grammarAccess.getEqualityExpressionAccess().getComparisonExpressionParserRuleCall_0());
             		
-            pushFollow(FOLLOW_42);
+            pushFollow(FOLLOW_44);
             this_ComparisonExpression_0=ruleComparisonExpression();
 
             state._fsp--;
@@ -8763,23 +8811,23 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             			current = this_ComparisonExpression_0;
             			afterParserOrEnumRuleCall();
             		
-            // InternalHenshin_text.g:3301:3: ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )*
-            loop57:
+            // InternalHenshin_text.g:3320:3: ( () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) ) )*
+            loop58:
             do {
-                int alt57=2;
-                int LA57_0 = input.LA(1);
+                int alt58=2;
+                int LA58_0 = input.LA(1);
 
-                if ( ((LA57_0>=60 && LA57_0<=61)) ) {
-                    alt57=1;
+                if ( ((LA58_0>=60 && LA58_0<=61)) ) {
+                    alt58=1;
                 }
 
 
-                switch (alt57) {
+                switch (alt58) {
             	case 1 :
-            	    // InternalHenshin_text.g:3302:4: () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) )
+            	    // InternalHenshin_text.g:3321:4: () ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) ) ( (lv_right_3_0= ruleComparisonExpression ) )
             	    {
-            	    // InternalHenshin_text.g:3302:4: ()
-            	    // InternalHenshin_text.g:3303:5: 
+            	    // InternalHenshin_text.g:3321:4: ()
+            	    // InternalHenshin_text.g:3322:5: 
             	    {
 
             	    					current = forceCreateModelElementAndSet(
@@ -8789,33 +8837,33 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // InternalHenshin_text.g:3309:4: ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) )
-            	    // InternalHenshin_text.g:3310:5: ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) )
+            	    // InternalHenshin_text.g:3328:4: ( ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) ) )
+            	    // InternalHenshin_text.g:3329:5: ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) )
             	    {
-            	    // InternalHenshin_text.g:3310:5: ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) )
-            	    // InternalHenshin_text.g:3311:6: (lv_op_2_1= '==' | lv_op_2_2= '!=' )
+            	    // InternalHenshin_text.g:3329:5: ( (lv_op_2_1= '==' | lv_op_2_2= '!=' ) )
+            	    // InternalHenshin_text.g:3330:6: (lv_op_2_1= '==' | lv_op_2_2= '!=' )
             	    {
-            	    // InternalHenshin_text.g:3311:6: (lv_op_2_1= '==' | lv_op_2_2= '!=' )
-            	    int alt56=2;
-            	    int LA56_0 = input.LA(1);
+            	    // InternalHenshin_text.g:3330:6: (lv_op_2_1= '==' | lv_op_2_2= '!=' )
+            	    int alt57=2;
+            	    int LA57_0 = input.LA(1);
 
-            	    if ( (LA56_0==60) ) {
-            	        alt56=1;
+            	    if ( (LA57_0==60) ) {
+            	        alt57=1;
             	    }
-            	    else if ( (LA56_0==61) ) {
-            	        alt56=2;
+            	    else if ( (LA57_0==61) ) {
+            	        alt57=2;
             	    }
             	    else {
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 56, 0, input);
+            	            new NoViableAltException("", 57, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt56) {
+            	    switch (alt57) {
             	        case 1 :
-            	            // InternalHenshin_text.g:3312:7: lv_op_2_1= '=='
+            	            // InternalHenshin_text.g:3331:7: lv_op_2_1= '=='
             	            {
-            	            lv_op_2_1=(Token)match(input,60,FOLLOW_17); 
+            	            lv_op_2_1=(Token)match(input,60,FOLLOW_18); 
 
             	            							newLeafNode(lv_op_2_1, grammarAccess.getEqualityExpressionAccess().getOpEqualsSignEqualsSignKeyword_1_1_0_0());
             	            						
@@ -8829,9 +8877,9 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // InternalHenshin_text.g:3323:7: lv_op_2_2= '!='
+            	            // InternalHenshin_text.g:3342:7: lv_op_2_2= '!='
             	            {
-            	            lv_op_2_2=(Token)match(input,61,FOLLOW_17); 
+            	            lv_op_2_2=(Token)match(input,61,FOLLOW_18); 
 
             	            							newLeafNode(lv_op_2_2, grammarAccess.getEqualityExpressionAccess().getOpExclamationMarkEqualsSignKeyword_1_1_0_1());
             	            						
@@ -8853,16 +8901,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // InternalHenshin_text.g:3336:4: ( (lv_right_3_0= ruleComparisonExpression ) )
-            	    // InternalHenshin_text.g:3337:5: (lv_right_3_0= ruleComparisonExpression )
+            	    // InternalHenshin_text.g:3355:4: ( (lv_right_3_0= ruleComparisonExpression ) )
+            	    // InternalHenshin_text.g:3356:5: (lv_right_3_0= ruleComparisonExpression )
             	    {
-            	    // InternalHenshin_text.g:3337:5: (lv_right_3_0= ruleComparisonExpression )
-            	    // InternalHenshin_text.g:3338:6: lv_right_3_0= ruleComparisonExpression
+            	    // InternalHenshin_text.g:3356:5: (lv_right_3_0= ruleComparisonExpression )
+            	    // InternalHenshin_text.g:3357:6: lv_right_3_0= ruleComparisonExpression
             	    {
 
             	    						newCompositeNode(grammarAccess.getEqualityExpressionAccess().getRightComparisonExpressionParserRuleCall_1_2_0());
             	    					
-            	    pushFollow(FOLLOW_42);
+            	    pushFollow(FOLLOW_44);
             	    lv_right_3_0=ruleComparisonExpression();
 
             	    state._fsp--;
@@ -8889,7 +8937,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop57;
+            	    break loop58;
                 }
             } while (true);
 
@@ -8916,7 +8964,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleComparisonExpression"
-    // InternalHenshin_text.g:3360:1: entryRuleComparisonExpression returns [EObject current=null] : iv_ruleComparisonExpression= ruleComparisonExpression EOF ;
+    // InternalHenshin_text.g:3379:1: entryRuleComparisonExpression returns [EObject current=null] : iv_ruleComparisonExpression= ruleComparisonExpression EOF ;
     public final EObject entryRuleComparisonExpression() throws RecognitionException {
         EObject current = null;
 
@@ -8924,8 +8972,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3360:61: (iv_ruleComparisonExpression= ruleComparisonExpression EOF )
-            // InternalHenshin_text.g:3361:2: iv_ruleComparisonExpression= ruleComparisonExpression EOF
+            // InternalHenshin_text.g:3379:61: (iv_ruleComparisonExpression= ruleComparisonExpression EOF )
+            // InternalHenshin_text.g:3380:2: iv_ruleComparisonExpression= ruleComparisonExpression EOF
             {
              newCompositeNode(grammarAccess.getComparisonExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -8952,7 +9000,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleComparisonExpression"
-    // InternalHenshin_text.g:3367:1: ruleComparisonExpression returns [EObject current=null] : (this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )* ) ;
+    // InternalHenshin_text.g:3386:1: ruleComparisonExpression returns [EObject current=null] : (this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )* ) ;
     public final EObject ruleComparisonExpression() throws RecognitionException {
         EObject current = null;
 
@@ -8969,16 +9017,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3373:2: ( (this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )* ) )
-            // InternalHenshin_text.g:3374:2: (this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )* )
+            // InternalHenshin_text.g:3392:2: ( (this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )* ) )
+            // InternalHenshin_text.g:3393:2: (this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )* )
             {
-            // InternalHenshin_text.g:3374:2: (this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )* )
-            // InternalHenshin_text.g:3375:3: this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )*
+            // InternalHenshin_text.g:3393:2: (this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )* )
+            // InternalHenshin_text.g:3394:3: this_PlusOrMinusExpression_0= rulePlusOrMinusExpression ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )*
             {
 
             			newCompositeNode(grammarAccess.getComparisonExpressionAccess().getPlusOrMinusExpressionParserRuleCall_0());
             		
-            pushFollow(FOLLOW_43);
+            pushFollow(FOLLOW_45);
             this_PlusOrMinusExpression_0=rulePlusOrMinusExpression();
 
             state._fsp--;
@@ -8987,23 +9035,23 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             			current = this_PlusOrMinusExpression_0;
             			afterParserOrEnumRuleCall();
             		
-            // InternalHenshin_text.g:3383:3: ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )*
-            loop59:
+            // InternalHenshin_text.g:3402:3: ( () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) ) )*
+            loop60:
             do {
-                int alt59=2;
-                int LA59_0 = input.LA(1);
+                int alt60=2;
+                int LA60_0 = input.LA(1);
 
-                if ( ((LA59_0>=62 && LA59_0<=65)) ) {
-                    alt59=1;
+                if ( ((LA60_0>=62 && LA60_0<=65)) ) {
+                    alt60=1;
                 }
 
 
-                switch (alt59) {
+                switch (alt60) {
             	case 1 :
-            	    // InternalHenshin_text.g:3384:4: () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) )
+            	    // InternalHenshin_text.g:3403:4: () ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) ) ( (lv_right_3_0= rulePlusOrMinusExpression ) )
             	    {
-            	    // InternalHenshin_text.g:3384:4: ()
-            	    // InternalHenshin_text.g:3385:5: 
+            	    // InternalHenshin_text.g:3403:4: ()
+            	    // InternalHenshin_text.g:3404:5: 
             	    {
 
             	    					current = forceCreateModelElementAndSet(
@@ -9013,47 +9061,47 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // InternalHenshin_text.g:3391:4: ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) )
-            	    // InternalHenshin_text.g:3392:5: ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) )
+            	    // InternalHenshin_text.g:3410:4: ( ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) ) )
+            	    // InternalHenshin_text.g:3411:5: ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) )
             	    {
-            	    // InternalHenshin_text.g:3392:5: ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) )
-            	    // InternalHenshin_text.g:3393:6: (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' )
+            	    // InternalHenshin_text.g:3411:5: ( (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' ) )
+            	    // InternalHenshin_text.g:3412:6: (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' )
             	    {
-            	    // InternalHenshin_text.g:3393:6: (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' )
-            	    int alt58=4;
+            	    // InternalHenshin_text.g:3412:6: (lv_op_2_1= '>=' | lv_op_2_2= '<=' | lv_op_2_3= '>' | lv_op_2_4= '<' )
+            	    int alt59=4;
             	    switch ( input.LA(1) ) {
             	    case 62:
             	        {
-            	        alt58=1;
+            	        alt59=1;
             	        }
             	        break;
             	    case 63:
             	        {
-            	        alt58=2;
+            	        alt59=2;
             	        }
             	        break;
             	    case 64:
             	        {
-            	        alt58=3;
+            	        alt59=3;
             	        }
             	        break;
             	    case 65:
             	        {
-            	        alt58=4;
+            	        alt59=4;
             	        }
             	        break;
             	    default:
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 58, 0, input);
+            	            new NoViableAltException("", 59, 0, input);
 
             	        throw nvae;
             	    }
 
-            	    switch (alt58) {
+            	    switch (alt59) {
             	        case 1 :
-            	            // InternalHenshin_text.g:3394:7: lv_op_2_1= '>='
+            	            // InternalHenshin_text.g:3413:7: lv_op_2_1= '>='
             	            {
-            	            lv_op_2_1=(Token)match(input,62,FOLLOW_17); 
+            	            lv_op_2_1=(Token)match(input,62,FOLLOW_18); 
 
             	            							newLeafNode(lv_op_2_1, grammarAccess.getComparisonExpressionAccess().getOpGreaterThanSignEqualsSignKeyword_1_1_0_0());
             	            						
@@ -9067,9 +9115,9 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // InternalHenshin_text.g:3405:7: lv_op_2_2= '<='
+            	            // InternalHenshin_text.g:3424:7: lv_op_2_2= '<='
             	            {
-            	            lv_op_2_2=(Token)match(input,63,FOLLOW_17); 
+            	            lv_op_2_2=(Token)match(input,63,FOLLOW_18); 
 
             	            							newLeafNode(lv_op_2_2, grammarAccess.getComparisonExpressionAccess().getOpLessThanSignEqualsSignKeyword_1_1_0_1());
             	            						
@@ -9083,9 +9131,9 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 3 :
-            	            // InternalHenshin_text.g:3416:7: lv_op_2_3= '>'
+            	            // InternalHenshin_text.g:3435:7: lv_op_2_3= '>'
             	            {
-            	            lv_op_2_3=(Token)match(input,64,FOLLOW_17); 
+            	            lv_op_2_3=(Token)match(input,64,FOLLOW_18); 
 
             	            							newLeafNode(lv_op_2_3, grammarAccess.getComparisonExpressionAccess().getOpGreaterThanSignKeyword_1_1_0_2());
             	            						
@@ -9099,9 +9147,9 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 4 :
-            	            // InternalHenshin_text.g:3427:7: lv_op_2_4= '<'
+            	            // InternalHenshin_text.g:3446:7: lv_op_2_4= '<'
             	            {
-            	            lv_op_2_4=(Token)match(input,65,FOLLOW_17); 
+            	            lv_op_2_4=(Token)match(input,65,FOLLOW_18); 
 
             	            							newLeafNode(lv_op_2_4, grammarAccess.getComparisonExpressionAccess().getOpLessThanSignKeyword_1_1_0_3());
             	            						
@@ -9123,16 +9171,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // InternalHenshin_text.g:3440:4: ( (lv_right_3_0= rulePlusOrMinusExpression ) )
-            	    // InternalHenshin_text.g:3441:5: (lv_right_3_0= rulePlusOrMinusExpression )
+            	    // InternalHenshin_text.g:3459:4: ( (lv_right_3_0= rulePlusOrMinusExpression ) )
+            	    // InternalHenshin_text.g:3460:5: (lv_right_3_0= rulePlusOrMinusExpression )
             	    {
-            	    // InternalHenshin_text.g:3441:5: (lv_right_3_0= rulePlusOrMinusExpression )
-            	    // InternalHenshin_text.g:3442:6: lv_right_3_0= rulePlusOrMinusExpression
+            	    // InternalHenshin_text.g:3460:5: (lv_right_3_0= rulePlusOrMinusExpression )
+            	    // InternalHenshin_text.g:3461:6: lv_right_3_0= rulePlusOrMinusExpression
             	    {
 
             	    						newCompositeNode(grammarAccess.getComparisonExpressionAccess().getRightPlusOrMinusExpressionParserRuleCall_1_2_0());
             	    					
-            	    pushFollow(FOLLOW_43);
+            	    pushFollow(FOLLOW_45);
             	    lv_right_3_0=rulePlusOrMinusExpression();
 
             	    state._fsp--;
@@ -9159,7 +9207,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop59;
+            	    break loop60;
                 }
             } while (true);
 
@@ -9186,7 +9234,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePlusOrMinusExpression"
-    // InternalHenshin_text.g:3464:1: entryRulePlusOrMinusExpression returns [EObject current=null] : iv_rulePlusOrMinusExpression= rulePlusOrMinusExpression EOF ;
+    // InternalHenshin_text.g:3483:1: entryRulePlusOrMinusExpression returns [EObject current=null] : iv_rulePlusOrMinusExpression= rulePlusOrMinusExpression EOF ;
     public final EObject entryRulePlusOrMinusExpression() throws RecognitionException {
         EObject current = null;
 
@@ -9194,8 +9242,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3464:62: (iv_rulePlusOrMinusExpression= rulePlusOrMinusExpression EOF )
-            // InternalHenshin_text.g:3465:2: iv_rulePlusOrMinusExpression= rulePlusOrMinusExpression EOF
+            // InternalHenshin_text.g:3483:62: (iv_rulePlusOrMinusExpression= rulePlusOrMinusExpression EOF )
+            // InternalHenshin_text.g:3484:2: iv_rulePlusOrMinusExpression= rulePlusOrMinusExpression EOF
             {
              newCompositeNode(grammarAccess.getPlusOrMinusExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -9222,7 +9270,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePlusOrMinusExpression"
-    // InternalHenshin_text.g:3471:1: rulePlusOrMinusExpression returns [EObject current=null] : (this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )* ) ;
+    // InternalHenshin_text.g:3490:1: rulePlusOrMinusExpression returns [EObject current=null] : (this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )* ) ;
     public final EObject rulePlusOrMinusExpression() throws RecognitionException {
         EObject current = null;
 
@@ -9237,16 +9285,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3477:2: ( (this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )* ) )
-            // InternalHenshin_text.g:3478:2: (this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )* )
+            // InternalHenshin_text.g:3496:2: ( (this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )* ) )
+            // InternalHenshin_text.g:3497:2: (this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )* )
             {
-            // InternalHenshin_text.g:3478:2: (this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )* )
-            // InternalHenshin_text.g:3479:3: this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )*
+            // InternalHenshin_text.g:3497:2: (this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )* )
+            // InternalHenshin_text.g:3498:3: this_MulOrDivExpression_0= ruleMulOrDivExpression ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )*
             {
 
             			newCompositeNode(grammarAccess.getPlusOrMinusExpressionAccess().getMulOrDivExpressionParserRuleCall_0());
             		
-            pushFollow(FOLLOW_44);
+            pushFollow(FOLLOW_46);
             this_MulOrDivExpression_0=ruleMulOrDivExpression();
 
             state._fsp--;
@@ -9255,46 +9303,46 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             			current = this_MulOrDivExpression_0;
             			afterParserOrEnumRuleCall();
             		
-            // InternalHenshin_text.g:3487:3: ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )*
-            loop61:
+            // InternalHenshin_text.g:3506:3: ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) ) )*
+            loop62:
             do {
-                int alt61=2;
-                int LA61_0 = input.LA(1);
+                int alt62=2;
+                int LA62_0 = input.LA(1);
 
-                if ( ((LA61_0>=66 && LA61_0<=67)) ) {
-                    alt61=1;
+                if ( ((LA62_0>=66 && LA62_0<=67)) ) {
+                    alt62=1;
                 }
 
 
-                switch (alt61) {
+                switch (alt62) {
             	case 1 :
-            	    // InternalHenshin_text.g:3488:4: ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) )
+            	    // InternalHenshin_text.g:3507:4: ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMulOrDivExpression ) )
             	    {
-            	    // InternalHenshin_text.g:3488:4: ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) )
-            	    int alt60=2;
-            	    int LA60_0 = input.LA(1);
+            	    // InternalHenshin_text.g:3507:4: ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) )
+            	    int alt61=2;
+            	    int LA61_0 = input.LA(1);
 
-            	    if ( (LA60_0==66) ) {
-            	        alt60=1;
+            	    if ( (LA61_0==66) ) {
+            	        alt61=1;
             	    }
-            	    else if ( (LA60_0==67) ) {
-            	        alt60=2;
+            	    else if ( (LA61_0==67) ) {
+            	        alt61=2;
             	    }
             	    else {
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 60, 0, input);
+            	            new NoViableAltException("", 61, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt60) {
+            	    switch (alt61) {
             	        case 1 :
-            	            // InternalHenshin_text.g:3489:5: ( () otherlv_2= '+' )
+            	            // InternalHenshin_text.g:3508:5: ( () otherlv_2= '+' )
             	            {
-            	            // InternalHenshin_text.g:3489:5: ( () otherlv_2= '+' )
-            	            // InternalHenshin_text.g:3490:6: () otherlv_2= '+'
+            	            // InternalHenshin_text.g:3508:5: ( () otherlv_2= '+' )
+            	            // InternalHenshin_text.g:3509:6: () otherlv_2= '+'
             	            {
-            	            // InternalHenshin_text.g:3490:6: ()
-            	            // InternalHenshin_text.g:3491:7: 
+            	            // InternalHenshin_text.g:3509:6: ()
+            	            // InternalHenshin_text.g:3510:7: 
             	            {
 
             	            							current = forceCreateModelElementAndSet(
@@ -9304,7 +9352,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_2=(Token)match(input,66,FOLLOW_17); 
+            	            otherlv_2=(Token)match(input,66,FOLLOW_18); 
 
             	            						newLeafNode(otherlv_2, grammarAccess.getPlusOrMinusExpressionAccess().getPlusSignKeyword_1_0_0_1());
             	            					
@@ -9315,13 +9363,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // InternalHenshin_text.g:3503:5: ( () otherlv_4= '-' )
+            	            // InternalHenshin_text.g:3522:5: ( () otherlv_4= '-' )
             	            {
-            	            // InternalHenshin_text.g:3503:5: ( () otherlv_4= '-' )
-            	            // InternalHenshin_text.g:3504:6: () otherlv_4= '-'
+            	            // InternalHenshin_text.g:3522:5: ( () otherlv_4= '-' )
+            	            // InternalHenshin_text.g:3523:6: () otherlv_4= '-'
             	            {
-            	            // InternalHenshin_text.g:3504:6: ()
-            	            // InternalHenshin_text.g:3505:7: 
+            	            // InternalHenshin_text.g:3523:6: ()
+            	            // InternalHenshin_text.g:3524:7: 
             	            {
 
             	            							current = forceCreateModelElementAndSet(
@@ -9331,7 +9379,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_4=(Token)match(input,67,FOLLOW_17); 
+            	            otherlv_4=(Token)match(input,67,FOLLOW_18); 
 
             	            						newLeafNode(otherlv_4, grammarAccess.getPlusOrMinusExpressionAccess().getHyphenMinusKeyword_1_0_1_1());
             	            					
@@ -9344,16 +9392,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // InternalHenshin_text.g:3517:4: ( (lv_right_5_0= ruleMulOrDivExpression ) )
-            	    // InternalHenshin_text.g:3518:5: (lv_right_5_0= ruleMulOrDivExpression )
+            	    // InternalHenshin_text.g:3536:4: ( (lv_right_5_0= ruleMulOrDivExpression ) )
+            	    // InternalHenshin_text.g:3537:5: (lv_right_5_0= ruleMulOrDivExpression )
             	    {
-            	    // InternalHenshin_text.g:3518:5: (lv_right_5_0= ruleMulOrDivExpression )
-            	    // InternalHenshin_text.g:3519:6: lv_right_5_0= ruleMulOrDivExpression
+            	    // InternalHenshin_text.g:3537:5: (lv_right_5_0= ruleMulOrDivExpression )
+            	    // InternalHenshin_text.g:3538:6: lv_right_5_0= ruleMulOrDivExpression
             	    {
 
             	    						newCompositeNode(grammarAccess.getPlusOrMinusExpressionAccess().getRightMulOrDivExpressionParserRuleCall_1_1_0());
             	    					
-            	    pushFollow(FOLLOW_44);
+            	    pushFollow(FOLLOW_46);
             	    lv_right_5_0=ruleMulOrDivExpression();
 
             	    state._fsp--;
@@ -9380,7 +9428,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop61;
+            	    break loop62;
                 }
             } while (true);
 
@@ -9407,7 +9455,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMulOrDivExpression"
-    // InternalHenshin_text.g:3541:1: entryRuleMulOrDivExpression returns [EObject current=null] : iv_ruleMulOrDivExpression= ruleMulOrDivExpression EOF ;
+    // InternalHenshin_text.g:3560:1: entryRuleMulOrDivExpression returns [EObject current=null] : iv_ruleMulOrDivExpression= ruleMulOrDivExpression EOF ;
     public final EObject entryRuleMulOrDivExpression() throws RecognitionException {
         EObject current = null;
 
@@ -9415,8 +9463,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3541:59: (iv_ruleMulOrDivExpression= ruleMulOrDivExpression EOF )
-            // InternalHenshin_text.g:3542:2: iv_ruleMulOrDivExpression= ruleMulOrDivExpression EOF
+            // InternalHenshin_text.g:3560:59: (iv_ruleMulOrDivExpression= ruleMulOrDivExpression EOF )
+            // InternalHenshin_text.g:3561:2: iv_ruleMulOrDivExpression= ruleMulOrDivExpression EOF
             {
              newCompositeNode(grammarAccess.getMulOrDivExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -9443,7 +9491,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMulOrDivExpression"
-    // InternalHenshin_text.g:3548:1: ruleMulOrDivExpression returns [EObject current=null] : (this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )* ) ;
+    // InternalHenshin_text.g:3567:1: ruleMulOrDivExpression returns [EObject current=null] : (this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )* ) ;
     public final EObject ruleMulOrDivExpression() throws RecognitionException {
         EObject current = null;
 
@@ -9458,16 +9506,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3554:2: ( (this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )* ) )
-            // InternalHenshin_text.g:3555:2: (this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )* )
+            // InternalHenshin_text.g:3573:2: ( (this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )* ) )
+            // InternalHenshin_text.g:3574:2: (this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )* )
             {
-            // InternalHenshin_text.g:3555:2: (this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )* )
-            // InternalHenshin_text.g:3556:3: this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )*
+            // InternalHenshin_text.g:3574:2: (this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )* )
+            // InternalHenshin_text.g:3575:3: this_PrimaryExpression_0= rulePrimaryExpression ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )*
             {
 
             			newCompositeNode(grammarAccess.getMulOrDivExpressionAccess().getPrimaryExpressionParserRuleCall_0());
             		
-            pushFollow(FOLLOW_45);
+            pushFollow(FOLLOW_47);
             this_PrimaryExpression_0=rulePrimaryExpression();
 
             state._fsp--;
@@ -9476,23 +9524,23 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             			current = this_PrimaryExpression_0;
             			afterParserOrEnumRuleCall();
             		
-            // InternalHenshin_text.g:3564:3: ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )*
-            loop63:
+            // InternalHenshin_text.g:3583:3: ( () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) ) )*
+            loop64:
             do {
-                int alt63=2;
-                int LA63_0 = input.LA(1);
+                int alt64=2;
+                int LA64_0 = input.LA(1);
 
-                if ( ((LA63_0>=68 && LA63_0<=69)) ) {
-                    alt63=1;
+                if ( ((LA64_0>=68 && LA64_0<=69)) ) {
+                    alt64=1;
                 }
 
 
-                switch (alt63) {
+                switch (alt64) {
             	case 1 :
-            	    // InternalHenshin_text.g:3565:4: () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) )
+            	    // InternalHenshin_text.g:3584:4: () ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) ) ( (lv_right_3_0= rulePrimaryExpression ) )
             	    {
-            	    // InternalHenshin_text.g:3565:4: ()
-            	    // InternalHenshin_text.g:3566:5: 
+            	    // InternalHenshin_text.g:3584:4: ()
+            	    // InternalHenshin_text.g:3585:5: 
             	    {
 
             	    					current = forceCreateModelElementAndSet(
@@ -9502,33 +9550,33 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // InternalHenshin_text.g:3572:4: ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) )
-            	    // InternalHenshin_text.g:3573:5: ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) )
+            	    // InternalHenshin_text.g:3591:4: ( ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) ) )
+            	    // InternalHenshin_text.g:3592:5: ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) )
             	    {
-            	    // InternalHenshin_text.g:3573:5: ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) )
-            	    // InternalHenshin_text.g:3574:6: (lv_op_2_1= '*' | lv_op_2_2= '/' )
+            	    // InternalHenshin_text.g:3592:5: ( (lv_op_2_1= '*' | lv_op_2_2= '/' ) )
+            	    // InternalHenshin_text.g:3593:6: (lv_op_2_1= '*' | lv_op_2_2= '/' )
             	    {
-            	    // InternalHenshin_text.g:3574:6: (lv_op_2_1= '*' | lv_op_2_2= '/' )
-            	    int alt62=2;
-            	    int LA62_0 = input.LA(1);
+            	    // InternalHenshin_text.g:3593:6: (lv_op_2_1= '*' | lv_op_2_2= '/' )
+            	    int alt63=2;
+            	    int LA63_0 = input.LA(1);
 
-            	    if ( (LA62_0==68) ) {
-            	        alt62=1;
+            	    if ( (LA63_0==68) ) {
+            	        alt63=1;
             	    }
-            	    else if ( (LA62_0==69) ) {
-            	        alt62=2;
+            	    else if ( (LA63_0==69) ) {
+            	        alt63=2;
             	    }
             	    else {
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 62, 0, input);
+            	            new NoViableAltException("", 63, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt62) {
+            	    switch (alt63) {
             	        case 1 :
-            	            // InternalHenshin_text.g:3575:7: lv_op_2_1= '*'
+            	            // InternalHenshin_text.g:3594:7: lv_op_2_1= '*'
             	            {
-            	            lv_op_2_1=(Token)match(input,68,FOLLOW_17); 
+            	            lv_op_2_1=(Token)match(input,68,FOLLOW_18); 
 
             	            							newLeafNode(lv_op_2_1, grammarAccess.getMulOrDivExpressionAccess().getOpAsteriskKeyword_1_1_0_0());
             	            						
@@ -9542,9 +9590,9 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // InternalHenshin_text.g:3586:7: lv_op_2_2= '/'
+            	            // InternalHenshin_text.g:3605:7: lv_op_2_2= '/'
             	            {
-            	            lv_op_2_2=(Token)match(input,69,FOLLOW_17); 
+            	            lv_op_2_2=(Token)match(input,69,FOLLOW_18); 
 
             	            							newLeafNode(lv_op_2_2, grammarAccess.getMulOrDivExpressionAccess().getOpSolidusKeyword_1_1_0_1());
             	            						
@@ -9566,16 +9614,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // InternalHenshin_text.g:3599:4: ( (lv_right_3_0= rulePrimaryExpression ) )
-            	    // InternalHenshin_text.g:3600:5: (lv_right_3_0= rulePrimaryExpression )
+            	    // InternalHenshin_text.g:3618:4: ( (lv_right_3_0= rulePrimaryExpression ) )
+            	    // InternalHenshin_text.g:3619:5: (lv_right_3_0= rulePrimaryExpression )
             	    {
-            	    // InternalHenshin_text.g:3600:5: (lv_right_3_0= rulePrimaryExpression )
-            	    // InternalHenshin_text.g:3601:6: lv_right_3_0= rulePrimaryExpression
+            	    // InternalHenshin_text.g:3619:5: (lv_right_3_0= rulePrimaryExpression )
+            	    // InternalHenshin_text.g:3620:6: lv_right_3_0= rulePrimaryExpression
             	    {
 
             	    						newCompositeNode(grammarAccess.getMulOrDivExpressionAccess().getRightPrimaryExpressionParserRuleCall_1_2_0());
             	    					
-            	    pushFollow(FOLLOW_45);
+            	    pushFollow(FOLLOW_47);
             	    lv_right_3_0=rulePrimaryExpression();
 
             	    state._fsp--;
@@ -9602,7 +9650,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop63;
+            	    break loop64;
                 }
             } while (true);
 
@@ -9629,7 +9677,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePrimaryExpression"
-    // InternalHenshin_text.g:3623:1: entryRulePrimaryExpression returns [EObject current=null] : iv_rulePrimaryExpression= rulePrimaryExpression EOF ;
+    // InternalHenshin_text.g:3642:1: entryRulePrimaryExpression returns [EObject current=null] : iv_rulePrimaryExpression= rulePrimaryExpression EOF ;
     public final EObject entryRulePrimaryExpression() throws RecognitionException {
         EObject current = null;
 
@@ -9637,8 +9685,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3623:58: (iv_rulePrimaryExpression= rulePrimaryExpression EOF )
-            // InternalHenshin_text.g:3624:2: iv_rulePrimaryExpression= rulePrimaryExpression EOF
+            // InternalHenshin_text.g:3642:58: (iv_rulePrimaryExpression= rulePrimaryExpression EOF )
+            // InternalHenshin_text.g:3643:2: iv_rulePrimaryExpression= rulePrimaryExpression EOF
             {
              newCompositeNode(grammarAccess.getPrimaryExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -9665,7 +9713,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePrimaryExpression"
-    // InternalHenshin_text.g:3630:1: rulePrimaryExpression returns [EObject current=null] : ( ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' ) | ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) ) | this_AtomicExpression_7= ruleAtomicExpression ) ;
+    // InternalHenshin_text.g:3649:1: rulePrimaryExpression returns [EObject current=null] : ( ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' ) | ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) ) | this_AtomicExpression_7= ruleAtomicExpression ) ;
     public final EObject rulePrimaryExpression() throws RecognitionException {
         EObject current = null;
 
@@ -9683,20 +9731,20 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3636:2: ( ( ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' ) | ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) ) | this_AtomicExpression_7= ruleAtomicExpression ) )
-            // InternalHenshin_text.g:3637:2: ( ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' ) | ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) ) | this_AtomicExpression_7= ruleAtomicExpression )
+            // InternalHenshin_text.g:3655:2: ( ( ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' ) | ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) ) | this_AtomicExpression_7= ruleAtomicExpression ) )
+            // InternalHenshin_text.g:3656:2: ( ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' ) | ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) ) | this_AtomicExpression_7= ruleAtomicExpression )
             {
-            // InternalHenshin_text.g:3637:2: ( ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' ) | ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) ) | this_AtomicExpression_7= ruleAtomicExpression )
-            int alt64=3;
+            // InternalHenshin_text.g:3656:2: ( ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' ) | ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) ) | this_AtomicExpression_7= ruleAtomicExpression )
+            int alt65=3;
             switch ( input.LA(1) ) {
             case 16:
                 {
-                alt64=1;
+                alt65=1;
                 }
                 break;
             case 47:
                 {
-                alt64=2;
+                alt65=2;
                 }
                 break;
             case RULE_ID:
@@ -9707,25 +9755,25 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             case 58:
             case 59:
                 {
-                alt64=3;
+                alt65=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 64, 0, input);
+                    new NoViableAltException("", 65, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt64) {
+            switch (alt65) {
                 case 1 :
-                    // InternalHenshin_text.g:3638:3: ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' )
+                    // InternalHenshin_text.g:3657:3: ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' )
                     {
-                    // InternalHenshin_text.g:3638:3: ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' )
-                    // InternalHenshin_text.g:3639:4: () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')'
+                    // InternalHenshin_text.g:3657:3: ( () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')' )
+                    // InternalHenshin_text.g:3658:4: () otherlv_1= '(' ( (lv_expression_2_0= ruleExpression ) ) otherlv_3= ')'
                     {
-                    // InternalHenshin_text.g:3639:4: ()
-                    // InternalHenshin_text.g:3640:5: 
+                    // InternalHenshin_text.g:3658:4: ()
+                    // InternalHenshin_text.g:3659:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -9735,20 +9783,20 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_1=(Token)match(input,16,FOLLOW_17); 
+                    otherlv_1=(Token)match(input,16,FOLLOW_18); 
 
                     				newLeafNode(otherlv_1, grammarAccess.getPrimaryExpressionAccess().getLeftParenthesisKeyword_0_1());
                     			
-                    // InternalHenshin_text.g:3650:4: ( (lv_expression_2_0= ruleExpression ) )
-                    // InternalHenshin_text.g:3651:5: (lv_expression_2_0= ruleExpression )
+                    // InternalHenshin_text.g:3669:4: ( (lv_expression_2_0= ruleExpression ) )
+                    // InternalHenshin_text.g:3670:5: (lv_expression_2_0= ruleExpression )
                     {
-                    // InternalHenshin_text.g:3651:5: (lv_expression_2_0= ruleExpression )
-                    // InternalHenshin_text.g:3652:6: lv_expression_2_0= ruleExpression
+                    // InternalHenshin_text.g:3670:5: (lv_expression_2_0= ruleExpression )
+                    // InternalHenshin_text.g:3671:6: lv_expression_2_0= ruleExpression
                     {
 
                     						newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getExpressionExpressionParserRuleCall_0_2_0());
                     					
-                    pushFollow(FOLLOW_23);
+                    pushFollow(FOLLOW_24);
                     lv_expression_2_0=ruleExpression();
 
                     state._fsp--;
@@ -9781,13 +9829,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalHenshin_text.g:3675:3: ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) )
+                    // InternalHenshin_text.g:3694:3: ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) )
                     {
-                    // InternalHenshin_text.g:3675:3: ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) )
-                    // InternalHenshin_text.g:3676:4: () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) )
+                    // InternalHenshin_text.g:3694:3: ( () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) ) )
+                    // InternalHenshin_text.g:3695:4: () otherlv_5= '!' ( (lv_expression_6_0= rulePrimaryExpression ) )
                     {
-                    // InternalHenshin_text.g:3676:4: ()
-                    // InternalHenshin_text.g:3677:5: 
+                    // InternalHenshin_text.g:3695:4: ()
+                    // InternalHenshin_text.g:3696:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -9797,15 +9845,15 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_5=(Token)match(input,47,FOLLOW_17); 
+                    otherlv_5=(Token)match(input,47,FOLLOW_18); 
 
                     				newLeafNode(otherlv_5, grammarAccess.getPrimaryExpressionAccess().getExclamationMarkKeyword_1_1());
                     			
-                    // InternalHenshin_text.g:3687:4: ( (lv_expression_6_0= rulePrimaryExpression ) )
-                    // InternalHenshin_text.g:3688:5: (lv_expression_6_0= rulePrimaryExpression )
+                    // InternalHenshin_text.g:3706:4: ( (lv_expression_6_0= rulePrimaryExpression ) )
+                    // InternalHenshin_text.g:3707:5: (lv_expression_6_0= rulePrimaryExpression )
                     {
-                    // InternalHenshin_text.g:3688:5: (lv_expression_6_0= rulePrimaryExpression )
-                    // InternalHenshin_text.g:3689:6: lv_expression_6_0= rulePrimaryExpression
+                    // InternalHenshin_text.g:3707:5: (lv_expression_6_0= rulePrimaryExpression )
+                    // InternalHenshin_text.g:3708:6: lv_expression_6_0= rulePrimaryExpression
                     {
 
                     						newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getExpressionPrimaryExpressionParserRuleCall_1_2_0());
@@ -9839,7 +9887,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalHenshin_text.g:3708:3: this_AtomicExpression_7= ruleAtomicExpression
+                    // InternalHenshin_text.g:3727:3: this_AtomicExpression_7= ruleAtomicExpression
                     {
 
                     			newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getAtomicExpressionParserRuleCall_2());
@@ -9879,7 +9927,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAtomicExpression"
-    // InternalHenshin_text.g:3720:1: entryRuleAtomicExpression returns [EObject current=null] : iv_ruleAtomicExpression= ruleAtomicExpression EOF ;
+    // InternalHenshin_text.g:3739:1: entryRuleAtomicExpression returns [EObject current=null] : iv_ruleAtomicExpression= ruleAtomicExpression EOF ;
     public final EObject entryRuleAtomicExpression() throws RecognitionException {
         EObject current = null;
 
@@ -9887,8 +9935,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:3720:57: (iv_ruleAtomicExpression= ruleAtomicExpression EOF )
-            // InternalHenshin_text.g:3721:2: iv_ruleAtomicExpression= ruleAtomicExpression EOF
+            // InternalHenshin_text.g:3739:57: (iv_ruleAtomicExpression= ruleAtomicExpression EOF )
+            // InternalHenshin_text.g:3740:2: iv_ruleAtomicExpression= ruleAtomicExpression EOF
             {
              newCompositeNode(grammarAccess.getAtomicExpressionRule()); 
             pushFollow(FOLLOW_1);
@@ -9915,7 +9963,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAtomicExpression"
-    // InternalHenshin_text.g:3727:1: ruleAtomicExpression returns [EObject current=null] : ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) ) ;
+    // InternalHenshin_text.g:3746:1: ruleAtomicExpression returns [EObject current=null] : ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) ) ;
     public final EObject ruleAtomicExpression() throws RecognitionException {
         EObject current = null;
 
@@ -9942,21 +9990,21 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:3733:2: ( ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) ) )
-            // InternalHenshin_text.g:3734:2: ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) )
+            // InternalHenshin_text.g:3752:2: ( ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) ) )
+            // InternalHenshin_text.g:3753:2: ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) )
             {
-            // InternalHenshin_text.g:3734:2: ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) )
-            int alt67=8;
-            alt67 = dfa67.predict(input);
-            switch (alt67) {
+            // InternalHenshin_text.g:3753:2: ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) )
+            int alt68=8;
+            alt68 = dfa68.predict(input);
+            switch (alt68) {
                 case 1 :
-                    // InternalHenshin_text.g:3735:3: ( () ( (otherlv_1= RULE_ID ) ) )
+                    // InternalHenshin_text.g:3754:3: ( () ( (otherlv_1= RULE_ID ) ) )
                     {
-                    // InternalHenshin_text.g:3735:3: ( () ( (otherlv_1= RULE_ID ) ) )
-                    // InternalHenshin_text.g:3736:4: () ( (otherlv_1= RULE_ID ) )
+                    // InternalHenshin_text.g:3754:3: ( () ( (otherlv_1= RULE_ID ) ) )
+                    // InternalHenshin_text.g:3755:4: () ( (otherlv_1= RULE_ID ) )
                     {
-                    // InternalHenshin_text.g:3736:4: ()
-                    // InternalHenshin_text.g:3737:5: 
+                    // InternalHenshin_text.g:3755:4: ()
+                    // InternalHenshin_text.g:3756:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -9966,11 +10014,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalHenshin_text.g:3743:4: ( (otherlv_1= RULE_ID ) )
-                    // InternalHenshin_text.g:3744:5: (otherlv_1= RULE_ID )
+                    // InternalHenshin_text.g:3762:4: ( (otherlv_1= RULE_ID ) )
+                    // InternalHenshin_text.g:3763:5: (otherlv_1= RULE_ID )
                     {
-                    // InternalHenshin_text.g:3744:5: (otherlv_1= RULE_ID )
-                    // InternalHenshin_text.g:3745:6: otherlv_1= RULE_ID
+                    // InternalHenshin_text.g:3763:5: (otherlv_1= RULE_ID )
+                    // InternalHenshin_text.g:3764:6: otherlv_1= RULE_ID
                     {
 
                     						if (current==null) {
@@ -9994,13 +10042,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalHenshin_text.g:3758:3: ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' )
+                    // InternalHenshin_text.g:3777:3: ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' )
                     {
-                    // InternalHenshin_text.g:3758:3: ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' )
-                    // InternalHenshin_text.g:3759:4: () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')'
+                    // InternalHenshin_text.g:3777:3: ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' )
+                    // InternalHenshin_text.g:3778:4: () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')'
                     {
-                    // InternalHenshin_text.g:3759:4: ()
-                    // InternalHenshin_text.g:3760:5: 
+                    // InternalHenshin_text.g:3778:4: ()
+                    // InternalHenshin_text.g:3779:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -10010,11 +10058,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalHenshin_text.g:3766:4: ( (lv_value_3_0= ruleEString ) )
-                    // InternalHenshin_text.g:3767:5: (lv_value_3_0= ruleEString )
+                    // InternalHenshin_text.g:3785:4: ( (lv_value_3_0= ruleEString ) )
+                    // InternalHenshin_text.g:3786:5: (lv_value_3_0= ruleEString )
                     {
-                    // InternalHenshin_text.g:3767:5: (lv_value_3_0= ruleEString )
-                    // InternalHenshin_text.g:3768:6: lv_value_3_0= ruleEString
+                    // InternalHenshin_text.g:3786:5: (lv_value_3_0= ruleEString )
+                    // InternalHenshin_text.g:3787:6: lv_value_3_0= ruleEString
                     {
 
                     						newCompositeNode(grammarAccess.getAtomicExpressionAccess().getValueEStringParserRuleCall_1_1_0());
@@ -10041,26 +10089,26 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_4=(Token)match(input,16,FOLLOW_46); 
+                    otherlv_4=(Token)match(input,16,FOLLOW_48); 
 
                     				newLeafNode(otherlv_4, grammarAccess.getAtomicExpressionAccess().getLeftParenthesisKeyword_1_2());
                     			
-                    // InternalHenshin_text.g:3789:4: ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )?
-                    int alt66=2;
-                    int LA66_0 = input.LA(1);
+                    // InternalHenshin_text.g:3808:4: ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )?
+                    int alt67=2;
+                    int LA67_0 = input.LA(1);
 
-                    if ( ((LA66_0>=RULE_ID && LA66_0<=RULE_INT)||LA66_0==16||LA66_0==47||(LA66_0>=58 && LA66_0<=59)) ) {
-                        alt66=1;
+                    if ( ((LA67_0>=RULE_ID && LA67_0<=RULE_INT)||LA67_0==16||LA67_0==47||(LA67_0>=58 && LA67_0<=59)) ) {
+                        alt67=1;
                     }
-                    switch (alt66) {
+                    switch (alt67) {
                         case 1 :
-                            // InternalHenshin_text.g:3790:5: ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )*
+                            // InternalHenshin_text.g:3809:5: ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )*
                             {
-                            // InternalHenshin_text.g:3790:5: ( (lv_javaParameter_5_0= ruleExpression ) )
-                            // InternalHenshin_text.g:3791:6: (lv_javaParameter_5_0= ruleExpression )
+                            // InternalHenshin_text.g:3809:5: ( (lv_javaParameter_5_0= ruleExpression ) )
+                            // InternalHenshin_text.g:3810:6: (lv_javaParameter_5_0= ruleExpression )
                             {
-                            // InternalHenshin_text.g:3791:6: (lv_javaParameter_5_0= ruleExpression )
-                            // InternalHenshin_text.g:3792:7: lv_javaParameter_5_0= ruleExpression
+                            // InternalHenshin_text.g:3810:6: (lv_javaParameter_5_0= ruleExpression )
+                            // InternalHenshin_text.g:3811:7: lv_javaParameter_5_0= ruleExpression
                             {
 
                             							newCompositeNode(grammarAccess.getAtomicExpressionAccess().getJavaParameterExpressionParserRuleCall_1_3_0_0());
@@ -10087,30 +10135,30 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // InternalHenshin_text.g:3809:5: (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )*
-                            loop65:
+                            // InternalHenshin_text.g:3828:5: (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )*
+                            loop66:
                             do {
-                                int alt65=2;
-                                int LA65_0 = input.LA(1);
+                                int alt66=2;
+                                int LA66_0 = input.LA(1);
 
-                                if ( (LA65_0==17) ) {
-                                    alt65=1;
+                                if ( (LA66_0==17) ) {
+                                    alt66=1;
                                 }
 
 
-                                switch (alt65) {
+                                switch (alt66) {
                             	case 1 :
-                            	    // InternalHenshin_text.g:3810:6: otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) )
+                            	    // InternalHenshin_text.g:3829:6: otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) )
                             	    {
-                            	    otherlv_6=(Token)match(input,17,FOLLOW_17); 
+                            	    otherlv_6=(Token)match(input,17,FOLLOW_18); 
 
                             	    						newLeafNode(otherlv_6, grammarAccess.getAtomicExpressionAccess().getCommaKeyword_1_3_1_0());
                             	    					
-                            	    // InternalHenshin_text.g:3814:6: ( (lv_javaParameter_7_0= ruleExpression ) )
-                            	    // InternalHenshin_text.g:3815:7: (lv_javaParameter_7_0= ruleExpression )
+                            	    // InternalHenshin_text.g:3833:6: ( (lv_javaParameter_7_0= ruleExpression ) )
+                            	    // InternalHenshin_text.g:3834:7: (lv_javaParameter_7_0= ruleExpression )
                             	    {
-                            	    // InternalHenshin_text.g:3815:7: (lv_javaParameter_7_0= ruleExpression )
-                            	    // InternalHenshin_text.g:3816:8: lv_javaParameter_7_0= ruleExpression
+                            	    // InternalHenshin_text.g:3834:7: (lv_javaParameter_7_0= ruleExpression )
+                            	    // InternalHenshin_text.g:3835:8: lv_javaParameter_7_0= ruleExpression
                             	    {
 
                             	    								newCompositeNode(grammarAccess.getAtomicExpressionAccess().getJavaParameterExpressionParserRuleCall_1_3_1_1_0());
@@ -10142,7 +10190,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                             	    break;
 
                             	default :
-                            	    break loop65;
+                            	    break loop66;
                                 }
                             } while (true);
 
@@ -10163,13 +10211,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalHenshin_text.g:3841:3: ( () ( (lv_value_10_0= ruleJavaAttribute ) ) )
+                    // InternalHenshin_text.g:3860:3: ( () ( (lv_value_10_0= ruleJavaAttribute ) ) )
                     {
-                    // InternalHenshin_text.g:3841:3: ( () ( (lv_value_10_0= ruleJavaAttribute ) ) )
-                    // InternalHenshin_text.g:3842:4: () ( (lv_value_10_0= ruleJavaAttribute ) )
+                    // InternalHenshin_text.g:3860:3: ( () ( (lv_value_10_0= ruleJavaAttribute ) ) )
+                    // InternalHenshin_text.g:3861:4: () ( (lv_value_10_0= ruleJavaAttribute ) )
                     {
-                    // InternalHenshin_text.g:3842:4: ()
-                    // InternalHenshin_text.g:3843:5: 
+                    // InternalHenshin_text.g:3861:4: ()
+                    // InternalHenshin_text.g:3862:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -10179,11 +10227,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalHenshin_text.g:3849:4: ( (lv_value_10_0= ruleJavaAttribute ) )
-                    // InternalHenshin_text.g:3850:5: (lv_value_10_0= ruleJavaAttribute )
+                    // InternalHenshin_text.g:3868:4: ( (lv_value_10_0= ruleJavaAttribute ) )
+                    // InternalHenshin_text.g:3869:5: (lv_value_10_0= ruleJavaAttribute )
                     {
-                    // InternalHenshin_text.g:3850:5: (lv_value_10_0= ruleJavaAttribute )
-                    // InternalHenshin_text.g:3851:6: lv_value_10_0= ruleJavaAttribute
+                    // InternalHenshin_text.g:3869:5: (lv_value_10_0= ruleJavaAttribute )
+                    // InternalHenshin_text.g:3870:6: lv_value_10_0= ruleJavaAttribute
                     {
 
                     						newCompositeNode(grammarAccess.getAtomicExpressionAccess().getValueJavaAttributeParserRuleCall_2_1_0());
@@ -10217,13 +10265,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalHenshin_text.g:3870:3: ( () ( (lv_value_12_0= RULE_STRING ) ) )
+                    // InternalHenshin_text.g:3889:3: ( () ( (lv_value_12_0= RULE_STRING ) ) )
                     {
-                    // InternalHenshin_text.g:3870:3: ( () ( (lv_value_12_0= RULE_STRING ) ) )
-                    // InternalHenshin_text.g:3871:4: () ( (lv_value_12_0= RULE_STRING ) )
+                    // InternalHenshin_text.g:3889:3: ( () ( (lv_value_12_0= RULE_STRING ) ) )
+                    // InternalHenshin_text.g:3890:4: () ( (lv_value_12_0= RULE_STRING ) )
                     {
-                    // InternalHenshin_text.g:3871:4: ()
-                    // InternalHenshin_text.g:3872:5: 
+                    // InternalHenshin_text.g:3890:4: ()
+                    // InternalHenshin_text.g:3891:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -10233,11 +10281,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalHenshin_text.g:3878:4: ( (lv_value_12_0= RULE_STRING ) )
-                    // InternalHenshin_text.g:3879:5: (lv_value_12_0= RULE_STRING )
+                    // InternalHenshin_text.g:3897:4: ( (lv_value_12_0= RULE_STRING ) )
+                    // InternalHenshin_text.g:3898:5: (lv_value_12_0= RULE_STRING )
                     {
-                    // InternalHenshin_text.g:3879:5: (lv_value_12_0= RULE_STRING )
-                    // InternalHenshin_text.g:3880:6: lv_value_12_0= RULE_STRING
+                    // InternalHenshin_text.g:3898:5: (lv_value_12_0= RULE_STRING )
+                    // InternalHenshin_text.g:3899:6: lv_value_12_0= RULE_STRING
                     {
                     lv_value_12_0=(Token)match(input,RULE_STRING,FOLLOW_2); 
 
@@ -10266,13 +10314,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalHenshin_text.g:3898:3: ( () ( (lv_value_14_0= RULE_DECIMAL ) ) )
+                    // InternalHenshin_text.g:3917:3: ( () ( (lv_value_14_0= RULE_DECIMAL ) ) )
                     {
-                    // InternalHenshin_text.g:3898:3: ( () ( (lv_value_14_0= RULE_DECIMAL ) ) )
-                    // InternalHenshin_text.g:3899:4: () ( (lv_value_14_0= RULE_DECIMAL ) )
+                    // InternalHenshin_text.g:3917:3: ( () ( (lv_value_14_0= RULE_DECIMAL ) ) )
+                    // InternalHenshin_text.g:3918:4: () ( (lv_value_14_0= RULE_DECIMAL ) )
                     {
-                    // InternalHenshin_text.g:3899:4: ()
-                    // InternalHenshin_text.g:3900:5: 
+                    // InternalHenshin_text.g:3918:4: ()
+                    // InternalHenshin_text.g:3919:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -10282,11 +10330,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalHenshin_text.g:3906:4: ( (lv_value_14_0= RULE_DECIMAL ) )
-                    // InternalHenshin_text.g:3907:5: (lv_value_14_0= RULE_DECIMAL )
+                    // InternalHenshin_text.g:3925:4: ( (lv_value_14_0= RULE_DECIMAL ) )
+                    // InternalHenshin_text.g:3926:5: (lv_value_14_0= RULE_DECIMAL )
                     {
-                    // InternalHenshin_text.g:3907:5: (lv_value_14_0= RULE_DECIMAL )
-                    // InternalHenshin_text.g:3908:6: lv_value_14_0= RULE_DECIMAL
+                    // InternalHenshin_text.g:3926:5: (lv_value_14_0= RULE_DECIMAL )
+                    // InternalHenshin_text.g:3927:6: lv_value_14_0= RULE_DECIMAL
                     {
                     lv_value_14_0=(Token)match(input,RULE_DECIMAL,FOLLOW_2); 
 
@@ -10315,13 +10363,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalHenshin_text.g:3926:3: ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) )
+                    // InternalHenshin_text.g:3945:3: ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) )
                     {
-                    // InternalHenshin_text.g:3926:3: ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) )
-                    // InternalHenshin_text.g:3927:4: () ( (lv_value_16_0= RULE_NEGATIVE ) )
+                    // InternalHenshin_text.g:3945:3: ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) )
+                    // InternalHenshin_text.g:3946:4: () ( (lv_value_16_0= RULE_NEGATIVE ) )
                     {
-                    // InternalHenshin_text.g:3927:4: ()
-                    // InternalHenshin_text.g:3928:5: 
+                    // InternalHenshin_text.g:3946:4: ()
+                    // InternalHenshin_text.g:3947:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -10331,11 +10379,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalHenshin_text.g:3934:4: ( (lv_value_16_0= RULE_NEGATIVE ) )
-                    // InternalHenshin_text.g:3935:5: (lv_value_16_0= RULE_NEGATIVE )
+                    // InternalHenshin_text.g:3953:4: ( (lv_value_16_0= RULE_NEGATIVE ) )
+                    // InternalHenshin_text.g:3954:5: (lv_value_16_0= RULE_NEGATIVE )
                     {
-                    // InternalHenshin_text.g:3935:5: (lv_value_16_0= RULE_NEGATIVE )
-                    // InternalHenshin_text.g:3936:6: lv_value_16_0= RULE_NEGATIVE
+                    // InternalHenshin_text.g:3954:5: (lv_value_16_0= RULE_NEGATIVE )
+                    // InternalHenshin_text.g:3955:6: lv_value_16_0= RULE_NEGATIVE
                     {
                     lv_value_16_0=(Token)match(input,RULE_NEGATIVE,FOLLOW_2); 
 
@@ -10364,13 +10412,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalHenshin_text.g:3954:3: ( () ( (lv_value_18_0= RULE_INT ) ) )
+                    // InternalHenshin_text.g:3973:3: ( () ( (lv_value_18_0= RULE_INT ) ) )
                     {
-                    // InternalHenshin_text.g:3954:3: ( () ( (lv_value_18_0= RULE_INT ) ) )
-                    // InternalHenshin_text.g:3955:4: () ( (lv_value_18_0= RULE_INT ) )
+                    // InternalHenshin_text.g:3973:3: ( () ( (lv_value_18_0= RULE_INT ) ) )
+                    // InternalHenshin_text.g:3974:4: () ( (lv_value_18_0= RULE_INT ) )
                     {
-                    // InternalHenshin_text.g:3955:4: ()
-                    // InternalHenshin_text.g:3956:5: 
+                    // InternalHenshin_text.g:3974:4: ()
+                    // InternalHenshin_text.g:3975:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -10380,11 +10428,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalHenshin_text.g:3962:4: ( (lv_value_18_0= RULE_INT ) )
-                    // InternalHenshin_text.g:3963:5: (lv_value_18_0= RULE_INT )
+                    // InternalHenshin_text.g:3981:4: ( (lv_value_18_0= RULE_INT ) )
+                    // InternalHenshin_text.g:3982:5: (lv_value_18_0= RULE_INT )
                     {
-                    // InternalHenshin_text.g:3963:5: (lv_value_18_0= RULE_INT )
-                    // InternalHenshin_text.g:3964:6: lv_value_18_0= RULE_INT
+                    // InternalHenshin_text.g:3982:5: (lv_value_18_0= RULE_INT )
+                    // InternalHenshin_text.g:3983:6: lv_value_18_0= RULE_INT
                     {
                     lv_value_18_0=(Token)match(input,RULE_INT,FOLLOW_2); 
 
@@ -10413,13 +10461,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // InternalHenshin_text.g:3982:3: ( () ( (lv_value_20_0= ruleEBoolean ) ) )
+                    // InternalHenshin_text.g:4001:3: ( () ( (lv_value_20_0= ruleEBoolean ) ) )
                     {
-                    // InternalHenshin_text.g:3982:3: ( () ( (lv_value_20_0= ruleEBoolean ) ) )
-                    // InternalHenshin_text.g:3983:4: () ( (lv_value_20_0= ruleEBoolean ) )
+                    // InternalHenshin_text.g:4001:3: ( () ( (lv_value_20_0= ruleEBoolean ) ) )
+                    // InternalHenshin_text.g:4002:4: () ( (lv_value_20_0= ruleEBoolean ) )
                     {
-                    // InternalHenshin_text.g:3983:4: ()
-                    // InternalHenshin_text.g:3984:5: 
+                    // InternalHenshin_text.g:4002:4: ()
+                    // InternalHenshin_text.g:4003:5: 
                     {
 
                     					current = forceCreateModelElement(
@@ -10429,11 +10477,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // InternalHenshin_text.g:3990:4: ( (lv_value_20_0= ruleEBoolean ) )
-                    // InternalHenshin_text.g:3991:5: (lv_value_20_0= ruleEBoolean )
+                    // InternalHenshin_text.g:4009:4: ( (lv_value_20_0= ruleEBoolean ) )
+                    // InternalHenshin_text.g:4010:5: (lv_value_20_0= ruleEBoolean )
                     {
-                    // InternalHenshin_text.g:3991:5: (lv_value_20_0= ruleEBoolean )
-                    // InternalHenshin_text.g:3992:6: lv_value_20_0= ruleEBoolean
+                    // InternalHenshin_text.g:4010:5: (lv_value_20_0= ruleEBoolean )
+                    // InternalHenshin_text.g:4011:6: lv_value_20_0= ruleEBoolean
                     {
 
                     						newCompositeNode(grammarAccess.getAtomicExpressionAccess().getValueEBooleanParserRuleCall_7_1_0());
@@ -10489,7 +10537,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleJavaAttribute"
-    // InternalHenshin_text.g:4014:1: entryRuleJavaAttribute returns [String current=null] : iv_ruleJavaAttribute= ruleJavaAttribute EOF ;
+    // InternalHenshin_text.g:4033:1: entryRuleJavaAttribute returns [String current=null] : iv_ruleJavaAttribute= ruleJavaAttribute EOF ;
     public final String entryRuleJavaAttribute() throws RecognitionException {
         String current = null;
 
@@ -10497,8 +10545,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHenshin_text.g:4014:53: (iv_ruleJavaAttribute= ruleJavaAttribute EOF )
-            // InternalHenshin_text.g:4015:2: iv_ruleJavaAttribute= ruleJavaAttribute EOF
+            // InternalHenshin_text.g:4033:53: (iv_ruleJavaAttribute= ruleJavaAttribute EOF )
+            // InternalHenshin_text.g:4034:2: iv_ruleJavaAttribute= ruleJavaAttribute EOF
             {
              newCompositeNode(grammarAccess.getJavaAttributeRule()); 
             pushFollow(FOLLOW_1);
@@ -10525,7 +10573,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleJavaAttribute"
-    // InternalHenshin_text.g:4021:1: ruleJavaAttribute returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID ) ;
+    // InternalHenshin_text.g:4040:1: ruleJavaAttribute returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID ) ;
     public final AntlrDatatypeRuleToken ruleJavaAttribute() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -10537,13 +10585,13 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:4027:2: ( (this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID ) )
-            // InternalHenshin_text.g:4028:2: (this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID )
+            // InternalHenshin_text.g:4046:2: ( (this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID ) )
+            // InternalHenshin_text.g:4047:2: (this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID )
             {
-            // InternalHenshin_text.g:4028:2: (this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID )
-            // InternalHenshin_text.g:4029:3: this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID
+            // InternalHenshin_text.g:4047:2: (this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID )
+            // InternalHenshin_text.g:4048:3: this_ID_0= RULE_ID kw= '.' this_ID_2= RULE_ID
             {
-            this_ID_0=(Token)match(input,RULE_ID,FOLLOW_47); 
+            this_ID_0=(Token)match(input,RULE_ID,FOLLOW_49); 
 
             			current.merge(this_ID_0);
             		
@@ -10584,8 +10632,146 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleJavaAttribute"
 
 
+    // $ANTLR start "ruleParameterKindRule"
+    // InternalHenshin_text.g:4071:1: ruleParameterKindRule returns [Enumerator current=null] : ( (enumLiteral_0= 'IN' ) | (enumLiteral_1= 'OUT' ) | (enumLiteral_2= 'INOUT' ) | (enumLiteral_3= 'VAR' ) ) ;
+    public final Enumerator ruleParameterKindRule() throws RecognitionException {
+        Enumerator current = null;
+
+        Token enumLiteral_0=null;
+        Token enumLiteral_1=null;
+        Token enumLiteral_2=null;
+        Token enumLiteral_3=null;
+
+
+        	enterRule();
+
+        try {
+            // InternalHenshin_text.g:4077:2: ( ( (enumLiteral_0= 'IN' ) | (enumLiteral_1= 'OUT' ) | (enumLiteral_2= 'INOUT' ) | (enumLiteral_3= 'VAR' ) ) )
+            // InternalHenshin_text.g:4078:2: ( (enumLiteral_0= 'IN' ) | (enumLiteral_1= 'OUT' ) | (enumLiteral_2= 'INOUT' ) | (enumLiteral_3= 'VAR' ) )
+            {
+            // InternalHenshin_text.g:4078:2: ( (enumLiteral_0= 'IN' ) | (enumLiteral_1= 'OUT' ) | (enumLiteral_2= 'INOUT' ) | (enumLiteral_3= 'VAR' ) )
+            int alt69=4;
+            switch ( input.LA(1) ) {
+            case 70:
+                {
+                alt69=1;
+                }
+                break;
+            case 71:
+                {
+                alt69=2;
+                }
+                break;
+            case 72:
+                {
+                alt69=3;
+                }
+                break;
+            case 73:
+                {
+                alt69=4;
+                }
+                break;
+            default:
+                NoViableAltException nvae =
+                    new NoViableAltException("", 69, 0, input);
+
+                throw nvae;
+            }
+
+            switch (alt69) {
+                case 1 :
+                    // InternalHenshin_text.g:4079:3: (enumLiteral_0= 'IN' )
+                    {
+                    // InternalHenshin_text.g:4079:3: (enumLiteral_0= 'IN' )
+                    // InternalHenshin_text.g:4080:4: enumLiteral_0= 'IN'
+                    {
+                    enumLiteral_0=(Token)match(input,70,FOLLOW_2); 
+
+                    				current = grammarAccess.getParameterKindRuleAccess().getINEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_0, grammarAccess.getParameterKindRuleAccess().getINEnumLiteralDeclaration_0());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 2 :
+                    // InternalHenshin_text.g:4087:3: (enumLiteral_1= 'OUT' )
+                    {
+                    // InternalHenshin_text.g:4087:3: (enumLiteral_1= 'OUT' )
+                    // InternalHenshin_text.g:4088:4: enumLiteral_1= 'OUT'
+                    {
+                    enumLiteral_1=(Token)match(input,71,FOLLOW_2); 
+
+                    				current = grammarAccess.getParameterKindRuleAccess().getOUTEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_1, grammarAccess.getParameterKindRuleAccess().getOUTEnumLiteralDeclaration_1());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 3 :
+                    // InternalHenshin_text.g:4095:3: (enumLiteral_2= 'INOUT' )
+                    {
+                    // InternalHenshin_text.g:4095:3: (enumLiteral_2= 'INOUT' )
+                    // InternalHenshin_text.g:4096:4: enumLiteral_2= 'INOUT'
+                    {
+                    enumLiteral_2=(Token)match(input,72,FOLLOW_2); 
+
+                    				current = grammarAccess.getParameterKindRuleAccess().getINOUTEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_2, grammarAccess.getParameterKindRuleAccess().getINOUTEnumLiteralDeclaration_2());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+                case 4 :
+                    // InternalHenshin_text.g:4103:3: (enumLiteral_3= 'VAR' )
+                    {
+                    // InternalHenshin_text.g:4103:3: (enumLiteral_3= 'VAR' )
+                    // InternalHenshin_text.g:4104:4: enumLiteral_3= 'VAR'
+                    {
+                    enumLiteral_3=(Token)match(input,73,FOLLOW_2); 
+
+                    				current = grammarAccess.getParameterKindRuleAccess().getVAREnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_3, grammarAccess.getParameterKindRuleAccess().getVAREnumLiteralDeclaration_3());
+                    			
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+
+            	leaveRule();
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleParameterKindRule"
+
+
     // $ANTLR start "ruleType"
-    // InternalHenshin_text.g:4052:1: ruleType returns [Enumerator current=null] : ( (enumLiteral_0= 'EBigDecimal' ) | (enumLiteral_1= 'EBigInteger' ) | (enumLiteral_2= 'EBoolean' ) | (enumLiteral_3= 'EBooleanObject' ) | (enumLiteral_4= 'EByte' ) | (enumLiteral_5= 'EByteArray' ) | (enumLiteral_6= 'EByteObject' ) | (enumLiteral_7= 'EChar' ) | (enumLiteral_8= 'ECharacterObject' ) | (enumLiteral_9= 'EDate' ) | (enumLiteral_10= 'EDiagnosticChain' ) | (enumLiteral_11= 'EDouble' ) | (enumLiteral_12= 'EDoubleObject' ) | (enumLiteral_13= 'EEList' ) | (enumLiteral_14= 'EEnumerator' ) | (enumLiteral_15= 'EFeatureMap' ) | (enumLiteral_16= 'EFeatureMapEntry' ) | (enumLiteral_17= 'EFloat' ) | (enumLiteral_18= 'EFloatObject' ) | (enumLiteral_19= 'EInt' ) | (enumLiteral_20= 'EIntegerObject' ) | (enumLiteral_21= 'ETreeIterator' ) | (enumLiteral_22= 'EInvocationTargetException' ) | (enumLiteral_23= 'EJavaClass' ) | (enumLiteral_24= 'EJavaObject' ) | (enumLiteral_25= 'ELong' ) | (enumLiteral_26= 'ELongObject' ) | (enumLiteral_27= 'EMap' ) | (enumLiteral_28= 'EResource' ) | (enumLiteral_29= 'EResourceSet' ) | (enumLiteral_30= 'EShort' ) | (enumLiteral_31= 'EShortObject' ) | (enumLiteral_32= 'EString' ) ) ;
+    // InternalHenshin_text.g:4114:1: ruleType returns [Enumerator current=null] : ( (enumLiteral_0= 'EBigDecimal' ) | (enumLiteral_1= 'EBigInteger' ) | (enumLiteral_2= 'EBoolean' ) | (enumLiteral_3= 'EBooleanObject' ) | (enumLiteral_4= 'EByte' ) | (enumLiteral_5= 'EByteArray' ) | (enumLiteral_6= 'EByteObject' ) | (enumLiteral_7= 'EChar' ) | (enumLiteral_8= 'ECharacterObject' ) | (enumLiteral_9= 'EDate' ) | (enumLiteral_10= 'EDiagnosticChain' ) | (enumLiteral_11= 'EDouble' ) | (enumLiteral_12= 'EDoubleObject' ) | (enumLiteral_13= 'EEList' ) | (enumLiteral_14= 'EEnumerator' ) | (enumLiteral_15= 'EFeatureMap' ) | (enumLiteral_16= 'EFeatureMapEntry' ) | (enumLiteral_17= 'EFloat' ) | (enumLiteral_18= 'EFloatObject' ) | (enumLiteral_19= 'EInt' ) | (enumLiteral_20= 'EIntegerObject' ) | (enumLiteral_21= 'ETreeIterator' ) | (enumLiteral_22= 'EInvocationTargetException' ) | (enumLiteral_23= 'EJavaClass' ) | (enumLiteral_24= 'EJavaObject' ) | (enumLiteral_25= 'ELong' ) | (enumLiteral_26= 'ELongObject' ) | (enumLiteral_27= 'EMap' ) | (enumLiteral_28= 'EResource' ) | (enumLiteral_29= 'EResourceSet' ) | (enumLiteral_30= 'EShort' ) | (enumLiteral_31= 'EShortObject' ) | (enumLiteral_32= 'EString' ) ) ;
     public final Enumerator ruleType() throws RecognitionException {
         Enumerator current = null;
 
@@ -10627,192 +10813,192 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalHenshin_text.g:4058:2: ( ( (enumLiteral_0= 'EBigDecimal' ) | (enumLiteral_1= 'EBigInteger' ) | (enumLiteral_2= 'EBoolean' ) | (enumLiteral_3= 'EBooleanObject' ) | (enumLiteral_4= 'EByte' ) | (enumLiteral_5= 'EByteArray' ) | (enumLiteral_6= 'EByteObject' ) | (enumLiteral_7= 'EChar' ) | (enumLiteral_8= 'ECharacterObject' ) | (enumLiteral_9= 'EDate' ) | (enumLiteral_10= 'EDiagnosticChain' ) | (enumLiteral_11= 'EDouble' ) | (enumLiteral_12= 'EDoubleObject' ) | (enumLiteral_13= 'EEList' ) | (enumLiteral_14= 'EEnumerator' ) | (enumLiteral_15= 'EFeatureMap' ) | (enumLiteral_16= 'EFeatureMapEntry' ) | (enumLiteral_17= 'EFloat' ) | (enumLiteral_18= 'EFloatObject' ) | (enumLiteral_19= 'EInt' ) | (enumLiteral_20= 'EIntegerObject' ) | (enumLiteral_21= 'ETreeIterator' ) | (enumLiteral_22= 'EInvocationTargetException' ) | (enumLiteral_23= 'EJavaClass' ) | (enumLiteral_24= 'EJavaObject' ) | (enumLiteral_25= 'ELong' ) | (enumLiteral_26= 'ELongObject' ) | (enumLiteral_27= 'EMap' ) | (enumLiteral_28= 'EResource' ) | (enumLiteral_29= 'EResourceSet' ) | (enumLiteral_30= 'EShort' ) | (enumLiteral_31= 'EShortObject' ) | (enumLiteral_32= 'EString' ) ) )
-            // InternalHenshin_text.g:4059:2: ( (enumLiteral_0= 'EBigDecimal' ) | (enumLiteral_1= 'EBigInteger' ) | (enumLiteral_2= 'EBoolean' ) | (enumLiteral_3= 'EBooleanObject' ) | (enumLiteral_4= 'EByte' ) | (enumLiteral_5= 'EByteArray' ) | (enumLiteral_6= 'EByteObject' ) | (enumLiteral_7= 'EChar' ) | (enumLiteral_8= 'ECharacterObject' ) | (enumLiteral_9= 'EDate' ) | (enumLiteral_10= 'EDiagnosticChain' ) | (enumLiteral_11= 'EDouble' ) | (enumLiteral_12= 'EDoubleObject' ) | (enumLiteral_13= 'EEList' ) | (enumLiteral_14= 'EEnumerator' ) | (enumLiteral_15= 'EFeatureMap' ) | (enumLiteral_16= 'EFeatureMapEntry' ) | (enumLiteral_17= 'EFloat' ) | (enumLiteral_18= 'EFloatObject' ) | (enumLiteral_19= 'EInt' ) | (enumLiteral_20= 'EIntegerObject' ) | (enumLiteral_21= 'ETreeIterator' ) | (enumLiteral_22= 'EInvocationTargetException' ) | (enumLiteral_23= 'EJavaClass' ) | (enumLiteral_24= 'EJavaObject' ) | (enumLiteral_25= 'ELong' ) | (enumLiteral_26= 'ELongObject' ) | (enumLiteral_27= 'EMap' ) | (enumLiteral_28= 'EResource' ) | (enumLiteral_29= 'EResourceSet' ) | (enumLiteral_30= 'EShort' ) | (enumLiteral_31= 'EShortObject' ) | (enumLiteral_32= 'EString' ) )
+            // InternalHenshin_text.g:4120:2: ( ( (enumLiteral_0= 'EBigDecimal' ) | (enumLiteral_1= 'EBigInteger' ) | (enumLiteral_2= 'EBoolean' ) | (enumLiteral_3= 'EBooleanObject' ) | (enumLiteral_4= 'EByte' ) | (enumLiteral_5= 'EByteArray' ) | (enumLiteral_6= 'EByteObject' ) | (enumLiteral_7= 'EChar' ) | (enumLiteral_8= 'ECharacterObject' ) | (enumLiteral_9= 'EDate' ) | (enumLiteral_10= 'EDiagnosticChain' ) | (enumLiteral_11= 'EDouble' ) | (enumLiteral_12= 'EDoubleObject' ) | (enumLiteral_13= 'EEList' ) | (enumLiteral_14= 'EEnumerator' ) | (enumLiteral_15= 'EFeatureMap' ) | (enumLiteral_16= 'EFeatureMapEntry' ) | (enumLiteral_17= 'EFloat' ) | (enumLiteral_18= 'EFloatObject' ) | (enumLiteral_19= 'EInt' ) | (enumLiteral_20= 'EIntegerObject' ) | (enumLiteral_21= 'ETreeIterator' ) | (enumLiteral_22= 'EInvocationTargetException' ) | (enumLiteral_23= 'EJavaClass' ) | (enumLiteral_24= 'EJavaObject' ) | (enumLiteral_25= 'ELong' ) | (enumLiteral_26= 'ELongObject' ) | (enumLiteral_27= 'EMap' ) | (enumLiteral_28= 'EResource' ) | (enumLiteral_29= 'EResourceSet' ) | (enumLiteral_30= 'EShort' ) | (enumLiteral_31= 'EShortObject' ) | (enumLiteral_32= 'EString' ) ) )
+            // InternalHenshin_text.g:4121:2: ( (enumLiteral_0= 'EBigDecimal' ) | (enumLiteral_1= 'EBigInteger' ) | (enumLiteral_2= 'EBoolean' ) | (enumLiteral_3= 'EBooleanObject' ) | (enumLiteral_4= 'EByte' ) | (enumLiteral_5= 'EByteArray' ) | (enumLiteral_6= 'EByteObject' ) | (enumLiteral_7= 'EChar' ) | (enumLiteral_8= 'ECharacterObject' ) | (enumLiteral_9= 'EDate' ) | (enumLiteral_10= 'EDiagnosticChain' ) | (enumLiteral_11= 'EDouble' ) | (enumLiteral_12= 'EDoubleObject' ) | (enumLiteral_13= 'EEList' ) | (enumLiteral_14= 'EEnumerator' ) | (enumLiteral_15= 'EFeatureMap' ) | (enumLiteral_16= 'EFeatureMapEntry' ) | (enumLiteral_17= 'EFloat' ) | (enumLiteral_18= 'EFloatObject' ) | (enumLiteral_19= 'EInt' ) | (enumLiteral_20= 'EIntegerObject' ) | (enumLiteral_21= 'ETreeIterator' ) | (enumLiteral_22= 'EInvocationTargetException' ) | (enumLiteral_23= 'EJavaClass' ) | (enumLiteral_24= 'EJavaObject' ) | (enumLiteral_25= 'ELong' ) | (enumLiteral_26= 'ELongObject' ) | (enumLiteral_27= 'EMap' ) | (enumLiteral_28= 'EResource' ) | (enumLiteral_29= 'EResourceSet' ) | (enumLiteral_30= 'EShort' ) | (enumLiteral_31= 'EShortObject' ) | (enumLiteral_32= 'EString' ) )
             {
-            // InternalHenshin_text.g:4059:2: ( (enumLiteral_0= 'EBigDecimal' ) | (enumLiteral_1= 'EBigInteger' ) | (enumLiteral_2= 'EBoolean' ) | (enumLiteral_3= 'EBooleanObject' ) | (enumLiteral_4= 'EByte' ) | (enumLiteral_5= 'EByteArray' ) | (enumLiteral_6= 'EByteObject' ) | (enumLiteral_7= 'EChar' ) | (enumLiteral_8= 'ECharacterObject' ) | (enumLiteral_9= 'EDate' ) | (enumLiteral_10= 'EDiagnosticChain' ) | (enumLiteral_11= 'EDouble' ) | (enumLiteral_12= 'EDoubleObject' ) | (enumLiteral_13= 'EEList' ) | (enumLiteral_14= 'EEnumerator' ) | (enumLiteral_15= 'EFeatureMap' ) | (enumLiteral_16= 'EFeatureMapEntry' ) | (enumLiteral_17= 'EFloat' ) | (enumLiteral_18= 'EFloatObject' ) | (enumLiteral_19= 'EInt' ) | (enumLiteral_20= 'EIntegerObject' ) | (enumLiteral_21= 'ETreeIterator' ) | (enumLiteral_22= 'EInvocationTargetException' ) | (enumLiteral_23= 'EJavaClass' ) | (enumLiteral_24= 'EJavaObject' ) | (enumLiteral_25= 'ELong' ) | (enumLiteral_26= 'ELongObject' ) | (enumLiteral_27= 'EMap' ) | (enumLiteral_28= 'EResource' ) | (enumLiteral_29= 'EResourceSet' ) | (enumLiteral_30= 'EShort' ) | (enumLiteral_31= 'EShortObject' ) | (enumLiteral_32= 'EString' ) )
-            int alt68=33;
+            // InternalHenshin_text.g:4121:2: ( (enumLiteral_0= 'EBigDecimal' ) | (enumLiteral_1= 'EBigInteger' ) | (enumLiteral_2= 'EBoolean' ) | (enumLiteral_3= 'EBooleanObject' ) | (enumLiteral_4= 'EByte' ) | (enumLiteral_5= 'EByteArray' ) | (enumLiteral_6= 'EByteObject' ) | (enumLiteral_7= 'EChar' ) | (enumLiteral_8= 'ECharacterObject' ) | (enumLiteral_9= 'EDate' ) | (enumLiteral_10= 'EDiagnosticChain' ) | (enumLiteral_11= 'EDouble' ) | (enumLiteral_12= 'EDoubleObject' ) | (enumLiteral_13= 'EEList' ) | (enumLiteral_14= 'EEnumerator' ) | (enumLiteral_15= 'EFeatureMap' ) | (enumLiteral_16= 'EFeatureMapEntry' ) | (enumLiteral_17= 'EFloat' ) | (enumLiteral_18= 'EFloatObject' ) | (enumLiteral_19= 'EInt' ) | (enumLiteral_20= 'EIntegerObject' ) | (enumLiteral_21= 'ETreeIterator' ) | (enumLiteral_22= 'EInvocationTargetException' ) | (enumLiteral_23= 'EJavaClass' ) | (enumLiteral_24= 'EJavaObject' ) | (enumLiteral_25= 'ELong' ) | (enumLiteral_26= 'ELongObject' ) | (enumLiteral_27= 'EMap' ) | (enumLiteral_28= 'EResource' ) | (enumLiteral_29= 'EResourceSet' ) | (enumLiteral_30= 'EShort' ) | (enumLiteral_31= 'EShortObject' ) | (enumLiteral_32= 'EString' ) )
+            int alt70=33;
             switch ( input.LA(1) ) {
-            case 70:
-                {
-                alt68=1;
-                }
-                break;
-            case 71:
-                {
-                alt68=2;
-                }
-                break;
-            case 72:
-                {
-                alt68=3;
-                }
-                break;
-            case 73:
-                {
-                alt68=4;
-                }
-                break;
             case 74:
                 {
-                alt68=5;
+                alt70=1;
                 }
                 break;
             case 75:
                 {
-                alt68=6;
+                alt70=2;
                 }
                 break;
             case 76:
                 {
-                alt68=7;
+                alt70=3;
                 }
                 break;
             case 77:
                 {
-                alt68=8;
+                alt70=4;
                 }
                 break;
             case 78:
                 {
-                alt68=9;
+                alt70=5;
                 }
                 break;
             case 79:
                 {
-                alt68=10;
+                alt70=6;
                 }
                 break;
             case 80:
                 {
-                alt68=11;
+                alt70=7;
                 }
                 break;
             case 81:
                 {
-                alt68=12;
+                alt70=8;
                 }
                 break;
             case 82:
                 {
-                alt68=13;
+                alt70=9;
                 }
                 break;
             case 83:
                 {
-                alt68=14;
+                alt70=10;
                 }
                 break;
             case 84:
                 {
-                alt68=15;
+                alt70=11;
                 }
                 break;
             case 85:
                 {
-                alt68=16;
+                alt70=12;
                 }
                 break;
             case 86:
                 {
-                alt68=17;
+                alt70=13;
                 }
                 break;
             case 87:
                 {
-                alt68=18;
+                alt70=14;
                 }
                 break;
             case 88:
                 {
-                alt68=19;
+                alt70=15;
                 }
                 break;
             case 89:
                 {
-                alt68=20;
+                alt70=16;
                 }
                 break;
             case 90:
                 {
-                alt68=21;
+                alt70=17;
                 }
                 break;
             case 91:
                 {
-                alt68=22;
+                alt70=18;
                 }
                 break;
             case 92:
                 {
-                alt68=23;
+                alt70=19;
                 }
                 break;
             case 93:
                 {
-                alt68=24;
+                alt70=20;
                 }
                 break;
             case 94:
                 {
-                alt68=25;
+                alt70=21;
                 }
                 break;
             case 95:
                 {
-                alt68=26;
+                alt70=22;
                 }
                 break;
             case 96:
                 {
-                alt68=27;
+                alt70=23;
                 }
                 break;
             case 97:
                 {
-                alt68=28;
+                alt70=24;
                 }
                 break;
             case 98:
                 {
-                alt68=29;
+                alt70=25;
                 }
                 break;
             case 99:
                 {
-                alt68=30;
+                alt70=26;
                 }
                 break;
             case 100:
                 {
-                alt68=31;
+                alt70=27;
                 }
                 break;
             case 101:
                 {
-                alt68=32;
+                alt70=28;
                 }
                 break;
             case 102:
                 {
-                alt68=33;
+                alt70=29;
+                }
+                break;
+            case 103:
+                {
+                alt70=30;
+                }
+                break;
+            case 104:
+                {
+                alt70=31;
+                }
+                break;
+            case 105:
+                {
+                alt70=32;
+                }
+                break;
+            case 106:
+                {
+                alt70=33;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 68, 0, input);
+                    new NoViableAltException("", 70, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt68) {
+            switch (alt70) {
                 case 1 :
-                    // InternalHenshin_text.g:4060:3: (enumLiteral_0= 'EBigDecimal' )
+                    // InternalHenshin_text.g:4122:3: (enumLiteral_0= 'EBigDecimal' )
                     {
-                    // InternalHenshin_text.g:4060:3: (enumLiteral_0= 'EBigDecimal' )
-                    // InternalHenshin_text.g:4061:4: enumLiteral_0= 'EBigDecimal'
+                    // InternalHenshin_text.g:4122:3: (enumLiteral_0= 'EBigDecimal' )
+                    // InternalHenshin_text.g:4123:4: enumLiteral_0= 'EBigDecimal'
                     {
-                    enumLiteral_0=(Token)match(input,70,FOLLOW_2); 
+                    enumLiteral_0=(Token)match(input,74,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEBigDecimalEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_0, grammarAccess.getTypeAccess().getEBigDecimalEnumLiteralDeclaration_0());
@@ -10824,12 +11010,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalHenshin_text.g:4068:3: (enumLiteral_1= 'EBigInteger' )
+                    // InternalHenshin_text.g:4130:3: (enumLiteral_1= 'EBigInteger' )
                     {
-                    // InternalHenshin_text.g:4068:3: (enumLiteral_1= 'EBigInteger' )
-                    // InternalHenshin_text.g:4069:4: enumLiteral_1= 'EBigInteger'
+                    // InternalHenshin_text.g:4130:3: (enumLiteral_1= 'EBigInteger' )
+                    // InternalHenshin_text.g:4131:4: enumLiteral_1= 'EBigInteger'
                     {
-                    enumLiteral_1=(Token)match(input,71,FOLLOW_2); 
+                    enumLiteral_1=(Token)match(input,75,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEBigIntegerEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_1, grammarAccess.getTypeAccess().getEBigIntegerEnumLiteralDeclaration_1());
@@ -10841,12 +11027,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalHenshin_text.g:4076:3: (enumLiteral_2= 'EBoolean' )
+                    // InternalHenshin_text.g:4138:3: (enumLiteral_2= 'EBoolean' )
                     {
-                    // InternalHenshin_text.g:4076:3: (enumLiteral_2= 'EBoolean' )
-                    // InternalHenshin_text.g:4077:4: enumLiteral_2= 'EBoolean'
+                    // InternalHenshin_text.g:4138:3: (enumLiteral_2= 'EBoolean' )
+                    // InternalHenshin_text.g:4139:4: enumLiteral_2= 'EBoolean'
                     {
-                    enumLiteral_2=(Token)match(input,72,FOLLOW_2); 
+                    enumLiteral_2=(Token)match(input,76,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEBooleanEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_2, grammarAccess.getTypeAccess().getEBooleanEnumLiteralDeclaration_2());
@@ -10858,12 +11044,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalHenshin_text.g:4084:3: (enumLiteral_3= 'EBooleanObject' )
+                    // InternalHenshin_text.g:4146:3: (enumLiteral_3= 'EBooleanObject' )
                     {
-                    // InternalHenshin_text.g:4084:3: (enumLiteral_3= 'EBooleanObject' )
-                    // InternalHenshin_text.g:4085:4: enumLiteral_3= 'EBooleanObject'
+                    // InternalHenshin_text.g:4146:3: (enumLiteral_3= 'EBooleanObject' )
+                    // InternalHenshin_text.g:4147:4: enumLiteral_3= 'EBooleanObject'
                     {
-                    enumLiteral_3=(Token)match(input,73,FOLLOW_2); 
+                    enumLiteral_3=(Token)match(input,77,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEBooleanObjectEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_3, grammarAccess.getTypeAccess().getEBooleanObjectEnumLiteralDeclaration_3());
@@ -10875,12 +11061,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalHenshin_text.g:4092:3: (enumLiteral_4= 'EByte' )
+                    // InternalHenshin_text.g:4154:3: (enumLiteral_4= 'EByte' )
                     {
-                    // InternalHenshin_text.g:4092:3: (enumLiteral_4= 'EByte' )
-                    // InternalHenshin_text.g:4093:4: enumLiteral_4= 'EByte'
+                    // InternalHenshin_text.g:4154:3: (enumLiteral_4= 'EByte' )
+                    // InternalHenshin_text.g:4155:4: enumLiteral_4= 'EByte'
                     {
-                    enumLiteral_4=(Token)match(input,74,FOLLOW_2); 
+                    enumLiteral_4=(Token)match(input,78,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEByteEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_4, grammarAccess.getTypeAccess().getEByteEnumLiteralDeclaration_4());
@@ -10892,12 +11078,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalHenshin_text.g:4100:3: (enumLiteral_5= 'EByteArray' )
+                    // InternalHenshin_text.g:4162:3: (enumLiteral_5= 'EByteArray' )
                     {
-                    // InternalHenshin_text.g:4100:3: (enumLiteral_5= 'EByteArray' )
-                    // InternalHenshin_text.g:4101:4: enumLiteral_5= 'EByteArray'
+                    // InternalHenshin_text.g:4162:3: (enumLiteral_5= 'EByteArray' )
+                    // InternalHenshin_text.g:4163:4: enumLiteral_5= 'EByteArray'
                     {
-                    enumLiteral_5=(Token)match(input,75,FOLLOW_2); 
+                    enumLiteral_5=(Token)match(input,79,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEByteArrayEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_5, grammarAccess.getTypeAccess().getEByteArrayEnumLiteralDeclaration_5());
@@ -10909,12 +11095,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalHenshin_text.g:4108:3: (enumLiteral_6= 'EByteObject' )
+                    // InternalHenshin_text.g:4170:3: (enumLiteral_6= 'EByteObject' )
                     {
-                    // InternalHenshin_text.g:4108:3: (enumLiteral_6= 'EByteObject' )
-                    // InternalHenshin_text.g:4109:4: enumLiteral_6= 'EByteObject'
+                    // InternalHenshin_text.g:4170:3: (enumLiteral_6= 'EByteObject' )
+                    // InternalHenshin_text.g:4171:4: enumLiteral_6= 'EByteObject'
                     {
-                    enumLiteral_6=(Token)match(input,76,FOLLOW_2); 
+                    enumLiteral_6=(Token)match(input,80,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEByteObjectEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_6, grammarAccess.getTypeAccess().getEByteObjectEnumLiteralDeclaration_6());
@@ -10926,12 +11112,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // InternalHenshin_text.g:4116:3: (enumLiteral_7= 'EChar' )
+                    // InternalHenshin_text.g:4178:3: (enumLiteral_7= 'EChar' )
                     {
-                    // InternalHenshin_text.g:4116:3: (enumLiteral_7= 'EChar' )
-                    // InternalHenshin_text.g:4117:4: enumLiteral_7= 'EChar'
+                    // InternalHenshin_text.g:4178:3: (enumLiteral_7= 'EChar' )
+                    // InternalHenshin_text.g:4179:4: enumLiteral_7= 'EChar'
                     {
-                    enumLiteral_7=(Token)match(input,77,FOLLOW_2); 
+                    enumLiteral_7=(Token)match(input,81,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getECharEnumLiteralDeclaration_7().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_7, grammarAccess.getTypeAccess().getECharEnumLiteralDeclaration_7());
@@ -10943,12 +11129,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 9 :
-                    // InternalHenshin_text.g:4124:3: (enumLiteral_8= 'ECharacterObject' )
+                    // InternalHenshin_text.g:4186:3: (enumLiteral_8= 'ECharacterObject' )
                     {
-                    // InternalHenshin_text.g:4124:3: (enumLiteral_8= 'ECharacterObject' )
-                    // InternalHenshin_text.g:4125:4: enumLiteral_8= 'ECharacterObject'
+                    // InternalHenshin_text.g:4186:3: (enumLiteral_8= 'ECharacterObject' )
+                    // InternalHenshin_text.g:4187:4: enumLiteral_8= 'ECharacterObject'
                     {
-                    enumLiteral_8=(Token)match(input,78,FOLLOW_2); 
+                    enumLiteral_8=(Token)match(input,82,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getECharacterObjectEnumLiteralDeclaration_8().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_8, grammarAccess.getTypeAccess().getECharacterObjectEnumLiteralDeclaration_8());
@@ -10960,12 +11146,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 10 :
-                    // InternalHenshin_text.g:4132:3: (enumLiteral_9= 'EDate' )
+                    // InternalHenshin_text.g:4194:3: (enumLiteral_9= 'EDate' )
                     {
-                    // InternalHenshin_text.g:4132:3: (enumLiteral_9= 'EDate' )
-                    // InternalHenshin_text.g:4133:4: enumLiteral_9= 'EDate'
+                    // InternalHenshin_text.g:4194:3: (enumLiteral_9= 'EDate' )
+                    // InternalHenshin_text.g:4195:4: enumLiteral_9= 'EDate'
                     {
-                    enumLiteral_9=(Token)match(input,79,FOLLOW_2); 
+                    enumLiteral_9=(Token)match(input,83,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEDateEnumLiteralDeclaration_9().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_9, grammarAccess.getTypeAccess().getEDateEnumLiteralDeclaration_9());
@@ -10977,12 +11163,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 11 :
-                    // InternalHenshin_text.g:4140:3: (enumLiteral_10= 'EDiagnosticChain' )
+                    // InternalHenshin_text.g:4202:3: (enumLiteral_10= 'EDiagnosticChain' )
                     {
-                    // InternalHenshin_text.g:4140:3: (enumLiteral_10= 'EDiagnosticChain' )
-                    // InternalHenshin_text.g:4141:4: enumLiteral_10= 'EDiagnosticChain'
+                    // InternalHenshin_text.g:4202:3: (enumLiteral_10= 'EDiagnosticChain' )
+                    // InternalHenshin_text.g:4203:4: enumLiteral_10= 'EDiagnosticChain'
                     {
-                    enumLiteral_10=(Token)match(input,80,FOLLOW_2); 
+                    enumLiteral_10=(Token)match(input,84,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEDiagnosticChainEnumLiteralDeclaration_10().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_10, grammarAccess.getTypeAccess().getEDiagnosticChainEnumLiteralDeclaration_10());
@@ -10994,12 +11180,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 12 :
-                    // InternalHenshin_text.g:4148:3: (enumLiteral_11= 'EDouble' )
+                    // InternalHenshin_text.g:4210:3: (enumLiteral_11= 'EDouble' )
                     {
-                    // InternalHenshin_text.g:4148:3: (enumLiteral_11= 'EDouble' )
-                    // InternalHenshin_text.g:4149:4: enumLiteral_11= 'EDouble'
+                    // InternalHenshin_text.g:4210:3: (enumLiteral_11= 'EDouble' )
+                    // InternalHenshin_text.g:4211:4: enumLiteral_11= 'EDouble'
                     {
-                    enumLiteral_11=(Token)match(input,81,FOLLOW_2); 
+                    enumLiteral_11=(Token)match(input,85,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEDoubleEnumLiteralDeclaration_11().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_11, grammarAccess.getTypeAccess().getEDoubleEnumLiteralDeclaration_11());
@@ -11011,12 +11197,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 13 :
-                    // InternalHenshin_text.g:4156:3: (enumLiteral_12= 'EDoubleObject' )
+                    // InternalHenshin_text.g:4218:3: (enumLiteral_12= 'EDoubleObject' )
                     {
-                    // InternalHenshin_text.g:4156:3: (enumLiteral_12= 'EDoubleObject' )
-                    // InternalHenshin_text.g:4157:4: enumLiteral_12= 'EDoubleObject'
+                    // InternalHenshin_text.g:4218:3: (enumLiteral_12= 'EDoubleObject' )
+                    // InternalHenshin_text.g:4219:4: enumLiteral_12= 'EDoubleObject'
                     {
-                    enumLiteral_12=(Token)match(input,82,FOLLOW_2); 
+                    enumLiteral_12=(Token)match(input,86,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEDoubleObjectEnumLiteralDeclaration_12().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_12, grammarAccess.getTypeAccess().getEDoubleObjectEnumLiteralDeclaration_12());
@@ -11028,12 +11214,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 14 :
-                    // InternalHenshin_text.g:4164:3: (enumLiteral_13= 'EEList' )
+                    // InternalHenshin_text.g:4226:3: (enumLiteral_13= 'EEList' )
                     {
-                    // InternalHenshin_text.g:4164:3: (enumLiteral_13= 'EEList' )
-                    // InternalHenshin_text.g:4165:4: enumLiteral_13= 'EEList'
+                    // InternalHenshin_text.g:4226:3: (enumLiteral_13= 'EEList' )
+                    // InternalHenshin_text.g:4227:4: enumLiteral_13= 'EEList'
                     {
-                    enumLiteral_13=(Token)match(input,83,FOLLOW_2); 
+                    enumLiteral_13=(Token)match(input,87,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEEListEnumLiteralDeclaration_13().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_13, grammarAccess.getTypeAccess().getEEListEnumLiteralDeclaration_13());
@@ -11045,12 +11231,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 15 :
-                    // InternalHenshin_text.g:4172:3: (enumLiteral_14= 'EEnumerator' )
+                    // InternalHenshin_text.g:4234:3: (enumLiteral_14= 'EEnumerator' )
                     {
-                    // InternalHenshin_text.g:4172:3: (enumLiteral_14= 'EEnumerator' )
-                    // InternalHenshin_text.g:4173:4: enumLiteral_14= 'EEnumerator'
+                    // InternalHenshin_text.g:4234:3: (enumLiteral_14= 'EEnumerator' )
+                    // InternalHenshin_text.g:4235:4: enumLiteral_14= 'EEnumerator'
                     {
-                    enumLiteral_14=(Token)match(input,84,FOLLOW_2); 
+                    enumLiteral_14=(Token)match(input,88,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEEnumeratorEnumLiteralDeclaration_14().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_14, grammarAccess.getTypeAccess().getEEnumeratorEnumLiteralDeclaration_14());
@@ -11062,12 +11248,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 16 :
-                    // InternalHenshin_text.g:4180:3: (enumLiteral_15= 'EFeatureMap' )
+                    // InternalHenshin_text.g:4242:3: (enumLiteral_15= 'EFeatureMap' )
                     {
-                    // InternalHenshin_text.g:4180:3: (enumLiteral_15= 'EFeatureMap' )
-                    // InternalHenshin_text.g:4181:4: enumLiteral_15= 'EFeatureMap'
+                    // InternalHenshin_text.g:4242:3: (enumLiteral_15= 'EFeatureMap' )
+                    // InternalHenshin_text.g:4243:4: enumLiteral_15= 'EFeatureMap'
                     {
-                    enumLiteral_15=(Token)match(input,85,FOLLOW_2); 
+                    enumLiteral_15=(Token)match(input,89,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEFeatureMapEnumLiteralDeclaration_15().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_15, grammarAccess.getTypeAccess().getEFeatureMapEnumLiteralDeclaration_15());
@@ -11079,12 +11265,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 17 :
-                    // InternalHenshin_text.g:4188:3: (enumLiteral_16= 'EFeatureMapEntry' )
+                    // InternalHenshin_text.g:4250:3: (enumLiteral_16= 'EFeatureMapEntry' )
                     {
-                    // InternalHenshin_text.g:4188:3: (enumLiteral_16= 'EFeatureMapEntry' )
-                    // InternalHenshin_text.g:4189:4: enumLiteral_16= 'EFeatureMapEntry'
+                    // InternalHenshin_text.g:4250:3: (enumLiteral_16= 'EFeatureMapEntry' )
+                    // InternalHenshin_text.g:4251:4: enumLiteral_16= 'EFeatureMapEntry'
                     {
-                    enumLiteral_16=(Token)match(input,86,FOLLOW_2); 
+                    enumLiteral_16=(Token)match(input,90,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEFeatureMapEntryEnumLiteralDeclaration_16().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_16, grammarAccess.getTypeAccess().getEFeatureMapEntryEnumLiteralDeclaration_16());
@@ -11096,12 +11282,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 18 :
-                    // InternalHenshin_text.g:4196:3: (enumLiteral_17= 'EFloat' )
+                    // InternalHenshin_text.g:4258:3: (enumLiteral_17= 'EFloat' )
                     {
-                    // InternalHenshin_text.g:4196:3: (enumLiteral_17= 'EFloat' )
-                    // InternalHenshin_text.g:4197:4: enumLiteral_17= 'EFloat'
+                    // InternalHenshin_text.g:4258:3: (enumLiteral_17= 'EFloat' )
+                    // InternalHenshin_text.g:4259:4: enumLiteral_17= 'EFloat'
                     {
-                    enumLiteral_17=(Token)match(input,87,FOLLOW_2); 
+                    enumLiteral_17=(Token)match(input,91,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEFloatEnumLiteralDeclaration_17().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_17, grammarAccess.getTypeAccess().getEFloatEnumLiteralDeclaration_17());
@@ -11113,12 +11299,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 19 :
-                    // InternalHenshin_text.g:4204:3: (enumLiteral_18= 'EFloatObject' )
+                    // InternalHenshin_text.g:4266:3: (enumLiteral_18= 'EFloatObject' )
                     {
-                    // InternalHenshin_text.g:4204:3: (enumLiteral_18= 'EFloatObject' )
-                    // InternalHenshin_text.g:4205:4: enumLiteral_18= 'EFloatObject'
+                    // InternalHenshin_text.g:4266:3: (enumLiteral_18= 'EFloatObject' )
+                    // InternalHenshin_text.g:4267:4: enumLiteral_18= 'EFloatObject'
                     {
-                    enumLiteral_18=(Token)match(input,88,FOLLOW_2); 
+                    enumLiteral_18=(Token)match(input,92,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEFloatObjectEnumLiteralDeclaration_18().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_18, grammarAccess.getTypeAccess().getEFloatObjectEnumLiteralDeclaration_18());
@@ -11130,12 +11316,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 20 :
-                    // InternalHenshin_text.g:4212:3: (enumLiteral_19= 'EInt' )
+                    // InternalHenshin_text.g:4274:3: (enumLiteral_19= 'EInt' )
                     {
-                    // InternalHenshin_text.g:4212:3: (enumLiteral_19= 'EInt' )
-                    // InternalHenshin_text.g:4213:4: enumLiteral_19= 'EInt'
+                    // InternalHenshin_text.g:4274:3: (enumLiteral_19= 'EInt' )
+                    // InternalHenshin_text.g:4275:4: enumLiteral_19= 'EInt'
                     {
-                    enumLiteral_19=(Token)match(input,89,FOLLOW_2); 
+                    enumLiteral_19=(Token)match(input,93,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEIntEnumLiteralDeclaration_19().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_19, grammarAccess.getTypeAccess().getEIntEnumLiteralDeclaration_19());
@@ -11147,12 +11333,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 21 :
-                    // InternalHenshin_text.g:4220:3: (enumLiteral_20= 'EIntegerObject' )
+                    // InternalHenshin_text.g:4282:3: (enumLiteral_20= 'EIntegerObject' )
                     {
-                    // InternalHenshin_text.g:4220:3: (enumLiteral_20= 'EIntegerObject' )
-                    // InternalHenshin_text.g:4221:4: enumLiteral_20= 'EIntegerObject'
+                    // InternalHenshin_text.g:4282:3: (enumLiteral_20= 'EIntegerObject' )
+                    // InternalHenshin_text.g:4283:4: enumLiteral_20= 'EIntegerObject'
                     {
-                    enumLiteral_20=(Token)match(input,90,FOLLOW_2); 
+                    enumLiteral_20=(Token)match(input,94,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEIntegerObjectEnumLiteralDeclaration_20().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_20, grammarAccess.getTypeAccess().getEIntegerObjectEnumLiteralDeclaration_20());
@@ -11164,12 +11350,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 22 :
-                    // InternalHenshin_text.g:4228:3: (enumLiteral_21= 'ETreeIterator' )
+                    // InternalHenshin_text.g:4290:3: (enumLiteral_21= 'ETreeIterator' )
                     {
-                    // InternalHenshin_text.g:4228:3: (enumLiteral_21= 'ETreeIterator' )
-                    // InternalHenshin_text.g:4229:4: enumLiteral_21= 'ETreeIterator'
+                    // InternalHenshin_text.g:4290:3: (enumLiteral_21= 'ETreeIterator' )
+                    // InternalHenshin_text.g:4291:4: enumLiteral_21= 'ETreeIterator'
                     {
-                    enumLiteral_21=(Token)match(input,91,FOLLOW_2); 
+                    enumLiteral_21=(Token)match(input,95,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getETreeIteratorEnumLiteralDeclaration_21().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_21, grammarAccess.getTypeAccess().getETreeIteratorEnumLiteralDeclaration_21());
@@ -11181,12 +11367,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 23 :
-                    // InternalHenshin_text.g:4236:3: (enumLiteral_22= 'EInvocationTargetException' )
+                    // InternalHenshin_text.g:4298:3: (enumLiteral_22= 'EInvocationTargetException' )
                     {
-                    // InternalHenshin_text.g:4236:3: (enumLiteral_22= 'EInvocationTargetException' )
-                    // InternalHenshin_text.g:4237:4: enumLiteral_22= 'EInvocationTargetException'
+                    // InternalHenshin_text.g:4298:3: (enumLiteral_22= 'EInvocationTargetException' )
+                    // InternalHenshin_text.g:4299:4: enumLiteral_22= 'EInvocationTargetException'
                     {
-                    enumLiteral_22=(Token)match(input,92,FOLLOW_2); 
+                    enumLiteral_22=(Token)match(input,96,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEInvocationTargetExceptionEnumLiteralDeclaration_22().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_22, grammarAccess.getTypeAccess().getEInvocationTargetExceptionEnumLiteralDeclaration_22());
@@ -11198,12 +11384,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 24 :
-                    // InternalHenshin_text.g:4244:3: (enumLiteral_23= 'EJavaClass' )
+                    // InternalHenshin_text.g:4306:3: (enumLiteral_23= 'EJavaClass' )
                     {
-                    // InternalHenshin_text.g:4244:3: (enumLiteral_23= 'EJavaClass' )
-                    // InternalHenshin_text.g:4245:4: enumLiteral_23= 'EJavaClass'
+                    // InternalHenshin_text.g:4306:3: (enumLiteral_23= 'EJavaClass' )
+                    // InternalHenshin_text.g:4307:4: enumLiteral_23= 'EJavaClass'
                     {
-                    enumLiteral_23=(Token)match(input,93,FOLLOW_2); 
+                    enumLiteral_23=(Token)match(input,97,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEJavaClassEnumLiteralDeclaration_23().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_23, grammarAccess.getTypeAccess().getEJavaClassEnumLiteralDeclaration_23());
@@ -11215,12 +11401,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 25 :
-                    // InternalHenshin_text.g:4252:3: (enumLiteral_24= 'EJavaObject' )
+                    // InternalHenshin_text.g:4314:3: (enumLiteral_24= 'EJavaObject' )
                     {
-                    // InternalHenshin_text.g:4252:3: (enumLiteral_24= 'EJavaObject' )
-                    // InternalHenshin_text.g:4253:4: enumLiteral_24= 'EJavaObject'
+                    // InternalHenshin_text.g:4314:3: (enumLiteral_24= 'EJavaObject' )
+                    // InternalHenshin_text.g:4315:4: enumLiteral_24= 'EJavaObject'
                     {
-                    enumLiteral_24=(Token)match(input,94,FOLLOW_2); 
+                    enumLiteral_24=(Token)match(input,98,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEJavaObjectEnumLiteralDeclaration_24().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_24, grammarAccess.getTypeAccess().getEJavaObjectEnumLiteralDeclaration_24());
@@ -11232,12 +11418,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 26 :
-                    // InternalHenshin_text.g:4260:3: (enumLiteral_25= 'ELong' )
+                    // InternalHenshin_text.g:4322:3: (enumLiteral_25= 'ELong' )
                     {
-                    // InternalHenshin_text.g:4260:3: (enumLiteral_25= 'ELong' )
-                    // InternalHenshin_text.g:4261:4: enumLiteral_25= 'ELong'
+                    // InternalHenshin_text.g:4322:3: (enumLiteral_25= 'ELong' )
+                    // InternalHenshin_text.g:4323:4: enumLiteral_25= 'ELong'
                     {
-                    enumLiteral_25=(Token)match(input,95,FOLLOW_2); 
+                    enumLiteral_25=(Token)match(input,99,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getELongEnumLiteralDeclaration_25().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_25, grammarAccess.getTypeAccess().getELongEnumLiteralDeclaration_25());
@@ -11249,12 +11435,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 27 :
-                    // InternalHenshin_text.g:4268:3: (enumLiteral_26= 'ELongObject' )
+                    // InternalHenshin_text.g:4330:3: (enumLiteral_26= 'ELongObject' )
                     {
-                    // InternalHenshin_text.g:4268:3: (enumLiteral_26= 'ELongObject' )
-                    // InternalHenshin_text.g:4269:4: enumLiteral_26= 'ELongObject'
+                    // InternalHenshin_text.g:4330:3: (enumLiteral_26= 'ELongObject' )
+                    // InternalHenshin_text.g:4331:4: enumLiteral_26= 'ELongObject'
                     {
-                    enumLiteral_26=(Token)match(input,96,FOLLOW_2); 
+                    enumLiteral_26=(Token)match(input,100,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getELongObjectEnumLiteralDeclaration_26().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_26, grammarAccess.getTypeAccess().getELongObjectEnumLiteralDeclaration_26());
@@ -11266,12 +11452,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 28 :
-                    // InternalHenshin_text.g:4276:3: (enumLiteral_27= 'EMap' )
+                    // InternalHenshin_text.g:4338:3: (enumLiteral_27= 'EMap' )
                     {
-                    // InternalHenshin_text.g:4276:3: (enumLiteral_27= 'EMap' )
-                    // InternalHenshin_text.g:4277:4: enumLiteral_27= 'EMap'
+                    // InternalHenshin_text.g:4338:3: (enumLiteral_27= 'EMap' )
+                    // InternalHenshin_text.g:4339:4: enumLiteral_27= 'EMap'
                     {
-                    enumLiteral_27=(Token)match(input,97,FOLLOW_2); 
+                    enumLiteral_27=(Token)match(input,101,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEMapEnumLiteralDeclaration_27().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_27, grammarAccess.getTypeAccess().getEMapEnumLiteralDeclaration_27());
@@ -11283,12 +11469,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 29 :
-                    // InternalHenshin_text.g:4284:3: (enumLiteral_28= 'EResource' )
+                    // InternalHenshin_text.g:4346:3: (enumLiteral_28= 'EResource' )
                     {
-                    // InternalHenshin_text.g:4284:3: (enumLiteral_28= 'EResource' )
-                    // InternalHenshin_text.g:4285:4: enumLiteral_28= 'EResource'
+                    // InternalHenshin_text.g:4346:3: (enumLiteral_28= 'EResource' )
+                    // InternalHenshin_text.g:4347:4: enumLiteral_28= 'EResource'
                     {
-                    enumLiteral_28=(Token)match(input,98,FOLLOW_2); 
+                    enumLiteral_28=(Token)match(input,102,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEResourceEnumLiteralDeclaration_28().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_28, grammarAccess.getTypeAccess().getEResourceEnumLiteralDeclaration_28());
@@ -11300,12 +11486,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 30 :
-                    // InternalHenshin_text.g:4292:3: (enumLiteral_29= 'EResourceSet' )
+                    // InternalHenshin_text.g:4354:3: (enumLiteral_29= 'EResourceSet' )
                     {
-                    // InternalHenshin_text.g:4292:3: (enumLiteral_29= 'EResourceSet' )
-                    // InternalHenshin_text.g:4293:4: enumLiteral_29= 'EResourceSet'
+                    // InternalHenshin_text.g:4354:3: (enumLiteral_29= 'EResourceSet' )
+                    // InternalHenshin_text.g:4355:4: enumLiteral_29= 'EResourceSet'
                     {
-                    enumLiteral_29=(Token)match(input,99,FOLLOW_2); 
+                    enumLiteral_29=(Token)match(input,103,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEResourceSetEnumLiteralDeclaration_29().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_29, grammarAccess.getTypeAccess().getEResourceSetEnumLiteralDeclaration_29());
@@ -11317,12 +11503,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 31 :
-                    // InternalHenshin_text.g:4300:3: (enumLiteral_30= 'EShort' )
+                    // InternalHenshin_text.g:4362:3: (enumLiteral_30= 'EShort' )
                     {
-                    // InternalHenshin_text.g:4300:3: (enumLiteral_30= 'EShort' )
-                    // InternalHenshin_text.g:4301:4: enumLiteral_30= 'EShort'
+                    // InternalHenshin_text.g:4362:3: (enumLiteral_30= 'EShort' )
+                    // InternalHenshin_text.g:4363:4: enumLiteral_30= 'EShort'
                     {
-                    enumLiteral_30=(Token)match(input,100,FOLLOW_2); 
+                    enumLiteral_30=(Token)match(input,104,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEShortEnumLiteralDeclaration_30().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_30, grammarAccess.getTypeAccess().getEShortEnumLiteralDeclaration_30());
@@ -11334,12 +11520,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 32 :
-                    // InternalHenshin_text.g:4308:3: (enumLiteral_31= 'EShortObject' )
+                    // InternalHenshin_text.g:4370:3: (enumLiteral_31= 'EShortObject' )
                     {
-                    // InternalHenshin_text.g:4308:3: (enumLiteral_31= 'EShortObject' )
-                    // InternalHenshin_text.g:4309:4: enumLiteral_31= 'EShortObject'
+                    // InternalHenshin_text.g:4370:3: (enumLiteral_31= 'EShortObject' )
+                    // InternalHenshin_text.g:4371:4: enumLiteral_31= 'EShortObject'
                     {
-                    enumLiteral_31=(Token)match(input,101,FOLLOW_2); 
+                    enumLiteral_31=(Token)match(input,105,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEShortObjectEnumLiteralDeclaration_31().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_31, grammarAccess.getTypeAccess().getEShortObjectEnumLiteralDeclaration_31());
@@ -11351,12 +11537,12 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 33 :
-                    // InternalHenshin_text.g:4316:3: (enumLiteral_32= 'EString' )
+                    // InternalHenshin_text.g:4378:3: (enumLiteral_32= 'EString' )
                     {
-                    // InternalHenshin_text.g:4316:3: (enumLiteral_32= 'EString' )
-                    // InternalHenshin_text.g:4317:4: enumLiteral_32= 'EString'
+                    // InternalHenshin_text.g:4378:3: (enumLiteral_32= 'EString' )
+                    // InternalHenshin_text.g:4379:4: enumLiteral_32= 'EString'
                     {
-                    enumLiteral_32=(Token)match(input,102,FOLLOW_2); 
+                    enumLiteral_32=(Token)match(input,106,FOLLOW_2); 
 
                     				current = grammarAccess.getTypeAccess().getEStringEnumLiteralDeclaration_32().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_32, grammarAccess.getTypeAccess().getEStringEnumLiteralDeclaration_32());
@@ -11391,17 +11577,16 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
     // Delegated rules
 
 
-    protected DFA67 dfa67 = new DFA67(this);
+    protected DFA68 dfa68 = new DFA68(this);
     static final String dfa_1s = "\14\uffff";
-    static final String dfa_2s = "\1\uffff\1\7\10\uffff\1\13\1\uffff";
-    static final String dfa_3s = "\2\4\6\uffff\1\4\1\uffff\1\4\1\uffff";
-    static final String dfa_4s = "\1\73\1\105\6\uffff\1\4\1\uffff\1\105\1\uffff";
-    static final String dfa_5s = "\2\uffff\1\4\1\5\1\6\1\7\1\10\1\1\1\uffff\1\2\1\uffff\1\3";
+    static final String dfa_2s = "\1\uffff\1\11\10\uffff\1\13\1\uffff";
+    static final String dfa_3s = "\2\4\5\uffff\1\4\2\uffff\1\4\1\uffff";
+    static final String dfa_4s = "\1\73\1\105\5\uffff\1\4\2\uffff\1\105\1\uffff";
+    static final String dfa_5s = "\2\uffff\1\4\1\5\1\6\1\7\1\10\1\uffff\1\2\1\1\1\uffff\1\3";
     static final String dfa_6s = "\14\uffff}>";
     static final String[] dfa_7s = {
             "\1\1\1\2\1\3\1\4\1\5\61\uffff\2\6",
-            "\1\7\11\uffff\1\10\1\uffff\1\11\2\7\1\uffff\1\7\6\uffff\1\7\1\uffff\5\7\6\uffff\1\7\3\uffff\1\7\1\uffff\1\7\15\uffff\12\7",
-            "",
+            "\1\11\11\uffff\1\7\1\uffff\1\10\2\11\1\uffff\1\11\6\uffff\1\11\1\uffff\5\11\6\uffff\1\11\3\uffff\1\11\1\uffff\1\11\15\uffff\12\11",
             "",
             "",
             "",
@@ -11409,7 +11594,8 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             "",
             "\1\12",
             "",
-            "\1\13\11\uffff\1\11\1\uffff\1\11\2\13\1\uffff\1\13\6\uffff\1\13\1\uffff\5\13\6\uffff\1\13\3\uffff\1\13\1\uffff\1\13\15\uffff\12\13",
+            "",
+            "\1\13\11\uffff\1\10\1\uffff\1\10\2\13\1\uffff\1\13\6\uffff\1\13\1\uffff\5\13\6\uffff\1\13\3\uffff\1\13\1\uffff\1\13\15\uffff\12\13",
             ""
     };
 
@@ -11421,11 +11607,11 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
     static final short[] dfa_6 = DFA.unpackEncodedString(dfa_6s);
     static final short[][] dfa_7 = unpackEncodedStringArray(dfa_7s);
 
-    class DFA67 extends DFA {
+    class DFA68 extends DFA {
 
-        public DFA67(BaseRecognizer recognizer) {
+        public DFA68(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 67;
+            this.decisionNumber = 68;
             this.eot = dfa_1;
             this.eof = dfa_2;
             this.min = dfa_3;
@@ -11435,7 +11621,7 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
             this.transition = dfa_7;
         }
         public String getDescription() {
-            return "3734:2: ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) )";
+            return "3753:2: ( ( () ( (otherlv_1= RULE_ID ) ) ) | ( () ( (lv_value_3_0= ruleEString ) ) otherlv_4= '(' ( ( (lv_javaParameter_5_0= ruleExpression ) ) (otherlv_6= ',' ( (lv_javaParameter_7_0= ruleExpression ) ) )* )? otherlv_8= ')' ) | ( () ( (lv_value_10_0= ruleJavaAttribute ) ) ) | ( () ( (lv_value_12_0= RULE_STRING ) ) ) | ( () ( (lv_value_14_0= RULE_DECIMAL ) ) ) | ( () ( (lv_value_16_0= RULE_NEGATIVE ) ) ) | ( () ( (lv_value_18_0= RULE_INT ) ) ) | ( () ( (lv_value_20_0= ruleEBoolean ) ) ) )";
         }
     }
  
@@ -11447,45 +11633,47 @@ public class InternalHenshin_textParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000000004002L});
     public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000000000040010L});
+    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000000000040010L,0x00000000000003C0L});
     public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000000060000L});
-    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000000013C00000L});
-    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000013D00000L});
-    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x039E000000080010L});
-    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x039E000000180010L});
-    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0C00000000000000L});
-    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0C008000000101F0L});
-    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000008020000L});
-    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x00000667E0100000L});
-    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x00000003E0000010L});
-    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000000800000000L});
-    public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000001000000000L});
-    public static final BitSet FOLLOW_23 = new BitSet(new long[]{0x0000000000040000L});
-    public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0000002000000000L});
-    public static final BitSet FOLLOW_25 = new BitSet(new long[]{0x0000000000080002L});
-    public static final BitSet FOLLOW_26 = new BitSet(new long[]{0x00000103E0100010L});
-    public static final BitSet FOLLOW_27 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_28 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x0000800000010010L});
-    public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0001000000000000L});
-    public static final BitSet FOLLOW_31 = new BitSet(new long[]{0x0001000000100000L});
-    public static final BitSet FOLLOW_32 = new BitSet(new long[]{0x0000300000000002L});
-    public static final BitSet FOLLOW_33 = new BitSet(new long[]{0x0000400000000002L});
-    public static final BitSet FOLLOW_34 = new BitSet(new long[]{0x0000046400100000L});
-    public static final BitSet FOLLOW_35 = new BitSet(new long[]{0x0000000000100010L});
-    public static final BitSet FOLLOW_36 = new BitSet(new long[]{0x039E000000080012L});
-    public static final BitSet FOLLOW_37 = new BitSet(new long[]{0x039E0000000C0010L});
-    public static final BitSet FOLLOW_38 = new BitSet(new long[]{0x0020000000000000L});
-    public static final BitSet FOLLOW_39 = new BitSet(new long[]{0x0040000000000002L});
-    public static final BitSet FOLLOW_40 = new BitSet(new long[]{0x0000000000000010L,0x0000007FFFFFFFC0L});
-    public static final BitSet FOLLOW_41 = new BitSet(new long[]{0x0000100000000002L});
-    public static final BitSet FOLLOW_42 = new BitSet(new long[]{0x3000000000000002L});
-    public static final BitSet FOLLOW_43 = new BitSet(new long[]{0xC000000000000002L,0x0000000000000003L});
-    public static final BitSet FOLLOW_44 = new BitSet(new long[]{0x0000000000000002L,0x000000000000000CL});
-    public static final BitSet FOLLOW_45 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000030L});
-    public static final BitSet FOLLOW_46 = new BitSet(new long[]{0x0C008000000501F0L});
-    public static final BitSet FOLLOW_47 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000000000010L,0x00000000000003C0L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000013C00000L});
+    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000013D00000L});
+    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x039E000000080010L});
+    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x039E000000180010L});
+    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0C00000000000000L});
+    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0C008000000101F0L});
+    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000008020000L});
+    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x00000667E0100000L});
+    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x00000003E0000010L});
+    public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000000800000000L});
+    public static final BitSet FOLLOW_23 = new BitSet(new long[]{0x0000001000000000L});
+    public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0000000000040000L});
+    public static final BitSet FOLLOW_25 = new BitSet(new long[]{0x0000002000000000L});
+    public static final BitSet FOLLOW_26 = new BitSet(new long[]{0x0000000000080002L});
+    public static final BitSet FOLLOW_27 = new BitSet(new long[]{0x00000103E0100010L});
+    public static final BitSet FOLLOW_28 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0000800000010010L});
+    public static final BitSet FOLLOW_31 = new BitSet(new long[]{0x0001000000000000L});
+    public static final BitSet FOLLOW_32 = new BitSet(new long[]{0x0001000000100000L});
+    public static final BitSet FOLLOW_33 = new BitSet(new long[]{0x0000300000000002L});
+    public static final BitSet FOLLOW_34 = new BitSet(new long[]{0x0000400000000002L});
+    public static final BitSet FOLLOW_35 = new BitSet(new long[]{0x0000046400100000L});
+    public static final BitSet FOLLOW_36 = new BitSet(new long[]{0x0000000000100010L});
+    public static final BitSet FOLLOW_37 = new BitSet(new long[]{0x0000000000040010L});
+    public static final BitSet FOLLOW_38 = new BitSet(new long[]{0x039E000000080012L});
+    public static final BitSet FOLLOW_39 = new BitSet(new long[]{0x039E0000000C0010L});
+    public static final BitSet FOLLOW_40 = new BitSet(new long[]{0x0020000000000000L});
+    public static final BitSet FOLLOW_41 = new BitSet(new long[]{0x0040000000000002L});
+    public static final BitSet FOLLOW_42 = new BitSet(new long[]{0x0000000000000010L,0x000007FFFFFFFC00L});
+    public static final BitSet FOLLOW_43 = new BitSet(new long[]{0x0000100000000002L});
+    public static final BitSet FOLLOW_44 = new BitSet(new long[]{0x3000000000000002L});
+    public static final BitSet FOLLOW_45 = new BitSet(new long[]{0xC000000000000002L,0x0000000000000003L});
+    public static final BitSet FOLLOW_46 = new BitSet(new long[]{0x0000000000000002L,0x000000000000000CL});
+    public static final BitSet FOLLOW_47 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000030L});
+    public static final BitSet FOLLOW_48 = new BitSet(new long[]{0x0C008000000501F0L});
+    public static final BitSet FOLLOW_49 = new BitSet(new long[]{0x0000000000004000L});
 
 }

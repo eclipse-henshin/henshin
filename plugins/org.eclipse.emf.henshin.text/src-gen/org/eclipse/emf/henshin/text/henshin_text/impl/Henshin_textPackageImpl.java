@@ -63,6 +63,7 @@ import org.eclipse.emf.henshin.text.henshin_text.NumberValue;
 import org.eclipse.emf.henshin.text.henshin_text.ORorXOR;
 import org.eclipse.emf.henshin.text.henshin_text.OrExpression;
 import org.eclipse.emf.henshin.text.henshin_text.Parameter;
+import org.eclipse.emf.henshin.text.henshin_text.ParameterKind;
 import org.eclipse.emf.henshin.text.henshin_text.ParameterType;
 import org.eclipse.emf.henshin.text.henshin_text.ParameterValue;
 import org.eclipse.emf.henshin.text.henshin_text.PlusExpression;
@@ -533,6 +534,13 @@ public class Henshin_textPackageImpl extends EPackageImpl implements Henshin_tex
    * @generated
    */
   private EClass boolValueEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum parameterKindEEnum = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -1519,7 +1527,7 @@ public class Henshin_textPackageImpl extends EPackageImpl implements Henshin_tex
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getParameter_Name()
+  public EAttribute getParameter_Kind()
   {
     return (EAttribute)parameterEClass.getEStructuralFeatures().get(0);
   }
@@ -1529,9 +1537,19 @@ public class Henshin_textPackageImpl extends EPackageImpl implements Henshin_tex
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getParameter_Name()
+  {
+    return (EAttribute)parameterEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getParameter_Type()
   {
-    return (EReference)parameterEClass.getEStructuralFeatures().get(1);
+    return (EReference)parameterEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -2209,6 +2227,16 @@ public class Henshin_textPackageImpl extends EPackageImpl implements Henshin_tex
    * <!-- end-user-doc -->
    * @generated
    */
+  public EEnum getParameterKind()
+  {
+    return parameterKindEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EEnum getType()
   {
     return typeEEnum;
@@ -2372,6 +2400,7 @@ public class Henshin_textPackageImpl extends EPackageImpl implements Henshin_tex
     createEReference(loopUnitEClass, LOOP_UNIT__SUB_ELEMENT);
 
     parameterEClass = createEClass(PARAMETER);
+    createEAttribute(parameterEClass, PARAMETER__KIND);
     createEAttribute(parameterEClass, PARAMETER__NAME);
     createEReference(parameterEClass, PARAMETER__TYPE);
 
@@ -2469,6 +2498,7 @@ public class Henshin_textPackageImpl extends EPackageImpl implements Henshin_tex
     createEAttribute(boolValueEClass, BOOL_VALUE__VALUE);
 
     // Create enums
+    parameterKindEEnum = createEEnum(PARAMETER_KIND);
     typeEEnum = createEEnum(TYPE);
   }
 
@@ -2681,6 +2711,7 @@ public class Henshin_textPackageImpl extends EPackageImpl implements Henshin_tex
     initEReference(getLoopUnit_SubElement(), this.getUnitElement(), null, "subElement", null, 0, -1, LoopUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getParameter_Kind(), this.getParameterKind(), "kind", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getParameter_Name(), ecorePackage.getEString(), "name", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getParameter_Type(), this.getParameterType(), null, "type", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2778,6 +2809,13 @@ public class Henshin_textPackageImpl extends EPackageImpl implements Henshin_tex
     initEAttribute(getBoolValue_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, BoolValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
+    initEEnum(parameterKindEEnum, ParameterKind.class, "ParameterKind");
+    addEEnumLiteral(parameterKindEEnum, ParameterKind.UNKNOWN);
+    addEEnumLiteral(parameterKindEEnum, ParameterKind.IN);
+    addEEnumLiteral(parameterKindEEnum, ParameterKind.OUT);
+    addEEnumLiteral(parameterKindEEnum, ParameterKind.INOUT);
+    addEEnumLiteral(parameterKindEEnum, ParameterKind.VAR);
+
     initEEnum(typeEEnum, Type.class, "Type");
     addEEnumLiteral(typeEEnum, Type.EBIG_DECIMAL);
     addEEnumLiteral(typeEEnum, Type.EBIG_INTEGER);

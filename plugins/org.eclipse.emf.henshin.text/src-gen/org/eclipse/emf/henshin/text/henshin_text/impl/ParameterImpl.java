@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.henshin.text.henshin_text.Henshin_textPackage;
 import org.eclipse.emf.henshin.text.henshin_text.Parameter;
+import org.eclipse.emf.henshin.text.henshin_text.ParameterKind;
 import org.eclipse.emf.henshin.text.henshin_text.ParameterType;
 
 /**
@@ -24,6 +25,7 @@ import org.eclipse.emf.henshin.text.henshin_text.ParameterType;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.eclipse.emf.henshin.text.henshin_text.impl.ParameterImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.text.henshin_text.impl.ParameterImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.text.henshin_text.impl.ParameterImpl#getType <em>Type</em>}</li>
  * </ul>
@@ -32,6 +34,26 @@ import org.eclipse.emf.henshin.text.henshin_text.ParameterType;
  */
 public class ParameterImpl extends MinimalEObjectImpl.Container implements Parameter
 {
+  /**
+   * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getKind()
+   * @generated
+   * @ordered
+   */
+  protected static final ParameterKind KIND_EDEFAULT = ParameterKind.UNKNOWN;
+
+  /**
+   * The cached value of the '{@link #getKind() <em>Kind</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getKind()
+   * @generated
+   * @ordered
+   */
+  protected ParameterKind kind = KIND_EDEFAULT;
+
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -81,6 +103,29 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
   protected EClass eStaticClass()
   {
     return Henshin_textPackage.Literals.PARAMETER;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ParameterKind getKind()
+  {
+    return kind;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setKind(ParameterKind newKind)
+  {
+    ParameterKind oldKind = kind;
+    kind = newKind == null ? KIND_EDEFAULT : newKind;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, Henshin_textPackage.PARAMETER__KIND, oldKind, kind));
   }
 
   /**
@@ -180,6 +225,8 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
   {
     switch (featureID)
     {
+      case Henshin_textPackage.PARAMETER__KIND:
+        return getKind();
       case Henshin_textPackage.PARAMETER__NAME:
         return getName();
       case Henshin_textPackage.PARAMETER__TYPE:
@@ -198,6 +245,9 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
   {
     switch (featureID)
     {
+      case Henshin_textPackage.PARAMETER__KIND:
+        setKind((ParameterKind)newValue);
+        return;
       case Henshin_textPackage.PARAMETER__NAME:
         setName((String)newValue);
         return;
@@ -218,6 +268,9 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
   {
     switch (featureID)
     {
+      case Henshin_textPackage.PARAMETER__KIND:
+        setKind(KIND_EDEFAULT);
+        return;
       case Henshin_textPackage.PARAMETER__NAME:
         setName(NAME_EDEFAULT);
         return;
@@ -238,6 +291,8 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
   {
     switch (featureID)
     {
+      case Henshin_textPackage.PARAMETER__KIND:
+        return kind != KIND_EDEFAULT;
       case Henshin_textPackage.PARAMETER__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case Henshin_textPackage.PARAMETER__TYPE:
@@ -257,7 +312,9 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (name: ");
+    result.append(" (kind: ");
+    result.append(kind);
+    result.append(", name: ");
     result.append(name);
     result.append(')');
     return result.toString();

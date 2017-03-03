@@ -151,9 +151,17 @@
         eType="#//UnitElement" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ParameterKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ParameterType"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParameterKind">
+    <eLiterals name="UNKNOWN" literal="UNKNOWN"/>
+    <eLiterals name="IN" value="1" literal="IN"/>
+    <eLiterals name="OUT" value="2" literal="OUT"/>
+    <eLiterals name="INOUT" value="3" literal="INOUT"/>
+    <eLiterals name="VAR" value="4" literal="VAR"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ParameterType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="enumType" eType="#//Type"/>

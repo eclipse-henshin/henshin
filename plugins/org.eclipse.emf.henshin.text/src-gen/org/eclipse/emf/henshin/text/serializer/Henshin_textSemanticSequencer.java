@@ -1099,19 +1099,10 @@ public class Henshin_textSemanticSequencer extends AbstractDelegatingSemanticSeq
 	 *     Parameter returns Parameter
 	 *
 	 * Constraint:
-	 *     (name=ID type=ParameterType)
+	 *     (kind=ParameterKindRule? name=ID type=ParameterType)
 	 */
 	protected void sequence_Parameter(ISerializationContext context, org.eclipse.emf.henshin.text.henshin_text.Parameter semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, Henshin_textPackage.Literals.PARAMETER__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, Henshin_textPackage.Literals.PARAMETER__NAME));
-			if (transientValues.isValueTransient(semanticObject, Henshin_textPackage.Literals.PARAMETER__TYPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, Henshin_textPackage.Literals.PARAMETER__TYPE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getParameterAccess().getNameIDTerminalRuleCall_0_0(), semanticObject.getName());
-		feeder.accept(grammarAccess.getParameterAccess().getTypeParameterTypeParserRuleCall_2_0(), semanticObject.getType());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

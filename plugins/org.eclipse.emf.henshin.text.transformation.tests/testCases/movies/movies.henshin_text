@@ -76,7 +76,7 @@ rule createNegative(){
 	}
 }
 
-unit createExample(n:EInt){
+unit createExample(IN n:EInt){
 	for(n){
 		createTest()
 	}

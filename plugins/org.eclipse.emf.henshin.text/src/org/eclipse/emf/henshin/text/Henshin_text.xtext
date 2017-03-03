@@ -266,7 +266,18 @@ LoopUnit:
 
 //parameter
 Parameter:
-	name=ID':'type=ParameterType
+	(kind=ParameterKindRule)? name=ID':'type=ParameterType
+;
+
+// this enums is just used to ensure that the generated ecore file includes an unknown default
+// whereas the actual used grammar rule (ParameterKindSpec) only supports the IN, OUT, INOUT, VAR kinds
+enum ParameterKind:
+	UNKNOWN | IN  | OUT  | INOUT | VAR 
+;
+
+
+enum ParameterKindRule returns ParameterKind:
+	IN = 'IN' | OUT = 'OUT' | INOUT = 'INOUT' | VAR = 'VAR'
 ;
 
 //parameter types
