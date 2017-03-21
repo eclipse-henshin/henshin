@@ -189,21 +189,23 @@ public class ParameterEditTable {
 					try {
 						switch (paramCfg.getType()) {
 							case ParameterConfig.STRING:
-								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+								if (! (value.toString().trim().equals("") || value.toString().trim().equals("null"))) {
 									paramCfg.setValue(value.toString());
 								}
 								else {
 									paramCfg.setValue(null);
-								}	
+								}
+								break;
 							case ParameterConfig.FLOAT:
-								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+								if (! (value.toString().trim().equals("") || value.toString().trim().equals("null"))) {
 									paramCfg.setValue(Float.parseFloat(value.toString()));
 								}
 								else {
 									paramCfg.setValue(null);
-								}	
+								}
+								break;
 							case ParameterConfig.DOUBLE:
-								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+								if (! (value.toString().trim().equals("") || value.toString().trim().equals("null"))) {
 									paramCfg.setValue(Double.parseDouble(value.toString()));
 								}
 								else {
@@ -211,7 +213,7 @@ public class ParameterEditTable {
 								}	
 								break;
 							case ParameterConfig.INT:
-								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+								if (! (value.toString().trim().equals("") || value.toString().trim().equals("null"))) {
 									paramCfg.setValue(Integer.parseInt(value.toString()));
 								}
 								else {
@@ -219,7 +221,7 @@ public class ParameterEditTable {
 								}	
 								break;
 							case ParameterConfig.LONG:
-								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+								if (! (value.toString().trim().equals("") || value.toString().trim().equals("null"))) {
 									paramCfg.setValue(Long.parseLong(value.toString()));
 								}
 								else {
@@ -227,7 +229,7 @@ public class ParameterEditTable {
 								}	
 								break;
 							case ParameterConfig.BOOLEAN:
-								if (! value.toString().trim().equals("") || value.toString().trim().equals("null")) {
+								if (! (value.toString().trim().equals("") || value.toString().trim().equals("null"))) {
 									paramCfg.setValue((Integer) value > 0 ? true : false);
 								}
 								else {
