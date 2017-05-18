@@ -16,11 +16,11 @@ package org.eclipse.emf.henshin.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.BinaryFormula#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.BinaryFormula#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getBinaryFormula()
  * @model abstract="true"

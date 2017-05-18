@@ -43,12 +43,12 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getEdges <em>Edges</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getFormula <em>Formula</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -221,8 +221,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected void createDefaultEditPoliciesGen() {
-		installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CreationEditPolicyWithCustomReparent(
-				HenshinVisualIDRegistry.TYPED_INSTANCE));
+		installEditPolicy(EditPolicyRoles.CREATION_ROLE,
+				new CreationEditPolicyWithCustomReparent(HenshinVisualIDRegistry.TYPED_INSTANCE));
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new NodeItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
@@ -467,8 +467,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 
 			fNodeActionLabel.setText("none");
 
-			fNodeActionLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2), getMapMode()
-					.DPtoLP(0), getMapMode().DPtoLP(2)));
+			fNodeActionLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fNodeActionLabel);
 
@@ -476,8 +476,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 
 			fNodeTypeLabel.setText("Node");
 
-			fNodeTypeLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2), getMapMode()
-					.DPtoLP(0), getMapMode().DPtoLP(2)));
+			fNodeTypeLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fNodeTypeLabel);
 
@@ -548,7 +548,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 
 				// Now draw the shadow:
 				graphics.setForegroundColor(getShadowColor());
-				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height - SHADOW_WIDTH, r.x + SHADOW_WIDTH, r.y + r.height);
+				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height - SHADOW_WIDTH, r.x + SHADOW_WIDTH,
+						r.y + r.height);
 				graphics.drawLine(r.x + r.width - SHADOW_WIDTH, r.y + SHADOW_WIDTH, r.x + r.width, r.y + SHADOW_WIDTH);
 				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height, r.x + r.width, r.y + r.height);
 				graphics.drawLine(r.x + r.width, r.y + SHADOW_WIDTH, r.x + r.width, r.y + r.height);
@@ -564,8 +565,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		 */
 		public Color getShadowColor() {
 			Color c = getForegroundColor();
-			return new Color(c.getDevice(), Math.min(255, c.getRed() + ((255 - c.getRed()) / 2)), Math.min(255,
-					c.getGreen() + ((255 - c.getGreen()) / 2)), Math.min(255, c.getBlue() + ((255 - c.getBlue()) / 2)));
+			return new Color(c.getDevice(), Math.min(255, c.getRed() + ((255 - c.getRed()) / 2)),
+					Math.min(255, c.getGreen() + ((255 - c.getGreen()) / 2)),
+					Math.min(255, c.getBlue() + ((255 - c.getBlue()) / 2)));
 		}
 
 	}

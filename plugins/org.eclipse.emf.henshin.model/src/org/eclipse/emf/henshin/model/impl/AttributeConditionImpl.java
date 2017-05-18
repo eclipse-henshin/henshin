@@ -29,11 +29,11 @@ import org.eclipse.emf.henshin.model.Rule;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl#getConditionText <em>Condition Text</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

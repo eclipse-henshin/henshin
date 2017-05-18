@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getAction <em>Action</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getSource <em>Source</em>}</li>
@@ -44,7 +45,6 @@ import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getIndex <em>Index</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.EdgeImpl#getIndexConstant <em>Index Constant</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -37,9 +37,7 @@ import org.eclipse.emf.henshin.provider.descriptors.AttributePropertyDescriptor;
  * @generated
  */
 @SuppressWarnings("unused")
-public class AttributeItemProvider extends ModelElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class AttributeItemProvider extends ModelElementItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

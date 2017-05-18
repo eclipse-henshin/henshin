@@ -47,7 +47,7 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * <!-- end-user-doc -->
  * @generated
  */
-public class NodeItemProvider extends NamedElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class NodeItemProvider extends NamedElementItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

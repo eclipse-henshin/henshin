@@ -3,9 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.emf.henshin.diagram; singleton:=true
-Bundle-Version: 1.5.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin

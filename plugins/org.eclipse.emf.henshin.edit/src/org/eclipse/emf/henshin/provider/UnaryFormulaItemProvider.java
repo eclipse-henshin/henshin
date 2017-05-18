@@ -33,9 +33,7 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
  * <!-- end-user-doc -->
  * @generated
  */
-public class UnaryFormulaItemProvider extends ModelElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class UnaryFormulaItemProvider extends ModelElementItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.
@@ -168,6 +166,11 @@ public class UnaryFormulaItemProvider extends ModelElementItemProvider implement
 			(createChildParameter
 				(HenshinPackage.Literals.UNARY_FORMULA__CHILD,
 				 HenshinFactory.eINSTANCE.createNot()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.UNARY_FORMULA__CHILD,
+				 HenshinFactory.eINSTANCE.createTrue()));
 	}
 	
 }

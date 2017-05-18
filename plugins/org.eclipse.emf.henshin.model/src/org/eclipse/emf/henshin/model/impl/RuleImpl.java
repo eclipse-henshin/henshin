@@ -57,6 +57,7 @@ import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getLhs <em>Lhs</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getRhs <em>Rhs</em>}</li>
@@ -68,7 +69,6 @@ import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMultiMappings <em>Multi Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getJavaImports <em>Java Imports</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

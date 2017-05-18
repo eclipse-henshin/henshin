@@ -16,11 +16,11 @@ package org.eclipse.emf.henshin.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.NamedElement#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.NamedElement#getDescription <em>Description</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getNamedElement()
  * @model abstract="true"

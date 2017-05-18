@@ -18,8 +18,6 @@ import org.eclipse.emf.henshin.model.Or;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Or</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

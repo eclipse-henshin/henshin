@@ -61,7 +61,8 @@ public class HenshinNewDiagramFileWizard extends Wizard {
 	/**
 	 * @generated
 	 */
-	public HenshinNewDiagramFileWizard(URI domainModelURI, EObject diagramRoot, TransactionalEditingDomain editingDomain) {
+	public HenshinNewDiagramFileWizard(URI domainModelURI, EObject diagramRoot,
+			TransactionalEditingDomain editingDomain) {
 		assert domainModelURI != null : "Domain model uri must be specified"; //$NON-NLS-1$
 		assert diagramRoot != null : "Doagram root element must be specified"; //$NON-NLS-1$
 		assert editingDomain != null : "Editing domain must be specified"; //$NON-NLS-1$
@@ -69,8 +70,8 @@ public class HenshinNewDiagramFileWizard extends Wizard {
 		myFileCreationPage = new WizardNewFileCreationPage(Messages.HenshinNewDiagramFileWizard_CreationPageName,
 				StructuredSelection.EMPTY);
 		myFileCreationPage.setTitle(Messages.HenshinNewDiagramFileWizard_CreationPageTitle);
-		myFileCreationPage.setDescription(NLS.bind(Messages.HenshinNewDiagramFileWizard_CreationPageDescription,
-				ModuleEditPart.MODEL_ID));
+		myFileCreationPage.setDescription(
+				NLS.bind(Messages.HenshinNewDiagramFileWizard_CreationPageDescription, ModuleEditPart.MODEL_ID));
 		IPath filePath;
 		String fileName = URI.decode(domainModelURI.trimFileExtension().lastSegment());
 		if (domainModelURI.isPlatformResource()) {
@@ -82,8 +83,8 @@ public class HenshinNewDiagramFileWizard extends Wizard {
 			throw new IllegalArgumentException("Unsupported URI: " + domainModelURI); //$NON-NLS-1$
 		}
 		myFileCreationPage.setContainerFullPath(filePath);
-		myFileCreationPage.setFileName(HenshinDiagramEditorUtil
-				.getUniqueFileName(filePath, fileName, "henshin_diagram")); //$NON-NLS-1$
+		myFileCreationPage
+				.setFileName(HenshinDiagramEditorUtil.getUniqueFileName(filePath, fileName, "henshin_diagram")); //$NON-NLS-1$
 
 		diagramRootElementSelectionPage = new DiagramRootElementSelectionPage(
 				Messages.HenshinNewDiagramFileWizard_RootSelectionPageName);
@@ -119,8 +120,8 @@ public class HenshinNewDiagramFileWizard extends Wizard {
 
 			protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
-				int diagramVID = HenshinVisualIDRegistry.getDiagramVisualID(diagramRootElementSelectionPage
-						.getModelElement());
+				int diagramVID = HenshinVisualIDRegistry
+						.getDiagramVisualID(diagramRootElementSelectionPage.getModelElement());
 				if (diagramVID != ModuleEditPart.VISUAL_ID) {
 					return CommandResult.newErrorCommandResult(Messages.HenshinNewDiagramFileWizard_IncorrectRootError);
 				}
@@ -171,11 +172,11 @@ public class HenshinNewDiagramFileWizard extends Wizard {
 				setErrorMessage(Messages.HenshinNewDiagramFileWizard_RootSelectionPageNoSelectionMessage);
 				return false;
 			}
-			boolean result = ViewService.getInstance().provides(
-					new CreateDiagramViewOperation(new EObjectAdapter(getModelElement()), ModuleEditPart.MODEL_ID,
-							HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT));
-			setErrorMessage(result ? null
-					: Messages.HenshinNewDiagramFileWizard_RootSelectionPageInvalidSelectionMessage);
+			boolean result = ViewService.getInstance()
+					.provides(new CreateDiagramViewOperation(new EObjectAdapter(getModelElement()),
+							ModuleEditPart.MODEL_ID, HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT));
+			setErrorMessage(
+					result ? null : Messages.HenshinNewDiagramFileWizard_RootSelectionPageInvalidSelectionMessage);
 			return result;
 		}
 	}

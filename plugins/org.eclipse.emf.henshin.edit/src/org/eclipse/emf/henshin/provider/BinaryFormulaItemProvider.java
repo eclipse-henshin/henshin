@@ -33,9 +33,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class BinaryFormulaItemProvider extends ModelElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class BinaryFormulaItemProvider extends ModelElementItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.
@@ -173,6 +171,11 @@ public class BinaryFormulaItemProvider extends ModelElementItemProvider implemen
 
 		newChildDescriptors.add
 			(createChildParameter
+				(HenshinPackage.Literals.BINARY_FORMULA__LEFT,
+				 HenshinFactory.eINSTANCE.createTrue()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
 				 HenshinFactory.eINSTANCE.createNestedCondition()));
 
@@ -195,6 +198,11 @@ public class BinaryFormulaItemProvider extends ModelElementItemProvider implemen
 			(createChildParameter
 				(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
 				 HenshinFactory.eINSTANCE.createNot()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
+				 HenshinFactory.eINSTANCE.createTrue()));
 	}
 	
 	/**

@@ -88,7 +88,7 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 	 * Background validation scheduler.
 	 */
 	private ValidateScheduler validateScheduler;
-	
+
 	/**
 	 * @generated
 	 */
@@ -144,7 +144,7 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 			}
 			MessageDialog.openError(getSite().getShell(), "Error opening Henshin file", message);
 		}
-		
+
 	}
 
 	/*
@@ -152,21 +152,21 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 	 * @see org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor#createGraphicalViewer(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-    protected void createGraphicalViewer(Composite parent) {
-    	super.createGraphicalViewer(parent);
-    	
+	protected void createGraphicalViewer(Composite parent) {
+		super.createGraphicalViewer(parent);
+
 		// Run background validation:
 		getValidateScheduler().scheduleValidation();
-    	
-    }
-	
+
+	}
+
 	private ValidateScheduler getValidateScheduler() {
 		if (validateScheduler == null) {
 			validateScheduler = new ValidateScheduler(getDiagramEditPart(), 250);
 		}
 		return validateScheduler;
 	}
-	
+
 	/*
 	 * This method takes the currently selected elements and refreshes their views
 	 * by invoking the refresh method of the corresponding canonical edit policies.
@@ -419,5 +419,5 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 		getDiagramGraphicalViewer().setContextMenu(provider);
 		getSite().registerContextMenu(ActionIds.DIAGRAM_EDITOR_CONTEXT_MENU, provider, getDiagramGraphicalViewer());
 	}
-	
+
 }

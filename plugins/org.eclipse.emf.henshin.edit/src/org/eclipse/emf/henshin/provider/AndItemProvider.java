@@ -29,7 +29,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class AndItemProvider extends BinaryFormulaItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class AndItemProvider extends BinaryFormulaItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

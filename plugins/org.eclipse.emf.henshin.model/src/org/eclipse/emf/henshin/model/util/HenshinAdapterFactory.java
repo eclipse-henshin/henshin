@@ -200,6 +200,10 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createNotAdapter();
 			}
 			@Override
+			public Adapter caseTrue(True object) {
+				return createTrueAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -622,6 +626,20 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNotAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.True <em>True</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.henshin.model.True
+	 * @generated
+	 */
+	public Adapter createTrueAdapter() {
 		return null;
 	}
 

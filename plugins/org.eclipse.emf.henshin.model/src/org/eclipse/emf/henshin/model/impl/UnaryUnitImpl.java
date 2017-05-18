@@ -26,10 +26,10 @@ import org.eclipse.emf.henshin.model.Unit;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.UnaryUnitImpl#getSubUnit <em>Sub Unit</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

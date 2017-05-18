@@ -42,7 +42,7 @@ import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
  * <!-- end-user-doc -->
  * @generated
  */
-public class UnitItemProvider extends NamedElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class UnitItemProvider extends NamedElementItemProvider {
 	
 	/**
 	 * Number of parameters which are shown in an unfold way. Any number above

@@ -18,8 +18,6 @@ import org.eclipse.emf.henshin.model.Not;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Not</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

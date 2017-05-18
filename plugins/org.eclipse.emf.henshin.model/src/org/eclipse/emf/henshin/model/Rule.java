@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getLhs <em>Lhs</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getRhs <em>Rhs</em>}</li>
@@ -31,7 +32,6 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMultiMappings <em>Multi Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getJavaImports <em>Java Imports</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames varParametersOccurOnLeftSide multiRuleParametersSameKind'"

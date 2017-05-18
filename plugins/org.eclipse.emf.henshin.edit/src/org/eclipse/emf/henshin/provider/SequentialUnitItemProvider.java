@@ -33,7 +33,7 @@ import org.eclipse.emf.henshin.model.SequentialUnit;
  * <!-- end-user-doc -->
  * @generated
  */
-public class SequentialUnitItemProvider extends MultiUnitItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class SequentialUnitItemProvider extends MultiUnitItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

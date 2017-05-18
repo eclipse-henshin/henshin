@@ -62,17 +62,17 @@ import org.eclipse.ui.navigator.ICommonLabelProvider;
  * @implements IColorProvider
  */
 @SuppressWarnings("unused")
-public class HenshinNavigatorLabelProvider extends LabelProvider implements ICommonLabelProvider,
-		ITreePathLabelProvider, IColorProvider {
+public class HenshinNavigatorLabelProvider extends LabelProvider
+		implements ICommonLabelProvider, ITreePathLabelProvider, IColorProvider {
 
 	/**
 	 * @generated
 	 */
 	static {
-		HenshinDiagramEditorPlugin.getInstance().getImageRegistry()
-				.put("Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
-		HenshinDiagramEditorPlugin.getInstance().getImageRegistry()
-				.put("Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
+		HenshinDiagramEditorPlugin.getInstance().getImageRegistry().put("Navigator?UnknownElement", //$NON-NLS-1$
+				ImageDescriptor.getMissingImageDescriptor());
+		HenshinDiagramEditorPlugin.getInstance().getImageRegistry().put("Navigator?ImageNotFound", //$NON-NLS-1$
+				ImageDescriptor.getMissingImageDescriptor());
 	}
 
 	/**
@@ -118,31 +118,31 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements ICom
 	public Image getImage(View view) {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
 		case ModuleEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Diagram?http://www.eclipse.org/emf/2011/Henshin?Module", HenshinElementTypes.Module_1000); //$NON-NLS-1$
+			return getImage("Navigator?Diagram?http://www.eclipse.org/emf/2011/Henshin?Module", //$NON-NLS-1$
+					HenshinElementTypes.Module_1000);
 		case RuleEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2011/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://www.eclipse.org/emf/2011/Henshin?Rule", //$NON-NLS-1$
+					HenshinElementTypes.Rule_2001);
 		case UnitEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2011/Henshin?Unit", HenshinElementTypes.Unit_2002); //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://www.eclipse.org/emf/2011/Henshin?Unit", //$NON-NLS-1$
+					HenshinElementTypes.Unit_2002);
 		case NodeEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Node", HenshinElementTypes.Node_3001); //$NON-NLS-1$
+			return getImage("Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Node", //$NON-NLS-1$
+					HenshinElementTypes.Node_3001);
 		case AttributeEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
+			return getImage("Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Attribute", //$NON-NLS-1$
+					HenshinElementTypes.Attribute_3002);
 		case InvocationEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Unit", HenshinElementTypes.Unit_3003); //$NON-NLS-1$
+			return getImage("Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?Unit", //$NON-NLS-1$
+					HenshinElementTypes.Unit_3003);
 		case SymbolEditPart.VISUAL_ID:
 			return getImage("Navigator?Node?SymbolCircleFigure", HenshinElementTypes.Node_3004); //$NON-NLS-1$
 		case AttributeConditionEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?AttributeCondition", HenshinElementTypes.AttributeCondition_3005); //$NON-NLS-1$
+			return getImage("Navigator?Node?http://www.eclipse.org/emf/2011/Henshin?AttributeCondition", //$NON-NLS-1$
+					HenshinElementTypes.AttributeCondition_3005);
 		case EdgeEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Link?http://www.eclipse.org/emf/2011/Henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
+			return getImage("Navigator?Link?http://www.eclipse.org/emf/2011/Henshin?Edge", //$NON-NLS-1$
+					HenshinElementTypes.Edge_4001);
 		case LinkEditPart.VISUAL_ID:
 			return getImage("Navigator?Link?LinkFigure", HenshinElementTypes.Link_4002); //$NON-NLS-1$
 		}

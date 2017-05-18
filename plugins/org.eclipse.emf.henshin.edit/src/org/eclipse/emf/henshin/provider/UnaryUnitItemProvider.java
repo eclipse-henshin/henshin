@@ -26,7 +26,7 @@ import org.eclipse.emf.henshin.model.UnaryUnit;
  * @generated
  */
 public class UnaryUnitItemProvider
-	extends UnitItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+	extends UnitItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

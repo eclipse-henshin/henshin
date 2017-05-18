@@ -52,7 +52,7 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * <!-- end-user-doc -->
  * @generated
  */
-public class RuleItemProvider extends UnitItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class RuleItemProvider extends UnitItemProvider {
 	
 	// Lhs-Rhs mapping container:
 	protected GenericReferenceContainerItemProvider lrMappingContainer;

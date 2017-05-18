@@ -18,15 +18,15 @@ import org.eclipse.emf.ecore.EClassifier;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Parameter#getUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Parameter#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Parameter#getKind <em>Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated nameNotKeyword'"
  * @generated
  */
 public interface Parameter extends NamedElement {

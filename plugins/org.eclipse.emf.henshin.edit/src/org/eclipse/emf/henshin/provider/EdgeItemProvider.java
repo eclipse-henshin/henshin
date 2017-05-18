@@ -44,9 +44,7 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * @generated
  */
 @SuppressWarnings("unused")
-public class EdgeItemProvider extends ModelElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class EdgeItemProvider extends ModelElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc --> 

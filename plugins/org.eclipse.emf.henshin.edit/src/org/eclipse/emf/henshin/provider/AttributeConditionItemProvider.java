@@ -33,7 +33,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class AttributeConditionItemProvider extends NamedElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class AttributeConditionItemProvider extends NamedElementItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

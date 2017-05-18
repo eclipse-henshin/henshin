@@ -295,8 +295,8 @@ public class AttributeConditionEditPart extends ShapeNodeEditPart {
 
 			fConditionNameLabel.setText("none");
 
-			fConditionNameLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2), getMapMode()
-					.DPtoLP(0), getMapMode().DPtoLP(2)));
+			fConditionNameLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fConditionNameLabel);
 
@@ -304,8 +304,8 @@ public class AttributeConditionEditPart extends ShapeNodeEditPart {
 
 			fConditionBodyLabel.setText("Condition");
 
-			fConditionBodyLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2), getMapMode()
-					.DPtoLP(0), getMapMode().DPtoLP(2)));
+			fConditionBodyLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fConditionBodyLabel);
 

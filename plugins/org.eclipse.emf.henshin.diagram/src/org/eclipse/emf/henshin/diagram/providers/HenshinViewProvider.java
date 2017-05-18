@@ -109,11 +109,11 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 	 */
 	protected boolean provides(CreateViewForKindOperation op) {
 		/*
-		 if (op.getViewKind() == Node.class)
-		 return getNodeViewClass(op.getSemanticAdapter(), op.getContainerView(), op.getSemanticHint()) != null;
-		 if (op.getViewKind() == Edge.class)
-		 return getEdgeViewClass(op.getSemanticAdapter(), op.getContainerView(), op.getSemanticHint()) != null;
-		 */
+		    if (op.getViewKind() == Node.class)
+		      return getNodeViewClass(op.getSemanticAdapter(), op.getContainerView(), op.getSemanticHint()) != null;
+		    if (op.getViewKind() == Edge.class)
+		      return getEdgeViewClass(op.getSemanticAdapter(), op.getContainerView(), op.getSemanticHint()) != null;
+		*/
 		return true;
 	}
 
@@ -170,9 +170,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 				case AttributeEditPart.VISUAL_ID:
 				case AttributeConditionEditPart.VISUAL_ID:
 				case InvocationEditPart.VISUAL_ID:
-					if (domainElement == null
-							|| visualID != HenshinVisualIDRegistry
-									.getNodeVisualID(op.getContainerView(), domainElement)) {
+					if (domainElement == null || visualID != HenshinVisualIDRegistry
+							.getNodeVisualID(op.getContainerView(), domainElement)) {
 						return false; // visual id in semantic hint should match visual id for domain element
 					}
 					break;
@@ -196,7 +195,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 			return false; // foreign element type
 		}
 		String elementTypeHint = ((IHintedType) elementType).getSemanticHint();
-		if (elementTypeHint == null || (op.getSemanticHint() != null && !elementTypeHint.equals(op.getSemanticHint()))) {
+		if (elementTypeHint == null
+				|| (op.getSemanticHint() != null && !elementTypeHint.equals(op.getSemanticHint()))) {
 			return false; // our hint is visual id and must be specified, and it should be the same as in element type
 		}
 		int visualID = HenshinVisualIDRegistry.getVisualID(elementTypeHint);
@@ -299,8 +299,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE.getFillStyle_FillColor(),
 				FigureUtilities.colorToInteger(ColorConstants.gray));
 		Node label5001 = createLabel(node, HenshinVisualIDRegistry.getType(RuleNameEditPart.VISUAL_ID));
-		createCompartment(node, HenshinVisualIDRegistry.getType(RuleCompartmentEditPart.VISUAL_ID), false, false,
-				false, false);
+		createCompartment(node, HenshinVisualIDRegistry.getType(RuleCompartmentEditPart.VISUAL_ID), false, false, false,
+				false);
 		return node;
 	}
 
@@ -366,8 +366,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE.getFillStyle_FillColor(),
 				FigureUtilities.colorToInteger(ColorConstants.gray));
 		Node label5004 = createLabel(node, HenshinVisualIDRegistry.getType(UnitNameEditPart.VISUAL_ID));
-		createCompartment(node, HenshinVisualIDRegistry.getType(UnitCompartmentEditPart.VISUAL_ID), false, false,
-				false, false);
+		createCompartment(node, HenshinVisualIDRegistry.getType(UnitCompartmentEditPart.VISUAL_ID), false, false, false,
+				false);
 		return node;
 	}
 

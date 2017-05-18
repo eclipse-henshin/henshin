@@ -388,8 +388,8 @@ public class HenshinDiagramUpdater {
 	 */
 	public static List<HenshinLinkDescriptor> getNode_3001IncomingLinks(View view) {
 		Node modelElement = (Node) view.getElement();
-		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer.find(view
-				.eResource().getResourceSet().getResources());
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
 		LinkedList<HenshinLinkDescriptor> result = new LinkedList<HenshinLinkDescriptor>();
 		result.addAll(getIncomingTypeModelFacetLinks_Edge_4001(modelElement, crossReferences));
 		return result;
@@ -529,7 +529,8 @@ public class HenshinDiagramUpdater {
 			if (src != source) {
 				continue;
 			}
-			result.add(new HenshinLinkDescriptor(src, dst, link, HenshinElementTypes.Edge_4001, EdgeEditPart.VISUAL_ID));
+			result.add(
+					new HenshinLinkDescriptor(src, dst, link, HenshinElementTypes.Edge_4001, EdgeEditPart.VISUAL_ID));
 		}
 		return result;
 	}
@@ -539,33 +540,37 @@ public class HenshinDiagramUpdater {
 	 */
 	public static final DiagramUpdater TYPED_INSTANCE = new DiagramUpdater() {
 		/**
-		 * @generated
-		 */
+		* @generated
+		*/
 		@Override
+
 		public List<HenshinNodeDescriptor> getSemanticChildren(View view) {
 			return HenshinDiagramUpdater.getSemanticChildren(view);
 		}
 
 		/**
-		 * @generated
-		 */
+		* @generated
+		*/
 		@Override
+
 		public List<HenshinLinkDescriptor> getContainedLinks(View view) {
 			return HenshinDiagramUpdater.getContainedLinks(view);
 		}
 
 		/**
-		 * @generated
-		 */
+		* @generated
+		*/
 		@Override
+
 		public List<HenshinLinkDescriptor> getIncomingLinks(View view) {
 			return HenshinDiagramUpdater.getIncomingLinks(view);
 		}
 
 		/**
-		 * @generated
-		 */
+		* @generated
+		*/
 		@Override
+
 		public List<HenshinLinkDescriptor> getOutgoingLinks(View view) {
 			return HenshinDiagramUpdater.getOutgoingLinks(view);
 		}

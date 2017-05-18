@@ -38,11 +38,11 @@ package org.eclipse.emf.henshin.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.SequentialUnit#isStrict <em>Strict</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.SequentialUnit#isRollback <em>Rollback</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getSequentialUnit()
  * @model

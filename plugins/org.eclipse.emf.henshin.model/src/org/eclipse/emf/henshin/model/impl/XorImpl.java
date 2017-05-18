@@ -18,8 +18,6 @@ import org.eclipse.emf.henshin.model.Xor;
  * <!-- begin-user-doc --> 
  * An implementation of the model object '<em><b>Xor</b></em>'. 
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

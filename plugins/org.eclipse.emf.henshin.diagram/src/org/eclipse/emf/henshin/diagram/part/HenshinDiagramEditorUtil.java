@@ -100,8 +100,8 @@ public class HenshinDiagramEditorUtil {
 		try {
 			file.setCharset("UTF-8", new NullProgressMonitor()); //$NON-NLS-1$
 		} catch (CoreException e) {
-			HenshinDiagramEditorPlugin.getInstance()
-					.logError("Unable to set charset for file " + file.getFullPath(), e); //$NON-NLS-1$
+			HenshinDiagramEditorPlugin.getInstance().logError("Unable to set charset for file " + file.getFullPath(), //$NON-NLS-1$
+					e);
 		}
 	}
 
@@ -179,21 +179,21 @@ public class HenshinDiagramEditorUtil {
 	}
 
 	/**
-	 * Create a new instance of domain element associated with canvas.
-	 * <!-- begin-user-doc -->
+	* Create a new instance of domain element associated with canvas.
+	* <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	* @generated
+	*/
 	private static Module createInitialModel() {
 		return HenshinFactory.eINSTANCE.createModule();
 	}
 
 	/**
-	 * Store model element in the resource.
-	 * <!-- begin-user-doc -->
+	* Store model element in the resource.
+	* <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	* @generated
+	*/
 	private static void attachModelToResource(Module model, Resource resource) {
 		resource.getContents().add(model);
 	}
@@ -213,8 +213,8 @@ public class HenshinDiagramEditorUtil {
 		}
 
 		if (!editParts.isEmpty()) {
-			diagramPart.getDiagramGraphicalViewer().reveal(
-					firstPrimary != null ? firstPrimary : (EditPart) editParts.get(0));
+			diagramPart.getDiagramGraphicalViewer()
+					.reveal(firstPrimary != null ? firstPrimary : (EditPart) editParts.get(0));
 		}
 	}
 
@@ -226,10 +226,6 @@ public class HenshinDiagramEditorUtil {
 		IDiagramGraphicalViewer viewer = (IDiagramGraphicalViewer) diagramPart.getViewer();
 		final int intialNumOfEditParts = editPartCollector.size();
 
-		if (viewer == null) {
-			return -1;
-		}
-		
 		if (element instanceof View) { // support notation element lookup
 			EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(element);
 			if (editPart != null) {

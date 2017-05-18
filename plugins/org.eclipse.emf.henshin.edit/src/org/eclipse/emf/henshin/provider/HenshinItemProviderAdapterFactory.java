@@ -542,6 +542,29 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 	
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.True} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected TrueItemProvider trueItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.True}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createTrueAdapter() {
+		if (trueItemProvider == null) {
+			trueItemProvider = new TrueItemProvider(this);
+		}
+
+		return trueItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Xor} instances.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->

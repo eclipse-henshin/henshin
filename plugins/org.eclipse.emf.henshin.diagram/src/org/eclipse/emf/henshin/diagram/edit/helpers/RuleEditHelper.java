@@ -99,8 +99,8 @@ public class RuleEditHelper extends HenshinBaseEditHelper {
 	 */
 	public static boolean isRuleView(View view) {
 		// We allow only the root view for rules.
-		return (view != null && view.getElement() instanceof Rule && view.getType().equals(
-				String.valueOf(RuleEditPart.VISUAL_ID)));
+		return (view != null && view.getElement() instanceof Rule
+				&& view.getType().equals(String.valueOf(RuleEditPart.VISUAL_ID)));
 	}
 
 	/**

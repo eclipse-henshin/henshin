@@ -29,7 +29,7 @@ import org.eclipse.emf.henshin.model.LoopUnit;
  * <!-- end-user-doc -->
  * @generated
  */
-public class LoopUnitItemProvider extends UnaryUnitItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class LoopUnitItemProvider extends UnaryUnitItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

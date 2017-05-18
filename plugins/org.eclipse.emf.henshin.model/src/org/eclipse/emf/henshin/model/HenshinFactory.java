@@ -289,6 +289,15 @@ public interface HenshinFactory extends EFactory {
 	Not createNot();
 
 	/**
+	 * Returns a new object of class '<em>True</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>True</em>'.
+	 * @generated
+	 */
+	True createTrue();
+
+	/**
 	 * Returns a new object of class '<em>Xor</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

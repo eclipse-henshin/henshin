@@ -24,10 +24,10 @@ import org.eclipse.emf.henshin.model.Unit;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.MultiUnitImpl#getSubUnits <em>Sub Units</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

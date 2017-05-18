@@ -41,7 +41,7 @@ import org.eclipse.emf.henshin.model.Node;
  * <!-- end-user-doc -->
  * @generated
  */
-public class GraphItemProvider extends NamedElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class GraphItemProvider extends NamedElementItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

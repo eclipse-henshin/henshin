@@ -2131,6 +2131,25 @@ public interface HenshinPackage extends EPackage {
 	int NOT_FEATURE_COUNT = UNARY_FORMULA_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TrueImpl <em>True</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.TrueImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTrue()
+	 * @generated
+	 */
+	int TRUE = 31;
+
+	/**
+	 * The number of structural features of the '<em>True</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRUE_FEATURE_COUNT = FORMULA_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.ParameterKind <em>Parameter Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2138,7 +2157,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterKind()
 	 * @generated
 	 */
-	int PARAMETER_KIND = 31;
+	int PARAMETER_KIND = 32;
 
 	/**
 	 * The meta object id for the '<em>Action</em>' data type.
@@ -2148,7 +2167,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAction()
 	 * @generated
 	 */
-	int ACTION = 32;
+	int ACTION = 33;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.ModelElement <em>Model Element</em>}'.
@@ -3123,6 +3142,16 @@ public interface HenshinPackage extends EPackage {
 	EClass getNot();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.True <em>True</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>True</em>'.
+	 * @see org.eclipse.emf.henshin.model.True
+	 * @generated
+	 */
+	EClass getTrue();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.emf.henshin.model.ParameterKind <em>Parameter Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3992,6 +4021,16 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NOT = eINSTANCE.getNot();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.TrueImpl <em>True</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.impl.TrueImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTrue()
+		 * @generated
+		 */
+		EClass TRUE = eINSTANCE.getTrue();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.ParameterKind <em>Parameter Kind</em>}' enum.

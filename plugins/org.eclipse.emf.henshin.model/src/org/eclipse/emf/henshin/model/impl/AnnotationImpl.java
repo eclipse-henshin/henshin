@@ -24,11 +24,11 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AnnotationImpl#getKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AnnotationImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

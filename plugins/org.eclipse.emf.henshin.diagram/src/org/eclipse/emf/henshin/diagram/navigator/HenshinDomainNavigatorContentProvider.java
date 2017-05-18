@@ -67,8 +67,8 @@ public class HenshinDomainNavigatorContentProvider implements ICommonContentProv
 	 * @generated
 	 */
 	public HenshinDomainNavigatorContentProvider() {
-		myAdapterFctoryContentProvier = new AdapterFactoryContentProvider(HenshinDiagramEditorPlugin.getInstance()
-				.getItemProvidersAdapterFactory());
+		myAdapterFctoryContentProvier = new AdapterFactoryContentProvider(
+				HenshinDiagramEditorPlugin.getInstance().getItemProvidersAdapterFactory());
 		TransactionalEditingDomain editingDomain = GMFEditingDomainFactory.INSTANCE.createEditingDomain();
 		myEditingDomain = (AdapterFactoryEditingDomain) editingDomain;
 		myEditingDomain.setResourceToReadOnlyMap(new HashMap() {
@@ -185,8 +185,8 @@ public class HenshinDomainNavigatorContentProvider implements ICommonContentProv
 		}
 
 		if (parentElement instanceof HenshinDomainNavigatorItem) {
-			return wrapEObjects(myAdapterFctoryContentProvier.getChildren(((HenshinDomainNavigatorItem) parentElement)
-					.getEObject()), parentElement);
+			return wrapEObjects(myAdapterFctoryContentProvier
+					.getChildren(((HenshinDomainNavigatorItem) parentElement).getEObject()), parentElement);
 		}
 		return EMPTY_ARRAY;
 	}

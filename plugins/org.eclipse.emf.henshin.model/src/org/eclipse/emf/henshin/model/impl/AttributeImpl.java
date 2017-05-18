@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.model.actions.AttributeActionHelper;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeImpl#getAction <em>Action</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeImpl#getType <em>Type</em>}</li>
@@ -45,7 +46,6 @@ import org.eclipse.emf.henshin.model.actions.AttributeActionHelper;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeImpl#getConstant <em>Constant</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeImpl#isNull <em>Null</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

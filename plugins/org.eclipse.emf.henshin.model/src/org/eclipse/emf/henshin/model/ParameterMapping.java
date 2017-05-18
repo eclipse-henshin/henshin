@@ -16,11 +16,11 @@ package org.eclipse.emf.henshin.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.ParameterMapping#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.ParameterMapping#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameterMapping()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='inParameterMappingIsCausal outParameterMappingIsCausal inoutParameterMappingIsCausal varParameterMappingIsCausal'"

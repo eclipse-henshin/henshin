@@ -32,7 +32,7 @@ import org.eclipse.emf.henshin.model.Module;
  * @generated
  */
 public class ModuleItemProvider
-	extends NamedElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+	extends NamedElementItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

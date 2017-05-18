@@ -120,8 +120,8 @@ public class HenshinParserProvider extends AbstractProvider implements IParserPr
 	private IParser getAttributeConditionConditionText_5007Parser() {
 		if (attributeConditionConditionText_5007Parser == null) {
 			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE.getAttributeCondition_ConditionText() };
-			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE
-					.getAttributeCondition_ConditionText() };
+			EAttribute[] editableFeatures = new EAttribute[] {
+					HenshinPackage.eINSTANCE.getAttributeCondition_ConditionText() };
 			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
 			parser.setViewPattern("{0}"); //$NON-NLS-1$
 			parser.setEditorPattern("{0}"); //$NON-NLS-1$

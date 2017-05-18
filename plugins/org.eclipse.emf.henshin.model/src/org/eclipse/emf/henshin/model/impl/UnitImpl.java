@@ -36,12 +36,12 @@ import org.eclipse.emf.henshin.model.Unit;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.UnitImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.UnitImpl#getParameterMappings <em>Parameter Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.UnitImpl#isActivated <em>Activated</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

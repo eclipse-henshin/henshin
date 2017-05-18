@@ -54,8 +54,8 @@ public class HenshinElementTypes {
 	/**
 	 * @generated
 	 */
-	private static DiagramElementTypeImages elementTypeImages = new DiagramElementTypeImages(HenshinDiagramEditorPlugin
-			.getInstance().getItemProvidersAdapterFactory());
+	private static DiagramElementTypeImages elementTypeImages = new DiagramElementTypeImages(
+			HenshinDiagramEditorPlugin.getInstance().getItemProvidersAdapterFactory());
 
 	/**
 	 * @generated NOT
@@ -102,7 +102,8 @@ public class HenshinElementTypes {
 	/**
 	 * @generated
 	 */
-	public static final IElementType AttributeCondition_3005 = getElementType("org.eclipse.emf.henshin.diagram.AttributeCondition_3005"); //$NON-NLS-1$
+	public static final IElementType AttributeCondition_3005 = getElementType(
+			"org.eclipse.emf.henshin.diagram.AttributeCondition_3005"); //$NON-NLS-1$
 
 	/**
 	 * @generated
@@ -243,25 +244,28 @@ public class HenshinElementTypes {
 	public static final DiagramElementTypes TYPED_INSTANCE = new DiagramElementTypes(elementTypeImages) {
 
 		/**
-		 * @generated
-		 */
+		* @generated
+		*/
 		@Override
+
 		public boolean isKnownElementType(IElementType elementType) {
 			return org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes.isKnownElementType(elementType);
 		}
 
 		/**
-		 * @generated
-		 */
+		* @generated
+		*/
 		@Override
+
 		public IElementType getElementTypeForVisualId(int visualID) {
 			return org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes.getElementType(visualID);
 		}
 
 		/**
-		 * @generated
-		 */
+		* @generated
+		*/
 		@Override
+
 		public ENamedElement getDefiningNamedElement(IAdaptable elementTypeAdapter) {
 			return org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes.getElement(elementTypeAdapter);
 		}

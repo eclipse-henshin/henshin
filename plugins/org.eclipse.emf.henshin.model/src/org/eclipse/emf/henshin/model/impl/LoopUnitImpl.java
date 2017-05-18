@@ -17,8 +17,6 @@ import org.eclipse.emf.henshin.model.LoopUnit;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Loop Unit</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

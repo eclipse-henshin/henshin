@@ -469,6 +469,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 										}
 									}
 								}
+								return false;
 							}
 
 							return true;

@@ -44,9 +44,7 @@ import org.eclipse.emf.henshin.provider.trans.NestedConditionMappingItemProvider
  * <!-- end-user-doc -->
  * @generated
  */
-public class NestedConditionItemProvider extends ModelElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class NestedConditionItemProvider extends ModelElementItemProvider {
 	
 	/**
 	 * Number of mappings which are shown in an unfold way. 

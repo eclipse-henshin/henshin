@@ -44,7 +44,7 @@ import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvi
  * <!-- end-user-doc -->
  * @generated
  */
-public class ConditionalUnitItemProvider extends UnitItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class ConditionalUnitItemProvider extends UnitItemProvider {
 	
 	protected GenericReferenceContainerItemProvider ifItemProvider;
 	protected GenericReferenceContainerItemProvider thenItemProvider;

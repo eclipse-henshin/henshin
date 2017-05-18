@@ -114,8 +114,8 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 		this.workbench = workbench;
 		this.selection = selection;
 		setWindowTitle(Messages.HenshinCreationWizardTitle);
-		setDefaultPageImageDescriptor(HenshinDiagramEditorPlugin
-				.getBundledImageDescriptor("icons/wizban/NewHenshinWizard.gif")); //$NON-NLS-1$
+		setDefaultPageImageDescriptor(
+				HenshinDiagramEditorPlugin.getBundledImageDescriptor("icons/wizban/NewHenshinWizard.gif")); //$NON-NLS-1$
 		setNeedsProgressMonitor(true);
 	}
 
@@ -148,7 +148,8 @@ public class HenshinCreationWizard extends Wizard implements INewWizard {
 					activated = true;
 					String fileName = diagramModelFilePage.getFileName();
 					fileName = fileName.substring(0, fileName.length() - ".henshin_diagram".length()); //$NON-NLS-1$
-					setFileName(HenshinDiagramEditorUtil.getUniqueFileName(getContainerFullPath(), fileName, "henshin")); //$NON-NLS-1$
+					setFileName(
+							HenshinDiagramEditorUtil.getUniqueFileName(getContainerFullPath(), fileName, "henshin")); //$NON-NLS-1$
 				}
 				super.setVisible(visible);
 			}

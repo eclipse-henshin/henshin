@@ -33,9 +33,7 @@ import org.eclipse.emf.henshin.model.NamedElement;
  * <!-- end-user-doc -->
  * @generated
  */
-public class NamedElementItemProvider extends ModelElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class NamedElementItemProvider extends ModelElementItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

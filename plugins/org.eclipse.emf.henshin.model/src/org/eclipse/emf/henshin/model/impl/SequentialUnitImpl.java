@@ -21,11 +21,11 @@ import org.eclipse.emf.henshin.model.SequentialUnit;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.SequentialUnitImpl#isStrict <em>Strict</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.SequentialUnitImpl#isRollback <em>Rollback</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

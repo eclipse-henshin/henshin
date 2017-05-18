@@ -366,13 +366,12 @@ public class NodeCreateCommand extends EditElementCommand {
 						text = text + Action.MULTI_MARKER;
 					}
 					String pathText = path.getText().trim();
-					if (pathText.length()>0 && !pathText.startsWith(Action.PATH_SEPARATOR+"") && 
-							!pathText.startsWith(Action.FRAGMENT_START+"")) {
+					if (pathText.length() > 0 && !pathText.startsWith(Action.PATH_SEPARATOR + "")
+							&& !pathText.startsWith(Action.FRAGMENT_START + "")) {
 						if (action.isMulti()) {
-							pathText = Action.PATH_SEPARATOR + pathText;							
-						} else if (action.getType() == Type.FORBID ||
-								action.getType() == Type.REQUIRE) {  
-							pathText = Action.FRAGMENT_START + pathText;							
+							pathText = Action.PATH_SEPARATOR + pathText;
+						} else if (action.getType() == Type.FORBID || action.getType() == Type.REQUIRE) {
+							pathText = Action.FRAGMENT_START + pathText;
 						}
 					}
 					text = text + pathText;

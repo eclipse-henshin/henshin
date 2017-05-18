@@ -318,8 +318,8 @@ public class RuleEditPart extends ShapeNodeEditPart {
 			fRuleNameFigure.setText("unnamed");
 			fRuleNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(1000), getMapMode().DPtoLP(20)));
 
-			fRuleNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2), getMapMode().DPtoLP(2), getMapMode()
-					.DPtoLP(0), getMapMode().DPtoLP(2)));
+			fRuleNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fRuleNameFigure);
 

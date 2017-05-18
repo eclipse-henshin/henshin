@@ -34,7 +34,7 @@ import org.eclipse.emf.henshin.model.IteratedUnit;
  * @generated
  */
 public class IteratedUnitItemProvider
-	extends UnaryUnitItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+	extends UnaryUnitItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

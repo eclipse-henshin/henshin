@@ -45,9 +45,7 @@ import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescrip
  * <!-- end-user-doc -->
  * @generated
  */
-public class MappingItemProvider extends ModelElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class MappingItemProvider extends ModelElementItemProvider {
 	
 	// We need a node listener:
 	protected NodeListener nodeListener = new NodeListener();

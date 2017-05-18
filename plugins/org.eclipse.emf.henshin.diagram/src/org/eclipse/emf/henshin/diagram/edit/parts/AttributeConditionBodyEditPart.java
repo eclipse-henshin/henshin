@@ -252,11 +252,12 @@ public class AttributeConditionBodyEditPart extends CompartmentEditPart implemen
 					final EObject element = getParserElement();
 					final IParser parser = getParser();
 					try {
-						IParserEditStatus valid = (IParserEditStatus) getEditingDomain().runExclusive(
-								new RunnableWithResult.Impl<IParserEditStatus>() {
+						IParserEditStatus valid = (IParserEditStatus) getEditingDomain()
+								.runExclusive(new RunnableWithResult.Impl<IParserEditStatus>() {
 
 									public void run() {
-										setResult(parser.isValidEditString(new EObjectAdapter(element), (String) value));
+										setResult(
+												parser.isValidEditString(new EObjectAdapter(element), (String) value));
 									}
 								});
 						return valid.getCode() == ParserEditStatus.EDITABLE ? null : valid.getMessage();
@@ -293,12 +294,9 @@ public class AttributeConditionBodyEditPart extends CompartmentEditPart implemen
 	 */
 	public IParser getParser() {
 		if (parser == null) {
-			parser = HenshinParserProvider
-					.getParser(
-							HenshinElementTypes.AttributeCondition_3005,
-							getParserElement(),
-							HenshinVisualIDRegistry
-									.getType(org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionBodyEditPart.VISUAL_ID));
+			parser = HenshinParserProvider.getParser(HenshinElementTypes.AttributeCondition_3005, getParserElement(),
+					HenshinVisualIDRegistry.getType(
+							org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionBodyEditPart.VISUAL_ID));
 		}
 		return parser;
 	}
@@ -358,11 +356,13 @@ public class AttributeConditionBodyEditPart extends CompartmentEditPart implemen
 
 				public void run() {
 					if (isActive() && isEditable()) {
-						if (theRequest.getExtendedData().get(RequestConstants.REQ_DIRECTEDIT_EXTENDEDDATA_INITIAL_CHAR) instanceof Character) {
-							Character initialChar = (Character) theRequest.getExtendedData().get(
-									RequestConstants.REQ_DIRECTEDIT_EXTENDEDDATA_INITIAL_CHAR);
+						if (theRequest.getExtendedData()
+								.get(RequestConstants.REQ_DIRECTEDIT_EXTENDEDDATA_INITIAL_CHAR) instanceof Character) {
+							Character initialChar = (Character) theRequest.getExtendedData()
+									.get(RequestConstants.REQ_DIRECTEDIT_EXTENDEDDATA_INITIAL_CHAR);
 							performDirectEdit(initialChar.charValue());
-						} else if ((theRequest instanceof DirectEditRequest) && (getEditText().equals(getLabelText()))) {
+						} else if ((theRequest instanceof DirectEditRequest)
+								&& (getEditText().equals(getLabelText()))) {
 							DirectEditRequest editRequest = (DirectEditRequest) theRequest;
 							performDirectEdit(editRequest.getLocation());
 						} else {
@@ -423,8 +423,8 @@ public class AttributeConditionBodyEditPart extends CompartmentEditPart implemen
 	protected void refreshFont() {
 		FontStyle style = (FontStyle) getFontStyleOwnerView().getStyle(NotationPackage.eINSTANCE.getFontStyle());
 		if (style != null) {
-			FontData fontData = new FontData(style.getFontName(), style.getFontHeight(), (style.isBold() ? SWT.BOLD
-					: SWT.NORMAL) | (style.isItalic() ? SWT.ITALIC : SWT.NORMAL));
+			FontData fontData = new FontData(style.getFontName(), style.getFontHeight(),
+					(style.isBold() ? SWT.BOLD : SWT.NORMAL) | (style.isItalic() ? SWT.ITALIC : SWT.NORMAL));
 			setFont(fontData);
 		}
 	}

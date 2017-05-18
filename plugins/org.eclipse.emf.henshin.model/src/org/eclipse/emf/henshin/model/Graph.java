@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Graph#getNodes <em>Nodes</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Graph#getEdges <em>Edges</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Graph#getFormula <em>Formula</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getGraph()
  * @model

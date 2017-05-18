@@ -29,7 +29,7 @@ import org.eclipse.emf.henshin.model.IndependentUnit;
  * <!-- end-user-doc -->
  * @generated
  */
-public class IndependentUnitItemProvider extends MultiUnitItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class IndependentUnitItemProvider extends MultiUnitItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

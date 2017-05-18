@@ -26,11 +26,11 @@ import org.eclipse.emf.henshin.model.Node;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.MappingImpl#getOrigin <em>Origin</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.MappingImpl#getImage <em>Image</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -328,4 +328,5 @@
     <eLiterals name="INOUT" value="3"/>
     <eLiterals name="VAR" value="4"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="True" eSuperTypes="#//Formula"/>
 </ecore:EPackage>

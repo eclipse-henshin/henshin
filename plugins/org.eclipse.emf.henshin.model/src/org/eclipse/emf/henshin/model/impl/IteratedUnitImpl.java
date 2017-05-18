@@ -21,10 +21,10 @@ import org.eclipse.emf.henshin.model.IteratedUnit;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.IteratedUnitImpl#getIterations <em>Iterations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

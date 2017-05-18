@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getAttributes <em>Attributes</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getOutgoing <em>Outgoing</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueAttributeTypes atMostOneContainer NodeDeletionDanglingEdge NodeCreationWithoutContainment'"

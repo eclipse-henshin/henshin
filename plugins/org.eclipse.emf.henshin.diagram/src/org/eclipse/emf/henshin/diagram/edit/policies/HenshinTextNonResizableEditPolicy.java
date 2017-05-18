@@ -30,8 +30,8 @@ import org.eclipse.gmf.tooling.runtime.edit.policies.labels.IRefreshableFeedback
 /**
  * @generated
  */
-public class HenshinTextNonResizableEditPolicy extends NonResizableEditPolicyEx implements
-		IRefreshableFeedbackEditPolicy {
+public class HenshinTextNonResizableEditPolicy extends NonResizableEditPolicyEx
+		implements IRefreshableFeedbackEditPolicy {
 
 	/**
 	 * @generated

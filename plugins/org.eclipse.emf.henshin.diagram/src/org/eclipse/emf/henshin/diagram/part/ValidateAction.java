@@ -107,8 +107,8 @@ public class ValidateAction extends Action {
 	 * @generated
 	 */
 	public static void runNonUIValidation(View view) {
-		DiagramEditPart diagramEditPart = OffscreenEditPartFactory.getInstance().createDiagramEditPart(
-				view.getDiagram());
+		DiagramEditPart diagramEditPart = OffscreenEditPartFactory.getInstance()
+				.createDiagramEditPart(view.getDiagram());
 		runValidation(diagramEditPart, view);
 	}
 
@@ -152,8 +152,8 @@ public class ValidateAction extends Action {
 		}
 		Diagnostic diagnostic = runEMFValidator(view);
 		createMarkers(target, diagnostic, diagramEditPart);
-		IBatchValidator validator = (IBatchValidator) ModelValidationService.getInstance().newValidator(
-				EvaluationMode.BATCH);
+		IBatchValidator validator = (IBatchValidator) ModelValidationService.getInstance()
+				.newValidator(EvaluationMode.BATCH);
 		validator.setIncludeLiveConstraints(true);
 		if (view.isSetElement() && view.getElement() != null) {
 			IStatus status = validator.validate(view.getElement());
@@ -192,8 +192,8 @@ public class ValidateAction extends Action {
 		final Diagnostic rootStatus = emfValidationStatus;
 		List allDiagnostics = new ArrayList();
 		HenshinDiagramEditorUtil.LazyElement2ViewMap element2ViewMap = new HenshinDiagramEditorUtil.LazyElement2ViewMap(
-				diagramEditPart.getDiagramView(), collectTargetElements(rootStatus, new HashSet<EObject>(),
-						allDiagnostics));
+				diagramEditPart.getDiagramView(),
+				collectTargetElements(rootStatus, new HashSet<EObject>(), allDiagnostics));
 		for (Iterator it = emfValidationStatus.getChildren().iterator(); it.hasNext();) {
 			Diagnostic nextDiagnostic = (Diagnostic) it.next();
 			List data = nextDiagnostic.getData();

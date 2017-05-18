@@ -17,8 +17,6 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Priority Unit</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

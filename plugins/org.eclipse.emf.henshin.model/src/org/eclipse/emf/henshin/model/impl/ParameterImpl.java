@@ -27,12 +27,12 @@ import org.eclipse.emf.henshin.model.Unit;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterImpl#getUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterImpl#getKind <em>Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -319,8 +319,8 @@ public class UnitEditPart extends ShapeNodeEditPart {
 			fUnitNameFigure.setText("unnamed");
 			fUnitNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(1000), getMapMode().DPtoLP(20)));
 
-			fUnitNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2), getMapMode().DPtoLP(2), getMapMode()
-					.DPtoLP(0), getMapMode().DPtoLP(2)));
+			fUnitNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(0), getMapMode().DPtoLP(2)));
 
 			this.add(fUnitNameFigure);
 

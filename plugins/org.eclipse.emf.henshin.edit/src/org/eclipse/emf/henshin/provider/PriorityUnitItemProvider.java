@@ -29,7 +29,7 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
  * <!-- end-user-doc -->
  * @generated
  */
-public class PriorityUnitItemProvider extends MultiUnitItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+public class PriorityUnitItemProvider extends MultiUnitItemProvider {
 	
 	/**
 	 * This constructs an instance from a factory and a notifier.

@@ -93,8 +93,8 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 	 */
 	protected EObject selectElement(EObject[] elements) {
 		Shell shell = Display.getCurrent().getActiveShell();
-		ILabelProvider labelProvider = new AdapterFactoryLabelProvider(HenshinDiagramEditorPlugin.getInstance()
-				.getItemProvidersAdapterFactory());
+		ILabelProvider labelProvider = new AdapterFactoryLabelProvider(
+				HenshinDiagramEditorPlugin.getInstance().getItemProvidersAdapterFactory());
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(shell, labelProvider);
 		dialog.setMessage(Messages.HenshinModelingAssistantProviderMessage);
 		dialog.setTitle(Messages.HenshinModelingAssistantProviderTitle);

@@ -18,8 +18,6 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>And</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

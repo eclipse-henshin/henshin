@@ -30,14 +30,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class AnnotationItemProvider
-	extends ModelElementItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource,
-		IItemColorProvider {
+	extends ModelElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

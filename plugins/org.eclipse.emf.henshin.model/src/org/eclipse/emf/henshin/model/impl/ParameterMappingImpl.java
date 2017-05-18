@@ -26,11 +26,11 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterMappingImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterMappingImpl#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
