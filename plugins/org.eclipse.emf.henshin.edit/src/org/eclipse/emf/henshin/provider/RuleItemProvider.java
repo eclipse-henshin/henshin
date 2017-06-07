@@ -344,6 +344,11 @@ public class RuleItemProvider extends UnitItemProvider implements IEditingDomain
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		// super.collectNewChildDescriptors(newChildDescriptors, object);
 
+		newChildDescriptors.add
+		(createChildParameter
+			(HenshinPackage.Literals.MODEL_ELEMENT__ANNOTATIONS,
+			 HenshinFactory.eINSTANCE.createAnnotation()));
+		
  		newChildDescriptors.add(createChildParameter(
 				HenshinPackage.Literals.UNIT__PARAMETERS,
 				HenshinFactory.eINSTANCE.createParameter()));
