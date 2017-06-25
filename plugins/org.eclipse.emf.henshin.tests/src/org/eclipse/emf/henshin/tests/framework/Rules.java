@@ -160,4 +160,11 @@ public class Rules {
 			throw new AssertionError("expected: Rule " + ra.getRule().getName() + " can be applied.");
 		}
 	}
+	
+
+	public static void assertRuleCannotBeApplied(RuleApplication ra) throws AssertionError {
+		if (ra.execute(null)) {
+			throw new AssertionError("expected: Rule " + ra.getRule().getName() + " cannot be applied.");
+		}
+	}
 }

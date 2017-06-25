@@ -195,7 +195,7 @@ public class DomainSlot {
 			// Check the dangling constraints:
 			if (dangling) {
 				for (DanglingConstraint constraint : variable.danglingConstraints) {
-					if (!constraint.check(value, graph)) {
+					if (!constraint.postpone && !constraint.check(value, graph)) {
 						return false;
 					}
 				}
