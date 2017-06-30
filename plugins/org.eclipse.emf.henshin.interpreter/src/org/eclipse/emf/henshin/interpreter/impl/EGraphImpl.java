@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
@@ -436,10 +437,7 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	public List<EObject> getRoots() {
 		Set<EObject> roots = new LinkedHashSet<EObject>();
 		for (EObject object : this) {
-			while (object.eContainer()!=null) {
-				object = object.eContainer();
-			}
-			roots.add(object);
+			roots.add(EcoreUtil.getRootContainer(object));
 		}
 		return new ArrayList<EObject>(roots);
 	}

@@ -7,7 +7,8 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.eclipse.emf.henshin.tests.basic,
+Export-Package: org.eclipse.emf.henshin.tests.EGraphTestmodel,
+ org.eclipse.emf.henshin.tests.basic,
  org.eclipse.emf.henshin.tests.framework,
  org.eclipse.emf.henshin.tests.testmodel,
  org.eclipse.emf.henshin.tests.uml
