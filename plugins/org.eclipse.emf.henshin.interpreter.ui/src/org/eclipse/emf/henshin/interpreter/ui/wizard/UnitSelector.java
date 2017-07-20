@@ -99,7 +99,7 @@ public class UnitSelector {
 	public void setSelectableUnits(String[] selectableUnits, String[] outerUnits) {
 		this.selectableUnits = selectableUnits;
 		this.outerUnits = outerUnits;
-		updateSelection(false);
+		updateSelection(unitFilter.getSelection());
 	}
 	
 	private void updateSelection(Boolean showInnerUnits) {

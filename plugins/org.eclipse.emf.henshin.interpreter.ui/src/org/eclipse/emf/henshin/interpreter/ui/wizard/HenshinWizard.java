@@ -184,6 +184,11 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 			initIdx = 0;
 			selectedUnit = allUnits.get(0);
 		}
+		
+		if(!outerUnits.contains(initialUnit)){
+			page.unitSelector.unitFilter.setSelection(true);
+		}
+		
 		page.unitSelector.setSelectableUnits(
 				selectableUnitLabels.toArray(new String[0]),
 				outerUnitLabels.toArray(new String[0]));
