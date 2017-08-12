@@ -29,21 +29,28 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 public class DanglingConstraint implements Constraint {
 
 	// Outgoing edge count:
-	private final Map<EReference, Integer> outgoingEdgeCount;
+	public  Map<EReference, Integer> outgoingEdgeCount;
 
 	// Incoming edge count:
-	private final Map<EReference, Integer> incomingEdgeCount;
+	public  Map<EReference, Integer> incomingEdgeCount;
+
+	// Dangling check might have to be postponed due to contained multi-rules.
+	public boolean postpone;
 
 	/**
 	 * Default constructor.
-	 * @param outgoingEdgeCount Outgoing edge count.
-	 * @param incomingEdgeCount Incoming edge count.
+	 * 
+	 * @param outgoingEdgeCount
+	 *            Outgoing edge count.
+	 * @param incomingEdgeCount
+	 *            Incoming edge count.
+	 * @param postpone
 	 */
-	public DanglingConstraint(
-			Map<EReference, Integer> outgoingEdgeCount,
-			Map<EReference, Integer> incomingEdgeCount) {
+	public DanglingConstraint(Map<EReference, Integer> outgoingEdgeCount, Map<EReference, Integer> incomingEdgeCount,
+			boolean postpone) {
 		this.outgoingEdgeCount = outgoingEdgeCount;
 		this.incomingEdgeCount = incomingEdgeCount;
+		this.postpone = postpone;
 	}
 
 	/*
@@ -51,14 +58,13 @@ public class DanglingConstraint implements Constraint {
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean check(EObject sourceValue, EGraph graph) {
-		
 		// Compute the actual number of incoming edges:
 		Collection<Setting> settings = graph.getCrossReferenceAdapter().getInverseReferences(sourceValue);
-		Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings);
+		Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings, graph);
 		Integer expectedCount;
 
 		if (incomingEdgeCount != null) {
-			for (EReference ref: actualIncomingEdges.keySet()) {
+			for (EReference ref : actualIncomingEdges.keySet()) {
 				if (incomingEdgeCount.containsKey(ref)) {
 					expectedCount = incomingEdgeCount.get(ref);
 				} else {
@@ -85,43 +91,83 @@ public class DanglingConstraint implements Constraint {
 				if (type.isMany()) {
 					List<Object> outgoingEdges = (List<Object>) sourceValue.eGet(type);
 					outgoingEdges.retainAll(graph);
-					if (expectedCount!=null) {
-						if (expectedCount!=outgoingEdges.size()) {
+					if (expectedCount != null) {
+						if (expectedCount != outgoingEdges.size()) {
 							return false;
 						}
 					}
 				} else {
-					if (sourceValue.eGet(type)!=null 
-							&& expectedCount!=1
+					if (sourceValue.eGet(type) != null && expectedCount != 1
 							&& graph.contains(sourceValue.eGet(type))) {
 						return false;
 					}
 				}
 			}
 		}
-		
+
 		// Ok.
 		return true;
-		
+
 	}
 
 	/*
 	 * Count edges.
 	 */
-	private Map<EReference, Integer> createMapFromSettings(Collection<Setting> settings) {
+	private Map<EReference, Integer> createMapFromSettings(Collection<Setting> settings, EGraph graph) {
 		Map<EReference, Integer> result = new HashMap<EReference, Integer>();
-		for (Setting setting: settings) {
-			Integer count = result.get(setting.getEStructuralFeature());
-			if (count == null) {
-				count = 1;
-				EStructuralFeature feature = setting.getEStructuralFeature();
-				if (!feature.isDerived())
-					result.put((EReference) feature, count);
-			} else {
-				count++;
+		for (Setting setting : settings) {
+			if (graph.contains(setting.getEObject())) {
+				Integer count = result.get(setting.getEStructuralFeature());
+				if (count == null) {
+					count = 1;
+					EStructuralFeature feature = setting.getEStructuralFeature();
+					if (!feature.isDerived())
+						result.put((EReference) feature, count);
+				} else {
+					count++;
+				}
 			}
 		}
 		return result;
 	}
 
+	public DanglingConstraint copy() {
+		Map<EReference, Integer> outgoingEdgeCount2 = null;
+		if (outgoingEdgeCount != null) {
+			outgoingEdgeCount2 = new HashMap<EReference, Integer>();
+			outgoingEdgeCount2.putAll(outgoingEdgeCount);
+		}
+
+		Map<EReference, Integer> incomingEdgeCount2 = null;
+		if (incomingEdgeCount != null) {
+			incomingEdgeCount2 = new HashMap<EReference, Integer>();
+			incomingEdgeCount2.putAll(incomingEdgeCount);
+		}
+
+		return new DanglingConstraint(outgoingEdgeCount2, incomingEdgeCount2, postpone);
+	}
+
+	public void increaseOutgoing(EReference ref, int count) {
+		if (outgoingEdgeCount == null)
+			outgoingEdgeCount = new HashMap<EReference, Integer>();
+		
+		if (outgoingEdgeCount.get(ref) == null) {
+			outgoingEdgeCount.put(ref, count);
+		} else {
+			int newCount = outgoingEdgeCount.get(ref) + count;
+			outgoingEdgeCount.put(ref, newCount);
+		}
+	}
+
+	public void increaseIncoming(EReference ref, int count) {
+		if (incomingEdgeCount == null)
+			incomingEdgeCount = new HashMap<EReference, Integer>();
+		
+		if (incomingEdgeCount.get(ref) == null)
+			incomingEdgeCount.put(ref, count);
+		else {
+			int newCount = incomingEdgeCount.get(ref) + count;
+			incomingEdgeCount.put(ref, newCount);
+		}
+	}
 }
