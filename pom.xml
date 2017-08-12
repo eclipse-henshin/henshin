@@ -41,7 +41,7 @@
      <id>eclipse-orbit</id>
      <name>eclipse orbit for AGG</name>
      <layout>p2</layout>
-     <url>http://download.eclipse.org/tools/orbit/downloads/drops/S20151204220443/repository/</url>
+     <url>http://download.eclipse.org/tools/orbit/downloads/drops/S20170804160030/repository/</url>
    </repository>
   </repositories>
 
