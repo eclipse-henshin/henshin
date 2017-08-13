@@ -38,6 +38,8 @@ Workflow {
 			validator = {
 				 composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
+			
+			fragment = formatting.Formatter2Fragment2 auto-inject {}
 		}
 	}
 }
