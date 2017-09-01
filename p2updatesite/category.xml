@@ -3,6 +3,9 @@
    <feature id="org.eclipse.emf.henshin.sdk">
       <category name="org.eclipse.modeling"/>
    </feature>
+   <feature id="org.eclipse.emf.henshin.sdk.source">
+      <category name="org.eclipse.modeling"/>
+   </feature>
    <category-def name="org.eclipse.modeling" label="Modeling">
    </category-def>
 </site>
