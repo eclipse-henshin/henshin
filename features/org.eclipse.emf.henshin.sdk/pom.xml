@@ -26,7 +26,7 @@
             <goal>source-feature</goal>
           </goals>
           <configuration>
-            <labelSuffix> Sources</labelSuffix>
+            <labelSuffix xml:space="preserve"> Sources</labelSuffix>
             <excludes>
               <plugin id="de.tuberlin.eecs.agg"/>
             </excludes>
