@@ -120,6 +120,8 @@ public class HenshinValidator extends EObjectValidator {
 
 	public static final String PREF_ENABLE_EXTENDED_CONSISTENCY_CHECK = "Global.enableExtendedConsistencyCheck";
 
+	public static final String PREF_SUPPRESS_PARAMETERKIND_DEPRECATED_WARNINGS = "Global.suppressParameterKindDeprecatedWarnings";
+
 	private static final Set<String> JAVA_KEYWORDS = new HashSet<String>(Arrays.asList(new String[] { "abstract",
 			"continue", "for", "new", "switch", "assert", "default", "goto", "package", "synchronized", "boolean", "do",
 			"if", "private", "this", "break", "double", "implements", "protected", "throw", "byte", "else", "import",
@@ -911,6 +913,9 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	public boolean validateParameter_unknownKindDeprecated(Parameter parameter, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
+		if (isSuppressParameterKindDeprecatedWarnings())
+			return true;
+		
 		EObject container = parameter.eContainer();
 		if (parameter != null && parameter.getKind() == ParameterKind.UNKNOWN
 				&& !(container instanceof Rule && ((Rule) container).isMultiRule())) {
@@ -1107,6 +1112,13 @@ public class HenshinValidator extends EObjectValidator {
 		return preferences.getBoolean(PREF_ENABLE_EXTENDED_CONSISTENCY_CHECK, false);
 	}
 
+
+	private boolean isSuppressParameterKindDeprecatedWarnings() {
+		// access the global preferences
+		IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(HenshinModelPlugin.PLUGIN_ID);
+		return preferences.getBoolean(PREF_SUPPRESS_PARAMETERKIND_DEPRECATED_WARNINGS, false);
+	}
+	
 	/**
 	 * Validates the uniqueAttributeTypes constraint of '<em>Node</em>'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
