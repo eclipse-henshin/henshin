@@ -203,8 +203,8 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PropertySheetPage propertySheetPage;
-	
+	protected List<PropertySheetPage> propertySheetPages = new ArrayList<PropertySheetPage>();
+
 	/**
 	 * This is the viewer that shadows the selection in the content outline. The
 	 * parent relation must be correctly defined for this to work. <!--
@@ -318,7 +318,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 					}
 				}
 				else if (p instanceof PropertySheet) {
-					if (((PropertySheet)p).getCurrentPage() == propertySheetPage) {
+					if (propertySheetPages.contains(((PropertySheet)p).getCurrentPage())) {
 						getActionBarContributor().setActiveEditor(HenshinEditor.this);
 						handleActivate();
 					}
@@ -673,51 +673,54 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	protected FilterController filterController = new FilterController();
 	
 	/**
-	 * This sets up the editing domain for the model editor. <!-- begin-user-doc
+	 * This sets up the editing domain for the model editor.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
 	protected void initializeEditingDomain() {
 		// Create an adapter factory that yields item providers.
 		//
-		adapterFactory = new ComposedAdapterFactory(
-				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new HenshinItemProviderAdapterFactory(filterController));
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-		
-		// Create the command stack that will notify this editor as commands are
-		// executed.
+
+		// Create the command stack that will notify this editor as commands are executed.
 		//
 		BasicCommandStack commandStack = new BasicCommandStack();
-		
-		// Add a listener to set the most recent command's affected objects to
-		// be the selection of the viewer with focus.
+
+		// Add a listener to set the most recent command's affected objects to be the selection of the viewer with focus.
 		//
-		commandStack.addCommandStackListener(new CommandStackListener() {
-			public void commandStackChanged(final EventObject event) {
-				getContainer().getDisplay().asyncExec(new Runnable() {
-					public void run() {
-						firePropertyChange(IEditorPart.PROP_DIRTY);
-						
-						// Try to select the affected objects.
-						//
-						Command mostRecentCommand = ((CommandStack) event.getSource())
-								.getMostRecentCommand();
-						if (mostRecentCommand != null) {
-							setSelectionToViewer(mostRecentCommand.getAffectedObjects());
-						}
-						if (propertySheetPage != null
-								&& !propertySheetPage.getControl().isDisposed()) {
-							propertySheetPage.refresh();
-						}
-					}
-				});
-			}
-		});
-		
+		commandStack.addCommandStackListener
+			(new CommandStackListener() {
+				 public void commandStackChanged(final EventObject event) {
+					 getContainer().getDisplay().asyncExec
+						 (new Runnable() {
+							  public void run() {
+								  firePropertyChange(IEditorPart.PROP_DIRTY);
+
+								  // Try to select the affected objects.
+								  //
+								  Command mostRecentCommand = ((CommandStack)event.getSource()).getMostRecentCommand();
+								  if (mostRecentCommand != null) {
+									  setSelectionToViewer(mostRecentCommand.getAffectedObjects());
+								  }
+								  for (Iterator<PropertySheetPage> i = propertySheetPages.iterator(); i.hasNext(); ) {
+									  PropertySheetPage propertySheetPage = i.next();
+									  if (propertySheetPage.getControl().isDisposed()) {
+										  i.remove();
+									  }
+									  else {
+										  propertySheetPage.refresh();
+									  }
+								  }
+							  }
+						  });
+				 }
+			 });
+
 		// Create the editing domain with a special command stack.
 		//
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack,
@@ -973,10 +976,11 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 * @generated
 	 */
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
-		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
+		boolean hasErrors = !resource.getErrors().isEmpty();
+		if (hasErrors || !resource.getWarnings().isEmpty()) {
 			BasicDiagnostic basicDiagnostic =
 				new BasicDiagnostic
-					(Diagnostic.ERROR,
+					(hasErrors ? Diagnostic.ERROR : Diagnostic.WARNING,
 					 "org.eclipse.emf.henshin.editor",
 					 0,
 					 getString("_UI_CreateModelError_message", resource.getURI()),
@@ -1509,30 +1513,29 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	}
 	
 	/**
-	 * This accesses a cached version of the property sheet. <!-- begin-user-doc
+	 * This accesses a cached version of the property sheet.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
 	public IPropertySheetPage getPropertySheetPage() {
-		if (propertySheetPage == null) {
-			propertySheetPage = new HenshinPropertySheetPage(editingDomain) {
+		PropertySheetPage propertySheetPage =
+			new HenshinPropertySheetPage(editingDomain) {
 				@Override
 				public void setSelectionToViewer(List<?> selection) {
 					HenshinEditor.this.setSelectionToViewer(selection);
 					HenshinEditor.this.setFocus();
 				}
-				
+
 				@Override
 				public void setActionBars(IActionBars actionBars) {
 					super.setActionBars(actionBars);
 					getActionBarContributor().shareGlobalActions(this, actionBars);
 				}
 			};
-			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(
-					adapterFactory));
-		}
-		
+		propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+		propertySheetPages.add(propertySheetPage);
+
 		return propertySheetPage;
 	}
 	
@@ -1951,7 +1954,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 			getActionBarContributor().setActiveEditor(null);
 		}
 
-		if (propertySheetPage != null) {
+		for (PropertySheetPage propertySheetPage : propertySheetPages) {
 			propertySheetPage.dispose();
 		}
 
