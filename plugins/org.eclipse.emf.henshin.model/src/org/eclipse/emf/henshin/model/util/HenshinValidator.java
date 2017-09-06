@@ -137,6 +137,8 @@ public class HenshinValidator extends EObjectValidator {
 			"short", "static", "super", "switch", "synchronized", "this", "throw", "throws", "transient", "true", "try",
 			"typeof", "var", "void", "volatile", "while", "with", "yield" }));
 
+	private Set<Unit> unitsWithIllegallyNamedParameters = new HashSet<Unit>();
+	
 	/**
 	 * Creates an instance of the switch.
 	 * <!-- begin-user-doc --> <!--
@@ -780,6 +782,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * errors.
 	 */
 	private void validateExpression(String expression, Unit unit) throws ScriptException {
+		// If the unit has invalid parameter names (like keywords), this is the primary 
+		// error; directly return to avoid additional feedback that may confuse the user
+		if (unitsWithIllegallyNamedParameters.contains(unit)) 
+			return;
+		
 		if (expression == null || unit == null) {
 			return;
 		}
@@ -957,6 +964,9 @@ public class HenshinValidator extends EObjectValidator {
 			if (JAVA_KEYWORDS.contains(parameter.getName()) || JAVASCRIPT_KEYWORDS.contains(parameter.getName())) {
 				diagnostics
 						.add(createDiagnostic(Diagnostic.ERROR, parameter, Parameter.class, "nameNotKeyword", context));
+				if (parameter.getUnit() != null) {
+					unitsWithIllegallyNamedParameters.add(parameter.getUnit());
+				}
 				return false;
 			}
 		}
