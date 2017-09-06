@@ -1914,7 +1914,6 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(parameterMapping, diagnostics, context);
 		if (result || diagnostics != null) result &= validateParameterMapping_inParameterMappingIsCausal(parameterMapping, diagnostics, context);
 		if (result || diagnostics != null) result &= validateParameterMapping_outParameterMappingIsCausal(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validateParameterMapping_inoutParameterMappingIsCausal(parameterMapping, diagnostics, context);
 		if (result || diagnostics != null) result &= validateParameterMapping_varParameterMappingIsCausal(parameterMapping, diagnostics, context);
 		return result;
 	}
@@ -1938,7 +1937,7 @@ public class HenshinValidator extends EObjectValidator {
 				&& eObjectIsUnit(source.eContainer())) {
 			ParameterKind targetKind = target.getKind();
 			if (targetKind != ParameterKind.UNKNOWN && targetKind != ParameterKind.IN
-					&& targetKind != ParameterKind.INOUT) {
+					&& targetKind != ParameterKind.INOUT && targetKind != ParameterKind.VAR) {
 				result = false;
 				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameterMapping, ParameterMapping.class,
 						"inParameterMappingIsCausal", context));
@@ -1967,37 +1966,10 @@ public class HenshinValidator extends EObjectValidator {
 				&& eObjectIsUnit(source.eContainer())) {
 			ParameterKind targetKind = target.getKind();
 			if (targetKind != ParameterKind.UNKNOWN && targetKind != ParameterKind.OUT
-					&& targetKind != ParameterKind.INOUT) {
+					&& targetKind != ParameterKind.INOUT && targetKind != ParameterKind.VAR) {
 				result = false;
 				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameterMapping, ParameterMapping.class,
 						"outParameterMappingIsCausal", context));
-			}
-		}
-
-		return result;
-	}
-
-	/**
-	 * Validates the inoutParameterMappingIsCausal constraint of '
-	 * <em>Parameter Mapping</em>'. <!-- begin-user-doc --> If the source of a
-	 * parameter mapping is an inout parameter contained in a unit, the target
-	 * parameter must not be of the kind var. <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public boolean validateParameterMapping_inoutParameterMappingIsCausal(ParameterMapping parameterMapping,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		final Parameter source = parameterMapping.getSource();
-		final Parameter target = parameterMapping.getTarget();
-		boolean result = true;
-
-		if (source != null && target != null && source.getKind() == ParameterKind.INOUT
-				&& eObjectIsUnit(source.eContainer())) {
-			ParameterKind targetKind = target.getKind();
-			if (targetKind == ParameterKind.VAR) {
-				result = false;
-				diagnostics.add(createDiagnostic(Diagnostic.ERROR, parameterMapping, ParameterMapping.class,
-						"inoutParameterMappingIsCausal", context));
 			}
 		}
 
