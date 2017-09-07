@@ -288,6 +288,10 @@
       <details key="constraints" value="iterationsNotEmpty iterationsValidJavaScript iterationsAllParametersAreDeclared"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iterations" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strict" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rollback" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LoopUnit" eSuperTypes="#//UnaryUnit"/>
   <eClassifiers xsi:type="ecore:EClass" name="Formula" abstract="true" interface="true">

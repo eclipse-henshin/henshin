@@ -1807,13 +1807,31 @@ public interface HenshinPackage extends EPackage {
 	int ITERATED_UNIT__ITERATIONS = UNARY_UNIT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Strict</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATED_UNIT__STRICT = UNARY_UNIT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Rollback</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATED_UNIT__ROLLBACK = UNARY_UNIT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Iterated Unit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITERATED_UNIT_FEATURE_COUNT = UNARY_UNIT_FEATURE_COUNT + 1;
+	int ITERATED_UNIT_FEATURE_COUNT = UNARY_UNIT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -3007,6 +3025,28 @@ public interface HenshinPackage extends EPackage {
 	EAttribute getIteratedUnit_Iterations();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.IteratedUnit#isStrict <em>Strict</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Strict</em>'.
+	 * @see org.eclipse.emf.henshin.model.IteratedUnit#isStrict()
+	 * @see #getIteratedUnit()
+	 * @generated
+	 */
+	EAttribute getIteratedUnit_Strict();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.IteratedUnit#isRollback <em>Rollback</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Rollback</em>'.
+	 * @see org.eclipse.emf.henshin.model.IteratedUnit#isRollback()
+	 * @see #getIteratedUnit()
+	 * @generated
+	 */
+	EAttribute getIteratedUnit_Rollback();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.LoopUnit <em>Loop Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3901,6 +3941,22 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITERATED_UNIT__ITERATIONS = eINSTANCE.getIteratedUnit_Iterations();
+
+		/**
+		 * The meta object literal for the '<em><b>Strict</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ITERATED_UNIT__STRICT = eINSTANCE.getIteratedUnit_Strict();
+
+		/**
+		 * The meta object literal for the '<em><b>Rollback</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ITERATED_UNIT__ROLLBACK = eINSTANCE.getIteratedUnit_Rollback();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.LoopUnitImpl <em>Loop Unit</em>}' class.

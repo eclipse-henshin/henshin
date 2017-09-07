@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="CP1252"?>
+<testmodel:cont xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:testmodel="http://www.eclipse.org/emf/2010/Henshin/Tests">
+  <containsNode hasVals="//@containsVal.0" nodename="N1"/>
+  <containsNode nodename="N2"/>
+  <containsVal valname="V1"/>
+</testmodel:cont>

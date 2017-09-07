@@ -24,6 +24,8 @@ import org.eclipse.emf.henshin.model.IteratedUnit;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.IteratedUnitImpl#getIterations <em>Iterations</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.IteratedUnitImpl#isStrict <em>Strict</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.IteratedUnitImpl#isRollback <em>Rollback</em>}</li>
  * </ul>
  *
  * @generated
@@ -49,6 +51,46 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * @ordered
 	 */
 	protected String iterations = ITERATIONS_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isStrict() <em>Strict</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isStrict()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean STRICT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isStrict() <em>Strict</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isStrict()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean strict = STRICT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isRollback() <em>Rollback</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isRollback()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ROLLBACK_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isRollback() <em>Rollback</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isRollback()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean rollback = ROLLBACK_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -96,11 +138,57 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isStrict() {
+		return strict;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStrict(boolean newStrict) {
+		boolean oldStrict = strict;
+		strict = newStrict;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ITERATED_UNIT__STRICT, oldStrict, strict));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isRollback() {
+		return rollback;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRollback(boolean newRollback) {
+		boolean oldRollback = rollback;
+		rollback = newRollback;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ITERATED_UNIT__ROLLBACK, oldRollback, rollback));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.ITERATED_UNIT__ITERATIONS:
 				return getIterations();
+			case HenshinPackage.ITERATED_UNIT__STRICT:
+				return isStrict();
+			case HenshinPackage.ITERATED_UNIT__ROLLBACK:
+				return isRollback();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -115,6 +203,12 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 		switch (featureID) {
 			case HenshinPackage.ITERATED_UNIT__ITERATIONS:
 				setIterations((String)newValue);
+				return;
+			case HenshinPackage.ITERATED_UNIT__STRICT:
+				setStrict((Boolean)newValue);
+				return;
+			case HenshinPackage.ITERATED_UNIT__ROLLBACK:
+				setRollback((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -131,6 +225,12 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 			case HenshinPackage.ITERATED_UNIT__ITERATIONS:
 				setIterations(ITERATIONS_EDEFAULT);
 				return;
+			case HenshinPackage.ITERATED_UNIT__STRICT:
+				setStrict(STRICT_EDEFAULT);
+				return;
+			case HenshinPackage.ITERATED_UNIT__ROLLBACK:
+				setRollback(ROLLBACK_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -145,6 +245,10 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 		switch (featureID) {
 			case HenshinPackage.ITERATED_UNIT__ITERATIONS:
 				return ITERATIONS_EDEFAULT == null ? iterations != null : !ITERATIONS_EDEFAULT.equals(iterations);
+			case HenshinPackage.ITERATED_UNIT__STRICT:
+				return strict != STRICT_EDEFAULT;
+			case HenshinPackage.ITERATED_UNIT__ROLLBACK:
+				return rollback != ROLLBACK_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -1148,6 +1148,24 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIteratedUnit_Strict() {
+		return (EAttribute)iteratedUnitEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIteratedUnit_Rollback() {
+		return (EAttribute)iteratedUnitEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLoopUnit() {
 		return loopUnitEClass;
 	}
@@ -1453,6 +1471,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		iteratedUnitEClass = createEClass(ITERATED_UNIT);
 		createEAttribute(iteratedUnitEClass, ITERATED_UNIT__ITERATIONS);
+		createEAttribute(iteratedUnitEClass, ITERATED_UNIT__STRICT);
+		createEAttribute(iteratedUnitEClass, ITERATED_UNIT__ROLLBACK);
 
 		loopUnitEClass = createEClass(LOOP_UNIT);
 
@@ -1794,6 +1814,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		initEClass(iteratedUnitEClass, IteratedUnit.class, "IteratedUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIteratedUnit_Iterations(), ecorePackage.getEString(), "iterations", null, 0, 1, IteratedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIteratedUnit_Strict(), ecorePackage.getEBoolean(), "strict", "false", 0, 1, IteratedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIteratedUnit_Rollback(), ecorePackage.getEBoolean(), "rollback", "true", 0, 1, IteratedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(loopUnitEClass, LoopUnit.class, "LoopUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

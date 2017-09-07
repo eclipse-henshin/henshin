@@ -58,6 +58,8 @@ public class IteratedUnitItemProvider
 			super.getPropertyDescriptors(object);
 
 			addIterationsPropertyDescriptor(object);
+			addStrictPropertyDescriptor(object);
+			addRollbackPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -80,6 +82,50 @@ public class IteratedUnitItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Strict feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addStrictPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_IteratedUnit_strict_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_IteratedUnit_strict_feature", "_UI_IteratedUnit_type"),
+				 HenshinPackage.Literals.ITERATED_UNIT__STRICT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Rollback feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRollbackPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_IteratedUnit_rollback_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_IteratedUnit_rollback_feature", "_UI_IteratedUnit_type"),
+				 HenshinPackage.Literals.ITERATED_UNIT__ROLLBACK,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -120,6 +166,8 @@ public class IteratedUnitItemProvider
 
 		switch (notification.getFeatureID(IteratedUnit.class)) {
 			case HenshinPackage.ITERATED_UNIT__ITERATIONS:
+			case HenshinPackage.ITERATED_UNIT__STRICT:
+			case HenshinPackage.ITERATED_UNIT__ROLLBACK:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

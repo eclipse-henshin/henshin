@@ -212,7 +212,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 */
 	protected boolean executeSequentialUnit(ApplicationMonitor monitor) {
 		SequentialUnit seqUnit = (SequentialUnit) unit;
-		boolean success = true;
+		boolean success = false;
 		for (Unit subUnit : seqUnit.getSubUnits()) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);
@@ -221,6 +221,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 			}
 			UnitApplicationImpl unitApp = createApplicationFor(subUnit);
 			if (unitApp.execute(monitor)) {
+				success = true;
 				updateParameterValues(unitApp);
 				appliedRules.addAll(unitApp.appliedRules);
 			} else {
@@ -362,7 +363,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		}
 		
 		// Now apply the subunit n times:
-		boolean success = true;
+		boolean success = false;
 		for (int i=0; i<iterations; i++) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);
@@ -371,10 +372,16 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 			}
 			UnitApplicationImpl unitApp = createApplicationFor(iteratedUnit.getSubUnit());
 			if (unitApp.execute(monitor)) {
+				success = true;
 				updateParameterValues(unitApp);
 				appliedRules.addAll(unitApp.appliedRules);
 			} else {
-				success = false;
+				if (iteratedUnit.isStrict()) {
+					success = false;
+					if (iteratedUnit.isRollback()) {
+						undo(monitor);
+					}
+				}
 				break;
 			}
 		}
