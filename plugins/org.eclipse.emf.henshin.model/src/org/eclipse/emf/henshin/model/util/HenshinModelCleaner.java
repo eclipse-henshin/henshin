@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.model.util;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -193,6 +192,23 @@ public class HenshinModelCleaner {
 						}
 					}
 				}			
+			} else if (edgeRhs != null) {
+				for (Rule multiRule : rule.getMultiRules()) {
+					Edge counterpartLhs = multiRule.getMultiMappings().getImage(edge, multiRule.getLhs());
+					if (counterpartLhs != null) {
+						Edge counterpartRhs = multiRule.getMappings().getImage(counterpartLhs, multiRule.getRhs());
+						if (counterpartRhs == null) {
+							Node sourceRhs = multiRule.getMappings().getImage(counterpartLhs.getSource(),
+									multiRule.getRhs());
+							Node targetRhs = multiRule.getMappings().getImage(counterpartLhs.getTarget(),
+									multiRule.getRhs());
+							if (sourceRhs != null && targetRhs != null) {
+								HenshinFactory.eINSTANCE.createEdge(sourceRhs, targetRhs, counterpartLhs.getType());
+								debug("added missing edge in multi-rule " + multiRule.getName());
+							}
+						}
+					}
+				}
 			}
 		}
 		for (Edge edge : rule.getRhs().getEdges()) {
@@ -208,6 +224,21 @@ public class HenshinModelCleaner {
 						}
 					}
 				}			
+			} else if (edgeLhs != null) {
+				for (Rule multiRule : rule.getMultiRules()) {
+					Edge counterpartRhs = multiRule.getMultiMappings().getImage(edge, multiRule.getRhs());
+					if (counterpartRhs != null) {
+						Edge counterpartLhs = multiRule.getMappings().getOrigin(counterpartRhs);
+						if (counterpartLhs == null) {
+							Node sourceLhs = multiRule.getMappings().getOrigin(counterpartRhs.getSource());
+							Node targetLhs = multiRule.getMappings().getOrigin(counterpartRhs.getTarget());
+							if (sourceLhs != null && targetLhs != null) {
+								HenshinFactory.eINSTANCE.createEdge(sourceLhs, targetLhs, counterpartRhs.getType());
+								debug("added missing edge in multi-rule " + multiRule.getName());
+							}
+						}
+					}
+				}
 			}
 		}
 		
