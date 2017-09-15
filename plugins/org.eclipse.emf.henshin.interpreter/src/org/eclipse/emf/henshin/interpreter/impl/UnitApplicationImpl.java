@@ -212,7 +212,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 */
 	protected boolean executeSequentialUnit(ApplicationMonitor monitor) {
 		SequentialUnit seqUnit = (SequentialUnit) unit;
-		boolean success = true;
+		boolean success = false;
 		for (Unit subUnit : seqUnit.getSubUnits()) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);
@@ -234,6 +234,8 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
+		if (seqUnit.getSubUnits().isEmpty())
+			success = true;
 		monitor.notifyExecute(this, success);
 		return success;
 	}
