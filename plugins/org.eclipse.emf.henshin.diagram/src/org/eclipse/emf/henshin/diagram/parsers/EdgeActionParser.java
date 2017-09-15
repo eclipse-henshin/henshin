@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -115,6 +116,8 @@ public class EdgeActionParser extends AbstractAttributeParser {
 			
 			// Now we can safely set the action:
 			edge.setAction(action);
+			
+			HenshinModelCleaner.cleanRule(edge.getGraph().getRule());
 			return CommandResult.newOKCommandResult();
 			
 		}

@@ -9,6 +9,7 @@
  */
 package org.eclipse.emf.henshin.model.util;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -148,6 +149,7 @@ public class HenshinModelCleaner {
 			rule.getMultiMappings().clear();
 			debug("removed unused multi-mappings of " + rule);
 		}
+		synchronizeShadowEdgesInMultiRules(rule);
 
 		// Recursively clean the multi-rules:
 		for (Rule multi : rule.getMultiRules()) {
@@ -177,6 +179,40 @@ public class HenshinModelCleaner {
 
 	}
 	
+	private static void synchronizeShadowEdgesInMultiRules(Rule rule) {
+		for (Edge edge : rule.getLhs().getEdges()) {
+			Edge edgeRhs = rule.getMappings().getImage(edge, rule.getRhs());
+			if (edgeRhs == null) {
+				for (Rule multiRule : rule.getMultiRules()) {
+					Edge counterpartLhs = multiRule.getMultiMappings().getImage(edge, multiRule.getLhs());
+					if (counterpartLhs != null) {
+						Edge counterpartRhs = multiRule.getMappings().getImage(counterpartLhs, multiRule.getRhs());
+						if (counterpartRhs != null) {
+							multiRule.getRhs().removeEdge(counterpartRhs);
+							debug("removed superflouus edge in multi-rule " + multiRule.getName());
+						}
+					}
+				}			
+			}
+		}
+		for (Edge edge : rule.getRhs().getEdges()) {
+			Edge edgeLhs = rule.getMappings().getOrigin(edge);
+			if (edgeLhs == null) {
+				for (Rule multiRule : rule.getMultiRules()) {
+					Edge counterpartRhs = multiRule.getMultiMappings().getImage(edge, multiRule.getRhs());
+					if (counterpartRhs != null) {
+						Edge counterpartLhs = multiRule.getMappings().getOrigin(counterpartRhs);
+						if (counterpartLhs != null) {
+							multiRule.getLhs().removeEdge(counterpartLhs);
+							debug("removed superflouus edge in multi-rule " + multiRule.getName());
+						}
+					}
+				}			
+			}
+		}
+		
+	}
+
 	/**
 	 * Clean a graph. This cleans the contents of the graph and its formula.
 	 * It removes invalid nodes and edges and tries to simplify the formula
