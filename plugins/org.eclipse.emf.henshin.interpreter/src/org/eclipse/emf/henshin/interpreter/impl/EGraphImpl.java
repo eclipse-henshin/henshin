@@ -26,11 +26,13 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.util.EcoreCopier;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 
 /**
@@ -417,7 +419,12 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	@Override
 	public EGraph copy(Map<EObject, EObject> copies) {
 		if (copies==null) {
-			Copier copier = new Copier();
+			Copier copier = null;
+			if (packages.contains(EcorePackage.eINSTANCE)) {
+				copier = new EcoreCopier();
+			} else {
+				copier = new Copier();
+			}
 			copier.copyAll(getRoots());
 			copier.copyReferences();
 			copies = copier;
