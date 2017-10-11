@@ -19,6 +19,30 @@
          </menu>
       </menuContribution>
    </extension>
+   <extension
+         id="org.eclipse.emf.henshin.menu"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
+         <menu
+               id="org.eclipse.emf.henshin.menu"
+               label="Henshin">
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         id="org.eclipse.emf.henshin.menu"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.sirius.ui.tools.views.model.explorer#PopupMenu">
+         <menu
+               id="org.eclipse.emf.henshin.menu"
+               label="Henshin">
+         </menu>
+      </menuContribution>
+   </extension>
    <!--
    <extension
          point="org.eclipse.ui.menus">
