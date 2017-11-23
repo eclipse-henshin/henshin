@@ -10,7 +10,7 @@
     <version>1.5.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.emf.henshin.model.text</artifactId>
+  <artifactId>org.eclipse.emf.henshin.text</artifactId>
   <packaging>eclipse-plugin</packaging>
 
 </project>
