@@ -47,6 +47,12 @@
      <layout>p2</layout>
      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</url>
    </repository>
+   <repository>
+     <id>xtext</id>
+     <name>xtext for textual syntax</name>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
+   </repository>
   </repositories>
 
   <build>
