@@ -23,6 +23,9 @@
     <module>plugins/org.eclipse.emf.henshin.trace</module>
     <module>plugins/org.eclipse.emf.henshin.wrap</module>
     <module>plugins/org.eclipse.emf.henshin.tests</module>
+    <module>plugins/org.eclipse.emf.henshin.text</module>
+    <module>plugins/org.eclipse.emf.henshin.text.ide</module>
+    <module>plugins/org.eclipse.emf.henshin.text.transformation</module>
     <module>features/org.eclipse.emf.henshin.sdk</module>
     <module>p2updatesite</module>
   </modules>
