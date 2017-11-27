@@ -36,9 +36,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTransformationsystemModelElementParserRuleCall_1_0 = (RuleCall)cTransformationsystemAssignment_1.eContents().get(0);
 		
 		////main element
-		//Model:
-		//	ePackageimports+=EPackageImport+
-		//	transformationsystem+=ModelElement*;
+		// Model:
+		//	ePackageimports+=EPackageImport+ transformationsystem+=ModelElement*;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//ePackageimports+=EPackageImport+ transformationsystem+=ModelElement*
@@ -65,7 +64,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRefEPackageEStringParserRuleCall_1_0_1 = (RuleCall)cRefEPackageCrossReference_1_0.eContents().get(1);
 		
 		////EPackage import
-		//EPackageImport:
+		// EPackageImport:
 		//	'ePackageImport' ref=[ecore::EPackage|EString];
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -152,11 +151,10 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_1_8 = (Keyword)cGroup_1.eContents().get(8);
 		
 		////rule and unit definition
-		//ModelElement:
-		//	'rule' {Rule} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{' ruleElements+=RuleElement+ '}'
-		//	|
-		//	'unit' {Unit} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{' unitElements+=UnitElement+
-		//	'}';
+		// ModelElement:
+		//	'rule' {Rule} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{' ruleElements+=RuleElement+
+		//	'}' | 'unit' {Unit} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{'
+		//	unitElements+=UnitElement+ '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'rule' {Rule} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{' ruleElements+=RuleElement+ '}' |
@@ -281,7 +279,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cGraphParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
 		
 		////rule elements
-		//RuleElement:
+		// RuleElement:
 		//	JavaImport | CheckDangling | InjectiveMatching | Conditions | Graph;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -311,7 +309,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cPackagenameEStringParserRuleCall_1_0 = (RuleCall)cPackagenameAssignment_1.eContents().get(0);
 		
 		////Java class import
-		//JavaImport:
+		// JavaImport:
 		//	'javaImport' packagename=EString;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -335,7 +333,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cCheckDanglingEBooleanParserRuleCall_1_0 = (RuleCall)cCheckDanglingAssignment_1.eContents().get(0);
 		
 		////option CheckDangling  
-		//CheckDangling:
+		// CheckDangling:
 		//	'checkDangling' checkDangling=EBoolean;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -359,7 +357,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cInjectiveMatchingEBooleanParserRuleCall_1_0 = (RuleCall)cInjectiveMatchingAssignment_1.eContents().get(0);
 		
 		////option InjectiveMatching
-		//InjectiveMatching:
+		// InjectiveMatching:
 		//	'injectiveMatching' injectiveMatching=EBoolean;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -389,7 +387,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		////Conditions (henshin:attributeCondition) 
-		//Conditions:
+		// Conditions:
 		//	'conditions' '[' attributeConditions+=Expression ("," attributeConditions+=Expression)* ']';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -434,9 +432,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		////transformation graph
-		//Graph:
-		//	{Graph}
-		//	'graph' '{' graphElements+=GraphElements* '}';
+		// Graph:
+		//	{Graph} 'graph' '{' graphElements+=GraphElements* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{Graph} 'graph' '{' graphElements+=GraphElements* '}'
@@ -470,7 +467,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRequireKeyword_4 = (Keyword)cAlternatives.eContents().get(4);
 		
 		////marks for nodes and edges (default:preserve)
-		//ActionType:
+		// ActionType:
 		//	'preserve' | 'create' | 'delete' | 'forbid' | 'require';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -502,7 +499,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cMultiRuleReuseNodeParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
 		
 		////transformation graph elements
-		//GraphElements:
+		// GraphElements:
 		//	Edges | Node | Formula | MultiRule | MultiRuleReuseNode;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -538,7 +535,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		////list of transformation graph edges
-		//Edges:
+		// Edges:
 		//	'edges' '[' edges+=Edge (',' edges+=Edge)* ']';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -592,7 +589,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		////transformation graph edge (default:preserve)
-		//Edge:
+		// Edge:
 		//	'(' actiontype=ActionType? source=[RuleNodeTypes] '->' target=[RuleNodeTypes] ':' type=[ecore::EReference|EString]
 		//	')';
 		@Override public ParserRule getRule() { return rule; }
@@ -652,7 +649,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cMultiRuleReuseNodeParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		////node types (Edge definition)
-		//RuleNodeTypes:
+		// RuleNodeTypes:
 		//	Node | MultiRuleReuseNode;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -684,7 +681,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
 		
 		////transformation graph node
-		//Node:
+		// Node:
 		//	actiontype=ActionType? 'node' name=ID ':' nodetype=[ecore::EClass|EString] ('{' attribute+=Attribute* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -747,7 +744,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_2_2 = (Keyword)cGroup_2.eContents().get(2);
 		
 		////reused transformation graph node (see documentation:MultiRule)
-		//MultiRuleReuseNode:
+		// MultiRuleReuseNode:
 		//	'reuse' name=[Node] ('{' attribute+=Attribute* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -804,7 +801,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cValueExpressionParserRuleCall_1_3_0 = (RuleCall)cValueAssignment_1_3.eContents().get(0);
 		
 		////transformation graph node attribute
-		//Attribute:
+		// Attribute:
 		//	actiontype=ActionType? name=[ecore::EAttribute|EString] '=' value=Expression | update='set'
 		//	name=[ecore::EAttribute|EString] '=' value=Expression;
 		@Override public ParserRule getRule() { return rule; }
@@ -879,7 +876,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		////multi-rule (amalgamation)
-		//MultiRule:
+		// MultiRule:
 		//	'multiRule' name=ID '{' multiruleElements+=RuleElement+ '}';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -920,11 +917,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		////formula
-		//Formula:
-		//	'matchingFormula' '{'
-		//	'formula' formula=Logic
-		//	conditionGraphs+=ConditionGraph+
-		//	'}';
+		// Formula:
+		//	'matchingFormula' '{' 'formula' formula=Logic conditionGraphs+=ConditionGraph+ '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'matchingFormula' '{' 'formula' formula=Logic conditionGraphs+=ConditionGraph+ '}'
@@ -959,7 +953,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cORorXORParserRuleCall = (RuleCall)rule.eContents().get(1);
 		
 		////logical expressions
-		//Logic:
+		// Logic:
 		//	ORorXOR;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -980,7 +974,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRightANDParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
 		////logical expressions: OR and XOR
-		//ORorXOR Logic:
+		// ORorXOR Logic:
 		//	AND ({ORorXOR.left=current} op=('OR' | 'XOR') right=AND)*
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1025,7 +1019,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRightPrimaryParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
 		////logical expressions: AND
-		//AND Logic:
+		// AND Logic:
 		//	Primary ({AND.left=current} 'AND' right=Primary)*
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1065,7 +1059,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAtomicParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		////logical expressions: brackets and NOT
-		//Primary Logic:
+		// Primary Logic:
 		//	'(' Logic ')' | {Not} '!' negation=Primary | Atomic
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1111,7 +1105,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cConditionGraphRefConditionGraphIDTerminalRuleCall_1_0_1 = (RuleCall)cConditionGraphRefConditionGraphCrossReference_1_0.eContents().get(1);
 		
 		////logical expressions: atomic value
-		//Atomic Logic:
+		// Atomic Logic:
 		//	{ConditionGraphRef} conditionGraphRef=[ConditionGraph]
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1142,7 +1136,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		////conditionGraph
-		//ConditionGraph:
+		// ConditionGraph:
 		//	'conditionGraph' name=ID '{' conditionGraphElements+=ConditionGraphElements* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1179,7 +1173,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cConditionReuseNodeParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		////conditionGraph elements
-		//ConditionGraphElements:
+		// ConditionGraphElements:
 		//	ConditionEdges | ConditionNode | Formula | ConditionReuseNode;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1212,7 +1206,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		////list of conditionGraph edges
-		//ConditionEdges:
+		// ConditionEdges:
 		//	'edges' '[' edges+=ConditionEdge ("," edges+=ConditionEdge)* ']';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1264,7 +1258,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		////conditionGraph edge
-		//ConditionEdge:
+		// ConditionEdge:
 		//	'(' source=[ConditionNodeTypes] '->' target=[ConditionNodeTypes] ':' type=[ecore::EReference|EString] ')';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1317,7 +1311,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNodeParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		////node types (ConditionEdge definition)
-		//ConditionNodeTypes:
+		// ConditionNodeTypes:
 		//	ConditionNode | Node;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1347,7 +1341,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4_2 = (Keyword)cGroup_4.eContents().get(2);
 		
 		////conditionGraph node
-		//ConditionNode:
+		// ConditionNode:
 		//	'node' name=ID ':' type=[ecore::EClass|EString] ('{' attribute+=Match* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1404,7 +1398,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_2_2 = (Keyword)cGroup_2.eContents().get(2);
 		
 		////reused conditionGraph node (see documentation:ConditionGraph)
-		//ConditionReuseNode:
+		// ConditionReuseNode:
 		//	'reuse' name=[ConditionNodeTypes] ('{' attribute+=Match* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1449,7 +1443,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cValueExpressionParserRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
 		
 		////conditionGraph node attribute
-		//Match:
+		// Match:
 		//	name=[ecore::EAttribute|EString] '=' value=Expression;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1506,9 +1500,9 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cLoopUnitParserRuleCall_7 = (RuleCall)cAlternatives.eContents().get(7);
 		
 		////unit elements
-		//UnitElement:
-		//	{Call} elementCall=[ModelElement] '(' (parameters+=[Parameter] (',' parameters+=[Parameter])*)? ')' |
-		//	'{' subSequence+=UnitElement+ '}' | SequentialProperties | IndependentUnit | ConditionalUnit | PriorityUnit |
+		// UnitElement:
+		//	{Call} elementCall=[ModelElement] '(' (parameters+=[Parameter] (',' parameters+=[Parameter])*)? ')' | '{'
+		//	subSequence+=UnitElement+ '}' | SequentialProperties | IndependentUnit | ConditionalUnit | PriorityUnit |
 		//	IteratedUnit | LoopUnit;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1605,7 +1599,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRollbackParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		////sequentialUnit properties
-		//SequentialProperties:
+		// SequentialProperties:
 		//	Strict | Rollback;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1626,7 +1620,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cStrictEBooleanParserRuleCall_1_0 = (RuleCall)cStrictAssignment_1.eContents().get(0);
 		
 		////option Strict
-		//Strict:
+		// Strict:
 		//	'strict' strict=EBoolean;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1650,7 +1644,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRollbackEBooleanParserRuleCall_1_0 = (RuleCall)cRollbackAssignment_1.eContents().get(0);
 		
 		////option Rollback
-		//Rollback:
+		// Rollback:
 		//	'rollback' rollback=EBoolean;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1672,7 +1666,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSubElementsUnitElementParserRuleCall_0 = (RuleCall)cSubElementsAssignment.eContents().get(0);
 		
 		////list of unit elements
-		//List:
+		// List:
 		//	subElements+=UnitElement+;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1696,7 +1690,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		////independentUnit
-		//IndependentUnit:
+		// IndependentUnit:
 		//	'independent' '[' listOfLists+=List (',' listOfLists+=List)* ']';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1751,9 +1745,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_8_3 = (Keyword)cGroup_8.eContents().get(3);
 		
 		////conditionalUnit
-		//ConditionalUnit:
-		//	'if' '(' if+=UnitElement+ ')'
-		//	'then' '{' then+=UnitElement+ '}' ('else' '{' else+=UnitElement+ '}')?;
+		// ConditionalUnit:
+		//	'if' '(' if+=UnitElement+ ')' 'then' '{' then+=UnitElement+ '}' ('else' '{' else+=UnitElement+ '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'if' '(' if+=UnitElement+ ')' 'then' '{' then+=UnitElement+ '}' ('else' '{' else+=UnitElement+ '}')?
@@ -1821,7 +1814,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		////priorityUnit
-		//PriorityUnit:
+		// PriorityUnit:
 		//	'priority' '[' listOfLists+=List (',' listOfLists+=List)* ']';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1870,9 +1863,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		////iteratedUnit
-		//IteratedUnit:
-		//	{IteratedUnit}
-		//	'for' '(' iterations=Expression ')' '{' subElement+=UnitElement+ '}';
+		// IteratedUnit:
+		//	{IteratedUnit} 'for' '(' iterations=Expression ')' '{' subElement+=UnitElement+ '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{IteratedUnit} 'for' '(' iterations=Expression ')' '{' subElement+=UnitElement+ '}'
@@ -1918,7 +1910,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
 		////loopUnit
-		//LoopUnit:
+		// LoopUnit:
 		//	'while' '{' subElement+=UnitElement+ '}';
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1952,7 +1944,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTypeParameterTypeParserRuleCall_3_0 = (RuleCall)cTypeAssignment_3.eContents().get(0);
 		
 		////parameter
-		//Parameter:
+		// Parameter:
 		//	kind=ParameterKindRule? name=ID ':' type=ParameterType;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1990,7 +1982,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTypeEClassEStringParserRuleCall_1_0_1 = (RuleCall)cTypeEClassCrossReference_1_0.eContents().get(1);
 		
 		////parameter types
-		//ParameterType:
+		// ParameterType:
 		//	enumType=Type | type=[ecore::EClass|EString];
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -2019,7 +2011,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cFalseKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
 		
 		////boolean
-		//EBoolean ecore::EBoolean:
+		// EBoolean ecore::EBoolean:
 		//	'true' | 'false'
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -2037,7 +2029,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cOrExpressionParserRuleCall = (RuleCall)rule.eContents().get(1);
 		
 		////expressions
-		//Expression:
+		// Expression:
 		//	OrExpression;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -2055,7 +2047,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRightAndExpressionParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
 		////expressions: OR
-		//OrExpression Expression:
+		// OrExpression Expression:
 		//	AndExpression ({OrExpression.left=current} "OR" right=AndExpression)*
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -2091,7 +2083,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRightEqualityExpressionParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
 		////expressions: AND
-		//AndExpression Expression:
+		// AndExpression Expression:
 		//	EqualityExpression ({AndExpression.left=current} "AND" right=EqualityExpression)*
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -2130,7 +2122,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRightComparisonExpressionParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
 		////expressions: equal and not equal  
-		//EqualityExpression Expression:
+		// EqualityExpression Expression:
 		//	ComparisonExpression ({EqualityExpression.left=current} op=("==" | "!=") right=ComparisonExpression)*
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -2180,7 +2172,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRightPlusOrMinusExpressionParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
 		////expressions: relational operators 
-		//ComparisonExpression Expression:
+		// ComparisonExpression Expression:
 		//	PlusOrMinusExpression ({ComparisonExpression.left=current} op=(">=" | "<=" | ">" | "<") right=PlusOrMinusExpression)*
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -2236,7 +2228,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRightMulOrDivExpressionParserRuleCall_1_1_0 = (RuleCall)cRightAssignment_1_1.eContents().get(0);
 		
 		////expressions: addition and subtraction 
-		//PlusOrMinusExpression Expression:
+		// PlusOrMinusExpression Expression:
 		//	MulOrDivExpression (({PlusExpression.left=current} '+' | {MinusExpression.left=current} '-')
 		//	right=MulOrDivExpression)*
 		@Override public ParserRule getRule() { return rule; }
@@ -2291,7 +2283,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRightPrimaryExpressionParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
 		////expressions: multiplication and division
-		//MulOrDivExpression Expression:
+		// MulOrDivExpression Expression:
 		//	PrimaryExpression ({MulOrDivExpression.left=current} op=('*' | '/') right=PrimaryExpression)*
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -2342,7 +2334,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAtomicExpressionParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		////expressions: brackets and NOT
-		//PrimaryExpression Expression:
+		// PrimaryExpression Expression:
 		//	{BracketExpression} '(' expression=Expression ')' | {NotExpression} "!" expression=PrimaryExpression |
 		//	AtomicExpression
 		@Override public ParserRule getRule() { return rule; }
@@ -2433,7 +2425,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cValueEBooleanParserRuleCall_7_1_0 = (RuleCall)cValueAssignment_7_1.eContents().get(0);
 		
 		////expressions: atomic values
-		//AtomicExpression Expression:
+		// AtomicExpression Expression:
 		//	{ParameterValue} value=[Parameter] | {JavaClassValue} value=EString '(' (javaParameter+=Expression (','
 		//	javaParameter+=Expression)*)? ')' | {JavaAttributeValue} value=JavaAttribute | {StringValue} value=STRING |
 		//	{NumberValue} value=DECIMAL | {IntegerValue} value=NEGATIVE | {NaturalValue} value=INT | {BoolValue} value=EBoolean
@@ -2761,11 +2753,10 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 		//enum Type:
 		//	eBigDecimal='EBigDecimal' | eBigInteger='EBigInteger' | eBoolean='EBoolean' | eBooleanObject='EBooleanObject' |
 		//	eByte='EByte' | eByteArray='EByteArray' | eByteObject='EByteObject' | eChar='EChar' |
-		//	eCharacterObject='ECharacterObject' |
-		//	eDate='EDate' | eDiagnosticChain='EDiagnosticChain' | eDouble='EDouble' | eDoubleObject='EDoubleObject' |
-		//	eEList='EEList' |
-		//	eEnumerator='EEnumerator' | eFeatureMap='EFeatureMap' | eFeatureMapEntry='EFeatureMapEntry' | eFloat='EFloat' |
-		//	eFloatObject='EFloatObject' | eInt='EInt' | eIntegerObject='EIntegerObject' | eTreeIterator='ETreeIterator' |
+		//	eCharacterObject='ECharacterObject' | eDate='EDate' | eDiagnosticChain='EDiagnosticChain' | eDouble='EDouble' |
+		//	eDoubleObject='EDoubleObject' | eEList='EEList' | eEnumerator='EEnumerator' | eFeatureMap='EFeatureMap' |
+		//	eFeatureMapEntry='EFeatureMapEntry' | eFloat='EFloat' | eFloatObject='EFloatObject' | eInt='EInt' |
+		//	eIntegerObject='EIntegerObject' | eTreeIterator='ETreeIterator' |
 		//	eInvocationTargetException='EInvocationTargetException' | eJavaClass='EJavaClass' | eJavaObject='EJavaObject' |
 		//	eLong='ELong' | eLongObject='ELongObject' | eMap='EMap' | eResource='EResource' | eResourceSet='EResourceSet' |
 		//	eShort='EShort' | eShortObject='EShortObject' | eString='EString';
@@ -3143,9 +3134,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	////main element
-	//Model:
-	//	ePackageimports+=EPackageImport+
-	//	transformationsystem+=ModelElement*;
+	// Model:
+	//	ePackageimports+=EPackageImport+ transformationsystem+=ModelElement*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -3155,7 +3145,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////EPackage import
-	//EPackageImport:
+	// EPackageImport:
 	//	'ePackageImport' ref=[ecore::EPackage|EString];
 	public EPackageImportElements getEPackageImportAccess() {
 		return pEPackageImport;
@@ -3176,11 +3166,10 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////rule and unit definition
-	//ModelElement:
-	//	'rule' {Rule} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{' ruleElements+=RuleElement+ '}'
-	//	|
-	//	'unit' {Unit} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{' unitElements+=UnitElement+
-	//	'}';
+	// ModelElement:
+	//	'rule' {Rule} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{' ruleElements+=RuleElement+
+	//	'}' | 'unit' {Unit} name=ID '(' (parameters+=Parameter (',' parameters+=Parameter)*)? ')' '{'
+	//	unitElements+=UnitElement+ '}';
 	public ModelElementElements getModelElementAccess() {
 		return pModelElement;
 	}
@@ -3190,7 +3179,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////rule elements
-	//RuleElement:
+	// RuleElement:
 	//	JavaImport | CheckDangling | InjectiveMatching | Conditions | Graph;
 	public RuleElementElements getRuleElementAccess() {
 		return pRuleElement;
@@ -3201,7 +3190,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////Java class import
-	//JavaImport:
+	// JavaImport:
 	//	'javaImport' packagename=EString;
 	public JavaImportElements getJavaImportAccess() {
 		return pJavaImport;
@@ -3212,7 +3201,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////option CheckDangling  
-	//CheckDangling:
+	// CheckDangling:
 	//	'checkDangling' checkDangling=EBoolean;
 	public CheckDanglingElements getCheckDanglingAccess() {
 		return pCheckDangling;
@@ -3223,7 +3212,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////option InjectiveMatching
-	//InjectiveMatching:
+	// InjectiveMatching:
 	//	'injectiveMatching' injectiveMatching=EBoolean;
 	public InjectiveMatchingElements getInjectiveMatchingAccess() {
 		return pInjectiveMatching;
@@ -3234,7 +3223,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////Conditions (henshin:attributeCondition) 
-	//Conditions:
+	// Conditions:
 	//	'conditions' '[' attributeConditions+=Expression ("," attributeConditions+=Expression)* ']';
 	public ConditionsElements getConditionsAccess() {
 		return pConditions;
@@ -3245,9 +3234,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////transformation graph
-	//Graph:
-	//	{Graph}
-	//	'graph' '{' graphElements+=GraphElements* '}';
+	// Graph:
+	//	{Graph} 'graph' '{' graphElements+=GraphElements* '}';
 	public GraphElements getGraphAccess() {
 		return pGraph;
 	}
@@ -3257,7 +3245,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////marks for nodes and edges (default:preserve)
-	//ActionType:
+	// ActionType:
 	//	'preserve' | 'create' | 'delete' | 'forbid' | 'require';
 	public ActionTypeElements getActionTypeAccess() {
 		return pActionType;
@@ -3268,7 +3256,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////transformation graph elements
-	//GraphElements:
+	// GraphElements:
 	//	Edges | Node | Formula | MultiRule | MultiRuleReuseNode;
 	public GraphElementsElements getGraphElementsAccess() {
 		return pGraphElements;
@@ -3279,7 +3267,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////list of transformation graph edges
-	//Edges:
+	// Edges:
 	//	'edges' '[' edges+=Edge (',' edges+=Edge)* ']';
 	public EdgesElements getEdgesAccess() {
 		return pEdges;
@@ -3290,7 +3278,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////transformation graph edge (default:preserve)
-	//Edge:
+	// Edge:
 	//	'(' actiontype=ActionType? source=[RuleNodeTypes] '->' target=[RuleNodeTypes] ':' type=[ecore::EReference|EString]
 	//	')';
 	public EdgeElements getEdgeAccess() {
@@ -3302,7 +3290,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////node types (Edge definition)
-	//RuleNodeTypes:
+	// RuleNodeTypes:
 	//	Node | MultiRuleReuseNode;
 	public RuleNodeTypesElements getRuleNodeTypesAccess() {
 		return pRuleNodeTypes;
@@ -3313,7 +3301,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////transformation graph node
-	//Node:
+	// Node:
 	//	actiontype=ActionType? 'node' name=ID ':' nodetype=[ecore::EClass|EString] ('{' attribute+=Attribute* '}')?;
 	public NodeElements getNodeAccess() {
 		return pNode;
@@ -3324,7 +3312,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////reused transformation graph node (see documentation:MultiRule)
-	//MultiRuleReuseNode:
+	// MultiRuleReuseNode:
 	//	'reuse' name=[Node] ('{' attribute+=Attribute* '}')?;
 	public MultiRuleReuseNodeElements getMultiRuleReuseNodeAccess() {
 		return pMultiRuleReuseNode;
@@ -3335,7 +3323,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////transformation graph node attribute
-	//Attribute:
+	// Attribute:
 	//	actiontype=ActionType? name=[ecore::EAttribute|EString] '=' value=Expression | update='set'
 	//	name=[ecore::EAttribute|EString] '=' value=Expression;
 	public AttributeElements getAttributeAccess() {
@@ -3347,7 +3335,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////multi-rule (amalgamation)
-	//MultiRule:
+	// MultiRule:
 	//	'multiRule' name=ID '{' multiruleElements+=RuleElement+ '}';
 	public MultiRuleElements getMultiRuleAccess() {
 		return pMultiRule;
@@ -3358,11 +3346,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////formula
-	//Formula:
-	//	'matchingFormula' '{'
-	//	'formula' formula=Logic
-	//	conditionGraphs+=ConditionGraph+
-	//	'}';
+	// Formula:
+	//	'matchingFormula' '{' 'formula' formula=Logic conditionGraphs+=ConditionGraph+ '}';
 	public FormulaElements getFormulaAccess() {
 		return pFormula;
 	}
@@ -3372,7 +3357,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////logical expressions
-	//Logic:
+	// Logic:
 	//	ORorXOR;
 	public LogicElements getLogicAccess() {
 		return pLogic;
@@ -3383,7 +3368,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////logical expressions: OR and XOR
-	//ORorXOR Logic:
+	// ORorXOR Logic:
 	//	AND ({ORorXOR.left=current} op=('OR' | 'XOR') right=AND)*
 	public ORorXORElements getORorXORAccess() {
 		return pORorXOR;
@@ -3394,7 +3379,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////logical expressions: AND
-	//AND Logic:
+	// AND Logic:
 	//	Primary ({AND.left=current} 'AND' right=Primary)*
 	public ANDElements getANDAccess() {
 		return pAND;
@@ -3405,7 +3390,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////logical expressions: brackets and NOT
-	//Primary Logic:
+	// Primary Logic:
 	//	'(' Logic ')' | {Not} '!' negation=Primary | Atomic
 	public PrimaryElements getPrimaryAccess() {
 		return pPrimary;
@@ -3416,7 +3401,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////logical expressions: atomic value
-	//Atomic Logic:
+	// Atomic Logic:
 	//	{ConditionGraphRef} conditionGraphRef=[ConditionGraph]
 	public AtomicElements getAtomicAccess() {
 		return pAtomic;
@@ -3427,7 +3412,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////conditionGraph
-	//ConditionGraph:
+	// ConditionGraph:
 	//	'conditionGraph' name=ID '{' conditionGraphElements+=ConditionGraphElements* '}';
 	public ConditionGraphElements getConditionGraphAccess() {
 		return pConditionGraph;
@@ -3438,7 +3423,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////conditionGraph elements
-	//ConditionGraphElements:
+	// ConditionGraphElements:
 	//	ConditionEdges | ConditionNode | Formula | ConditionReuseNode;
 	public ConditionGraphElementsElements getConditionGraphElementsAccess() {
 		return pConditionGraphElements;
@@ -3449,7 +3434,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////list of conditionGraph edges
-	//ConditionEdges:
+	// ConditionEdges:
 	//	'edges' '[' edges+=ConditionEdge ("," edges+=ConditionEdge)* ']';
 	public ConditionEdgesElements getConditionEdgesAccess() {
 		return pConditionEdges;
@@ -3460,7 +3445,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////conditionGraph edge
-	//ConditionEdge:
+	// ConditionEdge:
 	//	'(' source=[ConditionNodeTypes] '->' target=[ConditionNodeTypes] ':' type=[ecore::EReference|EString] ')';
 	public ConditionEdgeElements getConditionEdgeAccess() {
 		return pConditionEdge;
@@ -3471,7 +3456,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////node types (ConditionEdge definition)
-	//ConditionNodeTypes:
+	// ConditionNodeTypes:
 	//	ConditionNode | Node;
 	public ConditionNodeTypesElements getConditionNodeTypesAccess() {
 		return pConditionNodeTypes;
@@ -3482,7 +3467,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////conditionGraph node
-	//ConditionNode:
+	// ConditionNode:
 	//	'node' name=ID ':' type=[ecore::EClass|EString] ('{' attribute+=Match* '}')?;
 	public ConditionNodeElements getConditionNodeAccess() {
 		return pConditionNode;
@@ -3493,7 +3478,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////reused conditionGraph node (see documentation:ConditionGraph)
-	//ConditionReuseNode:
+	// ConditionReuseNode:
 	//	'reuse' name=[ConditionNodeTypes] ('{' attribute+=Match* '}')?;
 	public ConditionReuseNodeElements getConditionReuseNodeAccess() {
 		return pConditionReuseNode;
@@ -3504,7 +3489,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////conditionGraph node attribute
-	//Match:
+	// Match:
 	//	name=[ecore::EAttribute|EString] '=' value=Expression;
 	public MatchElements getMatchAccess() {
 		return pMatch;
@@ -3515,9 +3500,9 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////unit elements
-	//UnitElement:
-	//	{Call} elementCall=[ModelElement] '(' (parameters+=[Parameter] (',' parameters+=[Parameter])*)? ')' |
-	//	'{' subSequence+=UnitElement+ '}' | SequentialProperties | IndependentUnit | ConditionalUnit | PriorityUnit |
+	// UnitElement:
+	//	{Call} elementCall=[ModelElement] '(' (parameters+=[Parameter] (',' parameters+=[Parameter])*)? ')' | '{'
+	//	subSequence+=UnitElement+ '}' | SequentialProperties | IndependentUnit | ConditionalUnit | PriorityUnit |
 	//	IteratedUnit | LoopUnit;
 	public UnitElementElements getUnitElementAccess() {
 		return pUnitElement;
@@ -3528,7 +3513,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////sequentialUnit properties
-	//SequentialProperties:
+	// SequentialProperties:
 	//	Strict | Rollback;
 	public SequentialPropertiesElements getSequentialPropertiesAccess() {
 		return pSequentialProperties;
@@ -3539,7 +3524,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////option Strict
-	//Strict:
+	// Strict:
 	//	'strict' strict=EBoolean;
 	public StrictElements getStrictAccess() {
 		return pStrict;
@@ -3550,7 +3535,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////option Rollback
-	//Rollback:
+	// Rollback:
 	//	'rollback' rollback=EBoolean;
 	public RollbackElements getRollbackAccess() {
 		return pRollback;
@@ -3561,7 +3546,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////list of unit elements
-	//List:
+	// List:
 	//	subElements+=UnitElement+;
 	public ListElements getListAccess() {
 		return pList;
@@ -3572,7 +3557,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////independentUnit
-	//IndependentUnit:
+	// IndependentUnit:
 	//	'independent' '[' listOfLists+=List (',' listOfLists+=List)* ']';
 	public IndependentUnitElements getIndependentUnitAccess() {
 		return pIndependentUnit;
@@ -3583,9 +3568,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////conditionalUnit
-	//ConditionalUnit:
-	//	'if' '(' if+=UnitElement+ ')'
-	//	'then' '{' then+=UnitElement+ '}' ('else' '{' else+=UnitElement+ '}')?;
+	// ConditionalUnit:
+	//	'if' '(' if+=UnitElement+ ')' 'then' '{' then+=UnitElement+ '}' ('else' '{' else+=UnitElement+ '}')?;
 	public ConditionalUnitElements getConditionalUnitAccess() {
 		return pConditionalUnit;
 	}
@@ -3595,7 +3579,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////priorityUnit
-	//PriorityUnit:
+	// PriorityUnit:
 	//	'priority' '[' listOfLists+=List (',' listOfLists+=List)* ']';
 	public PriorityUnitElements getPriorityUnitAccess() {
 		return pPriorityUnit;
@@ -3606,9 +3590,8 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////iteratedUnit
-	//IteratedUnit:
-	//	{IteratedUnit}
-	//	'for' '(' iterations=Expression ')' '{' subElement+=UnitElement+ '}';
+	// IteratedUnit:
+	//	{IteratedUnit} 'for' '(' iterations=Expression ')' '{' subElement+=UnitElement+ '}';
 	public IteratedUnitElements getIteratedUnitAccess() {
 		return pIteratedUnit;
 	}
@@ -3618,7 +3601,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////loopUnit
-	//LoopUnit:
+	// LoopUnit:
 	//	'while' '{' subElement+=UnitElement+ '}';
 	public LoopUnitElements getLoopUnitAccess() {
 		return pLoopUnit;
@@ -3629,7 +3612,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////parameter
-	//Parameter:
+	// Parameter:
 	//	kind=ParameterKindRule? name=ID ':' type=ParameterType;
 	public ParameterElements getParameterAccess() {
 		return pParameter;
@@ -3660,7 +3643,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////parameter types
-	//ParameterType:
+	// ParameterType:
 	//	enumType=Type | type=[ecore::EClass|EString];
 	public ParameterTypeElements getParameterTypeAccess() {
 		return pParameterType;
@@ -3673,11 +3656,10 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	//enum Type:
 	//	eBigDecimal='EBigDecimal' | eBigInteger='EBigInteger' | eBoolean='EBoolean' | eBooleanObject='EBooleanObject' |
 	//	eByte='EByte' | eByteArray='EByteArray' | eByteObject='EByteObject' | eChar='EChar' |
-	//	eCharacterObject='ECharacterObject' |
-	//	eDate='EDate' | eDiagnosticChain='EDiagnosticChain' | eDouble='EDouble' | eDoubleObject='EDoubleObject' |
-	//	eEList='EEList' |
-	//	eEnumerator='EEnumerator' | eFeatureMap='EFeatureMap' | eFeatureMapEntry='EFeatureMapEntry' | eFloat='EFloat' |
-	//	eFloatObject='EFloatObject' | eInt='EInt' | eIntegerObject='EIntegerObject' | eTreeIterator='ETreeIterator' |
+	//	eCharacterObject='ECharacterObject' | eDate='EDate' | eDiagnosticChain='EDiagnosticChain' | eDouble='EDouble' |
+	//	eDoubleObject='EDoubleObject' | eEList='EEList' | eEnumerator='EEnumerator' | eFeatureMap='EFeatureMap' |
+	//	eFeatureMapEntry='EFeatureMapEntry' | eFloat='EFloat' | eFloatObject='EFloatObject' | eInt='EInt' |
+	//	eIntegerObject='EIntegerObject' | eTreeIterator='ETreeIterator' |
 	//	eInvocationTargetException='EInvocationTargetException' | eJavaClass='EJavaClass' | eJavaObject='EJavaObject' |
 	//	eLong='ELong' | eLongObject='ELongObject' | eMap='EMap' | eResource='EResource' | eResourceSet='EResourceSet' |
 	//	eShort='EShort' | eShortObject='EShortObject' | eString='EString';
@@ -3702,7 +3684,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////boolean
-	//EBoolean ecore::EBoolean:
+	// EBoolean ecore::EBoolean:
 	//	'true' | 'false'
 	public EBooleanElements getEBooleanAccess() {
 		return pEBoolean;
@@ -3713,7 +3695,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions
-	//Expression:
+	// Expression:
 	//	OrExpression;
 	public ExpressionElements getExpressionAccess() {
 		return pExpression;
@@ -3724,7 +3706,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions: OR
-	//OrExpression Expression:
+	// OrExpression Expression:
 	//	AndExpression ({OrExpression.left=current} "OR" right=AndExpression)*
 	public OrExpressionElements getOrExpressionAccess() {
 		return pOrExpression;
@@ -3735,7 +3717,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions: AND
-	//AndExpression Expression:
+	// AndExpression Expression:
 	//	EqualityExpression ({AndExpression.left=current} "AND" right=EqualityExpression)*
 	public AndExpressionElements getAndExpressionAccess() {
 		return pAndExpression;
@@ -3746,7 +3728,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions: equal and not equal  
-	//EqualityExpression Expression:
+	// EqualityExpression Expression:
 	//	ComparisonExpression ({EqualityExpression.left=current} op=("==" | "!=") right=ComparisonExpression)*
 	public EqualityExpressionElements getEqualityExpressionAccess() {
 		return pEqualityExpression;
@@ -3757,7 +3739,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions: relational operators 
-	//ComparisonExpression Expression:
+	// ComparisonExpression Expression:
 	//	PlusOrMinusExpression ({ComparisonExpression.left=current} op=(">=" | "<=" | ">" | "<") right=PlusOrMinusExpression)*
 	public ComparisonExpressionElements getComparisonExpressionAccess() {
 		return pComparisonExpression;
@@ -3768,7 +3750,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions: addition and subtraction 
-	//PlusOrMinusExpression Expression:
+	// PlusOrMinusExpression Expression:
 	//	MulOrDivExpression (({PlusExpression.left=current} '+' | {MinusExpression.left=current} '-')
 	//	right=MulOrDivExpression)*
 	public PlusOrMinusExpressionElements getPlusOrMinusExpressionAccess() {
@@ -3780,7 +3762,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions: multiplication and division
-	//MulOrDivExpression Expression:
+	// MulOrDivExpression Expression:
 	//	PrimaryExpression ({MulOrDivExpression.left=current} op=('*' | '/') right=PrimaryExpression)*
 	public MulOrDivExpressionElements getMulOrDivExpressionAccess() {
 		return pMulOrDivExpression;
@@ -3791,7 +3773,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions: brackets and NOT
-	//PrimaryExpression Expression:
+	// PrimaryExpression Expression:
 	//	{BracketExpression} '(' expression=Expression ')' | {NotExpression} "!" expression=PrimaryExpression |
 	//	AtomicExpression
 	public PrimaryExpressionElements getPrimaryExpressionAccess() {
@@ -3803,7 +3785,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	////expressions: atomic values
-	//AtomicExpression Expression:
+	// AtomicExpression Expression:
 	//	{ParameterValue} value=[Parameter] | {JavaClassValue} value=EString '(' (javaParameter+=Expression (','
 	//	javaParameter+=Expression)*)? ')' | {JavaAttributeValue} value=JavaAttribute | {StringValue} value=STRING |
 	//	{NumberValue} value=DECIMAL | {IntegerValue} value=NEGATIVE | {NaturalValue} value=INT | {BoolValue} value=EBoolean
@@ -3838,8 +3820,7 @@ public class Henshin_textGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//terminal STRING:
-	//	'"' ('\\' . | !('\\' | '"'))* '"' |
-	//	"'" ('\\' . | !('\\' | "'"))* "'";
+	//	'"' ('\\' . | !('\\' | '"'))* '"' | "'" ('\\' . | !('\\' | "'"))* "'";
 	public TerminalRule getSTRINGRule() {
 		return gaTerminals.getSTRINGRule();
 	}
