@@ -30,9 +30,24 @@
     <module>p2updatesite</module>
   </modules>
 
+ <pluginRepositories>
+ 	<pluginRepository>
+ 		<id>cbi-jdt</id>
+ 		<url>${cbi-jdt-repo.url}</url>
+ 		<releases>
+ 			<enabled>true</enabled>
+ 		</releases>
+ 		<snapshots>
+ 			<enabled>true</enabled>
+ 		</snapshots>
+ 	</pluginRepository>
+ </pluginRepositories>
+
   <properties>
     <tycho-version>0.20.0</tycho-version>
     <tycho-extras-version>0.20.0</tycho-extras-version>
+    <cbi-jdt-repo.url>https://repo.eclipse.org/content/repositories/eclipse-staging/</cbi-jdt-repo.url>
+    <cbi-jdt-version>3.14.0.v20171025-0549</cbi-jdt-version>
   </properties>
 
   <repositories>
@@ -62,6 +77,13 @@
         <artifactId>tycho-maven-plugin</artifactId>
         <version>${tycho-version}</version>
         <extensions>true</extensions>
+        <dependencies>
+        	<dependency>
+        		<groupId>org.eclipse.jdt</groupId>
+        		<artifactId>org.eclipse.jdt.core</artifactId>
+        		<version>${cbi-jdt-version}</version>
+        	</dependency>
+        </dependencies>
       </plugin>
       
       <plugin>
