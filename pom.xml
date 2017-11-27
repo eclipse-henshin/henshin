@@ -1,127 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.eclipse.emf.henshin</groupId>
-	<artifactId>parent</artifactId>
-	<version>1.5.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<modules>
-		<module>plugins/org.eclipse.emf.henshin.diagram</module>
-		<module>plugins/org.eclipse.emf.henshin.edit</module>
-		<module>plugins/org.eclipse.emf.henshin.editor</module>
-		<module>plugins/org.eclipse.emf.henshin.examples</module>
-		<module>plugins/org.eclipse.emf.henshin.giraph</module>
-		<module>plugins/org.eclipse.emf.henshin.interpreter</module>
-		<module>plugins/org.eclipse.emf.henshin.interpreter.ui</module>
-		<module>plugins/org.eclipse.emf.henshin.model</module>
-		<module>plugins/org.eclipse.emf.henshin.statespace</module>
-		<module>plugins/org.eclipse.emf.henshin.statespace.explorer</module>
-		<module>plugins/org.eclipse.emf.henshin.statespace.external</module>
-		<module>plugins/org.eclipse.emf.henshin.cpa</module>
-		<module>plugins/org.eclipse.emf.henshin.cpa.ui</module>
-		<module>plugins/org.eclipse.emf.henshin.trace</module>
-		<module>plugins/org.eclipse.emf.henshin.wrap</module>
-		<module>plugins/org.eclipse.emf.henshin.tests</module>
-		<module>plugins/org.eclipse.emf.henshin.text</module>
-		<module>plugins/org.eclipse.emf.henshin.text.ide</module>
-		<module>plugins/org.eclipse.emf.henshin.text.transformation</module>
-		<module>features/org.eclipse.emf.henshin.sdk</module>
-		<module>p2updatesite</module>
-	</modules>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.emf.henshin</groupId>
+  <artifactId>parent</artifactId>
+  <version>1.5.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>plugins/org.eclipse.emf.henshin.diagram</module>
+    <module>plugins/org.eclipse.emf.henshin.edit</module>
+    <module>plugins/org.eclipse.emf.henshin.editor</module>
+    <module>plugins/org.eclipse.emf.henshin.examples</module>
+    <module>plugins/org.eclipse.emf.henshin.giraph</module>
+    <module>plugins/org.eclipse.emf.henshin.interpreter</module>
+    <module>plugins/org.eclipse.emf.henshin.interpreter.ui</module>
+    <module>plugins/org.eclipse.emf.henshin.model</module>
+    <module>plugins/org.eclipse.emf.henshin.statespace</module>
+    <module>plugins/org.eclipse.emf.henshin.statespace.explorer</module>
+    <module>plugins/org.eclipse.emf.henshin.statespace.external</module>
+    <module>plugins/org.eclipse.emf.henshin.cpa</module>
+    <module>plugins/org.eclipse.emf.henshin.cpa.ui</module>
+    <module>plugins/org.eclipse.emf.henshin.trace</module>
+    <module>plugins/org.eclipse.emf.henshin.wrap</module>
+    <module>plugins/org.eclipse.emf.henshin.tests</module>
+    <module>plugins/org.eclipse.emf.henshin.text</module>
+    <module>plugins/org.eclipse.emf.henshin.text.ide</module>
+    <module>plugins/org.eclipse.emf.henshin.text.transformation</module>
+    <module>features/org.eclipse.emf.henshin.sdk</module>
+    <module>p2updatesite</module>
+  </modules>
 
-	<properties>
-		<tycho-version>0.20.0</tycho-version>
-		<tycho-extras-version>0.20.0</tycho-extras-version>
-		<cbi-jdt-repo.url>https://repo.eclipse.org/content/repositories/eclipse-staging/</cbi-jdt-repo.url>
-		<cbi-jdt-version>3.14.0.v20171025-0549</cbi-jdt-version>
+  <properties>
+    <tycho-version>0.23.0</tycho-version>
+    <tycho-extras-version>0.23.0</tycho-extras-version>
+  </properties>
 
-	</properties>
+  <repositories>
+   <repository>
+     <id>luna</id>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/releases/luna</url>
+   </repository>
+   <repository>
+     <id>eclipse-orbit</id>
+     <name>eclipse orbit for AGG</name>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</url>
+   </repository>
+   <repository>
+     <id>xtext</id>
+     <name>xtext for textual syntax</name>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
+   </repository>
+  </repositories>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>cbi-jdt</id>
-			<url>${cbi-jdt-repo.url}</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
-
-	<repositories>
-		<repository>
-			<id>luna</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/luna</url>
-		</repository>
-		<repository>
-			<id>eclipse-orbit</id>
-			<name>eclipse orbit for AGG</name>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</url>
-		</repository>
-		<repository>
-			<id>xtext</id>
-			<name>xtext for textual syntax</name>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
-		</repository>
-	</repositories>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
-
-				<configuration>
-					<pomDependencies>consider</pomDependencies>
-				</configuration>
-				<extensions>true</extensions>
-			</plugin>
-
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration><!--<encoding>UTF-8</encoding> -->
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-compiler-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.eclipse.jdt</groupId>
-						<artifactId>org.eclipse.jdt.core</artifactId>
-						<version>${cbi-jdt-version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-source-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<executions>
-					<execution>
-						<id>plugin-source</id>
-						<goals>
-							<goal>plugin-source</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      
+      <plugin>
+         <groupId>org.eclipse.tycho</groupId>
+         <artifactId>tycho-source-plugin</artifactId>
+         <version>${tycho-version}</version>
+         <executions>
+           <execution>
+             <id>plugin-source</id>
+             <goals>
+               <goal>plugin-source</goal>
+             </goals>
+           </execution>
+         </executions>
+       </plugin>
+    </plugins>
+  </build>
 
 </project>
