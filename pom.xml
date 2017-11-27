@@ -31,8 +31,8 @@
   </modules>
 
   <properties>
-    <tycho-version>0.23.0</tycho-version>
-    <tycho-extras-version>0.23.0</tycho-extras-version>
+    <tycho-version>1.0.0</tycho-version>
+    <tycho-extras-version>1.0.0</tycho-extras-version>
   </properties>
 
   <repositories>
