@@ -67,6 +67,7 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.emf.compare.ide" version="3.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare.ide.ui" version="3.0.0" match="greaterOrEqual"/>
       <import plugin="de.tuberlin.eecs.agg"/>
+      <import plugin="org.eclipse.gmf.tooling.runtime"/>
    </requires>
 
    <plugin
@@ -195,6 +196,14 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="de.tuberlin.eecs.agg"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+         
+   <plugin
+         id="org.eclipse.gmf.tooling.runtime"
          download-size="0"
          install-size="0"
          version="0.0.0"
