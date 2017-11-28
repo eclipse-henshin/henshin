@@ -29,6 +29,7 @@
             <labelSuffix xml:space="preserve"> Sources</labelSuffix>
             <excludes>
               <plugin id="de.tuberlin.eecs.agg"/>
+              <plugin id="org.eclipse.emf.henshin.text.transformation"/>
             </excludes>
          </configuration>
         </execution>

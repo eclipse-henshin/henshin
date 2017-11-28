@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="Running Platform" sequenceNumber="13">
+<locations>
+<location path="${eclipse_home}" type="Profile"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="de.tuberlin.eecs.agg" version="2.1.0.v201512080800"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.gmf.tooling.runtime.feature.group" version="3.2.1.201502182128"/>
+<unit id="org.eclipse.m2e.feature.feature.group" version="1.5.1.20150109-1820"/>
+<unit id="org.eclipse.emf.compare.feature.group" version="3.0.2.201501201328"/>
+<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.0.2.201501201328"/>
+<unit id="org.eclipse.pde.feature.group" version="3.10.1.v20150204-1700"/>
+<unit id="org.eclipse.papyrus.sdk.feature.feature.group" version="1.0.2.v201502181349"/>
+<unit id="org.eclipse.emf.compare.source.feature.group" version="3.0.2.201501201328"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.10.2.v20150204-1316"/>
+<unit id="org.eclipse.gmf.feature.group" version="1.8.1.201408201453"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.10.2.v20150123-0452"/>
+<unit id="org.eclipse.ocl.all.sdk.feature.group" version="5.0.2.v20141027-1335"/>
+<unit id="org.eclipse.emf.query.sdk.feature.group" version="1.8.0.201405281426"/>
+<repository location="http://download.eclipse.org/releases/luna"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.xtend.sdk.feature.group" version="2.13.0.v20171020-0920"/>
+<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
+</location>
+</locations>
+<environment>
+<os>win32</os>
+<ws>win32</ws>
+<arch>x86_64</arch>
+<nl>de_DE</nl>
+</environment>
+</target>
