@@ -194,6 +194,13 @@ http://www.eclipse.org/legal/epl-v10.html
          download-size="0"
          install-size="0"
          version="1.5.0.qualifier"/>
+         
+   <plugin
+         id="org.eclipse.emf.henshin.text.ui"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.qualifier"
+         unpack="false"/>
 
    <plugin
          id="de.tuberlin.eecs.agg"

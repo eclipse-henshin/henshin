@@ -26,6 +26,7 @@
 		<module>plugins/org.eclipse.emf.henshin.text</module>
 		<module>plugins/org.eclipse.emf.henshin.text.ide</module>
 		<module>plugins/org.eclipse.emf.henshin.text.transformation</module>
+		<module>plugins/org.eclipse.emf.henshin.text.ui</module>
 		<module>features/org.eclipse.emf.henshin.sdk</module>
 		<module>releng/org.eclipse.emf.henshin.target</module>
 		<module>p2updatesite</module>
