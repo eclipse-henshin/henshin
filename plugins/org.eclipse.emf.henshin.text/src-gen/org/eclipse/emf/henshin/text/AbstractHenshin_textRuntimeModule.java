@@ -7,6 +7,9 @@ import com.google.inject.Binder;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import java.util.Properties;
+
+import javax.annotation.Generated;
+
 import org.eclipse.emf.henshin.text.formatting2.Henshin_textFormatter;
 import org.eclipse.emf.henshin.text.generator.Henshin_textGenerator;
 import org.eclipse.emf.henshin.text.parser.antlr.Henshin_textAntlrTokenFileProvider;
@@ -206,4 +209,8 @@ public abstract class AbstractHenshin_textRuntimeModule extends DefaultRuntimeMo
 		binder.bind(IPreferenceValuesProvider.class).annotatedWith(FormatterPreferences.class).to(FormatterPreferenceValuesProvider.class);
 	}
 	
+	@Override
+	public void configureSerializerIScopeProvider(Binder binder) {
+	binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class).annotatedWith(org.eclipse.xtext.serializer.tokens.SerializerScopeProviderBinding.class).to(Henshin_textScopeProvider.class);
+	}
 }
