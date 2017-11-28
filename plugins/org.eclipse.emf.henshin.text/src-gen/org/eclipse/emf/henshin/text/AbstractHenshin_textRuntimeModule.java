@@ -15,6 +15,7 @@ import org.eclipse.emf.henshin.text.generator.Henshin_textGenerator;
 import org.eclipse.emf.henshin.text.parser.antlr.Henshin_textAntlrTokenFileProvider;
 import org.eclipse.emf.henshin.text.parser.antlr.Henshin_textParser;
 import org.eclipse.emf.henshin.text.parser.antlr.internal.InternalHenshin_textLexer;
+import org.eclipse.emf.henshin.text.scoping.Henshin_textImportedNamespaceAwareLocalScopeProvider;
 import org.eclipse.emf.henshin.text.scoping.Henshin_textScopeProvider;
 import org.eclipse.emf.henshin.text.serializer.Henshin_textSemanticSequencer;
 import org.eclipse.emf.henshin.text.serializer.Henshin_textSyntacticSequencer;
@@ -151,7 +152,7 @@ public abstract class AbstractHenshin_textRuntimeModule extends DefaultRuntimeMo
 	
 	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
 	public Class<? extends IScopeProvider> bindIScopeProvider() {
-		return Henshin_textScopeProvider.class;
+		return Henshin_textImportedNamespaceAwareLocalScopeProvider.class;
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
@@ -211,6 +212,6 @@ public abstract class AbstractHenshin_textRuntimeModule extends DefaultRuntimeMo
 	
 	@Override
 	public void configureSerializerIScopeProvider(Binder binder) {
-	binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class).annotatedWith(org.eclipse.xtext.serializer.tokens.SerializerScopeProviderBinding.class).to(Henshin_textScopeProvider.class);
+	binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class).annotatedWith(org.eclipse.xtext.serializer.tokens.SerializerScopeProviderBinding.class).to(Henshin_textImportedNamespaceAwareLocalScopeProvider.class);
 	}
 }
