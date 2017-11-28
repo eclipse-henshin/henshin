@@ -30,6 +30,7 @@
             <excludes>
               <plugin id="de.tuberlin.eecs.agg"/>
               <plugin id="org.eclipse.emf.henshin.text.transformation"/>
+              <plugin id="org.eclipse.gmf.tooling.runtime"/>
             </excludes>
          </configuration>
         </execution>
