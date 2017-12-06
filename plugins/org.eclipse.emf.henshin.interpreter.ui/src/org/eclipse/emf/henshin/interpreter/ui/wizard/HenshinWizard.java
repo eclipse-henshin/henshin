@@ -294,6 +294,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	}
 
 	private class MyCompareAction extends CompareAction {
+		@Override
 		public void run(ISelection selection) {
 			if (super.isEnabled(selection)) {
 				super.run(selection);

@@ -240,5 +240,9 @@ public class ReferenceConstraint implements BinaryConstraint {
 
 		return entry;
 	}
+
+	public EReference getReference() {
+		return reference;
+	}
 	
 }

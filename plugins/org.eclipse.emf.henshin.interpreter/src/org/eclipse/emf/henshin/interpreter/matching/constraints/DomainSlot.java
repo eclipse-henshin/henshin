@@ -143,115 +143,63 @@ public class DomainSlot {
 	 */
 	public boolean instantiate(Variable variable, Map<Variable, DomainSlot> domainMap, EGraph graph) {
 		
-		// Initialize?
-		if (!initialized) {
-			initialized = true;
-			owner = variable;
-			
-			// If temporaryDomain is not null, there are BinaryConstraints restricting this slot's domain.
-			if (temporaryDomain != null) {
-				domain = new ArrayList<EObject>(temporaryDomain);
-			}
-			
-			// Set the domain:
-			variable.typeConstraint.initDomain(this, graph);
-			if (domain.isEmpty()) {
-				return false;
-			}
-			
-			// Non-deterministic matching?
-			if (!deterministic) {
-				Collections.shuffle(domain);
-			}
-			
-			// Injective matching?
-			if (injective) {
-				domain.removeAll(usedObjects);
-			}
+		if (!initialize(variable, graph)) {
+			return false;
 		}
 		
-		// Lock the slot?
-		if (!locked) {
-			if (domain.isEmpty()) {
-				return false;
-			}
-			if (inverseMatchingOrder) {
-				value = domain.remove(domain.size() - 1);
-			} else {
-				value = domain.remove(0);
-			}
-			usedObjects.add(value);
-			locked = true;
+		if (!setValueAndLock()) {
+			return false;
 		}
 		
 		// Check the variable?
 		if (!checkedVariables.contains(variable)) {
 			
-			// Check the type constraint:
-			if (!variable.typeConstraint.check(this)) {
+			if (!checkTypeConstraint(variable)) {
 				return false;
 			}
 			
 			// Check the dangling constraints:
 			if (dangling) {
-				for (DanglingConstraint constraint : variable.danglingConstraints) {
-					if (!constraint.postpone && !constraint.check(value, graph)) {
+				for (DanglingConstraint danglingConstraint : variable.danglingConstraints) {
+					if (!checkDanglingConstraint(danglingConstraint, graph)) {
 						return false;
 					}
 				}
 			}
 
 			// Check the attribute constraints:
-			for (AttributeConstraint constraint : variable.attributeConstraints) {
-				if (!constraint.isConstantValue) {
-					if (!conditionHandler.isSet((String) constraint.value)) {
-						initializedParameters.add((String) constraint.value);
-					}
-				}
-				if (!constraint.check(this)) {
+			for (AttributeConstraint attributeConstraint : variable.attributeConstraints) {
+				UnaryConstraint unaryUserConstraint = variable.attributeUserConstraints.get(attributeConstraint);
+				if (!checkAttributeConstraint(attributeConstraint, unaryUserConstraint)) {
 					return false;
-				}
-				UnaryConstraint unaryUserConstraint = variable.attributeUserConstraints.get(constraint);
-				if (unaryUserConstraint != null){
-					if (!unaryUserConstraint.check(this)){
-						return false;
-					}
 				}
 			}
 
 			// Check the containment constraints:
-			for (ContainmentConstraint constraint : variable.containmentConstraints) {
-				DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
-				if (!constraint.check(this, targetSlot)) {
+			for (ContainmentConstraint containmentConstraint : variable.containmentConstraints) {
+				if (!checkContainmentConstraint(containmentConstraint, domainMap)) {
 					return false;
 				}
 			}
 			
 			// Check the reference constraints:
-			for (ReferenceConstraint constraint : variable.referenceConstraints) {
-				DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
-				if (!constraint.check(this, targetSlot)) {
+			for (ReferenceConstraint referenceConstraint : variable.referenceConstraints) {
+				BinaryConstraint binaryUserConstraint = variable.binaryUserConstraints.get(referenceConstraint);
+				if (!checkReferenceConstraint(referenceConstraint, binaryUserConstraint, domainMap)) {
 					return false;
-				}
-				BinaryConstraint binaryUserConstraint = variable.binaryUserConstraints.get(constraint);
-				if (binaryUserConstraint != null){
-					if (!binaryUserConstraint.check(this, targetSlot)) {
-						return false;
-					}
 				}
 			}
 
 			// Check the path constraints:
-			for (PathConstraint constraint : variable.pathConstraints) {
-				DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
-				if (!constraint.check(this, targetSlot)) {
+			for (PathConstraint pathConstraint : variable.pathConstraints) {
+				if (!checkPathConstraint(pathConstraint, domainMap)) {
 					return false;
 				}
 			}
 
-			// Check the user constraints:
-			for (UnaryConstraint constraint : variable.userConstraints){
-				if (!constraint.check(this)) {
+			// Check the user constraints:			
+			for (UnaryConstraint userConstraint : variable.userConstraints) {
+				if (!checkUserConstraint(userConstraint)) {
 					return false;
 				}
 			}
@@ -382,8 +330,127 @@ public class DomainSlot {
 		this.usedObjects.add(value);
 		this.owner = null;
 	}
-	
+			
+	/**
+	 * Initializes the domain slot, i.e., sets the slot's owner and domain
+	 * under consideration of the {@link #deterministic} and {@link #injective} flags
+	 * @param variable the variable which uses this domain slot
+	 * @param graph the EGraph used to initialized this slot's domain
+	 * @return <code>true</code> if the initialization was successful
+	 */
+	public boolean initialize(Variable variable, EGraph graph) {
 		
+		// Already initialized?
+		if (initialized) {
+			return true;
+		}
+
+		initialized = true;
+		owner = variable;
+		
+		// If temporaryDomain is not null, there are BinaryConstraints restricting this slot's domain.
+		if (temporaryDomain != null) {
+			domain = new ArrayList<EObject>(temporaryDomain);
+		}
+		
+		// Set the domain:
+		variable.typeConstraint.initDomain(this, graph);
+		if (domain.isEmpty()) {
+			return false;
+		}
+		
+		// Non-deterministic matching?
+		if (!deterministic) {
+			Collections.shuffle(domain);
+		}
+		
+		// Injective matching?
+		if (injective) {
+			domain.removeAll(usedObjects);
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Tries to set the domainSlot's value and lock the domainSlot.
+	 * has no effect if the slot is already locked.
+	 * @return <code>true</code> if the slot is now (or already was) locked,
+	 * <code>false</code> if the slot could not be locked.
+	 */
+	public boolean setValueAndLock() {
+		// Slot already locked?
+		if (locked) {
+			return true;
+		}
+
+		if (domain.isEmpty()) {
+			return false;
+		}
+		if (inverseMatchingOrder) {
+			value = domain.remove(domain.size() - 1);
+		} else {
+			value = domain.remove(0);
+		}
+		usedObjects.add(value);
+		locked = true;
+		return true;
+	}
+	
+	public boolean checkTypeConstraint(Variable variable) {
+		return variable.typeConstraint.check(this);
+	}
+	
+	public boolean checkDanglingConstraint(DanglingConstraint constraint, EGraph graph) {
+		return (constraint.postpone || constraint.check(value, graph));
+	}
+	
+	public boolean checkAttributeConstraint(AttributeConstraint constraint, UnaryConstraint unaryUserConstraint) {
+		if (!constraint.isConstantValue) {
+			if (!conditionHandler.isSet((String) constraint.value)) {
+				initializedParameters.add((String) constraint.value);
+			}
+		}
+		if (!constraint.check(this)) {
+			return false;
+		}
+		if (unaryUserConstraint != null){
+			if (!unaryUserConstraint.check(this)){
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean checkContainmentConstraint(ContainmentConstraint constraint, Map<Variable, DomainSlot> domainMap) {
+		DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
+		return constraint.check(this, targetSlot);
+	}
+	
+	public boolean checkReferenceConstraint(ReferenceConstraint constraint,
+			BinaryConstraint binaryUserConstraint, Map<Variable, DomainSlot> domainMap) {
+		DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
+		if (!constraint.check(this, targetSlot)) {
+			return false;
+		}
+		if (binaryUserConstraint != null){
+			if (!binaryUserConstraint.check(this, targetSlot)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean checkPathConstraint(PathConstraint constraint, Map<Variable, DomainSlot> domainMap) {
+		DomainSlot targetSlot = domainMap.get(constraint.targetVariable);
+		return constraint.check(this, targetSlot);
+	}
+	
+	public boolean checkUserConstraint(UnaryConstraint constraint) {
+		return constraint.check(this);
+	}
+	
 	/**
 	 * @return the locked
 	 */
@@ -426,6 +493,8 @@ public class DomainSlot {
 		return remoteChangeMap;
 	}
 	
-	
+	public ConditionHandler getConditionHandler() {
+		return conditionHandler;
+	}
 	
 }

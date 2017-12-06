@@ -124,5 +124,9 @@ public class UnitSelector {
 	public void setEnabled(boolean enabled) {
 		this.unitSelector.setEnabled(enabled);
 	}
+
+	public Combo getUnitSelector() {
+		return unitSelector;
+	}
 	
 }

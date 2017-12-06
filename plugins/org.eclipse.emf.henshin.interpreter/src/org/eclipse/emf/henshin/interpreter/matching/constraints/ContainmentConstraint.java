@@ -72,5 +72,10 @@ public class ContainmentConstraint implements BinaryConstraint {
 		return result;
 		
 	}
+
+	public Variable getTargetVariable() {
+		return targetVariable;
+	}
+	
 	
 }

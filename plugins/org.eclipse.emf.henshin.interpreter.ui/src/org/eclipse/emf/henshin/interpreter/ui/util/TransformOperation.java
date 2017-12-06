@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -111,7 +111,7 @@ public class TransformOperation extends WorkspaceModifyOperation {
 		return paramCfgs;
 	}
 
-	protected Map<String, Object> prepareParameterValues() {
+	public Map<String, Object> prepareParameterValues() {
 		Map<String, Object> result = new HashMap<String, Object>();
 		for (ParameterConfig paramCfg : paramCfgs) {
 			if (paramCfg.isClear()) {
@@ -137,6 +137,7 @@ public class TransformOperation extends WorkspaceModifyOperation {
 			resourceSet = new ResourceSetImpl();
 		}
 
+		
 		Resource input = resourceSet.getResource(inputUri, true);
 
 		Assignment assignment = new AssignmentImpl(unit);
@@ -180,10 +181,11 @@ public class TransformOperation extends WorkspaceModifyOperation {
 								"Transformation could not be applied to given input model."));
 			}
 		} catch (Throwable t) {
+			// NOTE we should use an error dialog with a "details" section showing the caught exception
 			throw new CoreException(
 					new Status(IStatus.ERROR,
 							HenshinInterpreterUIPlugin.PLUGIN_ID,
-							"Error applying transformation", t));			
+							"Error applying transformation: " + t.getMessage(), t));
 		}
 		monitor.worked(4);
 		if (monitor.isCanceled()) {
@@ -218,7 +220,7 @@ public class TransformOperation extends WorkspaceModifyOperation {
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			if (file != null) {
 				file.getParent().refreshLocal(2,
-						new SubProgressMonitor(monitor, 2));
+						SubMonitor.convert(monitor, 2));
 			}
 		}
 		monitor.subTask("Finalizing transformation...");

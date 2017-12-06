@@ -251,5 +251,22 @@
            name="Henshin Model">
      </wizard>
   </extension>
+  <extension
+        point="org.eclipse.debug.core.launchConfigurationTypes">
+     <launchConfigurationType
+           delegate="org.eclipse.emf.henshin.interpreter.ui.debug.LaunchRuleDelegate"
+           id="org.eclipse.emf.henshin.interpreter.ui.ruleLaunchConfigurationType"
+           modes="run, debug"
+           name="Henshin Rule Application">
+     </launchConfigurationType>
+  </extension>
+  <extension
+        point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+     <launchConfigurationTabGroup
+           class="org.eclipse.emf.henshin.interpreter.ui.debug.LaunchRuleConfigurationTabGroup"
+           id="org.eclipse.emf.henshin.interpreter.ui.ruleLaunchConfigurationTabGroup"
+           type="org.eclipse.emf.henshin.interpreter.ui.ruleLaunchConfigurationType">
+     </launchConfigurationTabGroup>
+  </extension>
 
 </plugin>

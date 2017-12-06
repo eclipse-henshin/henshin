@@ -41,6 +41,14 @@ public class AttributeConstraint implements UnaryConstraint {
 		this.isConstantValue = isConstantValue;
 	}
 
+	public EAttribute getAttribute() {
+		return attribute;
+	}
+
+	public Object getValue() {
+		return value;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint#check(org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot)

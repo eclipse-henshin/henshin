@@ -26,3 +26,4 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.6.0",
  org.eclipse.emf.query.ocl;bundle-version="2.0.0",
  org.junit;bundle-version="4.0.0"
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.debug.core

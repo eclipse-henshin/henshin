@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;

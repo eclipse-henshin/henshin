@@ -130,5 +130,13 @@ public class PathConstraint implements BinaryConstraint {
 		}
 
 	}
+	
+	public Variable getTargetVariable() {
+		return targetVariable;
+	}
+	
+	public List<EReference> getReferences() {
+		return references;
+	}
 
 }

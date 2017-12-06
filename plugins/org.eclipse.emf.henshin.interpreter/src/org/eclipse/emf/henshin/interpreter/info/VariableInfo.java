@@ -92,6 +92,7 @@ public class VariableInfo {
 		for (Node node : g.getNodes()) {
 			EClass type = node.getType();
 			Variable var = new Variable(type);
+			var.name = node.getName();
 			variables.add(var);
 			node2variable.put(node, var);
 			variable2node.put(var, node);

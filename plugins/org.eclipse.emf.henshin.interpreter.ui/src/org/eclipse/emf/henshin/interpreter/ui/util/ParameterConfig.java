@@ -55,6 +55,7 @@ public class ParameterConfig {
 	protected Object value;
 	protected int type;
 	protected ParameterKind kind;
+	protected boolean unset;
 	
 	public ParameterConfig() {
 	}
@@ -109,6 +110,14 @@ public class ParameterConfig {
 	
 	public boolean isClear() {
 		return type == CLEAR;
+	}
+	
+	public boolean isUnset() {
+		return unset;
+	}
+
+	public void setUnset(boolean unset) {
+		this.unset = unset;
 	}
 	
 	public void setType(int type) {

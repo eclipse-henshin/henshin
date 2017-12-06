@@ -23,6 +23,9 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class Variable {
 	
+	// The variable's name (can be empty)
+	public String name;
+	
 	// Type constraint:
 	public final TypeConstraint typeConstraint;
 	
@@ -78,5 +81,4 @@ public class Variable {
 		attributeUserConstraints = new LinkedHashMap<AttributeConstraint,UnaryConstraint>();
 		requiresFinalCheck = false;		
 	}
-	
 }

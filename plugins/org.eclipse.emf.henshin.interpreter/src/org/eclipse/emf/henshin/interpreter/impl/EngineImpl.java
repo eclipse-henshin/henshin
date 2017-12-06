@@ -175,7 +175,6 @@ public class EngineImpl implements Engine {
 		// Rule listener for automatically clearing caches when rules are
 		// changed at run-time:
 		ruleListener = new RuleChangeListener();
-
 	}
 
 	/**
@@ -237,7 +236,7 @@ public class EngineImpl implements Engine {
 	/**
 	 * Match generator class. Delegates to {@link MatchFinder}.
 	 */
-	private final class MatchGenerator implements Iterable<Match> {
+	final class MatchGenerator implements Iterable<Match> {
 
 		/**
 		 * Rule to be matched.
@@ -285,7 +284,7 @@ public class EngineImpl implements Engine {
 	/**
 	 * Match finder class. Uses {@link SolutionFinder} to find matches.
 	 */
-	private final class MatchFinder implements Iterator<Match> {
+	public final class MatchFinder implements Iterator<Match> {
 
 		/**
 		 * The next match.
@@ -315,7 +314,7 @@ public class EngineImpl implements Engine {
 		/**
 		 * Cached rule info.
 		 */
-		private final RuleInfo ruleInfo;
+		protected final RuleInfo ruleInfo;
 
 		/**
 		 * Used objects.
@@ -653,7 +652,11 @@ public class EngineImpl implements Engine {
 			ac.formula = initFormula(nc.getConclusion().getFormula(), graph, graphMap, domainMap);
 			return ac;
 		}
-
+		
+		public SolutionFinder getSolutionFinder() {
+			return solutionFinder;
+		}
+		
 	} // MatchFinder
 
 	/**
@@ -827,7 +830,7 @@ public class EngineImpl implements Engine {
 	 *            Rule.
 	 * @return The (cached) rule info.
 	 */
-	protected RuleInfo getRuleInfo(Rule rule) {
+	public RuleInfo getRuleInfo(Rule rule) {
 		RuleInfo ruleInfo = ruleInfos.get(rule);
 		if (ruleInfo == null) {
 			ruleInfo = new RuleInfo(rule, this);
@@ -1147,7 +1150,7 @@ public class EngineImpl implements Engine {
 	/**
 	 * Data class for storing matching options.
 	 */
-	private static class MatchingOptions {
+	static class MatchingOptions {
 		boolean injective;
 		boolean dangling;
 		boolean deterministic;
