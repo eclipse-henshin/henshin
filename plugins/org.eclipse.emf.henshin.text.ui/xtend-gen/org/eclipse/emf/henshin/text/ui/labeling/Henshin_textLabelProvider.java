@@ -5,9 +5,7 @@ package org.eclipse.emf.henshin.text.ui.labeling;
 
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.henshin.text.henshin_text.AND;
 import org.eclipse.emf.henshin.text.henshin_text.AndExpression;
@@ -22,7 +20,6 @@ import org.eclipse.emf.henshin.text.henshin_text.ConditionEdges;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionGraph;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionGraphRef;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionNode;
-import org.eclipse.emf.henshin.text.henshin_text.ConditionNodeTypes;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionReuseNode;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionalUnit;
 import org.eclipse.emf.henshin.text.henshin_text.Conditions;
@@ -56,7 +53,6 @@ import org.eclipse.emf.henshin.text.henshin_text.NumberValue;
 import org.eclipse.emf.henshin.text.henshin_text.ORorXOR;
 import org.eclipse.emf.henshin.text.henshin_text.OrExpression;
 import org.eclipse.emf.henshin.text.henshin_text.Parameter;
-import org.eclipse.emf.henshin.text.henshin_text.ParameterType;
 import org.eclipse.emf.henshin.text.henshin_text.ParameterValue;
 import org.eclipse.emf.henshin.text.henshin_text.PlusExpression;
 import org.eclipse.emf.henshin.text.henshin_text.PriorityUnit;
@@ -99,16 +95,12 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
     String _name = ele.getName();
     String _plus = (_name + ":");
     Object _xifexpression = null;
-    ParameterType _type = ele.getType();
-    EClass _type_1 = _type.getType();
-    boolean _notEquals = (!Objects.equal(_type_1, null));
+    EClass _type = ele.getType().getType();
+    boolean _notEquals = (!Objects.equal(_type, null));
     if (_notEquals) {
-      ParameterType _type_2 = ele.getType();
-      EClass _type_3 = _type_2.getType();
-      _xifexpression = _type_3.getName();
+      _xifexpression = ele.getType().getType().getName();
     } else {
-      ParameterType _type_4 = ele.getType();
-      _xifexpression = _type_4.getEnumType();
+      _xifexpression = ele.getType().getEnumType();
     }
     return (_plus + _xifexpression);
   }
@@ -154,8 +146,7 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   }
   
   public String text(final Edge ele) {
-    EReference _type = ele.getType();
-    return _type.getName();
+    return ele.getType().getName();
   }
   
   public String image(final Node ele) {
@@ -171,12 +162,10 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
     String _update = ele.getUpdate();
     boolean _notEquals = (!Objects.equal(_update, null));
     if (_notEquals) {
-      EAttribute _name = ele.getName();
-      String _name_1 = _name.getName();
-      _xifexpression = ("set-" + _name_1);
+      String _name = ele.getName().getName();
+      _xifexpression = ("set-" + _name);
     } else {
-      EAttribute _name_2 = ele.getName();
-      _xifexpression = _name_2.getName();
+      _xifexpression = ele.getName().getName();
     }
     return _xifexpression;
   }
@@ -198,14 +187,12 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   }
   
   public String text(final MultiRuleReuseNode ele) {
-    Node _name = ele.getName();
-    return _name.getName();
+    return ele.getName().getName();
   }
   
   public String image(final ORorXOR ele) {
     String _xifexpression = null;
-    String _op = ele.getOp();
-    boolean _equals = _op.equals("OR");
+    boolean _equals = ele.getOp().equals("OR");
     if (_equals) {
       _xifexpression = "outline/Or.gif";
     } else {
@@ -216,8 +203,7 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   
   public String text(final ORorXOR ele) {
     String _xifexpression = null;
-    String _op = ele.getOp();
-    boolean _equals = _op.equals("OR");
+    boolean _equals = ele.getOp().equals("OR");
     if (_equals) {
       _xifexpression = "OR";
     } else {
@@ -247,8 +233,7 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   }
   
   public String text(final ConditionGraphRef ele) {
-    ConditionGraph _conditionGraphRef = ele.getConditionGraphRef();
-    return _conditionGraphRef.getName();
+    return ele.getConditionGraphRef().getName();
   }
   
   public String image(final ConditionGraph ele) {
@@ -268,8 +253,7 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   }
   
   public String text(final ConditionEdge ele) {
-    EReference _type = ele.getType();
-    return _type.getName();
+    return ele.getType().getName();
   }
   
   public String image(final ConditionNode ele) {
@@ -285,8 +269,7 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   }
   
   public String text(final ConditionReuseNode ele) {
-    ConditionNodeTypes _name = ele.getName();
-    return _name.getName();
+    return ele.getName().getName();
   }
   
   public String image(final Match ele) {
@@ -294,8 +277,7 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   }
   
   public String text(final Match ele) {
-    EAttribute _name = ele.getName();
-    return _name.getName();
+    return ele.getName().getName();
   }
   
   public String image(final Call ele) {
@@ -310,8 +292,7 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   }
   
   public String text(final Call ele) {
-    ModelElement _elementCall = ele.getElementCall();
-    return _elementCall.getName();
+    return ele.getElementCall().getName();
   }
   
   public String image(final Strict ele) {
@@ -390,93 +371,78 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
     boolean _matched = false;
     if (expression instanceof OrExpression) {
       _matched=true;
-      Expression _left = ((OrExpression)expression).getLeft();
-      Object _ExpressionToString = this.ExpressionToString(_left);
+      Object _ExpressionToString = this.ExpressionToString(((OrExpression)expression).getLeft());
       String _plus = (_ExpressionToString + " OR ");
-      Expression _right = ((OrExpression)expression).getRight();
-      Object _ExpressionToString_1 = this.ExpressionToString(_right);
+      Object _ExpressionToString_1 = this.ExpressionToString(((OrExpression)expression).getRight());
       return (_plus + _ExpressionToString_1);
     }
     if (!_matched) {
       if (expression instanceof AndExpression) {
         _matched=true;
-        Expression _left = ((AndExpression)expression).getLeft();
-        Object _ExpressionToString = this.ExpressionToString(_left);
+        Object _ExpressionToString = this.ExpressionToString(((AndExpression)expression).getLeft());
         String _plus = (_ExpressionToString + " AND ");
-        Expression _right = ((AndExpression)expression).getRight();
-        Object _ExpressionToString_1 = this.ExpressionToString(_right);
+        Object _ExpressionToString_1 = this.ExpressionToString(((AndExpression)expression).getRight());
         return (_plus + _ExpressionToString_1);
       }
     }
     if (!_matched) {
       if (expression instanceof EqualityExpression) {
         _matched=true;
-        Expression _left = ((EqualityExpression)expression).getLeft();
-        Object _ExpressionToString = this.ExpressionToString(_left);
+        Object _ExpressionToString = this.ExpressionToString(((EqualityExpression)expression).getLeft());
         String _plus = (_ExpressionToString + " ");
         String _op = ((EqualityExpression)expression).getOp();
         String _plus_1 = (_plus + _op);
         String _plus_2 = (_plus_1 + " ");
-        Expression _right = ((EqualityExpression)expression).getRight();
-        Object _ExpressionToString_1 = this.ExpressionToString(_right);
+        Object _ExpressionToString_1 = this.ExpressionToString(((EqualityExpression)expression).getRight());
         return (_plus_2 + _ExpressionToString_1);
       }
     }
     if (!_matched) {
       if (expression instanceof ComparisonExpression) {
         _matched=true;
-        Expression _left = ((ComparisonExpression)expression).getLeft();
-        Object _ExpressionToString = this.ExpressionToString(_left);
+        Object _ExpressionToString = this.ExpressionToString(((ComparisonExpression)expression).getLeft());
         String _plus = (_ExpressionToString + " ");
         String _op = ((ComparisonExpression)expression).getOp();
         String _plus_1 = (_plus + _op);
         String _plus_2 = (_plus_1 + " ");
-        Expression _right = ((ComparisonExpression)expression).getRight();
-        Object _ExpressionToString_1 = this.ExpressionToString(_right);
+        Object _ExpressionToString_1 = this.ExpressionToString(((ComparisonExpression)expression).getRight());
         return (_plus_2 + _ExpressionToString_1);
       }
     }
     if (!_matched) {
       if (expression instanceof PlusExpression) {
         _matched=true;
-        Expression _left = ((PlusExpression)expression).getLeft();
-        Object _ExpressionToString = this.ExpressionToString(_left);
+        Object _ExpressionToString = this.ExpressionToString(((PlusExpression)expression).getLeft());
         String _plus = (_ExpressionToString + " + ");
-        Expression _right = ((PlusExpression)expression).getRight();
-        Object _ExpressionToString_1 = this.ExpressionToString(_right);
+        Object _ExpressionToString_1 = this.ExpressionToString(((PlusExpression)expression).getRight());
         return (_plus + _ExpressionToString_1);
       }
     }
     if (!_matched) {
       if (expression instanceof MinusExpression) {
         _matched=true;
-        Expression _left = ((MinusExpression)expression).getLeft();
-        Object _ExpressionToString = this.ExpressionToString(_left);
+        Object _ExpressionToString = this.ExpressionToString(((MinusExpression)expression).getLeft());
         String _plus = (_ExpressionToString + " - ");
-        Expression _right = ((MinusExpression)expression).getRight();
-        Object _ExpressionToString_1 = this.ExpressionToString(_right);
+        Object _ExpressionToString_1 = this.ExpressionToString(((MinusExpression)expression).getRight());
         return (_plus + _ExpressionToString_1);
       }
     }
     if (!_matched) {
       if (expression instanceof MulOrDivExpression) {
         _matched=true;
-        Expression _left = ((MulOrDivExpression)expression).getLeft();
-        Object _ExpressionToString = this.ExpressionToString(_left);
+        Object _ExpressionToString = this.ExpressionToString(((MulOrDivExpression)expression).getLeft());
         String _plus = (_ExpressionToString + " ");
         String _op = ((MulOrDivExpression)expression).getOp();
         String _plus_1 = (_plus + _op);
         String _plus_2 = (_plus_1 + " ");
-        Expression _right = ((MulOrDivExpression)expression).getRight();
-        Object _ExpressionToString_1 = this.ExpressionToString(_right);
+        Object _ExpressionToString_1 = this.ExpressionToString(((MulOrDivExpression)expression).getRight());
         return (_plus_2 + _ExpressionToString_1);
       }
     }
     if (!_matched) {
       if (expression instanceof BracketExpression) {
         _matched=true;
-        Expression _expression = ((BracketExpression)expression).getExpression();
-        Object _ExpressionToString = this.ExpressionToString(_expression);
+        Object _ExpressionToString = this.ExpressionToString(((BracketExpression)expression).getExpression());
         String _plus = ("(" + _ExpressionToString);
         return (_plus + ")");
       }
@@ -484,16 +450,14 @@ public class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
     if (!_matched) {
       if (expression instanceof NotExpression) {
         _matched=true;
-        Expression _expression = ((NotExpression)expression).getExpression();
-        Object _ExpressionToString = this.ExpressionToString(_expression);
+        Object _ExpressionToString = this.ExpressionToString(((NotExpression)expression).getExpression());
         return ("!" + _ExpressionToString);
       }
     }
     if (!_matched) {
       if (expression instanceof ParameterValue) {
         _matched=true;
-        Parameter _value = ((ParameterValue)expression).getValue();
-        return _value.getName();
+        return ((ParameterValue)expression).getValue().getName();
       }
     }
     if (!_matched) {

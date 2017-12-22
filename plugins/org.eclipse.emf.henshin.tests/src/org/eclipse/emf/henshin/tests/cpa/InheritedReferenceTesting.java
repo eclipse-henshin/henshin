@@ -14,20 +14,20 @@ import static org.junit.Assert.*;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.henshin.cpa.CPAOptions;
-import org.eclipse.emf.henshin.cpa.CPAUtility;
-import org.eclipse.emf.henshin.cpa.CpaByAGG;
-import org.eclipse.emf.henshin.cpa.ICriticalPairAnalysis;
-import org.eclipse.emf.henshin.cpa.UnsupportedRuleException;
-import org.eclipse.emf.henshin.cpa.result.CPAResult;
-import org.eclipse.emf.henshin.cpa.result.Conflict;
-import org.eclipse.emf.henshin.cpa.result.ConflictKind;
-import org.eclipse.emf.henshin.cpa.result.CriticalPair;
-import org.eclipse.emf.henshin.cpa.result.Dependency;
-import org.eclipse.emf.henshin.cpa.result.DependencyKind;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.emf.henshin.multicda.cpa.CPAOptions;
+import org.eclipse.emf.henshin.multicda.cpa.CPAUtility;
+import org.eclipse.emf.henshin.multicda.cpa.CpaByAGG;
+import org.eclipse.emf.henshin.multicda.cpa.IConflictReasonAnalysis;
+import org.eclipse.emf.henshin.multicda.cpa.UnsupportedRuleException;
+import org.eclipse.emf.henshin.multicda.cpa.result.CPAResult;
+import org.eclipse.emf.henshin.multicda.cpa.result.Conflict;
+import org.eclipse.emf.henshin.multicda.cpa.result.ConflictKind;
+import org.eclipse.emf.henshin.multicda.cpa.result.ConflictReason;
+import org.eclipse.emf.henshin.multicda.cpa.result.Dependency;
+import org.eclipse.emf.henshin.multicda.cpa.result.DependencyKind;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class InheritedReferenceTesting {
 	final String henshinFileName = "rulesForInheritedReferenceTesting.henshin";
 
 	Module module;
-	private ICriticalPairAnalysis cpaByAgg;
+	private IConflictReasonAnalysis cpaByAgg;
 	CPAOptions cpaOptions;
 
 	@Before
@@ -81,7 +81,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.DELETE_USE_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -120,7 +120,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.DELETE_USE_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -159,7 +159,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.DELETE_USE_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -198,7 +198,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.DELETE_USE_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -237,7 +237,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.DELETE_USE_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -276,7 +276,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.DELETE_USE_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -315,7 +315,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.PRODUCE_FORBID_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -354,7 +354,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.PRODUCE_FORBID_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -393,7 +393,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.PRODUCE_FORBID_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -432,7 +432,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.PRODUCE_FORBID_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -471,7 +471,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.PRODUCE_FORBID_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -510,7 +510,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Conflict) {
 				String differentKindOfCP = "expected kind of critical pair: " + ConflictKind.PRODUCE_FORBID_CONFLICT;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -549,7 +549,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.DELETE_FORBID_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -588,7 +588,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.DELETE_FORBID_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -627,7 +627,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.DELETE_FORBID_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -666,7 +666,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.DELETE_FORBID_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -705,7 +705,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.DELETE_FORBID_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -744,7 +744,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.DELETE_FORBID_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -783,7 +783,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.PRODUCE_USE_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -822,7 +822,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.PRODUCE_USE_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -861,7 +861,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.PRODUCE_USE_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -900,7 +900,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.PRODUCE_USE_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -939,7 +939,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.PRODUCE_USE_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "
@@ -978,7 +978,7 @@ public class InheritedReferenceTesting {
 			unequalNumberOfCPs += ", obtained quantity of critical pairs: " + result.getCriticalPairs().size();
 			assertTrue(unequalNumberOfCPs, false);
 		} else {
-			CriticalPair cp = result.getCriticalPairs().get(0);
+			ConflictReason cp = result.getCriticalPairs().get(0);
 			if (cp instanceof Dependency) {
 				String differentKindOfCP = "expected kind of critical pair: " + DependencyKind.PRODUCE_USE_DEPENDENCY;
 				differentKindOfCP += ", obtained kind of critical pair: "

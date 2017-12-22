@@ -48,10 +48,6 @@ import org.eclipse.emf.henshin.text.services.Henshin_textGrammarAccess;
 import org.eclipse.xtext.formatting2.AbstractFormatter2;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
 import org.eclipse.xtext.formatting2.IHiddenRegionFormatter;
-import org.eclipse.xtext.formatting2.regionaccess.IHiddenRegion;
-import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegion;
-import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegionFinder;
-import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegionsFinder;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -66,10 +62,9 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
   private EList<Match> el;
   
   protected void _format(final Model model, @Extension final IFormattableDocument document) {
+    final EPackageImport lastImport = IterableExtensions.<EPackageImport>last(model.getEPackageimports());
     EList<EPackageImport> _ePackageimports = model.getEPackageimports();
-    final EPackageImport lastImport = IterableExtensions.<EPackageImport>last(_ePackageimports);
-    EList<EPackageImport> _ePackageimports_1 = model.getEPackageimports();
-    for (final EPackageImport ePackageimport : _ePackageimports_1) {
+    for (final EPackageImport ePackageimport : _ePackageimports) {
       {
         document.<EPackageImport>format(ePackageimport);
         if ((ePackageimport == lastImport)) {
@@ -92,12 +87,10 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
   }
   
   protected void _format(final EPackageImport ePackageImport, @Extension final IFormattableDocument document) {
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(ePackageImport);
-    ISemanticRegion _keyword = _regionFor.keyword("ePackageImport");
     final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword, _function);
+    document.append(this.textRegionExtensions.regionFor(ePackageImport).keyword("ePackageImport"), _function);
   }
   
   protected void _format(final Rule rule, @Extension final IFormattableDocument document) {
@@ -109,30 +102,22 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
     for (final RuleElement ruleElements : _ruleElements) {
       document.<RuleElement>format(ruleElements);
     }
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(rule);
-    ISemanticRegion _keyword = _regionFor.keyword("(");
     final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword, _function);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(rule);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword(")");
+    document.append(this.textRegionExtensions.regionFor(rule).keyword("("), _function);
     final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_1, _function_1);
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(rule);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword("{");
+    document.append(this.textRegionExtensions.regionFor(rule).keyword(")"), _function_1);
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.append(_keyword_2, _function_2);
-    ISemanticRegionsFinder _regionFor_3 = this.textRegionExtensions.regionFor(rule);
-    ISemanticRegion _keyword_3 = _regionFor_3.keyword("}");
+    document.append(this.textRegionExtensions.regionFor(rule).keyword("{"), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.prepend(_keyword_3, _function_3);
+    document.prepend(this.textRegionExtensions.regionFor(rule).keyword("}"), _function_3);
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.setNewLines(2);
     };
@@ -152,30 +137,22 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
     for (final RuleElement ruleElements : _multiruleElements) {
       document.<RuleElement>format(ruleElements);
     }
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(rule);
-    ISemanticRegion _keyword = _regionFor.keyword("(");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword, _function_2);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(rule);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword(")");
+    document.append(this.textRegionExtensions.regionFor(rule).keyword("("), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_1, _function_3);
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(rule);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword("{");
+    document.append(this.textRegionExtensions.regionFor(rule).keyword(")"), _function_3);
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.append(_keyword_2, _function_4);
-    ISemanticRegionsFinder _regionFor_3 = this.textRegionExtensions.regionFor(rule);
-    ISemanticRegion _keyword_3 = _regionFor_3.keyword("}");
+    document.append(this.textRegionExtensions.regionFor(rule).keyword("{"), _function_4);
     final Procedure1<IHiddenRegionFormatter> _function_5 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.prepend(_keyword_3, _function_5);
+    document.prepend(this.textRegionExtensions.regionFor(rule).keyword("}"), _function_5);
     final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
       it.setNewLines(1);
     };
@@ -187,12 +164,10 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<JavaImport>surround(javaImport, _function);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(javaImport);
-    ISemanticRegion _keyword = _regionFor.keyword("javaImport");
     final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword, _function_1);
+    document.append(this.textRegionExtensions.regionFor(javaImport).keyword("javaImport"), _function_1);
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
@@ -204,12 +179,10 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<CheckDangling>surround(checkDangling, _function);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(checkDangling);
-    ISemanticRegion _keyword = _regionFor.keyword("checkDangling");
     final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword, _function_1);
+    document.append(this.textRegionExtensions.regionFor(checkDangling).keyword("checkDangling"), _function_1);
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
@@ -221,12 +194,10 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<InjectiveMatching>surround(injectiveMatching, _function);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(injectiveMatching);
-    ISemanticRegion _keyword = _regionFor.keyword("checkDangling");
     final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword, _function_1);
+    document.append(this.textRegionExtensions.regionFor(injectiveMatching).keyword("checkDangling"), _function_1);
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
@@ -238,37 +209,29 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.newLine();
     };
     document.<Graph>surround(graph, _function);
-    EList<GraphElements> _graphElements = graph.getGraphElements();
-    boolean _isEmpty = _graphElements.isEmpty();
+    boolean _isEmpty = graph.getGraphElements().isEmpty();
     boolean _not = (!_isEmpty);
     if (_not) {
-      ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(graph);
-      ISemanticRegion _keyword = _regionFor.keyword("{");
       final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
         it.newLine();
       };
-      document.append(_keyword, _function_1);
+      document.append(this.textRegionExtensions.regionFor(graph).keyword("{"), _function_1);
     }
-    EList<GraphElements> _graphElements_1 = graph.getGraphElements();
-    for (final GraphElements el : _graphElements_1) {
+    EList<GraphElements> _graphElements = graph.getGraphElements();
+    for (final GraphElements el : _graphElements) {
       document.<GraphElements>format(el);
     }
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(graph);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("{");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword_1, _function_2);
-    EList<GraphElements> _graphElements_2 = graph.getGraphElements();
-    boolean _isEmpty_1 = _graphElements_2.isEmpty();
+    document.prepend(this.textRegionExtensions.regionFor(graph).keyword("{"), _function_2);
+    boolean _isEmpty_1 = graph.getGraphElements().isEmpty();
     boolean _not_1 = (!_isEmpty_1);
     if (_not_1) {
-      ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(graph);
-      ISemanticRegion _keyword_2 = _regionFor_2.keyword("}");
       final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
         it.newLine();
       };
-      document.prepend(_keyword_2, _function_3);
+      document.prepend(this.textRegionExtensions.regionFor(graph).keyword("}"), _function_3);
     }
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.indent();
@@ -277,37 +240,29 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
   }
   
   protected void _format(final ConditionGraph graph, @Extension final IFormattableDocument document) {
-    EList<ConditionGraphElements> _conditionGraphElements = graph.getConditionGraphElements();
-    boolean _isEmpty = _conditionGraphElements.isEmpty();
+    boolean _isEmpty = graph.getConditionGraphElements().isEmpty();
     boolean _not = (!_isEmpty);
     if (_not) {
-      ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(graph);
-      ISemanticRegion _keyword = _regionFor.keyword("{");
       final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
         it.newLine();
       };
-      document.append(_keyword, _function);
+      document.append(this.textRegionExtensions.regionFor(graph).keyword("{"), _function);
     }
-    EList<ConditionGraphElements> _conditionGraphElements_1 = graph.getConditionGraphElements();
-    for (final ConditionGraphElements el : _conditionGraphElements_1) {
+    EList<ConditionGraphElements> _conditionGraphElements = graph.getConditionGraphElements();
+    for (final ConditionGraphElements el : _conditionGraphElements) {
       document.<ConditionGraphElements>format(el);
     }
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(graph);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("{");
     final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword_1, _function_1);
-    EList<ConditionGraphElements> _conditionGraphElements_2 = graph.getConditionGraphElements();
-    boolean _isEmpty_1 = _conditionGraphElements_2.isEmpty();
+    document.prepend(this.textRegionExtensions.regionFor(graph).keyword("{"), _function_1);
+    boolean _isEmpty_1 = graph.getConditionGraphElements().isEmpty();
     boolean _not_1 = (!_isEmpty_1);
     if (_not_1) {
-      ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(graph);
-      ISemanticRegion _keyword_2 = _regionFor_2.keyword("}");
       final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
         it.newLine();
       };
-      document.prepend(_keyword_2, _function_2);
+      document.prepend(this.textRegionExtensions.regionFor(graph).keyword("}"), _function_2);
     }
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.indent();
@@ -324,28 +279,22 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<Node>surround(node, _function_1);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword = _regionFor.keyword("{");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword, _function_2);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("(");
+    document.prepend(this.textRegionExtensions.regionFor(node).keyword("{"), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword_1, _function_3);
+    document.append(this.textRegionExtensions.regionFor(node).keyword("("), _function_3);
     EList<Attribute> _attribute = node.getAttribute();
     for (final EObject attr : _attribute) {
       document.<EObject>format(attr);
     }
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword(")");
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_2, _function_4);
+    document.append(this.textRegionExtensions.regionFor(node).keyword(")"), _function_4);
   }
   
   protected void _format(final Attribute attribute, @Extension final IFormattableDocument document) {
@@ -379,28 +328,22 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<ConditionNode>surround(node, _function_1);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword = _regionFor.keyword("{");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword, _function_2);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("(");
+    document.prepend(this.textRegionExtensions.regionFor(node).keyword("{"), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword_1, _function_3);
+    document.append(this.textRegionExtensions.regionFor(node).keyword("("), _function_3);
     EList<Match> _attribute = node.getAttribute();
     for (final EObject attr : _attribute) {
       document.<EObject>format(attr);
     }
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword(")");
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_2, _function_4);
+    document.append(this.textRegionExtensions.regionFor(node).keyword(")"), _function_4);
   }
   
   protected void _format(final Edges edges, @Extension final IFormattableDocument document) {
@@ -412,10 +355,9 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<Edges>surround(edges, _function_1);
+    final Edge first = edges.getEdges().get(0);
     EList<Edge> _edges = edges.getEdges();
-    final Edge first = _edges.get(0);
-    EList<Edge> _edges_1 = edges.getEdges();
-    for (final Edge e : _edges_1) {
+    for (final Edge e : _edges) {
       if ((e != first)) {
         document.<Edge>format(e);
       }
@@ -431,13 +373,10 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.newLine();
     };
     document.<Edge>prepend(edge, _function_1);
-    IHiddenRegion _previousHiddenRegion = this.textRegionExtensions.previousHiddenRegion(edge);
-    ISemanticRegionFinder _immediatelyPreceding = _previousHiddenRegion.immediatelyPreceding();
-    ISemanticRegion _keyword = _immediatelyPreceding.keyword(",");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword, _function_2);
+    document.append(this.textRegionExtensions.previousHiddenRegion(edge).immediatelyPreceding().keyword(","), _function_2);
   }
   
   protected void _format(final ConditionEdges edges, @Extension final IFormattableDocument document) {
@@ -449,10 +388,9 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<ConditionEdges>surround(edges, _function_1);
+    final ConditionEdge first = edges.getEdges().get(0);
     EList<ConditionEdge> _edges = edges.getEdges();
-    final ConditionEdge first = _edges.get(0);
-    EList<ConditionEdge> _edges_1 = edges.getEdges();
-    for (final ConditionEdge e : _edges_1) {
+    for (final ConditionEdge e : _edges) {
       if ((e != first)) {
         document.<ConditionEdge>format(e);
       }
@@ -468,13 +406,10 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.newLine();
     };
     document.<ConditionEdge>prepend(edge, _function_1);
-    IHiddenRegion _previousHiddenRegion = this.textRegionExtensions.previousHiddenRegion(edge);
-    ISemanticRegionFinder _immediatelyPreceding = _previousHiddenRegion.immediatelyPreceding();
-    ISemanticRegion _keyword = _immediatelyPreceding.keyword(",");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword, _function_2);
+    document.append(this.textRegionExtensions.previousHiddenRegion(edge).immediatelyPreceding().keyword(","), _function_2);
   }
   
   protected void _format(final Conditions conditions, @Extension final IFormattableDocument document) {
@@ -486,10 +421,9 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<Conditions>surround(conditions, _function_1);
+    final Expression first = conditions.getAttributeConditions().get(0);
     EList<Expression> _attributeConditions = conditions.getAttributeConditions();
-    final Expression first = _attributeConditions.get(0);
-    EList<Expression> _attributeConditions_1 = conditions.getAttributeConditions();
-    for (final Expression e : _attributeConditions_1) {
+    for (final Expression e : _attributeConditions) {
       if ((e != first)) {
         document.<Expression>format(e);
       }
@@ -505,13 +439,10 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.newLine();
     };
     document.<Expression>prepend(expression, _function_1);
-    IHiddenRegion _previousHiddenRegion = this.textRegionExtensions.previousHiddenRegion(expression);
-    ISemanticRegionFinder _immediatelyPreceding = _previousHiddenRegion.immediatelyPreceding();
-    ISemanticRegion _keyword = _immediatelyPreceding.keyword(",");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword, _function_2);
+    document.append(this.textRegionExtensions.previousHiddenRegion(expression).immediatelyPreceding().keyword(","), _function_2);
   }
   
   protected void _format(final ConditionReuseNode node, @Extension final IFormattableDocument document) {
@@ -523,28 +454,22 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<ConditionReuseNode>surround(node, _function_1);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword = _regionFor.keyword("{");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword, _function_2);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("(");
+    document.prepend(this.textRegionExtensions.regionFor(node).keyword("{"), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword_1, _function_3);
+    document.append(this.textRegionExtensions.regionFor(node).keyword("("), _function_3);
     EList<Match> _attribute = node.getAttribute();
     for (final EObject attr : _attribute) {
       document.<EObject>format(attr);
     }
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword(")");
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_2, _function_4);
+    document.append(this.textRegionExtensions.regionFor(node).keyword(")"), _function_4);
   }
   
   protected void _format(final MultiRuleReuseNode node, @Extension final IFormattableDocument document) {
@@ -556,28 +481,22 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<MultiRuleReuseNode>surround(node, _function_1);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword = _regionFor.keyword("{");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword, _function_2);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("(");
+    document.prepend(this.textRegionExtensions.regionFor(node).keyword("{"), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword_1, _function_3);
+    document.append(this.textRegionExtensions.regionFor(node).keyword("("), _function_3);
     EList<Attribute> _attribute = node.getAttribute();
     for (final EObject attr : _attribute) {
       document.<EObject>format(attr);
     }
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(node);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword(")");
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_2, _function_4);
+    document.append(this.textRegionExtensions.regionFor(node).keyword(")"), _function_4);
   }
   
   protected void _format(final Formula formula, @Extension final IFormattableDocument document) {
@@ -589,24 +508,18 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<Formula>surround(formula, _function_1);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(formula);
-    ISemanticRegion _keyword = _regionFor.keyword("formula");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.prepend(_keyword, _function_2);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(formula);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("formula");
+    document.prepend(this.textRegionExtensions.regionFor(formula).keyword("formula"), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.indent();
     };
-    document.surround(_keyword_1, _function_3);
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(formula);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword("}");
+    document.surround(this.textRegionExtensions.regionFor(formula).keyword("formula"), _function_3);
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.prepend(_keyword_2, _function_4);
+    document.prepend(this.textRegionExtensions.regionFor(formula).keyword("}"), _function_4);
     EList<ConditionGraph> _conditionGraphs = formula.getConditionGraphs();
     for (final ConditionGraph g : _conditionGraphs) {
       {
@@ -628,30 +541,22 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
     for (final UnitElement unitElement : _unitElements) {
       document.<UnitElement>format(unitElement);
     }
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword = _regionFor.keyword("(");
     final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword, _function);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword(")");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword("("), _function);
     final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_1, _function_1);
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword("{");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword(")"), _function_1);
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.append(_keyword_2, _function_2);
-    ISemanticRegionsFinder _regionFor_3 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_3 = _regionFor_3.keyword("}");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword("{"), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.prepend(_keyword_3, _function_3);
+    document.prepend(this.textRegionExtensions.regionFor(unit).keyword("}"), _function_3);
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.setNewLines(2);
     };
@@ -693,44 +598,31 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
       it.indent();
     };
     document.<ConditionalUnit>surround(unit, _function_1);
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword = _regionFor.keyword("(");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword, _function_2);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("(");
+    document.prepend(this.textRegionExtensions.regionFor(unit).keyword("("), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword_1, _function_3);
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword(")");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword("("), _function_3);
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_2, _function_4);
-    ISemanticRegionsFinder _regionFor_3 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_3 = _regionFor_3.keyword("{");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword(")"), _function_4);
     final Procedure1<IHiddenRegionFormatter> _function_5 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.append(_keyword_3, _function_5);
-    ISemanticRegionsFinder _regionFor_4 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_4 = _regionFor_4.keyword("}");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword("{"), _function_5);
     final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.prepend(_keyword_4, _function_6);
-    ISemanticRegionsFinder _regionFor_5 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_5 = _regionFor_5.keyword("else");
+    document.prepend(this.textRegionExtensions.regionFor(unit).keyword("}"), _function_6);
     final Procedure1<IHiddenRegionFormatter> _function_7 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword_5, _function_7);
-    EList<UnitElement> _if = unit.getIf();
-    document.<EList<UnitElement>>format(_if);
+    document.prepend(this.textRegionExtensions.regionFor(unit).keyword("else"), _function_7);
+    document.<EList<UnitElement>>format(unit.getIf());
     EList<UnitElement> _then = unit.getThen();
     for (final UnitElement el : _then) {
       document.<UnitElement>format(el);
@@ -799,36 +691,26 @@ public class Henshin_textFormatter extends AbstractFormatter2 {
     for (final UnitElement el : _subElement) {
       document.<UnitElement>format(el);
     }
-    ISemanticRegionsFinder _regionFor = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword = _regionFor.keyword("(");
     final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.prepend(_keyword, _function_2);
-    ISemanticRegionsFinder _regionFor_1 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_1 = _regionFor_1.keyword("(");
+    document.prepend(this.textRegionExtensions.regionFor(unit).keyword("("), _function_2);
     final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
       it.noSpace();
     };
-    document.append(_keyword_1, _function_3);
-    ISemanticRegionsFinder _regionFor_2 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_2 = _regionFor_2.keyword(")");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword("("), _function_3);
     final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
       it.oneSpace();
     };
-    document.append(_keyword_2, _function_4);
-    ISemanticRegionsFinder _regionFor_3 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_3 = _regionFor_3.keyword("{");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword(")"), _function_4);
     final Procedure1<IHiddenRegionFormatter> _function_5 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.append(_keyword_3, _function_5);
-    ISemanticRegionsFinder _regionFor_4 = this.textRegionExtensions.regionFor(unit);
-    ISemanticRegion _keyword_4 = _regionFor_4.keyword("}");
+    document.append(this.textRegionExtensions.regionFor(unit).keyword("{"), _function_5);
     final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
-    document.prepend(_keyword_4, _function_6);
+    document.prepend(this.textRegionExtensions.regionFor(unit).keyword("}"), _function_6);
     final Procedure1<IHiddenRegionFormatter> _function_7 = (IHiddenRegionFormatter it) -> {
       it.setNewLines(1);
     };
