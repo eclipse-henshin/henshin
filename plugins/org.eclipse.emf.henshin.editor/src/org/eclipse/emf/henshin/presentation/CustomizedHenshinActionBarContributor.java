@@ -32,6 +32,8 @@ import org.eclipse.emf.henshin.editor.menuContributors.CreateEdgeCommandMenuCont
 import org.eclipse.emf.henshin.editor.menuContributors.CreateMappingCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateNestedConditionMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.FormulaCommandMenuContributor;
+import org.eclipse.emf.henshin.editor.menuContributors.GeneralizeRuleCommandMenuContributor;
+import org.eclipse.emf.henshin.editor.menuContributors.MinimizeRuleCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.RemoveMappedNodesMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.SimpleCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.UnitCommandMenuContributor;
@@ -236,6 +238,10 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 		
 		CompleteMultiRulesCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection, domain);
 
+		GeneralizeRuleCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection, domain);
+		
+		MinimizeRuleCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection, domain);
+		
 		// ExpandNodeMenuContributor.INSTANCE.buildContributions(menuManager,
 		// currentSelection, domain);
 		

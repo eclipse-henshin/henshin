@@ -11,13 +11,19 @@ package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.Edge;
@@ -66,8 +72,17 @@ public class HenshinModelCleaner {
 			}
 		} while (!remove.isEmpty());
 		
-		// Make sure all used packages are imported:
-		
+		// Remove superfluous meta-model imports and make sure all used packages are imported:
+		Set<EPackage> requiredImports = new HashSet<>();
+		module.eAllContents().forEachRemaining(element -> {
+			if (element instanceof Node) {
+				requiredImports.add(((Node) element).getType().getEPackage());
+			}
+		});
+		if (!requiredImports.isEmpty()) {
+			module.getImports().clear();
+			module.getImports().addAll(requiredImports);
+		}	
 	}
 	
 	/**
@@ -176,6 +191,8 @@ public class HenshinModelCleaner {
 		// Synchronize parameters in multi-rules:
 		synchronizeRuleParameters(rule);
 
+		// Remove unused parameters
+		cleanParameters(rule);
 	}
 	
 	private static void synchronizeShadowEdgesInMultiRules(Rule rule) {
@@ -244,6 +261,37 @@ public class HenshinModelCleaner {
 		
 	}
 
+	public static void cleanParameters(Rule rule) {
+
+		Set<String> names = new HashSet<>();
+
+		// Collect parameter names:
+		rule.eAllContents().forEachRemaining(element -> {
+			if (element instanceof Node) {
+				names.add(((Node) element).getName());
+			}
+
+			else if (element instanceof Attribute) {
+				names.add(((Attribute) element).getValue());
+			}
+		});
+
+		// Remove unknown parameters:
+		List<EObject> unknownParamerters = new ArrayList<>();
+
+		rule.eAllContents().forEachRemaining(element -> {
+			if (element instanceof Parameter) {
+				if (!names.contains(((Parameter) element).getName())) {
+					unknownParamerters.add(element);
+				}
+			}
+		});
+
+		for (EObject parameter : unknownParamerters) {
+			EcoreUtil.remove(parameter);
+		}
+	}
+	
 	/**
 	 * Clean a graph. This cleans the contents of the graph and its formula.
 	 * It removes invalid nodes and edges and tries to simplify the formula
