@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.henshin.rulegen;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.compare;bundle-version="3.1.2",
+ org.eclipse.emf.henshin.model
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.emf.henshin.rulegen
+Bundle-Vendor: %providerName
+Bundle-ActivationPolicy: lazy
