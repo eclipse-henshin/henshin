@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="criticalpair" nsURI="http://www.eclipse.org/emf/2016/Henshin/CriticalPair"
+    nsPrefix="criticalpair">
+  <eClassifiers xsi:type="ecore:EClass" name="CriticalPair">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="firstRule" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondRule" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="minimalModel" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?><!--
+  Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
+  This program and the accompanying materials are made available 
+  under the terms of the Eclipse Public License v1.0 which 
+  accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+ -->
+
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="org.eclipse.emf.henshin.multicda.cpa.commands.category"
+            name="Critical Pair Analysis">
+      </category>
+      <command
+            categoryId="org.eclipse.emf.henshin.multicda.cpa.commands.category"
+            id="org.eclipse.emf.henshin.multicda.cpa.commands.calculateCPA"
+            name="Calculate Critical Pairs">
+      </command>
+      <command
+            categoryId="org.eclipse.emf.henshin.multicda.cpa.commands.category"
+            id="org.eclipse.emf.henshin.multicda.cpa.commands.openCP"
+            name="Open Critical Pair">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.eclipse.emf.henshin.multicda.cpa.ui.action.ExecuteCpaHandler"
+            commandId="org.eclipse.emf.henshin.multicda.cpa.commands.calculateCPA">
+      </handler>
+      <handler
+            class="org.eclipse.emf.henshin.multicda.cpa.ui.action.OpenCpHandler"
+            commandId="org.eclipse.emf.henshin.multicda.cpa.commands.openCP">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.emf.henshin.menu?after=org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinateHenshinFileActionDelegate">
+         <command
+               commandId="org.eclipse.emf.henshin.multicda.cpa.commands.calculateCPA"
+               icon="icons/sample.gif"
+               id="org.eclipse.emf.henshin.multicda.cpa.menus.calculateCPA"
+               label="Calculate Critical Pairs"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate
+                        ifEmpty="false">
+                     <adapt
+                           type="org.eclipse.core.resources.IResource">
+                        <test
+                              property="org.eclipse.core.resources.name"
+                              value="*.henshin">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.emf.henshin.menu?after=org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinateHenshinFileActionDelegate">
+         <command
+               commandId="org.eclipse.emf.henshin.multicda.cpa.commands.openCP"
+               icon="icons/sample.gif"
+               id="org.eclipse.emf.henshin.multicda.cpa.menus.openCP"
+               label="Open Critical Pair"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate
+                        ifEmpty="false">
+                     <adapt
+                           type="org.eclipse.core.resources.IResource">
+                        <test
+                              property="org.eclipse.core.resources.name"
+                              value="*.henshinCp">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.emf.henshin.menu?after=org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinateHenshinFileActionDelegate">
+         <command
+               commandId="org.eclipse.emf.henshin.multicda.cpa.commands.calculateCPA"
+               icon="icons/sample.gif"
+               id="org.eclipse.emf.henshin.multicda.cpa.menus.calculateCPA"
+               label="Calculate Critical Pairs"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate
+                        ifEmpty="false">
+                     <adapt
+                           type="org.eclipse.core.resources.IResource">
+                        <test
+                              property="org.eclipse.core.resources.name"
+                              value="*.henshin_diagram">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.emf.henshin.multicda.cpa.ui.cpa"
+            name="Critical Pair Analysis">
+      </category>
+      <view
+            category="org.eclipse.emf.henshin.multicda.cpa.ui.cpa"
+            class="org.eclipse.emf.henshin.multicda.cpa.ui.presentation.CpaResultsView"
+            icon="icons/sample.gif"
+            id="org.eclipse.emf.henshin.multicda.cpa.ui.views.CPAView"
+            name="CPA Result"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.emf.henshin.multicda.cpa.ui.presentation.HenshinCPEditor"
+            id="org.eclipse.emf.henshin.multicda.cpa.ui.HenshinCPEditor"
+            name="HenshinCpEditor">
+      </editor>
+   </extension>
+
+</plugin>
