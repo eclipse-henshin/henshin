@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.impl.EdgeImpl;
 import org.eclipse.emf.henshin.model.impl.NodeImpl;
 import org.eclipse.emf.henshin.model.impl.ParameterImpl;
@@ -68,14 +69,14 @@ public class EdgeIndexTest extends HenshinTest {
 		Node target = new NodeImpl("target", tm.getNode());
 		edge = new EdgeImpl(source, target, tm.getcont_ContainsNode());
 		param = new ParameterImpl("x", EcorePackage.eINSTANCE.getEInt());
+		param.setKind(ParameterKind.OUT);
 		
 		htRule.getLhs().getNodes().add(source);
 		htRule.getLhs().getNodes().add(target);
 		htRule.getLhs().getEdges().add(edge);
-		htRule.getParameters().add(param);
-		
+
 		edge.setAction(new Action(Action.Type.PRESERVE));
-		
+		htRule.getParameters().add(param);
 	}
 
 	private void checkEdgeIndex(Edge edge, String indexExpr, int index, Match partialMatch) {
@@ -130,6 +131,7 @@ public class EdgeIndexTest extends HenshinTest {
 
 	@Test
 	public void testGetParamEdgeIndexMatch() {
+		System.out.println(htRule);
 		
 		// If we do not specify the edge index, we should get all matches:
 		edge.setIndex(param.getName());

@@ -274,6 +274,11 @@ public class HenshinModelCleaner {
 			else if (element instanceof Attribute) {
 				names.add(((Attribute) element).getValue());
 			}
+			
+			else if (element instanceof Edge) {
+				names.add(((Edge) element).getIndex());
+				System.out.println(names);
+			}
 		});
 
 		// Remove unknown parameters:
