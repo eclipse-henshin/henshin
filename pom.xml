@@ -18,8 +18,8 @@
 		<module>plugins/org.eclipse.emf.henshin.statespace</module>
 		<module>plugins/org.eclipse.emf.henshin.statespace.explorer</module>
 		<module>plugins/org.eclipse.emf.henshin.statespace.external</module>
-		<module>plugins/org.eclipse.emf.henshin.multicda.cpa</module>
-		<module>plugins/org.eclipse.emf.henshin.multicda.cpa.ui</module>
+		<module>plugins/org.eclipse.emf.henshin.cpa</module>
+		<module>plugins/org.eclipse.emf.henshin.cpa.ui</module>
 		<module>plugins/org.eclipse.emf.henshin.trace</module>
 		<module>plugins/org.eclipse.emf.henshin.wrap</module>
 		<module>plugins/org.eclipse.emf.henshin.tests</module>
