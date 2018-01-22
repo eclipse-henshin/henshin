@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.henshin.cpa.CPAOptions;
-import org.eclipse.emf.henshin.cpa.CPAUtility;
-import org.eclipse.emf.henshin.cpa.CpaByAGG;
-import org.eclipse.emf.henshin.cpa.ICriticalPairAnalysis;
-import org.eclipse.emf.henshin.cpa.UnsupportedRuleException;
+import org.eclipse.emf.henshin.multicda.cpa.CPAOptions;
+import org.eclipse.emf.henshin.multicda.cpa.CPAUtility;
+import org.eclipse.emf.henshin.multicda.cpa.CpaByAGG;
+import org.eclipse.emf.henshin.multicda.cpa.ICriticalPairAnalysis;
+import org.eclipse.emf.henshin.multicda.cpa.UnsupportedRuleException;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
