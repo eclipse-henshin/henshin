@@ -162,7 +162,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 			if(wrongType){
 				error("Edgetype "+edge.type.name+" does not exist.'",edge, Henshin_textPackage::eINSTANCE.edge_Type)
 			}
-			if(referenceType!=targetType){
+			if(referenceType!=targetType && !targetType.getEAllSuperTypes().contains(referenceType)){
 				error("Edge "+sourceType.name+"->"+targetType.name+":"+edge.type.name+" does not exist.'",edge, Henshin_textPackage::eINSTANCE.edge_Type)
 			}
 		}
