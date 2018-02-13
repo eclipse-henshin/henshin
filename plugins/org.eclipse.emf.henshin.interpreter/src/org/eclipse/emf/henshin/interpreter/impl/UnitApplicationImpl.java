@@ -230,8 +230,8 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 					if (seqUnit.isRollback()) {
 						undo(monitor);
 					}
+					break;
 				}
-				break;
 			}
 		}
 		if (seqUnit.getSubUnits().isEmpty())
