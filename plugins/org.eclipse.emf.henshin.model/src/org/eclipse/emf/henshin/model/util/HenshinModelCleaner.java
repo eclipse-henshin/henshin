@@ -190,9 +190,6 @@ public class HenshinModelCleaner {
 		
 		// Synchronize parameters in multi-rules:
 		synchronizeRuleParameters(rule);
-
-		// Remove unused parameters
-		cleanParameters(rule);
 	}
 	
 	private static void synchronizeShadowEdgesInMultiRules(Rule rule) {
@@ -277,7 +274,6 @@ public class HenshinModelCleaner {
 			
 			else if (element instanceof Edge) {
 				names.add(((Edge) element).getIndex());
-				System.out.println(names);
 			}
 		});
 
