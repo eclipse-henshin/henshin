@@ -37,5 +37,6 @@ Export-Package: org.eclipse.emf.henshin.examples.aggregation,
  org.eclipse.emf.henshin.examples.probbroadcast,
  org.eclipse.emf.henshin.examples.sierpinski,
  org.eclipse.emf.henshin.examples.sort,
+ org.eclipse.emf.henshin.examples.universitycourses,
  org.eclipse.emf.henshin.examples.wrap.copy,
  org.eclipse.emf.henshin.examples.wrap.mme

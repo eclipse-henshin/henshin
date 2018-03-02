@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__R2IoMvAEeePH7dSPPmQxQ">
+  <imports href="universityCourses.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_eNCu0NH-Eee8KdMvMQmVLg" name="cleanupUninterestingCourses" checkDangling="false">
+    <lhs xmi:id="_eNaiQNH-Eee8KdMvMQmVLg" name="Lhs">
+      <nodes xmi:id="_quXqsAhfEei3n6S3pQ01KA" name="root">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_eNaiQdH-Eee8KdMvMQmVLg" name="Rhs">
+      <nodes xmi:id="_quXqsQhfEei3n6S3pQ01KA" name="root">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_quXqsghfEei3n6S3pQ01KA" origin="_quXqsAhfEei3n6S3pQ01KA" image="_quXqsQhfEei3n6S3pQ01KA"/>
+    <multiRules xmi:id="_VitEkBcNEeiuUdiu7c6Gpw" checkDangling="false">
+      <lhs xmi:id="_VitroBcNEeiuUdiu7c6Gpw" name="Lhs">
+        <nodes xmi:id="_VitrqhcNEeiuUdiu7c6Gpw" name="root" outgoing="_quXqswhfEei3n6S3pQ01KA">
+          <type href="universityCourses.ecore#//University"/>
+        </nodes>
+        <nodes xmi:id="_hfv1sNH-Eee8KdMvMQmVLg" incoming="_quXqswhfEei3n6S3pQ01KA">
+          <type href="universityCourses.ecore#//OfferedCourse"/>
+        </nodes>
+        <edges xmi:id="_quXqswhfEei3n6S3pQ01KA" source="_VitrqhcNEeiuUdiu7c6Gpw" target="_hfv1sNH-Eee8KdMvMQmVLg">
+          <type href="universityCourses.ecore#//University/courses"/>
+        </edges>
+        <formula xsi:type="henshin:Not" xmi:id="_jF15cBcNEeiuUdiu7c6Gpw">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_jF15cRcNEeiuUdiu7c6Gpw">
+            <conclusion xmi:id="_jF15chcNEeiuUdiu7c6Gpw">
+              <nodes xmi:id="_jF2ggBcNEeiuUdiu7c6Gpw" name="root" outgoing="_jF3HlxcNEeiuUdiu7c6Gpw _quYRwAhfEei3n6S3pQ01KA">
+                <type href="universityCourses.ecore#//University"/>
+              </nodes>
+              <nodes xmi:id="_jF3HkRcNEeiuUdiu7c6Gpw" incoming="_jF3HlxcNEeiuUdiu7c6Gpw _kNXiMBcNEeiuUdiu7c6Gpw">
+                <type href="universityCourses.ecore#//OfferedCourse"/>
+              </nodes>
+              <nodes xmi:id="_ig_QQNH-Eee8KdMvMQmVLg" incoming="_quYRwAhfEei3n6S3pQ01KA" outgoing="_kNXiMBcNEeiuUdiu7c6Gpw">
+                <type href="universityCourses.ecore#//Student"/>
+              </nodes>
+              <edges xmi:id="_jF3HlxcNEeiuUdiu7c6Gpw" source="_jF2ggBcNEeiuUdiu7c6Gpw" target="_jF3HkRcNEeiuUdiu7c6Gpw">
+                <type href="universityCourses.ecore#//University/courses"/>
+              </edges>
+              <edges xmi:id="_quYRwAhfEei3n6S3pQ01KA" source="_jF2ggBcNEeiuUdiu7c6Gpw" target="_ig_QQNH-Eee8KdMvMQmVLg">
+                <type href="universityCourses.ecore#//University/persons"/>
+              </edges>
+              <edges xmi:id="_kNXiMBcNEeiuUdiu7c6Gpw" source="_ig_QQNH-Eee8KdMvMQmVLg" target="_jF3HkRcNEeiuUdiu7c6Gpw">
+                <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_jF3HkBcNEeiuUdiu7c6Gpw" origin="_VitrqhcNEeiuUdiu7c6Gpw" image="_jF2ggBcNEeiuUdiu7c6Gpw"/>
+            <mappings xmi:id="_jF3HkhcNEeiuUdiu7c6Gpw" origin="_hfv1sNH-Eee8KdMvMQmVLg" image="_jF3HkRcNEeiuUdiu7c6Gpw"/>
+          </child>
+        </formula>
+      </lhs>
+      <rhs xmi:id="_VitroRcNEeiuUdiu7c6Gpw" name="Rhs">
+        <nodes xmi:id="_VitrohcNEeiuUdiu7c6Gpw" name="root">
+          <type href="universityCourses.ecore#//University"/>
+        </nodes>
+      </rhs>
+      <mappings xmi:id="_VitrshcNEeiuUdiu7c6Gpw" origin="_VitrqhcNEeiuUdiu7c6Gpw" image="_VitrohcNEeiuUdiu7c6Gpw"/>
+      <multiMappings xmi:id="_VitroxcNEeiuUdiu7c6Gpw" origin="_quXqsQhfEei3n6S3pQ01KA" image="_VitrohcNEeiuUdiu7c6Gpw"/>
+      <multiMappings xmi:id="_VitrqxcNEeiuUdiu7c6Gpw" origin="_quXqsAhfEei3n6S3pQ01KA" image="_VitrqhcNEeiuUdiu7c6Gpw"/>
+    </multiRules>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_XeHNINIIEee7sYBANTzRCA" name="removeOfferedCourseAfterScheduling" checkDangling="false">
+    <parameters xmi:id="_TLeacG4gEeitjOgmIgLWRg" name="offered" kind="IN">
+      <type xsi:type="ecore:EClass" href="universityCourses.ecore#//OfferedCourse"/>
+    </parameters>
+    <lhs xmi:id="_XeHNIdIIEee7sYBANTzRCA" name="Lhs">
+      <nodes xmi:id="_tyrwQQhfEei3n6S3pQ01KA" name="root" outgoing="_tysXUQhfEei3n6S3pQ01KA">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+      <nodes xmi:id="_XeHNJdIIEee7sYBANTzRCA" name="offered" incoming="_tysXUQhfEei3n6S3pQ01KA">
+        <type href="universityCourses.ecore#//OfferedCourse"/>
+      </nodes>
+      <edges xmi:id="_tysXUQhfEei3n6S3pQ01KA" source="_tyrwQQhfEei3n6S3pQ01KA" target="_XeHNJdIIEee7sYBANTzRCA">
+        <type href="universityCourses.ecore#//University/courses"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_XeHNK9IIEee7sYBANTzRCA" name="Rhs">
+      <nodes xmi:id="_tyrwQghfEei3n6S3pQ01KA" name="root">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_tyrwQwhfEei3n6S3pQ01KA" origin="_tyrwQQhfEei3n6S3pQ01KA" image="_tyrwQghfEei3n6S3pQ01KA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_V362sAhTEeihx7bYl2Jx-w" name="scheduleOfferedCourse">
+    <parameters xmi:id="_altbgAhTEeihx7bYl2Jx-w" name="hour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_aluCkAhTEeihx7bYl2Jx-w" name="name" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_sRND0G2TEeixopkY37LHWQ" name="offered" kind="OUT">
+      <type xsi:type="ecore:EClass" href="universityCourses.ecore#//OfferedCourse"/>
+    </parameters>
+    <lhs xmi:id="_V39S8AhTEeihx7bYl2Jx-w" name="Lhs">
+      <nodes xmi:id="_B6ZbgAhXEeihx7bYl2Jx-w" name="root" outgoing="_B6aCkAhXEeihx7bYl2Jx-w _B6apoAhXEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+      <nodes xmi:id="_RZp0QAhWEeihx7bYl2Jx-w" name="offered" incoming="_mzkYIAhWEeihx7bYl2Jx-w _B6aCkAhXEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//OfferedCourse"/>
+        <attributes xmi:id="_P18JUAhXEeihx7bYl2Jx-w" value="name">
+          <type href="universityCourses.ecore#//Course/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_TqaV8AhWEeihx7bYl2Jx-w" incoming="_B6apoAhXEeihx7bYl2Jx-w" outgoing="_mzkYIAhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//Lecturer"/>
+      </nodes>
+      <edges xmi:id="_mzkYIAhWEeihx7bYl2Jx-w" source="_TqaV8AhWEeihx7bYl2Jx-w" target="_RZp0QAhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//Lecturer/canTeach"/>
+      </edges>
+      <edges xmi:id="_B6aCkAhXEeihx7bYl2Jx-w" source="_B6ZbgAhXEeihx7bYl2Jx-w" target="_RZp0QAhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//University/courses"/>
+      </edges>
+      <edges xmi:id="_B6apoAhXEeihx7bYl2Jx-w" source="_B6ZbgAhXEeihx7bYl2Jx-w" target="_TqaV8AhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//University/persons"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_iDAREJZ9EeitDt5BAYRFYA">
+        <left xsi:type="henshin:Not" xmi:id="_bMQjMAnJEeizg-fT17Fy9A">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_bMQjMQnJEeizg-fT17Fy9A">
+            <conclusion xmi:id="_bMQjMgnJEeizg-fT17Fy9A">
+              <nodes xmi:id="_bMQjMwnJEeizg-fT17Fy9A" name="root" outgoing="_bMQjOAnJEeizg-fT17Fy9A _bMQjOwnJEeizg-fT17Fy9A _bMP8IwnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//University"/>
+              </nodes>
+              <nodes xmi:id="_bMQjNQnJEeizg-fT17Fy9A" incoming="_bMQjOAnJEeizg-fT17Fy9A _bMQjQgnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//OfferedCourse"/>
+                <attributes xmi:id="_bMQjNgnJEeizg-fT17Fy9A" value="name">
+                  <type href="universityCourses.ecore#//Course/name"/>
+                </attributes>
+              </nodes>
+              <nodes xmi:id="_bMQjOQnJEeizg-fT17Fy9A" incoming="_bMQjOwnJEeizg-fT17Fy9A _4JS4gCj9Eeivn5sYC1hbTg" outgoing="_bMQjQgnJEeizg-fT17Fy9A _fLYEIAnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//Lecturer"/>
+              </nodes>
+              <nodes xmi:id="_bMP8IAnJEeizg-fT17Fy9A" name="" incoming="_bMP8IwnJEeizg-fT17Fy9A _fLYEIAnJEeizg-fT17Fy9A" outgoing="_4JS4gCj9Eeivn5sYC1hbTg">
+                <type href="universityCourses.ecore#//ScheduledCourse"/>
+                <attributes xmi:id="_jGTooAnJEeizg-fT17Fy9A" value="hour">
+                  <type href="universityCourses.ecore#//ScheduledCourse/startingHour"/>
+                </attributes>
+              </nodes>
+              <edges xmi:id="_bMQjOAnJEeizg-fT17Fy9A" source="_bMQjMwnJEeizg-fT17Fy9A" target="_bMQjNQnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//University/courses"/>
+              </edges>
+              <edges xmi:id="_bMQjOwnJEeizg-fT17Fy9A" source="_bMQjMwnJEeizg-fT17Fy9A" target="_bMQjOQnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//University/persons"/>
+              </edges>
+              <edges xmi:id="_bMQjQgnJEeizg-fT17Fy9A" source="_bMQjOQnJEeizg-fT17Fy9A" target="_bMQjNQnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//Lecturer/canTeach"/>
+              </edges>
+              <edges xmi:id="_bMP8IwnJEeizg-fT17Fy9A" source="_bMQjMwnJEeizg-fT17Fy9A" target="_bMP8IAnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//University/courses"/>
+              </edges>
+              <edges xmi:id="_fLYEIAnJEeizg-fT17Fy9A" source="_bMQjOQnJEeizg-fT17Fy9A" target="_bMP8IAnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//Lecturer/teaches"/>
+              </edges>
+              <edges xmi:id="_4JS4gCj9Eeivn5sYC1hbTg" source="_bMP8IAnJEeizg-fT17Fy9A" target="_bMQjOQnJEeizg-fT17Fy9A">
+                <type href="universityCourses.ecore#//ScheduledCourse/lecturers"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_bMQjNAnJEeizg-fT17Fy9A" origin="_B6ZbgAhXEeihx7bYl2Jx-w" image="_bMQjMwnJEeizg-fT17Fy9A"/>
+            <mappings xmi:id="_bMQjNwnJEeizg-fT17Fy9A" origin="_RZp0QAhWEeihx7bYl2Jx-w" image="_bMQjNQnJEeizg-fT17Fy9A"/>
+            <mappings xmi:id="_bMQjOgnJEeizg-fT17Fy9A" origin="_TqaV8AhWEeihx7bYl2Jx-w" image="_bMQjOQnJEeizg-fT17Fy9A"/>
+          </child>
+        </left>
+        <right xsi:type="henshin:NestedCondition" xmi:id="_iDAREZZ9EeitDt5BAYRFYA">
+          <conclusion xmi:id="_iDAREpZ9EeitDt5BAYRFYA">
+            <nodes xmi:id="_iDARE5Z9EeitDt5BAYRFYA" name="root" outgoing="_iDARGJZ9EeitDt5BAYRFYA _iDARG5Z9EeitDt5BAYRFYA _hcsfA5Z9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//University"/>
+            </nodes>
+            <nodes xmi:id="_iDARFZZ9EeitDt5BAYRFYA" name="offered" incoming="_iDARGJZ9EeitDt5BAYRFYA _iDARH5Z9EeitDt5BAYRFYA _jBkyIJZ9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//OfferedCourse"/>
+              <attributes xmi:id="_iDARFpZ9EeitDt5BAYRFYA" value="name">
+                <type href="universityCourses.ecore#//Course/name"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_iDARGZZ9EeitDt5BAYRFYA" incoming="_iDARG5Z9EeitDt5BAYRFYA" outgoing="_iDARH5Z9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//Lecturer"/>
+            </nodes>
+            <nodes xmi:id="_hcsfAJZ9EeitDt5BAYRFYA" incoming="_hcsfA5Z9EeitDt5BAYRFYA" outgoing="_jBkyIJZ9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//Student"/>
+            </nodes>
+            <edges xmi:id="_iDARGJZ9EeitDt5BAYRFYA" source="_iDARE5Z9EeitDt5BAYRFYA" target="_iDARFZZ9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//University/courses"/>
+            </edges>
+            <edges xmi:id="_iDARG5Z9EeitDt5BAYRFYA" source="_iDARE5Z9EeitDt5BAYRFYA" target="_iDARGZZ9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//University/persons"/>
+            </edges>
+            <edges xmi:id="_iDARH5Z9EeitDt5BAYRFYA" source="_iDARGZZ9EeitDt5BAYRFYA" target="_iDARFZZ9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//Lecturer/canTeach"/>
+            </edges>
+            <edges xmi:id="_hcsfA5Z9EeitDt5BAYRFYA" source="_iDARE5Z9EeitDt5BAYRFYA" target="_hcsfAJZ9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//University/persons"/>
+            </edges>
+            <edges xmi:id="_jBkyIJZ9EeitDt5BAYRFYA" source="_hcsfAJZ9EeitDt5BAYRFYA" target="_iDARFZZ9EeitDt5BAYRFYA">
+              <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_iDARFJZ9EeitDt5BAYRFYA" origin="_B6ZbgAhXEeihx7bYl2Jx-w" image="_iDARE5Z9EeitDt5BAYRFYA"/>
+          <mappings xmi:id="_iDARF5Z9EeitDt5BAYRFYA" origin="_RZp0QAhWEeihx7bYl2Jx-w" image="_iDARFZZ9EeitDt5BAYRFYA"/>
+          <mappings xmi:id="_iDARGpZ9EeitDt5BAYRFYA" origin="_TqaV8AhWEeihx7bYl2Jx-w" image="_iDARGZZ9EeitDt5BAYRFYA"/>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_V39S8QhTEeihx7bYl2Jx-w" name="Rhs">
+      <nodes xmi:id="_RZp0QQhWEeihx7bYl2Jx-w" name="offered" incoming="_B6aCkQhXEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//OfferedCourse"/>
+        <attributes xmi:id="_P18JUQhXEeihx7bYl2Jx-w" value="name">
+          <type href="universityCourses.ecore#//Course/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_TqaV8QhWEeihx7bYl2Jx-w" incoming="_B6apoQhXEeihx7bYl2Jx-w _KfCWMCj9Eeivn5sYC1hbTg" outgoing="_4P0MkAhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//Lecturer"/>
+      </nodes>
+      <nodes xmi:id="_0jFcIAhWEeihx7bYl2Jx-w" name="scheduled" incoming="_4P0MkAhWEeihx7bYl2Jx-w _B6bQtAhXEeihx7bYl2Jx-w" outgoing="_KfCWMCj9Eeivn5sYC1hbTg">
+        <type href="universityCourses.ecore#//ScheduledCourse"/>
+        <attributes xmi:id="_QsVl0AhXEeihx7bYl2Jx-w" value="name">
+          <type href="universityCourses.ecore#//Course/name"/>
+        </attributes>
+        <attributes xmi:id="_R_t5QAhXEeihx7bYl2Jx-w" value="hour">
+          <type href="universityCourses.ecore#//ScheduledCourse/startingHour"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_B6ZbgQhXEeihx7bYl2Jx-w" name="root" outgoing="_B6aCkQhXEeihx7bYl2Jx-w _B6apoQhXEeihx7bYl2Jx-w _B6bQtAhXEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+      <edges xmi:id="_4P0MkAhWEeihx7bYl2Jx-w" source="_TqaV8QhWEeihx7bYl2Jx-w" target="_0jFcIAhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//Lecturer/teaches"/>
+      </edges>
+      <edges xmi:id="_B6aCkQhXEeihx7bYl2Jx-w" source="_B6ZbgQhXEeihx7bYl2Jx-w" target="_RZp0QQhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//University/courses"/>
+      </edges>
+      <edges xmi:id="_B6apoQhXEeihx7bYl2Jx-w" source="_B6ZbgQhXEeihx7bYl2Jx-w" target="_TqaV8QhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//University/persons"/>
+      </edges>
+      <edges xmi:id="_B6bQtAhXEeihx7bYl2Jx-w" source="_B6ZbgQhXEeihx7bYl2Jx-w" target="_0jFcIAhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//University/courses"/>
+      </edges>
+      <edges xmi:id="_KfCWMCj9Eeivn5sYC1hbTg" source="_0jFcIAhWEeihx7bYl2Jx-w" target="_TqaV8QhWEeihx7bYl2Jx-w">
+        <type href="universityCourses.ecore#//ScheduledCourse/lecturers"/>
+      </edges>
+    </rhs>
+    <attributeConditions xmi:id="_4m2iMFIFEeiW9cqNi3i0Pg" name="start of day" conditionText="hour >= 0"/>
+    <attributeConditions xmi:id="_8CmQUFIFEeiW9cqNi3i0Pg" name="end of day" conditionText="hour &lt; 24"/>
+    <mappings xmi:id="_RZp0QghWEeihx7bYl2Jx-w" origin="_RZp0QAhWEeihx7bYl2Jx-w" image="_RZp0QQhWEeihx7bYl2Jx-w"/>
+    <mappings xmi:id="_TqaV8ghWEeihx7bYl2Jx-w" origin="_TqaV8AhWEeihx7bYl2Jx-w" image="_TqaV8QhWEeihx7bYl2Jx-w"/>
+    <mappings xmi:id="_B6ZbgghXEeihx7bYl2Jx-w" origin="_B6ZbgAhXEeihx7bYl2Jx-w" image="_B6ZbgQhXEeihx7bYl2Jx-w"/>
+    <multiRules xmi:id="_Pi1FA5Z-EeitDt5BAYRFYA">
+      <parameters xmi:id="_Pi5WcJZ-EeitDt5BAYRFYA" name="hour" kind="IN">
+        <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </parameters>
+      <parameters xmi:id="_Pi5WcZZ-EeitDt5BAYRFYA" name="name" kind="VAR">
+        <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </parameters>
+      <parameters xmi:id="_Pi5Wc5Z-EeitDt5BAYRFYA" name="offered" kind="OUT">
+        <type xsi:type="ecore:EClass" href="universityCourses.ecore#//OfferedCourse"/>
+      </parameters>
+      <lhs xmi:id="_Pi26MJZ-EeitDt5BAYRFYA" name="Lhs">
+        <nodes xmi:id="_Pi3hSJZ-EeitDt5BAYRFYA" name="root" outgoing="_Pi3hTZZ-EeitDt5BAYRFYA _Pi3hUJZ-EeitDt5BAYRFYA _NFITg5Z-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University"/>
+        </nodes>
+        <nodes xmi:id="_Pi3hSpZ-EeitDt5BAYRFYA" name="offered" incoming="_Pi3hTZZ-EeitDt5BAYRFYA _Pi4IUJZ-EeitDt5BAYRFYA _TPVL8JZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//OfferedCourse"/>
+          <attributes xmi:id="_Pi3hS5Z-EeitDt5BAYRFYA" value="name">
+            <type href="universityCourses.ecore#//Course/name"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_Pi3hTpZ-EeitDt5BAYRFYA" incoming="_Pi3hUJZ-EeitDt5BAYRFYA" outgoing="_Pi4IUJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//Lecturer"/>
+        </nodes>
+        <nodes xmi:id="_NFITgJZ-EeitDt5BAYRFYA" incoming="_NFITg5Z-EeitDt5BAYRFYA" outgoing="_TPVL8JZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//Student"/>
+        </nodes>
+        <edges xmi:id="_Pi3hTZZ-EeitDt5BAYRFYA" source="_Pi3hSJZ-EeitDt5BAYRFYA" target="_Pi3hSpZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University/courses"/>
+        </edges>
+        <edges xmi:id="_Pi3hUJZ-EeitDt5BAYRFYA" source="_Pi3hSJZ-EeitDt5BAYRFYA" target="_Pi3hTpZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University/persons"/>
+        </edges>
+        <edges xmi:id="_Pi4IUJZ-EeitDt5BAYRFYA" source="_Pi3hTpZ-EeitDt5BAYRFYA" target="_Pi3hSpZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//Lecturer/canTeach"/>
+        </edges>
+        <edges xmi:id="_NFITg5Z-EeitDt5BAYRFYA" source="_Pi3hSJZ-EeitDt5BAYRFYA" target="_NFITgJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University/persons"/>
+        </edges>
+        <edges xmi:id="_TPVL8JZ-EeitDt5BAYRFYA" source="_NFITgJZ-EeitDt5BAYRFYA" target="_Pi3hSpZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+        </edges>
+        <formula xsi:type="henshin:Not" xmi:id="_cn9IMJZ-EeitDt5BAYRFYA">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_cn9IMZZ-EeitDt5BAYRFYA">
+            <conclusion xmi:id="_cn9IMpZ-EeitDt5BAYRFYA">
+              <nodes xmi:id="_cn9vQJZ-EeitDt5BAYRFYA" name="root" outgoing="_cn9vSpZ-EeitDt5BAYRFYA _cn9vS5Z-EeitDt5BAYRFYA _cn9vTZZ-EeitDt5BAYRFYA _agS4IpZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//University"/>
+              </nodes>
+              <nodes xmi:id="_cn9vQpZ-EeitDt5BAYRFYA" name="offered" incoming="_cn9vSpZ-EeitDt5BAYRFYA _cn9vTJZ-EeitDt5BAYRFYA _cn9vTpZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//OfferedCourse"/>
+              </nodes>
+              <nodes xmi:id="_cn9vRJZ-EeitDt5BAYRFYA" incoming="_cn9vS5Z-EeitDt5BAYRFYA" outgoing="_cn9vTJZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//Lecturer"/>
+              </nodes>
+              <nodes xmi:id="_cn9vRpZ-EeitDt5BAYRFYA" incoming="_cn9vTZZ-EeitDt5BAYRFYA" outgoing="_cn9vTpZ-EeitDt5BAYRFYA _euPfQJZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//Student"/>
+              </nodes>
+              <nodes xmi:id="_agSREJZ-EeitDt5BAYRFYA" incoming="_agS4IpZ-EeitDt5BAYRFYA _euPfQJZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//ScheduledCourse"/>
+                <attributes xmi:id="_n6E8sJZ-EeitDt5BAYRFYA" value="hour">
+                  <type href="universityCourses.ecore#//ScheduledCourse/startingHour"/>
+                </attributes>
+              </nodes>
+              <edges xmi:id="_cn9vSpZ-EeitDt5BAYRFYA" source="_cn9vQJZ-EeitDt5BAYRFYA" target="_cn9vQpZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//University/courses"/>
+              </edges>
+              <edges xmi:id="_cn9vS5Z-EeitDt5BAYRFYA" source="_cn9vQJZ-EeitDt5BAYRFYA" target="_cn9vRJZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//University/persons"/>
+              </edges>
+              <edges xmi:id="_cn9vTJZ-EeitDt5BAYRFYA" source="_cn9vRJZ-EeitDt5BAYRFYA" target="_cn9vQpZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//Lecturer/canTeach"/>
+              </edges>
+              <edges xmi:id="_cn9vTZZ-EeitDt5BAYRFYA" source="_cn9vQJZ-EeitDt5BAYRFYA" target="_cn9vRpZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//University/persons"/>
+              </edges>
+              <edges xmi:id="_cn9vTpZ-EeitDt5BAYRFYA" source="_cn9vRpZ-EeitDt5BAYRFYA" target="_cn9vQpZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+              </edges>
+              <edges xmi:id="_agS4IpZ-EeitDt5BAYRFYA" source="_cn9vQJZ-EeitDt5BAYRFYA" target="_agSREJZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//University/courses"/>
+              </edges>
+              <edges xmi:id="_euPfQJZ-EeitDt5BAYRFYA" source="_cn9vRpZ-EeitDt5BAYRFYA" target="_agSREJZ-EeitDt5BAYRFYA">
+                <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_cn9vQZZ-EeitDt5BAYRFYA" origin="_Pi3hSJZ-EeitDt5BAYRFYA" image="_cn9vQJZ-EeitDt5BAYRFYA"/>
+            <mappings xmi:id="_cn9vQ5Z-EeitDt5BAYRFYA" origin="_Pi3hSpZ-EeitDt5BAYRFYA" image="_cn9vQpZ-EeitDt5BAYRFYA"/>
+            <mappings xmi:id="_cn9vRZZ-EeitDt5BAYRFYA" origin="_Pi3hTpZ-EeitDt5BAYRFYA" image="_cn9vRJZ-EeitDt5BAYRFYA"/>
+            <mappings xmi:id="_cn9vR5Z-EeitDt5BAYRFYA" origin="_NFITgJZ-EeitDt5BAYRFYA" image="_cn9vRpZ-EeitDt5BAYRFYA"/>
+          </child>
+        </formula>
+      </lhs>
+      <rhs xmi:id="_Pi26MZZ-EeitDt5BAYRFYA" name="Rhs">
+        <nodes xmi:id="_Pi26MpZ-EeitDt5BAYRFYA" name="root" outgoing="_Pi26N5Z-EeitDt5BAYRFYA _Pi26OpZ-EeitDt5BAYRFYA _Pi3hRJZ-EeitDt5BAYRFYA _Pi1FApZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University"/>
+        </nodes>
+        <nodes xmi:id="_Pi26NJZ-EeitDt5BAYRFYA" name="offered" incoming="_Pi26N5Z-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//OfferedCourse"/>
+          <attributes xmi:id="_Pi26NZZ-EeitDt5BAYRFYA" value="name">
+            <type href="universityCourses.ecore#//Course/name"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_Pi26OJZ-EeitDt5BAYRFYA" incoming="_Pi26OpZ-EeitDt5BAYRFYA _Pi4IUpZ-EeitDt5BAYRFYA" outgoing="_Pi4IU5Z-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//Lecturer"/>
+        </nodes>
+        <nodes xmi:id="_Pi3hQJZ-EeitDt5BAYRFYA" name="scheduled" incoming="_Pi3hRJZ-EeitDt5BAYRFYA _Pi4IU5Z-EeitDt5BAYRFYA _Xm3z8JZ-EeitDt5BAYRFYA" outgoing="_Pi4IUpZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//ScheduledCourse"/>
+          <attributes xmi:id="_Pi3hQZZ-EeitDt5BAYRFYA" value="name">
+            <type href="universityCourses.ecore#//Course/name"/>
+          </attributes>
+          <attributes xmi:id="_Pi3hQpZ-EeitDt5BAYRFYA" value="hour">
+            <type href="universityCourses.ecore#//ScheduledCourse/startingHour"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_Pi1FAJZ-EeitDt5BAYRFYA" incoming="_Pi1FApZ-EeitDt5BAYRFYA" outgoing="_Xm3z8JZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//Student"/>
+        </nodes>
+        <edges xmi:id="_Pi26N5Z-EeitDt5BAYRFYA" source="_Pi26MpZ-EeitDt5BAYRFYA" target="_Pi26NJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University/courses"/>
+        </edges>
+        <edges xmi:id="_Pi26OpZ-EeitDt5BAYRFYA" source="_Pi26MpZ-EeitDt5BAYRFYA" target="_Pi26OJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University/persons"/>
+        </edges>
+        <edges xmi:id="_Pi3hRJZ-EeitDt5BAYRFYA" source="_Pi26MpZ-EeitDt5BAYRFYA" target="_Pi3hQJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University/courses"/>
+        </edges>
+        <edges xmi:id="_Pi4IUpZ-EeitDt5BAYRFYA" source="_Pi3hQJZ-EeitDt5BAYRFYA" target="_Pi26OJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//ScheduledCourse/lecturers"/>
+        </edges>
+        <edges xmi:id="_Pi4IU5Z-EeitDt5BAYRFYA" source="_Pi26OJZ-EeitDt5BAYRFYA" target="_Pi3hQJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//Lecturer/teaches"/>
+        </edges>
+        <edges xmi:id="_Pi1FApZ-EeitDt5BAYRFYA" source="_Pi26MpZ-EeitDt5BAYRFYA" target="_Pi1FAJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//University/persons"/>
+        </edges>
+        <edges xmi:id="_Xm3z8JZ-EeitDt5BAYRFYA" source="_Pi1FAJZ-EeitDt5BAYRFYA" target="_Pi3hQJZ-EeitDt5BAYRFYA">
+          <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_Pi3hVJZ-EeitDt5BAYRFYA" origin="_Pi3hSJZ-EeitDt5BAYRFYA" image="_Pi26MpZ-EeitDt5BAYRFYA"/>
+      <mappings xmi:id="_Pi4IUZZ-EeitDt5BAYRFYA" origin="_Pi3hSpZ-EeitDt5BAYRFYA" image="_Pi26NJZ-EeitDt5BAYRFYA"/>
+      <mappings xmi:id="_Pi4IVJZ-EeitDt5BAYRFYA" origin="_Pi3hTpZ-EeitDt5BAYRFYA" image="_Pi26OJZ-EeitDt5BAYRFYA"/>
+      <mappings xmi:id="_Pi1FAZZ-EeitDt5BAYRFYA" origin="_NFITgJZ-EeitDt5BAYRFYA" image="_Pi1FAJZ-EeitDt5BAYRFYA"/>
+      <multiMappings xmi:id="_Pi26M5Z-EeitDt5BAYRFYA" origin="_B6ZbgQhXEeihx7bYl2Jx-w" image="_Pi26MpZ-EeitDt5BAYRFYA"/>
+      <multiMappings xmi:id="_Pi26NpZ-EeitDt5BAYRFYA" origin="_RZp0QQhWEeihx7bYl2Jx-w" image="_Pi26NJZ-EeitDt5BAYRFYA"/>
+      <multiMappings xmi:id="_Pi26OZZ-EeitDt5BAYRFYA" origin="_TqaV8QhWEeihx7bYl2Jx-w" image="_Pi26OJZ-EeitDt5BAYRFYA"/>
+      <multiMappings xmi:id="_Pi3hQ5Z-EeitDt5BAYRFYA" origin="_0jFcIAhWEeihx7bYl2Jx-w" image="_Pi3hQJZ-EeitDt5BAYRFYA"/>
+      <multiMappings xmi:id="_Pi3hSZZ-EeitDt5BAYRFYA" origin="_B6ZbgAhXEeihx7bYl2Jx-w" image="_Pi3hSJZ-EeitDt5BAYRFYA"/>
+      <multiMappings xmi:id="_Pi3hTJZ-EeitDt5BAYRFYA" origin="_RZp0QAhWEeihx7bYl2Jx-w" image="_Pi3hSpZ-EeitDt5BAYRFYA"/>
+      <multiMappings xmi:id="_Pi3hT5Z-EeitDt5BAYRFYA" origin="_TqaV8AhWEeihx7bYl2Jx-w" image="_Pi3hTpZ-EeitDt5BAYRFYA"/>
+    </multiRules>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_COImEBfdEei86bbrV6-whA" name="isScheduledCourseConflictFree">
+    <parameters xmi:id="_FwAKURfdEei86bbrV6-whA" name="hour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_W1Xx8G4jEeitjOgmIgLWRg" name="offered" kind="IN">
+      <type xsi:type="ecore:EClass" href="universityCourses.ecore#//OfferedCourse"/>
+    </parameters>
+    <lhs xmi:id="_COLpYBfdEei86bbrV6-whA" name="Lhs">
+      <nodes xmi:id="_FwBYcRfdEei86bbrV6-whA" name="root" outgoing="_PD3iYhfdEei86bbrV6-whA">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+      <nodes xmi:id="_PD27UBfdEei86bbrV6-whA" name="offered" description="" incoming="_PD3iYhfdEei86bbrV6-whA">
+        <type href="universityCourses.ecore#//OfferedCourse"/>
+      </nodes>
+      <edges xmi:id="_PD3iYhfdEei86bbrV6-whA" source="_FwBYcRfdEei86bbrV6-whA" target="_PD27UBfdEei86bbrV6-whA">
+        <type href="universityCourses.ecore#//University/courses"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_NUfPcBfdEei86bbrV6-whA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_NUfPcRfdEei86bbrV6-whA">
+          <conclusion xmi:id="_NUfPchfdEei86bbrV6-whA">
+            <nodes xmi:id="_NUfPcxfdEei86bbrV6-whA" name="root" outgoing="_IE7aUBfdEei86bbrV6-whA _JDCoYBfdEei86bbrV6-whA _7YcOsxfeEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//University"/>
+            </nodes>
+            <nodes xmi:id="_pFL5wBfeEei86bbrV6-whA" incoming="_IE7aUBfdEei86bbrV6-whA" outgoing="_4YrucBfdEei86bbrV6-whA _Us8qwBfdEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//Student"/>
+            </nodes>
+            <nodes xmi:id="_JDCBUBfdEei86bbrV6-whA" incoming="_JDCoYBfdEei86bbrV6-whA _Us8qwBfdEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//ScheduledCourse"/>
+              <attributes xmi:id="_ed5AYBfdEei86bbrV6-whA" value="hour">
+                <type href="universityCourses.ecore#//ScheduledCourse/startingHour"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_7YcOsBfeEei86bbrV6-whA" name="offered" incoming="_7YcOsxfeEei86bbrV6-whA _4YrucBfdEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//OfferedCourse"/>
+            </nodes>
+            <edges xmi:id="_IE7aUBfdEei86bbrV6-whA" source="_NUfPcxfdEei86bbrV6-whA" target="_pFL5wBfeEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//University/persons"/>
+            </edges>
+            <edges xmi:id="_JDCoYBfdEei86bbrV6-whA" source="_NUfPcxfdEei86bbrV6-whA" target="_JDCBUBfdEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//University/courses"/>
+            </edges>
+            <edges xmi:id="_Us8qwBfdEei86bbrV6-whA" source="_pFL5wBfeEei86bbrV6-whA" target="_JDCBUBfdEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+            </edges>
+            <edges xmi:id="_7YcOsxfeEei86bbrV6-whA" source="_NUfPcxfdEei86bbrV6-whA" target="_7YcOsBfeEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//University/courses"/>
+            </edges>
+            <edges xmi:id="_4YrucBfdEei86bbrV6-whA" source="_pFL5wBfeEei86bbrV6-whA" target="_7YcOsBfeEei86bbrV6-whA">
+              <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_NUfPdBfdEei86bbrV6-whA" origin="_FwBYcRfdEei86bbrV6-whA" image="_NUfPcxfdEei86bbrV6-whA"/>
+          <mappings xmi:id="_7YcOshfeEei86bbrV6-whA" origin="_PD27UBfdEei86bbrV6-whA" image="_7YcOsBfeEei86bbrV6-whA"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_COLpYRfdEei86bbrV6-whA" name="Rhs">
+      <nodes xmi:id="_FwBYchfdEei86bbrV6-whA" name="root" outgoing="_pFMg0xfeEei86bbrV6-whA">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+      <nodes xmi:id="_pFMg0BfeEei86bbrV6-whA" name="offered" incoming="_pFMg0xfeEei86bbrV6-whA">
+        <type href="universityCourses.ecore#//OfferedCourse"/>
+      </nodes>
+      <edges xmi:id="_pFMg0xfeEei86bbrV6-whA" source="_FwBYchfdEei86bbrV6-whA" target="_pFMg0BfeEei86bbrV6-whA">
+        <type href="universityCourses.ecore#//University/courses"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_FwBYcxfdEei86bbrV6-whA" origin="_FwBYcRfdEei86bbrV6-whA" image="_FwBYchfdEei86bbrV6-whA"/>
+    <mappings xmi:id="_pFMg0hfeEei86bbrV6-whA" origin="_PD27UBfdEei86bbrV6-whA" image="_pFMg0BfeEei86bbrV6-whA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_lXxzgBx2Eeid3MZ10pcLUw" name="planOrCleanup" subUnits="_n_YZ0JaGEeitDt5BAYRFYA _eNCu0NH-Eee8KdMvMQmVLg">
+    <parameters xmi:id="_s-NjYG8KEeieC70j92c4ZA" name="startHour" description="" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_63V2YG8KEeieC70j92c4ZA" source="_s-NjYG8KEeieC70j92c4ZA" target="_q5XesJaGEeitDt5BAYRFYA"/>
+  </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_CsY9EBx3Eeid3MZ10pcLUw" name="manageCourses" subUnit="_lXxzgBx2Eeid3MZ10pcLUw" iterations="2">
+    <parameters xmi:id="_nmJSgG8KEeieC70j92c4ZA" name="startHour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_zlpxcG8KEeieC70j92c4ZA" source="_nmJSgG8KEeieC70j92c4ZA" target="_s-NjYG8KEeieC70j92c4ZA"/>
+  </units>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_2h2YwG2JEeixopkY37LHWQ" name="incrementIfPossible" if="_DCo0gJZ2EeitDt5BAYRFYA" then="_BGA6UJZ3EeitDt5BAYRFYA">
+    <parameters xmi:id="_BE06EG8QEeieC70j92c4ZA" name="currentHour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_tQjB0G8QEeieC70j92c4ZA" source="_BE06EG8QEeieC70j92c4ZA" target="_GxDnAJZ2EeitDt5BAYRFYA"/>
+    <parameterMappings xmi:id="_W4t8MJZ4EeitDt5BAYRFYA" source="_BE06EG8QEeieC70j92c4ZA" target="_FrgewJZ3EeitDt5BAYRFYA"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_TWeFcG8QEeieC70j92c4ZA" name="incrementHour" subUnits="_TWeFem8QEeieC70j92c4ZA _TWeFgW8QEeieC70j92c4ZA _TWeFi28QEeieC70j92c4ZA">
+    <parameters xmi:id="_TWeFcW8QEeieC70j92c4ZA" name="hour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_TWeFcm8QEeieC70j92c4ZA" name="oneMore" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_TWeFc28QEeieC70j92c4ZA" name="temp" kind="VAR">
+      <type xsi:type="ecore:EClass" href="universityCourses.ecore#//Temp"/>
+    </parameters>
+    <parameterMappings xmi:id="_TWeFdG8QEeieC70j92c4ZA" source="_TWeFcW8QEeieC70j92c4ZA" target="_TWeFe28QEeieC70j92c4ZA"/>
+    <parameterMappings xmi:id="_TWeFdW8QEeieC70j92c4ZA" source="_TWeFfG8QEeieC70j92c4ZA" target="_TWeFc28QEeieC70j92c4ZA"/>
+    <parameterMappings xmi:id="_TWeFdm8QEeieC70j92c4ZA" source="_TWeFc28QEeieC70j92c4ZA" target="_TWeFgm8QEeieC70j92c4ZA"/>
+    <parameterMappings xmi:id="_TWeFd28QEeieC70j92c4ZA" source="_TWeFgm8QEeieC70j92c4ZA" target="_TWeFc28QEeieC70j92c4ZA"/>
+    <parameterMappings xmi:id="_TWeFeG8QEeieC70j92c4ZA" source="_TWeFc28QEeieC70j92c4ZA" target="_TWeFjG8QEeieC70j92c4ZA"/>
+    <parameterMappings xmi:id="_TWeFeW8QEeieC70j92c4ZA" source="_TWeFjW8QEeieC70j92c4ZA" target="_TWeFcm8QEeieC70j92c4ZA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_TWeFem8QEeieC70j92c4ZA" name="createTempInt">
+    <parameters xmi:id="_TWeFe28QEeieC70j92c4ZA" name="hour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_TWeFfG8QEeieC70j92c4ZA" name="temp" kind="OUT">
+      <type xsi:type="ecore:EClass" href="universityCourses.ecore#//Temp"/>
+    </parameters>
+    <lhs xmi:id="_TWeFfW8QEeieC70j92c4ZA" name="Lhs"/>
+    <rhs xmi:id="_TWeFfm8QEeieC70j92c4ZA" name="Rhs">
+      <nodes xmi:id="_TWeFf28QEeieC70j92c4ZA" name="temp">
+        <type href="universityCourses.ecore#//Temp"/>
+        <attributes xmi:id="_TWeFgG8QEeieC70j92c4ZA" value="hour">
+          <type href="universityCourses.ecore#//Temp/tempInt"/>
+        </attributes>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_TWeFgW8QEeieC70j92c4ZA" name="raiseTempInt">
+    <parameters xmi:id="_TWeFgm8QEeieC70j92c4ZA" name="temp" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="universityCourses.ecore#//Temp"/>
+    </parameters>
+    <parameters xmi:id="_TWeFg28QEeieC70j92c4ZA" name="x" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_TWeFhG8QEeieC70j92c4ZA" name="Lhs">
+      <nodes xmi:id="_TWeFhW8QEeieC70j92c4ZA" name="temp">
+        <type href="universityCourses.ecore#//Temp"/>
+        <attributes xmi:id="_TWeFhm8QEeieC70j92c4ZA" value="x">
+          <type href="universityCourses.ecore#//Temp/tempInt"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_TWeFh28QEeieC70j92c4ZA" name="Rhs">
+      <nodes xmi:id="_TWeFiG8QEeieC70j92c4ZA" name="temp">
+        <type href="universityCourses.ecore#//Temp"/>
+        <attributes xmi:id="_TWeFiW8QEeieC70j92c4ZA" value="x+1">
+          <type href="universityCourses.ecore#//Temp/tempInt"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_TWeFim8QEeieC70j92c4ZA" origin="_TWeFhW8QEeieC70j92c4ZA" image="_TWeFiG8QEeieC70j92c4ZA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_TWeFi28QEeieC70j92c4ZA" name="deleteTempInt">
+    <parameters xmi:id="_TWeFjG8QEeieC70j92c4ZA" name="temp" kind="IN">
+      <type xsi:type="ecore:EClass" href="universityCourses.ecore#//Temp"/>
+    </parameters>
+    <parameters xmi:id="_TWeFjW8QEeieC70j92c4ZA" name="oneMore" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_TWeFjm8QEeieC70j92c4ZA" name="Lhs">
+      <nodes xmi:id="_TWeFj28QEeieC70j92c4ZA" name="temp">
+        <type href="universityCourses.ecore#//Temp"/>
+        <attributes xmi:id="_TWeFkG8QEeieC70j92c4ZA" value="oneMore">
+          <type href="universityCourses.ecore#//Temp/tempInt"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_TWeFkW8QEeieC70j92c4ZA" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_DCo0gJZ2EeitDt5BAYRFYA" name="incrementPossible">
+    <parameters xmi:id="_GxDnAJZ2EeitDt5BAYRFYA" name="hour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_DCrQwJZ2EeitDt5BAYRFYA" name="Lhs"/>
+    <rhs xmi:id="_DCrQwZZ2EeitDt5BAYRFYA" name="Rhs"/>
+    <attributeConditions xmi:id="_Hz_qsJZ2EeitDt5BAYRFYA" name="start of day" conditionText="hour >= 0"/>
+    <attributeConditions xmi:id="_KOuAsJZ2EeitDt5BAYRFYA" name="end of day" conditionText="hour &lt; 23"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_BGA6UJZ3EeitDt5BAYRFYA" name="incrementAndContinue" subUnits="_TWeFcG8QEeieC70j92c4ZA _96NXIJbuEeiWPvtubxqgIA">
+    <parameters xmi:id="_FrgewJZ3EeitDt5BAYRFYA" name="currentHour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_UjuQMJZ3EeitDt5BAYRFYA" name="nextHour" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_XpLlQJZ3EeitDt5BAYRFYA" source="_FrgewJZ3EeitDt5BAYRFYA" target="_TWeFcW8QEeieC70j92c4ZA"/>
+    <parameterMappings xmi:id="_gjJ2oJZ3EeitDt5BAYRFYA" source="_TWeFcm8QEeieC70j92c4ZA" target="_UjuQMJZ3EeitDt5BAYRFYA"/>
+    <parameterMappings xmi:id="_jDcpIJZ3EeitDt5BAYRFYA" source="_UjuQMJZ3EeitDt5BAYRFYA" target="_96NXIZbuEeiWPvtubxqgIA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6Kx0QJZ7EeitDt5BAYRFYA" name="existsUnscheduledInterestingCourse">
+    <lhs xmi:id="_6K0QgJZ7EeitDt5BAYRFYA" name="Lhs">
+      <nodes xmi:id="_8QjN8ZZ7EeitDt5BAYRFYA" name="root">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_DJfbsJZ8EeitDt5BAYRFYA">
+        <conclusion xmi:id="_DJfbsZZ8EeitDt5BAYRFYA">
+          <nodes xmi:id="_DJfbspZ8EeitDt5BAYRFYA" name="root" outgoing="_CCjo0JZ8EeitDt5BAYRFYA _D0UhY5Z8EeitDt5BAYRFYA _FZJKIJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//University"/>
+          </nodes>
+          <nodes xmi:id="_CCjBwJZ8EeitDt5BAYRFYA" incoming="_CCjo0JZ8EeitDt5BAYRFYA _HVwAwJZ8EeitDt5BAYRFYA _INGfgJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//OfferedCourse"/>
+          </nodes>
+          <nodes xmi:id="_D0UhYJZ8EeitDt5BAYRFYA" incoming="_D0UhY5Z8EeitDt5BAYRFYA" outgoing="_INGfgJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//Student"/>
+          </nodes>
+          <nodes xmi:id="_FZIjEJZ8EeitDt5BAYRFYA" incoming="_FZJKIJZ8EeitDt5BAYRFYA" outgoing="_HVwAwJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//Lecturer"/>
+          </nodes>
+          <edges xmi:id="_CCjo0JZ8EeitDt5BAYRFYA" source="_DJfbspZ8EeitDt5BAYRFYA" target="_CCjBwJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//University/courses"/>
+          </edges>
+          <edges xmi:id="_D0UhY5Z8EeitDt5BAYRFYA" source="_DJfbspZ8EeitDt5BAYRFYA" target="_D0UhYJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//University/persons"/>
+          </edges>
+          <edges xmi:id="_FZJKIJZ8EeitDt5BAYRFYA" source="_DJfbspZ8EeitDt5BAYRFYA" target="_FZIjEJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//University/persons"/>
+          </edges>
+          <edges xmi:id="_HVwAwJZ8EeitDt5BAYRFYA" source="_FZIjEJZ8EeitDt5BAYRFYA" target="_CCjBwJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//Lecturer/canTeach"/>
+          </edges>
+          <edges xmi:id="_INGfgJZ8EeitDt5BAYRFYA" source="_D0UhYJZ8EeitDt5BAYRFYA" target="_CCjBwJZ8EeitDt5BAYRFYA">
+            <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_DJfbs5Z8EeitDt5BAYRFYA" origin="_8QjN8ZZ7EeitDt5BAYRFYA" image="_DJfbspZ8EeitDt5BAYRFYA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_6K0QgZZ7EeitDt5BAYRFYA" name="Rhs">
+      <nodes xmi:id="_8QjN8pZ7EeitDt5BAYRFYA" name="root">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_8QjN85Z7EeitDt5BAYRFYA" origin="_8QjN8ZZ7EeitDt5BAYRFYA" image="_8QjN8pZ7EeitDt5BAYRFYA"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="__5r7AJZ_EeitDt5BAYRFYA" name="planOneCourse" subUnits="_V362sAhTEeihx7bYl2Jx-w _COImEBfdEei86bbrV6-whA _XeHNINIIEee7sYBANTzRCA">
+    <parameters xmi:id="_DfXoQJaAEeitDt5BAYRFYA" name="hour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_DfXoQpaAEeitDt5BAYRFYA" name="offered" kind="VAR">
+      <type xsi:type="ecore:EClass" href="universityCourses.ecore#//OfferedCourse"/>
+    </parameters>
+    <parameterMappings xmi:id="_MPTz4JaAEeitDt5BAYRFYA" source="_DfXoQJaAEeitDt5BAYRFYA" target="_altbgAhTEeihx7bYl2Jx-w"/>
+    <parameterMappings xmi:id="_c1Av8JaCEeitDt5BAYRFYA" source="_sRND0G2TEeixopkY37LHWQ" target="_DfXoQpaAEeitDt5BAYRFYA"/>
+    <parameterMappings xmi:id="_iihFUJaCEeitDt5BAYRFYA" source="_DfXoQJaAEeitDt5BAYRFYA" target="_FwAKURfdEei86bbrV6-whA"/>
+    <parameterMappings xmi:id="_lubnsJaCEeitDt5BAYRFYA" source="_DfXoQpaAEeitDt5BAYRFYA" target="_W1Xx8G4jEeitjOgmIgLWRg"/>
+    <parameterMappings xmi:id="_pF2PcJaCEeitDt5BAYRFYA" source="_DfXoQpaAEeitDt5BAYRFYA" target="_TLeacG4gEeitjOgmIgLWRg"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_n_YZ0JaGEeitDt5BAYRFYA" name="planAllCoursesOrFail" subUnits="_6Kx0QJZ7EeitDt5BAYRFYA _96NXIJbuEeiWPvtubxqgIA" rollback="false">
+    <parameters xmi:id="_q5XesJaGEeitDt5BAYRFYA" name="startHour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_Y_Nw0JaHEeitDt5BAYRFYA" source="_q5XesJaGEeitDt5BAYRFYA" target="_96NXIZbuEeiWPvtubxqgIA"/>
+  </units>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_96NXIJbuEeiWPvtubxqgIA" name="planCourseOrIncrement" if="__5r7AJZ_EeitDt5BAYRFYA" then="_DnsXAJbyEeiWPvtubxqgIA" else="_2h2YwG2JEeixopkY37LHWQ">
+    <parameters xmi:id="_96NXIZbuEeiWPvtubxqgIA" name="currentHour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_96NXIpbuEeiWPvtubxqgIA" source="_96NXIZbuEeiWPvtubxqgIA" target="_DnsXAZbyEeiWPvtubxqgIA"/>
+    <parameterMappings xmi:id="_96NXI5buEeiWPvtubxqgIA" source="_96NXIZbuEeiWPvtubxqgIA" target="_BE06EG8QEeieC70j92c4ZA"/>
+    <parameterMappings xmi:id="_96NXJJbuEeiWPvtubxqgIA" source="_96NXIZbuEeiWPvtubxqgIA" target="_DfXoQJaAEeitDt5BAYRFYA"/>
+  </units>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_DnsXAJbyEeiWPvtubxqgIA" name="planUnscheduledInterestingCourses" if="_6Kx0QJZ7EeitDt5BAYRFYA" then="_96NXIJbuEeiWPvtubxqgIA">
+    <parameters xmi:id="_DnsXAZbyEeiWPvtubxqgIA" name="currentHour" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_DnsXApbyEeiWPvtubxqgIA" source="_DnsXAZbyEeiWPvtubxqgIA" target="_96NXIZbuEeiWPvtubxqgIA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_D3x-sJtWEeix2Y0ulsySig" name="cleanupUninterestingCourse" checkDangling="false">
+    <lhs xmi:id="_D30a8JtWEeix2Y0ulsySig" name="Lhs">
+      <nodes xmi:id="_Fr8D8JtWEeix2Y0ulsySig" name="root" outgoing="_xNWiEJtkEeix2Y0ulsySig">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+      <nodes xmi:id="_xNTewJtkEeix2Y0ulsySig" incoming="_xNWiEJtkEeix2Y0ulsySig">
+        <type href="universityCourses.ecore#//OfferedCourse"/>
+      </nodes>
+      <edges xmi:id="_xNWiEJtkEeix2Y0ulsySig" source="_Fr8D8JtWEeix2Y0ulsySig" target="_xNTewJtkEeix2Y0ulsySig">
+        <type href="universityCourses.ecore#//University/courses"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_NJGbQJtlEeix2Y0ulsySig">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_NJGbQZtlEeix2Y0ulsySig">
+          <conclusion xmi:id="_NJGbQptlEeix2Y0ulsySig">
+            <nodes xmi:id="_NJGbQ5tlEeix2Y0ulsySig" name="root" outgoing="_NJHCU5tlEeix2Y0ulsySig _z4IGQJtkEeix2Y0ulsySig">
+              <type href="universityCourses.ecore#//University"/>
+            </nodes>
+            <nodes xmi:id="_NJHCUZtlEeix2Y0ulsySig" incoming="_NJHCU5tlEeix2Y0ulsySig _OcFtIJtlEeix2Y0ulsySig">
+              <type href="universityCourses.ecore#//OfferedCourse"/>
+            </nodes>
+            <nodes xmi:id="_z4G4IJtkEeix2Y0ulsySig" incoming="_z4IGQJtkEeix2Y0ulsySig" outgoing="_OcFtIJtlEeix2Y0ulsySig">
+              <type href="universityCourses.ecore#//Student"/>
+            </nodes>
+            <edges xmi:id="_NJHCU5tlEeix2Y0ulsySig" source="_NJGbQ5tlEeix2Y0ulsySig" target="_NJHCUZtlEeix2Y0ulsySig">
+              <type href="universityCourses.ecore#//University/courses"/>
+            </edges>
+            <edges xmi:id="_z4IGQJtkEeix2Y0ulsySig" source="_NJGbQ5tlEeix2Y0ulsySig" target="_z4G4IJtkEeix2Y0ulsySig">
+              <type href="universityCourses.ecore#//University/persons"/>
+            </edges>
+            <edges xmi:id="_OcFtIJtlEeix2Y0ulsySig" source="_z4G4IJtkEeix2Y0ulsySig" target="_NJHCUZtlEeix2Y0ulsySig">
+              <type href="universityCourses.ecore#//Student/isInterestedIn"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_NJHCUJtlEeix2Y0ulsySig" origin="_Fr8D8JtWEeix2Y0ulsySig" image="_NJGbQ5tlEeix2Y0ulsySig"/>
+          <mappings xmi:id="_NJHCUptlEeix2Y0ulsySig" origin="_xNTewJtkEeix2Y0ulsySig" image="_NJHCUZtlEeix2Y0ulsySig"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_D30a8ZtWEeix2Y0ulsySig" name="Rhs">
+      <nodes xmi:id="_Fr8D8ZtWEeix2Y0ulsySig" name="root">
+        <type href="universityCourses.ecore#//University"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Fr8D8ptWEeix2Y0ulsySig" origin="_Fr8D8JtWEeix2Y0ulsySig" image="_Fr8D8ZtWEeix2Y0ulsySig"/>
+  </units>
+  <units xsi:type="henshin:LoopUnit" xmi:id="_7J-t0JtlEeix2Y0ulsySig" name="cleanupUninterestingCoursesUnit" subUnit="_D3x-sJtWEeix2Y0ulsySig"/>
+</henshin:Module>

@@ -1,0 +1,124 @@
+<h1>Henshin Example: University Courses</h1>
+
+<p>
+<small><i>contributed by Benjamin Heidelmeier and Gabriele Taentzer</i></small>
+</p>
+
+<p>
+<i>PLEASE NOTE: This example does not work reliably with the Henshin 1.4 release. Try a newer release or the current nightly build.</i>
+The purpose of this example is to assign university courses to lecturers and students while avoiding time conflicts.
+It is also meant to be an accessible example for the usage of <a href="https://wiki.eclipse.org/Henshin/Units">Units</a>.
+This example wants to showcase as many units as possible.
+Therefore please pardon that some units' usage may seem unnecessarily complicated.
+The transformation model, example input models and source code can be found <a href="http://git.eclipse.org/c/henshin/org.eclipse.emft.henshin.git/tree/plugins/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/universitycourses">here</a>.
+</p>
+
+<h2>Metamodel</h2>
+
+<p>
+<a href="examples/universitycourses/universityCourses-model.png"><img src="examples/universityCourses/universityCourses-model.png" align="right" width="250" /></a>
+The metamodel describes a <i>University</i> which contains <i>Courses</i> and <i>Persons</i>..
+A <i>Course</i> has a name, belongs to a university and can be of two types.
+An <i>OfferedCourse</i> represents a course which can be staged in the next lecture period.
+A <i>ScheduledCourse</i> represents a course which is staged in the next lecture period with the hour it is starting.
+For the sake of simplicity, we consider one generic weekday only, moreover, every course duration is one hour.
+Furthermore it is required to have at least one lecturer.
+A <i>Lecturer</i> is a person who can teach offered courses and teaches scheduled courses.
+A <i>Student</i> is a person who is interested in courses.
+The <i>Temp</i> object contained in a university is defined to save transient information of course scheduling.</br>
+The metamodel is defined in the file <i>universityCourses.ecore</i>.
+</p>
+
+<h3>Instance Model Restrictions</h3>
+
+<p>
+Instance models - which should be transformed with the transformation rules below - have to meet the following requirements:
+<ul>
+	<li>The instance model should contain at least a <i>University</i> object.</li>
+	<li>The name of a <i>Course</i> is considered to be unique. There must not be any pair of <i>OfferedCourse/ScheduledCourse</i> objects which share the same name.</li>
+	<li>There must not be any time conflicts for a <i>Lecturer</i> or <i>Student</i> and their associated <i>ScheduledCourse</i>s.</li>
+</ul>
+</p>
+
+<h2>Henshin Rules and Units</h2>
+
+<a href="examples/universitycourses/universityCourses-planAllCoursesOrFail.png"><img src="examples/universityCourses/universityCourses-planAllCoursesOrFail.png" /></a>
+
+<p>
+The <i>SequentialUnit</i> <b>planAllCoursesOrFail</b> (<i>strict=true</i>, <i>rollback=false</i>) executes the rule <i>existsUnscheduledInterestingCourse</i> first.
+The rule <b>existsUnscheduledInterestingCourse</b> checks the existence of an <i>OfferedCourse</i> having an interested <i>Student</i> as well as a <i>Lecturer</i> capable of teaching the <i>Course</i>.
+If this application is successful, <i>planCourseOrIncrement</i> is executed.
+</p>
+
+<p>
+The <i>ConditionalUnit</i> <b>planCourseOrIncrement</b> tries to apply the sub-unit <i>planOneCourse</i>.
+If it is successfully applicable, <i>planCourseOrIncrement</i> basically calls itself recursively to attempt <i>planOneCourse</i> again by calling the <i>ConditionalUnit</i> <b>planUnscheduledInterestingCourses</b>.
+This unit uses <i>existsUnscheduledInterestingCourse</i> so that the application terminates as soon as all interesting courses are scheduled.
+In contrast to the very similar (<i>strict</i>) <i>SequentialUnit</i> <i>planAllCoursesOrFail</i>, this <i>ConditionalUnit</i> does not fail if no unscheduled courses exist.
+If it failed after all courses have been scheduled, the previous execution of <i>planCourseOrIncrement</i> would also be unsuccessful and would lead to the rescission of the last <i>planOneCourse</i> execution.
+In consequence there would always remain one unscheduled but interesting course after the successful application of <i>planAllCoursesOrFail</i>.
+Therefore the <i>ConditionalUnit</i> <i>planUnscheduledInterestingCourses</i> - which never fails after an unsuccessful application of its <i>if</i>-sub-unit - is used inside <i>planCourseOrIncrement</i>.
+</p>
+
+<p>
+<a href="examples/universitycourses/universityCourses-incrementHour.png"><img src="examples/universityCourses/universityCourses-incrementHour.png" /></a>
+</p>
+
+<p>
+If <i>planOneCourse</i> is not applicable, the <i>ConditionalUnit</i> <b>incrementIfPossible</b> first checks whether incrementing the current hour is possible by applying the rule <b>incrementPossible</b>.
+After a successful application of <i>incrementPossible</i> the <i>SequentialUnit</i> <i>incrementHour</i> is applied in the <i>SequentialUnit</i> <b>incrementAndContinue</b>.
+The unit <b>incrementHour</b> raises the passed-in <i>hour</i> parameter by one and returns the result via the parameter <i>oneMore</i></i>.
+After successfully incrementing the hour value <i>planCourseOrIncrement</i> is called again.
+In the end <i>planCourseOrIncrement</i> should only terminate with the maximum number of courses (with prospective students) scheduled between the starting time and the end of the day.
+</p>
+
+<p>
+<a href="examples/universitycourses/universityCourses-planOneCourse.png"><img src="examples/universityCourses/universityCourses-planOneCourse.png" align="right" width="350" /></a>
+
+<b>planOneCourse</b> is a <i>SequentialUnit</i> with the flags <i>strict=true</i> and <i>rollback=true</i>.
+First, it schedules a course which prevents time conflicts for lecturers by fixing the time using the rule <i>scheduleOfferedCourse</i>.
+Furthermore it attempts to associate all interested students without time conflicts with the scheduled course.
+Afterwards <i>planOneCourse</i> checks the absence of interested students with time conflicts by applying the rule <i>isScheduledCourseConflictFree</i>.
+At last, the according <i>OfferedCourse</i> is removed by an application of <i>removeOfferedCourseAfterScheduling</i>.
+This unit may fail in <i>scheduleOfferedCourse</i> if there is no lecturer associable without time conflict or in <i>isScheduledCourseConflictFree</i> if there is an interested student with time conflict.
+Due to the flag <i>strict=true</i>, the <i>SequentialUnit</i> application stopps at the failed rule and due to the flag <i>rollback=true</i> it reverts all applied transformations.
+This means that <i>planOneCourse</i> is applied only if there is no time conflict for students or lecturers.
+</p>
+
+<p>
+The rule <b>scheduleOfferedCourse</b> tries to find an <i>OfferedCourse</i> in which at least one <i>Student</i> is interested in and which can be taught by at least one <i>Lecturer</i>.
+The <i>in</i>-parameter <i>hour</i> defines the hour to which the course can be scheduled.
+The <i>Lecturer</i> must not teach another <i>ScheduledCourse</i> at the same time (here called <i>startingHour</i>).
+If those requirements are met, a new <i>ScheduledCourse</i> with the same name as the <i>OfferedCourse</i> is created at the given time.
+At the same time the rule attempts to move students to the ScheduledCourse.
+If a <i>Student</i> is not interested in another conflicting <i>ScheduledCourse</i> he/she will get associated with the <i>ScheduledCourse</i> instead of the <i>OfferedCourse</i>.
+</p>
+
+<p>
+The rule <b>isScheduledCourseConflictFree</b> checks whether there is no student interested in an <i>OfferedCourse</i> with corresponding <i>ScheduledCourse</i> and who is interested in a <i>ScheduledCourse</i> at the same time.
+This rule basically detects <i>Student</i>s who cannot be treated by <i>moveStudentsToScheduledCourse</i>.
+The rule <b>removeOfferedCourseAfterScheduling</b> (<i>checkDangling=false</i>) deletes an <i>OfferedCourse</i> that is scheduled.
+</p>
+
+<p>
+<a href="examples/universitycourses/universityCourses-manageCourses.png"><img src="examples/universityCourses/universityCourses-manageCourses.png" align="right" /></a>
+The starting point for the application of this example is the <i>IteratedUnit</i> <b>manageCourses</b> with the flag <i>strict</i> set to false.
+The <i>in</i>-parameter <i>startHour</i> in this and all other units sets the earliest hour to which courses can be scheduled.
+This unit tries to apply its sub-unit <i>planOrCleanup</i> two times which shall ensure that each of the two sub-units of <i>planOrCleanup</i> is applied at least once.
+<b>planOrCleanup</b> is a <i>PriorityUnit</i> with the sub-units <i>planAllCoursesOrFail</i> and <i>cleanupUninterestingCourses</i>.
+The former sub-unit can be applied <i>successfully</i> at most once.
+This means that the rule <b>cleanupUninterestingCourses</b> which removes <i>OfferedCourse</i>s without prospective students (<i>checkDangling=false</i>) is applied in the second iteration at latest.
+</p>
+
+<h3>Loop Unit vs. Nested Rule</h3>
+
+<p>
+<a href="examples/universitycourses/universityCourses-cleanupUninterestingCoursesUnit.png"><img src="examples/universitycourses/universityCourses-cleanupUninterestingCoursesUnit.png" /></a>
+</p>
+
+<p>
+The rule <i>cleanupUninterestingCourses</i>, which is realised using a nested rule, can alternatively be replaced by a <i>LoopUnit</i> <i>cleanupUninterestingCoursesUnit</i>.
+This unit contains the multi-rule of the formerly nested rule and is named <i>cleanupUninterestingCourse</i> here (singular!).
+The expression with a nested rule is preferreable in this case because of its greater simplicity.
+But for a unit (instead of a rule) which has to be executed as many times as possible a <i>LoopUnit</i> has to be used necessarily.
+</p>
