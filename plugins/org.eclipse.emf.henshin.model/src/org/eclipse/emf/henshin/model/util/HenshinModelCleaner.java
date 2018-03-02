@@ -596,6 +596,7 @@ public class HenshinModelCleaner {
 			Parameter t = rule.getParameters().get(i);
 			t.setName(s.getName());
 			t.setType(s.getType());
+			t.setKind(s.getKind());
 			t.setDescription(s.getDescription());
 		}
 		for (Rule multiRule : rule.getMultiRules()) {
