@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="universityCourses" nsURI="http://www.example.org/universityCourses"
+    nsPrefix="universityCourses">
+  <eClassifiers xsi:type="ecore:EClass" name="Lecturer" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teaches" upperBound="-1"
+        eType="#//ScheduledCourse" eOpposite="#//ScheduledCourse/lecturers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="canTeach" ordered="false"
+        upperBound="-1" eType="#//OfferedCourse"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Student" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isInterestedIn" upperBound="-1"
+        eType="#//Course"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScheduledCourse" eSuperTypes="#//Course">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startingHour" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lecturers" lowerBound="1"
+        upperBound="-1" eType="#//Lecturer" eOpposite="#//Lecturer/teaches"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="University">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="persons" upperBound="-1"
+        eType="#//Person" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="courses" upperBound="-1"
+        eType="#//Course" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="temp" eType="#//Temp" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OfferedCourse" eSuperTypes="#//Course"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Course" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Temp">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tempInt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="8"/>
+  </eClassifiers>
+</ecore:EPackage>

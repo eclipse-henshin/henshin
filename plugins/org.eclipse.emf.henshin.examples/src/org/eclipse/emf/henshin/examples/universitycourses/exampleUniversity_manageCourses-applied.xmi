@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<universityCourses:University xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:universityCourses="http://www.example.org/universityCourses" xsi:schemaLocation="http://www.example.org/universityCourses universityCourses.ecore">
+  <persons xsi:type="universityCourses:Lecturer" name="Alfa" teaches="//@courses.6"/>
+  <persons xsi:type="universityCourses:Lecturer" name="Bravo" teaches="//@courses.3 //@courses.4 //@courses.5"/>
+  <persons xsi:type="universityCourses:Lecturer" name="Charlie" teaches="//@courses.1 //@courses.2"/>
+  <persons xsi:type="universityCourses:Student" name="Tango" isInterestedIn="//@courses.1 //@courses.4"/>
+  <persons xsi:type="universityCourses:Student" name="Uniform" isInterestedIn="//@courses.2 //@courses.5"/>
+  <persons xsi:type="universityCourses:Student" name="Victor" isInterestedIn="//@courses.2 //@courses.4"/>
+  <persons xsi:type="universityCourses:Student" name="Whiskey" isInterestedIn="//@courses.1 //@courses.2 //@courses.4 //@courses.5 //@courses.6"/>
+  <persons xsi:type="universityCourses:Student" name="X-Ray" isInterestedIn="//@courses.1 //@courses.6"/>
+  <persons xsi:type="universityCourses:Student" name="Yankee" isInterestedIn="//@courses.1 //@courses.3"/>
+  <persons xsi:type="universityCourses:Student" name="Zulu" isInterestedIn="//@courses.0 //@courses.3 //@courses.6"/>
+  <courses xsi:type="universityCourses:OfferedCourse" name="iCon-L"/>
+  <courses xsi:type="universityCourses:ScheduledCourse" name="Erlang" startingHour="8" lecturers="//@persons.2"/>
+  <courses xsi:type="universityCourses:ScheduledCourse" name="Fortran" startingHour="9" lecturers="//@persons.2"/>
+  <courses xsi:type="universityCourses:ScheduledCourse" name="C++" startingHour="9" lecturers="//@persons.1"/>
+  <courses xsi:type="universityCourses:ScheduledCourse" name="BASIC" startingHour="10" lecturers="//@persons.1"/>
+  <courses xsi:type="universityCourses:ScheduledCourse" name="Delphi" startingHour="11" lecturers="//@persons.1"/>
+  <courses xsi:type="universityCourses:ScheduledCourse" name="Ada" startingHour="12" lecturers="//@persons.0"/>
+</universityCourses:University>

@@ -1,0 +1,1180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="__R2IocvAEeePH7dSPPmQxQ" type="Henshin" name="universityCourses.henshin_diagram" measurementUnit="Pixel">
+  <children xmi:type="notation:Shape" xmi:id="_eNXe8NH-Eee8KdMvMQmVLg" type="2001" fontName="Segoe UI" italic="true" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_hfwcwtH-Eee8KdMvMQmVLg" source="defaultAction">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_hfwcw9H-Eee8KdMvMQmVLg" key="value" value="forbid"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_quXDoAhfEei3n6S3pQ01KA" source="rootObject">
+      <references xmi:type="henshin:Node" href="universityCourses.henshin#_quXqsAhfEei3n6S3pQ01KA"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_eNYGANH-Eee8KdMvMQmVLg" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_eNYGAdH-Eee8KdMvMQmVLg" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_hfxq4NH-Eee8KdMvMQmVLg" type="3001" fontName="Segoe UI">
+        <children xmi:type="notation:DecorationNode" xmi:id="_hfyR8NH-Eee8KdMvMQmVLg" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_hfyR8dH-Eee8KdMvMQmVLg" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_hfyR8tH-Eee8KdMvMQmVLg" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_hfyR89H-Eee8KdMvMQmVLg"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_hfyR9NH-Eee8KdMvMQmVLg"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_hfv1sNH-Eee8KdMvMQmVLg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hfxq4dH-Eee8KdMvMQmVLg" x="141" y="4"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_ihAeYNH-Eee8KdMvMQmVLg" type="3001" fontName="Segoe UI">
+        <children xmi:type="notation:DecorationNode" xmi:id="_ihAeYtH-Eee8KdMvMQmVLg" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_ihAeY9H-Eee8KdMvMQmVLg" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_ihAeZNH-Eee8KdMvMQmVLg" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_ihAeZdH-Eee8KdMvMQmVLg"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_ihAeZtH-Eee8KdMvMQmVLg"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_ig_QQNH-Eee8KdMvMQmVLg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ihAeYdH-Eee8KdMvMQmVLg" x="3" y="4"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_eNCu0NH-Eee8KdMvMQmVLg"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eNXe8dH-Eee8KdMvMQmVLg" x="816" y="216" width="313" height="88"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_XeGmEdIIEee7sYBANTzRCA" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_XeGmEtIIEee7sYBANTzRCA" source="defaultAction">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_XeGmE9IIEee7sYBANTzRCA" key="value" value="preserve"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_tyrwQAhfEei3n6S3pQ01KA" source="rootObject">
+      <references xmi:type="henshin:Node" href="universityCourses.henshin#_tyrwQQhfEei3n6S3pQ01KA"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_XeGmFNIIEee7sYBANTzRCA" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_XeGmFdIIEee7sYBANTzRCA" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_XeGmJNIIEee7sYBANTzRCA" type="3001" fontName="Segoe UI">
+        <children xmi:type="notation:DecorationNode" xmi:id="_XeGmJdIIEee7sYBANTzRCA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_XeGmJtIIEee7sYBANTzRCA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_XeGmJ9IIEee7sYBANTzRCA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_XeGmKNIIEee7sYBANTzRCA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_XeGmKdIIEee7sYBANTzRCA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_XeHNJdIIEee7sYBANTzRCA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XeGmKtIIEee7sYBANTzRCA" x="1"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_XeHNINIIEee7sYBANTzRCA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XeGmMtIIEee7sYBANTzRCA" x="5" y="1025" width="438" height="86"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_V38E0AhTEeihx7bYl2Jx-w" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_O1PWwAhWEeihx7bYl2Jx-w" source="defaultAction">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_O1PWwQhWEeihx7bYl2Jx-w" key="value" value="forbid"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_B6Y0cAhXEeihx7bYl2Jx-w" source="rootObject">
+      <references xmi:type="henshin:Node" href="universityCourses.henshin#_B6ZbgAhXEeihx7bYl2Jx-w"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_V38r4AhTEeihx7bYl2Jx-w" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_V38r4QhTEeihx7bYl2Jx-w" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_RZqbUAhWEeihx7bYl2Jx-w" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_RZqbUghWEeihx7bYl2Jx-w" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_RZqbUwhWEeihx7bYl2Jx-w" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_RZqbVAhWEeihx7bYl2Jx-w" type="7002">
+          <children xmi:type="notation:Node" xmi:id="_P18wYAhXEeihx7bYl2Jx-w" type="3002">
+            <element xmi:type="henshin:Attribute" href="universityCourses.henshin#_P18JUAhXEeihx7bYl2Jx-w"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_P18wYQhXEeihx7bYl2Jx-w"/>
+          </children>
+          <styles xmi:type="notation:SortingStyle" xmi:id="_RZqbVQhWEeihx7bYl2Jx-w"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_RZqbVghWEeihx7bYl2Jx-w"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_RZp0QAhWEeihx7bYl2Jx-w"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RZqbUQhWEeihx7bYl2Jx-w" x="6" y="77"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_TqbkEAhWEeihx7bYl2Jx-w" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_TqbkEghWEeihx7bYl2Jx-w" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_TqbkEwhWEeihx7bYl2Jx-w" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_TqbkFAhWEeihx7bYl2Jx-w" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_TqbkFQhWEeihx7bYl2Jx-w"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_TqbkFghWEeihx7bYl2Jx-w"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_TqaV8AhWEeihx7bYl2Jx-w"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_TqbkEQhWEeihx7bYl2Jx-w" x="207" y="164"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_0jGDMAhWEeihx7bYl2Jx-w" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_0jGDMghWEeihx7bYl2Jx-w" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_0jGDMwhWEeihx7bYl2Jx-w" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_0jGDNAhWEeihx7bYl2Jx-w" type="7002">
+          <children xmi:type="notation:Node" xmi:id="_QsYpIAhXEeihx7bYl2Jx-w" type="3002">
+            <element xmi:type="henshin:Attribute" href="universityCourses.henshin#_QsVl0AhXEeihx7bYl2Jx-w"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_QsYpIQhXEeihx7bYl2Jx-w"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_R_vHYAhXEeihx7bYl2Jx-w" type="3002">
+            <element xmi:type="henshin:Attribute" href="universityCourses.henshin#_R_t5QAhXEeihx7bYl2Jx-w"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_R_vucAhXEeihx7bYl2Jx-w"/>
+          </children>
+          <styles xmi:type="notation:SortingStyle" xmi:id="_0jGDNQhWEeihx7bYl2Jx-w"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_0jGDNghWEeihx7bYl2Jx-w"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_0jFcIAhWEeihx7bYl2Jx-w"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0jGDMQhWEeihx7bYl2Jx-w" x="361" y="63"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_bMSYYAnJEeizg-fT17Fy9A" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_bMSYYgnJEeizg-fT17Fy9A" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_bMSYYwnJEeizg-fT17Fy9A" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_bMSYZAnJEeizg-fT17Fy9A" type="7002">
+          <children xmi:type="notation:Node" xmi:id="_jGVd0AnJEeizg-fT17Fy9A" type="3002">
+            <element xmi:type="henshin:Attribute" href="universityCourses.henshin#_jGTooAnJEeizg-fT17Fy9A"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_jGVd0QnJEeizg-fT17Fy9A"/>
+          </children>
+          <styles xmi:type="notation:SortingStyle" xmi:id="_bMSYZQnJEeizg-fT17Fy9A"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_bMSYZgnJEeizg-fT17Fy9A"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_bMP8IAnJEeizg-fT17Fy9A"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bMSYYQnJEeizg-fT17Fy9A" x="384" y="166"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_4m3JQFIFEeiW9cqNi3i0Pg" type="3005">
+        <children xmi:type="notation:DecorationNode" xmi:id="_4m3JRFIFEeiW9cqNi3i0Pg" type="5006"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_4m3JRVIFEeiW9cqNi3i0Pg" type="5007"/>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_4m3JQVIFEeiW9cqNi3i0Pg"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_4m3JQlIFEeiW9cqNi3i0Pg" fontName="Cantarell"/>
+        <element xmi:type="henshin:AttributeCondition" href="universityCourses.henshin#_4m2iMFIFEeiW9cqNi3i0Pg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4m3JQ1IFEeiW9cqNi3i0Pg" x="6" y="141" height="34"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_8CnecFIFEeiW9cqNi3i0Pg" type="3005">
+        <children xmi:type="notation:DecorationNode" xmi:id="_8CnedFIFEeiW9cqNi3i0Pg" type="5006"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_8CnedVIFEeiW9cqNi3i0Pg" type="5007"/>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_8CnecVIFEeiW9cqNi3i0Pg"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_8CneclIFEeiW9cqNi3i0Pg" fontName="Cantarell"/>
+        <element xmi:type="henshin:AttributeCondition" href="universityCourses.henshin#_8CmQUFIFEeiW9cqNi3i0Pg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8Cnec1IFEeiW9cqNi3i0Pg" x="9" y="185" height="32"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_hcttIJZ9EeitDt5BAYRFYA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_hcttIpZ9EeitDt5BAYRFYA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_hcttI5Z9EeitDt5BAYRFYA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_hcttJJZ9EeitDt5BAYRFYA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_hcttJZZ9EeitDt5BAYRFYA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_hcttJpZ9EeitDt5BAYRFYA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_hcsfAJZ9EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hcttIZZ9EeitDt5BAYRFYA" x="41" y="1"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_NFJhoJZ-EeitDt5BAYRFYA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_NFJhopZ-EeitDt5BAYRFYA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_NFJho5Z-EeitDt5BAYRFYA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_NFJhpJZ-EeitDt5BAYRFYA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_NFJhpZZ-EeitDt5BAYRFYA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_NFJhppZ-EeitDt5BAYRFYA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_NFITgJZ-EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_NFJhoZZ-EeitDt5BAYRFYA" x="201" y="4"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_agUtUJZ-EeitDt5BAYRFYA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_agUtUpZ-EeitDt5BAYRFYA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_agUtU5Z-EeitDt5BAYRFYA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_agUtVJZ-EeitDt5BAYRFYA" type="7002">
+          <children xmi:type="notation:Node" xmi:id="_n6IAAJZ-EeitDt5BAYRFYA" type="3002">
+            <element xmi:type="henshin:Attribute" href="universityCourses.henshin#_n6E8sJZ-EeitDt5BAYRFYA"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_n6IAAZZ-EeitDt5BAYRFYA"/>
+          </children>
+          <styles xmi:type="notation:SortingStyle" xmi:id="_agUtVZZ-EeitDt5BAYRFYA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_agUtVpZ-EeitDt5BAYRFYA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_agSREJZ-EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_agUtUZZ-EeitDt5BAYRFYA" x="381" y="1"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_V362sAhTEeihx7bYl2Jx-w"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_V38E0QhTEeihx7bYl2Jx-w" x="5" y="658" width="528" height="268"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_COKbQBfdEei86bbrV6-whA" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_FwBYcBfdEei86bbrV6-whA" source="rootObject">
+      <references xmi:type="henshin:Node" href="universityCourses.henshin#_FwBYcRfdEei86bbrV6-whA"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_IE7aUhfdEei86bbrV6-whA" source="defaultAction">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_IE7aUxfdEei86bbrV6-whA" key="value" value="preserve"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_COKbQhfdEei86bbrV6-whA" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_COKbQxfdEei86bbrV6-whA" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_JDD2gBfdEei86bbrV6-whA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_JDEdkBfdEei86bbrV6-whA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_JDEdkRfdEei86bbrV6-whA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_JDEdkhfdEei86bbrV6-whA" type="7002">
+          <children xmi:type="notation:Node" xmi:id="_eeA8MBfdEei86bbrV6-whA" type="3002">
+            <element xmi:type="henshin:Attribute" href="universityCourses.henshin#_ed5AYBfdEei86bbrV6-whA"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_eeA8MRfdEei86bbrV6-whA"/>
+          </children>
+          <styles xmi:type="notation:SortingStyle" xmi:id="_JDEdkxfdEei86bbrV6-whA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_JDEdlBfdEei86bbrV6-whA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_JDCBUBfdEei86bbrV6-whA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JDD2gRfdEei86bbrV6-whA" x="325"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_PD4wgBfdEei86bbrV6-whA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_PD4wghfdEei86bbrV6-whA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_PD4wgxfdEei86bbrV6-whA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_PD5XkBfdEei86bbrV6-whA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_PD5XkRfdEei86bbrV6-whA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_PD5XkhfdEei86bbrV6-whA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_PD27UBfdEei86bbrV6-whA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PD4wgRfdEei86bbrV6-whA" x="4" y="4"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_pFTOgBfeEei86bbrV6-whA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_pFTOghfeEei86bbrV6-whA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_pFTOgxfeEei86bbrV6-whA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_pFTOhBfeEei86bbrV6-whA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_pFTOhRfeEei86bbrV6-whA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_pFTOhhfeEei86bbrV6-whA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_pFL5wBfeEei86bbrV6-whA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pFTOgRfeEei86bbrV6-whA" x="202" y="4"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_COImEBfdEei86bbrV6-whA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_COKbQRfdEei86bbrV6-whA" x="5" y="931" width="464" height="88"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_lYAdABx2Eeid3MZ10pcLUw" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_lYBrIBx2Eeid3MZ10pcLUw" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_lYBrIRx2Eeid3MZ10pcLUw" type="7003">
+      <children xmi:type="notation:Node" xmi:id="_lYCSMBx2Eeid3MZ10pcLUw" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_lYC5QBx2Eeid3MZ10pcLUw" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_lYC5QRx2Eeid3MZ10pcLUw" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_lYCSMRx2Eeid3MZ10pcLUw"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_lYCSMhx2Eeid3MZ10pcLUw" fontName="Cantarell"/>
+        <element xmi:type="henshin:PriorityUnit" href="universityCourses.henshin#_lXxzgBx2Eeid3MZ10pcLUw"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lYC5Qhx2Eeid3MZ10pcLUw" x="3" y="5"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lYC5Qxx2Eeid3MZ10pcLUw" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_lYC5Rxx2Eeid3MZ10pcLUw" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_lYC5SBx2Eeid3MZ10pcLUw" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_lYC5RBx2Eeid3MZ10pcLUw"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_lYC5RRx2Eeid3MZ10pcLUw" fontName="Cantarell"/>
+        <element xmi:type="henshin:PriorityUnit" href="universityCourses.henshin#_lXxzgBx2Eeid3MZ10pcLUw"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lYC5SRx2Eeid3MZ10pcLUw" x="189" y="50"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_qSTMwBx2Eeid3MZ10pcLUw" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_qSTMwhx2Eeid3MZ10pcLUw" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_eNCu0NH-Eee8KdMvMQmVLg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_qSTMwRx2Eeid3MZ10pcLUw" x="3" y="46"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_7rZ4gJaGEeitDt5BAYRFYA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_7rZ4gpaGEeitDt5BAYRFYA" type="5005"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_n_YZ0JaGEeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7rZ4gZaGEeitDt5BAYRFYA" x="76" y="1"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:PriorityUnit" href="universityCourses.henshin#_lXxzgBx2Eeid3MZ10pcLUw"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lYAdARx2Eeid3MZ10pcLUw" x="816" y="99" width="291" height="109"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_CsgR0Bx3Eeid3MZ10pcLUw" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_CsgR0hx3Eeid3MZ10pcLUw" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_CsgR0xx3Eeid3MZ10pcLUw" type="7003">
+      <children xmi:type="notation:Node" xmi:id="_Csg44Bx3Eeid3MZ10pcLUw" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Csg45Bx3Eeid3MZ10pcLUw" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Csg45Rx3Eeid3MZ10pcLUw" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_Csg44Rx3Eeid3MZ10pcLUw"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_Csg44hx3Eeid3MZ10pcLUw" fontName="Cantarell"/>
+        <element xmi:type="henshin:IteratedUnit" href="universityCourses.henshin#_CsY9EBx3Eeid3MZ10pcLUw"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_Csg45hx3Eeid3MZ10pcLUw" x="3" y="7"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_Csg45xx3Eeid3MZ10pcLUw" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Csg46xx3Eeid3MZ10pcLUw" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Csg47Bx3Eeid3MZ10pcLUw" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_Csg46Bx3Eeid3MZ10pcLUw"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_Csg46Rx3Eeid3MZ10pcLUw" fontName="Cantarell"/>
+        <element xmi:type="henshin:IteratedUnit" href="universityCourses.henshin#_CsY9EBx3Eeid3MZ10pcLUw"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_Csg47Rx3Eeid3MZ10pcLUw" x="206" y="7"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_CsjVIBx3Eeid3MZ10pcLUw" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_CsjVIhx3Eeid3MZ10pcLUw" type="5005">
+          <element xmi:type="henshin:PriorityUnit" href="universityCourses.henshin#_lXxzgBx2Eeid3MZ10pcLUw"/>
+        </children>
+        <element xmi:type="henshin:PriorityUnit" href="universityCourses.henshin#_lXxzgBx2Eeid3MZ10pcLUw"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_CsjVIRx3Eeid3MZ10pcLUw" x="41" y="3"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:IteratedUnit" href="universityCourses.henshin#_CsY9EBx3Eeid3MZ10pcLUw"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_CsgR0Rx3Eeid3MZ10pcLUw" x="816" y="5" width="276" height="82"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_-f0U4G2JEeixopkY37LHWQ" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_-f0U4m2JEeixopkY37LHWQ" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_-f0U422JEeixopkY37LHWQ" type="7003">
+      <children xmi:type="notation:Node" xmi:id="_-f078G2JEeixopkY37LHWQ" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_-f079G2JEeixopkY37LHWQ" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_-f079W2JEeixopkY37LHWQ" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_-f078W2JEeixopkY37LHWQ"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_-f078m2JEeixopkY37LHWQ" fontName="Cantarell"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_2h2YwG2JEeixopkY37LHWQ"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_-f079m2JEeixopkY37LHWQ" x="18" y="4"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_-f07922JEeixopkY37LHWQ" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_-f07-22JEeixopkY37LHWQ" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_-f07_G2JEeixopkY37LHWQ" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_-f07-G2JEeixopkY37LHWQ"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_-f07-W2JEeixopkY37LHWQ" fontName="Cantarell"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_2h2YwG2JEeixopkY37LHWQ"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_-f07_W2JEeixopkY37LHWQ" x="243" y="60"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_ohvTQJZ2EeitDt5BAYRFYA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_ohvTQpZ2EeitDt5BAYRFYA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_DCo0gJZ2EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ohvTQZZ2EeitDt5BAYRFYA" x="88"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_ahkSMJZ4EeitDt5BAYRFYA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_ahkSMpZ4EeitDt5BAYRFYA" type="5005"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_BGA6UJZ3EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ahkSMZZ4EeitDt5BAYRFYA" x="9" y="56"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_2h2YwG2JEeixopkY37LHWQ"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-f0U4W2JEeixopkY37LHWQ" x="6" y="292" width="306" height="122"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_UVQB4G8QEeieC70j92c4ZA" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_UVQB4m8QEeieC70j92c4ZA" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_UVQB428QEeieC70j92c4ZA" type="7003">
+      <children xmi:type="notation:Node" xmi:id="_UVQo8G8QEeieC70j92c4ZA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_UVQo9G8QEeieC70j92c4ZA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_UVQo9W8QEeieC70j92c4ZA" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_UVQo8W8QEeieC70j92c4ZA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_UVQo8m8QEeieC70j92c4ZA" fontName="Cantarell"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_TWeFcG8QEeieC70j92c4ZA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_UVQo9m8QEeieC70j92c4ZA" x="5" y="7"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_UVQo928QEeieC70j92c4ZA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_UVQo-28QEeieC70j92c4ZA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_UVQo_G8QEeieC70j92c4ZA" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_UVQo-G8QEeieC70j92c4ZA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_UVQo-W8QEeieC70j92c4ZA" fontName="Cantarell"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_TWeFcG8QEeieC70j92c4ZA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_UVQo_W8QEeieC70j92c4ZA" x="356" y="54"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_UVR3EG8QEeieC70j92c4ZA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_UVR3Em8QEeieC70j92c4ZA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_TWeFem8QEeieC70j92c4ZA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVR3EW8QEeieC70j92c4ZA" x="41" y="3"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_UVSeIG8QEeieC70j92c4ZA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_UVSeIm8QEeieC70j92c4ZA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_TWeFgW8QEeieC70j92c4ZA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVSeIW8QEeieC70j92c4ZA" x="217" y="3"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_UVSeJ28QEeieC70j92c4ZA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_UVSeKW8QEeieC70j92c4ZA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_TWeFi28QEeieC70j92c4ZA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVSeKG8QEeieC70j92c4ZA" x="169" y="50"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_TWeFcG8QEeieC70j92c4ZA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVQB4W8QEeieC70j92c4ZA" x="940" y="496" height="129"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_UVQo_m8QEeieC70j92c4ZA" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_UVQpAG8QEeieC70j92c4ZA" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_UVQpAW8QEeieC70j92c4ZA" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_UVaZ8G8QEeieC70j92c4ZA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_UVaZ8m8QEeieC70j92c4ZA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_UVaZ828QEeieC70j92c4ZA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_UVaZ9G8QEeieC70j92c4ZA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_UVaZ9W8QEeieC70j92c4ZA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_UVaZ9m8QEeieC70j92c4ZA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_TWeFf28QEeieC70j92c4ZA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVaZ8W8QEeieC70j92c4ZA"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_TWeFem8QEeieC70j92c4ZA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVQo_28QEeieC70j92c4ZA" x="940" y="630" height="124"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_UVQpAm8QEeieC70j92c4ZA" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_UVQpBG8QEeieC70j92c4ZA" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_UVQpBW8QEeieC70j92c4ZA" type="7001"/>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_TWeFgW8QEeieC70j92c4ZA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVQpA28QEeieC70j92c4ZA" x="1219" y="630" height="89"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_UVQpBm8QEeieC70j92c4ZA" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_UVRQAG8QEeieC70j92c4ZA" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_UVRQAW8QEeieC70j92c4ZA" type="7001"/>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_TWeFi28QEeieC70j92c4ZA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVQpB28QEeieC70j92c4ZA" x="1219" y="725" height="88"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_DCqCoJZ2EeitDt5BAYRFYA" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_DCqpsJZ2EeitDt5BAYRFYA" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_DCqpsZZ2EeitDt5BAYRFYA" type="7001">
+      <children xmi:type="notation:Node" xmi:id="_Hz_qsZZ2EeitDt5BAYRFYA" type="3005">
+        <children xmi:type="notation:DecorationNode" xmi:id="_H0ARwJZ2EeitDt5BAYRFYA" type="5006"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_H0ARwZZ2EeitDt5BAYRFYA" type="5007"/>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_Hz_qspZ2EeitDt5BAYRFYA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_Hz_qs5Z2EeitDt5BAYRFYA" fontName="Cantarell"/>
+        <element xmi:type="henshin:AttributeCondition" href="universityCourses.henshin#_Hz_qsJZ2EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Hz_qtJZ2EeitDt5BAYRFYA" x="30" y="1"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_KOuAsZZ2EeitDt5BAYRFYA" type="3005">
+        <children xmi:type="notation:DecorationNode" xmi:id="_KOunwJZ2EeitDt5BAYRFYA" type="5006"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_KOunwZZ2EeitDt5BAYRFYA" type="5007"/>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_KOuAspZ2EeitDt5BAYRFYA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_KOuAs5Z2EeitDt5BAYRFYA" fontName="Cantarell"/>
+        <element xmi:type="henshin:AttributeCondition" href="universityCourses.henshin#_KOuAsJZ2EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KOuAtJZ2EeitDt5BAYRFYA" x="33" y="46"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_DCo0gJZ2EeitDt5BAYRFYA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DCqCoZZ2EeitDt5BAYRFYA" x="1359" y="495" width="209" height="130"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_BGD9oJZ3EeitDt5BAYRFYA" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_BGD9opZ3EeitDt5BAYRFYA" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_BGD9o5Z3EeitDt5BAYRFYA" type="7003">
+      <children xmi:type="notation:Node" xmi:id="_BGD9pJZ3EeitDt5BAYRFYA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_BGD9qJZ3EeitDt5BAYRFYA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_BGD9qZZ3EeitDt5BAYRFYA" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_BGD9pZZ3EeitDt5BAYRFYA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_BGD9ppZ3EeitDt5BAYRFYA" fontName="Cantarell"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_BGA6UJZ3EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_BGD9qpZ3EeitDt5BAYRFYA" x="14" y="8"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_BGD9q5Z3EeitDt5BAYRFYA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_BGD9r5Z3EeitDt5BAYRFYA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_BGD9sJZ3EeitDt5BAYRFYA" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_BGD9rJZ3EeitDt5BAYRFYA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_BGD9rZZ3EeitDt5BAYRFYA" fontName="Cantarell"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_BGA6UJZ3EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_BGD9sZZ3EeitDt5BAYRFYA" x="255" y="52"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_ahq_4JZ4EeitDt5BAYRFYA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_ahq_4pZ4EeitDt5BAYRFYA" type="5005"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_TWeFcG8QEeieC70j92c4ZA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ahq_4ZZ4EeitDt5BAYRFYA" x="51" y="4"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_WyRVgJbyEeiWPvtubxqgIA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_WyRVgpbyEeiWPvtubxqgIA" type="5005"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WyRVgZbyEeiWPvtubxqgIA" x="14" y="48"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_BGA6UJZ3EeitDt5BAYRFYA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_BGD9oZZ3EeitDt5BAYRFYA" x="318" y="292" height="113"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_6KybUJZ7EeitDt5BAYRFYA" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_8QjN8JZ7EeitDt5BAYRFYA" source="rootObject">
+      <references xmi:type="henshin:Node" href="universityCourses.henshin#_8QjN8ZZ7EeitDt5BAYRFYA"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_CCjo0pZ8EeitDt5BAYRFYA" source="defaultAction">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_CCjo05Z8EeitDt5BAYRFYA" key="value" value="preserve"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_6KybUpZ7EeitDt5BAYRFYA" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_6KybU5Z7EeitDt5BAYRFYA" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_CCjo1JZ8EeitDt5BAYRFYA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_CCkP4JZ8EeitDt5BAYRFYA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_CCkP4ZZ8EeitDt5BAYRFYA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_CCkP4pZ8EeitDt5BAYRFYA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_CCkP45Z8EeitDt5BAYRFYA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_CCkP5JZ8EeitDt5BAYRFYA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_CCjBwJZ8EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_CCjo1ZZ8EeitDt5BAYRFYA" x="9" y="5"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_D0VIcJZ8EeitDt5BAYRFYA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_D0VIcpZ8EeitDt5BAYRFYA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_D0VIc5Z8EeitDt5BAYRFYA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_D0VIdJZ8EeitDt5BAYRFYA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_D0VIdZZ8EeitDt5BAYRFYA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_D0VIdpZ8EeitDt5BAYRFYA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_D0UhYJZ8EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_D0VIcZZ8EeitDt5BAYRFYA" x="212" y="5"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_FZJxMJZ8EeitDt5BAYRFYA" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_FZJxMpZ8EeitDt5BAYRFYA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_FZJxM5Z8EeitDt5BAYRFYA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_FZJxNJZ8EeitDt5BAYRFYA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_FZJxNZZ8EeitDt5BAYRFYA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_FZJxNpZ8EeitDt5BAYRFYA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_FZIjEJZ8EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_FZJxMZZ8EeitDt5BAYRFYA" x="20" y="83"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_6Kx0QJZ7EeitDt5BAYRFYA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6KybUZZ7EeitDt5BAYRFYA" x="6" y="121" height="164"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="__5vlYJZ_EeitDt5BAYRFYA" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="__5vlYpZ_EeitDt5BAYRFYA" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="__5vlY5Z_EeitDt5BAYRFYA" type="7003">
+      <children xmi:type="notation:Node" xmi:id="__5vlZJZ_EeitDt5BAYRFYA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="__5vlaJZ_EeitDt5BAYRFYA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="__5vlaZZ_EeitDt5BAYRFYA" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="__5vlZZZ_EeitDt5BAYRFYA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="__5vlZpZ_EeitDt5BAYRFYA" fontName="Cantarell"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#__5r7AJZ_EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="__5vlapZ_EeitDt5BAYRFYA" x="4" y="7"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="__5vla5Z_EeitDt5BAYRFYA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="__5vlb5Z_EeitDt5BAYRFYA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="__5vlcJZ_EeitDt5BAYRFYA" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="__5vlbJZ_EeitDt5BAYRFYA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="__5vlbZZ_EeitDt5BAYRFYA" fontName="Cantarell"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#__5r7AJZ_EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="__5vlcZZ_EeitDt5BAYRFYA" x="290" y="93"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_3iiigJaCEeitDt5BAYRFYA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_3iiigpaCEeitDt5BAYRFYA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_V362sAhTEeihx7bYl2Jx-w"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3iiigZaCEeitDt5BAYRFYA" x="54" y="3"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_3ijJlJaCEeitDt5BAYRFYA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_3ijJlpaCEeitDt5BAYRFYA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_COImEBfdEei86bbrV6-whA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3ijJlZaCEeitDt5BAYRFYA" x="4" y="45"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_3ijJm5aCEeitDt5BAYRFYA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_3ijJnZaCEeitDt5BAYRFYA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_XeHNINIIEee7sYBANTzRCA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3ijJnJaCEeitDt5BAYRFYA" x="4" y="89"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#__5r7AJZ_EeitDt5BAYRFYA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="__5vlYZZ_EeitDt5BAYRFYA" x="6" y="496" height="156"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_n_crQJaGEeitDt5BAYRFYA" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_n_dSUJaGEeitDt5BAYRFYA" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_n_dSUZaGEeitDt5BAYRFYA" type="7003">
+      <children xmi:type="notation:Node" xmi:id="_n_dSUpaGEeitDt5BAYRFYA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_n_dSVpaGEeitDt5BAYRFYA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_n_dSV5aGEeitDt5BAYRFYA" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_n_dSU5aGEeitDt5BAYRFYA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_n_dSVJaGEeitDt5BAYRFYA" fontName="Cantarell"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_n_YZ0JaGEeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_n_dSWJaGEeitDt5BAYRFYA" x="5" y="4"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_n_dSWZaGEeitDt5BAYRFYA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_n_dSXZaGEeitDt5BAYRFYA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_n_dSXpaGEeitDt5BAYRFYA" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_n_dSWpaGEeitDt5BAYRFYA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_n_dSW5aGEeitDt5BAYRFYA" fontName="Cantarell"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_n_YZ0JaGEeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_n_dSX5aGEeitDt5BAYRFYA" x="219" y="48"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_wY30UJaGEeitDt5BAYRFYA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_wY30UpaGEeitDt5BAYRFYA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_6Kx0QJZ7EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_wY30UZaGEeitDt5BAYRFYA" x="45"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_WySjoJbyEeiWPvtubxqgIA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_WyTKsJbyEeiWPvtubxqgIA" type="5005"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WySjoZbyEeiWPvtubxqgIA" x="5" y="44"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_n_YZ0JaGEeitDt5BAYRFYA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_n_crQZaGEeitDt5BAYRFYA" x="7" y="5" width="304" height="110"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_PbEwYJbwEeiWPvtubxqgIA" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_PbEwYpbwEeiWPvtubxqgIA" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_PbEwY5bwEeiWPvtubxqgIA" type="7003">
+      <children xmi:type="notation:Shape" xmi:id="_WyTxwJbyEeiWPvtubxqgIA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_WyTxwpbyEeiWPvtubxqgIA" type="5005"/>
+        <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#__5r7AJZ_EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WyTxwZbyEeiWPvtubxqgIA" x="68" y="1"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_WyTxw5byEeiWPvtubxqgIA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_WyTxx5byEeiWPvtubxqgIA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_WyTxyJbyEeiWPvtubxqgIA" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_WyTxxJbyEeiWPvtubxqgIA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_WyTxxZbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_WyTxyZbyEeiWPvtubxqgIA" x="9" y="5"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_WyTxypbyEeiWPvtubxqgIA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_WyTxzpbyEeiWPvtubxqgIA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_WyTxz5byEeiWPvtubxqgIA" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_WyTxy5byEeiWPvtubxqgIA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_WyTxzJbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_WyTx0JbyEeiWPvtubxqgIA" x="287" y="97"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_WyUY0JbyEeiWPvtubxqgIA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_WyUY0pbyEeiWPvtubxqgIA" type="5005"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_DnsXAJbyEeiWPvtubxqgIA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WyUY0ZbyEeiWPvtubxqgIA" x="9" y="93"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_WyUY25byEeiWPvtubxqgIA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_WyUY3ZbyEeiWPvtubxqgIA" type="5005"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_2h2YwG2JEeixopkY37LHWQ"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WyUY3JbyEeiWPvtubxqgIA" x="89" y="52"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PbEwYZbwEeiWPvtubxqgIA" x="318" y="5" height="158"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_WyEhMJbyEeiWPvtubxqgIA" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_WyFIQJbyEeiWPvtubxqgIA" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_WyFIQZbyEeiWPvtubxqgIA" type="7003">
+      <children xmi:type="notation:Node" xmi:id="_WyFIQpbyEeiWPvtubxqgIA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_WyFIRpbyEeiWPvtubxqgIA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_WyFIR5byEeiWPvtubxqgIA" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_WyFIQ5byEeiWPvtubxqgIA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_WyFIRJbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_DnsXAJbyEeiWPvtubxqgIA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_WyFISJbyEeiWPvtubxqgIA" x="8" y="4"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_WyFISZbyEeiWPvtubxqgIA" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_WyFITZbyEeiWPvtubxqgIA" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_WyFITpbyEeiWPvtubxqgIA" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_WyFISpbyEeiWPvtubxqgIA"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_WyFIS5byEeiWPvtubxqgIA" fontName="Cantarell"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_DnsXAJbyEeiWPvtubxqgIA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_WyFIT5byEeiWPvtubxqgIA" x="249" y="58"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_WyFvUJbyEeiWPvtubxqgIA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_WyFvUpbyEeiWPvtubxqgIA" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_6Kx0QJZ7EeitDt5BAYRFYA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WyFvUZbyEeiWPvtubxqgIA" x="75"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_WyGWYJbyEeiWPvtubxqgIA" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_WyGWYpbyEeiWPvtubxqgIA" type="5005"/>
+        <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WyGWYZbyEeiWPvtubxqgIA" x="8" y="54"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_DnsXAJbyEeiWPvtubxqgIA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WyEhMZbyEeiWPvtubxqgIA" x="318" y="167" height="118"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_D3ylwJtWEeix2Y0ulsySig" type="2001" fontName="Cantarell" italic="true" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Fr7c4JtWEeix2Y0ulsySig" source="rootObject">
+      <references xmi:type="henshin:Node" href="universityCourses.henshin#_Fr8D8JtWEeix2Y0ulsySig"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_xNXJIJtkEeix2Y0ulsySig" source="defaultAction">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_xNXwMJtkEeix2Y0ulsySig" key="value" value="preserve"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_D3zM0JtWEeix2Y0ulsySig" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_D3zM0ZtWEeix2Y0ulsySig" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_xNYXQJtkEeix2Y0ulsySig" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_xNY-UJtkEeix2Y0ulsySig" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_xNY-UZtkEeix2Y0ulsySig" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_xNY-UptkEeix2Y0ulsySig" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_xNY-U5tkEeix2Y0ulsySig"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_xNY-VJtkEeix2Y0ulsySig"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_xNTewJtkEeix2Y0ulsySig"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xNYXQZtkEeix2Y0ulsySig" x="151" y="4"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_z4KigJtkEeix2Y0ulsySig" type="3001" fontName="Cantarell">
+        <children xmi:type="notation:DecorationNode" xmi:id="_z4KigptkEeix2Y0ulsySig" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_z4Kig5tkEeix2Y0ulsySig" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_z4KihJtkEeix2Y0ulsySig" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_z4KihZtkEeix2Y0ulsySig"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_z4KihptkEeix2Y0ulsySig"/>
+        </children>
+        <element xmi:type="henshin:Node" href="universityCourses.henshin#_z4G4IJtkEeix2Y0ulsySig"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_z4KigZtkEeix2Y0ulsySig" x="5" y="4"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="universityCourses.henshin#_D3x-sJtWEeix2Y0ulsySig"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_D3ylwZtWEeix2Y0ulsySig" x="899" y="880" height="86"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_7KENYJtlEeix2Y0ulsySig" type="2002" fontName="Cantarell" italic="true" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="_7KENYptlEeix2Y0ulsySig" type="5004"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_7KENY5tlEeix2Y0ulsySig" type="7003">
+      <children xmi:type="notation:Node" xmi:id="_7KE0cJtlEeix2Y0ulsySig" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_7KE0dJtlEeix2Y0ulsySig" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_7KE0dZtlEeix2Y0ulsySig" key="type" value="UNIT_BEGIN"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_7KE0cZtlEeix2Y0ulsySig"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_7KE0cptlEeix2Y0ulsySig" fontName="Cantarell"/>
+        <element xmi:type="henshin:LoopUnit" href="universityCourses.henshin#_7J-t0JtlEeix2Y0ulsySig"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_7KE0dptlEeix2Y0ulsySig" x="2" y="9"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_7KE0d5tlEeix2Y0ulsySig" type="3004">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_7KE0e5tlEeix2Y0ulsySig" source="symbol">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_7KE0fJtlEeix2Y0ulsySig" key="type" value="UNIT_END"/>
+        </eAnnotations>
+        <styles xmi:type="notation:DescriptionStyle" xmi:id="_7KE0eJtlEeix2Y0ulsySig"/>
+        <styles xmi:type="notation:FontStyle" xmi:id="_7KE0eZtlEeix2Y0ulsySig" fontName="Cantarell"/>
+        <element xmi:type="henshin:LoopUnit" href="universityCourses.henshin#_7J-t0JtlEeix2Y0ulsySig"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_7KE0fZtlEeix2Y0ulsySig" x="217" y="9"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_12iBwJtmEeix2Y0ulsySig" type="3003" fontName="Cantarell" italic="true" lineColor="0">
+        <children xmi:type="notation:DecorationNode" xmi:id="_12iBwptmEeix2Y0ulsySig" type="5005"/>
+        <element xmi:type="henshin:Rule" href="universityCourses.henshin#_D3x-sJtWEeix2Y0ulsySig"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_12iBwZtmEeix2Y0ulsySig" x="43" y="5"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:LoopUnit" href="universityCourses.henshin#_7J-t0JtlEeix2Y0ulsySig"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7KENYZtlEeix2Y0ulsySig" x="643" y="880" height="86"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="__R2IosvAEeePH7dSPPmQxQ"/>
+  <element xmi:type="henshin:Module" href="universityCourses.henshin#__R2IoMvAEeePH7dSPPmQxQ"/>
+  <edges xmi:type="notation:Connector" xmi:id="_kNZXYBcNEeiuUdiu7c6Gpw" type="4001" source="_ihAeYNH-Eee8KdMvMQmVLg" target="_hfxq4NH-Eee8KdMvMQmVLg">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kNZXYxcNEeiuUdiu7c6Gpw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kNZXZBcNEeiuUdiu7c6Gpw" y="16"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kNZXZRcNEeiuUdiu7c6Gpw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kNZ-cBcNEeiuUdiu7c6Gpw" x="4" y="-12"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_kNZXYRcNEeiuUdiu7c6Gpw" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_kNXiMBcNEeiuUdiu7c6Gpw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kNZXYhcNEeiuUdiu7c6Gpw" points="[27, 3, -192, 2]$[221, -34, 2, -35]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_kNalgBcNEeiuUdiu7c6Gpw" id="(0.7580645161290323,0.40425531914893614)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_kNalgRcNEeiuUdiu7c6Gpw" id="(0.1836734693877551,0.425531914893617)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_pFXf8BfeEei86bbrV6-whA" type="4001" source="_pFTOgBfeEei86bbrV6-whA" target="_JDD2gBfdEei86bbrV6-whA">
+    <children xmi:type="notation:DecorationNode" xmi:id="_pFXf8xfeEei86bbrV6-whA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_pFXf9BfeEei86bbrV6-whA" y="15"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_pFXf9RfeEei86bbrV6-whA" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_pFXf9hfeEei86bbrV6-whA" x="-2" y="-13"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_pFXf8RfeEei86bbrV6-whA" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_Us8qwBfdEei86bbrV6-whA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_pFXf8hfeEei86bbrV6-whA" points="[0, 0, -383, -45]$[273, 32, -110, -13]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_6X7tQxuqEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_6X7tRBuqEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_6X7tRRuqEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Node" href="rollbackFail.henshin_diagram#_2peHwBvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHzBvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6X7tRhuqEeiXWuc8950sXw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_6X8UUxuqEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_6X8UVBuqEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_6X8UVRuqEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHzBvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHzxvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6X8UVhuqEeiXWuc8950sXw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_6YAlwhuqEeiXWuc8950sXw" id="(0.33125,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_6YAlwxuqEeiXWuc8950sXw" id="(0.9175257731958762,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_6X8UVxuqEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_6X8UWBuqEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_6X8UWRuqEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHzxvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Node" href="rollbackFail.henshin_diagram#_2peHxhvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6X8UWhuqEeiXWuc8950sXw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_6X8UXhuqEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_6X8UXxuqEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_6X8UYBuqEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHzBvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peH0hvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6X8UYRuqEeiXWuc8950sXw" points="[0, 0, -83, -60]$[0, 30, -83, -30]$[83, 30, 0, -30]$[83, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_6YAlwBuqEeiXWuc8950sXw" id="(0.6625,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_6YAlwRuqEeiXWuc8950sXw" id="(0.49586776859504134,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_6X87YBuqEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_6X87YRuqEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_6X87YhuqEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peH0hvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Node" href="rollbackFail.henshin_diagram#_2peHxhvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6X87YxuqEeiXWuc8950sXw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_MnJ2whurEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_MnJ2wxurEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_MnJ2xBurEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Node" href="rollbackFail.henshin_diagram#_2peHpxvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHsxvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_MnJ2xRurEeiXWuc8950sXw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_EM2K0BvVEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_EM2K0RvVEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_EM2K0hvVEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHsxvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHthvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_EM2K0xvVEeiXWuc8950sXw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_cjqZIBvfEeiXWuc8950sXw" type="4001" source="_TqbkEAhWEeihx7bYl2Jx-w" target="_RZqbUAhWEeihx7bYl2Jx-w">
+    <children xmi:type="notation:DecorationNode" xmi:id="_cjqZIxvfEeiXWuc8950sXw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_cjqZJBvfEeiXWuc8950sXw" x="-23" y="20"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_cjqZJRvfEeiXWuc8950sXw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_cjqZJhvfEeiXWuc8950sXw" x="-5" y="26"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_cjqZIRvfEeiXWuc8950sXw" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_mzkYIAhWEeihx7bYl2Jx-w"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_cjqZIhvfEeiXWuc8950sXw" points="[9, -39, 0, 123]$[0, -117, -9, 45]"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_6hE6wJaDEeitDt5BAYRFYA" id="(0.9836065573770492,0.7450980392156863)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_cjrnQBvfEeiXWuc8950sXw" type="4001" source="_TqbkEAhWEeihx7bYl2Jx-w" target="_0jGDMAhWEeihx7bYl2Jx-w">
+    <children xmi:type="notation:DecorationNode" xmi:id="_cjrnQxvfEeiXWuc8950sXw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_cjrnRBvfEeiXWuc8950sXw" x="31" y="29"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_cjrnRRvfEeiXWuc8950sXw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_cjrnRhvfEeiXWuc8950sXw" x="44" y="18"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_cjrnQRvfEeiXWuc8950sXw" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_4P0MkAhWEeihx7bYl2Jx-w"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_cjrnQhvfEeiXWuc8950sXw" points="[54, -1, -271, 0]$[215, 0, -110, 1]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_8WvOIJZ-EeitDt5BAYRFYA" id="(0.9672131147540983,0.3409090909090909)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_89GDgJZ-EeitDt5BAYRFYA" id="(0.006622516556291391,0.8507462686567164)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_cjrnRxvfEeiXWuc8950sXw" type="4001" source="_TqbkEAhWEeihx7bYl2Jx-w" target="_bMSYYAnJEeizg-fT17Fy9A">
+    <children xmi:type="notation:DecorationNode" xmi:id="_cjrnShvfEeiXWuc8950sXw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_cjrnSxvfEeiXWuc8950sXw" x="-20" y="12"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_cjsOUBvfEeiXWuc8950sXw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_cjsOURvfEeiXWuc8950sXw" x="-17" y="-8"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_cjrnSBvfEeiXWuc8950sXw" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_fLYEIAnJEeizg-fT17Fy9A"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_cjrnSRvfEeiXWuc8950sXw" points="[1, 22, 0, -80]$[1, 77, 0, -25]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_9X_K8Cj9Eeivn5sYC1hbTg" id="(0.9836065573770492,0.45454545454545453)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_99NX4Cj9Eeivn5sYC1hbTg" id="(0.03968253968253968,0.27450980392156865)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_mBI40xviEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_mBI41BviEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_mBI41RviEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHuRvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Node" href="rollbackFail.henshin_diagram#_2peHrRvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mBI41hviEeiXWuc8950sXw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_mBI41xviEeiXWuc8950sXw" type="4002">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_mBI42BviEeiXWuc8950sXw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_mBI42RviEeiXWuc8950sXw" fontName="Cantarell"/>
+    <source xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHthvjEeiXWuc8950sXw"/>
+    <target xmi:type="notation:Shape" href="rollbackFail.henshin_diagram#_2peHuRvjEeiXWuc8950sXw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mBI42hviEeiXWuc8950sXw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_qSTMwxx2Eeid3MZ10pcLUw" type="4002" source="_qSTMwBx2Eeid3MZ10pcLUw" target="_lYC5Qxx2Eeid3MZ10pcLUw">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_qSTMxBx2Eeid3MZ10pcLUw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_qSTMxRx2Eeid3MZ10pcLUw" fontName="Cantarell"/>
+    <element xmi:type="henshin:PriorityUnit" href="universityCourses.henshin#_lXxzgBx2Eeid3MZ10pcLUw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_qSTMxhx2Eeid3MZ10pcLUw" points="[70, -14, 0, 31]$[70, -35, 0, 10]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_CsjVIxx3Eeid3MZ10pcLUw" type="4002" source="_Csg44Bx3Eeid3MZ10pcLUw" target="_CsjVIBx3Eeid3MZ10pcLUw">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_CsjVJBx3Eeid3MZ10pcLUw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_CsjVJRx3Eeid3MZ10pcLUw" fontName="Cantarell"/>
+    <element xmi:type="henshin:IteratedUnit" href="universityCourses.henshin#_CsY9EBx3Eeid3MZ10pcLUw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_CsjVJhx3Eeid3MZ10pcLUw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_Csj8MBx3Eeid3MZ10pcLUw" type="4002" source="_CsjVIBx3Eeid3MZ10pcLUw" target="_Csg45xx3Eeid3MZ10pcLUw">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_Csj8MRx3Eeid3MZ10pcLUw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_Csj8Mhx3Eeid3MZ10pcLUw" fontName="Cantarell"/>
+    <element xmi:type="henshin:IteratedUnit" href="universityCourses.henshin#_CsY9EBx3Eeid3MZ10pcLUw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Csj8Mxx3Eeid3MZ10pcLUw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_Csj8NBx3Eeid3MZ10pcLUw" type="4002" source="_CsjVIBx3Eeid3MZ10pcLUw" target="_CsjVIBx3Eeid3MZ10pcLUw">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_Csj8NRx3Eeid3MZ10pcLUw" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_Csj8Nhx3Eeid3MZ10pcLUw" fontName="Cantarell"/>
+    <element xmi:type="henshin:IteratedUnit" href="universityCourses.henshin#_CsY9EBx3Eeid3MZ10pcLUw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Csj8Nxx3Eeid3MZ10pcLUw" points="[29, 14, 29, 14]$[29, 28, 29, 28]$[-28, 28, -28, 28]$[-28, 14, -28, 14]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_KfJq8Cj9Eeivn5sYC1hbTg" type="4001" source="_0jGDMAhWEeihx7bYl2Jx-w" target="_TqbkEAhWEeihx7bYl2Jx-w">
+    <children xmi:type="notation:DecorationNode" xmi:id="_KfKSACj9Eeivn5sYC1hbTg" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_KfKSASj9Eeivn5sYC1hbTg" x="10" y="16"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_KfKSAij9Eeivn5sYC1hbTg" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_KfKSAyj9Eeivn5sYC1hbTg" x="4" y="26"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_KfJq8Sj9Eeivn5sYC1hbTg" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_KfCWMCj9Eeivn5sYC1hbTg"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_KfJq8ij9Eeivn5sYC1hbTg" points="[-2, 2, 102, 0]$[-94, 2, 10, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KfMuQCj9Eeivn5sYC1hbTg" id="(0.015873015873015872,0.6417910447761194)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KfMuQSj9Eeivn5sYC1hbTg" id="(0.9672131147540983,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_4JUGoCj9Eeivn5sYC1hbTg" type="4001" source="_bMSYYAnJEeizg-fT17Fy9A" target="_TqbkEAhWEeihx7bYl2Jx-w">
+    <children xmi:type="notation:DecorationNode" xmi:id="_4JUGoyj9Eeivn5sYC1hbTg" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4JUGpCj9Eeivn5sYC1hbTg" x="-33" y="-9"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_4JUGpSj9Eeivn5sYC1hbTg" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4JUGpij9Eeivn5sYC1hbTg" x="-34" y="6"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_4JUGoSj9Eeivn5sYC1hbTg" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_4JS4gCj9Eeivn5sYC1hbTg"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4JUGoij9Eeivn5sYC1hbTg" points="[7, -7, 2, 107]$[7, -103, 2, 11]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_4JWi4Cj9Eeivn5sYC1hbTg" id="(0.015873015873015872,0.6862745098039216)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_4JWi4Sj9Eeivn5sYC1hbTg" id="(0.45901639344262296,0.9545454545454546)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_UVR3E28QEeieC70j92c4ZA" type="4002" source="_UVQo8G8QEeieC70j92c4ZA" target="_UVR3EG8QEeieC70j92c4ZA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_UVR3FG8QEeieC70j92c4ZA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_UVR3FW8QEeieC70j92c4ZA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_TWeFcG8QEeieC70j92c4ZA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_UVR3Fm8QEeieC70j92c4ZA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_UVSeI28QEeieC70j92c4ZA" type="4002" source="_UVR3EG8QEeieC70j92c4ZA" target="_UVSeIG8QEeieC70j92c4ZA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_UVSeJG8QEeieC70j92c4ZA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_UVSeJW8QEeieC70j92c4ZA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_TWeFcG8QEeieC70j92c4ZA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_UVSeJm8QEeieC70j92c4ZA" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_UVZL0m8QEeieC70j92c4ZA" id="(0.9738562091503268,0.17857142857142858)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_UVZL028QEeieC70j92c4ZA" id="(0.007874015748031496,0.32142857142857145)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_UVSeKm8QEeieC70j92c4ZA" type="4002" source="_UVSeJ28QEeieC70j92c4ZA" target="_UVQo928QEeieC70j92c4ZA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_UVSeK28QEeieC70j92c4ZA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_UVSeLG8QEeieC70j92c4ZA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_TWeFcG8QEeieC70j92c4ZA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_UVSeLW8QEeieC70j92c4ZA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_UVTFMG8QEeieC70j92c4ZA" type="4002" source="_UVSeIG8QEeieC70j92c4ZA" target="_UVSeJ28QEeieC70j92c4ZA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_UVTFMW8QEeieC70j92c4ZA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_UVTFMm8QEeieC70j92c4ZA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_TWeFcG8QEeieC70j92c4ZA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_UVTFM28QEeieC70j92c4ZA" points="[-24, 0, 0, -19]$[-24, 19, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_UVZL0G8QEeieC70j92c4ZA" id="(0.49606299212598426,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_UVZL0W8QEeieC70j92c4ZA" id="(0.49714285714285716,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ohwhYJZ2EeitDt5BAYRFYA" type="4002" source="_-f078G2JEeixopkY37LHWQ" target="_ohvTQJZ2EeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_ohwhYZZ2EeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ohwhYpZ2EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_2h2YwG2JEeixopkY37LHWQ"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ohwhY5Z2EeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ahkSM5Z4EeitDt5BAYRFYA" type="4002" source="_ohvTQJZ2EeitDt5BAYRFYA" target="_ahkSMJZ4EeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_ahkSNJZ4EeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ahkSNZZ4EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_2h2YwG2JEeixopkY37LHWQ"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ahkSNpZ4EeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Vs464JZ7EeitDt5BAYRFYA" id="(0.32857142857142857,0.03571428571428571)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ahkSN5Z4EeitDt5BAYRFYA" type="4002" source="_ahkSMJZ4EeitDt5BAYRFYA" target="_-f07922JEeixopkY37LHWQ">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_ahkSOJZ4EeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ahkSOZZ4EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_2h2YwG2JEeixopkY37LHWQ"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ahkSOpZ4EeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ahrm8JZ4EeitDt5BAYRFYA" type="4002" source="_BGD9pJZ3EeitDt5BAYRFYA" target="_ahq_4JZ4EeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_ahrm8ZZ4EeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ahrm8pZ4EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_BGA6UJZ3EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ahrm85Z4EeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_yV6w0JZ7EeitDt5BAYRFYA" type="4001" source="_pFTOgBfeEei86bbrV6-whA" target="_PD4wgBfdEei86bbrV6-whA">
+    <children xmi:type="notation:DecorationNode" xmi:id="_yV6w05Z7EeitDt5BAYRFYA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_yV6w1JZ7EeitDt5BAYRFYA" x="-4" y="-14"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_yV6w1ZZ7EeitDt5BAYRFYA" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_yV6w1pZ7EeitDt5BAYRFYA" x="4" y="14"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_yV6w0ZZ7EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_4YrucBfdEei86bbrV6-whA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_yV6w0pZ7EeitDt5BAYRFYA" points="[-30, 0, 172, 0]$[-125, 0, 77, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_HVxO4JZ8EeitDt5BAYRFYA" type="4001" source="_FZJxMJZ8EeitDt5BAYRFYA" target="_CCjo1JZ8EeitDt5BAYRFYA">
+    <children xmi:type="notation:DecorationNode" xmi:id="_HVxO45Z8EeitDt5BAYRFYA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_HVx18JZ8EeitDt5BAYRFYA" x="-8" y="31"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_HVx18ZZ8EeitDt5BAYRFYA" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_HVx18pZ8EeitDt5BAYRFYA" x="8" y="30"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_HVxO4ZZ8EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_HVwAwJZ8EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_HVxO4pZ8EeitDt5BAYRFYA" points="[2, -27, -2, 100]$[11, -100, 7, 27]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_INHGkJZ8EeitDt5BAYRFYA" type="4001" source="_D0VIcJZ8EeitDt5BAYRFYA" target="_CCjo1JZ8EeitDt5BAYRFYA">
+    <children xmi:type="notation:DecorationNode" xmi:id="_INHGk5Z8EeitDt5BAYRFYA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_INHGlJZ8EeitDt5BAYRFYA" x="3" y="-11"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_INHGlZZ8EeitDt5BAYRFYA" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_INHGlpZ8EeitDt5BAYRFYA" x="5" y="17"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_INHGkZZ8EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_INGfgJZ8EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_INHGkpZ8EeitDt5BAYRFYA" points="[-38, -5, 114, 13]$[-151, 6, 1, 24]"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_INHtoJZ8EeitDt5BAYRFYA" id="(0.8214285714285714,0.5681818181818182)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_jBmnUJZ9EeitDt5BAYRFYA" type="4001" source="_hcttIJZ9EeitDt5BAYRFYA" target="_RZqbUAhWEeihx7bYl2Jx-w">
+    <children xmi:type="notation:DecorationNode" xmi:id="_jBmnU5Z9EeitDt5BAYRFYA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_jBmnVJZ9EeitDt5BAYRFYA" x="3" y="43"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_jBmnVZZ9EeitDt5BAYRFYA" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_jBmnVpZ9EeitDt5BAYRFYA" x="-9" y="54"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_jBmnUZZ9EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_jBkyIJZ9EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jBmnUpZ9EeitDt5BAYRFYA" points="[-1, 3, 8, -33]$[-9, 35, 0, -1]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_CIMdIJaEEeitDt5BAYRFYA" id="(0.8269230769230769,0.9318181818181818)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jBocgJZ9EeitDt5BAYRFYA" id="(0.639344262295082,0.11764705882352941)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_TPVzAJZ-EeitDt5BAYRFYA" type="4001" source="_NFJhoJZ-EeitDt5BAYRFYA" target="_RZqbUAhWEeihx7bYl2Jx-w">
+    <children xmi:type="notation:DecorationNode" xmi:id="_TPVzA5Z-EeitDt5BAYRFYA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_TPVzBJZ-EeitDt5BAYRFYA" x="-5" y="-24"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_TPVzBZZ-EeitDt5BAYRFYA" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_TPVzBpZ-EeitDt5BAYRFYA" x="-7" y="21"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_TPVzAZZ-EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_TPVL8JZ-EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_TPVzApZ-EeitDt5BAYRFYA" points="[-18, -36, 135, 272]$[-153, -282, 0, 26]"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_TPWaEJZ-EeitDt5BAYRFYA" id="(0.7868852459016393,0.6666666666666666)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_Xm4bAJZ-EeitDt5BAYRFYA" type="4001" source="_NFJhoJZ-EeitDt5BAYRFYA" target="_0jGDMAhWEeihx7bYl2Jx-w">
+    <children xmi:type="notation:DecorationNode" xmi:id="_Xm4bA5Z-EeitDt5BAYRFYA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Xm4bBJZ-EeitDt5BAYRFYA" x="-6" y="25"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_Xm4bBZZ-EeitDt5BAYRFYA" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Xm4bBpZ-EeitDt5BAYRFYA" x="-29" y="21"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_Xm4bAZZ-EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_Xm3z8JZ-EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Xm4bApZ-EeitDt5BAYRFYA" points="[40, -28, -366, 266]$[407, -270, 1, 24]"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Xm5pIJZ-EeitDt5BAYRFYA" id="(0.5298013245033113,0.7611940298507462)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_euQGUJZ-EeitDt5BAYRFYA" type="4001" source="_NFJhoJZ-EeitDt5BAYRFYA" target="_agUtUJZ-EeitDt5BAYRFYA">
+    <children xmi:type="notation:DecorationNode" xmi:id="_euQtYJZ-EeitDt5BAYRFYA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_euQtYZZ-EeitDt5BAYRFYA" y="12"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_euQtYpZ-EeitDt5BAYRFYA" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_euQtY5Z-EeitDt5BAYRFYA" x="-1" y="-14"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_euQGUZZ-EeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_euPfQJZ-EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_euQGUpZ-EeitDt5BAYRFYA" points="[40, 8, -134, -28]$[150, 31, -24, -5]"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_euRUcJZ-EeitDt5BAYRFYA" id="(0.1553398058252427,0.3673469387755102)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_3ijJkJaCEeitDt5BAYRFYA" type="4002" source="__5vlZJZ_EeitDt5BAYRFYA" target="_3iiigJaCEeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_3ijJkZaCEeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_3ijJkpaCEeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#__5r7AJZ_EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_3ijJk5aCEeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_3ijJl5aCEeitDt5BAYRFYA" type="4002" source="_3iiigJaCEeitDt5BAYRFYA" target="_3ijJlJaCEeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_3ijJmJaCEeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_3ijJmZaCEeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#__5r7AJZ_EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_3ijJmpaCEeitDt5BAYRFYA" points="[-35, 0, 3, -14]$[-35, 14, 3, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_3ill0JaCEeitDt5BAYRFYA" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_3ill0ZaCEeitDt5BAYRFYA" id="(0.49795918367346936,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_3ijJnpaCEeitDt5BAYRFYA" type="4002" source="_3ijJm5aCEeitDt5BAYRFYA" target="__5vla5Z_EeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_3ijJn5aCEeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_3ijJoJaCEeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#__5r7AJZ_EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_3ijJoZaCEeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_3ijJopaCEeitDt5BAYRFYA" type="4002" source="_3ijJlJaCEeitDt5BAYRFYA" target="_3ijJm5aCEeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_3ijJo5aCEeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_3ijJpJaCEeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#__5r7AJZ_EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_3ijJpZaCEeitDt5BAYRFYA" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_3imM4JaCEeitDt5BAYRFYA" id="(0.49795918367346936,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_3imM4ZaCEeitDt5BAYRFYA" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_wY30U5aGEeitDt5BAYRFYA" type="4002" source="_n_dSUpaGEeitDt5BAYRFYA" target="_wY30UJaGEeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_wY30VJaGEeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_wY30VZaGEeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_n_YZ0JaGEeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_wY30VpaGEeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_7rZ4g5aGEeitDt5BAYRFYA" type="4002" source="_lYCSMBx2Eeid3MZ10pcLUw" target="_7rZ4gJaGEeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_7rZ4hJaGEeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_7rafkJaGEeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:PriorityUnit" href="universityCourses.henshin#_lXxzgBx2Eeid3MZ10pcLUw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_7rafkZaGEeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_7rafkpaGEeitDt5BAYRFYA" type="4002" source="_7rZ4gJaGEeitDt5BAYRFYA" target="_qSTMwBx2Eeid3MZ10pcLUw">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_7rafk5aGEeitDt5BAYRFYA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_7raflJaGEeitDt5BAYRFYA" fontName="Cantarell"/>
+    <element xmi:type="henshin:PriorityUnit" href="universityCourses.henshin#_lXxzgBx2Eeid3MZ10pcLUw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_7raflZaGEeitDt5BAYRFYA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyFvU5byEeiWPvtubxqgIA" type="4002" source="_WyFIQpbyEeiWPvtubxqgIA" target="_WyFvUJbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyFvVJbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyFvVZbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_DnsXAJbyEeiWPvtubxqgIA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyFvVpbyEeiWPvtubxqgIA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyGWY5byEeiWPvtubxqgIA" type="4002" source="_WyFvUJbyEeiWPvtubxqgIA" target="_WyGWYJbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyGWZJbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyGWZZbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_DnsXAJbyEeiWPvtubxqgIA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyGWZpbyEeiWPvtubxqgIA" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_WyIyoJbyEeiWPvtubxqgIA" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_WyIyoZbyEeiWPvtubxqgIA" id="(0.4975609756097561,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyGWZ5byEeiWPvtubxqgIA" type="4002" source="_WyGWYJbyEeiWPvtubxqgIA" target="_WyFISZbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyGWaJbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyGWaZbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_DnsXAJbyEeiWPvtubxqgIA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyGWapbyEeiWPvtubxqgIA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyRVg5byEeiWPvtubxqgIA" type="4002" source="_WyRVgJbyEeiWPvtubxqgIA" target="_BGD9q5Z3EeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyRVhJbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyRVhZbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_BGA6UJZ3EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyRVhpbyEeiWPvtubxqgIA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyRVh5byEeiWPvtubxqgIA" type="4002" source="_ahq_4JZ4EeitDt5BAYRFYA" target="_WyRVgJbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyRViJbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyRViZbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_BGA6UJZ3EeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyRVipbyEeiWPvtubxqgIA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyTKsZbyEeiWPvtubxqgIA" type="4002" source="_WySjoJbyEeiWPvtubxqgIA" target="_n_dSWZaGEeitDt5BAYRFYA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyTKspbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyTKs5byEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_n_YZ0JaGEeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyTKtJbyEeiWPvtubxqgIA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyTKtZbyEeiWPvtubxqgIA" type="4002" source="_wY30UJaGEeitDt5BAYRFYA" target="_WySjoJbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyTKtpbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyTKt5byEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:SequentialUnit" href="universityCourses.henshin#_n_YZ0JaGEeitDt5BAYRFYA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyTKuJbyEeiWPvtubxqgIA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyTx0ZbyEeiWPvtubxqgIA" type="4002" source="_WyTxw5byEeiWPvtubxqgIA" target="_WyTxwJbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyTx0pbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyTx05byEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyTx1JbyEeiWPvtubxqgIA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyUY05byEeiWPvtubxqgIA" type="4002" source="_WyTxwJbyEeiWPvtubxqgIA" target="_WyUY0JbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyUY1JbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyUY1ZbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyUY1pbyEeiWPvtubxqgIA" points="[-47, 0, -164, -92]$[-47, 46, -164, -46]$[-109, 46, -226, -46]$[-109, 92, -226, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_WyXcIpbyEeiWPvtubxqgIA" id="(0.3333333333333333,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_WyXcI5byEeiWPvtubxqgIA" id="(0.9274809160305344,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyUY15byEeiWPvtubxqgIA" type="4002" source="_WyUY0JbyEeiWPvtubxqgIA" target="_WyTxypbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyUY2JbyEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyUY2ZbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyUY2pbyEeiWPvtubxqgIA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyUY3pbyEeiWPvtubxqgIA" type="4002" source="_WyTxwJbyEeiWPvtubxqgIA" target="_WyUY25byEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyUY35byEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyUY4JbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyUY4ZbyEeiWPvtubxqgIA" points="[0, 0, -112, -60]$[0, 30, -112, -30]$[112, 30, 0, -30]$[112, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_WyXcIJbyEeiWPvtubxqgIA" id="(0.6666666666666666,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_WyXcIZbyEeiWPvtubxqgIA" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_WyUY4pbyEeiWPvtubxqgIA" type="4002" source="_WyUY25byEeiWPvtubxqgIA" target="_WyTxypbyEeiWPvtubxqgIA">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_WyUY45byEeiWPvtubxqgIA" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_WyUY5JbyEeiWPvtubxqgIA" fontName="Cantarell"/>
+    <element xmi:type="henshin:ConditionalUnit" href="universityCourses.henshin#_96NXIJbuEeiWPvtubxqgIA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WyUY5ZbyEeiWPvtubxqgIA" points="[91, -1, -26, -42]$[117, -1, 0, -42]$[117, 31, 0, -10]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_OcHiUJtlEeix2Y0ulsySig" type="4001" source="_z4KigJtkEeix2Y0ulsySig" target="_xNYXQJtkEeix2Y0ulsySig">
+    <children xmi:type="notation:DecorationNode" xmi:id="_OcIJYJtlEeix2Y0ulsySig" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_OcIJYZtlEeix2Y0ulsySig" y="14"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_OcIJYptlEeix2Y0ulsySig" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_OcIJY5tlEeix2Y0ulsySig" x="-2" y="-14"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_OcHiUZtlEeix2Y0ulsySig" fontName="Cantarell"/>
+    <element xmi:type="henshin:Edge" href="universityCourses.henshin#_OcFtIJtlEeix2Y0ulsySig"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_OcHiUptlEeix2Y0ulsySig" points="[46, 12, -108, -24]$[145, 69, -9, 33]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_12iBw5tmEeix2Y0ulsySig" type="4002" source="_7KE0cJtlEeix2Y0ulsySig" target="_12iBwJtmEeix2Y0ulsySig">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_12iBxJtmEeix2Y0ulsySig" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_12iBxZtmEeix2Y0ulsySig" fontName="Cantarell"/>
+    <element xmi:type="henshin:LoopUnit" href="universityCourses.henshin#_7J-t0JtlEeix2Y0ulsySig"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_12iBxptmEeix2Y0ulsySig" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_12io0JtmEeix2Y0ulsySig" type="4002" source="_12iBwJtmEeix2Y0ulsySig" target="_7KE0d5tlEeix2Y0ulsySig">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_12io0ZtmEeix2Y0ulsySig" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_12io0ptmEeix2Y0ulsySig" fontName="Cantarell"/>
+    <element xmi:type="henshin:LoopUnit" href="universityCourses.henshin#_7J-t0JtlEeix2Y0ulsySig"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_12io05tmEeix2Y0ulsySig" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_12io1JtmEeix2Y0ulsySig" type="4002" source="_12iBwJtmEeix2Y0ulsySig" target="_12iBwJtmEeix2Y0ulsySig">
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_12io1ZtmEeix2Y0ulsySig" routing="Rectilinear"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_12io1ptmEeix2Y0ulsySig" fontName="Cantarell"/>
+    <element xmi:type="henshin:LoopUnit" href="universityCourses.henshin#_7J-t0JtlEeix2Y0ulsySig"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_12io15tmEeix2Y0ulsySig" points="[78, 7, 78, 7]$[89, 7, 89, 7]$[89, 26, 89, 26]$[0, 26, 0, 26]$[0, 14, 0, 14]"/>
+  </edges>
+</notation:Diagram>
