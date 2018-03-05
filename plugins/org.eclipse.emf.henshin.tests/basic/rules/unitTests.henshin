@@ -696,33 +696,16 @@
     <mappings xmi:id="_sVaucPkLEeG8L_O0_HQfRg" origin="_sVXrIPkLEeG8L_O0_HQfRg" image="_sVZgUvkLEeG8L_O0_HQfRg"/>
     <mappings xmi:id="_sVaucfkLEeG8L_O0_HQfRg" origin="_sVXrIfkLEeG8L_O0_HQfRg" image="_sVZgU_kLEeG8L_O0_HQfRg"/>
   </units>
-  <units xsi:type="henshin:LoopUnit" xmi:id="_sVaucvkLEeG8L_O0_HQfRg" name="countedUnitTest" subUnit="_sVCT8_kLEeG8L_O0_HQfRg"/>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_sVb8kPkLEeG8L_O0_HQfRg" name="priorityUnitTest" subUnits="_sUjLwfkLEeG8L_O0_HQfRg _sVF-UfkLEeG8L_O0_HQfRg"/>
+  <units xsi:type="henshin:LoopUnit" xmi:id="_sVaucvkLEeG8L_O0_HQfRg" name="loopUnitTest" subUnit="_sVCT8_kLEeG8L_O0_HQfRg"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_sVb8kPkLEeG8L_O0_HQfRg" name="priorityUnitTest" subUnits="_sUjLwfkLEeG8L_O0_HQfRg _sVF-UfkLEeG8L_O0_HQfRg _n4J7EJL5EeelVqCQguqkhw"/>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_sVcjoPkLEeG8L_O0_HQfRg" name="sequentialUnitTest" subUnits="_sVF-UfkLEeG8L_O0_HQfRg _sUjLwfkLEeG8L_O0_HQfRg _sVdxxPkLEeG8L_O0_HQfRg"/>
-  <units xsi:type="henshin:ConditionalUnit" xmi:id="_sVcjofkLEeG8L_O0_HQfRg" name="conditionalUnitTest" if="_sUm2IfkLEeG8L_O0_HQfRg" then="_sUrHkfkLEeG8L_O0_HQfRg" else="_sUs8w_kLEeG8L_O0_HQfRg">
-    <parameters xmi:id="_sVcjovkLEeG8L_O0_HQfRg" name="valname"/>
-    <parameters xmi:id="_sVdKsPkLEeG8L_O0_HQfRg" name="val"/>
-    <parameters xmi:id="_sVdKsfkLEeG8L_O0_HQfRg" name="vlintvl"/>
-    <parameterMappings xmi:id="_sVdKsvkLEeG8L_O0_HQfRg" source="_sVcjovkLEeG8L_O0_HQfRg" target="_sUm2JPkLEeG8L_O0_HQfRg"/>
-    <parameterMappings xmi:id="_sVdKs_kLEeG8L_O0_HQfRg" source="_sUm2JfkLEeG8L_O0_HQfRg" target="_sVdKsPkLEeG8L_O0_HQfRg"/>
-    <parameterMappings xmi:id="_sVdxwPkLEeG8L_O0_HQfRg" source="_sVdKsPkLEeG8L_O0_HQfRg" target="_sUrHlfkLEeG8L_O0_HQfRg"/>
-    <parameterMappings xmi:id="_sVdxwfkLEeG8L_O0_HQfRg" source="_sVdKsfkLEeG8L_O0_HQfRg" target="_sUrHlPkLEeG8L_O0_HQfRg"/>
-    <parameterMappings xmi:id="_sVdxwvkLEeG8L_O0_HQfRg" source="_sVcjovkLEeG8L_O0_HQfRg" target="_sUtj0vkLEeG8L_O0_HQfRg"/>
-    <parameterMappings xmi:id="_sVdxw_kLEeG8L_O0_HQfRg" source="_sVdKsfkLEeG8L_O0_HQfRg" target="_sUtj0fkLEeG8L_O0_HQfRg"/>
-  </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_sVdxxPkLEeG8L_O0_HQfRg" name="subsequence" subUnits="_sVF-UfkLEeG8L_O0_HQfRg"/>
-  <units xsi:type="henshin:IndependentUnit" xmi:id="_sVe_4PkLEeG8L_O0_HQfRg" name="independentUnitTest" subUnits="_sUvZAPkLEeG8L_O0_HQfRg _sUx1QfkLEeG8L_O0_HQfRg"/>
+  <units xsi:type="henshin:IndependentUnit" xmi:id="_sVe_4PkLEeG8L_O0_HQfRg" name="independentUnitTest" subUnits="_sUjLwfkLEeG8L_O0_HQfRg _sVF-UfkLEeG8L_O0_HQfRg _n4J7EJL5EeelVqCQguqkhw"/>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_sVfm8PkLEeG8L_O0_HQfRg" name="loop_amu_attributeInKernelNac" subUnits="_sVKPwPkLEeG8L_O0_HQfRg _sVKPwPkLEeG8L_O0_HQfRg"/>
-  <units xsi:type="henshin:ConditionalUnit" xmi:id="_sVfm8fkLEeG8L_O0_HQfRg" name="cu1" if="_sUm2IfkLEeG8L_O0_HQfRg" else="_sU0RgvkLEeG8L_O0_HQfRg">
-    <parameters xmi:id="_sVfm8vkLEeG8L_O0_HQfRg" name="valname"/>
-    <parameterMappings xmi:id="_sVfm8_kLEeG8L_O0_HQfRg" source="_sVfm8vkLEeG8L_O0_HQfRg" target="_sUm2JPkLEeG8L_O0_HQfRg"/>
-  </units>
   <units xsi:type="henshin:IndependentUnit" xmi:id="_sVfm9PkLEeG8L_O0_HQfRg" name="emptyIndependentUnit"/>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_sVgOAPkLEeG8L_O0_HQfRg" name="emptySequentialUnit"/>
   <units xsi:type="henshin:PriorityUnit" xmi:id="_sVgOAfkLEeG8L_O0_HQfRg" name="emptyPriorityUnit"/>
   <units xsi:type="henshin:IndependentUnit" xmi:id="_sVgOAvkLEeG8L_O0_HQfRg" name="independentUnitWithOneSubUnit" description="" subUnits="_sUvZAPkLEeG8L_O0_HQfRg"/>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_sVgOA_kLEeG8L_O0_HQfRg" name="priorityUnitWithOneSubUnit" subUnits="_sUvZAPkLEeG8L_O0_HQfRg"/>
-  <units xsi:type="henshin:ConditionalUnit" xmi:id="_sVg1EPkLEeG8L_O0_HQfRg" name="cu2" if="_sVUn0vkLEeG8L_O0_HQfRg" then="_sVCT8_kLEeG8L_O0_HQfRg"/>
   <units xsi:type="henshin:IteratedUnit" xmi:id="_RcgNYJL5EeelVqCQguqkhw" name="iteratedUnitNodeDeletionTest" subUnit="_n4J7EJL5EeelVqCQguqkhw" iterations="3"/>
   <units xsi:type="henshin:Rule" xmi:id="_n4J7EJL5EeelVqCQguqkhw" name="deleteNode" description="">
     <lhs xmi:id="_n4bA0JL5EeelVqCQguqkhw" name="Lhs" description="">
@@ -743,5 +726,27 @@
     </rhs>
     <mappings xmi:id="_cK3wYZMAEeedrNTWThGyHA" origin="_cK3JUJMAEeedrNTWThGyHA" image="_cK3wYJMAEeedrNTWThGyHA"/>
   </units>
-  <units xsi:type="henshin:SequentialUnit" xmi:id="_YM-ZoJMPEeefGurO37nQTA" name="sequentialUnitNodeAndValDeletionTest" subUnits="_n4J7EJL5EeelVqCQguqkhw _sVF-UfkLEeG8L_O0_HQfRg"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_YM-ZoJMPEeefGurO37nQTA" name="sequentialUnitNodeAndValDeletionTest" subUnits="_n4J7EJL5EeelVqCQguqkhw _sVF-UfkLEeG8L_O0_HQfRg _N5LiQCYSEeiTHaGclUiVMQ"/>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_bJ2jwCFUEei1C_mtIHo0kg" name="conditionalUnitWithoutElse" if="_sVF-UfkLEeG8L_O0_HQfRg" then="_n4J7EJL5EeelVqCQguqkhw"/>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_WyITUCIJEeiK3Yr7wzMkUw" name="conditionalUnitTest1" if="_sVF-UfkLEeG8L_O0_HQfRg" then="_n4J7EJL5EeelVqCQguqkhw" else="_sVF-UfkLEeG8L_O0_HQfRg"/>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_ZY9ysCIJEeiK3Yr7wzMkUw" name="conditionalUnitTest2" if="_sVF-UfkLEeG8L_O0_HQfRg" then="_sVF-UfkLEeG8L_O0_HQfRg" else="_n4J7EJL5EeelVqCQguqkhw"/>
+  <units xsi:type="henshin:Rule" xmi:id="_N5LiQCYSEeiTHaGclUiVMQ" name="deleteNode_copy" description="">
+    <lhs xmi:id="_N5LiQSYSEeiTHaGclUiVMQ" name="Lhs" description="">
+      <nodes xmi:id="_N5LiQiYSEeiTHaGclUiVMQ" outgoing="_N5LiRCYSEeiTHaGclUiVMQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <nodes xmi:id="_N5LiQyYSEeiTHaGclUiVMQ" incoming="_N5LiRCYSEeiTHaGclUiVMQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <edges xmi:id="_N5LiRCYSEeiTHaGclUiVMQ" source="_N5LiQiYSEeiTHaGclUiVMQ" target="_N5LiQyYSEeiTHaGclUiVMQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_N5LiRSYSEeiTHaGclUiVMQ" name="Rhs">
+      <nodes xmi:id="_N5LiRiYSEeiTHaGclUiVMQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_N5LiRyYSEeiTHaGclUiVMQ" origin="_N5LiQiYSEeiTHaGclUiVMQ" image="_N5LiRiYSEeiTHaGclUiVMQ"/>
+  </units>
 </henshin:Module>

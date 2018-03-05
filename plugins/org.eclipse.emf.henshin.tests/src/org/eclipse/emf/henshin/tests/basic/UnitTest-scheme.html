@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>UnitTest testcase scheme</title>
+
+</head>
+
+<body>
+<table cellspacing="0" border="0">
+	<tr bgcolor="#CCCCCC">
+		<td>Unit</td>
+		<td>flag</td>
+		<td style="border-right: 1px solid #000000">flag</td>
+		<td>Case</td>
+		<td>Case</td>
+		<td>Case</td>
+	</tr>
+	<tr bgcolor="#CCCCCC">
+		<td>Unary</td>
+		<td>strict</td>
+		<td style="border-right: 1px solid #000000">rollback</td>
+		<td>Unit empty</td>
+		<td>Unit succeeds</td>
+		<td>Unit fails</td>
+	</tr>
+	<tr>
+		<td>Loop</td>
+		<td>-</td>
+		<td style="border-right: 1px solid #000000">-</td>
+		<td>NOT POSSIBLE</td>
+		<td>testLoopUnitNoLoopSucceeds, testLoopUnitMultipleLoopsSucceeds</td>
+		<td>NOT POSSIBLE</td>
+	</tr>
+	<tr>
+		<td>Iterated</td>
+		<td>true</td>
+		<td style="border-right: 1px solid #000000">true</td>
+		<td>NOT POSSIBLE</td>
+		<td>NOT NECESSARY</td>
+		<td>testStrictIteratedUnitWithRollbackFails</td>
+	</tr>
+	<tr>
+		<td>Iterated</td>
+		<td>true</td>
+		<td style="border-right: 1px solid #000000">false</td>
+		<td>NOT POSSIBLE</td>
+		<td>testStrictIteratedUnitSucceeds</td>
+		<td>testStrictIteratedUnitWithoutRollbackFails</td>
+	</tr>
+	<tr>
+		<td>Iterated</td>
+		<td>false</td>
+		<td style="border-right: 1px solid #000000">true</td>
+		<td>NOT POSSIBLE</td>
+		<td>testNonstrictIteratedUnitSucceeds</td>
+		<td>testNonstrictIteratedUnitFails</td>
+	</tr>
+	<tr>
+		<td>Iterated</td>
+		<td>false</td>
+		<td style="border-right: 1px solid #000000"false</td>
+		<td>NOT POSSIBLE</td>
+		<td>NOT NECESSARY</td>
+		<td>NOT NECESSARY</td>
+	</tr>
+	<tr bgcolor="#CCCCCC">
+		<td><br></td>
+		<td><br></td>
+		<td style="border-right: 1px solid #000000"><br></td>
+		<td><br></td>
+		<td><br></td>
+		<td><br></td>
+	</tr>
+	<tr>
+		<td>Conditional</td>
+		<td>-</td>
+		<td style="border-right: 1px solid #000000">-</td>
+		<td>testConditionalUnitWithoutElseIfFalseSucceeds</td>
+		<td>testConditionalUnitElseSucceeds, testConditionalUnitThenSucceeds</td>
+		<td>testConditionalUnitElseFails, testConditionalUnitThenFails</td>
+	</tr>
+	<tr bgcolor="#CCCCCC">
+		<td>Multi</td>
+		<td>strict</td>
+		<td style="border-right: 1px solid #000000">rollback</td>
+		<td>Unit empty</td>
+		<td>Unit succeeds</td>
+		<td>Unit fails</td>
+	</tr>
+	<tr>
+		<td>Sequential</td>
+		<td>true</td>
+		<td style="border-right: 1px solid #000000">true</td>
+		<td>testEmptyStrictSequentialUnit</td>
+		<td>testStrictSequentialUnitSucceeds</td>
+		<td>testStrictSequentialUnitWithRollbackFails</td>
+	</tr>
+	<tr>
+		<td>Sequential</td>
+		<td>true</td>
+		<td style="border-right: 1px solid #000000">false</td>
+		<td>NOT NECESSARY</td>
+		<td>NOT NECESSARY</td>
+		<td>testStrictSequentialUnitWithoutRollbackFails</td>
+	</tr>
+	<tr>
+		<td>Sequential</td>
+		<td>false</td>
+		<td style="border-right: 1px solid #000000">true</td>
+		<td>testEmptyNonstrictSequentialUnit</td>
+		<td>testNonstrictSequentialUnitSucceeds</td>
+		<td>testNonstrictSequentialUnitFails</td>
+	</tr>
+	<tr>
+		<td>Sequential</td>
+		<td>false</td>
+		<td style="border-right: 1px solid #000000">false</td>
+		<td>NOT NECESSARY</td>
+		<td>NOT NECESSARY</td>
+		<td>NOT NECESSARY</td>
+	</tr>
+	<tr>
+		<td>Priority</td>
+		<td>-</td>
+		<td style="border-right: 1px solid #000000">-</td>
+		<td>testEmptyPriorityUnit</td>
+		<td>testPriorityUnitFirstSucceeds, testPriorityUnitMiddleSucceeds, testPriorityUnitLastSucceeds</td>
+		<td>testPriorityUnitAllfail</td>
+	</tr>
+	<tr>
+		<td>Independent</td>
+		<td>-</td>
+		<td style="border-right: 1px solid #000000">-</td>
+		<td>testEmptyIndependentUnit</td>
+		<td>TestIndependentUnitOneCanSucceed, testIndependentUnitTwoCanSucceed</td>
+		<td>testIndependentUnitAllfail</td>
+	</tr>
+</table>
+
+<p>
+Abbreviations
+<ul>
+	<li>NOT NECESSARY: no test needed, covered by other flag combination</li>
+	<li>NOT POSSIBLE: 'empty' not possible according to model, 1..1 association</li>
+</ul>
+</p>
+</body>
+
+</html>
