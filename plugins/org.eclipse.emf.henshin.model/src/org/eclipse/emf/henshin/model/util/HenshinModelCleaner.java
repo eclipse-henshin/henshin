@@ -95,12 +95,6 @@ public class HenshinModelCleaner {
 		if (unit instanceof Rule) {
 			cleanRule((Rule) unit);
 		}
-		if (unit instanceof UnaryUnit) {
-			Unit subUnit = ((UnaryUnit) unit).getSubUnit();
-			if (subUnit==null) {
-				return null;
-			}
-		}
 		if (unit instanceof IteratedUnit) {
 			String iterations = ((IteratedUnit) unit).getIterations();
 			if (iterations==null || iterations.trim().length()==0) {
