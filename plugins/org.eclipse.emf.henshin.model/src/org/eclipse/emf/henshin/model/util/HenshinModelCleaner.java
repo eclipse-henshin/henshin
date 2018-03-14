@@ -101,12 +101,6 @@ public class HenshinModelCleaner {
 				return null;
 			}
 		}
-		if (unit instanceof ConditionalUnit) {
-			ConditionalUnit cond = (ConditionalUnit) unit;
-			if (cond.getIf()==null || cond.getThen()==null || cond.getElse()==null) {
-				return null;
-			}
-		}
 		if (unit instanceof IteratedUnit) {
 			String iterations = ((IteratedUnit) unit).getIterations();
 			if (iterations==null || iterations.trim().length()==0) {
