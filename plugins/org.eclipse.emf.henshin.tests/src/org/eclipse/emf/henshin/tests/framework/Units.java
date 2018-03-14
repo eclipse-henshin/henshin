@@ -107,9 +107,11 @@ public class Units {
 	}
 
 	public static void assertUnitCanNotBeExecuted(UnitApplication ua) throws AssertionError {
-		if (ua.execute(null)) {
-			throw new AssertionError("expected: UnitApplication can not be executed.");
-		}
+		try {
+			if (ua.execute(null)) {
+				throw new AssertionError("expected: UnitApplication can not be executed.");
+			}
+		} catch (RuntimeException re) {}
 	}
 
 }

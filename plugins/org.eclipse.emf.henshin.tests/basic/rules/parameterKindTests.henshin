@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xHv9oEYjEeiNNN5Xmf0adg" name="paramKindTests">
+  <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YxQsYDLGEeiaRLhpoempgw" name="parameterKindInRule" checkDangling="false">
+    <parameters xmi:id="_dlyyYDLGEeiaRLhpoempgw" name="param_Nodename" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_YxkOYDLGEeiaRLhpoempgw" name="Lhs">
+      <nodes xmi:id="_IVfBADLHEeiaRLhpoempgw" name="nd" incoming="_Ub-RsDLHEeiaRLhpoempgw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_L0Yw0DLHEeiaRLhpoempgw" value="param_Nodename">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_PJcBEDLHEeiaRLhpoempgw" name="cont" outgoing="_Ub-RsDLHEeiaRLhpoempgw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <edges xmi:id="_Ub-RsDLHEeiaRLhpoempgw" source="_PJcBEDLHEeiaRLhpoempgw" target="_IVfBADLHEeiaRLhpoempgw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_YxkOYTLGEeiaRLhpoempgw" name="Rhs">
+      <nodes xmi:id="_Sn6TEDLHEeiaRLhpoempgw" name="cont">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Sn6TETLHEeiaRLhpoempgw" origin="_PJcBEDLHEeiaRLhpoempgw" image="_Sn6TEDLHEeiaRLhpoempgw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_HKufADOAEei62csewO0sUQ" name="parameterKindOutRule">
+    <parameters xmi:id="_HKufATOAEei62csewO0sUQ" name="param_node_out" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+    </parameters>
+    <parameters xmi:id="_HKufAjOAEei62csewO0sUQ" name="param_ndname_out" description="" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_HKufAzOAEei62csewO0sUQ" name="LHS">
+      <nodes xmi:id="_HKufBDOAEei62csewO0sUQ" name="param_node_out">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_HKufBTOAEei62csewO0sUQ" value="param_ndname_out">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_HKufBjOAEei62csewO0sUQ" name="RHS">
+      <nodes xmi:id="_HKufBzOAEei62csewO0sUQ" name="param_node_out">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_HKufCDOAEei62csewO0sUQ" value="param_ndname_out">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_HKufCTOAEei62csewO0sUQ" origin="_HKufBDOAEei62csewO0sUQ" image="_HKufBzOAEei62csewO0sUQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_KQLTsDvpEeiSEa0uuu0yfw" name="parameterKindInOutRule" checkDangling="false">
+    <parameters xmi:id="_QHr5oDvpEeiSEa0uuu0yfw" name="param_ndname_inout" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_XPuTUDvpEeiSEa0uuu0yfw" name="param_node_inout" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+    </parameters>
+    <lhs xmi:id="_KQmxgDvpEeiSEa0uuu0yfw" name="Lhs">
+      <nodes xmi:id="_hkVWsDvpEeiSEa0uuu0yfw" name="param_node_inout">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_v9oXgDvpEeiSEa0uuu0yfw" value="param_ndname_inout">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_KQmxgTvpEeiSEa0uuu0yfw" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_-zyUoDwDEeiSEa0uuu0yfw" name="parameterKindVarRule">
+    <parameters xmi:id="_EAS1wDwEEeiSEa0uuu0yfw" name="temp" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_h-dSoDwEEeiSEa0uuu0yfw" name="value_name" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_-0KIEDwDEeiSEa0uuu0yfw" name="Lhs">
+      <nodes xmi:id="_LVI8YDwEEeiSEa0uuu0yfw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes xmi:id="_TISIkDwEEeiSEa0uuu0yfw" value="temp">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_-0KIETwDEeiSEa0uuu0yfw" name="Rhs">
+      <nodes xmi:id="_Rv1H4DwEEeiSEa0uuu0yfw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes xmi:id="_VxF94DwEEeiSEa0uuu0yfw" value="temp*3">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Rv1H4TwEEeiSEa0uuu0yfw" origin="_LVI8YDwEEeiSEa0uuu0yfw" image="_Rv1H4DwEEeiSEa0uuu0yfw"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_5kPHEI3HEei1y_Fh29mbFA" name="parameterKindInUnit" description="" subUnits="_YxQsYDLGEeiaRLhpoempgw">
+    <parameters xmi:id="_D7OwEI3IEei1y_Fh29mbFA" name="param_Nodename" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_IUSbAI3IEei1y_Fh29mbFA" name="param_dummy" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_QTKWEI3IEei1y_Fh29mbFA" source="_D7OwEI3IEei1y_Fh29mbFA" target="_dlyyYDLGEeiaRLhpoempgw"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_a7g4AI3MEei1y_Fh29mbFA" name="parameterKindOutUnit" subUnits="_HKufADOAEei62csewO0sUQ">
+    <parameters xmi:id="_kLWEoI3MEei1y_Fh29mbFA" name="param_node_out" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+    </parameters>
+    <parameters xmi:id="_o0YFQI3MEei1y_Fh29mbFA" name="param_ndname_out" description="" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_6MzJoI3MEei7c50yKhotFg" source="_HKufAjOAEei62csewO0sUQ" target="_o0YFQI3MEei1y_Fh29mbFA"/>
+    <parameterMappings xmi:id="_8vtLQI3MEei7c50yKhotFg" source="_HKufATOAEei62csewO0sUQ" target="_kLWEoI3MEei1y_Fh29mbFA"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_BrOqEI3NEei7c50yKhotFg" name="parameterKindInOutUnit" subUnits="_KQLTsDvpEeiSEa0uuu0yfw">
+    <parameters xmi:id="_MjDvQI3NEei7c50yKhotFg" name="param_ndname_inout" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_Qs0Z8I3NEei7c50yKhotFg" name="param_node_inout" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+    </parameters>
+    <parameters xmi:id="_FMOc8I-AEeiSEvZF0Arfzw" name="param_dummy" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_WYXngI3NEei7c50yKhotFg" source="_XPuTUDvpEeiSEa0uuu0yfw" target="_Qs0Z8I3NEei7c50yKhotFg"/>
+    <parameterMappings xmi:id="_b2CKEI3NEei7c50yKhotFg" source="_MjDvQI3NEei7c50yKhotFg" target="_QHr5oDvpEeiSEa0uuu0yfw"/>
+    <parameterMappings xmi:id="_ehmYcI3NEei7c50yKhotFg" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_MjDvQI3NEei7c50yKhotFg"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_iti0cI3NEei7c50yKhotFg" name="parameterKindVarUnit" subUnits="_HKufADOAEei62csewO0sUQ _YxQsYDLGEeiaRLhpoempgw">
+    <parameters xmi:id="_U4-b4I3OEei7c50yKhotFg" name="nodename_var" description="" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_s79XII33EeiaB6vM5xdq1Q" name="node_out" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+    </parameters>
+    <parameterMappings xmi:id="_fM6e8I3QEei7c50yKhotFg" source="_HKufAjOAEei62csewO0sUQ" target="_U4-b4I3OEei7c50yKhotFg"/>
+    <parameterMappings xmi:id="_ZKSZ4I3rEei7c50yKhotFg" source="_U4-b4I3OEei7c50yKhotFg" target="_HKufAjOAEei62csewO0sUQ"/>
+    <parameterMappings xmi:id="_aePYQI3vEei7c50yKhotFg" source="_U4-b4I3OEei7c50yKhotFg" target="_dlyyYDLGEeiaRLhpoempgw"/>
+    <parameterMappings xmi:id="_eN8kMI3vEei7c50yKhotFg" source="_dlyyYDLGEeiaRLhpoempgw" target="_U4-b4I3OEei7c50yKhotFg"/>
+    <parameterMappings xmi:id="_GY32YI34EeiaB6vM5xdq1Q" source="_HKufATOAEei62csewO0sUQ" target="_s79XII33EeiaB6vM5xdq1Q"/>
+    <parameterMappings xmi:id="_JC-FII34EeiaB6vM5xdq1Q" source="_s79XII33EeiaB6vM5xdq1Q" target="_HKufATOAEei62csewO0sUQ"/>
+  </units>
+  <units xsi:type="henshin:IndependentUnit" xmi:id="_rGbhII9xEei2HPuxpovZNA" name="parameterKindsReadableAfterIndependentUnit" subUnits="_KQLTsDvpEeiSEa0uuu0yfw">
+    <parameters xmi:id="_KKVBkI9zEei2HPuxpovZNA" name="param_in" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_VUel0I9zEei2HPuxpovZNA" name="param_inout" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_XkjLAI9zEei2HPuxpovZNA" name="param_out" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_ZxarMI9zEei2HPuxpovZNA" name="param_var" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="__uTcsI90Eei2HPuxpovZNA" source="_KKVBkI9zEei2HPuxpovZNA" target="_QHr5oDvpEeiSEa0uuu0yfw"/>
+    <parameterMappings xmi:id="_IT9q8I91Eei2HPuxpovZNA" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_XkjLAI9zEei2HPuxpovZNA"/>
+    <parameterMappings xmi:id="_LceUAI91Eei2HPuxpovZNA" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_ZxarMI9zEei2HPuxpovZNA"/>
+  </units>
+  <units xsi:type="henshin:ConditionalUnit" xmi:id="_yQAy8I9xEei2HPuxpovZNA" name="parameterKindsReadableAfterConditionalUnit" if="_KQLTsDvpEeiSEa0uuu0yfw" then="_P6yG0I9_EeiSEvZF0Arfzw" else="_P6yG0I9_EeiSEvZF0Arfzw">
+    <parameters xmi:id="_dwyDwI9zEei2HPuxpovZNA" name="param_in" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_f6mP8I9zEei2HPuxpovZNA" name="param_inout" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_iKkHcI9zEei2HPuxpovZNA" name="param_out" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_kIoWoI9zEei2HPuxpovZNA" name="param_var" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_ZJaZkI9_EeiSEvZF0Arfzw" source="_dwyDwI9zEei2HPuxpovZNA" target="_QHr5oDvpEeiSEa0uuu0yfw"/>
+    <parameterMappings xmi:id="_bHJRkI9_EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_iKkHcI9zEei2HPuxpovZNA"/>
+    <parameterMappings xmi:id="_ddpO4I9_EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_kIoWoI9zEei2HPuxpovZNA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_078NsI9xEei2HPuxpovZNA" name="parameterKindsReadableAfterPriorityUnit" subUnits="_KQLTsDvpEeiSEa0uuu0yfw">
+    <parameters xmi:id="_tWud4I9zEei2HPuxpovZNA" name="param_in" description="" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_vEHMwI9zEei2HPuxpovZNA" name="param_inout" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_w0Ri0I9zEei2HPuxpovZNA" name="param_out" description="" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_y9OzYI9zEei2HPuxpovZNA" name="param_var" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_fl_38I9-EeiSEvZF0Arfzw" source="_tWud4I9zEei2HPuxpovZNA" target="_QHr5oDvpEeiSEa0uuu0yfw"/>
+    <parameterMappings xmi:id="_iMYrYI9-EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_w0Ri0I9zEei2HPuxpovZNA"/>
+    <parameterMappings xmi:id="_k0JX0I9-EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_y9OzYI9zEei2HPuxpovZNA"/>
+  </units>
+  <units xsi:type="henshin:LoopUnit" xmi:id="_3uyIwI9xEei2HPuxpovZNA" name="parameterKindsReadableAfterLoopUnit" subUnit="_KQLTsDvpEeiSEa0uuu0yfw">
+    <parameters xmi:id="_1sdZwI9zEei2HPuxpovZNA" name="param_in" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_3rWIUI9zEei2HPuxpovZNA" name="param_inout" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_5gRpoI9zEei2HPuxpovZNA" name="param_out" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_7lqBwI9zEei2HPuxpovZNA" name="param_var" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_JsOkwI99EeiSEvZF0Arfzw" source="_1sdZwI9zEei2HPuxpovZNA" target="_QHr5oDvpEeiSEa0uuu0yfw"/>
+    <parameterMappings xmi:id="_MEHCII99EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_5gRpoI9zEei2HPuxpovZNA"/>
+    <parameterMappings xmi:id="_OHBVEI99EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_7lqBwI9zEei2HPuxpovZNA"/>
+  </units>
+  <units xsi:type="henshin:IteratedUnit" xmi:id="_8Fr3kI9xEei2HPuxpovZNA" name="parameterKindsReadableAfterIteratedUnit" subUnit="_KQLTsDvpEeiSEa0uuu0yfw" iterations="1">
+    <parameters xmi:id="_95wLUI9zEei2HPuxpovZNA" name="param_in" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__cz5gI9zEei2HPuxpovZNA" name="param_inout" description="" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_BysLwI90Eei2HPuxpovZNA" name="param_out" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_Dl7D8I90Eei2HPuxpovZNA" name="param_var" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_zvhncI99EeiSEvZF0Arfzw" source="_95wLUI9zEei2HPuxpovZNA" target="_QHr5oDvpEeiSEa0uuu0yfw"/>
+    <parameterMappings xmi:id="_24MBgI99EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_BysLwI90Eei2HPuxpovZNA"/>
+    <parameterMappings xmi:id="_4_HRwI99EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_Dl7D8I90Eei2HPuxpovZNA"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_os8PUI9zEei2HPuxpovZNA" name="parameterKindsReadableAfterSequentialUnit" subUnits="_KQLTsDvpEeiSEa0uuu0yfw">
+    <parameters xmi:id="_Fh0I4I90Eei2HPuxpovZNA" name="param_in" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_HUGl4I90Eei2HPuxpovZNA" name="param_inout" kind="INOUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_J7CL4I90Eei2HPuxpovZNA" name="param_out" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_LehX4I90Eei2HPuxpovZNA" name="param_var" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_nIAiwI98EeiSEvZF0Arfzw" source="_Fh0I4I90Eei2HPuxpovZNA" target="_QHr5oDvpEeiSEa0uuu0yfw"/>
+    <parameterMappings xmi:id="_qET70I98EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_J7CL4I90Eei2HPuxpovZNA"/>
+    <parameterMappings xmi:id="_uFQBsI98EeiSEvZF0Arfzw" source="_QHr5oDvpEeiSEa0uuu0yfw" target="_LehX4I90Eei2HPuxpovZNA"/>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_P6yG0I9_EeiSEvZF0Arfzw" name="emptyUnit" strict="false"/>
+</henshin:Module>

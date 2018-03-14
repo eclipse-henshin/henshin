@@ -87,7 +87,6 @@ public class ParameterTest extends HenshinTest {
 	public void testParameterInOut2() {
 		// Input Node, output attribute name
 		loadEGraph("paramTest");
-		loadRule("parameterInOut");
 
 		Node nd1 = (Node) Tools.getFirstOCLResult("self.nodename='nd1'", htEGraph);
 

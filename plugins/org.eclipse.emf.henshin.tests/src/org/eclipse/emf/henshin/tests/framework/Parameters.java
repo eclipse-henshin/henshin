@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.tests.framework;
 
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Parameter;
 
 /**
@@ -55,6 +56,36 @@ public class Parameters {
 			throw new AssertionError("expected: Parameter \"" + parameterName + "\" equals " + obj
 					+ "; (actual value: " + realValue + ")");
 		}
+	}
+
+	/**
+	 * Asserts that the {@link Match} contains no parameter mapping for "parameterName".
+	 *
+	 * @param ma
+	 * @param parameterName
+	 * @throws AssertionError
+	 */
+	public static void assertParameterNotReadableAfterApplication(UnitApplication unitApp, String parameterName) throws AssertionError {
+		try {
+			if (unitApp.getResultParameterValue(parameterName) != null) {
+				throw new AssertionError("expected: Parameter \"" + parameterName
+						+ "\" isn't readable after application of unit \"" + unitApp.getUnit() + "\"");
+			}
+		} catch (RuntimeException re) {}
+	}
+
+	/**
+	 * Asserts that {@link Parameter} "parameterName" is not settable prior to execution of "unitApp".
+	 *
+	 * @param unitApp
+	 * @param parameterName
+	 * @throws AssertionError
+	 */
+	public static void assertParameterNotSettable(UnitApplication unitApp, String parameterName) throws AssertionError {
+		try {
+			unitApp.setParameterValue(parameterName, "d");
+			throw new AssertionError("expected: Paremeter \"" + parameterName + "\" not settable");
+		} catch (RuntimeException re) {}
 	}
 
 }
