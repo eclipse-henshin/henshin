@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.eclipse.compare.internal.CompareAction;
 import org.eclipse.core.resources.IFile;
@@ -21,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.henshin.interpreter.Change;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugTarget;
@@ -28,6 +31,7 @@ import org.eclipse.emf.henshin.interpreter.impl.DebugEngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
 import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfig;
 import org.eclipse.emf.henshin.interpreter.ui.util.TransformOperation;
 import org.eclipse.emf.henshin.model.Module;
@@ -94,7 +98,25 @@ public class LaunchRuleDelegate implements ILaunchConfigurationDelegate {
 
 		// get parameters for unit
 		List<ParameterConfig> paramConfigs = ParamUtil.getParameterPreferences(unit);
-		ParamUtil.fillParamConfigs(paramConfigs, paramTypes, paramValues, unsetParamNames);
+		try {
+			ParamUtil.fillParamConfigs(paramConfigs, paramTypes, paramValues, unsetParamNames);			
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			final String message;
+			if (e.getCause() != null && e.getCause().getMessage() != null) {
+				message = "Parameter Format error: " + e.getCause().getMessage();
+			} else {
+				message = "Parameter Format error";
+			}
+			final String configName = configuration.getName();
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+					MessageDialog.openError(shell, configName, message);
+				}
+			});
+		}
 
 		TransformOperation transformOperation = new TransformOperation();
 
@@ -136,6 +158,7 @@ public class LaunchRuleDelegate implements ILaunchConfigurationDelegate {
 					}
 				});
 			}
+			
 			Match partialMatch = new MatchImpl(rule);
 			
 			for (Parameter param : rule.getParameters()) {
@@ -144,40 +167,38 @@ public class LaunchRuleDelegate implements ILaunchConfigurationDelegate {
 				}
 			}
 			
-			DebugApplicationCondition applicationCondition = engine.getDebugApplicationCondition(rule, graph, partialMatch);
+			DebugApplicationCondition applicationCondition = engine.getDebugApplicationCondition(rule, graph, partialMatch, new Observer() {
+				@Override
+				public void update(Observable o, Object arg) {
+					if (!(arg instanceof Solution)) {
+						throw new IllegalStateException("update arg has to be of type Solution, but is of type " 
+								+ arg.getClass().getSimpleName());
+					}
+					Solution solution = (Solution) arg;
+					Match completeMatch = engine.getMatchFinder().basicMatchFromSolution(solution);
+					Match resultMatch = new MatchImpl((Rule) unit, true);
+					Change change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);
+					change.applyAndReverse();
+					
+					if (openCompare) {
+						openCompareView(inputURI, outputURI);
+					}
+				}
+			});
+			
 			engine.getDebugTarget().initTarget(applicationCondition);
 			launch.addDebugTarget(engine.getDebugTarget());
-
+			
 			applicationCondition.initNextVariable();
 
-			
 	    // normal launch
 	    } else if (mode.equals(ILaunchManager.RUN_MODE)) {
 			try {
 				// execute the transformOperation
 				transformOperation.run(monitor);
-	
-				// open the compare view if necessary
+				
 				if (openCompare) {
-					IFile left = ParamUtil.getIFile(outputURI);
-					IFile right = ParamUtil.getIFile(inputURI);
-					if (left != null && right != null) {
-						try {
-							final ISelection selection = new StructuredSelection(new Object[] { left, right });
-							Display.getDefault().asyncExec(new Runnable() {
-								@Override
-								public void run() {
-									MyCompareAction c = new MyCompareAction();
-									IWorkbenchPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-											.getActivePage().getActivePart();
-									c.setActivePart(null, part);
-									c.run(selection);
-								}
-							});
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
+					openCompareView(inputURI, outputURI);
 				}
 			} catch (InvocationTargetException e) {
 				final String message;
@@ -198,6 +219,28 @@ public class LaunchRuleDelegate implements ILaunchConfigurationDelegate {
 				e.printStackTrace();
 			}
 	    }
+	}
+
+	private void openCompareView(String inputURI, String outputURI) {
+		IFile left = ParamUtil.getIFile(outputURI);
+		IFile right = ParamUtil.getIFile(inputURI);
+		if (left != null && right != null) {
+			try {
+				final ISelection selection = new StructuredSelection(new Object[] { left, right });
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						MyCompareAction c = new MyCompareAction();
+						IWorkbenchPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+								.getActivePage().getActivePart();
+						c.setActivePart(null, part);
+						c.run(selection);
+					}
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private class MyCompareAction extends CompareAction {

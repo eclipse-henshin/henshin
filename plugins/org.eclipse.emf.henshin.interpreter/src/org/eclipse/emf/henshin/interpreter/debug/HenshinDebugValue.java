@@ -176,8 +176,7 @@ public class HenshinDebugValue extends HenshinDebugElement implements IValue {
 											declaredType));
 				}
 				return childrenVariables;
-			}
-			else {
+			} else {
 				throw new IllegalStateException("unknown value type");
 			}
 			

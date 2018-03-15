@@ -74,15 +74,36 @@ public class ParamUtil {
 	public static void fillParamConfigs(Collection<ParameterConfig> paramConfigs,
 			Map<String, String> paramTypes,	Map<String, String> paramValues, List<String> unsetParamNames) {
 		for (ParameterConfig paramConfig : paramConfigs) {
-			if (paramConfig.getKind() == ParameterKind.VAR) { continue; }
+			// in case the parameter kinds have changed since the last save: update the mandatory 'unset' values
+			if (paramConfig.getKind() == ParameterKind.IN || paramConfig.getKind() == ParameterKind.INOUT) {
+				paramConfig.setUnset(false); // has to be set
+			} else if (paramConfig.getKind() == ParameterKind.OUT || paramConfig.getKind() == ParameterKind.VAR) {
+				paramConfig.setUnset(true); // must not be set
+			} else {
+				// only for UNKNOWN parameter kinds: use the stored 'unset' value
+				paramConfig.setUnset(unsetParamNames.contains(paramConfig.getName()));
+			}
 			
-			// was the parameter marked as 'unset'?
-			paramConfig.setUnset(unsetParamNames.contains(paramConfig.getName()));
+			if (paramConfig.isUnset()) {
+				continue;
+			}
 			
 			// parse the type and value (they are stored as strings in the configuration)
-			int paramType = Integer.parseInt(paramTypes.get(paramConfig.getName()));
-			String stringValue = paramValues.get(paramConfig.getName());
-			Object paramValue = paramConfigToObject(paramType, stringValue);
+			// (use default type if none was stored)
+			int paramType = paramConfig.getType();
+			if (paramTypes.get(paramConfig.getName()) != null) {			
+				paramType = Integer.parseInt(paramTypes.get(paramConfig.getName()));
+			}
+			
+			Object paramValue = null;		
+			if (!paramConfig.isUnset()) {
+				String stringValue = paramValues.get(paramConfig.getName());
+				try {
+					paramValue = (stringValue == null ? null : paramConfigToObject(paramType, stringValue));					
+				} catch (NumberFormatException e) {
+					paramValue = null;
+				}
+			}
 			
 			// set the type and value of the parameter
 			paramConfig.setType(paramType);

@@ -15,6 +15,7 @@ import org.eclipse.emf.henshin.interpreter.ui.wizard.ParameterEditTable.Paramete
 import org.eclipse.emf.henshin.interpreter.ui.wizard.UnitSelector;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.UnitSelector.UnitSelectionListener;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.swt.SWT;
@@ -161,7 +162,19 @@ public class LaunchRuleControl {
 						LaunchRuleControl.this.allUnits.get(idx) : 
 							LaunchRuleControl.this.outerUnits.get(idx);
 				transformOperation.setUnit(unit, ParamUtil.getParameterPreferences(unit));
+				
+				for (ParameterConfig parameterConfig : transformOperation.getParameterConfigurations()) {
+					if (parameterConfig.getKind() == ParameterKind.IN || parameterConfig.getKind() == ParameterKind.INOUT) {
+						parameterConfig.setUnset(false); // has to be set
+					}
+					if (parameterConfig.getKind() == ParameterKind.OUT || parameterConfig.getKind() == ParameterKind.VAR) {
+						parameterConfig.setUnset(true); // must not be set
+					}
+				}
+				
 				parameterEditor.setParameters(transformOperation.getParameterConfigurations());
+				
+				
 				
 				parentTab.updateLaunchConfigurationDialog();
 				

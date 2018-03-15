@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.interpreter.matching.conditions;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 import java.util.StringJoiner;
 
 import org.eclipse.debug.core.DebugEvent;
@@ -26,6 +27,7 @@ import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstrai
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.PathConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 
@@ -96,19 +98,21 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	private int currentVariableIndex;
 	private ConstraintType currentConstraintType;
 	private int currentConstraintIndex;
-	// current value is accessible through the domainSlot
 	
 	private Variable currentVariable;
 	private DomainSlot currentSlot;
 		
 	private IStackFrame[] stackFrames;
 
-	
-	public DebugApplicationCondition(List<Variable> variables, IFormula formula, EGraph graph, Map<Variable, DomainSlot> domainMap, HenshinDebugTarget debugTarget) {
+	private Observer matchObserver;
+
+	public DebugApplicationCondition(HenshinDebugTarget debugTarget, List<Variable> variables,
+			Map<Variable, DomainSlot> domainMap, EGraph graph, IFormula formula, Observer matchObserver) {
 		super(graph, domainMap);
 		this.debugTarget = debugTarget;
 		this.variables = variables;
 		this.formula = formula;
+		this.matchObserver = matchObserver;
 		
 		currentDebugLevel = DebugLevel.NONE;
 		currentVariableIndex = -1;
@@ -117,7 +121,6 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		currentDebugState = DebugState.SUSPENDED;
 	}
 	
-
 	public void initNextVariable() {
 		
 		// for the first call (maybe extract to a initFirstVariable() method)
@@ -153,6 +156,15 @@ public class DebugApplicationCondition extends ApplicationCondition {
 				// final evaluation was successful --> terminate (match found)
 				updateDebugState(DebugLevel.VARIABLE, currentVariableIndex-1, ConstraintType.NONE, -1);
 				currentDebugState = DebugState.TERMINATED_TRUE;
+				
+				// create a solution
+				Solution solution = new Solution(variables, domainMap, currentSlot.getConditionHandler());
+				
+				// notify the observer that we have a solution
+				if (matchObserver != null) {					
+					matchObserver.update(null, solution);
+				}
+				
 				if (debugTarget != null) {
 					debugTarget.fireTerminateEvent();							
 				}

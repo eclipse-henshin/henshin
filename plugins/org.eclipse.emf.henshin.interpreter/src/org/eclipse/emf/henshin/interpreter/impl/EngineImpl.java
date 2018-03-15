@@ -391,26 +391,11 @@ public class EngineImpl implements Engine {
 
 			// Find the next solution:
 			Solution solution = solutionFinder.getNextSolution();
-			if (solution == null) {
-				nextMatch = null;
+			
+			nextMatch = basicMatchFromSolution(solution);
+			if (nextMatch == null)
+			{
 				return;
-			}
-
-			// Create the new match:
-			nextMatch = new MatchImpl(rule);
-
-			// Parameter values:
-			for (Entry<String, Object> entry : solution.parameterValues.entrySet()) {
-				Parameter param = nextMatch.getUnit().getParameter(entry.getKey());
-				if (param != null) {
-					nextMatch.setParameterValue(param, entry.getValue());
-				}
-			}
-
-			// LHS node targets:
-			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
-			for (Node node : rule.getLhs().getNodes()) {
-				nextMatch.setNodeTarget(node, solution.objectMatches.get(node2var.get(node)));
 			}
 
 			// Handle the multi-rules:
@@ -473,7 +458,34 @@ public class EngineImpl implements Engine {
 				if (!valid)
 					computeNextMatch();
 			}
+		}
+		
+		/**
+		 * Creates a basic {@link Match} from a given {@link Solution}. Does not consider multi-rules.
+		 */
+		public Match basicMatchFromSolution(Solution solution) {
+			if (solution == null) {
+				return null;
+			}
 
+			// Create the new match:
+			Match match = new MatchImpl(rule);
+
+			// Parameter values:
+			for (Entry<String, Object> entry : solution.parameterValues.entrySet()) {
+				Parameter param = match.getUnit().getParameter(entry.getKey());
+				if (param != null) {
+					match.setParameterValue(param, entry.getValue());
+				}
+			}
+
+			// LHS node targets:
+			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
+			for (Node node : rule.getLhs().getNodes()) {
+				match.setNodeTarget(node, solution.objectMatches.get(node2var.get(node)));
+			}
+			
+			return match;
 		}
 
 		private boolean doPostponedDanglingChecks(Solution solution, Match nextMatch) {

@@ -257,8 +257,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         EReference _edge_Type = Henshin_textPackage.eINSTANCE.getEdge_Type();
         this.error(_plus_1, edge, _edge_Type);
       }
-      boolean _notEquals_2 = (!Objects.equal(referenceType, targetType));
-      if (_notEquals_2) {
+      if (((!Objects.equal(referenceType, targetType)) && (!targetType.getEAllSuperTypes().contains(referenceType)))) {
         String _name_5 = sourceType.getName();
         String _plus_2 = ("Edge " + _name_5);
         String _plus_3 = (_plus_2 + "->");

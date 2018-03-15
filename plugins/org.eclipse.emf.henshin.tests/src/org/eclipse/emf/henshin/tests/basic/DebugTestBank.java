@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.tests.basic;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,21 +16,23 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition.ConstraintType;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition.DebugLevel;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition.DebugState;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.tests.examples.ExamplesTest;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test the debug behavior using the bank example 
+ * Test the debug behavior using the bank example.
+ * Note: in the long term it may be necessary to create systematic tests that are independent from the bank example
  */
 public class DebugTestBank {
 
@@ -54,40 +57,6 @@ public class DebugTestBank {
 	
 	static DebugState resultCode;
 	static Map<Variable, EObject> expectedMatch;
-
-	@BeforeClass
-	public static void setUpClass() {
-		// Create a resource set with a base directory:
-		resourceSet = new HenshinResourceSet(BANK_EXAMPLE_PATH);
-				
-		// Load the module:
-		module = resourceSet.getModule("bank.henshin", false);
-		
-		// Create an engine:
-		engine = new DebugEngineImpl();
-		
-		engine.getOptions().put(Engine.OPTION_DETERMINISTIC, true);
-		//engine.getOptions().put(Engine.OPTION_SORT_VARIABLES, false);
-		
-		// (re)load the example model into the eGraph
-		graph = new EGraphImpl(resourceSet.getResource("example-bank.xmi"));
-		
-		// initialize some useful EObjects
-		bank = graph.getRoots().get(0);
-		clients = (EList<?>) bank.eGet(bank.eClass().getEStructuralFeature("clients"));
-		
-		clientAlice = (EObject) clients.get(0);
-		clientBob = (EObject) clients.get(1);
-		clientCharles = (EObject) clients.get(2);
-
-		EList<?> accounts = (EList<?>) bank.eGet(bank.eClass().getEStructuralFeature("accounts"));
-		account2 = (EObject) accounts.get(1);
-		account3 = (EObject) accounts.get(2);
-		account4 = (EObject) accounts.get(3);
-		
-		// get the default results to validate the matches
-		initExpectedMatchTransferMoney();
-	}
 
 	//////////////////////// STEP INTO
 	/**
@@ -842,12 +811,46 @@ public class DebugTestBank {
 		debugAC.stepReturn();
 		assertEnd(true);
 		
-//		assertMatch(Arrays.asList(clientBob, account2, account3));
 		assertMatch(expectedMatch);
 	}
 	
+	/**
+	 * Checks if the domain restriction is working as expected using the bank example.
+	 */
+	@Test
+	public void testDomainRestriction() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("client", "Charles");
+		params.put("fromId", 4);
+		params.put("toId", 2);
+		params.put("amount", 50);
+		initRule("transferMoney", params, false);
+		
+		// step over the matching of the client
+		stepOver();
+		
+		// now we are matching the sender account
+		assertDebugStateEquals(DebugLevel.VARIABLE, 1, null, ConstraintType.NONE, -1);
+		
+		// the domain should now only contain accounts 3 and 4
+		assertDomain(1, account3, account4);
+		
+		
+		params.put("client", "Bob");
+		initRule("transferMoney", params, false);
+		
+		// step over the matching of the client
+		stepOver();
+		
+		// now we are matching the sender account
+		assertDebugStateEquals(DebugLevel.VARIABLE, 1, null, ConstraintType.NONE, -1);
+		
+		// the domain should now only contain accounts 3 and 4
+		assertDomain(1, account2);
+				
+	}
+
 	// TODO explicitly test the backtracking (coming back from a higher variableIndex to one that already has a locked slot).
-	// maybe the condition for unlocking the slot (if the slot's value is null) is wrong (which is done always when stepping from the variable level).	
 	
 	//////////////////// HELPER METHODS ////////////////////
 	
@@ -856,59 +859,97 @@ public class DebugTestBank {
 	 * "no match" outcome (insufficient credit)
 	 */
 	private void initRuleTransferMoneyFailure() {
-		new UnitApplicationImpl(engine).setEGraph(graph);
-		
-		Rule rule = (Rule) module.getUnit("transferMoney");
-		Match partialMatch = new MatchImpl(rule);
-		
-		partialMatch.setParameterValue(rule.getParameter("client"), "Bob");
-		partialMatch.setParameterValue(rule.getParameter("fromId"), 2);
-		partialMatch.setParameterValue(rule.getParameter("toId"), 3);
-		partialMatch.setParameterValue(rule.getParameter("amount"), 300); // (too much)
-
-		debugAC = engine.getDebugApplicationCondition(rule, graph, partialMatch);
-		
-		initFirstVariable();
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("client", "Bob");
+		params.put("fromId", 2);
+		params.put("toId", 3);
+		params.put("amount", 300); // too much
+		initRule("transferMoney", params, false);	
 	}
 
 	/**
 	 * Initializes the transfer money rule and the first variable for a "match found" outcome
 	 */
 	private void initRuleTransferMoneySuccess() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("client", "Bob");
+		params.put("fromId", 2);
+		params.put("toId", 3);
+		params.put("amount", 50);
+		initRule("transferMoney", params, true);		
+	}
+
+	private void initRule(String ruleName, Map<String, Object> params, boolean compareMatch) {
+		// TODO this is a lot of overhead, as initRule is called often
+		{
+			// Create a resource set with a base directory:
+			resourceSet = new HenshinResourceSet(BANK_EXAMPLE_PATH);
+					
+			// Load the module:
+			module = resourceSet.getModule("bank.henshin", false);
+			
+			// Create an engine:
+			engine = new DebugEngineImpl();
+			
+			engine.getOptions().put(Engine.OPTION_DETERMINISTIC, true);
+			//engine.getOptions().put(Engine.OPTION_SORT_VARIABLES, false);
+			
+			// (re)load the example model into the eGraph
+			graph = new EGraphImpl(resourceSet.getResource("example-bank.xmi"));
+			
+			// initialize some useful EObjects
+			bank = graph.getRoots().get(0);
+			clients = (EList<?>) bank.eGet(bank.eClass().getEStructuralFeature("clients"));
+			
+			clientAlice = (EObject) clients.get(0);
+			clientBob = (EObject) clients.get(1);
+			clientCharles = (EObject) clients.get(2);
+	
+			EList<?> accounts = (EList<?>) bank.eGet(bank.eClass().getEStructuralFeature("accounts"));
+			account2 = (EObject) accounts.get(1);
+			account3 = (EObject) accounts.get(2);
+			account4 = (EObject) accounts.get(3);
+		}
+		
 		new UnitApplicationImpl(engine).setEGraph(graph);
 		
-		Rule rule = (Rule) module.getUnit("transferMoney");
+		Rule rule = (Rule) module.getUnit(ruleName);
 		Match partialMatch = new MatchImpl(rule);
 		
-		partialMatch.setParameterValue(rule.getParameter("client"), "Bob");
-		partialMatch.setParameterValue(rule.getParameter("fromId"), 2);
-		partialMatch.setParameterValue(rule.getParameter("toId"), 3);
-		partialMatch.setParameterValue(rule.getParameter("amount"), 50);
+		for (Map.Entry<String, Object> param : params.entrySet()) {
+			partialMatch.setParameterValue(rule.getParameter(param.getKey()), param.getValue());
+		}
 		
-		debugAC = engine.getDebugApplicationCondition(rule, graph, partialMatch);
+		// if necessary, get the expected result to compare it later
+		if (compareMatch) {
+			expectedMatch = getExpectedMatch(ruleName, params);
+		}
 		
+		debugAC = engine.getDebugApplicationCondition(rule, graph, partialMatch, null);
 		initFirstVariable();
 	}
+
 	
 	/**
-	 * Executes the real 
+	 * Creates a {@link Map} containing the match produced by the real {@link ApplicationCondition},
+	 * using the current engine, module, and graph. The unit and parameters can be specified.
+	 * @param unitName name of the Unit to be executed
+	 * @param parameters a map containing the name and value of each parameter
+	 * @return a map containing each variable and its corresponding matched EObject from the graph
 	 */
-	private static void initExpectedMatchTransferMoney() {		
-		UnitApplicationImpl transferMoneyApp = new UnitApplicationImpl(engine);
-		transferMoneyApp.setEGraph(graph);
+	private Map<Variable, EObject> getExpectedMatch(String unitName, Map<String, Object> parameters) {
+		UnitApplicationImpl unitApplication = new UnitApplicationImpl(engine);
+		unitApplication.setEGraph(graph);
+		unitApplication.setUnit(module.getUnit(unitName));
 		
-		// successful rule application
-		transferMoneyApp.setUnit(module.getUnit("transferMoney"));
-		transferMoneyApp.setParameterValue("client", "Bob");
-		transferMoneyApp.setParameterValue("fromId", 2);
-		transferMoneyApp.setParameterValue("toId", 3);
-		transferMoneyApp.setParameterValue("amount", 50);
+		for (Map.Entry<String, Object> param : parameters.entrySet()) {
+			unitApplication.setParameterValue(param.getKey(), param.getValue());
+		}
 		
-		transferMoneyApp.execute(null);
+		unitApplication.execute(null);
 		
-		Match match = transferMoneyApp.getAppliedRules().get(0).getResultMatch();
-		
-		expectedMatch = new HashMap<Variable, EObject>();
+		Match match = unitApplication.getAppliedRules().get(0).getResultMatch();
+		Map<Variable, EObject> objectMatch = new HashMap<Variable, EObject>();
 		
 		Rule rule = (Rule) module.getUnit("transferMoney");
 		
@@ -920,8 +961,10 @@ public class DebugTestBank {
 			Node rhsNode = rule.getMappings().getImage(node, rule.getRhs());
 			EObject matchedObject = match.getNodeTarget(rhsNode);
 			Variable var = nodeVarMap.get(node);
-			expectedMatch.put(var, matchedObject);
+			objectMatch.put(var, matchedObject);
 		}
+		
+		return objectMatch;
 	}
 
 
@@ -992,6 +1035,17 @@ public class DebugTestBank {
 			ConstraintType constraintType, int constraintIndex) {
 		if (!(debugAC.checkDebugState(debugLevel, variableIndex, value, constraintType, constraintIndex))) {
 			throw new AssertionError("unexpected debug state:\n" + debugAC.toString());
+		}
+	}
+	
+	/**
+	 * @param expectedDomain the expected content of the current domain
+	 */
+	private void assertDomain(int variableIndex, EObject... expectedDomain) {
+		DomainSlot slot = debugAC.domainMap.get(debugAC.variables.get(variableIndex));
+		Object[] actualDomain = slot.getDomain().toArray();
+		if (!Arrays.equals(expectedDomain, actualDomain)) {
+			throw new AssertionError("unexpected domain content: " + Arrays.toString(actualDomain));
 		}
 	}
 	

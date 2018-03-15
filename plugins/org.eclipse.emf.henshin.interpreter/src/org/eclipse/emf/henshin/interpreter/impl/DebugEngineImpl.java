@@ -1,5 +1,7 @@
 package org.eclipse.emf.henshin.interpreter.impl;
 
+import java.util.Observer;
+
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugTarget;
@@ -10,17 +12,16 @@ import org.eclipse.emf.henshin.model.Rule;
 public class DebugEngineImpl extends EngineImpl {
 
 	private HenshinDebugTarget debugTarget;
+	private MatchFinder matchFinder;
 
-	
-	public DebugApplicationCondition getDebugApplicationCondition(Rule rule, EGraph graph, Match partialMatch) {
+	public DebugApplicationCondition getDebugApplicationCondition(Rule rule, EGraph graph, Match partialMatch, Observer matchObserver) {
 		
-		// first create a standard ApplicationCondition
-		MatchFinder matchFinder = (MatchFinder) new MatchGenerator(rule, graph, partialMatch).iterator();
+		matchFinder = (MatchFinder) new MatchGenerator(rule, graph, partialMatch).iterator();
 		ApplicationCondition ac = matchFinder.getSolutionFinder();
 		
 		// create a DebugApplicationCondition using the standard ApplicationCondition
 		DebugApplicationCondition debugApplicationCondition = new DebugApplicationCondition(
-				ac.variables, ac.formula, ac.graph, ac.domainMap, debugTarget);
+				debugTarget, ac.variables, ac.domainMap, ac.graph, ac.formula, matchObserver);
 		
 		return debugApplicationCondition;
 	}
@@ -31,6 +32,10 @@ public class DebugEngineImpl extends EngineImpl {
 	
 	public HenshinDebugTarget getDebugTarget() {
 		return debugTarget;
+	}
+	
+	public MatchFinder getMatchFinder() {
+		return matchFinder;
 	}
 
 }

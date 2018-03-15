@@ -61,25 +61,20 @@ public class RuleLaunchTab extends AbstractLaunchConfigurationTab {
 				ruleControl.openCompare.setSelection(openCompare);
 				
 			if (!(modulePath.isEmpty() || unitName.isEmpty() || paramTypes.isEmpty() || paramValues.isEmpty())) {
-				try {
-					// first get the "default" ParameterConfigs of the unit (name, kind, default type)
-					HenshinResourceSet resourceSet = new HenshinResourceSet();
-					URI uri = URI.createURI(modulePath);
-					Module module = resourceSet.getModule(uri, false);
-					Unit unit = module.getUnit(unitName);
-					List<ParameterConfig> paramConfigs = ParamUtil.getParameterPreferences(unit);
+				// first get the "default" ParameterConfigs of the unit (name, kind, default type)
+				HenshinResourceSet resourceSet = new HenshinResourceSet();
+				URI uri = URI.createURI(modulePath);
+				Module module = resourceSet.getModule(uri, false);
+				Unit unit = module.getUnit(unitName);
+				List<ParameterConfig> paramConfigs = ParamUtil.getParameterPreferences(unit);
 
-					ruleControl.transformOperation.setUnit(unit, paramConfigs);
-					
-					// fill the parameterConfigs with the types and values
-					ParamUtil.fillParamConfigs(ruleControl.transformOperation.getParameterConfigurations(), paramTypes, paramValues, unsetParams);
-					
-					// show the parameters in the editor
-					ruleControl.parameterEditor.setParameters(ruleControl.transformOperation.getParameterConfigurations());
-	
-				} catch (RuntimeException e) {
-					e.printStackTrace();
-				}				
+				ruleControl.transformOperation.setUnit(unit, paramConfigs);
+				
+				// fill the parameterConfigs with the types and values
+				ParamUtil.fillParamConfigs(ruleControl.transformOperation.getParameterConfigurations(), paramTypes, paramValues, unsetParams);
+				
+				// show the parameters in the editor
+				ruleControl.parameterEditor.setParameters(ruleControl.transformOperation.getParameterConfigurations());				
 			}
 			
 		} catch (CoreException e) {

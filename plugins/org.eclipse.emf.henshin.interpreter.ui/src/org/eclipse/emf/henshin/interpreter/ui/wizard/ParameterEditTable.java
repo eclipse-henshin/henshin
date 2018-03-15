@@ -116,6 +116,19 @@ public class ParameterEditTable {
 			});
 		}
 		
+		TableViewerColumn kindColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		{
+			kindColumn.getColumn().setText(HenshinInterpreterUIPlugin.LL("_UI_ParameterColumn_Kind"));
+			kindColumn.getColumn().setWidth(100);
+			kindColumn.setLabelProvider(new ColumnLabelProvider() {
+				
+				@Override
+				public String getText(Object entry) {
+					return ((ParameterConfig) entry).getKind().getAlias();
+				}
+			});
+		}
+		
 		TableViewerColumn typeColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		{
 			typeColumn.getColumn().setText(HenshinInterpreterUIPlugin.LL("_UI_ParameterColumn_Type"));
@@ -156,7 +169,7 @@ public class ParameterEditTable {
 				
 				@Override
 				protected boolean canEdit(Object element) {
-					return ((ParameterConfig) element).getType() != ParameterConfig.NULL;
+					return !((ParameterConfig) element).isUnset();
 				}
 				
 				
@@ -186,6 +199,7 @@ public class ParameterEditTable {
 					}
 				}
 			});
+			
 			valueColumn.setEditingSupport(new EditingSupport(tableViewer) {
 				
 				@Override
@@ -255,6 +269,8 @@ public class ParameterEditTable {
 						tableViewer.refresh();
 					} catch (Exception e) {						
 					}
+					
+					
 				}
 				
 				@Override
@@ -287,8 +303,7 @@ public class ParameterEditTable {
 				@Override
 				protected boolean canEdit(Object element) {
 					ParameterConfig paramCfg = (ParameterConfig) element;
-					return paramCfg.getType() != ParameterConfig.NULL
-							&& paramCfg.getType() != ParameterConfig.CLEAR;
+					return !paramCfg.isUnset();
 				}
 			});
 		}
@@ -302,7 +317,11 @@ public class ParameterEditTable {
 				@Override
 				public String getText(Object element) {
 					ParameterConfig paramCfg = (ParameterConfig) element;
-					return String.valueOf(paramCfg.isUnset());
+					// only display the 'unset' property for UNKNOWN parameter kinds
+					if (paramCfg.getKind() == ParameterKind.UNKNOWN) {
+						return String.valueOf(paramCfg.isUnset());
+					}
+					return null;
 				}
 			});
 			
@@ -312,8 +331,10 @@ public class ParameterEditTable {
 				protected void setValue(Object element, Object value) {
 					ParameterConfig paramCfg = (ParameterConfig) element;
 
-					if (! (value.toString().trim().equals("") || value.toString().trim().equals("null"))) {
-						paramCfg.setUnset((Integer) value == 1);
+					paramCfg.setUnset((Integer) value == 1);
+					
+					if (paramCfg.isUnset()) {
+						paramCfg.setValue(null);
 					}
 
 					for (ParameterChangeListener l : listeners)
@@ -330,13 +351,14 @@ public class ParameterEditTable {
 				
 				@Override
 				protected CellEditor getCellEditor(Object element) {
-					return new ComboBoxCellEditor(tableViewer.getTable(), new String[] {
-							"false", "true" }, SWT.READ_ONLY);
+					return ((ParameterConfig) element).getKind() == ParameterKind.UNKNOWN ? 
+						new ComboBoxCellEditor(tableViewer.getTable(), new String[] { "false", "true" }, SWT.READ_ONLY) : null;
 				}
 				
 				@Override
 				protected boolean canEdit(Object element) {
-					return true;
+					// only parameters of kind UNKNOWN can be 'unset'
+					return ((ParameterConfig) element).getKind() == ParameterKind.UNKNOWN;
 				}
 			});
 			
