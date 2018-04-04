@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.TableColumn;
 
 /**
  * 
@@ -66,7 +67,7 @@ public class ParameterEditTable {
 			
 		}
 		buildColumns();
-		
+						
 		tableViewer.setContentProvider(new IStructuredContentProvider() {
 			
 			@Override
@@ -308,7 +309,10 @@ public class ParameterEditTable {
 			});
 		}
 		
-		
+	}
+	
+	// builds the las column of the table ('unset')
+	public void buildUnsetColumn() {
 		TableViewerColumn unsetColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		{
 			unsetColumn.getColumn().setText(HenshinInterpreterUIPlugin.LL("_UI_ParameterColumn_Unset"));
@@ -321,6 +325,7 @@ public class ParameterEditTable {
 					if (paramCfg.getKind() == ParameterKind.UNKNOWN) {
 						return String.valueOf(paramCfg.isUnset());
 					}
+					
 					return null;
 				}
 			});
@@ -363,7 +368,6 @@ public class ParameterEditTable {
 			});
 			
 		}
-		
 	}
 	
 	public void addParameterChangeListener(ParameterChangeListener listener) {
@@ -376,5 +380,33 @@ public class ParameterEditTable {
 	
 	public void setParameters(Collection<ParameterConfig> paramCfgs) {
 		tableViewer.setInput(paramCfgs);
+		
+		// check if unset column should be built or disposed
+		boolean hasUnknownParameter = false;
+		
+		// loop through parameter list to determine whether there is a unknown parameter or not
+		for (ParameterConfig param : paramCfgs) {
+			if (param.getKind() == ParameterKind.UNKNOWN) {
+				hasUnknownParameter = true;
+				break;
+			}
+		}
+		
+		// display unset column
+		if (hasUnknownParameter) {
+			buildUnsetColumn();
+		// hide unset column if present
+		} else {
+			int columnCount = tableViewer.getTable().getColumns().length;
+			TableColumn lastColumn = tableViewer.getTable().getColumn(columnCount - 1);
+			String lastColumnIdentifier = lastColumn.getText();
+			// check if unset column is present
+			if (lastColumnIdentifier.equals(HenshinInterpreterUIPlugin.LL("_UI_ParameterColumn_Unset"))) {
+				lastColumn.dispose();
+			}
+		}
+		
+		// refresh table with new parameters
+		tableViewer.refresh();
 	}
 }
