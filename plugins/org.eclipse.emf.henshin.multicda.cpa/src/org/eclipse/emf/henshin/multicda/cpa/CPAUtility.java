@@ -12,15 +12,16 @@ package org.eclipse.emf.henshin.multicda.cpa;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -33,15 +34,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.multicda.cpa.persist.CriticalPairNode;
-import org.eclipse.emf.henshin.multicda.cpa.result.CPAResult;
+import org.eclipse.emf.henshin.multicda.cpa.persist.SpanNode;
 import org.eclipse.emf.henshin.multicda.cpa.result.Conflict;
+import org.eclipse.emf.henshin.multicda.cpa.result.CriticalElement;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 import org.eclipse.emf.henshin.multicda.cpa.result.Dependency;
 import org.eclipse.gmf.runtime.notation.Diagram;
@@ -56,6 +57,8 @@ import org.eclipse.gmf.runtime.notation.NotationFactory;
  */
 public class CPAUtility {
 
+	public static final String SEPARATOR = " ° ";
+
 	/**
 	 * Persists the results of a critical pair analysis in the file system.
 	 * 
@@ -63,46 +66,41 @@ public class CPAUtility {
 	 * @param path The path for saving the full result set.
 	 * @return a <code>HashMap</code> of the saved results.
 	 */
-	public static HashMap<String, Set<CriticalPairNode>> persistCpaResult(CPAResult cpaResult, String path) {
+	public static Map<String, List<SpanNode>> persistCpaResult(List<CriticalPair> cpaResult, String path) {
 
-		Date timestamp = new Date();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd-HHmmss");
-		String timestampFolder = simpleDateFormat.format(timestamp);
+		Map<String, List<SpanNode>> persistedCPs = new TreeMap<>();
+		if (cpaResult != null) {
+			Collections.sort(cpaResult);
+			for (CriticalPair cp : cpaResult)
+				if (cp != null) {
+					// naming of each single conflict
+					String folderName = cp.getFirstRule().getName() + ", " + cp.getSecondRule().getName();
 
-		String pathWithDateStamp = path + File.separator + timestampFolder;
+					int numberForRulePair = 1;
 
-		HashMap<String, Set<CriticalPairNode>> persistedCPs = new HashMap<String, Set<CriticalPairNode>>();
+					if (persistedCPs.containsKey(folderName)) {
+						numberForRulePair = persistedCPs.get(folderName).size() + 1;
+					} else {
+						persistedCPs.put(folderName, new ArrayList<>());
+					}
 
-		for (CriticalPair cp : cpaResult) {
-			// naming of each single conflict
-			String folderName = cp.getFirstRule().getName() + ", " + cp.getSecondRule().getName();
+					String criticalPairKind = "";
+					if (cp instanceof Conflict) {
+						criticalPairKind = ((Conflict) cp).getConflictKind().toString();
+					} else if (cp instanceof Dependency) {
+						criticalPairKind = ((Dependency) cp).getDependencyKind().toString();
+					}
 
-			int numberForRulePair = 1;
+					String formatedNumberForRulePair = new DecimalFormat("00").format(numberForRulePair);
 
-			if (persistedCPs.containsKey(folderName)) {
-				numberForRulePair = persistedCPs.get(folderName).size() + 1;
-			} else {
-				persistedCPs.put(folderName, new HashSet<CriticalPairNode>());
-			}
+					String numberedNameOfCPKind = "(" + formatedNumberForRulePair + ") " + criticalPairKind;
 
-			String criticalPairKind = "";
-			if (cp instanceof Conflict) {
-				criticalPairKind = ((Conflict) cp).getConflictKind().toString();
-			} else if (cp instanceof Dependency) {
-				criticalPairKind = ((Dependency) cp).getDependencyKind().toString();
-			}
+					// persist a single critical pair.
+					SpanNode newCriticalPairNode = persistSingleCriticalPair(cp, numberedNameOfCPKind, path);
 
-			String formatedNumberForRulePair = new DecimalFormat("00").format(numberForRulePair);
-
-			String numberedNameOfCPKind = "(" + formatedNumberForRulePair + ") " + criticalPairKind;
-
-			// persist a single critical pair.
-			CriticalPairNode newCriticalPairNode = persistSingleCriticalPair(cp, numberedNameOfCPKind,
-					pathWithDateStamp);
-
-			persistedCPs.get(folderName).add(newCriticalPairNode);
+					persistedCPs.get(folderName).add(newCriticalPairNode);
+				}
 		}
-
 		return persistedCPs;
 	}
 
@@ -114,8 +112,7 @@ public class CPAUtility {
 	 * @param path The path for saving the files.
 	 * @return a <code>CriticalPairNode</code>.
 	 */
-	private static CriticalPairNode persistSingleCriticalPair(CriticalPair cp, String numberedNameOfCriticalPair,
-			String path) {
+	private static SpanNode persistSingleCriticalPair(CriticalPair cp, String numberedNameOfCriticalPair, String path) {
 
 		ResourceSet commonResourceSet = new ResourceSetImpl();
 
@@ -131,81 +128,54 @@ public class CPAUtility {
 		}
 
 		Rule firstRule = cp.getFirstRule();
-		EPackage minimalModel = cp.getMinimalModel();
+		EPackage minimalModel = (EPackage) cp.getMinimalModel();
 		Rule secondRule = cp.getSecondRule();
 
 		Graph firstRuleLHS = firstRule.getLhs();
-		Graph firstRuleRHS = firstRule.getRhs();
 		Graph secondRuleLHS = secondRule.getLhs();
-		Graph secondRuleRHS = secondRule.getRhs();
 
-		// serves for naming back the nodes of the involved rules
-		HashMap<Node, String> renameMap = new HashMap<Node, String>();
+		Set<EClassifier> changed = new HashSet<>();
+		Set<Node> changedN = new HashSet<>();
+		Map<Node, Node> criticalNodes = new HashMap<>();
 
-		// this counter serves to give each node in the minimal model a unique and ascending number.
-		int differentElementsCounter = 0;
-		Map<Integer, String> hashToName = new HashMap<Integer, String>();
-
-		Match match = firstMatch;
-		// ------------------- First Rule: LHS -----------------;
-		differentElementsCounter = processLhsOrRhsOfRuleForPersisting(minimalModel, firstRuleLHS,
-				differentElementsCounter, hashToName, match, renameMap);
-
-		// ------------------- First Rule: RHS -----------------;
-		differentElementsCounter = processLhsOrRhsOfRuleForPersisting(minimalModel, firstRuleRHS,
-				differentElementsCounter, hashToName, match, renameMap);
-
-		match = secondMatch;
-
-		// ------------------- Second Rule: LHS -----------------;
-		differentElementsCounter = processLhsOrRhsOfRuleForPersisting(minimalModel, secondRuleLHS,
-				differentElementsCounter, hashToName, match, renameMap);
-
-		// ------------------- Second Rule: RHS -----------------;
-		differentElementsCounter = processLhsOrRhsOfRuleForPersisting(minimalModel, secondRuleRHS,
-				differentElementsCounter, hashToName, match, renameMap);
-
-		// process the NACs of the second rule
-		EList<NestedCondition> nestedConditions = secondRuleLHS.getNestedConditions();
-		// ------------------- First Rule: NAC -----------------;
-		for (NestedCondition nestCond : nestedConditions) {
-			if (nestCond.isNAC()) {
-				Graph secondRuleNAC = nestCond.getConclusion();
-				EList<Node> nacNodes = secondRuleNAC.getNodes();
-				for (Node nacNode : nacNodes) {
-					if (match.getNodeTarget(nacNode) != null) {
-						int overlapNodeHash = match.getNodeTarget(nacNode).hashCode();
-						if (hashToName.containsKey(overlapNodeHash)) {
-
-							String newName = hashToName.get(overlapNodeHash);
-							renameMap.put(nacNode, nacNode.getName());
-							nacNode.setName(newName);
-
-						} else {
-
-							differentElementsCounter++;
-							String newName = differentElementsCounter + "";
-							renameMap.put(nacNode, nacNode.getName());
-							nacNode.setName(newName);
-
-							EList<EClassifier> eclasses = minimalModel.getEClassifiers();
-
-							for (EClassifier eclass : eclasses) {
-								if (eclass.hashCode() == overlapNodeHash) {
-									hashToName.put(overlapNodeHash, newName);
-									break;
-								}
-							}
-						}
-					}
-				}
-			} else {
-				break;
+		for (CriticalElement ce : cp.getCriticalElements()) {
+			if (ce.elementInFirstRule instanceof Node) {
+				criticalNodes.put((Node) ce.elementInFirstRule, (Node) ce.elementInSecondRule);
+			} else if (ce.elementInFirstRule instanceof Edge) {
+				Edge e1 = (Edge) ce.elementInFirstRule;
+				Edge e2 = (Edge) ce.elementInSecondRule;
+				criticalNodes.put(e1.getSource(), e2.getSource());
+				criticalNodes.put(e1.getTarget(), e2.getTarget());
 			}
 		}
 
-		// renaming of the nodes within the overlap graph
-		renameNodesOfMinimalModel(minimalModel, hashToName);
+		Set<Node> rest1 = new HashSet<Node>(firstRuleLHS.getNodes());
+		Set<Node> rest2 = new HashSet<Node>(secondRuleLHS.getNodes());
+
+		HashMap<Node, String> renameMap = new HashMap<>();
+		for (Node n : criticalNodes.keySet()) {
+			if (!renameMap.containsKey(n)) {
+				renameMap.put(n, n.getName());
+			}
+			rest1.remove(n);
+			Node m = criticalNodes.get(n);
+			if (!renameMap.containsKey(m)) {
+				renameMap.put(m, m.getName());
+			}
+			rest2.remove(m);
+			changeNodeName(n, m, firstMatch, secondMatch, changed, changedN);
+		}
+
+		for (Node r : rest1) {
+			EClassifier eo = (EClassifier) firstMatch.getNodeTarget(r);
+			if (eo != null && changed.add(eo))
+				eo.setName(r.getName() + "_:" + eo.getName());
+		}
+		for (Node r : rest2) {
+			EClassifier eo2 = (EClassifier) secondMatch.getNodeTarget(r);
+			if (eo2 != null && changed.add(eo2))
+				eo2.setName(SEPARATOR + r.getName() + ":" + eo2.getName());
+		}
 
 		String pathForCurrentCriticalPair = path + File.separator + firstRule.getName() + "_AND_" + secondRule.getName()
 				+ File.separator + numberedNameOfCriticalPair + File.separator;
@@ -238,23 +208,25 @@ public class CPAUtility {
 			node.setName(renameMap.get(node));
 		}
 
-		return new CriticalPairNode(numberedNameOfCriticalPair, firstRuleURI, secondRuleURI, overlapURI,
-				criticalPairURI);
+		return new SpanNode(numberedNameOfCriticalPair, firstRuleURI, secondRuleURI, overlapURI, criticalPairURI);
 	}
 
-	/**
-	 * Renames the nodes of the minimal model based on the names of the rules.
-	 * 
-	 * @param minimalModel The <code>EGraph</code>, which should be a minimal model of a critical pair.
-	 * @param hashValueToNameMapping A HashMap, mapping the future names to the hash values of the nodes of the rules.
-	 */
-	private static void renameNodesOfMinimalModel(EPackage minimalModel, Map<Integer, String> hashValueToNameMapping) {
-		EList<EClassifier> eclasses = minimalModel.getEClassifiers();
-		for (EClassifier eclass : eclasses) {
-			String name = eclass.getName();
-			String newName = hashValueToNameMapping.get(eclass.hashCode()) + ":" + name;
-			eclass.setName(newName);
-		}
+	private static void changeNodeName(Node n, Node n2, Match firstMatch, Match secondMatch, Set<EClassifier> changed,
+			Set<Node> changedN) {
+
+		String name = n != null ? n.getName() : "";
+		String name2 = n2 != null ? n2.getName() : "";
+		EClassifier eo = (EClassifier) firstMatch.getNodeTarget(n);
+		EClassifier eo2 = (EClassifier) secondMatch.getNodeTarget(n2);
+
+		if(eo==null || eo2==null)
+			return;
+		name = name + SEPARATOR + name2;
+
+		if (changed.add(eo))
+			eo.setName(name + ":" + eo.getName());
+		if (changed.add(eo2))
+			eo2.setName(name + ":" + eo2.getName());
 	}
 
 	public static Diagram createDiagram(EObject object) {
@@ -282,11 +254,7 @@ public class CPAUtility {
 		overlapResource.getContents().add(minimalModel);
 
 		Diagram d = createDiagram(minimalModel);
-		
-		//TODO: Dieser Aufruf müsste ein Diagram erstellen, dass so aussieht wie ein Henshin Diagram... es gibt aber ein Library import Problem. Wenn es erwünscht ist, den Style von henshin Diagram zu haben, sollte sich einer hiermit beschäftigen
-//		Diagram diagram = ViewService.createDiagram(model, ModuleEditPart.MODEL_ID,
-//				HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
-		
+
 		URI diagUri = URI.createFileURI(fullPathMinimalModel + "_diagram");
 		Resource diagramResource = resourceSet.createResource(diagUri, "ecore");
 		d.setName(diagUri.lastSegment());

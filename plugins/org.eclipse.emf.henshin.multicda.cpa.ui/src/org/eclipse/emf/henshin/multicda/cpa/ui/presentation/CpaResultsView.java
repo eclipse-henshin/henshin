@@ -10,14 +10,15 @@
 package org.eclipse.emf.henshin.multicda.cpa.ui.presentation;
 
 import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.multicda.cpa.persist.CriticalPairNode;
 import org.eclipse.emf.henshin.multicda.cpa.persist.RootElement;
+import org.eclipse.emf.henshin.multicda.cpa.persist.SpanNode;
 import org.eclipse.emf.henshin.multicda.cpa.persist.TreeFolder;
 import org.eclipse.emf.henshin.multicda.cpa.ui.util.CpEditorUtil;
 import org.eclipse.jface.action.Action;
@@ -29,7 +30,6 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -56,7 +56,12 @@ public class CpaResultsView extends ViewPart {
 
 	private TreeViewer viewer;
 	private Action doubleClickAction;
-	private HashMap<String, Set<CriticalPairNode>> content;
+	private Map<String, List<SpanNode>> contentCDAB;
+	private Map<String, List<SpanNode>> contentCDAC;
+	private Map<String, List<SpanNode>> contentCDAF;
+	private Map<String, List<SpanNode>> initialCpaResult;
+	private Map<String, List<SpanNode>> essentialCpaResult;
+	private Map<String, List<SpanNode>> otherCpaResult;
 
 	class CPAViewContentProvider implements ITreeContentProvider {
 
@@ -64,17 +69,85 @@ public class CpaResultsView extends ViewPart {
 
 		void initialize() {
 			invisibleRoot = new RootElement();
+			TreeFolder B = new TreeFolder("Binary");
+			TreeFolder C = new TreeFolder("Coarse");
+			TreeFolder F = new TreeFolder("Fine");
+			TreeFolder SF = new TreeFolder("Very fine");
 
-			for (String ruleCombinationName : content.keySet()) {
+			TreeFolder iCP = new TreeFolder("Initial conflicts / intial dependencies");
+			TreeFolder eCP = new TreeFolder("Further essential critical pairs");
+			TreeFolder CP = new TreeFolder("Further critical pairs");
+
+			int multi1 = 0;
+			int multi2 = 0;
+			for (String ruleCombinationName : contentCDAC.keySet()) {
 				TreeFolder treeFolder = new TreeFolder(ruleCombinationName);
-				invisibleRoot.addChild(treeFolder);
+				C.addChild(treeFolder);
 
-				Set<CriticalPairNode> theCriticalPairsForTheRulecombination = content.get(ruleCombinationName);
+				List<SpanNode> theCriticalPairsForTheRulecombination = contentCDAC.get(ruleCombinationName);
 
-				for (CriticalPairNode criticalPairNode : theCriticalPairsForTheRulecombination) {
-					treeFolder.addChild(criticalPairNode);
+				for (SpanNode spanNode : theCriticalPairsForTheRulecombination) {
+					treeFolder.addChild(spanNode);
+					multi1++;
 				}
 			}
+			for (String ruleCombinationName : contentCDAF.keySet()) {
+				TreeFolder treeFolder = new TreeFolder(ruleCombinationName);
+				F.addChild(treeFolder);
+
+				List<SpanNode> theCriticalPairsForTheRulecombination = contentCDAF.get(ruleCombinationName);
+
+				for (SpanNode spanNode : theCriticalPairsForTheRulecombination) {
+					treeFolder.addChild(spanNode); 
+					multi2++;
+				}
+			}
+			if (contentCDAB != null && contentCDAB.size() != 0) {
+				TreeFolder treeFolder = new TreeFolder(
+						(multi1 > 1 || multi2 > 1 ? "Conflicts" : "Conflict") + " detected");
+				B.addChild(treeFolder);
+
+			}
+
+			for (String ruleCombinationName : initialCpaResult.keySet()) {
+				TreeFolder treeFolder = new TreeFolder(ruleCombinationName);
+				iCP.addChild(treeFolder);
+				List<SpanNode> theCriticalPairsForTheRulecombination = initialCpaResult.get(ruleCombinationName);
+				for (SpanNode spanNode : theCriticalPairsForTheRulecombination) {
+					treeFolder.addChild(spanNode);
+				}
+			}
+			for (String ruleCombinationName : essentialCpaResult.keySet()) {
+				TreeFolder treeFolder = new TreeFolder(ruleCombinationName);
+				eCP.addChild(treeFolder);
+				List<SpanNode> theCriticalPairsForTheRulecombination = essentialCpaResult.get(ruleCombinationName);
+				for (SpanNode spanNode : theCriticalPairsForTheRulecombination) {
+					treeFolder.addChild(spanNode);
+				}
+			}
+			for (String ruleCombinationName : otherCpaResult.keySet()) {
+				TreeFolder treeFolder = new TreeFolder(ruleCombinationName);
+				CP.addChild(treeFolder);
+				List<SpanNode> theCriticalPairsForTheRulecombination = otherCpaResult.get(ruleCombinationName);
+				for (SpanNode spanNode : theCriticalPairsForTheRulecombination) {
+					treeFolder.addChild(spanNode);
+				}
+			}
+			if (B.hasChildren())
+				invisibleRoot.addChild(B);
+			if (C.hasChildren())
+				invisibleRoot.addChild(C);
+			if (F.hasChildren())
+				invisibleRoot.addChild(F);
+
+			if (iCP.hasChildren())
+				SF.addChild(iCP);
+			if (eCP.hasChildren())
+				SF.addChild(eCP);
+			if (CP.hasChildren())
+				SF.addChild(CP);
+			if (SF.hasChildren())
+				invisibleRoot.addChild(SF);
 		}
 
 		/*
@@ -122,8 +195,8 @@ public class CpaResultsView extends ViewPart {
 		 */
 		@Override
 		public Object getParent(Object element) {
-			if (element instanceof CriticalPairNode) {
-				return ((CriticalPairNode) element).getParent();
+			if (element instanceof SpanNode) {
+				return ((SpanNode) element).getParent();
 			}
 			return null;
 		}
@@ -172,9 +245,6 @@ public class CpaResultsView extends ViewPart {
 		}
 	}
 
-	class NameSorter extends ViewerSorter {
-	}
-
 	public TreeViewer getTreeViewer() {
 		return viewer;
 	}
@@ -189,7 +259,6 @@ public class CpaResultsView extends ViewPart {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new CPAViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
 		viewer.setInput(getViewSite());
 
 		makeActions();
@@ -202,13 +271,13 @@ public class CpaResultsView extends ViewPart {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection) selection).getFirstElement();
-				if (obj instanceof CriticalPairNode) {
+				if (obj instanceof SpanNode) {
 
-					CriticalPairNode criticalPairNode = (CriticalPairNode) obj;
+					SpanNode spanNode = (SpanNode) obj;
 
-					URI firstRuleUri = criticalPairNode.getFirstRuleURI();
-					URI overlapuri = criticalPairNode.getMinimalModelURI();
-					URI secondRuleUri = criticalPairNode.getSecondRuleURI();
+					URI firstRuleUri = spanNode.getFirstRuleURI();
+					URI overlapuri = spanNode.getMinimalModelURI();
+					URI secondRuleUri = spanNode.getSecondRuleURI();
 
 					CpEditorUtil.openResultInCpEditor(firstRuleUri, overlapuri, secondRuleUri);
 
@@ -243,16 +312,22 @@ public class CpaResultsView extends ViewPart {
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
 		try {
-			page.openEditor(new FileEditorInput(file),
-					PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString())
-							.getId());
+			page.openEditor(new FileEditorInput(file), PlatformUI.getWorkbench().getEditorRegistry()
+					.getDefaultEditor(file.getFullPath().toString()).getId());
 
 		} catch (PartInitException e1) {
 			e1.printStackTrace();
 		}
 	}
 
-	public void setContent(HashMap<String, Set<CriticalPairNode>> persistedResults) {
-		this.content = persistedResults;
+	public void setContent(Map<String, List<SpanNode>> persistedB, Map<String, List<SpanNode>> persistedC,
+			Map<String, List<SpanNode>> persistedF, Map<String, List<SpanNode>> initialCpaResult,
+			Map<String, List<SpanNode>> essentialCpaResult, Map<String, List<SpanNode>> otherCpaResult) {
+		this.contentCDAB = persistedB;
+		this.contentCDAC = persistedC;
+		this.contentCDAF = persistedF;
+		this.initialCpaResult = initialCpaResult;
+		this.essentialCpaResult = essentialCpaResult;
+		this.otherCpaResult = otherCpaResult;
 	}
 }

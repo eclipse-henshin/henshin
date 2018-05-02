@@ -9,7 +9,7 @@
  */
 package org.eclipse.emf.henshin.multicda.cpa;
 
-import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.model.Rule;
@@ -30,7 +30,7 @@ public interface ICriticalPairAnalysis {
 	 * @param options The options settings that shall be applied on the calculation of the critical pairs
 	 * @throws UnsupportedRuleException in case of invalid rules.
 	 */
-	void init(List<Rule> rules, CPAOptions options) throws UnsupportedRuleException;
+	void init(Set<Rule> rules, CDAOptions options) throws UnsupportedRuleException;
 
 	/**
 	 * Initializes the critical pair calculation with <code>r1</code> as first rules and <code>r2</code> as second rules
@@ -41,7 +41,7 @@ public interface ICriticalPairAnalysis {
 	 * @param options the options settings that shall be applied on the calculation of the critical pairs.
 	 * @throws UnsupportedRuleException in case of invalid rules.
 	 */
-	void init(List<Rule> r1, List<Rule> r2, CPAOptions options) throws UnsupportedRuleException;
+	void init(Set<Rule> r1, Set<Rule> r2, CDAOptions options) throws UnsupportedRuleException;
 
 	/**
 	 * Check for the validity of the rules in regard to the supported features.
@@ -50,7 +50,7 @@ public interface ICriticalPairAnalysis {
 	 * @return <code>true</code> if the rules are valid for critical pair analysis.
 	 * @throws UnsupportedRuleException in case of invalid rules.
 	 */
-	boolean check(List<Rule> rules) throws UnsupportedRuleException;
+	boolean check(Set<Rule> rules) throws UnsupportedRuleException;
 
 	/**
 	 * Starts the calculation of conflicts for the initialized rules and options.
@@ -81,5 +81,6 @@ public interface ICriticalPairAnalysis {
 	 * @return a set of critical pair results which are dependencies.
 	 */
 	CPAResult runDependencyAnalysis(IProgressMonitor monitor);
+
 
 }

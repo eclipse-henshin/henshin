@@ -45,8 +45,8 @@ public class Dependency extends CriticalPair {
 	 * @param match The match of the second rule into the minimal model.
 	 * @param dependencyKind The kind of the dependency.
 	 */
-	public Dependency(Rule r1, Rule r2, EPackage cpaEPackage, Match comatch, Match match, DependencyKind dependencyKind) {
-		super(r1, r2, cpaEPackage);
+	public Dependency(Rule r1, Rule r2, EPackage cpaEPackage, Match comatch, Match match, DependencyKind dependencyKind, AppliedAnalysis appliedAnalysis) {
+		super(r1, r2, cpaEPackage, appliedAnalysis);
 		this.comatch = comatch;
 		this.match = match;
 		this.dependencyKind = dependencyKind;
@@ -79,4 +79,13 @@ public class Dependency extends CriticalPair {
 		return dependencyKind;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Dependency)
+			return super.equals(obj);
+		return false;
+	}
 }

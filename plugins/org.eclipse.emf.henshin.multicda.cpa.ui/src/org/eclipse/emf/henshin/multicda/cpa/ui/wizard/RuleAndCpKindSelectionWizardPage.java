@@ -14,22 +14,28 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.multicda.cpa.CDAOptions.ConflictType;
 import org.eclipse.emf.henshin.multicda.cpa.InputDataChecker;
 import org.eclipse.emf.henshin.multicda.cpa.UnsupportedRuleException;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+
+import agg.util.Pair;
 
 /**
  * First wizard page for the selection of the rules and whether the set of rules shall be anaylsed for conflict,
@@ -41,30 +47,20 @@ import org.eclipse.swt.widgets.Listener;
 public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 
 	private Composite containerForBothGroups;
-	private Group rulesGroup;
+	private Group rulesGroup1;
+	private Group rulesGroup2;
+	private Button selectAllButton1;
+	private Button selectAllButton2;
 	private boolean sufficientRulesSelected;
 	private HashMap<Rule, String> rulesAndAssociatedFileNames;
-	private final String CONFLICT_BUTTON_TXT = "Conflicts";
-	private final String DEPENDENCY_BUTTON_TXT = "Dependencies";
 
 	private final class RuleNameComparator implements Comparator<Rule> {
 		public int compare(Rule r1, Rule r2) {
-			int compareResult = r1.getName().compareTo(r2.getName());
-
-			if (compareResult < 0)
-				return -1;
-			else if (compareResult > 0)
-				return 1;
-			else
-				return 0;
+			return r1.getName().compareTo(r2.getName());
 		}
 	}
 
-	private enum CPTypesEnum {
-		CONFLICT, DEPENDENCY
-	};
-
-	EnumSet<CPTypesEnum> selectedCPTypes = EnumSet.noneOf(CPTypesEnum.class);
+	ConflictType cpType = ConflictType.NONE;
 
 	/**
 	 * Default constructor for this wizard page.
@@ -73,8 +69,8 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 	 */
 	public RuleAndCpKindSelectionWizardPage(HashMap<Rule, String> rulesAndAssociatedFileNames) {
 		super("Precondition");
-		setTitle("Critical Pair Analysis - Rule selection");
-		setDescription("Please select the rules you want to check by the Critical Pair Analysis.");
+		setTitle("Conflict and Dependency Analysis - Rule Selection");
+		setDescription("Please select rule sets to be analyzed and kind of analysis.");
 
 		this.rulesAndAssociatedFileNames = rulesAndAssociatedFileNames;
 
@@ -98,43 +94,89 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 		scrolledComposite.setContent(containerForBothGroups);
 
 		GridLayout layout = new GridLayout();
+		layout.numColumns = 3;
+		layout.makeColumnsEqualWidth = true;
 		containerForBothGroups.setLayout(layout);
-		layout.numColumns = 2;
-		rulesGroup = new Group(containerForBothGroups, SWT.NONE);
-		rulesGroup.setLayout(new GridLayout());
-		rulesGroup.setText("Rules");
+		rulesGroup1 = new Group(containerForBothGroups, SWT.NONE);
+		rulesGroup1.setLayout(new GridLayout());
+		rulesGroup1.setText("First Rules");
+		rulesGroup1.setToolTipText("Select rules that should be executet at first");
+		rulesGroup1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		Group criticalPairKindGroup = new Group(containerForBothGroups, SWT.TOP);
 		criticalPairKindGroup.setLayout(new GridLayout());
 		criticalPairKindGroup.setText("Calculate...");
+		criticalPairKindGroup.setToolTipText("Select conflict kind to be computed");
+		criticalPairKindGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		rulesGroup2 = new Group(containerForBothGroups, SWT.NONE);
+		rulesGroup2.setLayout(new GridLayout());
+		rulesGroup2.setText("Second Rules");
+		rulesGroup2.setToolTipText("Select rules that should be executet at second");
+		rulesGroup2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		Composite buttonsComposite = new Composite(containerForBothGroups, SWT.NONE);
+		buttonsComposite.setLayout(new GridLayout(1, true));
 
 		// sort the rules alphabetic
 		List<Rule> rulesForSelectionList = new ArrayList<Rule>(rulesAndAssociatedFileNames.keySet());
 		Collections.sort(rulesForSelectionList, new RuleNameComparator());
+		
+		selectAllButton1 = new Button(buttonsComposite, SWT.CHECK);
+		selectAllButton1.setText("Select all");
+		selectAllButton1.addListener(SWT.Selection, selectAllListener1);
+		selectAllButton1.addListener(SWT.Selection, checkListener);
+		selectAllButton1.setSelection(rulesForSelectionList.size()==1);
+		Button b = new Button(buttonsComposite, SWT.NONE); //just a placeholder...
+		b.setVisible(false);
+
+		new Label(containerForBothGroups, SWT.NONE); //just a placeholder...
+
+		buttonsComposite = new Composite(containerForBothGroups, SWT.NONE);
+		buttonsComposite.setLayout(new GridLayout(1, true));
+
+		selectAllButton2 = new Button(buttonsComposite, SWT.CHECK);
+		selectAllButton2.setText("Select all");
+		selectAllButton2.addListener(SWT.Selection, selectAllListener2);
+		selectAllButton2.addListener(SWT.Selection, checkListener);
+		selectAllButton2.setSelection(rulesForSelectionList.size()==1);
+
+		Button selectasFirstButton = new Button(buttonsComposite, SWT.NONE);
+		selectasFirstButton.setText("Select same rules as first rules");
+		selectasFirstButton.addListener(SWT.Selection, selectAsFirst);
+		selectasFirstButton.addListener(SWT.Selection, checkListener);
+
 
 		for (Rule rule : rulesForSelectionList) {
-			Button ruleSelectionButton = new Button(rulesGroup, SWT.CHECK);
-			String ruleName = (rule.getName() == null) ? "null" : rule.getName(); // handle unnamed rules
-			ruleSelectionButton.setText(ruleName);
-			ruleSelectionButton.setData(rule);
-			ruleSelectionButton.setToolTipText(rulesAndAssociatedFileNames.get(rule));
-			ruleSelectionButton.addListener(SWT.Selection, checkListener);
+			Button ruleSelectionButton1 = new Button(rulesGroup1, SWT.CHECK);
+			String ruleName1 = (rule.getName() == null) ? "null" : rule.getName(); // handle unnamed rules
+			ruleSelectionButton1.setText(ruleName1);
+			ruleSelectionButton1.setData(rule);
+			ruleSelectionButton1.setSelection(rulesForSelectionList.size()==1);
+			ruleSelectionButton1.setToolTipText(rulesAndAssociatedFileNames.get(rule));
+			ruleSelectionButton1.addListener(SWT.Selection, checkListener);
+
+			Button ruleSelectionButton2 = new Button(rulesGroup2, SWT.CHECK);
+			String ruleName2 = (rule.getName() == null) ? "null" : rule.getName(); // handle unnamed rules
+			ruleSelectionButton2.setText(ruleName2);
+			ruleSelectionButton2.setData(rule);
+			ruleSelectionButton2.setSelection(rulesForSelectionList.size()==1);
+			ruleSelectionButton2.setToolTipText(rulesAndAssociatedFileNames.get(rule));
+			ruleSelectionButton2.addListener(SWT.Selection, checkListener);
 		}
-
-		Button selectAllButton = new Button(containerForBothGroups, SWT.CHECK);
-		selectAllButton.setText("Select all");
-		selectAllButton.addListener(SWT.Selection, selectAllListener);
-		selectAllButton.addListener(SWT.Selection, checkListener);
-
+		checkAtLeastOneRuleIsSelected();
+		
 		Button conflictAnalysisButton = new Button(criticalPairKindGroup, SWT.CHECK);
-		conflictAnalysisButton.setText(CONFLICT_BUTTON_TXT);
-		conflictAnalysisButton.setData(CPTypesEnum.CONFLICT);
+		conflictAnalysisButton.setText(ConflictType.CONFLICT.name);
+		conflictAnalysisButton.setData(ConflictType.CONFLICT);
 		conflictAnalysisButton.addListener(SWT.Selection, calcListener);
+		conflictAnalysisButton.setData(ConflictType.CONFLICT);
 
 		Button dependencyAnalysisButton = new Button(criticalPairKindGroup, SWT.CHECK);
-		dependencyAnalysisButton.setText(DEPENDENCY_BUTTON_TXT);
-		dependencyAnalysisButton.setData(CPTypesEnum.DEPENDENCY);
+		dependencyAnalysisButton.setText(ConflictType.DEPENDENCY.name);
+		dependencyAnalysisButton.setData(ConflictType.DEPENDENCY);
 		dependencyAnalysisButton.addListener(SWT.Selection, calcListener);
+		dependencyAnalysisButton.setData(ConflictType.DEPENDENCY);
 
 		scrolledComposite.setMinSize(containerForBothGroups.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
@@ -142,28 +184,10 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 		setPageComplete(false);
 	}
 
-	/**
-	 * returns the selection
-	 * 
-	 * @return returns <code>true</code> for Critical Pairs or <code>false</code> for Dependencies
-	 */
-	public boolean getComputeConflicts() {
-		return selectedCPTypes.contains(CPTypesEnum.CONFLICT);
-	}
-
-	public boolean getComputeDependencies() {
-		return selectedCPTypes.contains(CPTypesEnum.DEPENDENCY);
-	}
-
 	Listener calcListener = new Listener() {
 		public void handleEvent(Event event) {
 			Button button = (Button) (event.widget);
-			CPTypesEnum cpTypeSelection = (CPTypesEnum) button.getData();
-			if (button.getSelection()) {
-				selectedCPTypes.add(cpTypeSelection);
-			} else {
-				selectedCPTypes.remove(cpTypeSelection);
-			}
+			cpType = cpType.update((ConflictType)event.widget.getData(), button.getSelection());
 			updateFinishButton();
 		}
 	};
@@ -171,47 +195,84 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 	Listener checkListener = new Listener() {
 		public void handleEvent(Event event) {
 			boolean selectAll = true;
-			for (Control elem : rulesGroup.getChildren()) {
+			for (Control elem : rulesGroup1.getChildren()) {
+				if (elem instanceof Button) {
+					selectAll &= ((Button) elem).getSelection();
+				}
+			}
+			selectAllButton1.setSelection(selectAll);
+
+			selectAll = true;
+			for (Control elem : rulesGroup2.getChildren()) {
 				if (elem instanceof Button) {
 					selectAll &= ((Button) elem).getSelection();
 				}
 			}
 
-			// ensures to set the "Select all" when all the rules had been
-			// selected manually
-			for (Control elem : containerForBothGroups.getChildren()) {
-				if (elem instanceof Button) {
-					((Button) elem).setSelection(selectAll);
-				}
-			}
+			selectAllButton2.setSelection(selectAll);
 
 			checkAtLeastOneRuleIsSelected();
 
 			try {
-				InputDataChecker.getInstance().check(getEnabledRules());
+				Pair<Set<Rule>, Set<Rule>> rules = getEnabledRules();
+				Set<Rule> allRules = new HashSet<Rule>(rules.first);
+				allRules.addAll(rules.second);
+				InputDataChecker.getInstance().check(allRules);
 				setErrorMessage(null);
 			} catch (UnsupportedRuleException e) {
 				setErrorMessage(e.getDetailedMessage());
-				// TODO: differentiate between Errors (no analysis possible) and
-				// warnings (realisation see line below)
-				// setMessage(e.getDetailedMessage(), 2);
 			}
 		}
 	};
 
 	/**
-	 * Listener for the "Select all" rules button.
+	 * Listener for the "Select all1" rules button.
 	 */
-	Listener selectAllListener = new Listener() {
+	Listener selectAllListener1 = new Listener() {
 
 		public void handleEvent(Event event) {
-			Control[] controlArray = rulesGroup.getChildren();
+			Control[] controlArray = rulesGroup1.getChildren();
+			boolean selectAll = ((Button) (event.widget)).getSelection();
 			for (Control elem : controlArray) {
 				if (elem instanceof Button) {
-					boolean selectAll = ((Button) (event.widget)).getSelection();
 					((Button) elem).setSelection(selectAll);
 				}
 			}
+			checkAtLeastOneRuleIsSelected();
+		}
+
+	};
+	/**
+	 * Listener for the "Select all2" rules button.
+	 */
+	Listener selectAllListener2 = new Listener() {
+
+		public void handleEvent(Event event) {
+			Control[] controlArray = rulesGroup2.getChildren();
+			boolean selectAll = ((Button) (event.widget)).getSelection();
+			for (Control elem : controlArray) {
+				if (elem instanceof Button) {
+					((Button) elem).setSelection(selectAll);
+				}
+			}
+			checkAtLeastOneRuleIsSelected();
+		}
+
+	};
+
+	/**
+	 * Listener for the "Select all2" rules button.
+	 */
+	Listener selectAsFirst = new Listener() {
+
+		public void handleEvent(Event event) {
+			Control[] controlArray1 = rulesGroup1.getChildren();
+			Control[] controlArray2 = rulesGroup2.getChildren();
+			for (Control elem1 : controlArray1)
+				for (Control elem2 : controlArray2)
+					if (elem1 instanceof Button && elem2 instanceof Button)
+						if (elem1.getData() == elem2.getData())
+							((Button) elem2).setSelection(((Button) elem1).getSelection());
 			checkAtLeastOneRuleIsSelected();
 		}
 
@@ -223,39 +284,59 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 	 */
 	private void checkAtLeastOneRuleIsSelected() {
 		sufficientRulesSelected = false;
-		int checked = 0;
-		Control[] controlArray = rulesGroup.getChildren();
+		int checked1 = 0;
+		int checked2 = 0;
+		Control[] controlArray1 = rulesGroup1.getChildren();
+		Control[] controlArray2 = rulesGroup2.getChildren();
 
-		for (Control elem : controlArray) {
+		for (Control elem : controlArray1) {
 			if (elem instanceof Button) {
 				if (((Button) elem).getSelection()) {
-					checked++;
+					checked1++;
 				}
 			}
 		}
-		if (checked >= 1)
+		for (Control elem : controlArray2) {
+			if (elem instanceof Button) {
+				if (((Button) elem).getSelection()) {
+					checked2++;
+				}
+			}
+		}
+		if (checked1 >= 1 && checked2 >= 1)
 			sufficientRulesSelected = true;
 		updateFinishButton();
 	}
 
 	private void updateFinishButton() {
 		setPageComplete(false);
-		if (sufficientRulesSelected && selectedCPTypes.size() > 0) {
+		if (sufficientRulesSelected && cpType != ConflictType.NONE) {
 			setPageComplete(true);
 		}
 		getWizard().getContainer().updateButtons();
 	}
 
-	public List<Rule> getEnabledRules() {
-		List<Rule> result = new LinkedList<Rule>();
+	public Pair<Set<Rule>, Set<Rule>> getEnabledRules() {
+		Pair<Set<Rule>, Set<Rule>> result = new Pair<Set<Rule>, Set<Rule>>(new HashSet<Rule>(), new HashSet<Rule>());
 
-		Control[] controlArray = rulesGroup.getChildren();
-		for (Control elem : controlArray) {
+		Control[] controlArray1 = rulesGroup1.getChildren();
+		Control[] controlArray2 = rulesGroup2.getChildren();
+		for (Control elem : controlArray1) {
 			if (elem instanceof Button) {
 				if (((Button) elem).getSelection()) {
 					Object data = elem.getData();
 					if (data instanceof Rule) {
-						result.add((Rule) data);
+						result.first.add((Rule) data);
+					}
+				}
+			}
+		}
+		for (Control elem : controlArray2) {
+			if (elem instanceof Button) {
+				if (((Button) elem).getSelection()) {
+					Object data = elem.getData();
+					if (data instanceof Rule) {
+						result.second.add((Rule) data);
 					}
 				}
 			}
