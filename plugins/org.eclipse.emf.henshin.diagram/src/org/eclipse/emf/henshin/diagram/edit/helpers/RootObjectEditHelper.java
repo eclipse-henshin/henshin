@@ -157,7 +157,7 @@ public class RootObjectEditHelper {
 			setRootObject(ruleView, null);
 		} else {
 			Node oldRoot = getRootObject(ruleView);
-			if (oldRoot==null || !type.equals(oldRoot.getType().getName())) {
+			if (oldRoot==null || !type.equals(oldRoot.getType())) {
 				Node newRoot = HenshinFactory.eINSTANCE.createNode();
 				newRoot.setName("root");
 				newRoot.setType(type);
