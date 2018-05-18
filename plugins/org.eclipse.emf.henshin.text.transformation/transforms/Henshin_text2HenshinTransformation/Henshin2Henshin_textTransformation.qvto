@@ -1,0 +1,176 @@
+import m2m.qvt.oml.HenshinTextExpressionParserLib;
+ 
+modeltype henshin uses henshin("http://www.eclipse.org/emf/2011/Henshin");
+modeltype henshintext uses henshin_text("http://www.eclipse.org/emf/henshin/text/Henshin_text");
+modeltype ecore uses ecore("http://www.eclipse.org/emf/2002/Ecore");
+
+	
+
+transformation Henshin_text2HenshinTransformation(in sourceIn:henshin, out targetOut:henshintext);
+
+main() {
+	sourceIn.rootObjects()[Module]->map Module2Model();
+}
+
+mapping henshin::Module::Module2Model():henshin_text::Model{
+	self.imports->forEach(package){
+		result.ePackageimports+=object henshintext::EPackageImport{ ref := package };
+	};
+
+	result.transformationsystem+=self.units->selectByType(Rule) ->map ModelElementRule2Rule();
+}
+
+//--------------------------------------------------------------------------------------------------------------
+//Rule
+//--------------------------------------------------------------------------------------------------------------
+
+mapping henshin::Rule::ModelElementRule2Rule():henshin_text::Rule{
+	result.name:=self.name;
+	result.parameters:=self.parameters->map Parameter2Parameter().p;
+	self.javaImports->forEach(imp) {
+		result.ruleElements += object henshintext::JavaImport{ packagename := imp };
+	};
+	result.ruleElements+=object henshintext::CheckDangling{ checkDangling := self.checkDangling };
+	result.ruleElements +=object henshintext::InjectiveMatching{ injectiveMatching := self.injectiveMatching };
+	var graph := object henshintext::Graph {};
+	result.ruleElements += graph;
+	
+	ensureUniquelyNamedNodes(self);
+	graph.graphElements += self.lhs.nodes-> map Node2Node("delete");
+	graph.graphElements += self.lhs.nodes-> map Node2Node("preserve");
+	graph.graphElements += self.rhs.nodes-> map Node2Node("create");
+	var edges := object henshintext::Edges{};
+	graph.graphElements += edges;
+	edges.edges += self.lhs.edges-> map Edge2Edge(graph, "delete");
+	edges.edges += self.lhs.edges-> map Edge2Edge(graph, "preserve");
+	edges.edges += self.rhs.edges-> map Edge2Edge(graph, "create");
+	
+}
+	
+
+
+//--------------------------------------------------------------------------------------------------------------
+//General
+//--------------------------------------------------------------------------------------------------------------
+mapping henshin::Parameter::Parameter2Parameter(): p: henshin_text::Parameter, t: henshin_text::ParameterType{
+	p.name:=self.name;
+	p.type:= t;
+	t.enumType:=getEnumType(self.type);
+	if (t.enumType = null) {
+		t.type := self.type.oclAsType(ecore::EClass)
+	};
+	p.kind := getParameterKind(self.kind)
+}
+
+query getParameterKind(kind:henshin::ParameterKind):henshin_text::ParameterKind{
+	switch {
+		case (kind = ParameterKind::VAR) {return henshin_text::ParameterKind::VAR;}
+		case (kind = ParameterKind::UNKNOWN) {return henshin_text::ParameterKind::UNKNOWN;}
+		case (kind = ParameterKind::IN) {return henshin_text::ParameterKind::IN;}
+		case (kind = ParameterKind::OUT) {return henshin_text::ParameterKind::OUT;}
+		case (kind = ParameterKind::INOUT) {return henshin_text::ParameterKind::INOUT;}
+	};
+	return henshin_text::ParameterKind::UNKNOWN;
+}
+
+query getEnumType(type:ecore::EClassifier):henshin_text::Type{
+		switch{ 
+			case (type=ecore::EBigDecimal.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eBigDecimal ;} 
+			case (type=ecore::EBigInteger.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eBigInteger ;} 
+			case (type=ecore::EBoolean.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eBoolean ;}
+			case (type=ecore::EBooleanObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eBooleanObject ;}  
+			case (type=ecore::EByte.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eByte ;} 
+			case (type=ecore::EByteArray.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eByteArray ;} 
+			case (type=ecore::EByteObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eByteObject ;} 
+			case (type=ecore::EChar.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eChar ;} 
+			case (type=ecore::ECharacterObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eCharacterObject ;} 
+			case (type=ecore::EDate.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eDate ;} 
+			case (type=ecore::EDiagnosticChain.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eDiagnosticChain ;}
+			case (type=ecore::EDouble.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eDouble ;} 
+			case (type=ecore::EDoubleObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eDoubleObject ;} 
+			case (type=ecore::EEList.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eEList ;} 
+			case (type=ecore::EEnumerator.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eEnumerator ;} 
+			case (type=ecore::EFeatureMap.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eFeatureMap ;} 
+			case (type=ecore::EFeatureMapEntry.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eFeatureMapEntry ;} 
+			case (type=ecore::EFloat.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eFloat ;} 
+			case (type=ecore::EFloatObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eFloatObject ;} 
+			case (type=ecore::EInt.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eInt ;} 
+			case (type=ecore::EIntegerObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eIntegerObject ;} 
+			case (type=ecore::ETreeIterator.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eTreeIterator ;} 
+			case (type=ecore::EInvocationTargetException.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eInvocationTargetException ;} 
+			case (type=ecore::EJavaClass.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eJavaClass ;} 
+			case (type=ecore::EJavaObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eJavaObject ;} 
+			case (type=ecore::ELong.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eLong ;}
+			case (type=ecore::ELongObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eLongObject ;}
+			case (type=ecore::EMap.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eMap ;}
+			case (type=ecore::EResource.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eResource ;}
+			case (type=ecore::EResourceSet.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eResourceSet ;}
+			case (type=ecore::EShort.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eShort ;}
+			case (type=ecore::EShortObject.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eShortObject ;}
+			case (type=ecore::EString.oclAsType(ecore::EClassifier)) { return henshin_text::Type::eString ;}
+			};
+			return null;
+}
+
+helper ensureUniquelyNamedNodes(in rule:henshin::Rule):Void {
+	var lhsNodes := rule.lhs.nodes;
+	var rhsNodes := rule.rhs.nodes;
+	var mappedNodes := rule.mappings.origin;	
+	var shadowNodes := rule.mappings.image;	
+	var actionNodes := lhsNodes->union(rhsNodes->select(n|not (shadowNodes->includes(n))));
+	var actionNodeTypes := actionNodes.type;
+	
+	actionNodeTypes->forEach(type) {
+		var nodes := actionNodes->select(n|n.type = type);
+		var nodeName := type.name.toLowerCase();
+		
+		if (nodes->size() = 1 and nodes->any(true).name.oclIsUndefined()) {
+			var node := nodes->any(true);
+			node.name := nodeName;
+			if (mappedNodes->includes(node)) {
+				rule.mappings->select(m|m.origin = node)->any(true).image.name := nodeName;
+			};
+		} else {
+			var counter = 1;
+			nodes->forEach(node) {
+				if (node.name.oclIsUndefined()) {
+					node.name := nodeName+counter.toString();
+					if (mappedNodes->includes(node)) {
+						rule.mappings->select(m|m.origin = node)->any(true).image.name := nodeName+counter.toString();
+					};
+					counter := counter+1;
+				}	
+			}
+		}
+		
+	};
+}
+
+
+
+
+mapping henshin::Edge::Edge2Edge(graph:henshin_text::Graph, actiontype:String):henshin_text::Edge 
+when{self.action.toString()=actiontype}{
+	result.type:=self.type;
+	result.actiontype:=actiontype;
+	var graphNodes := graph.graphElements->select(e|e.oclIsTypeOf(henshin_text::Node)).oclAsType(henshin_text::Node);
+	result.source := graphNodes->select(n|n.name = self.source.name)->any(true);
+	result.target := graphNodes->select(n|n.name = self.target.name)->any(true);
+}
+
+
+mapping henshin::Node::Node2Node(actiontype:String):henshin_text::Node 
+when{self.action.toString()=actiontype}{
+	result.name:=self.name;
+	result.nodetype:=self.type;
+	result.attribute+=self.attributes-> map Attribute2Attribute(actiontype);	
+	result.actiontype:=actiontype
+}
+
+
+mapping henshin::Attribute::Attribute2Attribute(actiontype:String):henshin_text::Attribute 
+when {self.action.toString()=actiontype}{
+	result.name:=self.type;
+	result.value:=parseExpression(self.value); // encapsulates the value as a String expression
+}
+

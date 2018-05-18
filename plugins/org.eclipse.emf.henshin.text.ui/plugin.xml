@@ -415,9 +415,23 @@
 				commandId="org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationCommand">
     		</handler>
 	</extension>
+	
+		<!--Convert To Henshin_text Button-->
+	<extension point="org.eclipse.ui.handlers">
+		<handler
+				class="org.eclipse.emf.henshin.text.ui.Henshin_textExecutableExtensionFactory:org.eclipse.emf.henshin.text.ui.handler.TransformHenshin2Henshin_textHandler"
+				commandId="org.eclipse.emf.henshin.text.ui.handler.ConvertToHenshinTextCommand">
+    		</handler>
+	</extension>
    	
 	<extension point="org.eclipse.ui.commands">
 		<command name="Apply Transformation" id="org.eclipse.emf.henshin.text.ui.handler.ApplyTransformationCommand">
+		</command>
+	</extension>
+
+
+	<extension point="org.eclipse.ui.commands">
+		<command name="Convert to Henshin_text" id="org.eclipse.emf.henshin.text.ui.handler.ConvertToHenshinTextCommand">
 		</command>
 	</extension>
 
@@ -437,6 +451,31 @@
    						<and>
    							<instanceof value="org.eclipse.core.resources.IResource"/>
    							<test property="org.eclipse.core.resources.name" value="*.henshin_text"/>
+   						</and>
+					</or>
+ 	    		</iterate>
+			</visibleWhen> 
+         </command>
+      </menuContribution>
+   </extension>
+
+
+	<extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.emf.henshin.menu">
+         <command
+               commandId="org.eclipse.emf.henshin.text.ui.handler.ConvertToHenshinTextCommand"
+               icon="icons/henshin-apply.gif"
+               label="Convert to Henshin_text"
+               style="push">
+               <visibleWhen>
+        		<iterate ifEmpty="false">
+        			<or>
+   						<instanceof value="org.eclipse.jface.text.TextSelection"/>
+   						<and>
+   							<instanceof value="org.eclipse.core.resources.IResource"/>
+   							<test property="org.eclipse.core.resources.name" value="*.henshin"/>
    						</and>
 					</or>
  	    		</iterate>
@@ -505,6 +544,15 @@
           name="Henshin Text">
     </wizard>
  </extension>
+<extension point="org.eclipse.m2m.qvt.oml.javaBlackboxUnits">
+  <unit name="HenshinTextExpressionParserLib" namespace="m2m.qvt.oml">
+    <library name="HenshinTextExpressionParser" 
+             class="org.eclipse.emf.henshin.text.ui.util.ExpressionParser">
+      <metamodel nsURI="http://www.eclipse.org/emf/henshin/text/Henshin_text"/>
+      <metamodel nsURI="http://www.eclipse.org/emf/2002/Ecore"/>
+    </library>
+  </unit>
+</extension>
 	
 	<!--New henshin_text-FileWizard-->
 </plugin>
