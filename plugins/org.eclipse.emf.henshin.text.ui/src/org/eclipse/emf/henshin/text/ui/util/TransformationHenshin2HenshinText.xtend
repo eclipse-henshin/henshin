@@ -11,9 +11,13 @@ import org.eclipse.m2m.qvt.oml.ExecutionContextImpl
 import org.eclipse.m2m.qvt.oml.ExecutionDiagnostic
 import org.eclipse.m2m.qvt.oml.ModelExtent
 import org.eclipse.m2m.qvt.oml.TransformationExecutor
+import org.eclipse.m2m.internal.qvt.oml.InternalTransformationExecutor.TracesAwareExecutor
+import org.eclipse.m2m.internal.qvt.oml.evaluator.QVTEvaluationOptions
+import java.lang.reflect.Field
+import java.util.concurrent.Executor
 
 class TransformationHenshin2HenshinText {
-	
+
 	/**
 	 * Preparing units and call the Henshin to Henshin_text transformation
 	 */
@@ -21,23 +25,32 @@ class TransformationHenshin2HenshinText {
 		var URI transformationURI = URI.createURI(qvtoPath)
 		var TransformationExecutor executor = new TransformationExecutor(transformationURI)
 		var ExecutionContext context = new ExecutionContextImpl()
-		var ModelExtent source_Henshin = new BasicModelExtent(henshinResource.getContents())		
+		var ModelExtent source_Henshin = new BasicModelExtent(henshinResource.getContents())
 		var ModelExtent target_HenshinText = new BasicModelExtent()
 		var ExecutionDiagnostic result = executor.execute(context, source_Henshin, target_HenshinText)
-		
-		if(result.getSeverity()==Diagnostic.OK){	
+
+		if (result.getSeverity() == Diagnostic.OK) {
 			var resultModel = target_HenshinText.getContents().get(0)
 			println(resultModel)
-			var String henshinUri=henshinResource.getURI().toString()+"_text.xmi"
+
+			var String henshinUri = henshinResource.getURI().toString() + "_text.xmi"
 			var ResourceSet resourceSet = new ResourceSetImpl()
 			var Resource resourceResult = resourceSet.createResource(URI.createURI(henshinUri))
 			resourceResult.getContents().add(resultModel)
 			resourceResult.save(null)
-		
-			println(resourceResult)	
+
+			var Field fExecutorField = executor.getClass().getDeclaredField("fExector")
+			fExecutorField.setAccessible(true);
+			var fExecutor = fExecutorField.get(executor) as TracesAwareExecutor
+			var String traceUri = henshinResource.getURI().toString() + "_henshin.trace.xmi"
+			var Resource resourceTrace = resourceSet.createResource(URI.createURI(traceUri))
+			resourceTrace.getContents().addAll(fExecutor.traces)
+			resourceTrace.save(null)
+
+			println(resourceResult)
 			return null
-		}else{
-			println("Not OK: "+result)
+		} else {
+			println("Not OK: " + result)
 			return null
 		}
 	}
