@@ -1,20 +1,18 @@
 package org.eclipse.emf.henshin.text.ui.util
 
+import java.lang.reflect.Field
 import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.m2m.internal.qvt.oml.InternalTransformationExecutor.TracesAwareExecutor
 import org.eclipse.m2m.qvt.oml.BasicModelExtent
 import org.eclipse.m2m.qvt.oml.ExecutionContext
 import org.eclipse.m2m.qvt.oml.ExecutionContextImpl
 import org.eclipse.m2m.qvt.oml.ExecutionDiagnostic
 import org.eclipse.m2m.qvt.oml.ModelExtent
 import org.eclipse.m2m.qvt.oml.TransformationExecutor
-import org.eclipse.m2m.internal.qvt.oml.InternalTransformationExecutor.TracesAwareExecutor
-import org.eclipse.m2m.internal.qvt.oml.evaluator.QVTEvaluationOptions
-import java.lang.reflect.Field
-import java.util.concurrent.Executor
 
 class TransformationHenshin2HenshinText {
 
@@ -42,7 +40,7 @@ class TransformationHenshin2HenshinText {
 			var Field fExecutorField = executor.getClass().getDeclaredField("fExector")
 			fExecutorField.setAccessible(true);
 			var fExecutor = fExecutorField.get(executor) as TracesAwareExecutor
-			var String traceUri = henshinResource.getURI().toString() + "_henshin.trace.xmi"
+			var String traceUri = henshinResource.getURI().toString() + "_text.trace"
 			var Resource resourceTrace = resourceSet.createResource(URI.createURI(traceUri))
 			resourceTrace.getContents().addAll(fExecutor.traces)
 			resourceTrace.save(null)
