@@ -33,6 +33,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.xtext.ui.editor.XtextEditor;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 public class TransformHenshin2Henshin_textHandler extends AbstractHandler implements IHandler {
 
@@ -73,9 +74,7 @@ public class TransformHenshin2Henshin_textHandler extends AbstractHandler implem
 			if (henshinResource.getErrors().isEmpty() && ((diagnostic.getSeverity() == Diagnostic.OK)
 					|| (diagnostic.getSeverity() == Diagnostic.WARNING))) {
 				TransformationHenshin2HenshinText transformation = new TransformationHenshin2HenshinText();
-				transformation.transformHenshinToHenshin_text(henshinResource,
-						"platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin2Henshin_textTransformation.qvto");
-
+				transformation.transformHenshinToHenshin_text(henshinResource, true);
 			}
 		}
 

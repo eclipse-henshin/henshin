@@ -13,13 +13,21 @@ import org.eclipse.m2m.qvt.oml.ExecutionContextImpl
 import org.eclipse.m2m.qvt.oml.ExecutionDiagnostic
 import org.eclipse.m2m.qvt.oml.ModelExtent
 import org.eclipse.m2m.qvt.oml.TransformationExecutor
+import java.io.IOException
 
 class TransformationHenshin2HenshinText {
 
+	String qvtoPath = "platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin2Henshin_textTransformation.qvto"
+
 	/**
-	 * Preparing units and call the Henshin to Henshin_text transformation
+	 * Transforms a Henshin module, given as a Resource, to a Henshin_text model. Also produces a
+	 * trace model from the source to the target model.
+	 * 	  
+	 * @param henshinResource The input model
+	 * @param serialize Serialize the output and trace models automatically?
+	 * @return A pair of Resources: 1. The target Henshin_text model. 2. A QVTo trace model.
 	 */
-	def Resource transformHenshinToHenshin_text(Resource henshinResource, String qvtoPath) {
+	def Pair<Resource, Resource> transformHenshinToHenshin_text(Resource henshinResource, boolean serialize) {
 		var URI transformationURI = URI.createURI(qvtoPath)
 		var TransformationExecutor executor = new TransformationExecutor(transformationURI)
 		var ExecutionContext context = new ExecutionContextImpl()
@@ -29,13 +37,11 @@ class TransformationHenshin2HenshinText {
 
 		if (result.getSeverity() == Diagnostic.OK) {
 			var resultModel = target_HenshinText.getContents().get(0)
-			println(resultModel)
 
 			var String henshinUri = henshinResource.getURI().toString() + "_text.xmi"
 			var ResourceSet resourceSet = new ResourceSetImpl()
 			var Resource resourceResult = resourceSet.createResource(URI.createURI(henshinUri))
 			resourceResult.getContents().add(resultModel)
-			resourceResult.save(null)
 
 			var Field fExecutorField = executor.getClass().getDeclaredField("fExector")
 			fExecutorField.setAccessible(true);
@@ -43,10 +49,17 @@ class TransformationHenshin2HenshinText {
 			var String traceUri = henshinResource.getURI().toString() + "_text.trace"
 			var Resource resourceTrace = resourceSet.createResource(URI.createURI(traceUri))
 			resourceTrace.getContents().addAll(fExecutor.traces)
-			resourceTrace.save(null)
 
-			println(resourceResult)
-			return null
+			if (serialize) {
+				try {
+					resourceResult.save(null);
+					resourceTrace.save(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return new Pair(resourceResult, resourceTrace)
 		} else {
 			println("Not OK: " + result)
 			return null
