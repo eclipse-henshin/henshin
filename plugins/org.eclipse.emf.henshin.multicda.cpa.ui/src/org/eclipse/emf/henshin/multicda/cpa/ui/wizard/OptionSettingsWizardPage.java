@@ -9,26 +9,39 @@
  */
 package org.eclipse.emf.henshin.multicda.cpa.ui.wizard;
 
-import org.eclipse.emf.henshin.multicda.cpa.CPAOptions;
+import java.util.Set;
+
+import org.eclipse.emf.henshin.multicda.cpa.CDAOptions;
+import org.eclipse.emf.henshin.multicda.cpa.CDAOptions.GranularityType;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 public class OptionSettingsWizardPage extends WizardPage {
 
 	private Composite container;
 
-	private CPAOptions cpaOptions;
+	private CDAOptions cdaOptions;
 
 	private boolean optionsLoaded;
+	Button binaryButton;
+	Button coarseButton;
+	Button fineButton;
+	Button veryFineButon;
+	Button enableIgnoreIdenticalRulesButton;
 
-	private final static String COMPLETE = "complete critical pairs (if not selected, search up to first critical match)";
-	private final static String IGNOREIDENTICALRULES = "ignore critical pairs of same rules";
-	private final static String REDUCESAMEMATCH = "ignore critical pairs of same rules and same matches";
+	Button initialConflicts;
+	Button essentialConflicts;
+	Button conflicts;
+
+	private final static String IGNOREIDENTICALRULES = "Ignore conflicts and dependencies of the same rule.";
 
 	/**
 	 * Default Constructor for the second page of the wizard. This page provides the functionality to adapt the options
@@ -39,12 +52,12 @@ public class OptionSettingsWizardPage extends WizardPage {
 	 */
 	public OptionSettingsWizardPage(String pageName, String optionsFile) {
 		super(pageName);
-		setTitle("Critical Pair Analysis - Option Settings");
-		setDescription("Customize the options.");
+		setTitle("Conflict and Dependency Analysis - Granularity of Analysis");
+		setDescription("Please indicate the depth of analysis.");
 
-		cpaOptions = new CPAOptions();
+		cdaOptions = new CDAOptions();
 
-		if (cpaOptions.load(optionsFile)) {
+		if (cdaOptions.load(optionsFile)) {
 			optionsLoaded = true;
 		} else {
 			optionsLoaded = false;
@@ -59,35 +72,114 @@ public class OptionSettingsWizardPage extends WizardPage {
 	 */
 	@Override
 	public void createControl(Composite parent) {
+
 		container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout());
 
-		Button enableCompleteButton = new Button(container, SWT.CHECK);
-		enableCompleteButton.setText(COMPLETE);
-		enableCompleteButton.addListener(SWT.Selection, checkListener);
-		enableCompleteButton.setSelection(getComplete());
+		Group granularities = new Group(container, SWT.NONE);
+		granularities.setLayout(new GridLayout(2, true));
+		granularities.setText("Granularities");
+		granularities.setToolTipText("Choose your granularity to compute");
+		granularities.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		Button enableIgnoreIdenticalRulesButton = new Button(container, SWT.CHECK);
+//		Composite granularity = new Composite(container, SWT.NONE);
+//		granularity.setLayout(new GridLayout(2, true));
+
+		binaryButton = new Button(granularities, SWT.CHECK);
+		binaryButton.setText(GranularityType.BINARY.name);
+		binaryButton.addListener(SWT.Selection, checkListener);
+		binaryButton.setSelection(getGranularity().contains(GranularityType.BINARY));
+		binaryButton.setData(GranularityType.BINARY);
+		Label label = new Label(granularities, SWT.NONE);
+		label.setText(GranularityType.BINARY.description);
+
+		coarseButton = new Button(granularities, SWT.CHECK);
+		coarseButton.setText(GranularityType.COARSE.name);
+		coarseButton.addListener(SWT.Selection, checkListener);
+		coarseButton.setSelection(getGranularity().contains(GranularityType.COARSE));
+		coarseButton.setData(GranularityType.COARSE);
+		label = new Label(granularities, SWT.NONE);
+		label.setText(GranularityType.COARSE.description);
+
+		fineButton = new Button(granularities, SWT.CHECK);
+		fineButton.setText(GranularityType.FINE.name);
+		fineButton.addListener(SWT.Selection, checkListener);
+		fineButton.setSelection(getGranularity().contains(GranularityType.FINE));
+		fineButton.setData(GranularityType.FINE);
+		label = new Label(granularities, SWT.NONE);
+		label.setText(GranularityType.FINE.description);
+
+		boolean veryFine = getGranularity().contains(GranularityType.VERY_FINE);
+		veryFineButon = new Button(granularities, SWT.CHECK);
+		veryFineButon.setText(GranularityType.VERY_FINE.name);
+		veryFineButon.addListener(SWT.Selection, checkListener);
+		veryFineButon.setSelection(veryFine);
+		veryFineButon.setData(GranularityType.VERY_FINE);
+		label = new Label(granularities, SWT.NONE);
+		label.setText(GranularityType.VERY_FINE.description);
+
+		//________________________________________________________
+		Group cpaOptions = new Group(granularities, SWT.NONE);
+		cpaOptions.setLayout(new GridLayout(1, true));
+		cpaOptions.setText("CPA options");
+		cpaOptions.setToolTipText("Choose critical pair kind to compute");
+		
+		cdaOptions.initialCP = cdaOptions.initialCP || (!cdaOptions.essentialCP && !cdaOptions.initialCP && !cdaOptions.otherCP);
+		
+		initialConflicts = new Button(cpaOptions, SWT.CHECK);
+		initialConflicts.setText("Compute initial conflicts (initial dependencies)");
+		initialConflicts.addListener(SWT.Selection, checkListener);
+		initialConflicts.setSelection(cdaOptions.initialCP);
+		initialConflicts.setEnabled(veryFine);
+
+		essentialConflicts = new Button(cpaOptions, SWT.CHECK);
+		essentialConflicts.setText("Compute all further essential critical pairs");
+		essentialConflicts.addListener(SWT.Selection, checkListener);
+		essentialConflicts.setSelection(cdaOptions.essentialCP);
+		essentialConflicts.setEnabled(veryFine);
+
+		conflicts = new Button(cpaOptions, SWT.CHECK);
+		conflicts.setText("Compute all further critical pairs");
+		conflicts.addListener(SWT.Selection, checkListener);
+		conflicts.setSelection(cdaOptions.otherCP);
+		conflicts.setEnabled(veryFine);
+
+		Composite buttonsComposite = new Composite(container, SWT.NONE);
+		buttonsComposite.setLayout(new GridLayout(1, true));
+		enableIgnoreIdenticalRulesButton = new Button(buttonsComposite, SWT.CHECK);
 		enableIgnoreIdenticalRulesButton.setText(IGNOREIDENTICALRULES);
 		enableIgnoreIdenticalRulesButton.addListener(SWT.Selection, checkListener);
 		enableIgnoreIdenticalRulesButton.setSelection(getIgnoreIdenticalRules());
-
 		setControl(container);
 	}
 
 	Listener checkListener = new Listener() {
-
 		public void handleEvent(Event event) {
+			Object data = event.widget.getData();
 			Button button = (Button) (event.widget);
+			if (!binaryButton.getSelection() && !coarseButton.getSelection() && !fineButton.getSelection()
+					&& !veryFineButon.getSelection())
+				button.setSelection(true);
+			else if (data != null && data instanceof GranularityType)
+				if (((Button) event.widget).getSelection())
+					cdaOptions.granularities.add((GranularityType) data);
+				else
+					cdaOptions.granularities.remove(data);
+			else if (button == enableIgnoreIdenticalRulesButton)
+				cdaOptions.setIgnoreSameRules(button.getSelection());
 
-			// improve by switch-case statement with change to Java 1.7
-			if (button.getText().equals(COMPLETE)) {
-				setComplete(button.getSelection());
-			} else if (button.getText().equals(IGNOREIDENTICALRULES)) {
-				setIgnoreIdenticalRules(button.getSelection());
-			} else if (button.getText().equals(REDUCESAMEMATCH)) {
-				setReduceSameMatch(button.getSelection());
-			}
+			boolean enableCpaOptions = cdaOptions.granularities.contains(GranularityType.VERY_FINE);
+			initialConflicts.setEnabled(enableCpaOptions);
+			essentialConflicts.setEnabled(enableCpaOptions);
+			conflicts.setEnabled(enableCpaOptions);
+			if (!initialConflicts.getSelection() && !essentialConflicts.getSelection() && !conflicts.getSelection())
+				if ((button == initialConflicts || button == essentialConflicts || button == conflicts))
+					button.setSelection(true);
+				else
+					initialConflicts.setSelection(true);
+			cdaOptions.initialCP = initialConflicts.getSelection() && initialConflicts.isEnabled();
+			cdaOptions.essentialCP = essentialConflicts.getSelection() && essentialConflicts.isEnabled();
+			cdaOptions.otherCP = conflicts.getSelection() && conflicts.isEnabled();
 		}
 
 	};
@@ -101,43 +193,43 @@ public class OptionSettingsWizardPage extends WizardPage {
 		return optionsLoaded;
 	}
 
-	public CPAOptions getOptions() {
-		return cpaOptions;
+	public CDAOptions getOptions() {
+		return cdaOptions;
 	}
 
 	public Boolean getComplete() {
-		return cpaOptions.isComplete();
+		return cdaOptions.isComplete();
 	}
 
-	public void setComplete(Boolean complete) {
-		cpaOptions.setComplete(complete);
+	public Set<GranularityType> getGranularity() {
+		return cdaOptions.granularities;
 	}
 
 	public Boolean getStrongAttrCheck() {
-		return cpaOptions.isStrongAttrCheck();
+		return cdaOptions.isStrongAttrCheck();
 	}
 
 	public Boolean getEqualVariableNameOfAttrMapping() {
-		return cpaOptions.isEqualVName();
+		return cdaOptions.isEqualVName();
 	}
 
 	public Boolean getIgnoreIdenticalRules() {
-		return cpaOptions.isIgnore();
+		return cdaOptions.isIgnoreSameRules();
 	}
 
 	public void setIgnoreIdenticalRules(Boolean ignoreIdenticalRules) {
-		cpaOptions.setIgnore(ignoreIdenticalRules);
+		cdaOptions.setIgnoreSameRules(ignoreIdenticalRules);
 	}
 
 	public Boolean getReduceSameMatch() {
-		return cpaOptions.isReduceSameRuleAndSameMatch();
+		return cdaOptions.isReduceSameRuleAndSameMatch();
 	}
 
 	public void setReduceSameMatch(Boolean reduceSameMatch) {
-		cpaOptions.setReduceSameRuleAndSameMatch(reduceSameMatch);
+		cdaOptions.setReduceSameRuleAndSameMatch(reduceSameMatch);
 	}
 
 	public Boolean getDirectlyStrictConfluent() {
-		return cpaOptions.isDirectlyStrictConfluent();
+		return cdaOptions.isDirectlyStrictConfluent();
 	}
 }

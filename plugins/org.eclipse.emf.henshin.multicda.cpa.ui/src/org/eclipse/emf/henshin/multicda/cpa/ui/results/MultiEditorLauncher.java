@@ -27,14 +27,10 @@ import org.eclipse.ui.part.MultiEditorInput;
 public class MultiEditorLauncher implements IEditorLauncher {
 
 	public void open(IPath file) {
-		// TODO: hier müssen wirklich die IDs der beiden Editoren von Henshin und ECore hin!!!
-//		String[] editorIdsOld = new String[] { "com.ibm.rawEditor", "com.ibm.generatedEditor" };
 		String[] editorIds = new String[] { "org.eclipse.emf.henshin.presentation.HenshinEditorID",
 				"org.eclipse.emf.ecore.presentation.EcoreEditorID",
 				"org.eclipse.emf.henshin.presentation.HenshinEditorID" };
 
-		// TODO: hier müssen die drei IEditorInputs der drei Dateien zusammengefasst werden
-		// diese erhält man sehr wahrscheinlich über eine "FileEditorInputFactory"!
 		MultiEditorInput mInput = new MultiEditorInput(editorIds, resolveFileEditorInputs(file));
 
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();

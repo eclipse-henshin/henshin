@@ -1204,7 +1204,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 */
 	@Override
 	public String toString() {
-		return super.toString();
+		return super.toString() + (description == null ? "" : description) + "\n\n" + getLhs() + "\n\n" + getRhs();
 	}
 
 	/*

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/poi-bin-3.16-20170419/poi-3.16/poi-3.16.jar" sourcepath="lib/poi-src-3.16-20170419"/>
+	<classpathentry kind="lib" path="lib/google-guave/guava-19.0.jar" sourcepath="lib/google-guave/guava-19.0-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

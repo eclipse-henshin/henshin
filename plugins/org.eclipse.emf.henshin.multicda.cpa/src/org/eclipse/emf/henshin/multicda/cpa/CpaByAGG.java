@@ -10,9 +10,11 @@
 package org.eclipse.emf.henshin.multicda.cpa;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.EList;
@@ -28,6 +30,7 @@ import org.eclipse.emf.henshin.model.exporters.HenshinAGGExporter;
 import org.eclipse.emf.henshin.model.impl.EdgeImpl;
 import org.eclipse.emf.henshin.multicda.cpa.importer.AggHenshinCriticalPairTranslator;
 import org.eclipse.emf.henshin.multicda.cpa.result.CPAResult;
+import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 
 import agg.parser.ConflictsDependenciesContainer;
 import agg.parser.CriticalPairOption;
@@ -39,7 +42,7 @@ import agg.xt_basis.GraGra;
 import agg.xt_basis.GraTraOptions;
 import agg.xt_basis.MorphCompletionStrategy;
 import agg.xt_basis.Rule;
- 
+
 /**
  * The Implementation of the critical pair analysis for the <code>ICriticalPairAnalysis</code> interface by using the
  * analysis implemented in AGG.
@@ -56,15 +59,15 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	private boolean monitorProgress = false;
 	private IProgressMonitor progressMonitor;
 
-	List<org.eclipse.emf.henshin.model.Rule> firstHenshinRuleSetForAnalysis;
-	List<org.eclipse.emf.henshin.model.Rule> secondHenshinRuleSetForAnalysis;
+	Set<org.eclipse.emf.henshin.model.Rule> firstHenshinRuleSetForAnalysis;
+	Set<org.eclipse.emf.henshin.model.Rule> secondHenshinRuleSetForAnalysis;
 
-	List<agg.xt_basis.Rule> firstAggRuleSetForAnalysis;
-	List<agg.xt_basis.Rule> secondAggRuleSetForAnalysis;
+	Set<agg.xt_basis.Rule> firstAggRuleSetForAnalysis;
+	Set<agg.xt_basis.Rule> secondAggRuleSetForAnalysis;
 
 	String workingPathWOExtension;
 
-	CPAOptions options;
+	CDAOptions options;
 
 	private boolean generateCpxFile = false;
 	private boolean createRuleParameterForAllAttributes = true;
@@ -73,8 +76,8 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 			.concat(File.separator);
 	private String debugFileName = "debug.ggx";
 	File pathToProject = new File("");
-	File aggDebugFile = new File(pathToProject.getAbsolutePath().concat(File.separator).concat(resultDirectory)
-			.concat(debugFileName));
+	File aggDebugFile = new File(
+			pathToProject.getAbsolutePath().concat(File.separator).concat(resultDirectory).concat(debugFileName));
 
 	/**
 	 * Default constructor.
@@ -102,7 +105,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * @throws UnsupportedRuleException in case of invalid rules.
 	 */
 	@Override
-	public void init(List<org.eclipse.emf.henshin.model.Rule> rules, CPAOptions options)
+	public void init(Set<org.eclipse.emf.henshin.model.Rule> rules, CDAOptions options)
 			throws UnsupportedRuleException {
 		init(rules, rules, options);
 	}
@@ -118,77 +121,82 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * @throws UnsupportedRuleException in case of invalid rules.
 	 */
 	@Override
-	public void init(List<org.eclipse.emf.henshin.model.Rule> r1, List<org.eclipse.emf.henshin.model.Rule> r2,
-			CPAOptions options) throws UnsupportedRuleException {
+	public void init(Set<org.eclipse.emf.henshin.model.Rule> r1, Set<org.eclipse.emf.henshin.model.Rule> r2,
+			CDAOptions options) throws UnsupportedRuleException {
 		this.options = options;
 		this.firstHenshinRuleSetForAnalysis = r1;
 		this.secondHenshinRuleSetForAnalysis = r2;
-		
-		if(r1.size() == 0 || r2.size() == 0){
+
+		if (r1.size() == 0 || r2.size() == 0) {
 			throw new UnsupportedRuleException(UnsupportedRuleException.noInputRule);
 		}
 
 		// prevents to export a rule twice.
 		List<org.eclipse.emf.henshin.model.Rule> listOfAllOriginalRulesToBeExported = new LinkedList<org.eclipse.emf.henshin.model.Rule>();
-		for(org.eclipse.emf.henshin.model.Rule rule : r1){
-			if(!listOfAllOriginalRulesToBeExported.contains(rule))
+		for (org.eclipse.emf.henshin.model.Rule rule : r1) {
+			if (!listOfAllOriginalRulesToBeExported.contains(rule))
 				listOfAllOriginalRulesToBeExported.add(rule);
 		}
-		for(org.eclipse.emf.henshin.model.Rule rule : r2){
-			if(!listOfAllOriginalRulesToBeExported.contains(rule))
+		for (org.eclipse.emf.henshin.model.Rule rule : r2) {
+			if (!listOfAllOriginalRulesToBeExported.contains(rule))
 				listOfAllOriginalRulesToBeExported.add(rule);
 		}
-		
+
 		Module originalModuleOfFirstRule = null;
 		org.eclipse.emf.henshin.model.Rule ruleForModuleCopy = null;
-		
+
 		//find a rule, which provides a useful module
-		for(org.eclipse.emf.henshin.model.Rule rule : listOfAllOriginalRulesToBeExported){
-			if(rule.eContainer() != null && originalModuleOfFirstRule == null && ruleForModuleCopy == null){
+		for (org.eclipse.emf.henshin.model.Rule rule : listOfAllOriginalRulesToBeExported) {
+			if (originalModuleOfFirstRule != null && ruleForModuleCopy != null)
+				break;
+			if (rule.eContainer() != null
+					&& (((Module) rule.eContainer()).getImports().get(0).getEClassifiers().size() > 0)) {
 				originalModuleOfFirstRule = (Module) rule.eContainer();
 				ruleForModuleCopy = rule;
 			}
 		}
-		
-		if(originalModuleOfFirstRule == null || ruleForModuleCopy == null){
+
+		if (originalModuleOfFirstRule == null || ruleForModuleCopy == null) {
 			System.err.println("ERROR: None of the rules provide a useful Module – no meta-model could be resolved.");
 			return;
 		}
-		
+
 		// creating a appropriate module for the export, with the aim to keep the provided rules and their modules unchanged
 		module = (Module) EcoreUtil.copy(ruleForModuleCopy.eContainer());
 		// since even unsatisfactory copies of the rules and units have been created, those have to be removed.
 		module.getUnits().clear();
-		
+
 		// Only the designated rules are copied and added to the module for the export. The original rules remain unchanged. 
-		for(org.eclipse.emf.henshin.model.Rule rule : listOfAllOriginalRulesToBeExported){
+		for (org.eclipse.emf.henshin.model.Rule rule : listOfAllOriginalRulesToBeExported) {
 			org.eclipse.emf.henshin.model.Rule copyOfRule = EcoreUtil.copy(rule);
 			module.getUnits().add(copyOfRule);
 			module.toString();
 		}
-		
+
 		// checks the rules which shall serve later on for the analysis.
-		List<org.eclipse.emf.henshin.model.Rule> rulesToBeChecked = new ArrayList<org.eclipse.emf.henshin.model.Rule>();
-		for(Unit unit : module.getUnits()){
-			if(unit instanceof org.eclipse.emf.henshin.model.Rule)
+		Set<org.eclipse.emf.henshin.model.Rule> rulesToBeChecked = new HashSet<org.eclipse.emf.henshin.model.Rule>();
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof org.eclipse.emf.henshin.model.Rule)
 				rulesToBeChecked.add((org.eclipse.emf.henshin.model.Rule) unit);
 		}
 		check(rulesToBeChecked);
-		
+
 		List<org.eclipse.emf.henshin.model.Rule> originalRules = new LinkedList<org.eclipse.emf.henshin.model.Rule>();
 		originalRules.addAll(firstHenshinRuleSetForAnalysis);
 		originalRules.addAll(secondHenshinRuleSetForAnalysis);
 		// its important to instantiate the importer with the original rules, since the created results shall reference elements within the original rules
 		importer = new AggHenshinCriticalPairTranslator(originalRules);
-		
-		// first of all complete the rules by inserting missing EOpposite Edges, since they have to be present in the rule set within AGG
-		// the modification of the rules is negligible since we are working with copies of the original rules.
-		completeRulesByEOppositeEdges();
+
+//		// first of all complete the rules by inserting missing EOpposite Edges, since they have to be present in the rule set within AGG
+//		// the modification of the rules is negligible since we are working with copies of the original rules.
+//		completeRulesByEOppositeEdges();
 
 		// *.ggx file generation
+
 		IStatus exportModuleToAGGStatus = exportModuleToAGG(workingPathWOExtension + ".ggx");
-		if(exportModuleToAGGStatus.getSeverity() == IStatus.ERROR){
-			throw new UnsupportedRuleException(UnsupportedRuleException.exportFailed+" "+exportModuleToAGGStatus.getMessage()); 
+		if (exportModuleToAGGStatus.getSeverity() == IStatus.ERROR) {
+			throw new UnsupportedRuleException(
+					UnsupportedRuleException.exportFailed + " " + exportModuleToAGGStatus.getMessage());
 		}
 		String ggxFile = workingPathWOExtension + ".ggx";
 		gragra = load(ggxFile);
@@ -196,8 +204,8 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 		boolean checkDangling = true; // default
 		boolean injectiveMatching = true; // default
 
-		firstAggRuleSetForAnalysis = new LinkedList<Rule>();
-		secondAggRuleSetForAnalysis = new LinkedList<Rule>();
+		firstAggRuleSetForAnalysis = new HashSet<Rule>();
+		secondAggRuleSetForAnalysis = new HashSet<Rule>();
 		for (org.eclipse.emf.henshin.model.Rule rule : r1) {
 			if (rule != null) {
 				Rule equivalentAggRule = gragra.getRule(rule.getName());
@@ -281,7 +289,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * @throws UnsupportedRuleException in case of invalid rules.
 	 */
 	@Override
-	public boolean check(List<org.eclipse.emf.henshin.model.Rule> rules) throws UnsupportedRuleException {
+	public boolean check(Set<org.eclipse.emf.henshin.model.Rule> rules) throws UnsupportedRuleException {
 
 		return InputDataChecker.getInstance().check(rules);
 	}
@@ -297,7 +305,9 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 		HenshinAGGExporter exporter = new HenshinAGGExporter();
 		// exporter.setCreateRuleParameterForAllAttributes(createRuleParameterForAllAttributes); //reintroduce with
 		// Henshin 1.3
-		return exporter.doExport(module, uri);
+		if (options.essentialCP)
+			exporter.setExportWithoutUpperLimitsOnTypeGraph(true);
+		return exporter.doExport(module, uri, options.isIgnoreMultiplicities());
 	}
 
 	/**
@@ -310,6 +320,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 		if (fileName.endsWith(".ggx")) {
 			XMLHelper h = new XMLHelper();
+
 			if (h.read_from_xml(fileName)) {
 				GraGra gra = new GraGra(true);
 				h.getTopObject(gra);
@@ -328,16 +339,36 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	@Override
 	public CPAResult runConflictAnalysis() {
 		ExcludePairContainer epc = (ExcludePairContainer) ParserFactory.createEmptyCriticalPairs(gragra,
-				CriticalPairOption.EXCLUDEONLY, false/* defaultValue */); // TODO: add "NULL"-check for gragra
+				CriticalPairOption.EXCLUDEONLY, false);
 		epc.enablePACs(true);
+		CPAResult conflictResult = null;
+
 		setOptionsOnContainer(epc, options);
 		computeCriticalPairs(firstAggRuleSetForAnalysis, secondAggRuleSetForAnalysis, epc);
-		CPAResult conflictResult = importer.importExcludePairContainer(epc);
-
+		conflictResult = importer.importExcludePairContainer(epc, options.essentialCP);
 		if (generateCpxFile)
 			saveCPAasCPX(aggDebugFile.getAbsolutePath().replaceAll(".ggx", ".cpx"), epc, null);
 
 		return conflictResult;
+	}
+
+	public static CPAResult joinCPAResults(CPAResult cr1, CPAResult cr2) {
+		if (cr1 == null)
+			return cr2;
+		if (cr2 == null)
+			return cr1;
+
+		CPAResult cpaResult = new CPAResult();
+		List<CriticalPair> cp1 = cr1.getCriticalPairs();
+		for (CriticalPair critPair : cp1) {
+			cpaResult.addResult(critPair);
+		}
+		List<CriticalPair> cp2 = cr2.getCriticalPairs();
+		for (CriticalPair critPair : cp2) {
+			cpaResult.addResult(critPair);
+		}
+
+		return cpaResult;
 	}
 
 	/**
@@ -364,10 +395,11 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 		DependencyPairContainer dpc = (DependencyPairContainer) ParserFactory.createEmptyCriticalPairs(gragra,
 				CriticalPairOption.TRIGGER_DEPEND, false/* defaultValue */);
 		dpc.enablePACs(true);
+
+		CPAResult dependencyResult = null;
 		setOptionsOnContainer(dpc, options);
 		computeCriticalPairs(firstAggRuleSetForAnalysis, secondAggRuleSetForAnalysis, dpc);
-		CPAResult dependencyResult = importer.importExcludePairContainer(dpc);
-
+		dependencyResult = importer.importExcludePairContainer(dpc, false);
 		if (generateCpxFile)
 			saveCPAasCPX(aggDebugFile.getAbsolutePath().replaceAll(".ggx", ".cpx"), null, dpc);
 
@@ -394,10 +426,10 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * @param rules1 first list of rules (horizontal order)
 	 * @param rules2 second list of rules (vertical order)
 	 */
-	private void computeCriticalPairs(List<Rule> rules1, List<Rule> rules2, ExcludePairContainer exclude) {
+	private void computeCriticalPairs(Set<Rule> rules1, Set<Rule> rules2, ExcludePairContainer exclude) {
 
 		if (firstHenshinRuleSetForAnalysis.size() == 0 || secondHenshinRuleSetForAnalysis.size() == 0)
-			return; // TODO: hier muss mehr/etwas besseres hin als ein reines "return"
+			return; // : hier muss mehr/etwas besseres hin als ein reines "return"
 
 		if (exclude != null) {
 
@@ -405,8 +437,8 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 			int progressIntervalR1 = 10000;
 			int progressIntervalR2 = 10000;
 			if (firstHenshinRuleSetForAnalysis != null && secondHenshinRuleSetForAnalysis != null) {
-				progressIntervalR1 = 10000 / firstHenshinRuleSetForAnalysis.size(); //TODO: wenn "firstHenshinRuleSetForAnalysis" keine Elemnte enthält kommt es zu einem Fehler 
-				progressIntervalR2 = progressIntervalR1 / secondHenshinRuleSetForAnalysis.size(); //TODO: wenn "secondHenshinRuleSetForAnalysis" keine Elemnte enthält kommt es zu einem Fehler
+				progressIntervalR1 = 10000 / firstHenshinRuleSetForAnalysis.size(); //: wenn "firstHenshinRuleSetForAnalysis" keine Elemnte enthält kommt es zu einem Fehler 
+				progressIntervalR2 = progressIntervalR1 / secondHenshinRuleSetForAnalysis.size(); //: wenn "secondHenshinRuleSetForAnalysis" keine Elemnte enthält kommt es zu einem Fehler
 			}
 
 			for (Rule r1 : rules1) {
@@ -466,15 +498,15 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * @param epc The container with the rules, options and many more within AGG for calculating the critical pairs.
 	 * @param options The options set for the calculation by the henshin interface.
 	 */
-	private void setOptionsOnContainer(ExcludePairContainer epc, CPAOptions options) { // TODO: add "NULL"-check for the
-																						// input values
+	private void setOptionsOnContainer(ExcludePairContainer epc, CDAOptions options) {
+		// input values
 		epc.enableComplete(options.isComplete());
 		// no more supported, since theses parameters are predefined
-		// epc.enableReduce(options.isEssential());
+		epc.enableReduce(options.essentialCP);
 		// epc.enableConsistent(options.isConsistent());
 		epc.enableStrongAttrCheck(options.isStrongAttrCheck());
 		epc.enableEqualVariableNameOfAttrMapping(options.isEqualVName());
-		epc.enableIgnoreIdenticalRules(options.isIgnore());
+		epc.enableIgnoreIdenticalRules(options.isIgnoreSameRules());
 		epc.enableReduceSameMatch(options.isReduceSameRuleAndSameMatch());
 		epc.enableDirectlyStrictConfluent(options.isDirectlyStrictConfluent());
 		epc.enableDirectlyStrictConfluentUpToIso(options.isDirectlyStrictConfluentUpToIso());
@@ -491,4 +523,17 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	public void setCreateRuleParameterForAllAttributes(boolean createRuleParameterForAllAttributes) {
 		this.createRuleParameterForAllAttributes = createRuleParameterForAllAttributes;
 	}
+
+	private void setAppliedAnalysisToEssential(CPAResult cpaResult) {
+		for (CriticalPair cp : cpaResult.getCriticalPairs()) {
+			cp.setAppliedAnalysis(CriticalPair.AppliedAnalysis.ESSENTIAL);
+		}
+	}
+
+	private void setAppliedAnalysisToNotEssential(CPAResult cpaResult) {
+		for (CriticalPair cp : cpaResult.getCriticalPairs()) {
+			cp.setAppliedAnalysis(CriticalPair.AppliedAnalysis.COMPLETE);
+		}
+	}
+
 }

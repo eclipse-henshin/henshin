@@ -12,17 +12,17 @@
          point="org.eclipse.ui.commands">
       <category
             id="org.eclipse.emf.henshin.multicda.cpa.commands.category"
-            name="Critical Pair Analysis">
+            name="Conflict and dependency analysis">
       </category>
       <command
             categoryId="org.eclipse.emf.henshin.multicda.cpa.commands.category"
             id="org.eclipse.emf.henshin.multicda.cpa.commands.calculateCPA"
-            name="Calculate Critical Pairs">
+            name="Calculate conflict and dependency analysis">
       </command>
       <command
             categoryId="org.eclipse.emf.henshin.multicda.cpa.commands.category"
             id="org.eclipse.emf.henshin.multicda.cpa.commands.openCP"
-            name="Open Critical Pair">
+            name="Open conflict and dependency analysis">
       </command>
    </extension>
    <extension
@@ -45,7 +45,7 @@
                commandId="org.eclipse.emf.henshin.multicda.cpa.commands.calculateCPA"
                icon="icons/sample.gif"
                id="org.eclipse.emf.henshin.multicda.cpa.menus.calculateCPA"
-               label="Calculate Critical Pairs"
+               label="Conflict and dependency analysis"
                style="push">
             <visibleWhen
                   checkEnabled="false">
@@ -72,7 +72,7 @@
                commandId="org.eclipse.emf.henshin.multicda.cpa.commands.openCP"
                icon="icons/sample.gif"
                id="org.eclipse.emf.henshin.multicda.cpa.menus.openCP"
-               label="Open Critical Pair"
+               label="Open conflict and dependency analysis"
                style="push">
             <visibleWhen
                   checkEnabled="false">
@@ -99,7 +99,7 @@
                commandId="org.eclipse.emf.henshin.multicda.cpa.commands.calculateCPA"
                icon="icons/sample.gif"
                id="org.eclipse.emf.henshin.multicda.cpa.menus.calculateCPA"
-               label="Calculate Critical Pairs"
+               label="Conflict and dependency analysis"
                style="push">
             <visibleWhen
                   checkEnabled="false">
@@ -124,14 +124,14 @@
          point="org.eclipse.ui.views">
       <category
             id="org.eclipse.emf.henshin.multicda.cpa.ui.cpa"
-            name="Critical Pair Analysis">
+            name="Conflict and dependency analysis">
       </category>
       <view
             category="org.eclipse.emf.henshin.multicda.cpa.ui.cpa"
             class="org.eclipse.emf.henshin.multicda.cpa.ui.presentation.CpaResultsView"
             icon="icons/sample.gif"
             id="org.eclipse.emf.henshin.multicda.cpa.ui.views.CPAView"
-            name="CPA Result"
+            name="CDA Result"
             restorable="true">
       </view>
    </extension>
@@ -140,7 +140,7 @@
       <editor
             class="org.eclipse.emf.henshin.multicda.cpa.ui.presentation.HenshinCPEditor"
             id="org.eclipse.emf.henshin.multicda.cpa.ui.HenshinCPEditor"
-            name="HenshinCpEditor">
+            name="HenshinCDAEditor">
       </editor>
    </extension>
 

@@ -32,7 +32,6 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class OpenCpHandler extends AbstractHandler {
 
-	/** Opened editor. */
 	private IEditorPart editor;
 
 	private URI firstRuleUri;
@@ -70,15 +69,12 @@ public class OpenCpHandler extends AbstractHandler {
 			int numberOfMembers = members.length;
 
 			if (numberOfMembers != 5)
-				// TODO: throw new Exception bzw. Feedback an Nutzer
 				System.err.println("falsche Anzahl an Dateien im Verzeichnis!");
 
 			for (IResource resource : members) {
 
 				IPath rawLocation = resource.getRawLocation();
 				java.net.URI rawLocationURI = resource.getRawLocationURI();
-
-				// IPath fullPath = resource.getFullPath();
 
 				java.net.URI locationURI = resource.getLocationURI();
 
@@ -100,7 +96,7 @@ public class OpenCpHandler extends AbstractHandler {
 						secondRuleUri = URI.createFileURI(resource.getRawLocation().toString());
 						// editorInputs[1] = secondRuleFileEditorInput;
 					} else if (fileName.endsWith(".henshinCp")) {
-						// TODO: the specific file extension should be placed in a central field, being accessible from
+						// the specific file extension should be placed in a central field, being accessible from
 						// different classes.
 
 					} else if (fileName.equals("minimal-model.ecore_diagram")) {
@@ -113,12 +109,7 @@ public class OpenCpHandler extends AbstractHandler {
 					}
 				}
 			}
-
-			// TODO: WICHTIG!: überprüfen, ob alle drei benötigten Dateien aufgelöst werden konnten!
-			// Ansonsten Feedback an den Nutzer!
-
 		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}

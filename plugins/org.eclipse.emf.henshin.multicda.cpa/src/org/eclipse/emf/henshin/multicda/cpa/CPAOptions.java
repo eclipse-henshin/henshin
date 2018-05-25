@@ -114,7 +114,7 @@ public class CPAOptions {
 		/**
 		 * kBorn 09-05-2014 generally the constraint should even be fulfilled for the graph constraints (->'true' by
 		 * default) it is still unresolved, if there exists something like graph constraints in henshin and if they are
-		 * exportet. -> TODO
+		 * exportet.
 		 */
 		// setConsistent(true);
 

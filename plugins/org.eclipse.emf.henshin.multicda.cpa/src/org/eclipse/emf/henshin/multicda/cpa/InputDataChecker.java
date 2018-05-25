@@ -10,7 +10,7 @@
 package org.eclipse.emf.henshin.multicda.cpa;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.And;
@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Or;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.Xor;
 import org.eclipse.emf.henshin.model.exporters.HenshinAGGExporter;
@@ -60,7 +61,7 @@ public class InputDataChecker {
 	 *         implementation.
 	 * @throws UnsupportedRuleException On the case of any unsuitable rules.
 	 */
-	public boolean check(List<org.eclipse.emf.henshin.model.Rule> rules) throws UnsupportedRuleException {
+	public boolean check(Set<Rule> rules) throws UnsupportedRuleException {
 
 		boolean sameDomainModel = checkDomainModels(rules);
 		boolean consistentOptions = consistentDanglingOption(rules);
@@ -82,9 +83,9 @@ public class InputDataChecker {
 	 * @throws DifferentDomainException On any occurrence of different meta models within the set of rules.
 	 * @throws MultipleDomainImportException On any occurrence of more than one meta model in a rule.
 	 */
-	private boolean checkDomainModels(List<org.eclipse.emf.henshin.model.Rule> rules) throws UnsupportedRuleException {
+	private boolean checkDomainModels(Set<Rule> rules) throws UnsupportedRuleException {
 		String nsUri = null;
-		for (org.eclipse.emf.henshin.model.Rule rule : rules) {
+		for (Rule rule : rules) {
 			// take the first EPackage and look at his URI
 			if (rule.getModule().getImports().size() == 0)
 				throw new UnsupportedRuleException(UnsupportedRuleException.missingDomainImport);
@@ -106,9 +107,8 @@ public class InputDataChecker {
 	 * @return <code>true</code> if all of the rules do not contain any amalgamation.
 	 * @throws UnsupportedRuleException On any found amalgamation within the set of rules.
 	 */
-	private boolean checkForAmalgamation(List<org.eclipse.emf.henshin.model.Rule> rules)
-			throws UnsupportedRuleException {
-		for (org.eclipse.emf.henshin.model.Rule rule : rules) {
+	private boolean checkForAmalgamation(Set<Rule> rules) throws UnsupportedRuleException {
+		for (Rule rule : rules) {
 			if (rule.getMultiRules().size() > 0)
 				throw new UnsupportedRuleException(UnsupportedRuleException.unsupportedAmalgamationRules);
 		}
@@ -122,10 +122,9 @@ public class InputDataChecker {
 	 * @return <code>true</code> if all the contained attributes are supported.
 	 * @throws UnsupportedRuleException On found data types which are not supported.
 	 */
-	private boolean checkAttributeTypes(List<org.eclipse.emf.henshin.model.Rule> rulesToBeChecked)
-			throws UnsupportedRuleException {
+	private boolean checkAttributeTypes(Set<Rule> rulesToBeChecked) throws UnsupportedRuleException {
 
-		for (final org.eclipse.emf.henshin.model.Rule rule : rulesToBeChecked) {
+		for (final Rule rule : rulesToBeChecked) {
 			ArrayList<Graph> lhsAndRhsGraph = new ArrayList<Graph>() {
 				{
 					add(rule.getLhs());
@@ -159,8 +158,7 @@ public class InputDataChecker {
 	 * @return <code>true</code> if the dangling option of all provided rules are the same.
 	 * @throws UnsupportedRuleException On inconsistent dangling options within the rule set.
 	 */
-	private boolean consistentDanglingOption(List<org.eclipse.emf.henshin.model.Rule> rulesToBeChecked)
-			throws UnsupportedRuleException {
+	private boolean consistentDanglingOption(Set<Rule> rulesToBeChecked) throws UnsupportedRuleException {
 
 		boolean checkDanglingActivated = false;
 		boolean checkDanglingDeactivated = false;
@@ -170,7 +168,7 @@ public class InputDataChecker {
 		boolean checkInjectiveMatchingDeactivated = false;
 		boolean injectiveMatchingConsistent = true;
 
-		for (org.eclipse.emf.henshin.model.Rule rule : rulesToBeChecked) {
+		for (Rule rule : rulesToBeChecked) {
 			if (checkDanglingConsistent) {
 				if (rule.isCheckDangling())
 					checkDanglingActivated = true;
@@ -199,64 +197,42 @@ public class InputDataChecker {
 	 * @throws UnsupportedRuleException
 	 * 
 	 */
-	private boolean checkApplicationConditions(
-			List<org.eclipse.emf.henshin.model.Rule> rulesToBeChecked)
-			throws UnsupportedRuleException {
-		/**
-		 * TODO: - zuerst nur eine einzelne NAC und PAC zulassen - dann
-		 * Konjunktionen von NACs und PACs zulassen. (Disjunktionen
-		 * ausschließen) - später mit "DeMorgenschen Gesetzen"-Refactoring auch
-		 * Disjunktionen zulassen, sofern diese zu Konjuktionen umgestellt
-		 * werden können (oder wenn AGG Disjunktionen beherscht - für die CPA)
-		 * 
-		 * !! jeweils Beispiele finden und testen. ! die Beispiele für die
-		 * folgestufen könenn bei der jeweils vorherigen Stufe genutzt werden,
-		 * dass der Check diese erkennt.
-		 */
+	private boolean checkApplicationConditions(Set<Rule> rulesToBeChecked) throws UnsupportedRuleException {
 		boolean rulesOK = true;
-		for (org.eclipse.emf.henshin.model.Rule rule : rulesToBeChecked) {
+		for (Rule rule : rulesToBeChecked) {
 			rulesOK &= checkFormula(rule.getLhs().getFormula());
 			checkFormula(rule.getRhs().getFormula());
 		}
 		return rulesOK;
 	}
 
-	private boolean checkFormula(Formula formula)
-			throws UnsupportedRuleException {
-		// nur "AND"s und optional final "NOT" - nachfolgend eine
-		// NestedCondition (alles andere wäre eine andere unäre oder binäre
-		// Formel, die nicht unterstützt wird).
+	private boolean checkFormula(Formula formula) throws UnsupportedRuleException {
 		if (formula instanceof BinaryFormula) {
 			if (formula instanceof And) {
 				return checkFormula(((BinaryFormula) formula).getLeft())
 						&& checkFormula(((BinaryFormula) formula).getRight());
 			} else if (formula instanceof Or) {
-				// nicht unterstützt
 				throw new UnsupportedRuleException(
 						UnsupportedRuleException.unsupportedApplicationCondition_noBinaryFormulaOfKindOR);
 
 			} else if (formula instanceof Xor) {
-				// nicht unterstützt
 				throw new UnsupportedRuleException(
 						UnsupportedRuleException.unsupportedApplicationCondition_noBinaryFormulaOfKindXOR);
 			}
 		} else if (formula instanceof UnaryFormula) {
 			if (formula instanceof Not) {
-				// nach einem 'Not' darf nur noch eine nested condition folgen
+				// after the 'Not' should be a nested condition
 				if (((UnaryFormula) formula).getChild() instanceof NestedCondition) {
 					return true;
 				} else {
-					// es werden keine unter-formeln von "NOT" unterstützt durch
-					// die CPA, da nicht äquivalent in AGG exportierbar
 					throw new UnsupportedRuleException(
 							UnsupportedRuleException.unsupportedApplicationCondition_noSubformulasOfNOT);
-					// return false;
 				}
 			}
 		}
 		if (formula instanceof NestedCondition) {
 			return true;
 		}
-		return false; // default
+		return false;
 	}
 }
