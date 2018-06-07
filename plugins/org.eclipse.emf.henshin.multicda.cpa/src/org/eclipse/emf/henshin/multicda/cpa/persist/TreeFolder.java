@@ -109,4 +109,8 @@ public class TreeFolder implements Comparable<TreeFolder> {
 			}
 		};
 	}
+	
+	public String getName() {
+		return name;
+	}
 }

@@ -52,7 +52,8 @@ public class ConflictReasonComputation {
 
 			result.addAll(computeConflictReasons(mcr, remainingMCR));
 
-			ConflictReason singletonIR = ReasonFactory.eINSTANCE.createDRReason(mcr);
+			ConflictReason singletonIR;
+			singletonIR = ReasonFactory.eINSTANCE.createDRReason(mcr);
 			result.add(singletonIR);
 		}
 		return result;

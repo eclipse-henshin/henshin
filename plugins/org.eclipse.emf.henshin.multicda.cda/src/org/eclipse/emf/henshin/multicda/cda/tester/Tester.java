@@ -2,6 +2,7 @@ package org.eclipse.emf.henshin.multicda.cda.tester;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,10 +34,11 @@ public class Tester {
 	}
 
 	public Tester(Object instance, String methodName, Object... parameters) {
+		this();
 		init(instance, methodName, parameters);
 	}
 
-	public Tester init(Object instance, String methodName, Object... parameters) {
+	public void init(Object instance, String methodName, Object... parameters) {
 		try {
 			executed = false;
 			failed = false;
@@ -63,9 +65,8 @@ public class Tester {
 
 		} catch (SecurityException e) {
 			failed = true;
-			System.out.println("Access to method " + methodName + getContent(true, parameters) + "  denied");
+			System.out.println("Access to method " + methodName + getContent(true, parameters) + " denied");
 		}
-		return this;
 	}
 
 	public static Object invoke(Object instance, String className, Object... parameters) {
@@ -106,6 +107,12 @@ public class Tester {
 		return null;
 	}
 
+	public Set<? extends Object> getResult() {
+		Set<Object> r = new HashSet<>();
+		r.add(result);
+		return r;
+	}
+
 	@Override
 	public String toString() {
 		return (failed ? executed ? "Execution failed " : "Initialisation failed " : "") + (method == null ? ""
@@ -119,8 +126,11 @@ public class Tester {
 
 	/**
 	 * 
-	 * @param message message to print
-	 * @param errorOut first bool for error showing, second for System print. Default values are false, true.
+	 * @param message
+	 *            message to print
+	 * @param errorOut
+	 *            first bool for error showing, second for System print. Default
+	 *            values are false, true.
 	 * @return
 	 */
 	public String print(String message, boolean... errorOut) {
@@ -178,8 +188,9 @@ public class Tester {
 				return false;
 		}
 		boolean result = index == conditions.size();
-//		if (PrintFounds && result)
-//			print("Found elements: " + elements + "\t\twith conditions: " + getContent(conditions));
+		// if (PrintFounds && result)
+		// print("Found elements: " + elements + "\t\twith conditions: " +
+		// getContent(conditions));
 		return result;
 	}
 
@@ -192,13 +203,18 @@ public class Tester {
 		public final static int PRINT_HEADER = 16;
 		public final static int PRINT_RESULT = 32;
 		public final static int SILENT = 64;
-		public final static int ALL = 127;
+		public final static int PRINT_WHEN_RESULT = 128;
+		public static final int PRINT_COMPLETE = 256;
+		public final static int ALL = 511;
 		private int state = 0;
 
 		/**
 		 * Default is printHeader, printResults and silent on.
 		 * 
-		 * @param options 1:dependency, 2:essential, 3:prepare, 4:Filter DDCRs, 5:noneDeletionSecondRule, 6:printHeader, 7:printResults, 8:silent
+		 * @param options
+		 *            1:dependency, 2:essential, 3:prepare, 4:Filter DDCRs,
+		 *            5:noneDeletionSecondRule, 6:printHeader, 7:printResults, 8:silent,
+		 *            9:print when result found, 10:print whole s2 Set
 		 */
 		public Options(boolean... options) {
 			state += options.length >= 1 && options[0] ? +DEPENDENCY : 0;
@@ -207,6 +223,8 @@ public class Tester {
 			state += (options.length >= 6 && options[5]) || options.length < 5 ? +PRINT_HEADER : 0;
 			state += (options.length >= 7 && options[6]) || options.length < 6 ? +PRINT_RESULT : 0;
 			state += (options.length >= 8 && options[7]) || options.length < 7 ? +SILENT : 0;
+			state += (options.length >= 9 && options[8]) || options.length < 8 ? +PRINT_WHEN_RESULT : 0;
+			state += (options.length >= 10 && options[9]) || options.length < 9 ? +PRINT_COMPLETE : 0;
 		}
 
 		/**
@@ -246,7 +264,9 @@ public class Tester {
 					+ ((state & NONE_DELETION_SECOND_RULE) == NONE_DELETION_SECOND_RULE ? "Second rule none deletion, "
 							: "")
 					+ ((state & PRINT_HEADER) == PRINT_HEADER ? "With header, " : "")
-					+ ((state & PRINT_RESULT) == PRINT_RESULT ? "With results, " : "");
+					+ ((state & PRINT_RESULT) == PRINT_RESULT ? "With results, " : "")
+					+ ((state & PRINT_WHEN_RESULT) == PRINT_WHEN_RESULT ? "Print only if conflicts found, " : "")
+					+ ((state & PRINT_COMPLETE) == PRINT_COMPLETE ? "Print whole S2 Set, " : "");
 			return "Options:" + (result.isEmpty() ? "" : " " + result.substring(0, result.length() - 2) + ".");
 		}
 
@@ -259,6 +279,7 @@ public class Tester {
 							: "")
 					+ ((state & PRINT_HEADER) == PRINT_HEADER ? "With header, " : "")
 					+ ((state & PRINT_RESULT) == PRINT_RESULT ? "With results, " : "")
+					+ ((state & PRINT_WHEN_RESULT) == PRINT_WHEN_RESULT ? "Print only if conflicts found, " : "")
 					+ ((state & SILENT) == SILENT ? "Ignore AGG output, " : "");
 			return "Options:" + (result.isEmpty() ? "" : " " + result.substring(0, result.length() - 2) + ".");
 		}

@@ -20,12 +20,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.DependencyAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.MultiGranularAnalysis;
-import org.eclipse.emf.henshin.multicda.cda.ReasonFactory;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteDeleteConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteReadConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateDeleteDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateReadDependencyReason;
 import org.eclipse.emf.henshin.multicda.cda.runner.RulePreparator;
 import org.eclipse.emf.henshin.multicda.cda.tester.Condition.CDDR;
 import org.eclipse.emf.henshin.multicda.cda.tester.Condition.CDDRConditions;
@@ -45,6 +40,7 @@ import org.eclipse.emf.henshin.multicda.cda.tester.Condition.MCR;
 import org.eclipse.emf.henshin.multicda.cda.tester.Condition.MinimalReasonConditions;
 import org.eclipse.emf.henshin.multicda.cda.tester.Condition.Node;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
+import org.eclipse.emf.henshin.multicda.cda.units.DoubleSpan;
 import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason;
 import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
@@ -54,8 +50,8 @@ import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 public class CDATester extends Tester {
 	public boolean PrintFounds = true;
 	private MultiGranularAnalysis analyser;
-	private Rule first;
-	private Rule second;
+	Set<Rule> first = new HashSet<>();
+	public Set<Rule> second = new HashSet<>();
 	private Set<MinimalReason> minimalReasons = new HashSet<>();
 	private Set<Reason> reasons = new HashSet<>();
 	private Set<Atom> atoms = new HashSet<>();
@@ -68,10 +64,13 @@ public class CDATester extends Tester {
 	}
 
 	/**
-	 * This is a fast execution constructor and can be used with henshin files with just one Rule. This Rule will be executet with itself.
+	 * Executes all rules containing in the henshin file.
 	 * 
-	 * @param henshin path to the Henshin file with just one Rule
-	 * @param options 1:dependency, 2:prepare, 3:nonDeletionSecondRule, 4:printHeader, 5:printResult, 6:silent
+	 * @param henshin
+	 *            path to the Henshin file
+	 * @param options
+	 *            1:dependency, 2:prepare, 3:nonDeletionSecondRule, 4:printHeader,
+	 *            5:printResult, 6:silent
 	 */
 	public CDATester(String henshin, Options... options) {
 		this(henshin, null, null, options);
@@ -80,12 +79,20 @@ public class CDATester extends Tester {
 	/**
 	 * Run CDA
 	 * 
-	 * @param henshin path to the henshin file
-	 * @param firstRule name of the first rule
-	 * @param secondRule name of the second rule
-	 * @param options 1:dependency, 2:prepare, 3:nonDeletionSecondRule, 4:printHeader, 5:printResult, 6:silent
+	 * @param henshin
+	 *            path to the henshin file
+	 * @param firstRule
+	 *            name of the first rule
+	 * @param secondRule
+	 *            name of the second rule
+	 * @param options
+	 *            1:dependency, 2:prepare, 3:nonDeletionSecondRule, 4:printHeader,
+	 *            5:printResult, 6:silent
 	 */
 	public CDATester(String henshin, String firstRule, String secondRule, Options... options) {
+		this.options = new Options();
+		if (options.length != 0)
+			this.options = options[0];
 		if (henshin.isEmpty()
 				|| ((firstRule != null && !firstRule.isEmpty()) ^ (secondRule != null && !secondRule.isEmpty())))
 			return;
@@ -97,79 +104,89 @@ public class CDATester extends Tester {
 			System.err.println(e.getMessage());
 			return;
 		}
-		if (firstRule == null || secondRule == "") {
+		if (firstRule == null) {
 			firstRule = "All";
+			for (Unit u : module.getUnits())
+				if (u instanceof Rule)
+					first.add((Rule) u);
+		} else
+			first.add((Rule) module.getUnit(firstRule));
+		if (secondRule == null) {
 			secondRule = "All";
-			int time = 0;
-			for (Unit u : module.getUnits()) {
-				if (u instanceof Rule) {
-					if (time == 1) {
-						System.err.println(
-								"There are more than one rule in this module. In this case please write one or two rules that should be analysed.");
-						return;
-					}
-					time = 1;
-					first = (Rule) u;
-					second = (Rule) u;
-				}
+			for (Unit u : module.getUnits())
+				if (u instanceof Rule)
+					second.add((Rule) u);
+		} else
+			second.add((Rule) module.getUnit(secondRule));
+
+		for (Rule r1 : first)
+			for (Rule r2 : second) {
+				if (first == null)
+					System.err.println("Rule " + firstRule + " not found");
+				if (second == null)
+					System.err.println("Rule " + secondRule + " not found");
+				if (first == null || second == null)
+					return;
+				CDATester tester = new CDATester(r1, r2, options);
+				analyser = tester.analyser;
+				NAME = tester.NAME;
+				minimalReasons.addAll(tester.getMinimalReasons());
+				atoms.addAll(tester.getAtoms());
+				reasons.addAll(tester.getResult());
 			}
-		} else {
-			first = (Rule) module.getUnit(firstRule);
-			second = (Rule) module.getUnit(secondRule);
-			if (first == null)
-				System.err.println("Rule " + firstRule + " not found");
-			if (second == null)
-				System.err.println("Rule " + secondRule + " not found");
-			if (first == null || second == null)
-				return;
-		}
-		init(options);
 	}
 
 	/**
 	 * Run CDA
 	 * 
-	 * @param first rule
-	 * @param second rule
-	 * @param options 1:dependency, 2:prepare, 3:nonDeletionSecondRule, 4:printHeader, 5:printResult, 6:silent
+	 * @param first
+	 *            rule
+	 * @param second
+	 *            rule
+	 * @param options
+	 *            1:dependency, 2:prepare, 3:nonDeletionSecondRule, 4:printHeader,
+	 *            5:printResult, 6:silent
 	 */
 	public CDATester(Rule first, Rule second, Options... options) {
-		this.first = first;
-		this.second = second;
-		init(options);
+		this.first.add(first);
+		this.second.add(second);
+		this.options = new Options();
+		if (options.length != 0)
+			this.options = options[0];
+		init();
 	}
 
-	protected void init(Options... opt) {
-		options = new Options();
-		if (opt.length != 0)
-			options = opt[0];
+	protected void init() {
 		NAME = "CDA Tester";
-		if (options.is(Options.PRINT_HEADER))
-			System.out.println("\n\t\t  " + first.getName() + " --> " + second.getName() + "\n\t\t\tCDA");
-		assertTrue(print("First rule not found", true, false), first != null && first instanceof Rule);
-		assertTrue(print("Second rule not found", true, false), second != null && second instanceof Rule);
+		Rule f = first.iterator().next();
+		Rule s = second.iterator().next();
+		assertTrue(print("No first rules are found", true, false), f != null);
+		assertTrue(print("No second rules are found", true, false), s != null);
 
 		if (options.is(Options.PREPARE)) {
 			if (first != second) {
-				first = RulePreparator.prepareRule(first);
-				second = RulePreparator.prepareRule(second);
+				f = RulePreparator.prepareRule(f);
+				s = RulePreparator.prepareRule(s);
 			} else {
-				first = RulePreparator.prepareRule(first);
-				second = first;
+				f = RulePreparator.prepareRule(f);
+				s = f;
 			}
 		}
 
 		if (options.is(Options.DEPENDENCY))
-			analyser = new DependencyAnalysis(first, second);
+			analyser = new DependencyAnalysis(f, s);
 		else
-			analyser = new ConflictAnalysis(first, second);
-//		atoms = new HashSet<>(analyser.computeAtoms());
-//		minimalReasons = new HashSet<>(analyser.computeResultsCoarse());
+			analyser = new ConflictAnalysis(f, s);
+
+		// atoms = new HashSet<>(analyser.computeAtoms());
+		// minimalReasons = new HashSet<>(analyser.computeResultsCoarse());
 		reasons = new HashSet<>(analyser.computeResultsFine());
-		if (options.is(Options.PRINT_HEADER))
+		if (options.is(Options.PRINT_HEADER) && (!options.is(Options.PRINT_WHEN_RESULT) || !reasons.isEmpty())) {
+			System.out.println("\n\t\t  " + f.getName() + " --> " + s.getName() + "\n\t\t\tCDA");
 			print(options.toCDAString() + "\n");
-		if (options.is(Options.PRINT_RESULT)) {
-			CDATester.print(new TreeSet<>(reasons));
+		}
+		if (options.is(Options.PRINT_RESULT) && (!options.is(Options.PRINT_WHEN_RESULT) || !reasons.isEmpty())) {
+			CDATester.print(new TreeSet<>(reasons), false, options.is(Options.PRINT_COMPLETE));
 			print();
 			System.out.println();
 		}
@@ -182,30 +199,8 @@ public class CDATester extends Tester {
 	/**
 	 * @return
 	 */
-	public Set<Reason> getReasons() {
+	public Set<Reason> getResult() {
 		return reasons;
-	}
-
-	/**
-	 * @return
-	 */
-	public Set<Reason> getDDReasons() {
-		Set<Reason> result = new HashSet<>();
-		for (Reason ddcr : reasons)
-			if (ddcr instanceof DeleteDeleteConflictReason || ddcr instanceof CreateDeleteDependencyReason)
-				result.add(ddcr);
-		return result;
-	}
-
-	/**
-	 * @return
-	 */
-	public Set<Reason> getDRReasons() {
-		Set<Reason> result = new HashSet<>();
-		for (Reason drcr : reasons)
-			if (drcr instanceof DeleteReadConflictReason || drcr instanceof CreateReadDependencyReason)
-				result.add(drcr);
-		return result;
 	}
 
 	/**
@@ -242,7 +237,7 @@ public class CDATester extends Tester {
 					}
 				}
 			}
-			//______________________new conditions check________________________
+			// ______________________new conditions check________________________
 			if ((type == DRCRConditions.class || type == DUCRConditions.class || type == DDCRConditions.class)
 					&& options.is(Options.DEPENDENCY)) {
 				if (printError)
@@ -257,12 +252,12 @@ public class CDATester extends Tester {
 			}
 			if (type == Conditions.class || type == DRCRConditions.class || type == DUCRConditions.class
 					|| type == CRDRConditions.class || type == CUDRConditions.class)
-				for (Span drReason : getDRReasons())
+				for (Reason drReason : getDRReasons())
 					if (iChecker(drReason, type, condition.name, edgeNode))
 						return true;
 			if (type == Conditions.class || type == DDCRConditions.class || type == DUCRConditions.class
 					|| type == CDDRConditions.class || type == CUDRConditions.class)
-				for (Span ddReason : getDDReasons())
+				for (Reason ddReason : getDDReasons())
 					if (iChecker(ddReason, type, condition.name, edgeNode))
 						return true;
 			if (printError)
@@ -271,7 +266,7 @@ public class CDATester extends Tester {
 		} else {
 			if (condition instanceof CUDR && options.is(Options.DEPENDENCY)
 					|| condition instanceof DUCR && !options.is(Options.DEPENDENCY)) {
-				if (!condition.proove(getReasons().size())) {
+				if (!condition.proove(getResult().size())) {
 					print(condition + " failed", true);
 					return false;
 				}
@@ -305,7 +300,25 @@ public class CDATester extends Tester {
 
 	}
 
-	private boolean iChecker(Span conflictReason, Class<?> type, String shortName, List<Condition> edgeNodes) {
+	private Set<? extends Reason> getDDReasons() {
+		Set<Reason> result = new HashSet<>();
+		for (Reason r : getResult())
+			if (r instanceof DoubleSpan && ((DoubleSpan) r).isDoubleSpan())
+				result.add(r);
+
+		return result;
+	}
+
+	private Set<? extends Reason> getDRReasons() {
+		Set<Reason> result = new HashSet<>();
+		for (Reason r : getResult())
+			if (!(r instanceof DoubleSpan) || !((DoubleSpan) r).isDoubleSpan())
+				result.add(r);
+
+		return result;
+	}
+
+	private boolean iChecker(Reason conflictReason, Class<?> type, String shortName, List<Condition> edgeNodes) {
 		Set<EObject> elements = new HashSet<EObject>(conflictReason.getDeletionElementsInRule1());
 		if (!checked.contains(conflictReason.getClass().getSimpleName() + "" + elements)
 				&& checkReasons(elements, edgeNodes)) {
@@ -329,20 +342,26 @@ public class CDATester extends Tester {
 	/**
 	 * Prints and returns the printed String of the given reasons
 	 * 
-	 * @param reasons to print
-	 * @param errorOut describes if the printed String should be an Error and if the output String should be printed at all or just returned back.
+	 * @param reasons
+	 *            to print
+	 * @param errorCompleteOut
+	 *            describes if the printed String should be an Error and if the
+	 *            output String should be printed at all or just returned back.
 	 *            default settings are: error = false, out = true
 	 * @return printed String of reasons
 	 */
-	public static String print(Set<? extends Reason> reasons, boolean... errorOut) {
+	public static String print(Set<? extends Reason> reasons, boolean... errorCompleteOut) {
 		String result = "";
+		boolean error = errorCompleteOut.length != 0 && errorCompleteOut[0];
+		boolean complete = errorCompleteOut.length < 2 || errorCompleteOut[1];
+		boolean out = errorCompleteOut.length < 3 || errorCompleteOut[2];
 		for (Reason reason : reasons)
-			result += reason.toS2String() + "\n";
-		if (errorOut.length <= 1 || errorOut.length > 1 && errorOut[1])
-			if (errorOut.length == 0 || errorOut.length != 0 && !errorOut[0])
-				System.out.println(result);
-			else
+			result += reason.toS2String(complete) + "\n";
+		if (out)
+			if (error)
 				System.err.println("\n" + result + "\n");
+			else
+				System.out.println(result);
 		return result;
 
 	}
@@ -352,30 +371,32 @@ public class CDATester extends Tester {
 	 * 
 	 * @return list with rule1 and rule2
 	 */
-	public List<Rule> getRules() {
-		ArrayList<Rule> result = new ArrayList<>();
-		result.add(first);
-		result.add(second);
+	public Set<Rule> getRules() {
+		Set<Rule> result = new HashSet<>(first);
+		result.addAll(second);
 		return result;
 	}
 
-	private List<CriticalPair> cps = null;
+	private Set<CriticalPair> cps = null;
 
 	/**
-	 * Compares reasons with given Critical Pairs. If a match was not found it can be asserted.
+	 * Compares reasons with given Critical Pairs. If a match was not found it can
+	 * be asserted.
 	 * 
-	 * @param cps to compare
-	 * @param asserts true if an assertion should be done by failed comparison
+	 * @param cps
+	 *            to compare
+	 * @param asserts
+	 *            true if an assertion should be done by failed comparison
 	 * @return Map of matched critical Pairs and Reasons
 	 */
-	public Map<CriticalPair, Reason> compare(List<CriticalPair> cps, boolean... asserts) {
+	public Map<CriticalPair, Reason> compare(Set<CriticalPair> cps, boolean... asserts) {
 		this.cps = cps;
-		comparedResults = Utils.compare(cps, getReasons());
+		comparedResults = Utils.compare(cps, getResult());
 		assertTrue(
 				"\nNot all CPs are perfectly matched with CRs.\nFound matches: " + comparedResults.size() + " of "
-						+ getReasons().size() + " CRs and " + cps.size() + " CPs",
+						+ getResult().size() + " CRs and " + cps.size() + " CPs",
 				(asserts.length == 0 || !asserts[0])
-						|| comparedResults.size() == getReasons().size() && comparedResults.size() == cps.size());
+						|| comparedResults.size() == getResult().size() && comparedResults.size() == cps.size());
 		return comparedResults;
 	}
 
@@ -385,9 +406,9 @@ public class CDATester extends Tester {
 		if (iRest > 0)
 			print("Not all Conflict Reasons are tested. " + iRest + (iRest == 1 ? " is" : " are") + " remaining.");
 		if (comparedResults != null)
-			print("Found matches: " + comparedResults.size() + " of " + getReasons().size() + " Reasons and "
+			print("Found matches: " + comparedResults.size() + " of " + getResult().size() + " Reasons and "
 					+ cps.size() + " Critical Pairs",
-					comparedResults.size() != getReasons().size() || comparedResults.size() != cps.size());
+					comparedResults.size() != getResult().size() || comparedResults.size() != cps.size());
 		super.ready();
 		reset();
 	}
@@ -402,5 +423,9 @@ public class CDATester extends Tester {
 		else
 			return super.toString();
 
+	}
+
+	public Options getOptions() {
+		return options;
 	}
 }

@@ -208,8 +208,7 @@ public abstract class Utils {
 	}
 
 	/**
-	 * identify the type of the both nodes which is the subtype of the other
-	 * node.
+	 * identify the type of the both nodes which is the subtype of the other node.
 	 * 
 	 * @param node1
 	 * @param node2
@@ -240,7 +239,7 @@ public abstract class Utils {
 		return true;
 	}
 
-	public static Map<CriticalPair, Reason> compare(List<CriticalPair> cps, Set<Reason> reasons) {
+	public static Map<CriticalPair, Reason> compare(Set<CriticalPair> cps, Set<Reason> reasons) {
 		Map<CriticalPair, Reason> result = new HashMap<>();
 		if (reasons == null || cps == null)
 			return result;
@@ -333,11 +332,19 @@ public abstract class Utils {
 			String name1 = "";
 			if (image1R != null) {
 				Attribute a1R = image1R.getAttribute(a1L.getType());
-				if (r.getRule1().getDescription() != null && r.getRule1().getDescription().equals("INV"))
+				if (a1R != null && a1L.getValue().equals(a1R.getValue()))
+					name1 = a1L.getValue();
+				else if (r.getRule1().getDescription() != null && r.getRule1().getDescription().equals("INV")) // TODO:
+																												// Dirty:
+																												// revert
+																												// the
+																												// inverted
+																												// rule
 					name1 = (a1R == null ? "_" : a1R.getValue()) + "->" + a1L.getValue();
 				else
 					name1 = a1L.getValue() + "->" + (a1R == null ? "_" : a1R.getValue());
-			}
+			} else
+				name1 = a1L.getValue();
 			Node image2L = r.getMappingIntoRule2(node).getImage();
 			Attribute a2L = image2L.getAttribute(a1L.getType());
 			String name2 = (a2L == null ? "_" : a2L.getValue());
@@ -384,8 +391,8 @@ public abstract class Utils {
 
 	public static Map<Node, Set<Pair<Attribute, Attribute>>> getChangeNodes(Rule rule1) {
 		Map<Node, Set<Pair<Attribute, Attribute>>> changeUse = new HashMap<>();
-		for (Node nR : rule1.getRhs().getNodes()) {
-			Pair<Node, Set<Pair<Attribute, Attribute>>> attributes = getChangeNodes(nR);
+		for (Node nL : rule1.getLhs().getNodes()) {
+			Pair<Node, Set<Pair<Attribute, Attribute>>> attributes = getChangeNodes(nL);
 			if (attributes != null)
 				if (!attributes.second.isEmpty())
 					changeUse.put(attributes.first, attributes.second);
@@ -393,48 +400,44 @@ public abstract class Utils {
 		return changeUse;
 	}
 
-	public static Pair<Node, Set<Pair<Attribute, Attribute>>> getChangeNodes(Node nR) {
-		if (nR == null)
-			return null;
-		if (nR.getGraph().getRule() == null)
-			return new Pair<>(nR, new HashSet<>());
-		Node nL = nR.getGraph().getRule().getMappings().getOrigin(nR);
-		if (nL == null) {
-			Node temp = nR.getGraph().getRule().getMappings().getImage(nR, null);
-			if (temp == null)
-				return new Pair<>(nR, new HashSet<>());
-			nR = temp;
-			nL = nR.getGraph().getRule().getMappings().getOrigin(nR);
-		}
+	public static Pair<Node, Set<Pair<Attribute, Attribute>>> getChangeNodes(Node nL) {
 		Pair<Node, Set<Pair<Attribute, Attribute>>> attributes = new Pair<>(nL, new HashSet<>());
-		if (nL != null && nR != null) {
+		if (nL == null)
+			return null;
+		if (nL.getGraph().getRule() == null)
+			return attributes;
+		Node nR = nL.getGraph().getRule().getMappings().getImage(nL, null);
+		if (nR == null) {
+			Node temp = nL.getGraph().getRule().getMappings().getOrigin(nL);
+			if (temp != null) {
+				nL = temp;
+				nR = nL.getGraph().getRule().getMappings().getImage(nL, null);
+			}
+		}
+		if (nR != null) {
 			for (Attribute aL : nL.getAttributes()) {
 				Attribute aR = nR.getAttribute(aL.getType());
-				if (aR == null || !aL.getValue().equals(aR.getValue()))
+				if (aR == null || !aR.getValue().equals(aL.getValue()))
 					attributes.second.add(new Pair<>(aL, aR));
 			}
-			for (Attribute aR : nR.getAttributes()) {
-				Attribute aL = nL.getAttribute(aR.getType());
-				if (aL == null)
-					attributes.second.add(new Pair<>(aL, aR));
-			}
-		}
+			for (Attribute aR : nR.getAttributes())
+				if (nL.getAttribute(aR.getType()) == null)
+					attributes.second.add(new Pair<>(null, aR));
+		} else
+			for (Attribute aL : nL.getAttributes())
+				attributes.second.add(new Pair<>(aL, null));
 		return attributes;
 	}
 
 	public static boolean equalAttributes(Attribute a1, Attribute a2) {
 		Rule r1 = a1.getNode().getGraph().getRule();
 		Rule r2 = a2.getNode().getGraph().getRule();
-		boolean p1 = false;
-		boolean p2 = false;
 		for (Parameter p : r1.getParameters())
-			if (p1 = p.getName().equals(a1.getValue()))
-				break;
+			if (p.getName().equals(a1.getValue()))
+				return true;
 		for (Parameter p : r2.getParameters())
-			if (p2 = p.getName().equals(a2.getValue()))
-				break;
-		if (!p1 && !p2)
-			return a1.getValue().equals(a2.getValue());
-		return true;
+			if (p.getName().equals(a2.getValue()))
+				return true;
+		return a1.getValue().equals(a2.getValue());
 	}
 }

@@ -41,8 +41,9 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * This view lists the result of a critical pair analysis run and provides the ability to open the conjugate files of a
- * single result(the both involved rules and the minimal model).
+ * This view lists the result of a critical pair analysis run and provides the
+ * ability to open the conjugate files of a single result(the both involved
+ * rules and the minimal model).
  * 
  * @author Kristopher Born
  *
@@ -78,8 +79,6 @@ public class CpaResultsView extends ViewPart {
 			TreeFolder eCP = new TreeFolder("Further essential critical pairs");
 			TreeFolder CP = new TreeFolder("Further critical pairs");
 
-			int multi1 = 0;
-			int multi2 = 0;
 			for (String ruleCombinationName : contentCDAC.keySet()) {
 				TreeFolder treeFolder = new TreeFolder(ruleCombinationName);
 				C.addChild(treeFolder);
@@ -88,7 +87,6 @@ public class CpaResultsView extends ViewPart {
 
 				for (SpanNode spanNode : theCriticalPairsForTheRulecombination) {
 					treeFolder.addChild(spanNode);
-					multi1++;
 				}
 			}
 			for (String ruleCombinationName : contentCDAF.keySet()) {
@@ -98,15 +96,21 @@ public class CpaResultsView extends ViewPart {
 				List<SpanNode> theCriticalPairsForTheRulecombination = contentCDAF.get(ruleCombinationName);
 
 				for (SpanNode spanNode : theCriticalPairsForTheRulecombination) {
-					treeFolder.addChild(spanNode); 
-					multi2++;
+					treeFolder.addChild(spanNode);
 				}
 			}
-			if (contentCDAB != null && contentCDAB.size() != 0) {
-				TreeFolder treeFolder = new TreeFolder(
-						(multi1 > 1 || multi2 > 1 ? "Conflicts" : "Conflict") + " detected");
+			for (String ruleCombinationName : contentCDAB.keySet()) {
+				String c = "";
+				String d = "";
+				for (SpanNode spanNodes : contentCDAB.get(ruleCombinationName))
+					if (spanNodes.conflict)
+						c = "conflicts";
+					else
+						d = "dependencies";
+				String name = ruleCombinationName + ": " + c + (!c.isEmpty() && !d.isEmpty() ? " and " : " ") + d
+						+ " detected.";
+				TreeFolder treeFolder = new TreeFolder(name);
 				B.addChild(treeFolder);
-
 			}
 
 			for (String ruleCombinationName : initialCpaResult.keySet()) {
@@ -163,8 +167,9 @@ public class CpaResultsView extends ViewPart {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
-		 * java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.
+		 * viewers.Viewer, java.lang.Object)
 		 */
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
@@ -174,7 +179,8 @@ public class CpaResultsView extends ViewPart {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -191,7 +197,8 @@ public class CpaResultsView extends ViewPart {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
@@ -204,7 +211,8 @@ public class CpaResultsView extends ViewPart {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
@@ -218,7 +226,8 @@ public class CpaResultsView extends ViewPart {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {

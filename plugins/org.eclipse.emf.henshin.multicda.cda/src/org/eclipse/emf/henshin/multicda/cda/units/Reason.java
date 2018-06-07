@@ -97,6 +97,10 @@ public abstract class Reason extends Span implements Comparable<Reason> {
 		return edgeConflictAtoms;
 	}
 
+	public boolean isDoubleReason() {
+		return this instanceof DoubleSpan && ((DoubleSpan) this).isDoubleSpan();
+	}
+
 	public Set<EssentialConflictReason> getAllDerivedConflictReasons(Set<ConflictAtom> uncoveredConflictAtoms) {
 		Set<EssentialConflictReason> result = new HashSet<EssentialConflictReason>();
 		if (!(this instanceof EssentialConflictReason)) {// this.toShortString()
@@ -240,14 +244,22 @@ public abstract class Reason extends Span implements Comparable<Reason> {
 		return allUseNodesOfLhsOfR2;
 	}
 
-	public String toS2String() {
+	public String toS2String(boolean complete) {
 		String result = "";
-		if (this instanceof DoubleSpan) {
-			int size = ((DoubleSpan) this).getS2Set().size() - 1;
-			Reason s2 = ((DoubleSpan) this).getS2Set().iterator().next();
-			result = TAG + ": " + this.getGraph().getEdges() + "  |\t" + this.getGraph().getNodes() + "  -+->  "
-					+ s2.TAG + ": " + s2.getGraph().getEdges() + "  |\t" + s2.getGraph().getNodes()
-					+ (size > 0 ? "... " + size + " more" : "");
+		if (isDoubleReason()) {
+			if (!complete) {
+				int size = ((DoubleSpan) this).getS2Set().size() - 1;
+				Reason s2 = ((DoubleSpan) this).getS2Set().iterator().next();
+				result = TAG + ": " + this.getGraph().getEdges() + "  |\t" + this.getGraph().getNodes() + "  -+->  "
+						+ s2.TAG + ": " + s2.getGraph().getEdges() + "  |\t" + s2.getGraph().getNodes()
+						+ (size > 0 ? "... " + size + " more" : "");
+			} else {
+				result = TAG + ": " + this.getGraph().getEdges() + "  |\t" + this.getGraph().getNodes() + "  -+->  ";
+				String s2String = "";
+				for (Reason s2 : ((DoubleSpan) this).getS2Set())
+					s2String += ", " + s2.TAG + ": " + s2.getGraph().getEdges() + "  |\t" + s2.getGraph().getNodes();
+				result += s2String.substring(2);
+			}
 		} else
 			result = TAG + ": " + this.getGraph().getEdges() + "  |\t" + this.getGraph().getNodes();
 		return result;
@@ -258,7 +270,7 @@ public abstract class Reason extends Span implements Comparable<Reason> {
 		return TAG + ": " + this.getGraph().getEdges() + "  |\t" + this.getGraph().getNodes();
 	}
 
-/*
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
@@ -312,13 +324,13 @@ public abstract class Reason extends Span implements Comparable<Reason> {
 			if (!found)
 				return false;
 		}
-		if (this instanceof DoubleSpan) {
+		if (this instanceof DoubleSpan && ((DoubleSpan) this).isDoubleSpan()) {
 			Set<Reason> oS2 = ((DoubleSpan) obj).getS2Set();
 			Set<Reason> S2 = ((DoubleSpan) this).getS2Set();
 			if (oS2.size() != S2.size())
 				return false;
-//			return oS2.equals(S2); //Comparison of two Sets might be not enough.
-			Set<Reason> checked = new HashSet<>(); //Strong comparison of s2 sets
+			// return oS2.equals(S2); //Comparison of two Sets might be not enough.
+			Set<Reason> checked = new HashSet<>(); // Strong comparison of s2 sets
 			for (Reason reason1 : S2) {
 				boolean found = false;
 				for (Reason reason2 : oS2)
@@ -332,7 +344,7 @@ public abstract class Reason extends Span implements Comparable<Reason> {
 	}
 
 	public boolean invertNamesForHash = false;
-	public static final String NODE_SEPARATOR = " ° ";
+	public static final String NODE_SEPARATOR = "_";
 
 	/*
 	 * (non-Javadoc)
@@ -347,7 +359,7 @@ public abstract class Reason extends Span implements Comparable<Reason> {
 			hashN += getHash(n);
 		for (Edge e : graph.getEdges())
 			hashE += getHash(e);
-		return TAG.hashCode() + hashN + hashE + getRule1().hashCode() * 3 + getRule2().hashCode();
+		return TAG.hashCode() + hashN + hashE + getRule1().hashCode() * 3 + getRule2().hashCode() + sortID;
 	}
 
 	private int getHash(GraphElement n) {
@@ -378,7 +390,6 @@ public abstract class Reason extends Span implements Comparable<Reason> {
 	public final void print() {
 		System.out.println(this);
 	}
-
 	@Override
 	public int compareTo(Reason o) {
 		if (o == null)
@@ -396,7 +407,7 @@ public abstract class Reason extends Span implements Comparable<Reason> {
 		if ((value = no1.length() - no2.length()) != 0)
 			return value;
 
-		if (this instanceof DoubleSpan) {
+		if (isDoubleReason() && o.isDoubleReason()) {
 			DoubleSpan T = (DoubleSpan) this;
 			DoubleSpan O = (DoubleSpan) o;
 			no1 = T.getS2Set().toString();

@@ -27,12 +27,8 @@ import org.eclipse.emf.henshin.multicda.cda.Pushout;
 import org.eclipse.emf.henshin.multicda.cda.ReasonFactory;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeAttrConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteAttrConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalChangeAttrConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason;
 import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteAttrConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteReadConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cda.units.SpanMappings;
 
@@ -67,12 +63,7 @@ public class MinimalReasonComputation {
 	public void computeMinimalConflictReasons(Reason s1, Set<MinimalConflictReason> result) {
 		if (!checked.contains(s1)) {
 			if (isMinReason(s1)) {
-				if (s1 instanceof ChangeAttrConflictAtom)
-					result.add(new MinimalChangeAttrConflictReason(s1));
-				else if (s1 instanceof DeleteAttrConflictAtom)
-					result.add(new MinimalDeleteAttrConflictReason(s1));
-				else
-					result.add(new MinimalDeleteReadConflictReason(s1));
+				result.add((MinimalConflictReason) ReasonFactory.eINSTANCE.createMinimalReason(s1));
 				return;
 			}
 			Set<MinimalConflictReason> extendedSpans = findExtensions(s1);

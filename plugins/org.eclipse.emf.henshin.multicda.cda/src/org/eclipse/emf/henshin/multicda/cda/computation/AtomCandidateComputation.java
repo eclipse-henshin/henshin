@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeAttrConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateAttrConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteAttrConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteUseConflictAtom;
 
@@ -47,16 +48,17 @@ public class AtomCandidateComputation {
 			addDeleteUseAtomCandidates(rule1, rule2, result, el1);
 		}
 
-		//WARNING: Preliminary implementation, not tested yet.
+		// WARNING: Preliminary implementation, not tested yet.
 		if (ConflictAnalysis.COMPLETE_COMPUTATION) {
 			Map<Node, Set<Pair<Attribute, Attribute>>> changeUse = Utils.getChangeNodes(rule1);
 			for (Node n1 : changeUse.keySet())
-				addChangeUseAtomCandidates(rule1, rule2, result, n1, changeUse.get(n1));
+				if (n1.getAction().getType() != Type.DELETE)
+					addChangeUseAtomCandidates(rule1, rule2, result, n1, changeUse.get(n1));
 		}
 		return result;
 	}
 
-	//WARNING: Preliminary implementation, not tested yet.
+	// WARNING: Preliminary implementation, not tested yet.
 	protected void addChangeUseAtomCandidates(Rule rule1, Rule rule2, List<Atom> result, Node n1,
 			Set<Pair<Attribute, Attribute>> changeUseAttrs1) {
 		for (Node n2 : rule2.getLhs().getNodes()) {
@@ -80,8 +82,8 @@ public class AtomCandidateComputation {
 							createUse = true;
 							break;
 						} else if (a1L != null && a1R != null && !a1R.getValue().equals(a2L.getValue())
-								&& Utils.equalAttributes(a1L, a2L)){
-//								&& a1L.getValue().equals(a2L.getValue())) {
+								&& Utils.equalAttributes(a1L, a2L)) {
+							// && a1L.getValue().equals(a2L.getValue())) {
 							changeUse = true;
 							break;
 						} else if (a1R == null && Utils.equalAttributes(a1L, a2L)) {
@@ -94,7 +96,9 @@ public class AtomCandidateComputation {
 					Set<Mapping> rule1Mappings = new HashSet<Mapping>();
 					Set<Mapping> rule2Mappings = new HashSet<Mapping>();
 					Utils.addNodeToGraph(n1, (Node) n2, S1, rule1Mappings, rule2Mappings);
-					if (changeUse || createUse)
+					if (createUse)
+						result.add(new CreateAttrConflictAtom(rule1Mappings, S1, rule2Mappings));
+					else if (changeUse)
 						result.add(new ChangeAttrConflictAtom(rule1Mappings, S1, rule2Mappings));
 					else
 						result.add(new DeleteAttrConflictAtom(rule1Mappings, S1, rule2Mappings));

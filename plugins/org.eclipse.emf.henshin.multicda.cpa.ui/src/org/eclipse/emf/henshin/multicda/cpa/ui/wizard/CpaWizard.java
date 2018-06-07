@@ -77,9 +77,11 @@ public class CpaWizard extends Wizard {
 	HashMap<Rule, String> rulesAndAssociatedFileNames;
 
 	/**
-	 * Constructor of the wizard for configuring the critical pair analysis in the user interface.
+	 * Constructor of the wizard for configuring the critical pair analysis in the
+	 * user interface.
 	 * 
-	 * @param selectedFiles The List of Files which serve as source for the rules.
+	 * @param selectedFiles
+	 *            The List of Files which serve as source for the rules.
 	 */
 	public CpaWizard(List<?> selectedFiles) {
 
@@ -111,7 +113,8 @@ public class CpaWizard extends Wizard {
 					}
 				}
 			}
-			// filename for the options. Defined here static for the usage of the options with this wizard.
+			// filename for the options. Defined here static for the usage of the options
+			// with this wizard.
 			optionsFile = resultPath + ".cda.options";
 		}
 	}
@@ -143,8 +146,8 @@ public class CpaWizard extends Wizard {
 	Map<String, List<SpanNode>> otherCpaResult = new HashMap<>();
 
 	/**
-	 * By finishing the Wizard the calculation of the critical pairs starts and afterwards the results are loaded within
-	 * the <code>CPAView</code>.
+	 * By finishing the Wizard the calculation of the critical pairs starts and
+	 * afterwards the results are loaded within the <code>CPAView</code>.
 	 */
 	@Override
 	public boolean performFinish() {
@@ -160,14 +163,14 @@ public class CpaWizard extends Wizard {
 		Map<Rule, Rule> ignoredRulePairs = new HashMap<>();
 		String rulePairs = "";
 		Set<GranularityType> gs = options.granularities;
-		if (gs.contains(GranularityType.BINARY) || gs.contains(GranularityType.COARSE)
-				|| gs.contains(GranularityType.FINE))
-			for (Rule r1 : selectedRules.first)
-				for (Rule r2 : selectedRules.second)
-					if (r1.isMultiRule() || r2.isMultiRule()) {
-						ignoredRulePairs.put(r1, r2);
-						rulePairs += "\n" + r1.getName() + " -> " + r2.getName();
-					}
+		for (Rule r1 : selectedRules.first) {
+			for (Rule r2 : selectedRules.second) {
+				if (r1.isMultiRule() || r2.isMultiRule()) {
+					ignoredRulePairs.put(r1, r2);
+					rulePairs += "\n" + r1.getName() + " -> " + r2.getName();
+				}
+			}
+		}
 		if (!ignoredRulePairs.isEmpty()) {
 			JOptionPane.showMessageDialog(null,
 					"Multirule kindness of rules is not fully supported by the multicda jet. The following rule pairs will be ignored by binary, coarse and fine granularities:\n"
@@ -215,18 +218,6 @@ public class CpaWizard extends Wizard {
 									desc = title + "\t" + (worked * 100 / totalWork) + "%" + " " + time(timeLeft) + "\t"
 											+ r1.getName() + "  --conflict-->  " + r2.getName();
 								}
-//								Map<Rule, Pair<Set<Reason>, Set<Reason>>> m1 = cdaResult.get(r1);
-//								if (m1 == null) {
-//									m1 = new HashMap<>();
-//									cdaResult.put(r1, m1);
-//								}
-//								Pair<Set<Reason>, Set<Reason>> results = m1.get(r2);
-//								if (results == null) {
-//									results = new Pair<>(new HashSet<>(), new HashSet<>());
-//									m1.put(r2, results);
-//								}
-//								Set<Reason> cdaResultC = results.first;
-//								Set<Reason> cdaResultF = results.second;
 								Copier r1C = new Copier();
 								Copier r2C = new Copier();
 								Rule r1s = (Rule) r1C.copy(r1);
@@ -284,19 +275,6 @@ public class CpaWizard extends Wizard {
 								Rule r2s = (Rule) r2C.copy(r2);
 								r1C.copyReferences();
 								r2C.copyReferences();
-
-//								Map<Rule, Pair<Set<Reason>, Set<Reason>>> m1 = cdaResult.get(r1);
-//								if (m1 == null) {
-//									m1 = new HashMap<>();
-//									cdaResult.put(r1, m1);
-//								}
-//								Pair<Set<Reason>, Set<Reason>> results = m1.get(r2);
-//								if (results == null) {
-//									results = new Pair<>(new HashSet<>(), new HashSet<>());
-//									m1.put(r2, results);
-//								}
-//								Set<Reason> cdaResultC = results.first;
-//								Set<Reason> cdaResultF = results.second;
 								monitor.setTaskName(desc);
 								if (!ignoredRulePairs.containsKey(r1) && !ignoredRulePairs.containsKey(r2))
 									if (!(options.isIgnoreSameRules() && r1 == r2)) {
@@ -335,13 +313,9 @@ public class CpaWizard extends Wizard {
 					cpaResult = CpaByAGG.joinCPAResults(conflictResult, dependencyResult);
 
 					int selected = cdaResultB.size() + cdaResultC.size() + cdaResultF.size();
-					if (cpaResult == null)
-						monitor.beginTask("Creating result tree ...", selected);
-					else
-						monitor.beginTask("Creating result tree ...",
-								selected + cpaResult.getInitialCriticalPairs().size()
-										+ cpaResult.getEssentialCriticalPairs().size()
-										+ cpaResult.getOtherCriticalPairs().size());
+					if (cpaResult != null)
+						selected += cpaResult.getOtherCriticalPairs().size();
+					monitor.beginTask("Creating result tree ...", selected);
 
 					ResourceSet resSet = new ResourceSetImpl();
 					resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore",
@@ -349,8 +323,6 @@ public class CpaWizard extends Wizard {
 
 					String path = getUniquePath();
 
-					Pair<Map<String, List<SpanNode>>, Map<String, List<SpanNode>>> persisted = CpEditorUtil
-							.persistCdaResult(cdaResult, path, monitor);
 					persistedB = CpEditorUtil.persistCdaResult(cdaResultB, path);
 					monitor.worked(cdaResultB.size());
 					persistedC = CpEditorUtil.persistCdaResult(cdaResultC, path);
@@ -361,30 +333,27 @@ public class CpaWizard extends Wizard {
 						List<CriticalPair> essential = new ArrayList<>();
 						List<CriticalPair> initial = new ArrayList<>();
 						List<CriticalPair> other = new ArrayList<>();
-						if (cpaResult != null) {
-							if (options.initialCP)
-								initial = cpaResult.getInitialCriticalPairs();
-							if (options.essentialCP) {
-								essential = cpaResult.getEssentialCriticalPairs();
-								if (initial != null)
-									essential.removeAll(initial);
-							}
-							if (options.otherCP) {
-								other = cpaResult.getOtherCriticalPairs();
-//								if (initial != null) //TODO: Das löschen geht noch nicht, da es keine vernünftige equals methode gibt
-//									other.removeAll(initial);
-//								if (essential != null)
-//									other.removeAll(essential);
-							}
+						if (options.initialCP)
+							initial = cpaResult.getInitialCriticalPairs();
+						if (options.essentialCP) {
+							essential = cpaResult.getEssentialCriticalPairs();
+							if (initial != null)
+								essential.removeAll(initial);
+						}
+						if (options.otherCP) {
+							other = cpaResult.getOtherCriticalPairs();
+							// if (initial != null) //TODO: Das löschen geht noch nicht, da es keine
+							// vernünftige equals methode gibt
+							// other.removeAll(initial);
+							// if (essential != null)
+							// other.removeAll(essential);
 						}
 
-
-						monitor.worked(initial.size());
+						monitor.done();
+						initialCpaResult = CPAUtility.persistCpaResult(initial, path);
 						essentialCpaResult = CPAUtility.persistCpaResult(essential, path);
-						monitor.worked(essential.size());
 						otherCpaResult = CPAUtility.persistCpaResult(other, path);
 					}
-					monitor.done();
 				}
 
 				private String getUniquePath() {
@@ -435,7 +404,9 @@ public class CpaWizard extends Wizard {
 	}
 
 	private CPAResult runCPA(Rule r1, Rule r2, CDAOptions options, boolean conf, boolean essential) {
-
+		ConflictAnalysis.unnamedNodeID = 0;
+		r1 = ConflictAnalysis.prepare(r1);
+		r2 = ConflictAnalysis.prepare(r2);
 		boolean essentialTemp = options.essentialCP;
 		options.essentialCP = essential;
 		CPAResult result;

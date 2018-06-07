@@ -41,6 +41,8 @@ public class SpanNode extends TreeFolder {
 	String numberedNameOfCPKind;
 
 	private URI nodeURI;
+	
+	public final boolean conflict;
 
 	/**
 	 * Default constructor.
@@ -49,13 +51,14 @@ public class SpanNode extends TreeFolder {
 	 * @param secondRuleURI The <code>URI</code> of the second rule.
 	 * @param nodeURI
 	 */
-	public SpanNode(String numberedNameOfCPKind, URI firstRuleURI, URI secondRuleURI, URI minimalModelURI) {
-		this(numberedNameOfCPKind, firstRuleURI, secondRuleURI, minimalModelURI, null);
+	public SpanNode(String numberedNameOfCPKind, URI firstRuleURI, URI secondRuleURI, URI minimalModelURI, boolean conflict) {
+		this(numberedNameOfCPKind, firstRuleURI, secondRuleURI, minimalModelURI, null, conflict);
 	}
 
 	public SpanNode(String numberedNameOfCPKind, URI firstRuleURI, URI secondRuleURI, URI minimalModelURI,
-			URI nodeURI) {
+			URI nodeURI, boolean conflict) {
 		super(numberedNameOfCPKind);
+		this.conflict = conflict;
 		this.firstRuleURI = firstRuleURI;
 		this.numberedNameOfCPKind = numberedNameOfCPKind;
 		this.secondRuleURI = secondRuleURI;

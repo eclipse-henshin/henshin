@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author Jevgenij Huebert 18.05.2018
- *         This interface provides usage of those reasons, that contains s2. (for instance Delete Delete Conflict Reason)
- *         All Reasons with same s1 span are summarized in one DoubleSpan object with a set of s2 spans
+ * @author Jevgenij Huebert 18.05.2018 This interface provides usage of those
+ *         reasons, that contains s2. (for instance Delete Delete Conflict
+ *         Reason) All Reasons with same s1 span are summarized in one
+ *         DoubleSpan object with a set of s2 spans
  */
 public interface DoubleSpan {
 	class Extensions {
@@ -37,5 +38,9 @@ public interface DoubleSpan {
 
 	default Reason getS1() {
 		return Extensions.s1.get(toString());
+	}
+
+	default boolean isDoubleSpan() {
+		return getS2Set() != null && !getS2Set().isEmpty();
 	}
 }

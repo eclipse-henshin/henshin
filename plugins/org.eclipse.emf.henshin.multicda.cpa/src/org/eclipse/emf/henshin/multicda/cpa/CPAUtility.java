@@ -57,7 +57,7 @@ import org.eclipse.gmf.runtime.notation.NotationFactory;
  */
 public class CPAUtility {
 
-	public static final String SEPARATOR = " ° ";
+	public static final String SEPARATOR = "_";
 
 	/**
 	 * Persists the results of a critical pair analysis in the file system.
@@ -208,7 +208,7 @@ public class CPAUtility {
 			node.setName(renameMap.get(node));
 		}
 
-		return new SpanNode(numberedNameOfCriticalPair, firstRuleURI, secondRuleURI, overlapURI, criticalPairURI);
+		return new SpanNode(numberedNameOfCriticalPair, firstRuleURI, secondRuleURI, overlapURI, criticalPairURI, cp instanceof Conflict);
 	}
 
 	private static void changeNodeName(Node n, Node n2, Match firstMatch, Match secondMatch, Set<EClassifier> changed,

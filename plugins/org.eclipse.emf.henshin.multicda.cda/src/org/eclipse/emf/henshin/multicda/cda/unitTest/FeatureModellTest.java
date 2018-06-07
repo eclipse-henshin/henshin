@@ -19,7 +19,6 @@ import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class FeatureModellTest {
@@ -74,22 +73,22 @@ public class FeatureModellTest {
 					if (r2.getLhs().getPACs().isEmpty() && r2.getLhs().getNACs().isEmpty()
 							&& r2.getMultiRules().isEmpty()) {
 						cda = new CDATester(r, r2, options);
-						cdaResult.addAll(cda.getReasons());
+						cdaResult.addAll(cda.getResult());
 						List<Rule> a = new ArrayList<Rule>();
 						List<Rule> b = new ArrayList<Rule>();
 						a.add(r);
 						b.add(r2);
 						cpa = new CPATester(a, b, options);
-						cpaResult.addAll(cpa.getCriticalPairs());
-						int icr = cda.getReasons().size();
-						int icp = cpa.getCriticalPairs().size();
+						cpaResult.addAll(cpa.getResult());
+						int icr = cda.getResult().size();
+						int icp = cpa.getResult().size();
 						String error = "";
 						if (icr != icp) {
 							error += "\n\t\ta) " + r.getName() + " --> " + r2.getName() + "\nCDA: " + cda + "\nCPA: "
-									+ cpa + "\n" + CDATester.print(cda.getReasons(), false) + "\n__________________\n"
-									+ CPATester.printCP(cpa.getCriticalPairs(), false) + "\n";
+									+ cpa + "\n" + CDATester.print(cda.getResult(), false) + "\n__________________\n"
+									+ CPATester.printCP(cpa.getResult(), false) + "\n";
 						} else {
-							int matches = cda.compare(cpa.getCriticalPairs()).size();
+							int matches = cda.compare(cpa.getResult()).size();
 							if (icr != matches || icp != matches)
 								error += "\n\t\tb) " + r.getName() + " --> " + r2.getName()
 										+ "\nNot all matches are found: " + matches + " matches of " + icr
@@ -97,8 +96,8 @@ public class FeatureModellTest {
 						}
 						if (!error.isEmpty()) {
 							System.err.println(error);
-							System.out.println(cda.getReasons());
-							CPATester.printCP(cpa.getCriticalPairs());
+							System.out.println(cda.getResult());
+							CPATester.printCP(cpa.getResult());
 							System.out.println();
 						}
 						errorMessage += error;

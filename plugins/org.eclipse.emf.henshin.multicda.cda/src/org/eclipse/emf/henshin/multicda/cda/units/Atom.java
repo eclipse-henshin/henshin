@@ -7,8 +7,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
 
 /**
- * @author Jevgenij Huebert 18.05.2018
- * This class provides all kinds of Atoms
+ * @author Jevgenij Huebert 18.05.2018 This class provides all kinds of Atoms
  */
 public abstract class Atom extends Reason {
 
@@ -61,8 +60,8 @@ public abstract class Atom extends Reason {
 	}
 
 	/**
-	 * @author Jevgenij Huebert 18.05.2018
-	 * This class provides all kind of Conflict Atoms
+	 * @author Jevgenij Huebert 18.05.2018 This class provides all kind of Conflict
+	 *         Atoms
 	 */
 	public static abstract class ConflictAtom extends Atom {
 
@@ -134,8 +133,8 @@ public abstract class Atom extends Reason {
 	}
 
 	/**
-	 * @author Jevgenij Huebert 18.05.2018
-	 * This class provides all kind of Dependency Atoms
+	 * @author Jevgenij Huebert 18.05.2018 This class provides all kind of
+	 *         Dependency Atoms
 	 */
 	public static abstract class DependencyAtom extends Atom {
 
@@ -201,56 +200,56 @@ public abstract class Atom extends Reason {
 		}
 	}
 
-	public static class ChangeAttrConflictAtom extends ConflictAtom {
-
-		public ChangeAttrConflictAtom(Reason s) {
-			super(s, "ChACA", "Change attribute conflict atom");
-			sortID = 7;
-		}
-
-		public ChangeAttrConflictAtom(Reason candidate, Set<MinimalConflictReason> minimalConflictReasons) {
-			super(candidate, minimalConflictReasons, "CACA", "Change attribute conflict atom");
-			sortID = 7;
-		}
-
-		public ChangeAttrConflictAtom(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
-			super(rule1Mappings, s1, rule2Mappings, "CACA", "Change attribute conflict atom");
-			sortID = 7;
-		}
-	}
-
 	public static class DeleteAttrConflictAtom extends ConflictAtom {
 
 		public DeleteAttrConflictAtom(Reason s) {
 			super(s, "DACA", "Delete attribute conflict atom");
-			sortID = 8;
+			sortID = 7;
 		}
 
 		public DeleteAttrConflictAtom(Reason candidate, Set<MinimalConflictReason> minimalConflictReasons) {
 			super(candidate, minimalConflictReasons, "DACA", "Delete attribute conflict atom");
-			sortID = 8;
+			sortID = 7;
 		}
 
 		public DeleteAttrConflictAtom(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
 			super(rule1Mappings, s1, rule2Mappings, "DACA", "Delete attribute conflict atom");
+			sortID = 7;
+		}
+	}
+
+	public static class CreateAttrConflictAtom extends ConflictAtom {
+
+		public CreateAttrConflictAtom(Reason s) {
+			super(s, "CACA", "Create attribute conflict atom");
+			sortID = 8;
+		}
+
+		public CreateAttrConflictAtom(Reason candidate, Set<MinimalConflictReason> minimalConflictReasons) {
+			super(candidate, minimalConflictReasons, "CACA", "Create attribute conflict atom");
+			sortID = 8;
+		}
+
+		public CreateAttrConflictAtom(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
+			super(rule1Mappings, s1, rule2Mappings, "CACA", "Create attribute conflict atom");
 			sortID = 8;
 		}
 	}
 
-	public static class ChangeAttrDependencyAtom extends DependencyAtom {
+	public static class ChangeAttrConflictAtom extends ConflictAtom {
 
-		public ChangeAttrDependencyAtom(Reason s) {
-			super(s, "ChADA", "Change attribute dependency atom");
+		public ChangeAttrConflictAtom(Reason s) {
+			super(s, "ChACA", "Change attribute conflict atom");
 			sortID = 9;
 		}
 
-		public ChangeAttrDependencyAtom(Reason candidate, Set<MinimalConflictReason> minimalConflictReasons) {
-			super(candidate, minimalConflictReasons, "CADA", "Change attribute dependency atom");
+		public ChangeAttrConflictAtom(Reason candidate, Set<MinimalConflictReason> minimalConflictReasons) {
+			super(candidate, minimalConflictReasons, "CACA", "Change attribute conflict atom");
 			sortID = 9;
 		}
 
-		public ChangeAttrDependencyAtom(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
-			super(rule1Mappings, s1, rule2Mappings, "CADA", "Change attribute dependency atom");
+		public ChangeAttrConflictAtom(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
+			super(rule1Mappings, s1, rule2Mappings, "CACA", "Change attribute conflict atom");
 			sortID = 9;
 		}
 	}
@@ -272,24 +271,40 @@ public abstract class Atom extends Reason {
 			sortID = 10;
 		}
 	}
-	
 
+	public static class CreateAttrDependencyAtom extends DependencyAtom {
 
-	public static class CreateEdgeDeleteNodeConflictAtom extends ConflictAtom {
-
-		public CreateEdgeDeleteNodeConflictAtom(Reason s) {
-			super(s, "CEDNCA", "Create edge delete node conflict atom");
+		public CreateAttrDependencyAtom(Reason s) {
+			super(s, "CADA", "Delete attribute dependency atom");
 			sortID = 11;
 		}
 
-		public CreateEdgeDeleteNodeConflictAtom(Reason candidate, Set<MinimalConflictReason> minimalConflictReasons) {
-			super(candidate, minimalConflictReasons, "CEDNCA", "Create edge delete node conflict atom");
+		public CreateAttrDependencyAtom(Reason candidate, Set<MinimalConflictReason> minimalConflictReasons) {
+			super(candidate, minimalConflictReasons, "CADA", "Create attribute dependency atom");
 			sortID = 11;
 		}
 
-		public CreateEdgeDeleteNodeConflictAtom(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
-			super(rule1Mappings, s1, rule2Mappings, "CEDNCA", "Create edge delete node conflict atom");
+		public CreateAttrDependencyAtom(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
+			super(rule1Mappings, s1, rule2Mappings, "CADA", "Create attribute dependency atom");
 			sortID = 11;
+		}
+	}
+
+	public static class ChangeAttrDependencyAtom extends DependencyAtom {
+
+		public ChangeAttrDependencyAtom(Reason s) {
+			super(s, "ChADA", "Change attribute dependency atom");
+			sortID = 12;
+		}
+
+		public ChangeAttrDependencyAtom(Reason candidate, Set<MinimalConflictReason> minimalConflictReasons) {
+			super(candidate, minimalConflictReasons, "CADA", "Change attribute dependency atom");
+			sortID = 12;
+		}
+
+		public ChangeAttrDependencyAtom(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
+			super(rule1Mappings, s1, rule2Mappings, "CADA", "Change attribute dependency atom");
+			sortID = 12;
 		}
 	}
 }

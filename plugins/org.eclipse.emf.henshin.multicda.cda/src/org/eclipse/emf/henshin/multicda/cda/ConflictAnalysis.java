@@ -13,11 +13,10 @@ import org.eclipse.emf.henshin.multicda.cda.computation.ConflictReasonComputatio
 import org.eclipse.emf.henshin.multicda.cda.computation.DeleteUseConflictReasonComputation;
 import org.eclipse.emf.henshin.multicda.cda.computation.MinimalReasonComputation;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateForbidConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteRequireConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeAttrConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateAttrConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteAttrConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteUseConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ForbidConflictAtom;
@@ -29,9 +28,10 @@ import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 
 public class ConflictAnalysis implements MultiGranularAnalysis {
 
-	//WARNING: Preliminary implementation, not tested yet.
-	//This is a constant to activate not tested implementation of advanced conflict and dependency analysis.
-	public final static boolean COMPLETE_COMPUTATION = false;
+	// WARNING: Preliminary implementation, not tested yet.
+	// This is a constant to activate not tested implementation of advanced conflict
+	// and dependency analysis.
+	public static boolean COMPLETE_COMPUTATION = false;
 
 	private Rule rule1;
 	private Rule rule1INV;
@@ -51,7 +51,9 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 	public ConflictAnalysis(Rule rule1, Rule rule2) {
 		Utils.checkNull(rule1);
 		Utils.checkNull(rule2);
-		prepare(rule1, rule2);
+		unnamedNodeID = 0;
+		this.rule1 = prepare(rule1);
+		this.rule2 = prepare(rule2);
 		this.rule2NonDelete = Utils.nonDeleteRule(rule2);
 		this.rule1INV = Utils.invertRule(rule1);
 		this.rule2NACs = Utils.createNACRule(rule2);
@@ -76,9 +78,9 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 	public Set<MinimalConflictReason> computeResultsCoarse() {
 		if (mcrs.isEmpty()) {
 			if (!COMPLETE_COMPUTATION)
-				mcrs = new MinimalReasonComputation(rule1, rule2NonDelete).computeMinimalConflictReasons();
+				mcrs = computeMinimalConflictReasons(rule1, rule2);
 			else {
-				//WARNING: Preliminary implementation, not tested yet.
+				// WARNING: Preliminary implementation, not tested yet.
 				mcrs = computeMinimalConflictReasons(rule1, rule2);
 				for (Rule rNac : rule2NACs)
 					for (Reason mcr : computeMinimalConflictReasons(rule1INV, rNac))
@@ -95,9 +97,10 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 	public Set<ConflictReason> computeResultsFine() {
 		if (crs.isEmpty()) {
 			if (!COMPLETE_COMPUTATION)
-				crs = new HashSet<>(new ConflictReasonComputation(rule1, rule2NonDelete).computeConflictReasons());
+				crs = computeDeleteUseConflictReasons(rule1, rule2);
+
 			else {
-				//WARNING: Preliminary implementation, not tested yet.
+				// WARNING: Preliminary implementation, not tested yet.
 				crs = computeDeleteUseConflictReasons(rule1, rule2);
 				crs.addAll(computeCreateForbidConflictReasons());
 				crs.addAll(computeDeleteRequireConflictReasons());
@@ -106,21 +109,27 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 		return crs;
 	}
 
-	//WARNING: Preliminary implementation, not tested yet.
-	private Set<CreateForbidConflictReason> computeCreateForbidConflictReasons() {
-		Set<CreateForbidConflictReason> result = new HashSet<>();
+	// WARNING: Preliminary implementation, not tested yet.
+	private Set<ConflictReason> computeCreateForbidConflictReasons() {
+		Set<ConflictReason> result = new HashSet<>();
 		for (Rule r2 : rule2NACs)
-			for (Reason confReason : computeDeleteUseConflictReasons(rule1INV, r2))
-				result.add(new CreateForbidConflictReason(confReason));
+			for (Reason confReason : computeDeleteUseConflictReasons(rule1INV, r2)) {
+				ConflictReason reason = ReasonFactory.eINSTANCE.createForbidReason(confReason);
+				if (reason != null)
+					result.add(reason);
+			}
 		return result;
 	}
 
-	//WARNING: Preliminary implementation, not tested yet.
-	private Collection<DeleteRequireConflictReason> computeDeleteRequireConflictReasons() {
-		Set<DeleteRequireConflictReason> result = new HashSet<>();
+	// WARNING: Preliminary implementation, not tested yet.
+	private Collection<ConflictReason> computeDeleteRequireConflictReasons() {
+		Set<ConflictReason> result = new HashSet<>();
 		for (Rule r2 : rule2PACs)
-			for (Reason confReason : computeDeleteUseConflictReasons(rule1, r2))
-				result.add(new DeleteRequireConflictReason(confReason));
+			for (Reason confReason : computeDeleteUseConflictReasons(rule1, r2)) {
+				ConflictReason reason = ReasonFactory.eINSTANCE.createRequireReason(confReason);
+				if (reason != null)
+					result.add(reason);
+			}
 		return result;
 	}
 
@@ -136,7 +145,7 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 		if (atoms.isEmpty()) {
 			List<Atom> candidates = new AtomCandidateComputation(rule1, rule2NonDelete).computeAtomCandidates();
 
-			//WARNING: Preliminary implementation, not tested yet.
+			// WARNING: Preliminary implementation, not tested yet.
 			if (COMPLETE_COMPUTATION) {
 				for (Rule rNac : rule2NACs)
 					for (Atom a : new AtomCandidateComputation(rule1INV, rNac).computeAtomCandidates())
@@ -170,6 +179,8 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 							a = new ChangeAttrConflictAtom(candidate, minimalConflictReasons);
 						else if (candidate instanceof DeleteAttrConflictAtom)
 							a = new DeleteAttrConflictAtom(candidate, minimalConflictReasons);
+						else if (candidate instanceof CreateAttrConflictAtom)
+							a = new CreateAttrConflictAtom(candidate, minimalConflictReasons);
 						else
 							a = new DeleteUseConflictAtom(candidate, minimalConflictReasons);
 						atoms.add(a);
@@ -184,7 +195,7 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 		return atoms;
 	}
 
-	//WARNING: Preliminary implementation, not tested yet.
+	// WARNING: Preliminary implementation, not tested yet.
 	private Set<MinimalConflictReason> computeMinimalConflictReasons(Rule r1, Rule r2) {
 		Set<MinimalConflictReason> normalCR = new MinimalReasonComputation(r1, Utils.nonDeleteRule(r2))
 				.computeMinimalConflictReasons();
@@ -197,7 +208,7 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 				.computeDeleteUseConflictReason();
 	}
 
-	//WARNING: Preliminary implementation, not tested yet.
+	// WARNING: Preliminary implementation, not tested yet.
 	private Set<ConflictReason> computeDeleteUseConflictReasons(Rule r1, Rule r2) {
 		Set<ConflictReason> normalCR = new ConflictReasonComputation(r1, Utils.nonDeleteRule(r2))
 				.computeConflictReasons();
@@ -211,33 +222,27 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 	}
 
 	/**
-	 * Renames all non named nodes of Rules, for better understandability: |1|, |2|, |3|...
+	 * ID wich gets the next unnamed node by preparing the Rule with
+	 * {@link #prepare(Rule) prepare} method
 	 */
-	private int count = 0;
+	public static int unnamedNodeID = 0;
 
-	private void prepare(Rule r1, Rule r2) {
-		rule1 = r1;
-		rule2 = r2;
-		for (Node n : rule1.getRhs().getNodes())
+	/**
+	 * Renames all non named nodes of rules, for better understandability: |1|, |2|,
+	 * |3|...
+	 */
+	public static Rule prepare(Rule rule) {
+		for (Node n : rule.getRhs().getNodes())
 			if (n.getName() == null || n.getName().isEmpty()) {
-				n.setName("|" + count++ + "|");
-				Node origin = rule1.getMappings().getOrigin(n);
+				n.setName("|" + unnamedNodeID++ + "|");
+				Node origin = rule.getMappings().getOrigin(n);
 				if (origin != null)
 					origin.setName(n.getName());
 			}
-		for (Node n : rule1.getLhs().getNodes())
+		for (Node n : rule.getLhs().getNodes())
 			if (n.getName() == null || n.getName().isEmpty())
-				n.setName("|" + count++ + "|");
-		for (Node n : rule2.getRhs().getNodes())
-			if (n.getName() == null || n.getName().isEmpty()) {
-				n.setName("|" + count++ + "|");
-				Node origin = rule2.getMappings().getOrigin(n);
-				if (origin != null)
-					origin.setName(n.getName());
-			}
-		for (Node n : rule2.getLhs().getNodes())
-			if (n.getName() == null || n.getName().isEmpty())
-				n.setName("|" + count++ + "|");
-		count = 0;
+				n.setName("|" + unnamedNodeID++ + "|");
+		unnamedNodeID = 0;
+		return rule;
 	}
 }

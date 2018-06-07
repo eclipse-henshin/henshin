@@ -16,6 +16,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.runner.RulePreparator;
 import org.eclipse.emf.henshin.multicda.cda.tester.Condition.CP;
 import org.eclipse.emf.henshin.multicda.cda.tester.Condition.Conditions;
@@ -52,32 +53,46 @@ public class CPATester extends Tester {
 	/**
 	 * All rules in the Henshin file will be analyzed with each other.
 	 * 
-	 * @param henshin path to the Henshin file.
-	 * @param options 1:dependency, 2:essential, 3:prepare, 4:noneDeletionSecondRule, 5:printHeader, 6:printResults, 7:silent
+	 * @param henshin
+	 *            path to the Henshin file.
+	 * @param options
+	 *            1:dependency, 2:essential, 3:prepare, 4:noneDeletionSecondRule,
+	 *            5:printHeader, 6:printResults, 7:silent
 	 */
 	public CPATester(String henshin, Options... options) {
 		this(henshin, new String[] {}, new String[] {}, options);
 	}
 
 	/**
-	 * All rules from first list will be analyzed with all rules from the second list. The rule lists should not be empty!
+	 * All rules from first list will be analyzed with all rules from the second
+	 * list. The rule lists should not be empty!
 	 * 
-	 * @param first the first rules as list of Rules
-	 * @param second the second rules as list of Rules
-	 * @param options 1:dependency, 2:essential, 3:prepare, 4:noneDeletionSecondRule, 5:printHeader, 6:printResults, 7:silent
+	 * @param first
+	 *            the first rules as list of Rules
+	 * @param second
+	 *            the second rules as list of Rules
+	 * @param options
+	 *            1:dependency, 2:essential, 3:prepare, 4:noneDeletionSecondRule,
+	 *            5:printHeader, 6:printResults, 7:silent
 	 */
 	public CPATester(List<Rule> first, List<Rule> second, Options... options) {
 		init(first, second, false, false, options);
 	}
 
 	/**
-	 * All rules from first list will be analyzed with all rules from the second list.
-	 * If a List of rules is empty, it means all rules of the Henshin file will be analysed!
+	 * All rules from first list will be analyzed with all rules from the second
+	 * list. If a List of rules is empty, it means all rules of the Henshin file
+	 * will be analysed!
 	 * 
-	 * @param henshin Path to the henshin file
-	 * @param first the first rule as string array
-	 * @param second the second rule as string array
-	 * @param options 1:dependency, 2:essential, 3:prepare, 4:noneDeletionSecondRule, 5:printHeader, 6:printResults, 7:silent
+	 * @param henshin
+	 *            Path to the henshin file
+	 * @param first
+	 *            the first rule as string array
+	 * @param second
+	 *            the second rule as string array
+	 * @param options
+	 *            1:dependency, 2:essential, 3:prepare, 4:noneDeletionSecondRule,
+	 *            5:printHeader, 6:printResults, 7:silent
 	 */
 	public CPATester(String henshin, String[] first, String[] second, Options... options) {
 
@@ -141,9 +156,10 @@ public class CPATester extends Tester {
 		else
 			for (Rule nameS : second)
 				ss += (ss.isEmpty() ? "" : ", ") + nameS.getName();
-		if (options.is(Options.PRINT_HEADER))
-			System.out.println("\n\t\t  " + ff + " --> " + ss + "\n\t\t\tCPA "
-					+ (options.is(Options.ESSENTIAL) ? "Essential" : ""));
+		for (Rule r1 : first)
+			r1 = ConflictAnalysis.prepare(r1);
+		for (Rule r2 : second)
+			r2 = ConflictAnalysis.prepare(r2);
 
 		CDAOptions o = new CDAOptions();
 		o.essentialCP = options.is(Options.ESSENTIAL);
@@ -156,10 +172,8 @@ public class CPATester extends Tester {
 		try {
 
 			if (options.is(Options.PREPARE)) {
-				List<Rule> r1 = RulePreparator.prepareRule(first);
-				first = r1;
-				List<Rule> r2 = RulePreparator.prepareRule(second);
-				second = r2;
+				first = RulePreparator.prepareRule(first);
+				second = RulePreparator.prepareRule(second);
 			}
 			if (options.is(Options.NONE_DELETION_SECOND_RULE))
 				second = NonDeletingPreparator.prepareNoneDeletingsVersionsRules(second);
@@ -181,13 +195,18 @@ public class CPATester extends Tester {
 		if (options.is(Options.SILENT))
 			System.setOut(original);
 
-		if (options.is(Options.PRINT_HEADER))
+		if (options.is(Options.PRINT_HEADER) && (!options.is(Options.PRINT_WHEN_RESULT) || !getResult().isEmpty())) {
+			System.out.println("\n\t\t  " + ff + " --> " + ss + "\n\t\t\tCPA "
+					+ (options.is(Options.ESSENTIAL) ? "Essential" : ""));
 			print(options + "\n");
-		if (options.is(Options.PRINT_RESULT)) {
-			printResult();
-			print();
-			System.out.println();
 		}
+		if (options.is(Options.PRINT_HEADER))
+			if (options.is(Options.PRINT_RESULT)
+					&& (!options.is(Options.PRINT_WHEN_RESULT) || !getResult().isEmpty())) {
+				printResult();
+				print();
+				System.out.println();
+			}
 	}
 
 	@Override
@@ -246,26 +265,27 @@ public class CPATester extends Tester {
 	}
 
 	private void printResult() {
-		printCP(getCriticalPairs());
+		printCP(getResult());
 	}
 
-	public List<CriticalPair> getCriticalPairs() {
+	public Set<CriticalPair> getResult() {
 		if (result != null)
-			return result.getCriticalPairs();
-		return new ArrayList<>();
+			return new HashSet<>(result.getCriticalPairs());
+		return new HashSet<>();
 	}
 
 	@Override
 	public String toString() {
 		if (!options.is(Options.DEPENDENCY))
-			return getCriticalPairs().size() + " Critical Pairs.";
+			return getResult().size() + " Critical Pairs.";
 		else
-			return getCriticalPairs().size() + " Dependency Critical Pairs.";
+			return getResult().size() + " Dependency Critical Pairs.";
 	}
 
-	public static String printCP(List<CriticalPair> cp, boolean... errorOut) {
+	public static String printCP(Set<CriticalPair> cp, boolean... errorOut) {
 		String result = "";
 		for (CriticalPair criticalPair : cp) {
+			criticalPair.getMinimalModel();
 			String criticalPairKind = "";
 			if (criticalPair instanceof Conflict) {
 				criticalPairKind = ((Conflict) criticalPair).getConflictKind().toString();

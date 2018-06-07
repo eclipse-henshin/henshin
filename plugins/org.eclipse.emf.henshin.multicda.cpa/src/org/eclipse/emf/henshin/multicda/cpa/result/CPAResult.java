@@ -173,5 +173,8 @@ public class CPAResult implements Iterable<CriticalPair> {
 		}
 		return result;
 	}
-
+	@Override
+	public String toString() {
+		return getCriticalPairs().toString();
+	}
 }

@@ -140,7 +140,7 @@ public class Pushout {
 			Graph graphOfNodeL2 = discardNode.getGraph();
 			if (graphOfNodeL2 != null)
 				graphOfNodeL2.removeNode(discardNode);
-			else
+			else if (validate)
 				System.err.println(discardNode + " has no Graph");
 		}
 	}

@@ -16,7 +16,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +36,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.DoubleSpan;
+import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cpa.persist.SpanNode;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
@@ -71,8 +73,10 @@ public class CpEditorUtil {
 	/**
 	 * Persists the results of a critical pair analysis in the file system.
 	 * 
-	 * @param cdaResult A <code>CPAResult</code> of a critical pair analysis.
-	 * @param path The path for saving the full result set.
+	 * @param cdaResult
+	 *            A <code>CPAResult</code> of a critical pair analysis.
+	 * @param path
+	 *            The path for saving the full result set.
 	 * @param monitor
 	 * @return a <code>HashMap</code> of the saved results.
 	 */
@@ -97,7 +101,7 @@ public class CpEditorUtil {
 		Map<String, List<SpanNode>> persistedNodes = new TreeMap<>();
 		if (cdaResult != null) {
 			List<Reason> reasons = new ArrayList<>(cdaResult);
-			Collections.sort(reasons); //TODO: Compare Error
+			Collections.sort(reasons);
 			for (Reason reason : reasons)
 				if (reason != null) {
 					// naming of each single conflict
@@ -132,10 +136,11 @@ public class CpEditorUtil {
 					String fullPathRule2 = pathForCurrentCriticalPair + fileNameRule2;
 					URI secondRuleURI = saveRuleInFileSystem(commonResourceSet, reason.getRule2(), fullPathRule2);
 
-//					// save a dummy for the HenshinCPEditor
-//					String fileName = "dummy.henshinCp";
-//					String fullPath = pathForCurrentCriticalPair + fileName;
-//					URI criticalPairURI = saveRuleInFileSystem(commonResourceSet, reason.graph, fullPath);
+					// // save a dummy for the HenshinCPEditor
+					// String fileName = "dummy.henshinCp";
+					// String fullPath = pathForCurrentCriticalPair + fileName;
+					// URI criticalPairURI = saveRuleInFileSystem(commonResourceSet, reason.graph,
+					// fullPath);
 
 					// save the minimal model in the file system
 					String fileNameMinimalModel = "minimal-model" + ".ecore";
@@ -145,17 +150,18 @@ public class CpEditorUtil {
 					if (reason instanceof DoubleSpan)
 						for (Reason r : ((DoubleSpan) reason).getS2Set())
 							s2Models.put(r, Utils.graphToEPackage(r));
-
+					boolean conf = reason instanceof ConflictReason || reason instanceof ConflictAtom
+							|| reason instanceof MinimalConflictReason;
 					Pair<URI, Map<Reason, URI>> overlapURIs = saveMinimalModelInFileSystem(commonResourceSet,
 							reasonModel, s2Models, fullPathMinimalModel);
-					SpanNode result = new SpanNode(numberedNameOfCPKind, firstRuleURI, secondRuleURI,
-							overlapURIs.first);
+					SpanNode result = new SpanNode(numberedNameOfCPKind, firstRuleURI, secondRuleURI, overlapURIs.first,
+							conf);
 					int i = 0;
 					for (Reason r : overlapURIs.second.keySet()) {
 						URI uri = overlapURIs.second.get(r);
 						String kind = reason.NAME;
 						String name = "(" + new DecimalFormat("000").format(i++) + ") S2: " + kind;
-						result.addChild(new SpanNode(name, firstRuleURI, secondRuleURI, uri));
+						result.addChild(new SpanNode(name, firstRuleURI, secondRuleURI, uri, conf));
 					}
 					persistedNodes.get(folderName).add(result);
 				}
@@ -164,11 +170,15 @@ public class CpEditorUtil {
 	}
 
 	/**
-	 * Saves an <code>EGraph</code>, which might be a minimal model on the given path within the file system.
+	 * Saves an <code>EGraph</code>, which might be a minimal model on the given
+	 * path within the file system.
 	 * 
-	 * @param resourceSetThe common <code>ResourceSet</code>.
-	 * @param minimalModel The minimal model to be saved.
-	 * @param fullPathMinimalModel The full path of the file.
+	 * @param resourceSetThe
+	 *            common <code>ResourceSet</code>.
+	 * @param minimalModel
+	 *            The minimal model to be saved.
+	 * @param fullPathMinimalModel
+	 *            The full path of the file.
 	 * @return the <code>URI</code> of the saved file.
 	 */
 	private static Pair<URI, Map<Reason, URI>> saveMinimalModelInFileSystem(ResourceSet resourceSet,
@@ -222,9 +232,12 @@ public class CpEditorUtil {
 	/**
 	 * Saves a <code>Rule</code> on the given path within the file system.
 	 * 
-	 * @param resourceSet The common <code>ResourceSet</code>.
-	 * @param rule The <code>Rule</code> to be saved.
-	 * @param fullFilePath The full path of the file.
+	 * @param resourceSet
+	 *            The common <code>ResourceSet</code>.
+	 * @param rule
+	 *            The <code>Rule</code> to be saved.
+	 * @param fullFilePath
+	 *            The full path of the file.
 	 * @return the <code>URI</code> of the saved file.
 	 */
 	private static URI saveRuleInFileSystem(ResourceSet resourceSet, EObject content, String fullFilePath) {
@@ -248,7 +261,10 @@ public class CpEditorUtil {
 
 	public static void openResultInCpEditor(URI firstRuleUri, URI overlapUri, URI secondRuleUri) {
 
-		/** URIs of henshin1, ecore[, henshin2 [.ecore, .wcoreextended, .gcore and .wcore files] */
+		/**
+		 * URIs of henshin1, ecore[, henshin2 [.ecore, .wcoreextended, .gcore and .wcore
+		 * files]
+		 */
 		URI[] modelURIs = new URI[3];
 
 		modelURIs[0] = firstRuleUri;

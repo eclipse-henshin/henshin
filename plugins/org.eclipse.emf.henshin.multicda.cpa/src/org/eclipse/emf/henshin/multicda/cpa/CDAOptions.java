@@ -186,7 +186,6 @@ public class CDAOptions {
 		} catch (IOException e) {
 			reset();
 			success = false;
-			e.printStackTrace();
 		}
 		return success;
 	}
@@ -234,6 +233,9 @@ public class CDAOptions {
 
 	public boolean isComplete() {
 		return complete;
+	}
+	public void setComplete(boolean complete) {
+		this.complete = complete;
 	}
 
 	public boolean isStrongAttrCheck() {

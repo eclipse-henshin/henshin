@@ -52,7 +52,7 @@ public class NanoTest {
 		for (Rule r : rules) {
 			for (Rule r2 : rules) {
 				aTester = new CDATester(r, r2, options);
-				Set<Reason> result1 = aTester.getReasons();
+				Set<Reason> result1 = aTester.getResult();
 				initsNormal.addAll(result1);
 
 				List<Rule> a = new ArrayList<Rule>();
@@ -60,16 +60,16 @@ public class NanoTest {
 				a.add(r);
 				b.add(r2);
 				eTester = new CPATester(a, b, options);
-				Set<CriticalPair> result2 = new HashSet<CriticalPair>(eTester.getCriticalPairs());
+				Set<CriticalPair> result2 = new HashSet<CriticalPair>(eTester.getResult());
 				initspNormal.addAll(result2);
 
-				int icr = aTester.getReasons().size();
-				int icp = eTester.getCriticalPairs().size();
+				int icr = aTester.getResult().size();
+				int icp = eTester.getResult().size();
 				if (icr != icp) {
 					resultNormal += "\t\t" + r.getName() + " --> " + r2.getName() + "\nCDA: " + aTester + "\nCPA: "
 							+ eTester + "\n";
 				} else {
-					int matches = aTester.compare(eTester.getCriticalPairs()).size();
+					int matches = aTester.compare(eTester.getResult()).size();
 					if (icr != matches || icp != matches)
 						resultNormal += "\t\t" + r.getName() + " --> " + r2.getName() + "\nNot all matches are found: "
 								+ matches + " matches of " + icr + " Reasons and " + icp + " Critical Pairs\n";
