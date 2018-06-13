@@ -1,6 +1,5 @@
 package org.eclipse.emf.henshin.multicda.cda.unitTest;
 
-import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModelPackage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
