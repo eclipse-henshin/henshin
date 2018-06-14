@@ -10,7 +10,7 @@
     <version>1.5.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.emf.henshin.multicda.cda.ui</artifactId>
+  <artifactId>org.eclipse.emf.henshin.multicda.cda</artifactId>
   <packaging>eclipse-plugin</packaging>
 
 </project>

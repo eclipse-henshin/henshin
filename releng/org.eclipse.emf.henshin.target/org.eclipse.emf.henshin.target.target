@@ -19,6 +19,7 @@
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.10.2.v20150123-0452"/>
 <unit id="org.eclipse.ocl.all.sdk.feature.group" version="5.0.2.v20141027-1335"/>
 <unit id="org.eclipse.emf.query.sdk.feature.group" version="1.8.0.201405281426"/>
+<unit id="org.eclipse.uml2.uml" version="5.0.2.v20150202-0947"/>
 <repository location="http://download.eclipse.org/releases/luna"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
