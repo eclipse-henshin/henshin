@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.emf.henshin.multicda.cpa;singleton:=true
 Bundle-Version: 1.5.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.emf.henshin.multicda.cpa.CriticalPairAnalysisPlugin
 Require-Bundle: org.eclipse.core.runtime;bundle-version="2.10.1",
