@@ -379,8 +379,8 @@ public class CPAUtility {
 	 * @param secondRuleName The name of the second <code>Rule</code>, which will be searched in the <code>Module</code>
 	 *            and added to the <code>List</code>.
 	 */
-	public static void extractSingleRules(Module module, List<Rule> firstRule, String firstRuleName,
-			List<Rule> secondRule, String secondRuleName) {
+	public static void extractSingleRules(Module module, Set<Rule> firstRule, String firstRuleName,
+			Set<Rule> secondRule, String secondRuleName) {
 		for (Unit unit : module.getUnits()) {
 			if (unit.getName().equalsIgnoreCase(firstRuleName))
 				firstRule.add((Rule) unit);

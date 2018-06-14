@@ -9,12 +9,15 @@
  */
 package org.eclipse.emf.henshin.tests.cpa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.eclipse.emf.henshin.multicda.cpa.CPAOptions;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.emf.henshin.multicda.cpa.CDAOptions;
 import org.eclipse.emf.henshin.multicda.cpa.CPAUtility;
 import org.eclipse.emf.henshin.multicda.cpa.CpaByAGG;
 import org.eclipse.emf.henshin.multicda.cpa.ICriticalPairAnalysis;
@@ -25,9 +28,6 @@ import org.eclipse.emf.henshin.multicda.cpa.result.ConflictKind;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 import org.eclipse.emf.henshin.multicda.cpa.result.Dependency;
 import org.eclipse.emf.henshin.multicda.cpa.result.DependencyKind;
-import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,7 +44,7 @@ public class BasicInheritanceTesting {
 
 	Module module;
 	private ICriticalPairAnalysis cpaByAgg;
-	CPAOptions cpaOptions;
+	CDAOptions cdaOptions;
 
 	@Before
 	public void setUp() throws Exception {
@@ -53,7 +53,7 @@ public class BasicInheritanceTesting {
 		// Load the module:
 		module = resourceSet.getModule(henshinFileName, false);
 		cpaByAgg = new CpaByAGG();
-		cpaOptions = new CPAOptions();
+		cdaOptions = new CDAOptions();
 	}
 
 	/**
@@ -66,12 +66,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteMotorVehicle";
 		String secondRuleName = "useDigger";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -104,12 +104,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteDigger";
 		String secondRuleName = "useMotorVehicle";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -142,12 +142,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteTruck";
 		String secondRuleName = "useConstructionSiteTool";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 0;
@@ -165,12 +165,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteVehicle";
 		String secondRuleName = "useDigger";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -204,12 +204,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteDigger";
 		String secondRuleName = "useVehicle";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -243,12 +243,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "produceMotorVehicle";
 		String secondRuleName = "forbidDigger";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 0;
@@ -267,12 +267,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "produceDigger";
 		String secondRuleName = "forbidMotorVehicle";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -306,12 +306,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "produceTruck";
 		String secondRuleName = "forbidDigger";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 0;
@@ -330,12 +330,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "produceDigger";
 		String secondRuleName = "forbidVehicle";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -369,12 +369,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteMotorVehicle";
 		String secondRuleName = "forbidDigger";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runDependencyAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -408,12 +408,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteDigger";
 		String secondRuleName = "forbidMotorVehicle";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runDependencyAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -447,12 +447,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteTruck";
 		String secondRuleName = "forbidConstructionSiteTool";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runDependencyAnalysis();
 
 		int expectedQuantityOfCPs = 0;
@@ -471,12 +471,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteVehicle";
 		String secondRuleName = "forbidDigger";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runDependencyAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -510,12 +510,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "deleteDigger";
 		String secondRuleName = "forbidVehicle";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runDependencyAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -549,12 +549,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "produceMotorVehicle";
 		String secondRuleName = "usedigger";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
 		int expectedQuantityOfCPs = 0;
@@ -572,12 +572,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "produceDigger";
 		String secondRuleName = "useMotorVehicle";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runDependencyAnalysis();
 
 		int expectedQuantityOfCPs = 1;
@@ -611,12 +611,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "produceTruck";
 		String secondRuleName = "useConstructionSiteTool";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runDependencyAnalysis();
 
 		int expectedQuantityOfCPs = 0;
@@ -635,12 +635,12 @@ public class BasicInheritanceTesting {
 		String firstRuleName = "producedigger";
 		String secondRuleName = "useVehicle";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
-		cpaByAgg.init(firstRule, secondRule, cpaOptions);
+		cpaByAgg.init(firstRule, secondRule, cdaOptions);
 		CPAResult result = cpaByAgg.runDependencyAnalysis();
 
 		int expectedQuantityOfCPs = 1;

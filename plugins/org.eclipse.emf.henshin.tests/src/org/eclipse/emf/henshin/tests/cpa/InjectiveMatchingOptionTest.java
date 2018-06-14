@@ -9,18 +9,17 @@
  */
 package org.eclipse.emf.henshin.tests.cpa;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.eclipse.emf.henshin.multicda.cpa.CPAOptions;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.emf.henshin.multicda.cpa.CDAOptions;
 import org.eclipse.emf.henshin.multicda.cpa.CPAUtility;
 import org.eclipse.emf.henshin.multicda.cpa.CpaByAGG;
 import org.eclipse.emf.henshin.multicda.cpa.ICriticalPairAnalysis;
 import org.eclipse.emf.henshin.multicda.cpa.UnsupportedRuleException;
-import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,12 +38,12 @@ public class InjectiveMatchingOptionTest {
 
 	Module module;
 	private ICriticalPairAnalysis cpaByAgg;
-	CPAOptions cpaOptions;
+	CDAOptions cdaOptions;
 
 	@Before
 	public void setUp() throws Exception {
 		cpaByAgg = new CpaByAGG();
-		cpaOptions = new CPAOptions();
+		cdaOptions = new CDAOptions();
 	}
 
 	/**
@@ -58,8 +57,8 @@ public class InjectiveMatchingOptionTest {
 		String firstRuleName = "Rule1InjectiveMatchingOff";
 		String secondRuleName = "Rule2InjectiveMatchingOn";
 
-		List<Rule> firstRule = new LinkedList<Rule>();
-		List<Rule> secondRule = new LinkedList<Rule>();
+		Set<Rule> firstRule = new HashSet<Rule>();
+		Set<Rule> secondRule = new HashSet<Rule>();
 
 		HenshinResourceSet resourceSet = new HenshinResourceSet(PATH);
 		module = resourceSet.getModule(henshinFileName, false);
@@ -69,7 +68,7 @@ public class InjectiveMatchingOptionTest {
 		boolean exceptionThrown = false;
 
 		try {
-			List<org.eclipse.emf.henshin.model.Rule> rulesToBeChecked = new ArrayList<org.eclipse.emf.henshin.model.Rule>(
+			Set<org.eclipse.emf.henshin.model.Rule> rulesToBeChecked = new HashSet<org.eclipse.emf.henshin.model.Rule>(
 					firstRule);
 			rulesToBeChecked.addAll(secondRule);
 			cpaByAgg.check(rulesToBeChecked);
