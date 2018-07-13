@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.henshin.model.*;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * <!-- begin-user-doc -->
