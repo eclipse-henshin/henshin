@@ -199,14 +199,17 @@
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_hAIVwCPaEeW9lPIimCl-sQ" name="removeOwnerOfVehicle">
     <lhs xmi:id="_hAKK8CPaEeW9lPIimCl-sQ" name="Lhs">
-      <nodes xmi:id="_Y2NWYCPcEeW9lPIimCl-sQ" name="anyVehicle" outgoing="_j8vpICPgEeW9lPIimCl-sQ">
+      <nodes xmi:id="_Y2NWYCPcEeW9lPIimCl-sQ" name="anyVehicle" incoming="_2GYv8IqBEeibjKg2Kz1BpQ" outgoing="_j8vpICPgEeW9lPIimCl-sQ">
         <type href="vehicles.ecore#//Vehicle"/>
       </nodes>
-      <nodes xmi:id="_Y2FlICPdEeW9lPIimCl-sQ" name="OwnerOfVehicle" incoming="_j8vpICPgEeW9lPIimCl-sQ">
+      <nodes xmi:id="_Y2FlICPdEeW9lPIimCl-sQ" name="OwnerOfVehicle" incoming="_j8vpICPgEeW9lPIimCl-sQ" outgoing="_2GYv8IqBEeibjKg2Kz1BpQ">
         <type href="vehicles.ecore#//Person"/>
       </nodes>
       <edges xmi:id="_j8vpICPgEeW9lPIimCl-sQ" source="_Y2NWYCPcEeW9lPIimCl-sQ" target="_Y2FlICPdEeW9lPIimCl-sQ">
         <type href="vehicles.ecore#//Vehicle/owner"/>
+      </edges>
+      <edges xmi:id="_2GYv8IqBEeibjKg2Kz1BpQ" source="_Y2FlICPdEeW9lPIimCl-sQ" target="_Y2NWYCPcEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person/vehicleOwnership"/>
       </edges>
     </lhs>
     <rhs xmi:id="_hAKK8SPaEeW9lPIimCl-sQ" name="Rhs">
@@ -248,14 +251,17 @@
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_spXpwCPaEeW9lPIimCl-sQ" name="removeOwnerOfMotorVehicle">
     <lhs xmi:id="_spZe8CPaEeW9lPIimCl-sQ" name="Lhs">
-      <nodes xmi:id="_IyatMCPdEeW9lPIimCl-sQ" name="anyMotorVehicle" outgoing="_tQzZACPhEeW9lPIimCl-sQ">
+      <nodes xmi:id="_IyatMCPdEeW9lPIimCl-sQ" name="anyMotorVehicle" incoming="_nlXWgIqBEeibjKg2Kz1BpQ" outgoing="_tQzZACPhEeW9lPIimCl-sQ">
         <type href="vehicles.ecore#//MotorVehicle"/>
       </nodes>
-      <nodes xmi:id="_cKOPYCPdEeW9lPIimCl-sQ" name="OwnerOfMotorVehicle" incoming="_tQzZACPhEeW9lPIimCl-sQ">
+      <nodes xmi:id="_cKOPYCPdEeW9lPIimCl-sQ" name="OwnerOfMotorVehicle" incoming="_tQzZACPhEeW9lPIimCl-sQ" outgoing="_nlXWgIqBEeibjKg2Kz1BpQ">
         <type href="vehicles.ecore#//Person"/>
       </nodes>
       <edges xmi:id="_tQzZACPhEeW9lPIimCl-sQ" source="_IyatMCPdEeW9lPIimCl-sQ" target="_cKOPYCPdEeW9lPIimCl-sQ">
         <type href="vehicles.ecore#//Vehicle/owner"/>
+      </edges>
+      <edges xmi:id="_nlXWgIqBEeibjKg2Kz1BpQ" source="_cKOPYCPdEeW9lPIimCl-sQ" target="_IyatMCPdEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Person/vehicleOwnership"/>
       </edges>
     </lhs>
     <rhs xmi:id="_spZe8SPaEeW9lPIimCl-sQ" name="Rhs">
@@ -545,14 +551,17 @@
       </nodes>
     </lhs>
     <rhs xmi:id="_qMTVISQAEeW9lPIimCl-sQ" name="Rhs">
-      <nodes xmi:id="_eSy-QSQFEeW9lPIimCl-sQ" name="anyPerson" outgoing="_uF9_QCQJEeW9lPIimCl-sQ">
+      <nodes xmi:id="_eSy-QSQFEeW9lPIimCl-sQ" name="anyPerson" incoming="_-Xx-YIqBEeibjKg2Kz1BpQ" outgoing="_uF9_QCQJEeW9lPIimCl-sQ">
         <type href="vehicles.ecore#//Person"/>
       </nodes>
-      <nodes xmi:id="_m-MoISQFEeW9lPIimCl-sQ" name="anyVehicle" incoming="_uF9_QCQJEeW9lPIimCl-sQ">
+      <nodes xmi:id="_m-MoISQFEeW9lPIimCl-sQ" name="anyVehicle" incoming="_uF9_QCQJEeW9lPIimCl-sQ" outgoing="_-Xx-YIqBEeibjKg2Kz1BpQ">
         <type href="vehicles.ecore#//Vehicle"/>
       </nodes>
       <edges xmi:id="_uF9_QCQJEeW9lPIimCl-sQ" source="_eSy-QSQFEeW9lPIimCl-sQ" target="_m-MoISQFEeW9lPIimCl-sQ">
         <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+      </edges>
+      <edges xmi:id="_-Xx-YIqBEeibjKg2Kz1BpQ" source="_m-MoISQFEeW9lPIimCl-sQ" target="_eSy-QSQFEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/owner"/>
       </edges>
     </rhs>
     <mappings xmi:id="_eSzlUCQFEeW9lPIimCl-sQ" origin="_eSy-QCQFEeW9lPIimCl-sQ" image="_eSy-QSQFEeW9lPIimCl-sQ"/>
@@ -605,14 +614,17 @@
       </nodes>
     </lhs>
     <rhs xmi:id="_xRnK8SQAEeW9lPIimCl-sQ" name="Rhs">
-      <nodes xmi:id="__DrP0SQEEeW9lPIimCl-sQ" name="nyMotorVehicle" incoming="_uY3tICQJEeW9lPIimCl-sQ">
+      <nodes xmi:id="__DrP0SQEEeW9lPIimCl-sQ" name="nyMotorVehicle" incoming="_uY3tICQJEeW9lPIimCl-sQ" outgoing="_v4cnAIqBEeibjKg2Kz1BpQ">
         <type href="vehicles.ecore#//MotorVehicle"/>
       </nodes>
-      <nodes xmi:id="_iiIsgSQFEeW9lPIimCl-sQ" name="anyPerson" outgoing="_uY3tICQJEeW9lPIimCl-sQ">
+      <nodes xmi:id="_iiIsgSQFEeW9lPIimCl-sQ" name="anyPerson" incoming="_v4cnAIqBEeibjKg2Kz1BpQ" outgoing="_uY3tICQJEeW9lPIimCl-sQ">
         <type href="vehicles.ecore#//Person"/>
       </nodes>
       <edges xmi:id="_uY3tICQJEeW9lPIimCl-sQ" source="_iiIsgSQFEeW9lPIimCl-sQ" target="__DrP0SQEEeW9lPIimCl-sQ">
         <type href="vehicles.ecore#//Person/vehicleOwnership"/>
+      </edges>
+      <edges xmi:id="_v4cnAIqBEeibjKg2Kz1BpQ" source="__DrP0SQEEeW9lPIimCl-sQ" target="_iiIsgSQFEeW9lPIimCl-sQ">
+        <type href="vehicles.ecore#//Vehicle/owner"/>
       </edges>
     </rhs>
     <mappings xmi:id="__DrP0iQEEeW9lPIimCl-sQ" origin="__DrP0CQEEeW9lPIimCl-sQ" image="__DrP0SQEEeW9lPIimCl-sQ"/>

@@ -46,7 +46,7 @@ public class CPATester extends Tester {
 		this(henshin, rules, rules, options);
 	}
 
-	public CPATester(List<Rule> rules, Options... options) {
+	public CPATester(Set<Rule> rules, Options... options) {
 		this(rules, rules, options);
 	}
 
@@ -75,7 +75,7 @@ public class CPATester extends Tester {
 	 *            1:dependency, 2:essential, 3:prepare, 4:noneDeletionSecondRule,
 	 *            5:printHeader, 6:printResults, 7:silent
 	 */
-	public CPATester(List<Rule> first, List<Rule> second, Options... options) {
+	public CPATester(Set<Rule> first, Set<Rule> second, Options... options) {
 		init(first, second, false, false, options);
 	}
 
@@ -102,8 +102,8 @@ public class CPATester extends Tester {
 		HenshinResourceSet resourceSet = new HenshinResourceSet(r);
 		Module module = resourceSet.getModule(m, false);
 
-		List<Rule> f = new ArrayList<Rule>();
-		List<Rule> s = new ArrayList<Rule>();
+		Set<Rule> f = new HashSet<Rule>();
+		Set<Rule> s = new HashSet<Rule>();
 		for (String firstRule : first) {
 			Rule rule = (Rule) module.getUnit(firstRule);
 			if (rule == null) {
@@ -121,9 +121,9 @@ public class CPATester extends Tester {
 			s.add(rule);
 		}
 		if (f.isEmpty())
-			f = new ArrayList<Rule>(s);
+			f = new HashSet<>(s);
 		if (s.isEmpty())
-			s = new ArrayList<Rule>(f);
+			s = new HashSet<>(f);
 
 		boolean firstAll = false;
 		boolean secondAll = false;
@@ -142,7 +142,7 @@ public class CPATester extends Tester {
 		init(f, s, firstAll, secondAll, options);
 	}
 
-	private void init(List<Rule> first, List<Rule> second, boolean firstAll, boolean secondAll, Options... opt) {
+	private void init(Set<Rule> first, Set<Rule> second, boolean firstAll, boolean secondAll, Options... opt) {
 		if (opt.length != 0)
 			options = opt[0];
 		String ff = "", ss = "";

@@ -52,8 +52,8 @@ public class CDATester extends Tester {
 	private MultiGranularAnalysis analyser;
 	Set<Rule> first = new HashSet<>();
 	public Set<Rule> second = new HashSet<>();
-	private Set<MinimalReason> minimalReasons = new HashSet<>();
-	private Set<Reason> reasons = new HashSet<>();
+	private Set<MinimalReason> minimalReasons = new TreeSet<>();
+	private Set<Reason> reasons = new TreeSet<>();
 	private Set<Atom> atoms = new HashSet<>();
 	private String checked = "";
 	private int iCheckedCounter = 0;
@@ -132,7 +132,7 @@ public class CDATester extends Tester {
 				NAME = tester.NAME;
 				minimalReasons.addAll(tester.getMinimalReasons());
 				atoms.addAll(tester.getAtoms());
-				reasons.addAll(tester.getResult());
+				reasons.addAll(tester.getResult()); //TODO: SO EINE SCHEIßE!!!!! WO KOMMT DER CFCR mit c und c regeln her!?!?!?
 			}
 	}
 
@@ -148,6 +148,8 @@ public class CDATester extends Tester {
 	 *            5:printResult, 6:silent
 	 */
 	public CDATester(Rule first, Rule second, Options... options) {
+		if (first.getName().equals("c") && second.getName().equals("f"))
+			System.out.println();
 		this.first.add(first);
 		this.second.add(second);
 		this.options = new Options();
@@ -350,7 +352,13 @@ public class CDATester extends Tester {
 	 *            default settings are: error = false, out = true
 	 * @return printed String of reasons
 	 */
-	public static String print(Set<? extends Reason> reasons, boolean... errorCompleteOut) {
+	public static String print(Set<Reason> reasons, boolean... errorCompleteOut) {
+		List<Reason> result = new ArrayList<>();
+		result.addAll(reasons);
+		return print(result, errorCompleteOut);
+	}
+
+	public static String print(List<? extends Reason> reasons, boolean... errorCompleteOut) {
 		String result = "";
 		boolean error = errorCompleteOut.length != 0 && errorCompleteOut[0];
 		boolean complete = errorCompleteOut.length < 2 || errorCompleteOut[1];

@@ -70,9 +70,10 @@ public class PreventDuplicateReferencesTest {
 		CPAUtility.extractSingleRules(module, firstRule, firstRuleName, secondRule, secondRuleName);
 
 		cpaByAgg.init(firstRule, secondRule, cdaOptions);
+		
 		CPAResult result = cpaByAgg.runConflictAnalysis();
 
-		int expectedQuantityOfCPs = 1;
+		int expectedQuantityOfCPs = 2;
 		if (result.getCriticalPairs().size() != expectedQuantityOfCPs) {
 			String unequalNumberOfCPs = "expected quantity of cirtical pairs: " + expectedQuantityOfCPs;
 			unequalNumberOfCPs += ", obtained quantity of cirtical pairs: " + result.getCriticalPairs().size();
