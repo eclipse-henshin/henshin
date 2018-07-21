@@ -36,6 +36,8 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 
+import static org.eclipse.emf.henshin.interpreter.util.InterpreterUtil.areNecessaryParametersSet;
+
 /**
  * Default {@link UnitApplication} implementation.
  * 
@@ -82,6 +84,9 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (monitor==null) {
 			monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
 		}
+
+		areNecessaryParametersSet(unit.getParameters(), unit.getName(), assignment);
+
 		appliedRules.clear();
 		undoneRules.clear();
 		resultAssignment = (assignment!=null) ? 

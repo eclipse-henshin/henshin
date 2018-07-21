@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.interpreter.impl;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.Change;
@@ -21,6 +20,8 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+
+import static org.eclipse.emf.henshin.interpreter.util.InterpreterUtil.areNecessaryParametersSet;
 
 /**
  * Default {@link RuleApplication} implementation.
@@ -87,6 +88,9 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 			change = null;
 			resultMatch = null;
 		}
+
+		areNecessaryParametersSet(unit.getParameters(), unit.getName(), partialMatch);
+
 		// Do we need to derive a complete match?
 		if (completeMatch==null) {
 			completeMatch = engine.findMatches((Rule) unit, graph, partialMatch).iterator().next();
@@ -212,16 +216,6 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		}
 		else {
 			partialMatch = new MatchImpl(assignment, false);
-		}
-		
-		if(partialMatch != null) {
-			EList<Parameter> unitParameters = unit.getParameters();
-			for (Parameter param : unitParameters) {
-				ParameterKind kind = param.getKind();
-				if((kind == ParameterKind.INOUT || kind == ParameterKind.IN) && partialMatch.getParameterValue(param) == null) {
-					throw new IllegalStateException(unit.getName() + ": " + kind + " Parameter " + param.getName() + " not set");
-				}
-			}
 		}
 		
 		this.completeMatch = null;

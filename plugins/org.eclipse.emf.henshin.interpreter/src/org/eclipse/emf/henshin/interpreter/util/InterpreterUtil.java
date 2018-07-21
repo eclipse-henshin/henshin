@@ -37,6 +37,8 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
@@ -536,4 +538,21 @@ public class InterpreterUtil {
 		return (match != null) ? true : false;
 	}
 
+	/**
+	 * Check whether all {@link Parameter} of {@link ParameterKind} IN and INOUT of the {@link Unit} are set.
+	 *
+	 * @param parameters All {@link Parameter} of the unit.
+	 * @param unitName The name of the {@link Unit}.
+	 * @param assignment The current {@link Assignment} of the {@link UnitApplication}.
+	 */
+	public static void areNecessaryParametersSet(Iterable<Parameter> parameters, String unitName,
+			Assignment assignment) throws IllegalStateException {
+		for (Parameter param : parameters) {
+			ParameterKind kind = param.getKind();
+			if((kind == ParameterKind.INOUT || kind == ParameterKind.IN) &&
+					(assignment == null || assignment.getParameterValue(param) == null)) {
+				throw new IllegalStateException(unitName + ": " + kind + " Parameter " + param.getName() + " not set");
+			}
+		}
+	}
 }
