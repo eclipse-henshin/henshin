@@ -164,7 +164,7 @@
     <parameters xmi:id="_mP4IkLeZEeGgKfdtjnLQtA" name="height" kind="INOUT">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameters>
-    <parameters xmi:id="_M2O_wLeZEeGgKfdtjnLQtA" name="next" kind="INOUT">
+    <parameters xmi:id="_M2O_wLeZEeGgKfdtjnLQtA" name="next" kind="VAR">
       <type xsi:type="ecore:EClass" href="grid.ecore#//Node"/>
     </parameters>
     <parameterMappings xmi:id="_RZ9poLeZEeGgKfdtjnLQtA" source="_M2O_wLeZEeGgKfdtjnLQtA" target="_JgK4ULeYEeGgKfdtjnLQtA"/>
