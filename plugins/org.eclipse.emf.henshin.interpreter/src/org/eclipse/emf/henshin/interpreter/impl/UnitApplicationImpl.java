@@ -203,6 +203,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
+		removeNonOutParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -236,6 +237,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		}
 		if (seqUnit.getSubUnits().isEmpty())
 			success = true;
+		removeNonOutParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -276,6 +278,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (!success) {
 			undo(monitor);
 		}
+		removeNonOutParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -299,6 +302,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
+		removeNonOutParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -387,6 +391,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
+		removeNonOutParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -411,6 +416,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
+		removeNonOutParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -540,4 +546,12 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		return new ArrayList<RuleApplication>(undoneRules);
 	}
 	
+	private void removeNonOutParametersFromResultAssignment() {
+		for (Parameter parameter : unit.getParameters()) {
+			ParameterKind parameterKind = parameter.getKind();
+			if (parameterKind != ParameterKind.OUT && parameterKind != ParameterKind.INOUT) {
+				resultAssignment.setParameterValue(parameter, null);
+			}
+		}
+	}
 }
