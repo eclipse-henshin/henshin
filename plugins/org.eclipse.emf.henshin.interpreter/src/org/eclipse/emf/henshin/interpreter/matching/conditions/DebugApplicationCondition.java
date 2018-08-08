@@ -1,25 +1,47 @@
 package org.eclipse.emf.henshin.interpreter.matching.conditions;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Observer;
 import java.util.StringJoiner;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.IBreakpointManager;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IStackFrame;
+import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.henshin.HenshinModelPlugin;
+import org.eclipse.emf.henshin.diagram.providers.HenshinMarkerNavigationProvider;
 import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.debug.DebugValueEObject;
+import org.eclipse.emf.henshin.interpreter.debug.DebugValueList;
+import org.eclipse.emf.henshin.interpreter.debug.DebugValueObject;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugTarget;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugThread;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugValue;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugVariable;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinStackFrame;
+import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
+import org.eclipse.emf.henshin.interpreter.info.VariableInfo;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
@@ -28,10 +50,12 @@ import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.PathConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.TypeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
+import org.eclipse.emf.henshin.model.Node;
 
-public class DebugApplicationCondition extends ApplicationCondition {    
+public class DebugApplicationCondition extends ApplicationCondition {  
 	/**
 	 * The Debug Levels from high to low (Variable > Value > Constraint Type > Constraint)
 	 * ("step into" tries to go down a level, "step return" tries to go up a level, 
@@ -66,6 +90,9 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		NONE, TYPE, DANGLING, ATTRIBUTE, CONTAINMENT, REFERENCE, PATH, USER;
 		
 		public ConstraintType next() {
+			if (isLast()) {
+				return this;
+			}
 			return values()[(ordinal()+1) % values().length];
 		}
 		
@@ -96,7 +123,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	
 	private DebugLevel currentDebugLevel;
 	private int currentVariableIndex;
-	private ConstraintType currentConstraintType;
+	private ConstraintType currentConstraintType = ConstraintType.NONE;
 	private int currentConstraintIndex;
 	
 	private Variable currentVariable;
@@ -105,24 +132,45 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	private IStackFrame[] stackFrames;
 
 	private Observer matchObserver;
+	
+	// used to compare currentVariable to HenshinBreakpoints
+	private RuleInfo ruleInfo;
+	
+	private static DebugApplicationCondition instance;
+	// needed for value breakpoints
+	private EGraph graph;
+	public EGraph getGraph() {
+		return this.graph;
+	}
 
 	public DebugApplicationCondition(HenshinDebugTarget debugTarget, List<Variable> variables,
-			Map<Variable, DomainSlot> domainMap, EGraph graph, IFormula formula, Observer matchObserver) {
+			Map<Variable, DomainSlot> domainMap, EGraph graph, IFormula formula, Observer matchObserver, RuleInfo ruleInfo) {
 		super(graph, domainMap);
 		this.debugTarget = debugTarget;
 		this.variables = variables;
 		this.formula = formula;
 		this.matchObserver = matchObserver;
+		this.ruleInfo = ruleInfo;
 		
 		currentDebugLevel = DebugLevel.NONE;
 		currentVariableIndex = -1;
 		currentConstraintType = ConstraintType.NONE;
 		currentConstraintIndex = -1;
 		currentDebugState = DebugState.SUSPENDED;
+		
+		// for value breakpoints
+		instance = this;
+		this.graph = graph;
 	}
 	
+	// TODO: refactor, DebugApplicationCondition should not be static
+	public static DebugApplicationCondition getInstance() {
+		return instance;
+	}
+
+	
 	public void initNextVariable() {
-		
+
 		// for the first call (maybe extract to a initFirstVariable() method)
 		if (currentVariableIndex == -1) {
 			updateDebugState(DebugLevel.VARIABLE, 0, ConstraintType.NONE, -1);
@@ -133,7 +181,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		}
 		
 		// Matched all variables?
-		if (currentVariableIndex==variables.size()) {
+		if (currentVariableIndex == variables.size()) {
 			
 			// Final variable re-checks:
 			for (Variable variable : variables) {
@@ -142,7 +190,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 					if (!slot.recheck(variable, domainMap)) {
 						// recheck turned out invalid --> terminate (no match found)
 						updateDebugState(DebugLevel.NONE, -1, ConstraintType.NONE, -1);
-						currentDebugState = DebugState.TERMINATED_FALSE;
+						setCurrentDebugState(DebugState.TERMINATED_FALSE);
 						if (debugTarget != null) {
 							debugTarget.fireTerminateEvent();							
 						}
@@ -155,7 +203,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 			if (formula.eval()) {
 				// final evaluation was successful --> terminate (match found)
 				updateDebugState(DebugLevel.VARIABLE, currentVariableIndex-1, ConstraintType.NONE, -1);
-				currentDebugState = DebugState.TERMINATED_TRUE;
+				setCurrentDebugState(DebugState.TERMINATED_TRUE);
 				
 				// create a solution
 				Solution solution = new Solution(variables, domainMap, currentSlot.getConditionHandler());
@@ -173,7 +221,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 			
 			// else: final evaluation was not successful --> terminate (no match found)
 			updateDebugState(DebugLevel.NONE, -1, ConstraintType.NONE, -1);
-			currentDebugState = DebugState.TERMINATED_FALSE;
+			setCurrentDebugState(DebugState.TERMINATED_FALSE);
 			if (debugTarget != null) {
 				debugTarget.fireTerminateEvent();			
 			}
@@ -191,11 +239,16 @@ public class DebugApplicationCondition extends ApplicationCondition {
 					"tried to initialize slot with empty domain" + toString());
 		}
 		
-		currentDebugState = DebugState.SUSPENDED;
 		if (debugTarget != null) {
 			debugTarget.fireChangeEvent(DebugEvent.CONTENT);
-			debugTarget.fireSuspendEvent(DebugEvent.STEP_END);							
+			debugTarget.fireSuspendEvent(DebugEvent.STEP_END);
 		}
+				
+		// TODO: Remove code below when using eclipse extension to set henshin breakpoints via GUI
+		// set sample constraint type breakpoint
+//		if (getHenshinBreakpoints().size() <= 0) {
+//			setVariableBreakpoint();
+//		}
 	}
 
 	/**
@@ -238,14 +291,13 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	 * If not, tries to continue to the next variable because all constraints for this variable are valid
 	 * @return
 	 */
-	private void tryNextConstraintType() {
+	private synchronized void tryNextConstraintType() {
 		//are there any constraint types (with constraints) left that we have to check?
 		do {
 			currentConstraintType = currentConstraintType.next();
 			if (currentTypeHasConstraints()) {
 				// continue with that constraint type
 				updateDebugState(DebugLevel.CONSTRAINT_TYPE, currentVariableIndex, currentConstraintType, -1);
-				currentDebugState = DebugState.SUSPENDED;
 				return;
 			}
 		} while (!currentConstraintType.isLast());
@@ -266,13 +318,20 @@ public class DebugApplicationCondition extends ApplicationCondition {
 			// go to next value
 			currentSlot.setValueAndLock();
 			updateDebugState(DebugLevel.VALUE, currentVariableIndex, ConstraintType.NONE, -1);
-			currentDebugState = DebugState.SUSPENDED;
 			if (debugTarget != null) {			
 				debugTarget.fireSuspendEvent(DebugEvent.STEP_END);
 			}
 		} else {
 			tryLowerIndexVariable();
 		}
+	}
+	
+	/*
+	 * Checks if the current variable has a next value.
+	 */
+	private boolean hasNextValue() {
+		currentSlot.unlock(currentVariable);
+		return currentSlot.instantiationPossible();
 	}
 	
 	/**
@@ -294,8 +353,8 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		// this is the "shallowest" recursion level (index 0)
 		// --> terminate (no match found)
 		updateDebugState(DebugLevel.NONE, -1, ConstraintType.NONE, -1);
-		currentDebugState = DebugState.TERMINATED_FALSE;
-		if (debugTarget != null) {			
+		setCurrentDebugState(DebugState.TERMINATED_FALSE);
+		if (debugTarget != null) {
 			debugTarget.fireTerminateEvent();
 		}
 	}
@@ -343,7 +402,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	 * @param newConstraintIndex the new iteration index for multiple constraints of the same type 
 	 * (for example: {@link Variable#attributeConstraints}), or 0 if there is only one constraint or no constraint is active
 	 */
-	private void updateDebugState(
+	private synchronized void updateDebugState(
 			DebugLevel newDebugLevel, 
 			int newVariableIndex, 
 			ConstraintType newConstraintType, 
@@ -353,6 +412,12 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		currentVariableIndex = newVariableIndex;
 		currentConstraintType = newConstraintType;
 		currentConstraintIndex = newConstraintIndex;
+	}
+	
+	private void setCurrentDebugState(DebugState debugState) {
+		if (!isTerminated()) {
+			this.currentDebugState = debugState;
+		}
 	}
 
 	public boolean canResume() {
@@ -364,19 +429,30 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	}
 
 	public boolean isSuspended() {
-		return currentDebugState.equals(DebugState.SUSPENDED);
+		return getCurrentDebugState() == DebugState.SUSPENDED;
 	}
 
 	public void resume() throws DebugException {
 		synchronized (this) {
-//            requestedDebugState = DebugState.RUNNING;
+			if (getCurrentDebugState() == DebugState.SUSPENDED) {
+				setCurrentDebugState(DebugState.RUNNING);
+			}
+						
+			// if the currentDebugState is not terminated oder suspended we continue stepping
+			while(!isTerminated() && getCurrentDebugState() != DebugState.SUSPENDED) {
+				step();
+			}
         }
 	}
 
 	public void suspend() throws DebugException {
 		 synchronized (this) {
-//	            requestedDebugState = DebugState.SUSPENDED;
-	        }		
+            setCurrentDebugState(DebugState.SUSPENDED);
+        }		
+	}
+	
+	public boolean canStep() {
+		return isSuspended();
 	}
 
 	public boolean canStepInto() {
@@ -392,9 +468,153 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	}
 
 	public boolean isStepping() {
-        return currentDebugState.equals(DebugState.STEPPING);
+        return getCurrentDebugState() == DebugState.STEPPING;
 	}
 
+	/*
+	 * Copy of the stepInto() method but without the static suspends after every step.
+	 * We use this method to dive into the deeper logic without suspending the application while we do so.
+	 */
+	public void step() throws DebugException {
+		if (currentVariable == null) {
+			throw new IllegalStateException(
+					"currentVariable is null - variableInitNext() has to be called before");
+		}
+		
+		if (debugTarget != null) {
+			debugTarget.fireResumeEvent(DebugEvent.STEP_INTO);
+		}
+		
+		switch (currentDebugLevel) {
+			case VARIABLE:
+				// first unlock the variable because we might come from a higher index and have the slot still locked.
+				// This was added because otherwise, when coming from a higher index while backtracking,
+				// currentSlot.instantiate() would select the old slot value again instead of the next one.
+				if (currentSlot.getValue() != null) {
+					currentSlot.unlock(currentVariable);
+				}
+				
+				// set the value
+				if (!currentSlot.setValueAndLock()) {
+					throw new IllegalStateException("step called on Variable level, but no values left: "
+						+ toString());
+				}
+
+				// update the debug state (current index does not change)
+				updateDebugState(DebugLevel.VALUE, currentVariableIndex, ConstraintType.NONE, -1);
+								
+				break;
+			case VALUE:
+				// go to the "type" constraint type as it is always the first constraint. 
+				updateDebugState(DebugLevel.CONSTRAINT_TYPE, currentVariableIndex, ConstraintType.TYPE, -1);
+				break;
+
+			case CONSTRAINT_TYPE:
+				// in this state there should be a constraint of the current type left
+				// (this has to be ensured by the steps that lead to the "constraint type" level)
+				if (!currentTypeHasConstraints()) {
+					throw new IllegalStateException("called stepInto for constraint type \"" + currentConstraintType + "\", but this type has no constraint to step into");
+				}
+
+				// if there is a constraint, step into it
+				updateDebugState(DebugLevel.CONSTRAINT, currentVariableIndex, currentConstraintType, 0);
+				break;
+	
+			case CONSTRAINT:
+				if (currentConstraintIndex > maxCurrentConstraintIndex()) {
+					throw new IllegalStateException("called stepOver for constraint type \"" + currentConstraintType + "\", but this type has no unchecked constraint left and should have been skipped");
+				}
+				boolean constraintIsValid = checkCurrentConstraint();
+				if (constraintIsValid) {
+					// are there any constraints of the current type left that we have to check?
+					if (currentConstraintIndex < maxCurrentConstraintIndex()) {
+						// go to the next constraint of the current type
+						updateDebugState(DebugLevel.CONSTRAINT, currentVariableIndex, currentConstraintType, currentConstraintIndex + 1);
+						break;
+					}
+					// else: see if there is a constraint type left that we have to check
+					tryNextConstraintType();
+					break;
+					
+				}
+				if (!constraintIsValid) {
+					// try to go to the next value
+					tryNextValue();
+				}
+				break;
+			default:
+				throwExceptionInvalidDebugLevel();
+		}
+
+		// initially get all henshin breakpoints
+		ArrayList<HenshinBreakpoint> henshinBreakpoints = getHenshinBreakpoints();
+		
+		// This is the node representation for the variable we're currently at.
+		// Compare this node with the node we received (when the user sets a HenshinBreakpoint with right click) when setting HenshinBreakpoints 
+		Node currentNode = ruleInfo.getVariableInfo().getVariableForNode(currentVariable);
+		// Get relative path to node - unique representation of the node. Looks something like this: '@units.1/@lhs/@nodes.0'
+		String currentNodePath = EcoreUtil.getRelativeURIFragmentPath(null, currentNode);
+		// get the current type constraint to compare in shouldStopAtVariableBreakpoint later
+		String currentTypeName = currentVariable.typeConstraint.type.getName();
+		
+		// also consider comparing to name of the node
+		// String currentNodeName = currentNode.getName();
+		
+		// handle variable breakpoints
+		ArrayList<VariableBreakpoint> variableBreakpoints = filterVariableBreakpoints(henshinBreakpoints);
+		if (variableBreakpoints.size() > 0 && currentDebugLevel == DebugLevel.VARIABLE) {
+			for (VariableBreakpoint variableBreakpoint : variableBreakpoints) {
+				// pass all three parameters necessary to clearly determine whether to suspend the application or not
+				if (shouldStopAtVariableBreakpoint(variableBreakpoint, currentTypeName, currentNodePath)) {
+					suspendApplication();
+				}
+			}
+		}
+		
+		// value breakpoints
+		if (currentSlot.getValue() != null) {
+			// get complete domain (e.g. domain for :Client could be 'charles', 'bob', 'alice')
+			List<EObject> domain = graph.getDomain(currentSlot.getValue().eClass(), false);
+			//List<EObject> domain = currentSlot.getDomain();
+			EObject currentValue = currentSlot.getValue();
+			int index = domain.indexOf(currentValue);
+			
+			// get the current domain
+			// List<EObject> currentDomain = currentSlot.getDomain();
+			// get all value breakpoints
+			ArrayList<ValueBreakpoint> valueBreakpoints = filterValueBreakpoints(henshinBreakpoints);
+			if (valueBreakpoints.size() > 0 && currentDebugLevel == DebugLevel.VALUE) {
+				for (ValueBreakpoint valueBreakpoint : valueBreakpoints) {
+					if (shouldStopAtValueBreakpoint(valueBreakpoint, currentValue, index)) {
+						suspendApplication();
+					}
+				}
+			}
+		}
+		
+		
+		// handle value breakpoints
+//		TreeIterator<EObject> allContents = ruleInfo.getRule().eResource().getAllContents();
+		
+		// code from TransformOperation.java
+//		ResourceSet resourceSet;
+//		if (unit.eResource() != null && unit.eResource().getResourceSet() != null) {
+//			resourceSet = unit.eResource().getResourceSet();
+//		} else {
+//			resourceSet = new ResourceSetImpl();
+//		}
+//
+//		
+//		Resource input = resourceSet.getResource(inputUri, true);
+		
+		if (debugTarget != null) {			
+			debugTarget.fireSuspendEvent(DebugEvent.STEP_END);
+		}
+	}
+	
+	/*
+	 * Step into
+	 */
 	public void stepInto() throws DebugException {
 		if (currentVariable == null) {
 			throw new IllegalStateException(
@@ -423,12 +643,12 @@ public class DebugApplicationCondition extends ApplicationCondition {
 				
 				// update the debug state (current index does not change)
 				updateDebugState(DebugLevel.VALUE, currentVariableIndex, ConstraintType.NONE, -1);
-				currentDebugState = DebugState.SUSPENDED;
+				setCurrentDebugState(DebugState.SUSPENDED);
 				break;
 			case VALUE:
-				// go to the "type" constraint type as it is always the first constraint. 
+				// go to the "type" constraint type as it is always the first constraint.
 				updateDebugState(DebugLevel.CONSTRAINT_TYPE, currentVariableIndex, ConstraintType.TYPE, -1);
-				currentDebugState = DebugState.SUSPENDED;
+				setCurrentDebugState(DebugState.SUSPENDED);
 				break;
 
 			case CONSTRAINT_TYPE:
@@ -441,14 +661,14 @@ public class DebugApplicationCondition extends ApplicationCondition {
 
 				// if there is a constraint, step into it
 				updateDebugState(DebugLevel.CONSTRAINT, currentVariableIndex, currentConstraintType, 0);
-				currentDebugState = DebugState.SUSPENDED;
+				setCurrentDebugState(DebugState.SUSPENDED);
 				break;
 	
 			case CONSTRAINT:
 				// identical to stepOver
-				stepOver();
+				step();
+				setCurrentDebugState(DebugState.SUSPENDED);
 				break;
-
 			default:
 				throwExceptionInvalidDebugLevel();
 		}
@@ -458,8 +678,11 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		}
 		
 	}
-
-	public void stepOver() throws DebugException {
+	
+	/*
+	 * New step over
+	 */
+public void stepOver() throws DebugException {
 		
 		if (currentVariable == null) {
 			throw new IllegalStateException(
@@ -480,91 +703,33 @@ public class DebugApplicationCondition extends ApplicationCondition {
 					currentSlot.unlock(currentVariable);
 				}
 				
-				boolean valid = false;
-				while (!valid) {
-					valid = currentSlot.instantiate(currentVariable, domainMap, graph);
-					if (valid) {
-						
-						// no recursive call, we just want to update the state
-						updateDebugState(DebugLevel.VARIABLE, currentVariableIndex + 1, ConstraintType.NONE, -1);
-						initNextVariable();
-						return;
-					}
-					if (!valid) {
-						currentSlot.unlock(currentVariable);
-						if (!currentSlot.instantiationPossible()) {
-							tryLowerIndexVariable();
-							return;
-						}
-					}
+				// keep track of the variable we are currently at
+				Variable tempVariable = currentVariable;
+				// simulates an ordinary step over but with "looking" at all intermediate steps in the debugger as well
+				while(checkForChange(tempVariable, currentVariable)) {
+					step();
 				}
-				
-				// Found a match.
-				currentDebugState = DebugState.SUSPENDED;
 				break;
-
+			
 			case VALUE:
-				// try to match the current value
-				valid = currentSlot.instantiate(currentVariable, domainMap, graph);
-				if (valid) {
-					// go to next variable
-					updateDebugState(DebugLevel.VARIABLE, currentVariableIndex + 1, ConstraintType.NONE, -1);
-					initNextVariable();
-					return;
-				} 
-				if (!valid) {
-					// try to go to the next value
-					tryNextValue();
-					return;
+				// stores the current value as we enter the VALUE case
+				EObject tempValue = currentSlot.getValue();
+				while (checkForChange(tempValue, currentSlot.getValue())) {
+					step();
 				}
 				break;
 
 			case CONSTRAINT_TYPE:
-				// in this state there should always be a constraint left
-				if (!currentTypeHasConstraints()) {
-					throw new IllegalStateException("called stepOver for constraint type \"" 
-							+ currentConstraintType + "\", but this type has no constraint and should have been skipped");
+				// keeps track of the constraint type we started from
+				ConstraintType tempConstraintType = currentConstraintType;
+				while(checkForChange(tempConstraintType, currentConstraintType)) {
+					step();
 				}
-				
-				int maxCurrConstrIndex = maxCurrentConstraintIndex();
-				
-				// the current constraint type has constraints => check them
-				for (currentConstraintIndex = 0; currentConstraintIndex <= maxCurrConstrIndex; currentConstraintIndex++) {
-					// if one is invalid, we know this value will not match => try to go to the next value
-					if (!checkCurrentConstraint()) {
-						tryNextValue();
-						return;
-					}
-				}
-				
-				// if all constraints of this type are valid, see if there is a constraint type left that we have to check
-				tryNextConstraintType();
 				break;
-
+				
 			case CONSTRAINT:
-				if (currentConstraintIndex > maxCurrentConstraintIndex()) {
-					throw new IllegalStateException("called stepOver for constraint type \"" + currentConstraintType 
-							+ "\", but this type has no unchecked constraint left and should have been skipped");
-				}
-				boolean constraintIsValid = checkCurrentConstraint();
-				if (constraintIsValid) {
-					// are there any constraints of the current type left that we have to check?
-					if (currentConstraintIndex < maxCurrentConstraintIndex()) {
-						// go to the next constraint of the current type
-						updateDebugState(DebugLevel.CONSTRAINT, currentVariableIndex, currentConstraintType, currentConstraintIndex + 1);
-						currentDebugState = DebugState.SUSPENDED;
-						break;
-					}
-					// else: see if there is a constraint type left that we have to check
-					tryNextConstraintType();
-					break;
-					
-				} 
-				if (!constraintIsValid) {
-					// try to go to the next value
-					tryNextValue();
-					return;
-				}
+				step();
+				setCurrentDebugState(DebugState.SUSPENDED);
 				break;
 			
 			default:
@@ -577,116 +742,68 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		}		
 	}
 
-	public void stepReturn() throws DebugException {
-		if (currentVariable == null) {
-			throw new IllegalStateException(
-					"currentVariable is null - variableInitNext() has to be called before");
-		}
-		
-		if (debugTarget != null) {
-			debugTarget.fireResumeEvent(DebugEvent.STEP_RETURN);
-		}
-		
-		switch (currentDebugLevel) {
-			case VARIABLE:
-				// identical to stepOver
-				stepOver();
-				break;
-			case VALUE:
-				// Do the same as the variable step over, but without unlocking the slot. This way, DomainSlot.initialize() and
-				// DomainSlot.setValueAndLock() get called a second time, but the calls have no effect for a locked and initialized slot
-				boolean valid = false;
-				while (!valid) {
-					valid = currentSlot.instantiate(currentVariable, domainMap, graph);
-					if (valid) {
-						
-						// no recursive call, we just want to update the state
-						updateDebugState(DebugLevel.VARIABLE, currentVariableIndex + 1, ConstraintType.NONE, -1);
-						initNextVariable();
-						return;
-					}
-					if (!valid) {
-						currentSlot.unlock(currentVariable);
-						if (!currentSlot.instantiationPossible()) {
-							tryLowerIndexVariable();
-							return;
-						}
-					}
-				}
-				
-				// Found a match.
-				currentDebugState = DebugState.SUSPENDED;
-				break;
-				
-			case CONSTRAINT_TYPE:
-				// in this state there should always be a constraint left
-				if (!currentTypeHasConstraints()) {
-					throw new IllegalStateException("called stepOver for constraint type \"" 
-							+ currentConstraintType + "\", but this type has no constraint and should have been skipped");
-				}
-				
-				while (! currentConstraintType.isLast()) {
-					// check all the constraints of this type
-					for (currentConstraintIndex = 0; currentConstraintIndex <= maxCurrentConstraintIndex(); currentConstraintIndex++) {
-						if (!checkCurrentConstraint()) {
-							// constraint is invalid, so we know this value will not match => try to go to the next value
-							tryNextValue();
-							return;
-						}
-					}
-					
-					// next iteration with the next type
-					currentConstraintType = currentConstraintType.next();
-	
-				}
-				// we checked all constraints of all types, and no constraint was invalid
-				// => go to next variable (index++)
-				updateDebugState(DebugLevel.VARIABLE, currentVariableIndex + 1, ConstraintType.NONE, -1);
-				initNextVariable();
-				return;
 
-			case CONSTRAINT:
-				// check for illegal state
-				if (currentConstraintIndex > maxCurrentConstraintIndex()) {
-					throw new IllegalStateException("called stepOver for constraint type \"" + currentConstraintType 
-							+ "\", but this type has no unchecked constraint left and should have been skipped");
-				}
-				
-				// check the remaining constraints of this type
-				while (currentConstraintIndex <= maxCurrentConstraintIndex()) {
-					// if one is invalid, we know this value will not match => try to go to the next value
-					if (!checkCurrentConstraint()) {
-						tryNextValue();
-						return;
-					}
-					currentConstraintIndex++;
-				}
-				
-				// every constraint of this type is valid => go to next constraint type / variable
-				tryNextConstraintType();
-				break;
-
-			default:
-				throwExceptionInvalidDebugLevel();
-		}
-		
-		if (debugTarget != null) {	
-			debugTarget.fireSuspendEvent(DebugEvent.STEP_END);
-		}
+public void stepReturn() throws DebugException {
+	if (currentVariable == null) {
+		throw new IllegalStateException(
+				"currentVariable is null - variableInitNext() has to be called before");
 	}
+	
+	if (debugTarget != null) {
+		debugTarget.fireResumeEvent(DebugEvent.STEP_RETURN);
+	}
+	
+	switch (currentDebugLevel) {
+		case VARIABLE:
+			// identical to stepOver
+			stepOver();
+			break;
+		case VALUE:
+			// keep track of the variable we are currently at
+			Variable tempVariable = currentVariable;
+			// boolean flag to determine whether we should keep stepping or not
+			while(checkForChange(tempVariable, currentVariable)) {
+				step();
+			}
+			break;
+			
+		case CONSTRAINT_TYPE:
+			// stores the current value as we enter the VALUE case
+			EObject tempValue = currentSlot.getValue();
+			while (checkForChange(tempValue, currentSlot.getValue())) {
+				step();
+			}
+			break;
+
+		case CONSTRAINT:
+			// keeps track of the constraint type we started from
+			ConstraintType tempConstraintType = currentConstraintType;
+			while(checkForChange(tempConstraintType, currentConstraintType)) {
+				step();
+			}
+			break;
+
+		default:
+			throwExceptionInvalidDebugLevel();
+	}
+	
+	if (debugTarget != null) {	
+		debugTarget.fireSuspendEvent(DebugEvent.STEP_END);
+	}
+}
 
 	public boolean canTerminate() {
 		return !isTerminated();
 	}
 
 	public boolean isTerminated() {
-		return currentDebugState.equals(DebugState.TERMINATED_FALSE)
-				|| currentDebugState.equals(DebugState.TERMINATED_TRUE);
+		return getCurrentDebugState() == DebugState.TERMINATED_FALSE
+				|| getCurrentDebugState() == DebugState.TERMINATED_TRUE;
 	}
 
 	public void terminate() throws DebugException {
 		updateDebugState(DebugLevel.NONE, -1, ConstraintType.NONE, -1);
-		currentDebugState = DebugState.TERMINATED_FALSE;
+		setCurrentDebugState(DebugState.TERMINATED_FALSE);
 		if (debugTarget != null) {			
 			debugTarget.fireTerminateEvent();
 		}		
@@ -694,9 +811,9 @@ public class DebugApplicationCondition extends ApplicationCondition {
 
 	public String getName() throws DebugException {
 		// if the matching has terminated successfully, display the match to the user
-		if (currentDebugState == DebugState.TERMINATED_TRUE) {
+		if (getCurrentDebugState() == DebugState.TERMINATED_TRUE) {
 			return "["+variables.size() + "/" + variables.size() + " variables matched]";
-		} else if (currentDebugState == DebugState.TERMINATED_FALSE) {
+		} else if (getCurrentDebugState() == DebugState.TERMINATED_FALSE) {
 			return "[no match found]";
 		}
 		
@@ -704,16 +821,390 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		return currentVariableIndex + "/" + variables.size() + " variables matched";
 	}
 
+	/*
+	 * Custom methods start here
+	 */
+	
+	public IBreakpointManager getManager() {
+		return DebugPlugin.getDefault().getBreakpointManager(); 
+	} 
+	
 	public IBreakpoint[] getBreakpoints() {
-		return new IBreakpoint[0];
+		// get manager and its breakpoints
+		IBreakpointManager manager = getManager();
+		IBreakpoint[] breakpoints = manager.getBreakpoints();
+		
+		if (breakpoints.length > 0) {
+			manager.getTypeName(breakpoints[0]);
+		}
+		return breakpoints;
 	}
+	
+	/**
+	 * Returns all henshin breakpoints we currently have
+	 */
+	public ArrayList<HenshinBreakpoint> getHenshinBreakpoints() {
+		IBreakpoint[] breakpoints = getBreakpoints();
+		ArrayList<HenshinBreakpoint> henshinBreakpoints = filterHenshinBreakpoints(breakpoints);
+		return henshinBreakpoints;
+	}
+	
+	/**
+	 * Sets an example variable breakpoint.
+	 */
+	public void setVariableBreakpoint(Variable variable) {
+		// get all breakpoints
+		IBreakpointManager manager = getManager();
+		// create breakpoint
+		IFile moduleFile = debugTarget.getModuleFile();
+		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/variable", "Sample VariableBreakpoint", IStatus.OK);
+		VariableBreakpoint breakpoint = new VariableBreakpoint();
+		try {
+			// set marker for breakpoint
+			breakpoint.setMarker(marker);
+			// This is the node representation for the variable we're currently at.
+			// Compare this node with the node we received (when the user sets a HenshinBreakpoint with right click) when setting HenshinBreakpoints 
+			Node currentNode = ruleInfo.getVariableInfo().getVariableForNode(variable);
+			// Get relative path to node - unique representation of the node. Looks something like this: '@units.1/@lhs/@nodes.0'
+			String nodePath = EcoreUtil.getRelativeURIFragmentPath(null, currentNode);
+			// get the current type constraint to compare in shouldStopAtVariableBreakpoint later
+			String typeName = variable.typeConstraint.type.getName();
+			// uncomment the lines below to stop at from:Account in transferMoney rule or at constraintType 'Manager' in createAccount
+			breakpoint.setPath(nodePath); // equals node of 'from: Account' in transferMoney rule
+			breakpoint.setTypeName(typeName); // the exact string representation of the current constraint type (in this case 'Manager' from createAccount rule) - set this via right click by using constraintType.type.getName()
+			breakpoint.setEnabled(true);
+			// configure breakpoint
+			breakpoint.setDebugLevel(DebugLevel.VARIABLE);
+			// add breakpoint to manager to keep track
+			manager.addBreakpoint(breakpoint);
+		} catch (CoreException e1) {
+			System.out.println("Unable to create custom VariableBreakpoint.");
+			e1.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Sets breakpoint for a given value.
+	 * This is determined by the value itself and its corresponding index within the domain.
+	 */
+	public void setValueBreakpoint(HenshinDebugValue value, int index) {
+		// get all breakpoints
+		IBreakpointManager manager = getManager();
+		// create breakpoint
+		IFile moduleFile = debugTarget.getModuleFile();
+		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/value", "Sample ValueBreakpoint", IStatus.OK);
+		ValueBreakpoint breakpoint = new ValueBreakpoint();
+		try {
+			// set marker for breakpoint
+			breakpoint.setMarker(marker);
+			breakpoint.setEnabled(true);
+			// configure breakpoint
+			breakpoint.setType(value.getReferenceTypeName());
+			breakpoint.setValueString(value.getValueString());
+			breakpoint.setIndex(index);
+			breakpoint.setDebugLevel(DebugLevel.VALUE);
+			// add breakpoint to manager to keep track
+			manager.addBreakpoint(breakpoint);
+		} catch (CoreException e1) {
+			System.out.println("Unable to create custom ValueBreakpoint.");
+			e1.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Returns an array list containing all HenshinBreakpoints currently available
+	 */
+	public ArrayList<HenshinBreakpoint> filterHenshinBreakpoints(IBreakpoint[] breakpoints) {
+		// array list of HenshinBreakpoints to be returned
+		ArrayList<HenshinBreakpoint> henshinBreakpoints = new ArrayList<HenshinBreakpoint>();
+		
+		// loop through all breakpoints and return the ones which are of type henshin breakpoints
+		for (IBreakpoint breakpoint : breakpoints) {
+			// local variable
+			HenshinBreakpoint henshinBreakpoint;
+			if (isHenshinBreakpoint(breakpoint)) {
+				// cast to henshin breakpoint
+				henshinBreakpoint = (HenshinBreakpoint) breakpoint;
+				henshinBreakpoints.add(henshinBreakpoint);
+			}
+		}
+		
+		return henshinBreakpoints;
+	}
+	
+	/**
+	 * Checks whether a given breakpoint is a subclass of HenshinBreakpoint
+	 */
+	public boolean isHenshinBreakpoint(IBreakpoint breakpoint) {
+		return HenshinBreakpoint.class.isAssignableFrom(breakpoint.getClass());
+	}
+	
+	/**
+	 * Returns an array list containing all VariableBreakpoints currently available
+	 */
+	public ArrayList<VariableBreakpoint> filterVariableBreakpoints(ArrayList<HenshinBreakpoint> henshinBreakpoints) {
+		ArrayList<VariableBreakpoint> variableBreakpoints = new ArrayList<VariableBreakpoint>();
+		
+		// loop through all breakpoints and return the ones which are of type VariableBreakpoint
+		for (HenshinBreakpoint henshinBreakpoint : henshinBreakpoints) {
+			// local variable
+			if (isVariableBreakpoint(henshinBreakpoint)) {
+				// cast to VariableBreakpoint
+				VariableBreakpoint variableBreakpoint = (VariableBreakpoint) henshinBreakpoint;
+				variableBreakpoints.add(variableBreakpoint);
+			}
+		}
+		
+		return variableBreakpoints;
+	}
+	
+	/**
+	 * Checks whether a given breakpoint is of type VariableBreakpoint
+	 */
+	public boolean isVariableBreakpoint(HenshinBreakpoint breakpoint) {
+		return breakpoint instanceof VariableBreakpoint;
+	}
+	
+	/**
+	 * Checks all the necessary parameters to determine whether to stop at this variable or not.
+	 * @param variableBreakpoint
+	 * @param currentTypeName
+	 * @param currentNodePath
+	 * @return true if any of the criteria of the breakpoint match the current variable 
+	 */
+	public boolean shouldStopAtVariableBreakpoint(VariableBreakpoint variableBreakpoint, String currentTypeName, String currentNodePath) {		
+		try {
+			// check if enabled
+			if (variableBreakpoint.isEnabled()) {
+				// check if we want to stop at every breakpoint anyway
+				if (variableBreakpoint.isGeneric()) {
+					return true;
+				}
+				
+				// check if we want to stop at a specific variable
+				if (variableBreakpoint.isSpecificVariable()) {
+					if (currentNodePath.equals(variableBreakpoint.getPath())) {
+						return true;
+					}
+				}
+				
+				// check if we want to stop at a specific variable type
+				if (variableBreakpoint.isSpecificType()) {
+					if (currentTypeName.equals(variableBreakpoint.getTypeName())) {
+						return true;
+					}
+				}
+			}
+
+			// if none of the above match we just return false to keep stepping
+			return false;
+			
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks if the application should suspend at the given ValueBreakpoint.
+	 * Therefore we check if the value we saved in the ValueBreakpoint is a member of the domain
+	 * and if so we additionally check if the saved index matches the index of the value within the domain.
+	 * 
+	 * @param variableBreakpoint
+	 * @param domain
+	 * @return boolean
+	 */
+	public boolean shouldStopAtValueBreakpoint(ValueBreakpoint valueBreakpoint, EObject value, int index) {
+		try {
+			if (valueBreakpoint.isEnabled()) {
+				// breakpoint data
+				String breakpointType = valueBreakpoint.getType();
+				int breakpointIndex = valueBreakpoint.getIndex();
+				
+				// current data
+				String currentType = value.eClass().getName();
+				int currentIndex = index; 
+				
+				// check
+				if (breakpointType.equals(currentType) && breakpointIndex == currentIndex) {
+					return true;
+				}
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+		return false;
+	}
+	
+	/**
+	 * Checks if there are any variables left.
+	 * 
+	 * @return true if current variable is last variable
+	 */
+	public boolean isLastVariable() {
+		return currentVariableIndex == variables.size() - 1;
+	}
+	
+	/**
+	 * Returns an array list containing all ValueBreakpoints currently available
+	 */
+	public ArrayList<ValueBreakpoint> filterValueBreakpoints(ArrayList<HenshinBreakpoint> henshinBreakpoints) {
+		ArrayList<ValueBreakpoint> valueBreakpoints = new ArrayList<ValueBreakpoint>();
+		
+		// loop through all breakpoints and return the ones which are of type VariableBreakpoint
+		for (HenshinBreakpoint henshinBreakpoint : henshinBreakpoints) {
+			// local variable
+			if (isValueBreakpoint(henshinBreakpoint)) {
+				// cast to VariableBreakpoint
+				ValueBreakpoint valueBreakpoint = (ValueBreakpoint) henshinBreakpoint;
+				valueBreakpoints.add(valueBreakpoint);
+			}
+		}
+		
+		return valueBreakpoints;
+	}
+	
+	/**
+	 * Checks whether a given breakpoint is of type ValueBreakpoint
+	 */
+	public boolean isValueBreakpoint(IBreakpoint breakpoint) {
+		return breakpoint instanceof ValueBreakpoint;
+	}
+	
+	/*
+	 * Returns an array list containing all ConstraintTypeBreakpoints currently available
+	 */
+	public ArrayList<ConstraintTypeBreakpoint> filterConstraintTypeBreakpoints(ArrayList<HenshinBreakpoint> henshinBreakpoints) {
+		ArrayList<ConstraintTypeBreakpoint> constraintTypeBreakpoints = new ArrayList<ConstraintTypeBreakpoint>();
+		
+		// loop through all breakpoints and return the ones which are of type VariableBreakpoint
+		for (HenshinBreakpoint henshinBreakpoint : henshinBreakpoints) {
+			// local variable
+			if (isConstraintTypeBreakpoint(henshinBreakpoint)) {
+				// cast to VariableBreakpoint
+				ConstraintTypeBreakpoint constraintTypeBreakpoint = (ConstraintTypeBreakpoint) henshinBreakpoint;
+				constraintTypeBreakpoints.add(constraintTypeBreakpoint);
+			}
+		}
+		
+		return constraintTypeBreakpoints;
+	}
+	
+	/*
+	 * Checks whether a given breakpoint is of type ConstraintTypeBreakpoint
+	 */
+	public boolean isConstraintTypeBreakpoint(HenshinBreakpoint henshinBreakpoint) {
+		return henshinBreakpoint instanceof ConstraintTypeBreakpoint;
+	}
+		
+	/*
+	 * Suspends the application if certain criteria for the breakpoint are met.
+	 */
+	public void handleDebugState(HenshinBreakpoint henshinBreakpoint) {
+		
+		// TODO:
+		
+		// get debug level of current henshinBreakpoint
+		DebugLevel henshinBreakpointDebugLevel = henshinBreakpoint.getDebugLevel();
+		
+		if (currentDebugLevel.equals(henshinBreakpointDebugLevel)) {
+			// TODO: Suspend when criteria met
+			// we want to suspend here
+			try {
+				debugTarget.suspend();
+			} catch (DebugException e) {
+				System.out.println("Application could not be suspended.");
+				e.printStackTrace();
+			}
+		} else {
+			// resume the application in case we are suspended
+			try {
+				debugTarget.resume();
+			} catch (DebugException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/*
+	 * Suspend the application
+	 */
+	public void setSuspended() {
+		try {
+			debugTarget.suspend();
+		} catch (DebugException e) {
+			System.out.println("Application could not be suspended.");
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Resume the application
+	 */
+	public void setResumed() {
+		// resume the application in case we are suspended
+		try {
+			debugTarget.resume();
+		} catch (DebugException e) {
+			System.out.println("Application could not be resumed.");
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Checks for deeper and debug levels and returns a boolean to indicate
+	 * whether the application should be suspended or not. 
+	 */
+	public boolean shouldSuspendApplication(HenshinBreakpoint henshinBreakpoint) {		
+		switch (currentDebugLevel) {
+		case VARIABLE:
+			if (henshinBreakpoint instanceof VariableBreakpoint) {
+				// TODO: Implement - Check for VariableBreakpoint attributes
+				System.out.println("Matched VariableBreakpoint");
+			}
+			break;
+		case VALUE:
+			if (henshinBreakpoint instanceof ValueBreakpoint) {
+				// TODO: Implement
+				System.out.println("Matched ValueBreakpoint");
+			}
+			break;
+		case CONSTRAINT_TYPE:
+			if (henshinBreakpoint instanceof ConstraintTypeBreakpoint) {
+				// TODO: Implement
+				System.out.println("Matched ConstraintTypeBreakpoint");
+			}
+			break;
+		case CONSTRAINT:
+			if (henshinBreakpoint instanceof ConstraintInstanceBreakpoint) {
+				// TODO: Implement
+				System.out.println("Matched ConstraintInstanceBreakpoint");
+			}
+			break;
+		default:
+			break;
+		}
+		
+		
+		return false;
+	}
+			
+	/*
+	 * Custom methods end here
+	 */
 	
 	/**
 	 * returns the current array of stackFrames, each containing variables.
 	 * NOTE: maybe we could store the stackframes that do not change
 	 * @return
 	 */
-	public IStackFrame[] getStackFrames(HenshinDebugThread debugThread) {
+	public synchronized IStackFrame[] getStackFrames(HenshinDebugThread debugThread) {
 		
 		// calculate the number of stackframes we need:
 		// we need one stackframe for every matched variable as well as one for the current one.
@@ -747,7 +1238,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 							debugTarget,
 							"Variable",
 							retrieveVariableLabel(var),
-							var.typeConstraint.type.getName());			
+							var);			
 			
 			String declaredType = var.typeConstraint.type.getName();
 			
@@ -756,16 +1247,18 @@ public class DebugApplicationCondition extends ApplicationCondition {
 			if (slot.getDomain() == null) {
 				declaredType += "[]";
 			}
-			
+												
 			HenshinDebugVariable debugDomain =
 					new HenshinDebugVariable(
 							debugTarget,
 							"Domain",
-							new HenshinDebugValue(
+							new DebugValueList(
 									debugTarget,
 									graph,
-									slot.getDomain(),
-									declaredType));
+									declaredType,
+									(slot.getDomain() != null ? slot.getDomain() : new ArrayList<EObject>()) // if the domain is empty we pass an empty array list, else we pass the domain
+									)
+							);
 			
 			IVariable[] stackVariables = new IVariable[]{debugVariable, debugDomain};
 			
@@ -779,30 +1272,34 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		// ...value
 		if (currentDebugLevel.ordinal() > 1) {
 			
+			/*
+			 * Get whole domain (e.g. domain for :Client could be 'charles', 'bob', 'alice').
+			 * Domain may also be null, then we use an empty array list.
+			 */
+			List<EObject> domain;
+			if (currentSlot.getValue() != null) {
+				domain = graph.getDomain(currentSlot.getValue().eClass(), false);
+			} else {
+				domain = new ArrayList<EObject>();
+			}
+			int index = domain.indexOf(currentSlot.getValue());
+			
 			HenshinDebugVariable debugValue =
 					new HenshinDebugVariable(
 							debugTarget,
 							"Value",
-							new HenshinDebugValue(
+							new DebugValueEObject(
 									debugTarget,
 									graph,
+									currentVariable.typeConstraint.type.getName(),
 									currentSlot.getValue(),
-									currentVariable.typeConstraint.type.getName()));
-			
-			HenshinDebugVariable debugDomain = 
-					new HenshinDebugVariable(
-							debugTarget,
-							"Domain",
-							new HenshinDebugValue(
-									debugTarget,
-									graph,
-									currentSlot.getDomain(),
-									currentVariable.typeConstraint.type.getName()));
-			
-			IVariable[] stackVariables = new IVariable[]{debugValue, debugDomain};
+									index)
+							);
+						
+			IVariable[] stackFrameVariables = new IVariable[]{debugValue};
 			String label = "Value: '" + retrieveValueLabel(currentSlot.getValue(), graph) + "'";
 			
-			stackFrames[currentVariableIndex+1] = new HenshinStackFrame(debugThread, stackVariables, label, currentVariableIndex+1);
+			stackFrames[currentVariableIndex+1] = new HenshinStackFrame(debugThread, stackFrameVariables, label, currentVariableIndex+1);
 			
 			// ... constraint type
 			if (currentDebugLevel.ordinal() > 2) {
@@ -823,18 +1320,22 @@ public class DebugApplicationCondition extends ApplicationCondition {
 							new HenshinDebugVariable(
 									debugTarget,
 									"Constraint Index", 
-									new HenshinDebugValue(
+									new DebugValueObject(
 											debugTarget,
 											graph,
-											Integer.valueOf(currentConstraintIndex),
-											int.class.getName()));
+											int.class.getName(),
+											currentConstraintIndex,
+											0)
+									);
 					
 					label = retrieveConstraintLabel();
 
 					HenshinDebugVariable debugConstraint = 
 							new HenshinDebugVariable(debugTarget, "Constraint", label, currentConstraintType.toString() + " Constraint");
-								
-					stackFrames[currentVariableIndex+3] = new HenshinStackFrame(debugThread, new IVariable[]{debugConstrIndex, debugConstraint}, label, currentVariableIndex+3);
+					
+//					if (stackFrames.length >= currentVariableIndex + 4) {
+						stackFrames[currentVariableIndex+3] = new HenshinStackFrame(debugThread, new IVariable[]{debugConstrIndex, debugConstraint}, label, currentVariableIndex+3);
+//					}
 				}
 			}
 		}
@@ -858,6 +1359,8 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	 * @return the label String.
 	 */
 	public static String retrieveValueLabel(EObject value, EGraph graph) {
+		if (value == null)
+			return "null";
 		// the label should start with the eClass name
 		String label = value.eClass().getName() + " ";
 		
@@ -896,7 +1399,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	 * @return a label string describing the current constraint instance
 	 */
 	@SuppressWarnings("unchecked")
-	private String retrieveConstraintLabel() {
+	private synchronized String retrieveConstraintLabel() {
 		String label = "Constraint " + currentConstraintIndex;
 		
 		if (currentDebugLevel != DebugLevel.CONSTRAINT) {
@@ -921,8 +1424,15 @@ public class DebugApplicationCondition extends ApplicationCondition {
 				paramValue = paramName;
 			}
 			String attName = attributeConstraint.getAttribute().getName();
-			String attValue = String.valueOf(currentSlot.getValue().eGet(currentSlot.getValue().eClass().getEStructuralFeature(attName)));
-			label += attValue + " = " + paramValue + " (" + attName + " = " + paramName + ")";
+			/*
+			 * This usually won't be null but if the user steps through 
+			 * the debugging process too fast this may result in a null pointer exception.
+			 * Therefore we check for a value first. 
+			 */
+			if (currentSlot.getValue() != null) {
+				String attValue = String.valueOf(currentSlot.getValue().eGet(currentSlot.getValue().eClass().getEStructuralFeature(attName)));
+				label += attValue + " = " + paramValue + " (" + attName + " = " + paramName + ")";				
+			}
 			break;
 		case CONTAINMENT:
 			ContainmentConstraint containmentConstraint = currentVariable.containmentConstraints.get(currentConstraintIndex);
@@ -969,6 +1479,9 @@ public class DebugApplicationCondition extends ApplicationCondition {
 			label += "Path to variable <" + retrieveVariableLabel(pathConstraint.getTargetVariable()) 
 				+ "> via references " + listJoiner.toString();
 			break;
+		case USER:
+			label += "User";
+			break;
 		case NONE:
 			throw new IllegalStateException("trying to find label for constraint with currentConstraintType NONE");
 		default:
@@ -979,11 +1492,37 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		return label;
 	}
 
-
+	/*
+	 * Get the current DebugState.
+	 */
 	public DebugState getCurrentDebugState() {
 		return currentDebugState;
 	}
+
+	/*
+	 * Determines the value of the shouldStep variable used in stepOver().
+	 */
+	public <U> boolean checkForChange(Object a, Object b) {
+		// TODO: Check that a and b are of same type in method declaration
+		// if we are at DebugLevel.NONE or the suspendCondition is met we stop stepping
+		if (currentDebugLevel == DebugLevel.NONE || a != b) {
+			// suspend application when one ore more of the two conditions are met
+			suspendApplication();
+			// gets assigned to the shouldStep variable in stepOver()
+			return false;
+		}
+		
+		// gets assigned to the shouldStep variable in stepOver()		
+		return true;
+	}
 	
+	/*
+	 * Suspends the application by setting currentDebugState SUSPENDED.
+	 */
+	public void suspendApplication() {
+		if (!isTerminated())
+			setCurrentDebugState(DebugState.SUSPENDED);
+	}
 
 	/**
 	 * checks the current debug state with the state provided by the parameters

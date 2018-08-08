@@ -120,8 +120,8 @@ public class HenshinDebugThread extends HenshinDebugElement implements IThread {
 
 	@Override
 	public IStackFrame getTopStackFrame() throws DebugException {
-		if (getStackFrames().length == 0) return null;
-		return getStackFrames()[0];
+		final IStackFrame[] stackFrames = getStackFrames();
+		return (stackFrames.length > 0 ? stackFrames[0] : null);
 	}
 
 	@Override

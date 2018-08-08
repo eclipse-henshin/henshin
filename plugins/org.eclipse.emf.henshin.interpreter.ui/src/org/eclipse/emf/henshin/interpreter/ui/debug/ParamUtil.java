@@ -9,21 +9,21 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfig;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Unit;
 
 public class ParamUtil {
-	
+
 	/**
 	 * finds the IFile at the location provided by the string uri
 	 * @param uriString
 	 * @return
 	 */
-	public static IFile getIFile(String uriString) {
+	public static IFile getIFile(URI uri) {
 		try {
-			org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI.createURI(uriString);
 			if (uri.isPlatformResource()) {
 				IPath path = new Path(uri.toPlatformString(false));
 				return ResourcesPlugin.getWorkspace().getRoot().getFile(path);
@@ -33,7 +33,7 @@ public class ParamUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * gets the parameter preferences from a given unit
 	 * @param unit
@@ -48,7 +48,7 @@ public class ParamUtil {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * converts the String value to the given type (see ParameterConfig) and returns it as an Object
 	 * @param type
@@ -64,7 +64,7 @@ public class ParamUtil {
 	    if(type == ParameterConfig.DOUBLE) return Double.parseDouble(value);
 	    return value; // string is also returned unchanged
 	}
-	
+
 	/**
 	 * fills the given parameter configuration with the given parameter types and values
 	 * @param paramConfigs
@@ -83,28 +83,28 @@ public class ParamUtil {
 				// only for UNKNOWN parameter kinds: use the stored 'unset' value
 				paramConfig.setUnset(unsetParamNames.contains(paramConfig.getName()));
 			}
-			
+
 			if (paramConfig.isUnset()) {
 				continue;
 			}
-			
+
 			// parse the type and value (they are stored as strings in the configuration)
 			// (use default type if none was stored)
 			int paramType = paramConfig.getType();
-			if (paramTypes.get(paramConfig.getName()) != null) {			
+			if (paramTypes.get(paramConfig.getName()) != null) {
 				paramType = Integer.parseInt(paramTypes.get(paramConfig.getName()));
 			}
-			
-			Object paramValue = null;		
+
+			Object paramValue = null;
 			if (!paramConfig.isUnset()) {
 				String stringValue = paramValues.get(paramConfig.getName());
 				try {
-					paramValue = (stringValue == null ? null : paramConfigToObject(paramType, stringValue));					
+					paramValue = (stringValue == null ? null : paramConfigToObject(paramType, stringValue));
 				} catch (NumberFormatException e) {
 					paramValue = null;
 				}
 			}
-			
+
 			// set the type and value of the parameter
 			paramConfig.setType(paramType);
 			paramConfig.setValue(paramValue);

@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.interpreter.impl;
 import java.util.Observer;
 
 import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugTarget;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
@@ -21,7 +22,7 @@ public class DebugEngineImpl extends EngineImpl {
 		
 		// create a DebugApplicationCondition using the standard ApplicationCondition
 		DebugApplicationCondition debugApplicationCondition = new DebugApplicationCondition(
-				debugTarget, ac.variables, ac.domainMap, ac.graph, ac.formula, matchObserver);
+				debugTarget, ac.variables, ac.domainMap, ac.graph, ac.formula, matchObserver, getRuleInfo(rule));
 		
 		return debugApplicationCondition;
 	}

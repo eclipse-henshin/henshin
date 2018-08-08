@@ -4,17 +4,25 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 
 public class HenshinDebugVariable extends HenshinDebugElement implements IVariable {
 	
 	private String name;
 	private HenshinDebugValue value;
+	private Variable variable;
 	
 	/**
 	 * for a variable with a primitive / human readable value
 	 */
+	public HenshinDebugVariable(IDebugTarget target, String name, String value, Variable variable) {
+		this(target, name, value, variable.typeConstraint.type.getName());
+		this.variable = variable;
+	}
+	
 	public HenshinDebugVariable(IDebugTarget target, String name, String value, String declaredType) {
-		this(target, name, new HenshinDebugValue(target, null, value, declaredType));
+		this(target, name, new DebugValueObject(target, null, declaredType, value, -1));
 	}
 
 	/**
@@ -25,10 +33,14 @@ public class HenshinDebugVariable extends HenshinDebugElement implements IVariab
 		this.name = name;
 		this.value = value;
 	}
+	
+	public Variable getVariable() {
+		return variable;
+	}
 
 	@Override
 	public void setValue(String expression) throws DebugException {
-		this.value = new HenshinDebugValue(getDebugTarget(), null, expression, value.getDeclaredType());
+		this.value = new DebugValueEObject(getDebugTarget(), null, expression, (EObject) value, -1);
 	}
 
 	@Override
@@ -63,7 +75,8 @@ public class HenshinDebugVariable extends HenshinDebugElement implements IVariab
 
 	@Override
 	public String getReferenceTypeName() throws DebugException {
-		return value.getDeclaredType();
+		// TODO: Return correct string
+		return value.toString();
 	}
 
 	@Override

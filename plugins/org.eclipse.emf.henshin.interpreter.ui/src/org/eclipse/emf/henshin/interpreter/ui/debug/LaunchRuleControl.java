@@ -32,7 +32,7 @@ public class LaunchRuleControl {
 	protected static int CONTROL_OFFSET = 5;
 
 	ModelSelector moduleSelector;
-	
+
 	UnitSelector unitSelector;
 
 	ModelSelector inputSelector;
@@ -42,7 +42,7 @@ public class LaunchRuleControl {
 	ParameterEditTable parameterEditor;
 
 	Button openCompare;
-	
+
 	protected Unit initialUnit;
 
 	protected Module module;
@@ -50,7 +50,7 @@ public class LaunchRuleControl {
 	protected List<Unit> allUnits;
 
 	protected List<Unit> outerUnits;
-	
+
 	protected TransformOperation transformOperation;
 
 	public Composite createControl(Composite parent, final RuleLaunchTab parentTab) {
@@ -58,9 +58,9 @@ public class LaunchRuleControl {
 		container.setLayout(new GridLayout(1, true));
 
 		transformOperation = new TransformOperation();
-		
+
 		IResource selected = null;
-		
+
 		if (module == null) {
 			// show file selector to select module
 			moduleSelector = new ModelSelector(container, selected, false);
@@ -69,18 +69,18 @@ public class LaunchRuleControl {
 			((Group) moduleSelector.getControl()).setText("Module (.henshin file)");
 			moduleSelector.addModelSelectorListener(new ModelSelectorListener() {
 				@Override
-				public boolean modelURIChanged(String modulePath) {					
+				public boolean modelURIChanged(String modulePath) {
 					// Create a resource set and load the resource:
 					HenshinResourceSet resourceSet = new HenshinResourceSet();
-					try {	
+					try {
 						// Load the module:
 						URI uri = URI.createURI(modulePath);
 						module = resourceSet.getModule(uri, false);
-						
+
 						// display the units in the unit selector
 						updateUnitSelector();
 						parentTab.updateLaunchConfigurationDialog();
-						
+
 						return true;
 					} catch (RuntimeException  e) {
 						// no valid module path entered
@@ -94,7 +94,7 @@ public class LaunchRuleControl {
 			selected = ResourcesPlugin.getWorkspace().getRoot()
 					.findMember(path);
 		}
-		
+
 		unitSelector = new UnitSelector(container);
 		unitSelector.getControl().setLayoutData(
 				new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -118,18 +118,18 @@ public class LaunchRuleControl {
 				return true;
 			}
 		});
-		
+
 		parameterEditor = new ParameterEditTable(container);
 		parameterEditor.getControl().setLayoutData(
 				new GridData(SWT.FILL, SWT.FILL, true, true));
 		parameterEditor.addParameterChangeListener(new ParameterChangeListener() {
-			
+
 			@Override
 			public void parameterChanged(ParameterConfig paramCfg) {
 				// update name, type, and "unset" setting of the parameter
 				transformOperation.getParameterConfiguration(paramCfg.getName()).setValue(paramCfg.getValue());
 				transformOperation.getParameterConfiguration(paramCfg.getName()).setType(paramCfg.getType());
-				transformOperation.getParameterConfiguration(paramCfg.getName()).setUnset(paramCfg.isUnset());				
+				transformOperation.getParameterConfiguration(paramCfg.getName()).setUnset(paramCfg.isUnset());
 				parentTab.updateLaunchConfigurationDialog();
 			}
 		});
@@ -139,30 +139,30 @@ public class LaunchRuleControl {
 		openCompare.setText("Open Compare");
 		openCompare.setSelection(true);
 		openCompare.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseUp(MouseEvent e) {
 				parentTab.updateLaunchConfigurationDialog();
 			}
-			
+
 			@Override
 			public void mouseDown(MouseEvent e) {}
-			
+
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {}
 		});
-		
+
 		inputSelector.getBrowseWorkspaceButton().setFocus();
-		
+
 		unitSelector.addUnitSelectionListener(new UnitSelectionListener() {
-			
+
 			@Override
 			public boolean unitSelected(int idx, boolean showInnerUnits) {
-				Unit unit = showInnerUnits ? 
-						LaunchRuleControl.this.allUnits.get(idx) : 
+				Unit unit = showInnerUnits ?
+						LaunchRuleControl.this.allUnits.get(idx) :
 							LaunchRuleControl.this.outerUnits.get(idx);
 				transformOperation.setUnit(unit, ParamUtil.getParameterPreferences(unit));
-				
+
 				for (ParameterConfig parameterConfig : transformOperation.getParameterConfigurations()) {
 					if (parameterConfig.getKind() == ParameterKind.IN || parameterConfig.getKind() == ParameterKind.INOUT) {
 						parameterConfig.setUnset(false); // has to be set
@@ -171,25 +171,25 @@ public class LaunchRuleControl {
 						parameterConfig.setUnset(true); // must not be set
 					}
 				}
-				
+
 				parameterEditor.setParameters(transformOperation.getParameterConfigurations());
-				
-				
-				
+
+
+
 				parentTab.updateLaunchConfigurationDialog();
-				
+
 				return false;
 			}
 		});
-		
+
 		return container;
 	}
-	
+
 	private void updateUnitSelector() {
 		allUnits = new ArrayList<Unit>();
 		allUnits.addAll(module.getUnits());
 		outerUnits = new ArrayList<Unit>();
-		
+
 		List<String> selectableUnitLabels = new ArrayList<String>();
 		List<String> outerUnitLabels = new ArrayList<String>();
 
@@ -229,7 +229,7 @@ public class LaunchRuleControl {
 			initIdx = 0;
 			selectedUnit = allUnits.get(0);
 		}
-		
+
 		if (selectedUnit != null) {
 			transformOperation.setUnit(selectedUnit,
 					ParamUtil.getParameterPreferences(selectedUnit));
@@ -239,13 +239,13 @@ public class LaunchRuleControl {
 			parameterEditor.setParameters(transformOperation
 					.getParameterConfigurations());
 		}
-		
+
 		unitSelector.setSelectableUnits(
 				selectableUnitLabels.toArray(new String[0]),
 				outerUnitLabels.toArray(new String[0]));
 		unitSelector.setSelection(initIdx);
 	}
-	
+
 	/**
 	 * clears selectors relevant to the current module (i.e. the unit selector and parameter editor)
 	 */
