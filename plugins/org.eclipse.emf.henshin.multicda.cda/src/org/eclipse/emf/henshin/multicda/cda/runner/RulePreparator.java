@@ -1,7 +1,7 @@
 package org.eclipse.emf.henshin.multicda.cda.runner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
@@ -41,8 +41,8 @@ public class RulePreparator {
 		return newRule;
 	}
 
-	public static List<Rule> prepareRule(List<Rule> rules) {
-		List<Rule> result = new ArrayList<Rule>();
+	public static Set<Rule> prepareRule(Set<Rule> rules) {
+		Set<Rule> result = new HashSet<Rule>();
 		for (Rule rule : rules) {
 			result.add(prepareRule(rule));
 		}

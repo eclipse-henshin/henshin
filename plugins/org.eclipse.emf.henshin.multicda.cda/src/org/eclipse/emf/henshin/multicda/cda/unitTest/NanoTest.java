@@ -55,8 +55,8 @@ public class NanoTest {
 				Set<Reason> result1 = aTester.getResult();
 				initsNormal.addAll(result1);
 
-				List<Rule> a = new ArrayList<Rule>();
-				List<Rule> b = new ArrayList<Rule>();
+				Set<Rule> a = new HashSet<Rule>();
+				Set<Rule> b = new HashSet<Rule>();
 				a.add(r);
 				b.add(r2);
 				eTester = new CPATester(a, b, options);
