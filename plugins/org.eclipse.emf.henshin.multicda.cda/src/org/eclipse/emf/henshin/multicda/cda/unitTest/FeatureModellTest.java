@@ -74,8 +74,8 @@ public class FeatureModellTest {
 							&& r2.getMultiRules().isEmpty()) {
 						cda = new CDATester(r, r2, options);
 						cdaResult.addAll(cda.getResult());
-						List<Rule> a = new ArrayList<Rule>();
-						List<Rule> b = new ArrayList<Rule>();
+						Set<Rule> a = new HashSet<Rule>();
+						Set<Rule> b = new HashSet<Rule>();
 						a.add(r);
 						b.add(r2);
 						cpa = new CPATester(a, b, options);
