@@ -1075,32 +1075,6 @@ public void stepReturn() throws DebugException {
 	public boolean isValueBreakpoint(IBreakpoint breakpoint) {
 		return breakpoint instanceof ValueBreakpoint;
 	}
-	
-	/*
-	 * Returns an array list containing all ConstraintTypeBreakpoints currently available
-	 */
-	public ArrayList<ConstraintTypeBreakpoint> filterConstraintTypeBreakpoints(ArrayList<HenshinBreakpoint> henshinBreakpoints) {
-		ArrayList<ConstraintTypeBreakpoint> constraintTypeBreakpoints = new ArrayList<ConstraintTypeBreakpoint>();
-		
-		// loop through all breakpoints and return the ones which are of type VariableBreakpoint
-		for (HenshinBreakpoint henshinBreakpoint : henshinBreakpoints) {
-			// local variable
-			if (isConstraintTypeBreakpoint(henshinBreakpoint)) {
-				// cast to VariableBreakpoint
-				ConstraintTypeBreakpoint constraintTypeBreakpoint = (ConstraintTypeBreakpoint) henshinBreakpoint;
-				constraintTypeBreakpoints.add(constraintTypeBreakpoint);
-			}
-		}
-		
-		return constraintTypeBreakpoints;
-	}
-	
-	/*
-	 * Checks whether a given breakpoint is of type ConstraintTypeBreakpoint
-	 */
-	public boolean isConstraintTypeBreakpoint(HenshinBreakpoint henshinBreakpoint) {
-		return henshinBreakpoint instanceof ConstraintTypeBreakpoint;
-	}
 		
 	/*
 	 * Suspends the application if certain criteria for the breakpoint are met.
@@ -1173,18 +1147,6 @@ public void stepReturn() throws DebugException {
 			if (henshinBreakpoint instanceof ValueBreakpoint) {
 				// TODO: Implement
 				System.out.println("Matched ValueBreakpoint");
-			}
-			break;
-		case CONSTRAINT_TYPE:
-			if (henshinBreakpoint instanceof ConstraintTypeBreakpoint) {
-				// TODO: Implement
-				System.out.println("Matched ConstraintTypeBreakpoint");
-			}
-			break;
-		case CONSTRAINT:
-			if (henshinBreakpoint instanceof ConstraintInstanceBreakpoint) {
-				// TODO: Implement
-				System.out.println("Matched ConstraintInstanceBreakpoint");
 			}
 			break;
 		default:
