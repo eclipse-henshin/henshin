@@ -17,18 +17,11 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointManager;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IStackFrame;
-import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.diagram.providers.HenshinMarkerNavigationProvider;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -41,7 +34,6 @@ import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugValue;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugVariable;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinStackFrame;
 import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
-import org.eclipse.emf.henshin.interpreter.info.VariableInfo;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
@@ -50,7 +42,6 @@ import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.PathConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
-import org.eclipse.emf.henshin.interpreter.matching.constraints.TypeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Node;
@@ -952,7 +943,7 @@ public void stepReturn() throws DebugException {
 		}
 	}
 	
-	private String removeRuntimeValuesFromConstraintInstance(String constraintInstance) {
+	protected String removeRuntimeValuesFromConstraintInstance(String constraintInstance) {
 		// Remove runtime values from the constraint instance string
 		final int indexOfParenthesis = constraintInstance.indexOf('(');
 		if (indexOfParenthesis > 0) {
