@@ -16,7 +16,7 @@ public class HenshinStackFrame extends HenshinDebugElement implements IStackFram
 	private int id;
     
 	public HenshinStackFrame(HenshinDebugThread debugThread, IVariable[] variables, String label, int id) {
-		super((HenshinDebugTarget) debugThread.getDebugTarget());
+		super(debugThread == null ? null : (HenshinDebugTarget) debugThread.getDebugTarget());
 		this.debugThread = debugThread;
 		this.variables = variables;
 		this.label = label;
