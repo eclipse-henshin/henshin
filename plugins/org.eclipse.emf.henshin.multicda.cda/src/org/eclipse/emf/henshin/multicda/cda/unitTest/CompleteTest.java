@@ -1,154 +1,217 @@
 package org.eclipse.emf.henshin.multicda.cda.unitTest;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
-import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
-import org.eclipse.emf.henshin.multicda.cda.tester.CDATester;
-import org.eclipse.emf.henshin.multicda.cda.tester.CPATester;
-import org.eclipse.emf.henshin.multicda.cda.tester.ResultCreator;
-import org.eclipse.emf.henshin.multicda.cda.tester.RuleConfigurator;
-import org.eclipse.emf.henshin.multicda.cda.tester.Tester.Options;
-import org.eclipse.emf.henshin.multicda.cda.units.Reason;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.ChangeConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.ChangeDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.framework.CdaWorker;
+import org.eclipse.emf.henshin.multicda.cda.framework.CpaWorker;
+import org.eclipse.emf.henshin.multicda.cda.framework.Options;
+import org.eclipse.emf.henshin.multicda.cda.framework.ResultCreator;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Span;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
 public class CompleteTest {
 
-	private static CDATester cda;
-	private static CPATester cpa;
-	private static List<Rule> rules;
+	private static CdaWorker cda;
+	private static CpaWorker cpa;
 	private static String henshin = "testData/jevsTests/complete.henshin";
-	private static Options options = new Options();
+	private static Options options = new Options(Options.INITIAL);
 	private static boolean execute = true;
-	private static boolean withNACsPACs = true;
-	private static boolean justAttrs = false;
-
-	private static String errorMessage = "";
-
-	@Before
-	public void prepare() {
-		withNACsPACs = false;
-		execute = true;
-		justAttrs = false;
-	}
-
-	@After
-	public void execute() {
-		if (execute) {
-			rules = new ArrayList<Rule>();
-			String resource = henshin.substring(0, henshin.lastIndexOf("/") + 1);
-			String mFile = henshin.substring(henshin.lastIndexOf("/") + 1, henshin.length());
-			HenshinResourceSet resourceSet = new HenshinResourceSet(resource);
-
-			Module module = resourceSet.getModule(mFile, false);
-
-			for (Unit u : new ArrayList<>(module.getUnits()))
-				if (u instanceof Rule)
-					if (!justAttrs || u.getName().endsWith("A"))
-						rules.add((Rule) u);
-			Set<Reason> cdaResult = new HashSet<>();
-			Set<CriticalPair> cpaResult = new HashSet<>();
-			for (Rule r1 : rules) {
-				System.out.println(new RuleConfigurator(r1));
-				if ((r1.getLhs().getPACs().isEmpty() && r1.getLhs().getNACs().isEmpty() || withNACsPACs)
-						&& r1.getMultiRules().isEmpty())
-					for (Rule r2 : rules)
-						if (r2.getLhs().getPACs().isEmpty() && r2.getLhs().getNACs().isEmpty()
-								&& r2.getMultiRules().isEmpty() || withNACsPACs) {
-							// cda = new CDATester(r1, r2, options);
-							// cdaResult.addAll(cda.getResult());
-							// List<Rule> a = new ArrayList<Rule>();
-							// List<Rule> b = new ArrayList<Rule>();
-							// a.add(r1);
-							// b.add(r2);
-							// cpa = new CPATester(a, b, options);
-							// cpaResult.addAll(cpa.getResult());
-							// int icr = cda.getResult().size();
-							// int icp = cpa.getResult().size();
-							// String error = "";
-							// if (icr != icp) {
-							// error += "\n\t\ta) " + r1.getName() + " --> " + r2.getName() + "\nCDA: " +
-							// cda
-							// + "\nCPA: " + cpa + "\n" + CDATester.print(cda.getResult(), false, false)
-							// + "\n__________________\n" + CPATester.printCP(cpa.getResult(), false, false)
-							// + "\n";
-							// } else {
-							// int matches = cda.compare(cpa.getResult()).size();
-							// if (icr != matches || icp != matches)
-							// error += "\n\t\tb) " + r1.getName() + " --> " + r2.getName()
-							// + "\nNot all matches are found: " + matches + " matches of " + icr
-							// + " Reasons and " + icp + " Critical Pairs\n"
-							// + CDATester.print(cda.getResult(), false, false) + "\n__________________\n"
-							// + CPATester.printCP(cpa.getResult(), false, false) + "\n";
-							// }
-							// if (!error.isEmpty()) {
-							// System.out.println(error);
-							// System.out.println();
-							// }
-							// errorMessage += error;
-						}
-			}
-		}
-	}
 
 	@AfterClass
 	public static void results() {
 		System.out.println("Finished...");
-		// System.err.println("________________________________________\nErrors
-		// found:\n" + errorMessage);
 	}
 
 	@Test
 	public void testOne() {
-		withNACsPACs = true;
-		justAttrs = true;
 		execute = false;
-		// options.add(Options.DEPENDENCY);
-		String r1 = "c3";
-		String r2 = "d2";
-		int size = 0;
 		if (!execute) {
-			options.remove(Options.PRINT_HEADER, options.PRINT_RESULT);
-			// options.add(Options.DEPENDENCY);
-			henshin = "testData/jevsTests/test.henshin";
-			ConflictAnalysis.COMPLETE_COMPUTATION = true;
-			// ConflictAnalysis.OLD_COMPUTATION = true;
-			cda = new CDATester(henshin, r1, r2, options);
-			// cda = new CDATester(henshin, options);
-			// System.out.println("OLD : " + cda);
-			size += cda.getResult().size();
-			// ConflictAnalysis.OLD_COMPUTATION = false;
-			// cda = new CDATester(henshin, options);
-			// System.out.println("NEW : " + cda);
-			ResultCreator rc = new ResultCreator(cda);
-			// cpa = new CPATester(henshin, new String[] { r1 }, new String[] { r2 },
-			// options);
-			//// cda.compare(cpa.getCriticalPairs());
-			//// cda.ready();
-			//// cpa.ready();
-			//// options.add(Options.DEPENDENCY);
-			// System.out.println("______________________________________________________________________________");
-			// cda = new CDATester(henshin, r1, r2, options);
-			// cpa = new CPATester(henshin, new String[] { r1 }, new String[] { r2 },
-			// options);
-			// cda.compare(cpa.getCriticalPairs());
-			// cda.ready();
-			// cpa.ready();
+			for (int i = 0; i < 1; i++)
+				computeReasons();
+			time /= 20;
+			System.out.println(time(time));
 		} else {
 			options.remove(Options.PRINT_RESULT);
 			options.remove(Options.PRINT_HEADER);
 		}
-		System.out.println(size + " reasons found");
 	}
 
+	private static String time(long time) {
+		long milis = time % 1000;
+		long seconds = (time / 1000) % 60;
+		long minutes = (time / 60000) % 60;
+		long hours = (time / 3600000) % 24;
+		long days = (time / 86400000) % 365;
+		long years = (time / 31536000000L);
+
+		return (years == 0 ? "" : years + "y, ") + (days == 0 ? "" : days + "d, ") + (hours == 0 ? "" : hours + "h, ")
+				+ (minutes == 0 ? "" : minutes + "m, ") + (seconds + "s, " + milis + "ms");
+	}
+
+	private static long time = 0;
+
+	private static Set<Span> computeReasons() {
+		String r1 = "d2";
+		String r2 = "d2";
+		henshin = "testData/main/test.henshin";
+		// henshin = "testData/jevsTests/attributes.henshin";
+		Set<Span> cdaResult = new TreeSet<>();
+		Set<CriticalPair> cpaResult = new HashSet<>();
+		boolean executeAll = false;
+		boolean executeCpa = false;
+		boolean dependency = true;
+		boolean compare = executeCpa && false;
+
+		if (executeAll)
+			options.remove(Options.PRINT_RESULT, Options.PRINT_HEADER);
+
+		options.remove(Options.DEPENDENCY);
+		long cdaTime = System.currentTimeMillis();
+		if (executeAll)
+			cda = new CdaWorker(henshin, options);
+		else
+			cda = new CdaWorker(henshin, r1, r2, options);
+		cda.print();
+		cdaTime = System.currentTimeMillis() - cdaTime;
+		cdaResult.addAll(cda.getAtoms());
+		cdaResult.addAll(cda.getMinimalReasons());
+		cdaResult.addAll(cda.getResult());
+		long cpaTime = System.currentTimeMillis();
+		if (executeCpa) {
+			if (executeAll)
+				cpa = new CpaWorker(henshin, options);
+			else
+				cpa = new CpaWorker(henshin, new String[] { r1 }, new String[] { r2 }, options);
+			cpaTime = System.currentTimeMillis() - cpaTime;
+			cpaResult.addAll(cpa.getResult());
+		}
+		if (compare)
+			cda.compare(cpa.getResult());
+		ResultCreator.create(cda, "Conflicts");
+		if (dependency) {
+			System.out.println("----------------------------------------------------------------");
+			options.add(Options.DEPENDENCY);
+			long tempTime = System.currentTimeMillis();
+			if (executeAll)
+				cda = new CdaWorker(henshin, options);
+			else
+				cda = new CdaWorker(henshin, r1, r2, options);
+			cdaTime += System.currentTimeMillis() - tempTime;
+
+			cdaResult.addAll(cda.getAtoms());
+			cdaResult.addAll(cda.getResult());
+			cdaResult.addAll(cda.getMinimalReasons());
+			if (executeCpa) {
+				tempTime = System.currentTimeMillis();
+				if (executeAll)
+					cpa = new CpaWorker(henshin, options);
+				else
+					cpa = new CpaWorker(henshin, new String[] { r1 }, new String[] { r2 }, options);
+				cdaTime += System.currentTimeMillis() - tempTime;
+				cpaResult.addAll(cpa.getResult());
+			}
+			ResultCreator.create(cda, "Dependencies");
+		}
+		// CdaWorker.print(cdaResult);
+		System.out.println("Reasons found: " + cdaResult.size());
+		if (executeCpa)
+			System.out.println("Critical Pairs found: " + cpaResult.size());
+		if (compare)
+			cda.compare(cpa.getResult());
+		System.out.println("\nCDA Time: " + time(cdaTime));
+		time += cdaTime;
+		if (executeCpa)
+			System.out.println("CPA Time: " + time(cpaTime));
+		System.out.println();
+		System.out.println("______________________________________________________________________________");
+		return cdaResult;
+	}
+
+	private static void test(Atom a) {
+		TreeSet<Span> s = new TreeSet<>();
+		s.add(new DeleteConflictAtom(a));
+		s.add(new CreateConflictAtom(a));
+		s.add(new ChangeConflictAtom(a));
+		s.add(new CreateDependencyAtom(a));
+		s.add(new DeleteDependencyAtom(a));
+		s.add(new ChangeDependencyAtom(a));
+
+		s.add(new DeleteConflictAtom(a).setForbid(true));
+		s.add(new CreateConflictAtom(a).setForbid(true));
+		s.add(new ChangeConflictAtom(a).setForbid(true));
+		s.add(new CreateDependencyAtom(a).setForbid(true));
+		s.add(new DeleteDependencyAtom(a).setForbid(true));
+		s.add(new ChangeDependencyAtom(a).setForbid(true));
+
+		s.add(new DeleteConflictAtom(a).setRequire(true));
+		s.add(new CreateConflictAtom(a).setRequire(true));
+		s.add(new ChangeConflictAtom(a).setRequire(true));
+		s.add(new CreateDependencyAtom(a).setRequire(true));
+		s.add(new DeleteDependencyAtom(a).setRequire(true));
+		s.add(new ChangeDependencyAtom(a).setRequire(true));
+
+		s.add(new DeleteConflictReason(a).setMinimalReason(true));
+		s.add(new CreateConflictReason(a).setMinimalReason(true));
+		s.add(new ChangeConflictReason(a).setMinimalReason(true));
+		s.add(new CreateDependencyReason(a).setMinimalReason(true));
+		s.add(new DeleteDependencyReason(a).setMinimalReason(true));
+		s.add(new ChangeDependencyReason(a).setMinimalReason(true));
+
+		s.add(new DeleteConflictReason(a).setMinimalReason(true).setForbid(true));
+		s.add(new CreateConflictReason(a).setMinimalReason(true).setForbid(true));
+		s.add(new ChangeConflictReason(a).setMinimalReason(true).setForbid(true));
+		s.add(new CreateDependencyReason(a).setMinimalReason(true).setForbid(true));
+		s.add(new DeleteDependencyReason(a).setMinimalReason(true).setForbid(true));
+		s.add(new ChangeDependencyReason(a).setMinimalReason(true).setForbid(true));
+
+		s.add(new DeleteConflictReason(a).setMinimalReason(true).setRequire(true));
+		s.add(new CreateConflictReason(a).setMinimalReason(true).setRequire(true));
+		s.add(new ChangeConflictReason(a).setMinimalReason(true).setRequire(true));
+		s.add(new CreateDependencyReason(a).setMinimalReason(true).setRequire(true));
+		s.add(new DeleteDependencyReason(a).setMinimalReason(true).setRequire(true));
+		s.add(new ChangeDependencyReason(a).setMinimalReason(true).setRequire(true));
+
+		s.add(new DeleteConflictReason(a));
+		s.add(new CreateConflictReason(a));
+		s.add(new ChangeConflictReason(a));
+		s.add(new CreateDependencyReason(a));
+		s.add(new DeleteDependencyReason(a));
+		s.add(new ChangeDependencyReason(a));
+
+		s.add(new DeleteConflictReason(a).setForbid(true));
+		s.add(new CreateConflictReason(a).setForbid(true));
+		s.add(new ChangeConflictReason(a).setForbid(true));
+		s.add(new CreateDependencyReason(a).setForbid(true));
+		s.add(new DeleteDependencyReason(a).setForbid(true));
+		s.add(new ChangeDependencyReason(a).setForbid(true));
+
+		s.add(new DeleteConflictReason(a).setRequire(true));
+		s.add(new CreateConflictReason(a).setRequire(true));
+		s.add(new ChangeConflictReason(a).setRequire(true));
+		s.add(new CreateDependencyReason(a).setRequire(true));
+		s.add(new DeleteDependencyReason(a).setRequire(true));
+		s.add(new ChangeDependencyReason(a).setRequire(true));
+
+		CdaWorker.print(s);
+	}
 }

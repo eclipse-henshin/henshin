@@ -48,6 +48,13 @@ public class CDAOptions {
 	public boolean initialCP = true;
 	public boolean otherCP = false;
 
+	public boolean isBTable = false;
+	public boolean isBATable = true;
+	public boolean isCTable = false;
+	public boolean isCATable = false;
+	public boolean isFTable = false;
+	public boolean isFATable = false;
+
 	// (KB) new since 2017-08-21 due to CDA project and missing multiplicity support of the essential CPA
 	private boolean ignoreMultiplicities = false;
 	public Set<GranularityType> granularities = new HashSet<>();
@@ -56,7 +63,7 @@ public class CDAOptions {
 
 	public static enum GranularityType {
 		BINARY("Binary", "Checks if rule pair is in conflict (dependent)", 1), COARSE("Coarse",
-				"shows minimal conflict (dependency) reason", 2), FINE("Fine", "Shows conflict (dependency) reasons",
+				"Shows minimal conflict (dependency) reason", 2), FINE("Fine", "Shows conflict (dependency) reasons",
 						4), VERY_FINE("Very fine", "Shows critical pairs", 8);
 		public final String name;
 		public final String description;
@@ -180,6 +187,13 @@ public class CDAOptions {
 			otherCP = input.readBoolean();
 			ignoreSameRules = input.readBoolean();
 
+			isBTable= input.readBoolean();
+			isBATable= input.readBoolean();
+			isCTable= input.readBoolean();
+			isCATable= input.readBoolean();
+			isFTable= input.readBoolean();
+			isFATable= input.readBoolean();
+
 			input.close();
 			success = true;
 
@@ -210,6 +224,13 @@ public class CDAOptions {
 			output.writeBoolean(essentialCP);
 			output.writeBoolean(otherCP);
 			output.writeBoolean(ignoreSameRules);
+
+			output.writeBoolean(isBTable);
+			output.writeBoolean(isBATable);
+			output.writeBoolean(isCTable);
+			output.writeBoolean(isCATable);
+			output.writeBoolean(isFTable);
+			output.writeBoolean(isFATable);
 
 			output.close();
 

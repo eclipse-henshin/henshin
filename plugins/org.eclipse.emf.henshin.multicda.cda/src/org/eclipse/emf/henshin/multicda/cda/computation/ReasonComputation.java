@@ -27,8 +27,6 @@ public class ReasonComputation {
 		}
 		return conflictReasonsDerivedFromInitialReason;
 	}
-	
-
 
 	public Set<ConflictAtom> extractEdgeConflictAtoms(List<ConflictAtom> computedConflictAtoms) {
 		Set<ConflictAtom> edgeConflictAtoms = new HashSet<ConflictAtom>();

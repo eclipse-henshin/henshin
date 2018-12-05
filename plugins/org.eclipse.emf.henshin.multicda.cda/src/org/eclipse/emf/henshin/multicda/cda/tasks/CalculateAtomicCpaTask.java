@@ -8,9 +8,8 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteReadConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 
 public class CalculateAtomicCpaTask implements Callable<Set<Atom>> {
@@ -52,11 +51,11 @@ public class CalculateAtomicCpaTask implements Callable<Set<Atom>> {
 		resultKeeper.addResult(computeConflictAtoms);
 		resultKeeper.setCalculationTime(conflictAtomRunTime);
 		resultKeeper.setCandidates(new HashSet<>(atomicCoreCPA.computeAtoms()));
-		resultKeeper.setMinimalConflictReasons(new HashSet<>(atomicCoreCPA.computeResultsCoarse()));
+		resultKeeper.setConflictReasons(new HashSet<>(atomicCoreCPA.computeResultsCoarse()));
 
-		Set<MinimalConflictReason> minimalConflictReasons = new HashSet<MinimalConflictReason>();
+		Set<ConflictReason> minimalConflictReasons = new HashSet<ConflictReason>();
 		for (Reason conflictReason : atomicCoreCPA.computeResultsCoarse()) {
-			minimalConflictReasons.add(new MinimalDeleteReadConflictReason(conflictReason));
+			minimalConflictReasons.add(new DeleteConflictReason(conflictReason));
 		}
 		long conflictReasonStartTime = System.currentTimeMillis();
 		Set<ConflictReason> initialReasons = atomicCoreCPA.computeResultsFine();

@@ -1,73 +1,44 @@
 package org.eclipse.emf.henshin.multicda.cda;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.ChangeAttrConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateAttrConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.ChangeConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateEdgeDeleteNodeConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateEdgeRequireNodeConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateForbidConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteAttrConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteEdgeForbidNodeConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteReadConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteRequireConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.ChangeAttrDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateAttrDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateEdgeForbidNodeDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateReadDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateRequireDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteAttrDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.ChangeDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteDependencyReason;
 import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteEdgeDeleteNodeDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteEdgeRequireNodeDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteForbidDependencyReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeAttrConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeAttrDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeDependencyAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateAttrConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateAttrDependencyAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateUseDependencyAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteAttrConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteAttrDependencyAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteUseConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateEdgeDeleteNodeConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteConflictAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteEdgeDeleteNodeDependencyAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DependencyAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.ForbidConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.ForbidDependencyAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.RequireConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.RequireDependencyAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.DoubleSpan;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalChangeAttrConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalChangeAttrDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalCreateAttrConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalCreateAttrDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalCreateEdgeDeleteNodeConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalCreateEdgeForbidNodeDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalCreateEdgeRequireNodeConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalCreateForbidConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalCreateReadDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalCreateRequireDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteAttrConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteAttrDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteEdgeDeleteNodeDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteEdgeForbidNodeConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteEdgeRequireNodeDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteForbidDependencyReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteReadConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDeleteRequireConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalDependencyReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
+import org.eclipse.emf.henshin.multicda.cda.units.Span;
+import org.eclipse.emf.henshin.multicda.cda.units.SymmetricReason;
 
 public class ReasonFactory {
 	private ReasonFactory() {
@@ -76,25 +47,11 @@ public class ReasonFactory {
 
 	public static final ReasonFactory eINSTANCE = new ReasonFactory();
 
-	public MinimalReason createMinimalReason(Reason reason) {
-		if (reason instanceof DeleteUseConflictAtom || reason instanceof MinimalDeleteReadConflictReason)
-			return new MinimalDeleteReadConflictReason(reason);
-		if (reason instanceof CreateUseDependencyAtom || reason instanceof MinimalCreateReadDependencyReason)
-			return new MinimalCreateReadDependencyReason(reason);
-		if (reason instanceof ForbidConflictAtom || reason instanceof MinimalCreateForbidConflictReason)
-			return new MinimalCreateForbidConflictReason(reason);
-		if (reason instanceof ForbidDependencyAtom || reason instanceof MinimalDeleteForbidDependencyReason)
-			return new MinimalDeleteForbidDependencyReason(reason);
-		if (reason instanceof RequireConflictAtom || reason instanceof MinimalDeleteRequireConflictReason)
-			return new MinimalDeleteRequireConflictReason(reason);
-		if (reason instanceof RequireDependencyAtom || reason instanceof MinimalCreateRequireDependencyReason)
-			return new MinimalCreateRequireDependencyReason(reason);
-		if (reason instanceof MinimalDeleteAttrConflictReason || reason instanceof DeleteAttrConflictAtom)
-			return new MinimalDeleteAttrConflictReason(reason);
-		if (reason instanceof MinimalCreateAttrConflictReason || reason instanceof CreateAttrConflictAtom)
-			return new MinimalCreateAttrConflictReason(reason);
-		if (reason instanceof MinimalChangeAttrConflictReason || reason instanceof ChangeAttrConflictAtom)
-			return new MinimalChangeAttrConflictReason(reason);
+	public Reason createMinimalReason(Span reason) {
+		if (reason instanceof Reason)
+			return ((Reason) reason).setMinimalReason(true);
+		else if (reason instanceof Atom)
+			return createMinimalReason((Atom) reason);
 		try {
 			throw new ReasonNotSupportedByThisFactory(reason);
 		} catch (ReasonNotSupportedByThisFactory e) {
@@ -103,20 +60,28 @@ public class ReasonFactory {
 		}
 	}
 
-	public DependencyAtom createDependencyAtom(ConflictAtom atom) {
-		if (atom instanceof DeleteUseConflictAtom)
-			return new CreateUseDependencyAtom(atom);
-		if (atom instanceof ForbidConflictAtom)
-			return new ForbidDependencyAtom(atom);
-		if (atom instanceof RequireConflictAtom)
-			return new RequireDependencyAtom(atom);
+	/**
+	 * @param atom that should be transformed into minimal reason
+	 * @return minimal Reason with span of the atom
+	 */
+	public Reason createMinimalReason(Atom atom) {
+		if (atom instanceof DeleteConflictAtom)
+			return new DeleteConflictReason(atom).setMinimalReason(true);
+		if (atom instanceof CreateConflictAtom)
+			return new CreateConflictReason(atom).setMinimalReason(true);
+		if (atom instanceof ChangeConflictAtom)
+			return new ChangeConflictReason(atom).setMinimalReason(true);
+		if (atom instanceof DeleteDependencyAtom)
+			return new DeleteDependencyReason(atom).setMinimalReason(true);
+		if (atom instanceof CreateDependencyAtom)
+			return new CreateDependencyReason(atom).setMinimalReason(true);
+		if (atom instanceof ChangeDependencyAtom)
+			return new ChangeDependencyReason(atom).setMinimalReason(true);
 
-		if (atom instanceof DeleteAttrConflictAtom)
-			return new CreateAttrDependencyAtom(atom);
-		if (atom instanceof CreateAttrConflictAtom)
-			return new DeleteAttrDependencyAtom(atom);
-		if (atom instanceof ChangeAttrConflictAtom)
-			return new ChangeAttrDependencyAtom(atom);
+		if (atom instanceof CreateEdgeDeleteNodeConflictAtom)
+			return new CreateEdgeDeleteNodeConflictReason(atom).setMinimalReason(true);
+		if (atom instanceof DeleteEdgeDeleteNodeDependencyAtom)
+			return new DeleteEdgeDeleteNodeDependencyReason(atom).setMinimalReason(true);
 		try {
 			throw new ReasonNotSupportedByThisFactory(atom);
 		} catch (ReasonNotSupportedByThisFactory e) {
@@ -125,104 +90,98 @@ public class ReasonFactory {
 		}
 	}
 
-	public MinimalDependencyReason createMinimalDependencyReason(MinimalConflictReason reason) {
-		if (reason instanceof MinimalDeleteReadConflictReason)
-			return new MinimalCreateReadDependencyReason(reason);
-		if (reason instanceof MinimalCreateForbidConflictReason)
-			return new MinimalDeleteForbidDependencyReason(reason);
-		if (reason instanceof MinimalDeleteRequireConflictReason)
-			return new MinimalCreateRequireDependencyReason(reason);
-		if (reason instanceof MinimalChangeAttrConflictReason)
-			return new MinimalChangeAttrDependencyReason(reason);
-		if (reason instanceof MinimalCreateAttrConflictReason)
-			return new MinimalCreateAttrDependencyReason(reason);
-		if (reason instanceof MinimalDeleteAttrConflictReason)
-			return new MinimalDeleteAttrDependencyReason(reason);
-		if (reason instanceof MinimalCreateEdgeDeleteNodeConflictReason)
-			return new MinimalDeleteEdgeDeleteNodeDependencyReason(reason);
-		if (reason instanceof MinimalCreateEdgeRequireNodeConflictReason)
-			return new MinimalDeleteEdgeRequireNodeDependencyReason(reason);
-		if (reason instanceof MinimalDeleteEdgeForbidNodeConflictReason)
-			return new MinimalCreateEdgeForbidNodeDependencyReason(reason);
+	/**
+	 * @param atom that should be converted into dependency atom
+	 * @return dependency atom
+	 */
+	public DependencyAtom createDependencyAtom(ConflictAtom atom) {
+		if (atom instanceof DeleteConflictAtom)
+			return new CreateDependencyAtom(atom);
+		if (atom instanceof CreateConflictAtom)
+			return new DeleteDependencyAtom(atom);
+		if (atom instanceof ChangeConflictAtom)
+			return new ChangeDependencyAtom(atom);
+		if (atom instanceof CreateEdgeDeleteNodeConflictAtom)
+			return new DeleteEdgeDeleteNodeDependencyAtom(atom);
+
 		try {
-			throw new ReasonNotSupportedByThisFactory(reason);
+			throw new ReasonNotSupportedByThisFactory(atom);
 		} catch (ReasonNotSupportedByThisFactory e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public DependencyReason createDependencyReason(ConflictReason reason) {
-		if (reason instanceof DeleteReadConflictReason)
-			return new CreateReadDependencyReason((DeleteReadConflictReason) reason);
-		if (reason instanceof CreateForbidConflictReason)
-			return new DeleteForbidDependencyReason(reason);
-		if (reason instanceof DeleteRequireConflictReason)
-			return new CreateRequireDependencyReason(reason);
-		if (reason instanceof CreateAttrConflictReason)
-			return new DeleteAttrDependencyReason((CreateAttrConflictReason) reason);
-		if (reason instanceof DeleteAttrConflictReason)
-			return new CreateAttrDependencyReason((DeleteAttrConflictReason) reason);
-		if (reason instanceof ChangeAttrConflictReason)
-			return new ChangeAttrDependencyReason((ChangeAttrConflictReason) reason);
+	/**
+	 * @param reason that should be converted into dependency reason
+	 * @return dependency reason
+	 */
+	public Reason createDependencyReason(Reason reason) {
+		if (!validDependency(reason))
+			return null;
+		if (reason instanceof SymmetricReason) {
+			SymmetricReason r = (SymmetricReason) reason;
+			return new SymmetricReason(createDependencyReason(r.getS1()), r.getS2());
+		}
+		if (reason instanceof DeleteConflictReason)
+			return new CreateDependencyReason((DeleteConflictReason) reason);
+		if (reason instanceof CreateConflictReason)
+			return new DeleteDependencyReason(reason);
+		if (reason instanceof ChangeConflictReason)
+			return new ChangeDependencyReason(reason);
 		if (reason instanceof CreateEdgeDeleteNodeConflictReason)
 			return new DeleteEdgeDeleteNodeDependencyReason(reason);
-		if (reason instanceof CreateEdgeRequireNodeConflictReason)
-			return new DeleteEdgeRequireNodeDependencyReason(reason);
-		if (reason instanceof DeleteEdgeForbidNodeConflictReason)
-			return new CreateEdgeForbidNodeDependencyReason(reason);
 		try {
 			throw new ReasonNotSupportedByThisFactory(reason);
 		} catch (ReasonNotSupportedByThisFactory e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	private boolean validDependency(Reason reason) {
+		for (Mapping m : reason.getMappingsInRule1()) {
+			Node n1L = m.getImage();
+			Node n1R = n1L.getGraph().getRule().getMappings().getImage(n1L, null);
+			String desc = reason.getRule1().getDescription();
+			desc = desc == null ? "" : desc;
+			if (n1R == null && Utils.isInverted(reason.getRule1())) {
+				Node n2L = reason.getMappingIntoRule2(m.getOrigin()).getImage();
+				Node n2R = n2L.getGraph().getRule().getMappings().getImage(n2L, null);
+				if (n1L.getAttributes().isEmpty() && !n2L.getAttributes().isEmpty())
+					return false;
+			}
+		}
+		return true;
+	}
+
+	public Reason createMinimalDependencyReason(Reason reason) {
+		Reason result = createDependencyReason(reason);
+		if (result != null)
+			result.setMinimalReason(true);
+		return result;
+	}
+
+	public <T extends Reason> T createSymmetricReason(T reason, Set<Reason> s2) {
+		if (reason instanceof DeleteEdgeDeleteNodeDependencyReason
+				|| reason instanceof CreateEdgeDeleteNodeConflictReason)
+			try {
+				throw new ReasonNotSupportedByThisFactory(reason);
+			} catch (ReasonNotSupportedByThisFactory e) {
+				e.printStackTrace();
+				return null;
+			}
+		return (T) new SymmetricReason(reason, s2);
+
+	}
+
+	public ConflictReason createDRReason(ConflictReason reason) {
+		reason.setMinimalReason(false);
+		return reason;
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Reason> T createDDReason(T reason, Set<Reason> s2) {
-
-		if (reason instanceof MinimalDeleteReadConflictReason)
-			return (T) new MinimalDeleteReadConflictReason(reason, s2);
-		if (reason instanceof MinimalDeleteAttrConflictReason)
-			return (T) new MinimalDeleteAttrConflictReason(reason, s2);
-		if (reason instanceof MinimalChangeAttrConflictReason)
-			return (T) new MinimalChangeAttrConflictReason(reason, s2);
-
-		if (reason instanceof DeleteReadConflictReason)
-			return (T) new DeleteReadConflictReason(reason, s2);
-		if (reason instanceof DeleteAttrConflictReason)
-			return (T) new DeleteAttrConflictReason(reason, s2);
-		if (reason instanceof ChangeAttrConflictReason)
-			return (T) new ChangeAttrConflictReason(reason, s2);
-
-		try {
-			throw new ReasonNotSupportedByThisFactory(reason);
-		} catch (ReasonNotSupportedByThisFactory e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public ConflictReason createDRReason(MinimalConflictReason reason) {
-		if (reason instanceof MinimalDeleteReadConflictReason)
-			return new DeleteReadConflictReason(reason);
-		if (reason instanceof MinimalCreateAttrConflictReason)
-			return new CreateAttrConflictReason(reason);
-		if (reason instanceof MinimalChangeAttrConflictReason)
-			return new ChangeAttrConflictReason(reason);
-		if (reason instanceof MinimalDeleteAttrConflictReason)
-			return new DeleteAttrConflictReason(reason);
-		try {
-			throw new ReasonNotSupportedByThisFactory(reason);
-		} catch (ReasonNotSupportedByThisFactory e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T extends Reason> T createCEDNReason(Reason reason) {
+	public <T extends Span> T createCEDNReason(T reason) {
 		Graph S1 = HenshinFactory.eINSTANCE.createGraph();
 		Set<Mapping> rule1Mappings = new HashSet<Mapping>();
 		Set<Mapping> rule2Mappings = new HashSet<Mapping>();
@@ -238,56 +197,162 @@ public class ReasonFactory {
 			S1.getEdges().add(HenshinFactory.eINSTANCE.createEdge(s, t, e.getType()));
 		}
 
-		Atom a = new DeleteUseConflictAtom(rule1Mappings, S1, rule2Mappings);
+		Atom a = new DeleteConflictAtom(rule1Mappings, S1, rule2Mappings);
 
-		if (reason instanceof MinimalReason)
-			return (T) new MinimalCreateEdgeDeleteNodeConflictReason(a);
-		else
-			return (T) new CreateEdgeDeleteNodeConflictReason(a);
-
+		T result = null;
+		if (reason instanceof Reason) {
+			result = (T) new CreateEdgeDeleteNodeConflictReason(a);
+			((Reason) result).setMinimalReason(((Reason) reason).isMinimalReason());
+		}
+		return result;
 	}
 
-	public ConflictReason createForbidReason(Reason reason) {
-		if (reason.isDoubleReason()) {
-			if (reason instanceof ChangeAttrConflictReason || reason instanceof CreateAttrConflictReason) {
-				Set<Reason> s2Set = new HashSet<>();
-				for (Reason r : ((ChangeAttrConflictReason) reason).getS2Set())
-					s2Set.add(new CreateForbidConflictReason(r));
-				if (reason instanceof ChangeAttrConflictReason)
-					return new ChangeAttrConflictReason(((DoubleSpan) reason).getS1(), s2Set);
-				else
-					return new CreateAttrConflictReason(((DoubleSpan) reason).getS1(), s2Set);
-			}
-			if (reason instanceof DoubleSpan && ((DoubleSpan) reason).isDoubleSpan())
-				return new CreateForbidConflictReason(reason);
+	public ConflictReason createForbidReason(Reason reason, Rule originalR1, Rule originalR2) {
+		if (Utils.checkNcReason(reason, originalR1, originalR2)) {
+			if (reason instanceof DeleteConflictReason)
+				return (ConflictReason) new CreateConflictReason(reason, true);
+			else if (reason instanceof CreateConflictReason)
+				return (ConflictReason) new DeleteConflictReason(reason, true);
+			else if (reason instanceof ChangeConflictReason)
+				return (ConflictReason) new ChangeConflictReason(reason, true);
 		}
-		if (reason instanceof CreateEdgeDeleteNodeConflictReason)
-			return new DeleteEdgeForbidNodeConflictReason(reason);
 		return null;
 	}
 
-	public ConflictReason createRequireReason(Reason reason) {
-		if (reason.isDoubleReason()) {
-			if (reason instanceof ChangeAttrConflictReason || reason instanceof CreateAttrConflictReason) {
-				Set<Reason> s2Set = new HashSet<>();
-				for (Reason r : ((ChangeAttrConflictReason) reason).getS2Set())
-					s2Set.add(new DeleteRequireConflictReason(r));
-				if (reason instanceof ChangeAttrConflictReason)
-					return new ChangeAttrConflictReason(((DoubleSpan) reason).getS1(), s2Set);
-				else
-					return new CreateAttrConflictReason(((DoubleSpan) reason).getS1(), s2Set);
-			}
-			if (reason instanceof DoubleSpan && ((DoubleSpan) reason).isDoubleSpan())
-				return new DeleteRequireConflictReason(reason);
-		}
-		if (reason instanceof CreateEdgeDeleteNodeConflictReason)
-			return new CreateEdgeRequireNodeConflictReason(reason);
-		return null;
+	public Span createRequireReason(Span reason) {
+		if (!(reason instanceof SymmetricReason) && !(reason instanceof CreateEdgeDeleteNodeConflictAtom)
+				&& !(reason instanceof CreateEdgeDeleteNodeConflictReason)
+				&& !(reason instanceof DeleteEdgeDeleteNodeDependencyAtom)
+				&& !(reason instanceof DeleteEdgeDeleteNodeDependencyReason))
+			reason.setRequire(true);
+		return reason;
 	}
 
 	public static class ReasonNotSupportedByThisFactory extends Exception {
-		public ReasonNotSupportedByThisFactory(Reason reason) {
+		private static final long serialVersionUID = 123121434L;
+
+		public ReasonNotSupportedByThisFactory(Span reason) {
 			super("The " + reason.NAME + " is not supported by this Factory yet");
 		}
+
+	}
+
+	public ConflictReason createJoinedReason(Reason reason1, Reason reason2) {
+
+		Map<Node, Node> s2ToS1 = Utils.getS2toS1Map(reason1, reason2);
+		if (s2ToS1 == null) // is null iff we cannot join them
+			return null;
+
+		// Copy G1 and its mappings to rules 1 and 2
+		Copier g1ToCopy = new Copier();
+		Graph graph1Copy = (Graph) g1ToCopy.copy(reason1.getGraph());
+		g1ToCopy.copyReferences();
+
+		Copier mappingS1Copier = new Copier();
+		Collection<Mapping> mappingsS1R1copies = mappingS1Copier.copyAll(reason1.getMappingsInRule1());
+		mappingS1Copier.copyReferences();
+		Collection<Mapping> mappingS1R2copies = mappingS1Copier.copyAll(reason1.getMappingsInRule2());
+		mappingS1Copier.copyReferences();
+		for (Mapping mapping : mappingsS1R1copies) {
+			Node newOrigin = (Node) g1ToCopy.get(mapping.getOrigin());
+			mapping.setOrigin(newOrigin);
+		}
+		for (Mapping mapping : mappingS1R2copies) {
+			Node newOrigin = (Node) g1ToCopy.get(mapping.getOrigin());
+			mapping.setOrigin(newOrigin);
+		}
+
+		// Copy G1 and its mappings to rules 1 and 2
+		Copier g2toCopy = new Copier();
+		Graph graph2Copy = (Graph) g2toCopy.copy(reason2.getGraph());
+		g2toCopy.copyReferences();
+
+		// MAPPINGS of Graph2:
+		Copier mappingsS2Copier = new Copier();
+		Collection<Mapping> mappingsS2R1copies = mappingsS2Copier.copyAll(reason2.getMappingsInRule1());
+		mappingsS2Copier.copyReferences();
+		Collection<Mapping> mappingS2R2copies = mappingsS2Copier.copyAll(reason2.getMappingsInRule2());
+		mappingsS2Copier.copyReferences();
+
+		for (Mapping mapping : mappingsS2R1copies) {
+			Node newOrigin = (Node) g2toCopy.get(mapping.getOrigin());
+			mapping.setOrigin(newOrigin);
+		}
+		for (Mapping mapping : mappingS2R2copies) {
+			Node newOrigin = (Node) g2toCopy.get(mapping.getOrigin());
+			mapping.setOrigin(newOrigin);
+		}
+
+		// Identify redundant nodes in G2's copy, and reroute
+		// their adjacent edges to G1's copy
+		List<Node> toDeleteInG2Copy = new LinkedList<Node>();
+		for (Edge edgeG2 : reason2.getGraph().getEdges()) {
+			Edge edgeG2Copy = (Edge) g2toCopy.get(edgeG2);
+			if (s2ToS1.containsKey(edgeG2.getSource())) {
+				Node nodeInGraph1 = s2ToS1.get(edgeG2.getSource());
+				Node newSourceG1Copy = (Node) g1ToCopy.get(nodeInGraph1);
+				toDeleteInG2Copy.add(edgeG2Copy.getSource());
+				edgeG2Copy.setSource(newSourceG1Copy);
+			}
+			if (s2ToS1.containsKey(edgeG2.getTarget())) {
+				Node nodeInGraph1 = s2ToS1.get(edgeG2.getTarget());
+				Node newTargetG1Copy = (Node) g1ToCopy.get(nodeInGraph1);
+				toDeleteInG2Copy.add(edgeG2Copy.getTarget());
+				edgeG2Copy.setTarget(newTargetG1Copy);
+			}
+		}
+
+		// Remove redundant nodes from G2's copy and their mappings into
+		// rules 1 and 2
+		Utils.removeRedundantNodes(graph2Copy, mappingsS2R1copies, mappingS2R2copies, toDeleteInG2Copy);
+
+		// Add nodes, edges, and mappings to those of G1
+		graph1Copy.getNodes().addAll(graph2Copy.getNodes());
+		graph1Copy.getEdges().addAll(graph2Copy.getEdges());
+		Set<Mapping> mappingsToR1 = new HashSet<Mapping>();
+		mappingsToR1.addAll(mappingsS1R1copies);
+		mappingsToR1.addAll(mappingsS2R1copies);
+		Set<Mapping> mappingsToR2 = new HashSet<Mapping>();
+		mappingsToR2.addAll(mappingS1R2copies);
+		mappingsToR2.addAll(mappingS2R2copies);
+
+		Set<Reason> originMCRs = new HashSet<>();
+		if (reason1.isMinimalReason()) {
+			originMCRs.add(reason1);
+		} else {
+			originMCRs.addAll(reason1.getOriginMCRs());
+		}
+		if (reason2.isMinimalReason()) {
+			originMCRs.add(reason2);
+		} else {
+			originMCRs.addAll(reason2.getOriginMCRs());
+		}
+		if (reason1.getClass() == reason2.getClass())
+			if (reason1 instanceof ChangeConflictReason)
+				return new ChangeConflictReason(mappingsToR1, graph1Copy, mappingsToR2, originMCRs);
+			else if (reason1 instanceof DeleteConflictReason)
+				return new DeleteConflictReason(mappingsToR1, graph1Copy, mappingsToR2, originMCRs);
+			else if (reason1 instanceof CreateConflictReason)
+				return new CreateConflictReason(mappingsToR1, graph1Copy, mappingsToR2, originMCRs);
+		return null;
+	}
+
+	public Atom createForbidAtom(Atom a, Rule originalR1, Rule originalR2) {
+		if (Utils.checkNcReason(a, originalR1, originalR2)) {
+			if (a instanceof DeleteConflictAtom)
+				return new CreateConflictAtom(a).setForbid(true);
+			else if (a instanceof CreateConflictAtom)
+				return new DeleteConflictAtom(a).setForbid(true);
+			else if (a instanceof ChangeConflictAtom)
+				return new ChangeConflictAtom(a).setForbid(true);
+		}
+		return null;
+	}
+
+	public Atom createRequireAtom(Atom a, Rule originalR1, Rule originalR2) {
+		// if (reqReason(a))
+		if (Utils.checkNcReason(a, originalR1, originalR2))
+			return (Atom) a.setRequire(true);
+		return null;
 	}
 }

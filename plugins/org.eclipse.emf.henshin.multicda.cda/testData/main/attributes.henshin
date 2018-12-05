@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_7he7oHNUEei1Mocr9oPxRA">
+  <imports href="my.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_meQTgNlcEeic-6DoqDtAkw" name="complex">
+    <parameters xmi:id="_pK-_gNlcEeic-6DoqDtAkw" name="x" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_pK-_gdlcEeic-6DoqDtAkw" name="y" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_meSvwNlcEeic-6DoqDtAkw" name="Lhs">
+      <nodes xmi:id="_CzCQYNlgEeiQtbAPzxY4Zw" name="1" incoming="_lyUdwNlgEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//SuperN"/>
+        <attributes xmi:id="_EHLY0NlgEeiQtbAPzxY4Zw" value="1">
+          <type href="my.ecore#//SuperN/int"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_C4QHkNlgEeiQtbAPzxY4Zw" name="2" incoming="_pWYaYNlgEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//SuperN"/>
+      </nodes>
+      <nodes xmi:id="_--AfkNlfEeiQtbAPzxY4Zw" name="4" outgoing="_lyUdwNlgEeiQtbAPzxY4Zw _pWYaYNlgEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N"/>
+      </nodes>
+      <nodes xmi:id="_CEo5UNlgEeiQtbAPzxY4Zw" name="6">
+        <type href="my.ecore#//SubN"/>
+        <attributes xmi:id="_FV51wNlgEeiQtbAPzxY4Zw" value="null">
+          <type href="my.ecore#//SubN/str"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_C96DoNlgEeiQtbAPzxY4Zw" name="3">
+        <type href="my.ecore#//SuperN"/>
+        <attributes xmi:id="_2ZSQANlgEeiQtbAPzxY4Zw" value="0">
+          <type href="my.ecore#//SuperN/int"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_BWmbsNltEeiQtbAPzxY4Zw" name="8">
+        <type href="my.ecore#//SuperN"/>
+        <attributes xmi:id="_e9RloNltEeiQtbAPzxY4Zw" value="x">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_lyUdwNlgEeiQtbAPzxY4Zw" source="_--AfkNlfEeiQtbAPzxY4Zw" target="_CzCQYNlgEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N/to"/>
+      </edges>
+      <edges xmi:id="_pWYaYNlgEeiQtbAPzxY4Zw" source="_--AfkNlfEeiQtbAPzxY4Zw" target="_C4QHkNlgEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N/to"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_ar_WoNltEeiQtbAPzxY4Zw">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_cpXVMNlgEeiQtbAPzxY4Zw">
+          <conclusion xmi:id="_cpXVMdlgEeiQtbAPzxY4Zw">
+            <nodes xmi:id="_cpXVMtlgEeiQtbAPzxY4Zw" name="4" outgoing="_9CeKgNlgEeiQtbAPzxY4Zw _9CeKgdlgEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N"/>
+            </nodes>
+            <nodes xmi:id="_f5ZilNlgEeiQtbAPzxY4Zw" name="1" incoming="_9CeKgNlgEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//SuperN"/>
+              <attributes xmi:id="_f5ZildlgEeiQtbAPzxY4Zw" value="1">
+                <type href="my.ecore#//SuperN/int"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_f5Zil9lgEeiQtbAPzxY4Zw" name="2" incoming="_9CeKgdlgEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//SuperN"/>
+              <attributes xmi:id="_FtpAUNlgEeiQtbAPzxY4Zw" value="0">
+                <type href="my.ecore#//SuperN/int"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_9CdjcdlgEeiQtbAPzxY4Zw" name="6" outgoing="_jiPRgNlgEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//SubN"/>
+              <attributes xmi:id="_9CdjctlgEeiQtbAPzxY4Zw" value="null">
+                <type href="my.ecore#//SubN/str"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_CQJlwNlgEeiQtbAPzxY4Zw" name="7" incoming="_jiPRgNlgEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//SubN"/>
+            </nodes>
+            <nodes xmi:id="_Mm-EEtlqEeiQtbAPzxY4Zw" name="3">
+              <type href="my.ecore#//SuperN"/>
+              <attributes xmi:id="_Mm-EE9lqEeiQtbAPzxY4Zw" value="0">
+                <type href="my.ecore#//SuperN/int"/>
+              </attributes>
+            </nodes>
+            <edges xmi:id="_9CeKgNlgEeiQtbAPzxY4Zw" source="_cpXVMtlgEeiQtbAPzxY4Zw" target="_f5ZilNlgEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N/to"/>
+            </edges>
+            <edges xmi:id="_9CeKgdlgEeiQtbAPzxY4Zw" source="_cpXVMtlgEeiQtbAPzxY4Zw" target="_f5Zil9lgEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N/to"/>
+            </edges>
+            <edges xmi:id="_jiPRgNlgEeiQtbAPzxY4Zw" source="_9CdjcdlgEeiQtbAPzxY4Zw" target="_CQJlwNlgEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N/to"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_cpXVNNlgEeiQtbAPzxY4Zw" origin="_--AfkNlfEeiQtbAPzxY4Zw" image="_cpXVMtlgEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_f5ZiltlgEeiQtbAPzxY4Zw" origin="_CzCQYNlgEeiQtbAPzxY4Zw" image="_f5ZilNlgEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_f5ZimdlgEeiQtbAPzxY4Zw" origin="_C4QHkNlgEeiQtbAPzxY4Zw" image="_f5Zil9lgEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_9Cdjc9lgEeiQtbAPzxY4Zw" origin="_CEo5UNlgEeiQtbAPzxY4Zw" image="_9CdjcdlgEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_Mm-EFNlqEeiQtbAPzxY4Zw" origin="_C96DoNlgEeiQtbAPzxY4Zw" image="_Mm-EEtlqEeiQtbAPzxY4Zw"/>
+        </left>
+        <right xsi:type="henshin:NestedCondition" xmi:id="_ar_WodltEeiQtbAPzxY4Zw">
+          <conclusion xmi:id="_ar_WotltEeiQtbAPzxY4Zw" name="1">
+            <nodes xmi:id="_ar_Wo9ltEeiQtbAPzxY4Zw" name="1" incoming="_ar_WqNltEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//SuperN"/>
+              <attributes xmi:id="_ar_WpNltEeiQtbAPzxY4Zw" value="1">
+                <type href="my.ecore#//SuperN/int"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_ar_WptltEeiQtbAPzxY4Zw" name="4" outgoing="_ar_WqNltEeiQtbAPzxY4Zw _ar_Wq9ltEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N"/>
+            </nodes>
+            <nodes xmi:id="_ar_WqdltEeiQtbAPzxY4Zw" name="2" incoming="_ar_Wq9ltEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//SuperN"/>
+            </nodes>
+            <nodes xmi:id="_ar_WrNltEeiQtbAPzxY4Zw" name="6">
+              <type href="my.ecore#//SubN"/>
+              <attributes xmi:id="_ar_WrdltEeiQtbAPzxY4Zw" value="null">
+                <type href="my.ecore#//SubN/str"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_ar_Wr9ltEeiQtbAPzxY4Zw" name="3">
+              <type href="my.ecore#//SuperN"/>
+              <attributes xmi:id="_ar_WsNltEeiQtbAPzxY4Zw" value="0">
+                <type href="my.ecore#//SuperN/int"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_ar_WstltEeiQtbAPzxY4Zw" name="8">
+              <type href="my.ecore#//Node"/>
+              <attributes xmi:id="_e9SzwNltEeiQtbAPzxY4Zw" value="x">
+                <type href="my.ecore#//Node/bool"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="__G1rcNlfEeiQtbAPzxY4Zw" name="5">
+              <type href="my.ecore#//N"/>
+              <attributes xmi:id="_GmsIMNlgEeiQtbAPzxY4Zw" value="y">
+                <type href="my.ecore#//N/bool"/>
+              </attributes>
+            </nodes>
+            <edges xmi:id="_ar_WqNltEeiQtbAPzxY4Zw" source="_ar_WptltEeiQtbAPzxY4Zw" target="_ar_Wo9ltEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N/to"/>
+            </edges>
+            <edges xmi:id="_ar_Wq9ltEeiQtbAPzxY4Zw" source="_ar_WptltEeiQtbAPzxY4Zw" target="_ar_WqdltEeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N/to"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_ar_WpdltEeiQtbAPzxY4Zw" origin="_CzCQYNlgEeiQtbAPzxY4Zw" image="_ar_Wo9ltEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_ar_Wp9ltEeiQtbAPzxY4Zw" origin="_--AfkNlfEeiQtbAPzxY4Zw" image="_ar_WptltEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_ar_WqtltEeiQtbAPzxY4Zw" origin="_C4QHkNlgEeiQtbAPzxY4Zw" image="_ar_WqdltEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_ar_WrtltEeiQtbAPzxY4Zw" origin="_CEo5UNlgEeiQtbAPzxY4Zw" image="_ar_WrNltEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_ar_WsdltEeiQtbAPzxY4Zw" origin="_C96DoNlgEeiQtbAPzxY4Zw" image="_ar_Wr9ltEeiQtbAPzxY4Zw"/>
+          <mappings xmi:id="_ar_Ws9ltEeiQtbAPzxY4Zw" origin="_BWmbsNltEeiQtbAPzxY4Zw" image="_ar_WstltEeiQtbAPzxY4Zw"/>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_meSvwdlcEeic-6DoqDtAkw" name="Rhs">
+      <nodes xmi:id="_C4QHkdlgEeiQtbAPzxY4Zw" name="2" incoming="_pWYaYdlgEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//SuperN"/>
+      </nodes>
+      <nodes xmi:id="_cDMGANlgEeiQtbAPzxY4Zw" name="4" outgoing="_pWYaYdlgEeiQtbAPzxY4Zw _n3DVoNlgEeiQtbAPzxY4Zw _1BguUdlsEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N"/>
+        <attributes xmi:id="_-9Mx0NlgEeiQtbAPzxY4Zw" value="0">
+          <type href="my.ecore#//SuperN/int"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_47a1kNlgEeiQtbAPzxY4Zw" name="6">
+        <type href="my.ecore#//SubN"/>
+        <attributes xmi:id="_47a1kdlgEeiQtbAPzxY4Zw" value="null">
+          <type href="my.ecore#//SubN/str"/>
+        </attributes>
+        <attributes xmi:id="_3yxLcNlgEeiQtbAPzxY4Zw" value="0">
+          <type href="my.ecore#//SuperN/int"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_u8gf8NlhEeiQtbAPzxY4Zw" name="3" incoming="_n3DVoNlgEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//SuperN"/>
+        <attributes xmi:id="_612sgNlhEeiQtbAPzxY4Zw" value="1">
+          <type href="my.ecore#//SuperN/int"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_1BfgMNlsEeiQtbAPzxY4Zw" name="1" incoming="_1BguUdlsEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//SuperN"/>
+      </nodes>
+      <edges xmi:id="_pWYaYdlgEeiQtbAPzxY4Zw" source="_cDMGANlgEeiQtbAPzxY4Zw" target="_C4QHkdlgEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N/to"/>
+      </edges>
+      <edges xmi:id="_n3DVoNlgEeiQtbAPzxY4Zw" source="_cDMGANlgEeiQtbAPzxY4Zw" target="_u8gf8NlhEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N/to"/>
+      </edges>
+      <edges xmi:id="_1BguUdlsEeiQtbAPzxY4Zw" source="_cDMGANlgEeiQtbAPzxY4Zw" target="_1BfgMNlsEeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N/to"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_C4QHktlgEeiQtbAPzxY4Zw" origin="_C4QHkNlgEeiQtbAPzxY4Zw" image="_C4QHkdlgEeiQtbAPzxY4Zw"/>
+    <mappings xmi:id="_cDMGAtlgEeiQtbAPzxY4Zw" origin="_--AfkNlfEeiQtbAPzxY4Zw" image="_cDMGANlgEeiQtbAPzxY4Zw"/>
+    <mappings xmi:id="_47a1k9lgEeiQtbAPzxY4Zw" origin="_CEo5UNlgEeiQtbAPzxY4Zw" image="_47a1kNlgEeiQtbAPzxY4Zw"/>
+    <mappings xmi:id="_u8gf8tlhEeiQtbAPzxY4Zw" origin="_C96DoNlgEeiQtbAPzxY4Zw" image="_u8gf8NlhEeiQtbAPzxY4Zw"/>
+    <mappings xmi:id="_1BguUNlsEeiQtbAPzxY4Zw" origin="_CzCQYNlgEeiQtbAPzxY4Zw" image="_1BfgMNlsEeiQtbAPzxY4Zw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_UBdGYNlvEeiQtbAPzxY4Zw" name="complexF1">
+    <lhs xmi:id="_UBdGY9lvEeiQtbAPzxY4Zw" name="Lhs">
+      <nodes xmi:id="_cJsRcNlyEeiQtbAPzxY4Zw" name="2" outgoing="_rggM8Nl-EeiQtbAPzxY4Zw">
+        <type href="my.ecore#//SubN"/>
+      </nodes>
+      <nodes xmi:id="_RsqbcNl-EeiQtbAPzxY4Zw" name="1" incoming="_rggM8Nl-EeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N"/>
+      </nodes>
+      <nodes xmi:id="_XVcB0Nl-EeiQtbAPzxY4Zw" name="5">
+        <type href="my.ecore#//N"/>
+      </nodes>
+      <edges xmi:id="_rggM8Nl-EeiQtbAPzxY4Zw" source="_cJsRcNlyEeiQtbAPzxY4Zw" target="_RsqbcNl-EeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N/to"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_UBdGm9lvEeiQtbAPzxY4Zw" name="Rhs">
+      <nodes xmi:id="_7xVXINl-EeiQtbAPzxY4Zw" name="4" incoming="_5RKgcNl-EeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N"/>
+      </nodes>
+      <nodes xmi:id="_flWfAdl9EeiQtbAPzxY4Zw" name="2">
+        <type href="my.ecore#//SubN"/>
+      </nodes>
+      <nodes xmi:id="_7xWlQdl-EeiQtbAPzxY4Zw" name="5" outgoing="_5RKgcNl-EeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N"/>
+      </nodes>
+      <nodes xmi:id="_I-dbkNmGEeiQtbAPzxY4Zw" name="3">
+        <type href="my.ecore#//SuperN"/>
+      </nodes>
+      <edges xmi:id="_5RKgcNl-EeiQtbAPzxY4Zw" source="_7xWlQdl-EeiQtbAPzxY4Zw" target="_7xVXINl-EeiQtbAPzxY4Zw">
+        <type href="my.ecore#//N/to"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_flWfAtl9EeiQtbAPzxY4Zw" origin="_cJsRcNlyEeiQtbAPzxY4Zw" image="_flWfAdl9EeiQtbAPzxY4Zw"/>
+    <mappings xmi:id="_7xWlQtl-EeiQtbAPzxY4Zw" origin="_XVcB0Nl-EeiQtbAPzxY4Zw" image="_7xWlQdl-EeiQtbAPzxY4Zw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_ktEyjtlzEeiQtbAPzxY4Zw" name="complexF2">
+    <lhs xmi:id="_ktEyj9lzEeiQtbAPzxY4Zw" name="Lhs">
+      <nodes xmi:id="_dxTLoNl2EeiQtbAPzxY4Zw" name="22">
+        <type href="my.ecore#//SubN"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_hfzZgNl9EeiQtbAPzxY4Zw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_hfzZgdl9EeiQtbAPzxY4Zw">
+          <conclusion xmi:id="_hfzZgtl9EeiQtbAPzxY4Zw">
+            <nodes xmi:id="_hCRI8Nl9EeiQtbAPzxY4Zw" name="33" incoming="_ImNpwNl9EeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N"/>
+            </nodes>
+            <nodes xmi:id="_hfzZhdl9EeiQtbAPzxY4Zw" name="22" outgoing="_ImNpwNl9EeiQtbAPzxY4Zw _Aa4VINl_EeiQtbAPzxY4Zw">
+              <type href="my.ecore#//SubN"/>
+            </nodes>
+            <nodes xmi:id="_AD4xcNl_EeiQtbAPzxY4Zw" name="11" incoming="_Aa4VINl_EeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N"/>
+            </nodes>
+            <nodes xmi:id="_O36mcNl_EeiQtbAPzxY4Zw" name="44">
+              <type href="my.ecore#//SuperN"/>
+            </nodes>
+            <nodes xmi:id="_yu5pINmFEeiQtbAPzxY4Zw" name="55">
+              <type href="my.ecore#//SubN"/>
+            </nodes>
+            <edges xmi:id="_ImNpwNl9EeiQtbAPzxY4Zw" source="_hfzZhdl9EeiQtbAPzxY4Zw" target="_hCRI8Nl9EeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N/to"/>
+            </edges>
+            <edges xmi:id="_Aa4VINl_EeiQtbAPzxY4Zw" source="_hfzZhdl9EeiQtbAPzxY4Zw" target="_AD4xcNl_EeiQtbAPzxY4Zw">
+              <type href="my.ecore#//N/to"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_hfzZhtl9EeiQtbAPzxY4Zw" origin="_dxTLoNl2EeiQtbAPzxY4Zw" image="_hfzZhdl9EeiQtbAPzxY4Zw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_ktEymdlzEeiQtbAPzxY4Zw" name="Rhs">
+      <nodes xmi:id="_hCSXEdl9EeiQtbAPzxY4Zw" name="22">
+        <type href="my.ecore#//SubN"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_hCSXEtl9EeiQtbAPzxY4Zw" origin="_dxTLoNl2EeiQtbAPzxY4Zw" image="_hCSXEdl9EeiQtbAPzxY4Zw"/>
+  </units>
+</henshin:Module>

@@ -25,6 +25,7 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.tasks.AtomicResultContainer;
 import org.eclipse.emf.henshin.multicda.cda.tasks.CalculateAtomicCpaTask;
 import org.eclipse.emf.henshin.multicda.cda.tasks.CalculateCpaTask;
@@ -32,7 +33,6 @@ import org.eclipse.emf.henshin.multicda.cda.tasks.CalculateCpaTask.AnalysisKind;
 import org.eclipse.emf.henshin.multicda.cda.tasks.SingleCpaTaskResultContainer;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cpa.CDAOptions;
 import org.eclipse.emf.henshin.multicda.cpa.CpaByAGG;
@@ -359,7 +359,7 @@ public class Runner_WithPullback {
 
 		Set<Atom> atomicCoreCpaConflictAtoms = resultKeeper.getConflictAtoms();
 		Set<Atom> atomicCoreCpaCandidates = resultKeeper.getCandidates();
-		Set<MinimalReason> atomicCoreMinimalConflictReasons = resultKeeper.getMinimalConflictReasons();
+		Set<ConflictReason> atomicCoreMinimalConflictReasons = resultKeeper.getMinimalConflictReasons();
 
 		long atomicEndTime = System.currentTimeMillis();
 		long atomiRunTime = atomicEndTime - atomicStartTime;

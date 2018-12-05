@@ -39,6 +39,9 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.DependencyAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.MultiGranularAnalysis;
+import org.eclipse.emf.henshin.multicda.cda.framework.CdaWorker;
+import org.eclipse.emf.henshin.multicda.cda.framework.ResultCreator;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cpa.CDAOptions;
 import org.eclipse.emf.henshin.multicda.cpa.CDAOptions.ConflictType;
@@ -70,11 +73,17 @@ public class CpaWizard extends Wizard {
 	MultiGranularAnalysis CDAdep;
 	MultiGranularAnalysis CDAcon;
 	Map<Rule, Map<Rule, Pair<Set<Reason>, Set<Reason>>>> cdaResult = new HashMap<>();
-	Set<Reason> cdaResultB = new HashSet<>();
+	Set<Atom> cdaResultB = new HashSet<>();
 	Set<Reason> cdaResultC = new HashSet<>();
 	Set<Reason> cdaResultF = new HashSet<>();
 	CPAResult cpaResult;
 	HashMap<Rule, String> rulesAndAssociatedFileNames;
+	boolean isTableB;
+	boolean isTableC;
+	boolean isTableF;
+	boolean isATableB;
+	boolean isATableC;
+	boolean isATableF;
 
 	/**
 	 * Constructor of the wizard for configuring the critical pair analysis in the
@@ -121,7 +130,8 @@ public class CpaWizard extends Wizard {
 
 	public void addPages() {
 
-		ruleAndCpKindSelectionWizardPage = new RuleAndCpKindSelectionWizardPage(rulesAndAssociatedFileNames);
+		ruleAndCpKindSelectionWizardPage = new RuleAndCpKindSelectionWizardPage(rulesAndAssociatedFileNames,
+				optionsFile);
 		addPage(ruleAndCpKindSelectionWizardPage);
 
 		optionSettingsWizardPage = new OptionSettingsWizardPage("OPTIONS", optionsFile);
@@ -156,6 +166,12 @@ public class CpaWizard extends Wizard {
 		cdaResultB = new HashSet<>();
 		cdaResultC = new HashSet<>();
 		cdaResultF = new HashSet<>();
+		isTableB = optionSettingsWizardPage.isBinTable();
+		isTableC = optionSettingsWizardPage.isCoarseTable();
+		isTableF = optionSettingsWizardPage.isFineTable();
+		isATableB = optionSettingsWizardPage.isABinTable();
+		isATableC = optionSettingsWizardPage.isACoarseTable();
+		isATableF = optionSettingsWizardPage.isAFineTable();
 		CDAOptions options = optionSettingsWizardPage.getOptions();
 		options.persist(optionsFile);
 		options.cpTypes = ruleAndCpKindSelectionWizardPage.cpType;
@@ -212,10 +228,10 @@ public class CpaWizard extends Wizard {
 						for (Rule r1 : selectedRules.first) {
 							for (Rule r2 : selectedRules.second) {
 								long timeLeft = (totalWork - worked) * (System.currentTimeMillis() - milis) / worked;
-								String desc = title + "\t" + (worked * 100 / totalWork) + "%" + "\t" + r1.getName()
+								String desc = title + "\t " + (worked * 100 / totalWork) + "%" + "\t " + r1.getName()
 										+ "  --conflict-->  " + r2.getName();
 								if (System.currentTimeMillis() - milis > 3000) {
-									desc = title + "\t" + (worked * 100 / totalWork) + "%" + " " + time(timeLeft) + "\t"
+									desc = title + "\t " + (worked * 100 / totalWork) + "%" + " " + time(timeLeft) + "\t "
 											+ r1.getName() + "  --conflict-->  " + r2.getName();
 								}
 								Copier r1C = new Copier();
@@ -228,8 +244,11 @@ public class CpaWizard extends Wizard {
 								if (!ignoredRulePairs.containsKey(r1) && !ignoredRulePairs.containsKey(r2))
 									if (!(options.isIgnoreSameRules() && r1 == r2)) {
 										CDAcon = new ConflictAnalysis(r1s, r2s);
-										if (granularities.contains(GranularityType.BINARY))
-											cdaResultB.add(CDAcon.computeResultsBinary());
+										if (granularities.contains(GranularityType.BINARY)) {
+											Atom a = CDAcon.computeResultsBinary();
+											if (a != null)
+												cdaResultB.add(a);
+										}
 										if (granularities.contains(GranularityType.COARSE))
 											cdaResultC.addAll(CDAcon.computeResultsCoarse());
 										if (granularities.contains(GranularityType.FINE))
@@ -264,10 +283,10 @@ public class CpaWizard extends Wizard {
 						for (Rule r1 : selectedRules.first) {
 							for (Rule r2 : selectedRules.second) {
 								long timeLeft = (totalWork - worked) * (System.currentTimeMillis() - milis) / worked;
-								String desc = title + "\t" + (worked * 100 / totalWork) + "%" + "\t" + r1.getName()
+								String desc = title + "\t " + (worked * 100 / totalWork) + "%" + "\t " + r1.getName()
 										+ "  --dependency-->  " + r2.getName();
 								if (System.currentTimeMillis() - milis > 3000)
-									desc = title + "\t" + (worked * 100 / totalWork) + "%" + " " + time(timeLeft) + "\t"
+									desc = title + "\t " + (worked * 100 / totalWork) + "%" + " " + time(timeLeft) + "\t "
 											+ r1.getName() + "  --dependency-->  " + r2.getName();
 								Copier r1C = new Copier();
 								Copier r2C = new Copier();
@@ -279,8 +298,11 @@ public class CpaWizard extends Wizard {
 								if (!ignoredRulePairs.containsKey(r1) && !ignoredRulePairs.containsKey(r2))
 									if (!(options.isIgnoreSameRules() && r1 == r2)) {
 										CDAdep = new DependencyAnalysis(r1s, r2s);
-										if (granularities.contains(GranularityType.BINARY))
-											cdaResultB.add(CDAdep.computeResultsBinary());
+										if (granularities.contains(GranularityType.BINARY)) {
+											Atom a = CDAdep.computeResultsBinary();
+											if (a != null)
+												cdaResultB.add(a);
+										}
 										if (granularities.contains(GranularityType.COARSE))
 											cdaResultC.addAll(CDAdep.computeResultsCoarse());
 										if (granularities.contains(GranularityType.FINE))
@@ -322,33 +344,50 @@ public class CpaWizard extends Wizard {
 							new XMLResourceFactoryImpl());
 
 					String path = getUniquePath();
-
+					if (monitor.isCanceled()) {
+						cdaResult = null;
+						cpaResult = null;
+						return;
+					}
 					persistedB = CpEditorUtil.persistCdaResult(cdaResultB, path);
 					monitor.worked(cdaResultB.size());
 					persistedC = CpEditorUtil.persistCdaResult(cdaResultC, path);
 					monitor.worked(cdaResultC.size());
 					persistedF = CpEditorUtil.persistCdaResult(cdaResultF, path);
 					monitor.worked(cdaResultF.size());
+					ResultCreator.create(cdaResultB, selectedRules.first, selectedRules.second, isTableB, isATableB, "Binary",
+							path);
+					ResultCreator.create(cdaResultC, selectedRules.first, selectedRules.second, isTableC, isATableC, "Coarse",
+							path);
+					ResultCreator.create(cdaResultF, selectedRules.first, selectedRules.second, isTableF, isATableF, "Fine",
+							path);
+					if (monitor.isCanceled()) {
+						cdaResult = null;
+						cpaResult = null;
+						return;
+					}
 					if (cpaResult != null) {
 						List<CriticalPair> essential = new ArrayList<>();
 						List<CriticalPair> initial = new ArrayList<>();
 						List<CriticalPair> other = new ArrayList<>();
 						if (options.initialCP)
-							initial = cpaResult.getInitialCriticalPairs();
+							initial = cpaResult.getInitialCriticalPairs(true);
 						if (options.essentialCP) {
 							essential = cpaResult.getEssentialCriticalPairs();
-							if (initial != null)
-								essential.removeAll(initial);
 						}
 						if (options.otherCP) {
 							other = cpaResult.getOtherCriticalPairs();
-							// if (initial != null) //TODO: Das löschen geht noch nicht, da es keine
-							// vernünftige equals methode gibt
+							// if (initial != null) //TODO: CPs must have a good equals method for correct deleting. If so, comment this lines in.
 							// other.removeAll(initial);
 							// if (essential != null)
 							// other.removeAll(essential);
 						}
 
+						if (monitor.isCanceled()) {
+							cdaResult = null;
+							cpaResult = null;
+							return;
+						}
 						monitor.done();
 						initialCpaResult = CPAUtility.persistCpaResult(initial, path);
 						essentialCpaResult = CPAUtility.persistCpaResult(essential, path);
@@ -405,8 +444,8 @@ public class CpaWizard extends Wizard {
 
 	private CPAResult runCPA(Rule r1, Rule r2, CDAOptions options, boolean conf, boolean essential) {
 		ConflictAnalysis.unnamedNodeID = 0;
-		r1 = ConflictAnalysis.prepare(r1);
-		r2 = ConflictAnalysis.prepare(r2);
+		r1 = ConflictAnalysis.prepareWithACons(r1);
+		r2 = ConflictAnalysis.prepareWithACons(r2);
 		boolean essentialTemp = options.essentialCP;
 		options.essentialCP = essential;
 		CPAResult result;
