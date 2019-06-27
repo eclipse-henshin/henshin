@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.multicda.cda.runner;
+package org.eclipse.emf.henshin.preprocessing;
 
 import java.util.ArrayList;
 import java.util.List;

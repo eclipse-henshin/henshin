@@ -26,12 +26,12 @@ import org.eclipse.emf.henshin.multicda.cda.framework.Condition.Provable;
 import org.eclipse.emf.henshin.multicda.cda.framework.Condition.ReasonSize;
 import org.eclipse.emf.henshin.multicda.cda.framework.Condition.StateProvider;
 import org.eclipse.emf.henshin.multicda.cda.framework.Condition.State;
-import org.eclipse.emf.henshin.multicda.cda.runner.RulePreparator;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cda.units.Span;
 import org.eclipse.emf.henshin.multicda.cda.units.SymmetricReason;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
+import org.eclipse.emf.henshin.preprocessing.RulePreparator;
 
 /**
  * This worker provides execution, analysis and testing for Multi CDA

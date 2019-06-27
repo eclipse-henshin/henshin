@@ -14,7 +14,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
-import org.eclipse.emf.henshin.multicda.cda.runner.RulePreparator;
 import org.eclipse.emf.henshin.multicda.cpa.CDAOptions;
 import org.eclipse.emf.henshin.multicda.cpa.CpaByAGG;
 import org.eclipse.emf.henshin.multicda.cpa.UnsupportedRuleException;
@@ -24,6 +23,7 @@ import org.eclipse.emf.henshin.multicda.cpa.result.CriticalElement;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 import org.eclipse.emf.henshin.multicda.cpa.result.Dependency;
 import org.eclipse.emf.henshin.preprocessing.NonDeletingPreparator;
+import org.eclipse.emf.henshin.preprocessing.RulePreparator;
 
 /**
  * This worker provides execution, analysis and testing for CPA
