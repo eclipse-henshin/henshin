@@ -12,5 +12,16 @@
 
   <artifactId>org.eclipse.emf.henshin.multicda.cpa</artifactId>
   <packaging>eclipse-plugin</packaging>
+  
+  
+   <dependencies>
+      <dependency>
+         <groupId>de.tuberlin.eecs.agg.group</groupId>
+         <artifactId>de.tuberlin.eecs.agg</artifactId>
+         <scope>system</scope>
+         <version>2.1.0</version>
+         <systemPath>${basedir}\src\lib\de.tuberlin.eecs.agg_2.1.0.v201512080800.jar</systemPath>
+      </dependency>
+   </dependencies>
 
 </project>
