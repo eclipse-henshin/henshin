@@ -20,7 +20,7 @@
          <artifactId>de.tuberlin.eecs.agg</artifactId>
          <scope>system</scope>
          <version>2.1.0</version>
-         <systemPath>${basedir}\src\lib\de.tuberlin.eecs.agg_2.1.0.v201512080800.jar</systemPath>
+         <systemPath>${basedir}\lib\de.tuberlin.eecs.agg_2.1.0.v201512080800.jar</systemPath>
       </dependency>
    </dependencies>
 
