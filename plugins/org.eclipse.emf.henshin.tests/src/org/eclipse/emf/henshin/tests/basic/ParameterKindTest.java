@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.tests.basic;
 
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.tests.framework.Graphs;
 import org.eclipse.emf.henshin.tests.framework.HenshinTest;
 import org.eclipse.emf.henshin.tests.framework.Parameters;
@@ -18,6 +19,7 @@ import org.eclipse.emf.henshin.tests.framework.Rules;
 import org.eclipse.emf.henshin.tests.framework.Tools;
 import org.eclipse.emf.henshin.tests.framework.Units;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
+import org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage;
 import org.eclipse.emf.henshin.tests.testmodel.Val;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +33,8 @@ public class ParameterKindTest extends HenshinTest {
 
 	@Before
 	public void setUp() throws Exception {
+		TestmodelPackage.eINSTANCE.eClass();
+		initFactory("testmodel", new XMIResourceFactoryImpl());
 		init("basic/rules/parameterKindTests.henshin");
 		setEGraphPath("basic/models/parameterTestsModels/", "testmodel");
 		loadEGraph("paramTest");
@@ -241,8 +245,8 @@ public class ParameterKindTest extends HenshinTest {
 
 	@Test
 	/*
-	 * Parameters of kind IN and VAR should not be readable after IndependentUnit execution.
-	 * Parameters of kind INOUT and OUT should be readable after IndependentUnit execution.
+	 * Parameters of kind IN should not be readable after IndependentUnit execution.
+	 * Parameters of kind VAR, INOUT and OUT should be readable after IndependentUnit execution.
 	 */
 	public void testParameterKindsReadableAfterIndependentUnit() {
 		loadUnit("parameterKindsReadableAfterIndependentUnit");
@@ -252,15 +256,15 @@ public class ParameterKindTest extends HenshinTest {
 		Units.assertUnitCanBeExecuted(htUnitApp);
 
 		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_in");
-		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_var");
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_inout"));
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_out"));
+		assertEquals("nd1", htUnitApp.getResultParameterValue("param_var"));
 	}
 
 	@Test
 	/*
-	 * Parameters of kind IN and VAR should not be readable after SequentialUnit execution.
-	 * Parameters of kind INOUT and OUT should be readable after SequentialUnit execution.
+	 * Parameters of kind IN should not be readable after SequentialUnit execution.
+	 * Parameters of kind VAR, INOUT and OUT should be readable after SequentialUnit execution.
 	 */
 	public void testParameterKindsReadableAfterSequentialUnit() {
 		loadUnit("parameterKindsReadableAfterSequentialUnit");
@@ -270,15 +274,15 @@ public class ParameterKindTest extends HenshinTest {
 		Units.assertUnitCanBeExecuted(htUnitApp);
 
 		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_in");
-		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_var");
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_inout"));
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_out"));
+		assertEquals("nd1", htUnitApp.getResultParameterValue("param_var"));
 	}
 
 	@Test
 	/*
-	 * Parameters of kind IN and VAR should not be readable after LoopUnit execution.
-	 * Parameters of kind INOUT and OUT should be readable after LoopUnit execution.
+	 * Parameters of kind IN should not be readable after LoopUnit execution.
+	 * Parameters of kind VAR, INOUT and OUT should be readable after LoopUnit execution.
 	 */
 	public void testParameterKindsReadableAfterLoopUnit() {
 		loadUnit("parameterKindsReadableAfterLoopUnit");
@@ -288,15 +292,15 @@ public class ParameterKindTest extends HenshinTest {
 		Units.assertUnitCanBeExecuted(htUnitApp);
 
 		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_in");
-		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_var");
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_inout"));
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_out"));
+		assertEquals("nd1", htUnitApp.getResultParameterValue("param_var"));
 	}
 
 	@Test
 	/*
-	 * Parameters of kind IN and VAR should not be readable after IteratedUnit execution.
-	 * Parameters of kind INOUT and OUT should be readable after IteratedUnit execution.
+	 * Parameters of kind IN should not be readable after IteratedUnit execution.
+	 * Parameters of kind VAR, INOUT and OUT should be readable after IteratedUnit execution.
 	 */
 	public void testParameterKindsReadableAfterIteratedUnit() {
 		loadUnit("parameterKindsReadableAfterIteratedUnit");
@@ -306,15 +310,15 @@ public class ParameterKindTest extends HenshinTest {
 		Units.assertUnitCanBeExecuted(htUnitApp);
 
 		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_in");
-		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_var");
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_inout"));
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_out"));
+		assertEquals("nd1", htUnitApp.getResultParameterValue("param_var"));
 	}
 
 	@Test
 	/*
-	 * Parameters of kind IN and VAR should not be readable after PriorityUnit execution.
-	 * Parameters of kind INOUT and OUT should be readable after PriorityUnit execution.
+	 * Parameters of kind IN should not be readable after PriorityUnit execution.
+	 * Parameters of kind VAR, INOUT and OUT should be readable after PriorityUnit execution.
 	 */
 	public void testParameterKindsReadableAfterPriorityUnit() {
 		loadUnit("parameterKindsReadableAfterPriorityUnit");
@@ -324,15 +328,15 @@ public class ParameterKindTest extends HenshinTest {
 		Units.assertUnitCanBeExecuted(htUnitApp);
 
 		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_in");
-		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_var");
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_inout"));
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_out"));
+		assertEquals("nd1", htUnitApp.getResultParameterValue("param_var"));
 	}
 
 	@Test
 	/*
-	 * Parameters of kind IN and VAR should not be readable after ConditionalUnit execution.
-	 * Parameters of kind INOUT and OUT should be readable after ConditionalUnit execution.
+	 * Parameters of kind IN should not be readable after ConditionalUnit execution.
+	 * Parameters of kind VAR, INOUT and OUT should be readable after ConditionalUnit execution.
 	 */
 	public void testParameterKindsReadableAfterConditionalUnit() {
 		loadUnit("parameterKindsReadableAfterConditionalUnit");
@@ -342,8 +346,8 @@ public class ParameterKindTest extends HenshinTest {
 		Units.assertUnitCanBeExecuted(htUnitApp);
 
 		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_in");
-		Parameters.assertParameterNotReadableAfterApplication(htUnitApp, "param_var");
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_inout"));
 		assertEquals("nd1", htUnitApp.getResultParameterValue("param_out"));
+		assertEquals("nd1", htUnitApp.getResultParameterValue("param_var"));
 	}
 }
