@@ -13,14 +13,19 @@
   <artifactId>org.eclipse.emf.henshin.multicda.cpa</artifactId>
   <packaging>eclipse-plugin</packaging>
   
+    <repositories>
+      <repository>
+        <id>in-project</id>
+        <name>In Project Repo</name>
+        <url>file://${project.basedir}/lib</url>
+      </repository>
+	</repositories>
   
    <dependencies>
       <dependency>
-         <groupId>de.tuberlin.eecs.agg.group</groupId>
-         <artifactId>de.tuberlin.eecs.agg</artifactId>
-         <scope>system</scope>
+         <groupId>de.tuberlin.eecs</groupId>
+         <artifactId>agg</artifactId>
          <version>2.1.0</version>
-         <systemPath>${basedir}/lib/de.tuberlin.eecs.agg_2.1.0.v201512080800.jar</systemPath>
       </dependency>
    </dependencies>
 
