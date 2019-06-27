@@ -17,11 +17,18 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointManager;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IStackFrame;
+import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.diagram.providers.HenshinMarkerNavigationProvider;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -34,6 +41,7 @@ import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugValue;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugVariable;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinStackFrame;
 import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
+import org.eclipse.emf.henshin.interpreter.info.VariableInfo;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
@@ -42,6 +50,7 @@ import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.PathConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.TypeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Node;
@@ -233,7 +242,13 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		if (debugTarget != null) {
 			debugTarget.fireChangeEvent(DebugEvent.CONTENT);
 			debugTarget.fireSuspendEvent(DebugEvent.STEP_END);
-		}				
+		}
+				
+		// TODO: Remove code below when using eclipse extension to set henshin breakpoints via GUI
+		// set sample constraint type breakpoint
+//		if (getHenshinBreakpoints().size() <= 0) {
+//			setVariableBreakpoint();
+//		}
 	}
 
 	/**
@@ -433,7 +448,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	public void suspend() throws DebugException {
 		 synchronized (this) {
             setCurrentDebugState(DebugState.SUSPENDED);
-        }
+        }		
 	}
 	
 	public boolean canStep() {
@@ -541,7 +556,10 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		String currentNodePath = EcoreUtil.getRelativeURIFragmentPath(null, currentNode);
 		// get the current type constraint to compare in shouldStopAtVariableBreakpoint later
 		String currentTypeName = currentVariable.typeConstraint.type.getName();
-				
+		
+		// also consider comparing to name of the node
+		// String currentNodeName = currentNode.getName();
+		
 		// handle variable breakpoints
 		ArrayList<VariableBreakpoint> variableBreakpoints = filterVariableBreakpoints(henshinBreakpoints);
 		if (variableBreakpoints.size() > 0 && currentDebugLevel == DebugLevel.VARIABLE) {
@@ -553,7 +571,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 			}
 		}
 		
-		// handle value breakpoints
+		// value breakpoints
 		if (currentSlot.getValue() != null) {
 			// get complete domain (e.g. domain for :Client could be 'charles', 'bob', 'alice')
 			List<EObject> domain = graph.getDomain(currentSlot.getValue().eClass(), false);
@@ -574,25 +592,20 @@ public class DebugApplicationCondition extends ApplicationCondition {
 			}
 		}
 		
-		// handle constraint type breakpoints
-		ArrayList<ConstraintTypeBreakpoint> constraintTypeBreakpoints = filterConstraintTypeBreakpoints(henshinBreakpoints);
-		if (constraintTypeBreakpoints.size() > 0 && currentDebugLevel == DebugLevel.CONSTRAINT_TYPE) {
-			for (ConstraintTypeBreakpoint constraintTypeBreakpoint : constraintTypeBreakpoints) {
-				if (shouldStopAtConstraintTypeBreakpoint(constraintTypeBreakpoint)) {
-					suspendApplication();
-				}
-			}
-		}
 		
-		// handle constraint instance breakpoints
-		ArrayList<ConstraintInstanceBreakpoint> constraintInstanceBreakpoints = filterConstraintInstanceBreakpoints(henshinBreakpoints);
-		if (constraintInstanceBreakpoints.size() > 0 && currentDebugLevel == DebugLevel.CONSTRAINT) {
-			for (ConstraintInstanceBreakpoint constraintInstanceBreakpoint : constraintInstanceBreakpoints) {
-				if (shouldStopAtConstraintInstanceBreakpoint(constraintInstanceBreakpoint)) {
-					suspendApplication();
-				}
-			}
-		}
+		// handle value breakpoints
+//		TreeIterator<EObject> allContents = ruleInfo.getRule().eResource().getAllContents();
+		
+		// code from TransformOperation.java
+//		ResourceSet resourceSet;
+//		if (unit.eResource() != null && unit.eResource().getResourceSet() != null) {
+//			resourceSet = unit.eResource().getResourceSet();
+//		} else {
+//			resourceSet = new ResourceSetImpl();
+//		}
+//
+//		
+//		Resource input = resourceSet.getResource(inputUri, true);
 		
 		if (debugTarget != null) {			
 			debugTarget.fireSuspendEvent(DebugEvent.STEP_END);
@@ -898,60 +911,6 @@ public void stepReturn() throws DebugException {
 		}
 	}
 	
-	public void setConstraintTypeBreakpoint(String constraintType) {
-		// get all breakpoints
-		IBreakpointManager manager = getManager();
-		// create breakpoint
-		IFile moduleFile = debugTarget.getModuleFile();
-		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/constraintType", "Sample ConstraintTypeBreakpoint", IStatus.OK);
-		ConstraintTypeBreakpoint breakpoint = new ConstraintTypeBreakpoint();
-		try {
-			// set marker for breakpoint
-			breakpoint.setMarker(marker);
-			breakpoint.setEnabled(true);
-			// configure breakpoint
-			breakpoint.setType(ConstraintType.valueOf(constraintType));
-			breakpoint.setDebugLevel(DebugLevel.CONSTRAINT_TYPE);
-			// add breakpoint to manager to keep track
-			manager.addBreakpoint(breakpoint);
-		} catch (CoreException e1) {
-			System.out.println("Unable to create custom ConstraintTypeBreakpoint.");
-			e1.printStackTrace();
-		}
-	}
-	
-	public void setConstraintInstanceBreakpoint(String constraintInstance) {
-		// get all breakpoints
-		IBreakpointManager manager = getManager();
-		// create breakpoint
-		IFile moduleFile = debugTarget.getModuleFile();
-		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/constraintInstance", "Sample ConstraintInstanceBreakpoint", IStatus.OK);
-		ConstraintInstanceBreakpoint breakpoint = new ConstraintInstanceBreakpoint();
-		try {
-			// set marker for breakpoint
-			breakpoint.setMarker(marker);
-			breakpoint.setEnabled(true);
-			// configure breakpoint
-			
-			breakpoint.setConstraintInstance(removeRuntimeValuesFromConstraintInstance(constraintInstance));
-			breakpoint.setDebugLevel(DebugLevel.CONSTRAINT);
-			// add breakpoint to manager to keep track
-			manager.addBreakpoint(breakpoint);
-		} catch (CoreException e1) {
-			System.out.println("Unable to create custom ConstraintInstanceBreakpoint.");
-			e1.printStackTrace();
-		}
-	}
-	
-	protected String removeRuntimeValuesFromConstraintInstance(String constraintInstance) {
-		// Remove runtime values from the constraint instance string
-		final int indexOfParenthesis = constraintInstance.indexOf('(');
-		if (indexOfParenthesis > 0) {
-			constraintInstance = constraintInstance.substring(0, indexOfParenthesis - 1);
-		}
-		return constraintInstance;
-	}
-	
 	
 	/**
 	 * Returns an array list containing all HenshinBreakpoints currently available
@@ -1006,63 +965,6 @@ public void stepReturn() throws DebugException {
 	public boolean isVariableBreakpoint(HenshinBreakpoint breakpoint) {
 		return breakpoint instanceof VariableBreakpoint;
 	}
-	
-	/**
-	 * Filter all constraint type breakpoints and returns an array list.
-	 * @param henshinBreakpoints
-	 * @return
-	 */
-	public ArrayList<ConstraintTypeBreakpoint> filterConstraintTypeBreakpoints(ArrayList<HenshinBreakpoint> henshinBreakpoints) {
-		ArrayList<ConstraintTypeBreakpoint> constraintTypeBreakpoints = new ArrayList<ConstraintTypeBreakpoint>();
-		
-		// loop through all breakpoints and return the ones which are of type ConstraintTypeBreakpoint
-		for (HenshinBreakpoint henshinBreakpoint : henshinBreakpoints) {
-			// local variable
-			if (isConstraintTypeBreakpoint(henshinBreakpoint)) {
-				// cast to VariableBreakpoint
-				ConstraintTypeBreakpoint constraintTypeBreakpoint = (ConstraintTypeBreakpoint) henshinBreakpoint;
-				constraintTypeBreakpoints.add(constraintTypeBreakpoint);
-			}
-		}
-		
-		return constraintTypeBreakpoints;
-	}
-	
-	/**
-	 * Checks whether a given breakpoint is of type ConstraintTypeBreakpoint
-	 */
-	public boolean isConstraintTypeBreakpoint(HenshinBreakpoint breakpoint) {
-		return breakpoint instanceof ConstraintTypeBreakpoint;
-	}
-	
-	/**
-	 * Filter all constraint instance breakpoints and returns an array list.
-	 * @param henshinBreakpoints
-	 * @return
-	 */
-	public ArrayList<ConstraintInstanceBreakpoint> filterConstraintInstanceBreakpoints(ArrayList<HenshinBreakpoint> henshinBreakpoints) {
-		ArrayList<ConstraintInstanceBreakpoint> constraintInstanceBreakpoints = new ArrayList<ConstraintInstanceBreakpoint>();
-		
-		// loop through all breakpoints and return the ones which are of type ConstraintTypeBreakpoint
-		for (HenshinBreakpoint henshinBreakpoint : henshinBreakpoints) {
-			// local variable
-			if (isConstraintInstanceBreakpoint(henshinBreakpoint)) {
-				// cast to VariableBreakpoint
-				ConstraintInstanceBreakpoint constraintInstanceBreakpoint = (ConstraintInstanceBreakpoint) henshinBreakpoint;
-				constraintInstanceBreakpoints.add(constraintInstanceBreakpoint);
-			}
-		}
-		
-		return constraintInstanceBreakpoints;
-	}	
-	
-	/**
-	 * Checks whether a given breakpoint is of type ConstraintTypeBreakpoint
-	 */
-	public boolean isConstraintInstanceBreakpoint(HenshinBreakpoint breakpoint) {
-		return breakpoint instanceof ConstraintInstanceBreakpoint;
-	}
-	
 	
 	/**
 	 * Checks all the necessary parameters to determine whether to stop at this variable or not.
@@ -1137,24 +1039,6 @@ public void stepReturn() throws DebugException {
 		}	
 		
 		return false;
-	}
-	
-	/**
-	 * 
-	 * @param constraintTypeBreakpoint
-	 * @return
-	 */
-	public boolean shouldStopAtConstraintTypeBreakpoint(ConstraintTypeBreakpoint constraintTypeBreakpoint) {
-		return constraintTypeBreakpoint.getType() == currentConstraintType;
-	}
-	
-	/**
-	 * 
-	 * @param constraintTypeBreakpoint
-	 * @return
-	 */
-	public boolean shouldStopAtConstraintInstanceBreakpoint(ConstraintInstanceBreakpoint constraintInstanceBreakpoint) {
-		return removeRuntimeValuesFromConstraintInstance(retrieveConstraintLabel()).equals(constraintInstanceBreakpoint.getConstraintInstance());
 	}
 	
 	/**
@@ -1478,11 +1362,13 @@ public void stepReturn() throws DebugException {
 	 */
 	@SuppressWarnings("unchecked")
 	private synchronized String retrieveConstraintLabel() {
-		String label = "";
+		String label = "Constraint " + currentConstraintIndex;
 		
 		if (currentDebugLevel != DebugLevel.CONSTRAINT) {
-			return "Constraint " + currentConstraintIndex;
+			return label;
 		}
+		
+		label += ": '";
 		
 		switch (currentConstraintType) {
 		case TYPE:
@@ -1507,7 +1393,7 @@ public void stepReturn() throws DebugException {
 			 */
 			if (currentSlot.getValue() != null) {
 				String attValue = String.valueOf(currentSlot.getValue().eGet(currentSlot.getValue().eClass().getEStructuralFeature(attName)));
-				label += attName + " = " + paramName + " (" + attValue + " = " + paramValue + ")";				
+				label += attValue + " = " + paramValue + " (" + attName + " = " + paramName + ")";				
 			}
 			break;
 		case CONTAINMENT:
@@ -1564,6 +1450,7 @@ public void stepReturn() throws DebugException {
 			throw new IllegalStateException("missing ConstraintType in switch statement?");
 		}
 		
+		label += "'";
 		return label;
 	}
 

@@ -88,28 +88,6 @@
             </parameter>
          </defaultHandler>
       </command>
-      <command
-            id="org.eclipse.emf.henshin.interpreter.ui.wizard.add.ConstraintTypeBreakpoint"
-            name="Add Constraint Type Breakpoint">
-         <defaultHandler
-               class="org.eclipse.emf.henshin.interpreter.ui.handlers.AddConstraintTypeBreakpoint">
-            <parameter
-                  name="org.eclipse.emf.henshin.interpreter.ui.parameter1"
-                  value="org.eclipse.emf.henshin.interpreter.ui.parameter1">
-            </parameter>
-         </defaultHandler>
-      </command>
-      <command
-            id="org.eclipse.emf.henshin.interpreter.ui.wizard.add.ConstraintInstanceBreakpoint"
-            name="Add Constraint Instance Breakpoint">
-         <defaultHandler
-               class="org.eclipse.emf.henshin.interpreter.ui.handlers.AddConstraintInstanceBreakpoint">
-            <parameter
-                  name="org.eclipse.emf.henshin.interpreter.ui.parameter2"
-                  value="org.eclipse.emf.henshin.interpreter.ui.parameter2">
-            </parameter>
-         </defaultHandler>
-      </command>
    </extension>
    <!--
    <extension
@@ -284,18 +262,6 @@
                label="Add Variable Breakpoint"
                menubarPath="org.eclipse.emf.henshin.interpreter.ui.menu1/group1">
          </action>
-         <action
-               class="org.eclipse.emf.henshin.interpreter.ui.handlers.AddConstraintTypeBreakpoint"
-               id="org.eclipse.emf.henshin.interpreter.ui.addConstraintTypeBreakpoint"
-               label="Add Constraint Type Breakpoint"
-               menubarPath="org.eclipse.emf.henshin.interpreter.ui.menu1/group1">
-         </action>
-         <action
-               class="org.eclipse.emf.henshin.interpreter.ui.handlers.AddConstraintInstanceBreakpoint"
-               id="org.eclipse.emf.henshin.interpreter.ui.addConstraintInstanceBreakpoint"
-               label="Add Constraint Instance Breakpoint"
-               menubarPath="org.eclipse.emf.henshin.interpreter.ui.menu1/group1">
-         </action>
       </objectContribution>
    </extension>
   <extension
@@ -340,16 +306,6 @@
            class="org.eclipse.emf.henshin.interpreter.matching.conditions.VariableBreakpoint"
            id="org.eclipse.emf.henshin.model"
            markerType="org.eclipse.emf.henshin.interpreter.matching.conditions.VariableBreakpoint">
-     </breakpoint>
-     <breakpoint
-           class="org.eclipse.emf.henshin.interpreter.matching.conditions.ConstraintTypeBreakpoint"
-           id="org.eclipse.emf.henshin.model"
-           markerType="org.eclipse.emf.henshin.interpreter.matching.conditions.ConstraintTypeBreakpoint">
-     </breakpoint>
-     <breakpoint
-           class="org.eclipse.emf.henshin.interpreter.matching.conditions.ConstraintInstanceBreakpoint"
-           id="org.eclipse.emf.henshin.model"
-           markerType="org.eclipse.emf.henshin.interpreter.matching.conditions.ConstraintInstanceBreakpoint">
      </breakpoint>
   </extension>
   <extension

@@ -12,7 +12,7 @@ public class DebugValueObject extends HenshinDebugValue {
 	public DebugValueObject(IDebugTarget target, EGraph graph, String declaredType, Object value, int indexInDomain) {
 		super(target, graph, declaredType);
 		
-		// needed to set value breakpoint
+		// neede to set value breakpoint
 		this.indexInDomain = indexInDomain;
 		
 		valueString = value.toString();

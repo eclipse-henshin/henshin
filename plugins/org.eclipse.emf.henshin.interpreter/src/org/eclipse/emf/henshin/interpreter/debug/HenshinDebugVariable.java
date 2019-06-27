@@ -12,8 +12,6 @@ public class HenshinDebugVariable extends HenshinDebugElement implements IVariab
 	private String name;
 	private HenshinDebugValue value;
 	private Variable variable;
-	private final boolean isConstraintType;
-	private final boolean isConstraint;
 	
 	/**
 	 * for a variable with a primitive / human readable value
@@ -34,16 +32,6 @@ public class HenshinDebugVariable extends HenshinDebugElement implements IVariab
 		super(target);
 		this.name = name;
 		this.value = value;
-		isConstraintType = "Constraint Type".equals(name);
-		isConstraint = "Constraint".equals(name);
-	}
-	
-	public boolean isConstraint() {
-		return isConstraint;
-	}
-	
-	public boolean isConstraintType() {
-		return isConstraintType;
 	}
 	
 	public Variable getVariable() {

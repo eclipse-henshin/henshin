@@ -13,7 +13,6 @@ import org.eclipse.emf.henshin.examples.javaimports.JavaImportsExample;
 import org.eclipse.emf.henshin.examples.movies.MoviesBenchmark;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
 import org.eclipse.emf.henshin.examples.sort.SortExample;
-import org.eclipse.emf.henshin.examples.universitycourses.UniversityCourses;
 import org.eclipse.emf.henshin.examples.wrap.copy.CopyExample;
 import org.eclipse.emf.henshin.examples.wrap.mme.PetriNetMME;
 import org.junit.Test;
@@ -167,15 +166,6 @@ public class ExamplesTest {
 	public void testAggregation() {
 		System.out.println();
 		AggregationExample.run(EXAMPLES_PATH + AggregationExample.PATH);
-	}
-
-	/**
-	 * University courses example.
-	 */
-	@Test
-	public void testUniversityCourses() {
-		System.out.println();
-		UniversityCourses.run(EXAMPLES_PATH + UniversityCourses.PATH, false);
 	}
 
 }
