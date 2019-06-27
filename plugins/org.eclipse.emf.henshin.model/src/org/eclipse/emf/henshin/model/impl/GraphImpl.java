@@ -637,8 +637,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 */
 	@Override
 	public String toString() {
-		return "Graph " + name + "\n" + (nodes!=null && !nodes.isEmpty()?nodes:"") + 
-				(edges!=null && !edges.isEmpty()?edges:"");
+		return "Graph " + name;
 	}
 
 } // GraphImpl

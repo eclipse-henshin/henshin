@@ -601,13 +601,12 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 */
 	@Override
 	public String toString() {
-		if (type != null && type.getName() == null) {
+		if (type!=null && type.getName()==null) {
 			EcoreUtil.resolveAll(this);
 		}
-		String nodeName = (name != null) ? name : "";
-		String typeName = (type != null) ? ":" + type.getName() : "";
-		String attrs = getAttributes().isEmpty() ? "" : getAttributes().toString();
-		return ("Node " + nodeName + typeName).trim() + (attrs.isEmpty() ? "" : attrs);
+		String nodeName = (name!=null) ? name : "";
+		String typeName = (type!=null) ? ":"+type.getName() : "";
+		return ("Node " + nodeName + typeName).trim(); 
 	}
 
 } //NodeImpl
