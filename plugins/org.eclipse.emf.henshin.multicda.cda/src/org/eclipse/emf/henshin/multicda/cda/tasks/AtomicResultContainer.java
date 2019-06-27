@@ -4,10 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 
 public class AtomicResultContainer {
@@ -19,7 +17,7 @@ public class AtomicResultContainer {
 
 	Set<Atom> atomicCoreCpaConflictAtoms;
 	Set<Atom> atomicCoreCpaCandidates;
-	Set<MinimalReason> atomicCoreCpaMinimalConflictsReasons;
+	Set<ConflictReason> atomicCoreCpaMinimalConflictsReasons;
 	
 	
 	long minimalConflictReasonRunTime;
@@ -73,7 +71,7 @@ public class AtomicResultContainer {
 	}
 
 
-	public Set<MinimalReason> getMinimalConflictReasons() { 
+	public Set<ConflictReason> getMinimalConflictReasons() { 
 		if(atomicCoreCpaMinimalConflictsReasons == null){
 			return new HashSet<>();
 		}else {			
@@ -87,7 +85,7 @@ public class AtomicResultContainer {
 	}
 
 
-	public void setMinimalConflictReasons(Set<MinimalReason> overallReasons) {
+	public void setMinimalConflictReasons(Set<ConflictReason> overallReasons) {
 		this.atomicCoreCpaMinimalConflictsReasons = overallReasons;
 	}
 

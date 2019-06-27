@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -38,9 +39,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.DoubleSpan;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
+import org.eclipse.emf.henshin.multicda.cda.units.Span;
+import org.eclipse.emf.henshin.multicda.cda.units.SymmetricReason;
 import org.eclipse.emf.henshin.multicda.cpa.persist.SpanNode;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 import org.eclipse.emf.henshin.multicda.cpa.ui.presentation.HenshinCPEditor;
@@ -81,13 +82,13 @@ public class CpEditorUtil {
 	 * @return a <code>HashMap</code> of the saved results.
 	 */
 	public static Pair<Map<String, List<SpanNode>>, Map<String, List<SpanNode>>> persistCdaResult(
-			Map<Rule, Map<Rule, Pair<Set<Reason>, Set<Reason>>>> cdaResult, String path, IProgressMonitor monitor) {
+			Map<Rule, Map<Rule, Pair<Set<Span>, Set<Span>>>> cdaResult, String path, IProgressMonitor monitor) {
 		Map<String, List<SpanNode>> coarse = new TreeMap<>();
 		Map<String, List<SpanNode>> fine = new TreeMap<>();
 		for (Rule r1 : cdaResult.keySet()) {
-			Map<Rule, Pair<Set<Reason>, Set<Reason>>> m2 = cdaResult.get(r1);
+			Map<Rule, Pair<Set<Span>, Set<Span>>> m2 = cdaResult.get(r1);
 			for (Rule r2 : m2.keySet()) {
-				Pair<Set<Reason>, Set<Reason>> pair = m2.get(r2);
+				Pair<Set<Span>, Set<Span>> pair = m2.get(r2);
 				coarse.putAll(persistCdaResult(pair.first, path));
 				fine.putAll(persistCdaResult(pair.second, path));
 				monitor.worked(1);
@@ -96,13 +97,12 @@ public class CpEditorUtil {
 		return new Pair<>(coarse, fine);
 	}
 
-	public static Map<String, List<SpanNode>> persistCdaResult(Set<Reason> cdaResult, String path) {
+	public static Map<String, List<SpanNode>> persistCdaResult(Set<? extends Span> reasons, String path) {
 
 		Map<String, List<SpanNode>> persistedNodes = new TreeMap<>();
-		if (cdaResult != null) {
-			List<Reason> reasons = new ArrayList<>(cdaResult);
-			Collections.sort(reasons);
-			for (Reason reason : reasons)
+		if (reasons != null) {
+			reasons = new TreeSet<>(reasons);
+			for (Span reason : reasons)
 				if (reason != null) {
 					// naming of each single conflict
 					String folderName = reason.getRule1().getName() + ", " + reason.getRule2().getName();
@@ -115,7 +115,7 @@ public class CpEditorUtil {
 						persistedNodes.put(folderName, new ArrayList<>());
 					}
 
-					String spanKind = reason.NAME;
+					String spanKind = reason.getFullName();
 					spanKind = spanKind.replaceAll("([a-z])([A-Z])", "$1 $2");
 
 					String formatedNumberForRulePair = new DecimalFormat("00").format(numberForRulePair);
@@ -136,22 +136,15 @@ public class CpEditorUtil {
 					String fullPathRule2 = pathForCurrentCriticalPair + fileNameRule2;
 					URI secondRuleURI = saveRuleInFileSystem(commonResourceSet, reason.getRule2(), fullPathRule2);
 
-					// // save a dummy for the HenshinCPEditor
-					// String fileName = "dummy.henshinCp";
-					// String fullPath = pathForCurrentCriticalPair + fileName;
-					// URI criticalPairURI = saveRuleInFileSystem(commonResourceSet, reason.graph,
-					// fullPath);
-
 					// save the minimal model in the file system
 					String fileNameMinimalModel = "minimal-model" + ".ecore";
 					String fullPathMinimalModel = pathForCurrentCriticalPair + fileNameMinimalModel;
-					EPackage reasonModel = Utils.graphToEPackage(reason);
+					EPackage reasonModel = Utils.spanToEPackage(reason);
 					Map<Reason, EPackage> s2Models = new HashMap<>();
-					if (reason instanceof DoubleSpan)
-						for (Reason r : ((DoubleSpan) reason).getS2Set())
-							s2Models.put(r, Utils.graphToEPackage(r));
-					boolean conf = reason instanceof ConflictReason || reason instanceof ConflictAtom
-							|| reason instanceof MinimalConflictReason;
+					if (reason instanceof SymmetricReason)
+						for (Reason r : ((SymmetricReason) reason).getS2())
+							s2Models.put(r, Utils.spanToEPackage(r));
+					boolean conf = reason instanceof ConflictReason || reason instanceof ConflictAtom;
 					Pair<URI, Map<Reason, URI>> overlapURIs = saveMinimalModelInFileSystem(commonResourceSet,
 							reasonModel, s2Models, fullPathMinimalModel);
 					SpanNode result = new SpanNode(numberedNameOfCPKind, firstRuleURI, secondRuleURI, overlapURIs.first,
@@ -213,8 +206,8 @@ public class CpEditorUtil {
 				}
 			}
 		try {
-			diagramResource.save(null);
 			overlapResource.save(null);
+			diagramResource.save(null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -252,9 +245,9 @@ public class CpEditorUtil {
 		try {
 			firstRuleRes.save(null);
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
 		}
 		return firstRuleURI;
 	}

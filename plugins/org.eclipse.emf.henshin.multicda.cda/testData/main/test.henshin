@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_vdRg0GWIEeiydN186JmLQg">
+  <imports href="my.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_LbJd4GZuEeiKwJrWqNHj7Q" name="p1">
+    <lhs xmi:id="_LbQLkGZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_MxcicGZuEeiKwJrWqNHj7Q" name="p1">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_LbQLkWZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_2D424G44Eei307KgGD3e7g" name="p1">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_2D424m44Eei307KgGD3e7g" origin="_MxcicGZuEeiKwJrWqNHj7Q" image="_2D424G44Eei307KgGD3e7g"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_OSBkYGZuEeiKwJrWqNHj7Q" name="d1">
+    <lhs xmi:id="_OSBkYWZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_OSBkYmZuEeiKwJrWqNHj7Q" name="d1a" description="">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_NtJdcM-wEeiupZf04TM4_g" name="d1b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_OSBkY2ZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_PLwJcM-wEeiupZf04TM4_g" name="d1b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_PLwJcc-wEeiupZf04TM4_g" origin="_NtJdcM-wEeiupZf04TM4_g" image="_PLwJcM-wEeiupZf04TM4_g"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_RAumUGZuEeiKwJrWqNHj7Q" name="c1">
+    <lhs xmi:id="_RAumUWZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_yXHrwKRSEeia19ViIVrsxg" name="c1b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_RAumU2ZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_RAumUmZuEeiKwJrWqNHj7Q" name="c1a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_ea0k0MpDEeiJUcoQZZOAhg" name="c1b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_ea1y8MpDEeiJUcoQZZOAhg" origin="_yXHrwKRSEeia19ViIVrsxg" image="_ea0k0MpDEeiJUcoQZZOAhg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Up6TjmZuEeiKwJrWqNHj7Q" name="f1">
+    <lhs xmi:id="_Up6Tj2ZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_yvz4kKRSEeia19ViIVrsxg" name="f1b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_0GRnsIUCEeimz5PvCNKpMA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_0GRnsYUCEeimz5PvCNKpMA">
+          <conclusion xmi:id="_0GRnsoUCEeimz5PvCNKpMA">
+            <nodes xmi:id="_Up6TkWZuEeiKwJrWqNHj7Q" name="f1a">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Up6TkGZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_qRxJ8M-vEeiupZf04TM4_g" name="f1b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qRy_IM-vEeiupZf04TM4_g" origin="_yvz4kKRSEeia19ViIVrsxg" image="_qRxJ8M-vEeiupZf04TM4_g"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_XjgW0GZuEeiKwJrWqNHj7Q" name="r1">
+    <lhs xmi:id="_XjgW0WZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_y3LE0KRSEeia19ViIVrsxg" name="r1b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_oD0V4MSREeiRteKTtpY6Tw">
+        <conclusion xmi:id="_oD0V4cSREeiRteKTtpY6Tw">
+          <nodes xmi:id="_JRABAKRoEeia19ViIVrsxg" name="r1a">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+        </conclusion>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_XjgW1mZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_quErcM-vEeiupZf04TM4_g" name="r1b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_quErcc-vEeiupZf04TM4_g" origin="_y3LE0KRSEeia19ViIVrsxg" image="_quErcM-vEeiupZf04TM4_g"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_sFyIEGZuEeiKwJrWqNHj7Q" name="p3">
+    <lhs xmi:id="_sFyIEWZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_sFyIEmZuEeiKwJrWqNHj7Q" name="p3a" outgoing="_zL_VwGZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_xwvfwGZuEeiKwJrWqNHj7Q" name="p3b" incoming="_zL_VwGZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_zL_VwGZuEeiKwJrWqNHj7Q" source="_sFyIEmZuEeiKwJrWqNHj7Q" target="_xwvfwGZuEeiKwJrWqNHj7Q" index="">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_sFyIE2ZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_sFyIFGZuEeiKwJrWqNHj7Q" name="p3a" outgoing="_jnZlsHLTEeigT-PYHhWFog">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_xwvfwWZuEeiKwJrWqNHj7Q" name="p3b" incoming="_jnZlsHLTEeigT-PYHhWFog">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_jnZlsHLTEeigT-PYHhWFog" source="_sFyIFGZuEeiKwJrWqNHj7Q" target="_xwvfwWZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_sFyIFWZuEeiKwJrWqNHj7Q" origin="_sFyIEmZuEeiKwJrWqNHj7Q" image="_sFyIFGZuEeiKwJrWqNHj7Q"/>
+    <mappings xmi:id="_xwvfwmZuEeiKwJrWqNHj7Q" origin="_xwvfwGZuEeiKwJrWqNHj7Q" image="_xwvfwWZuEeiKwJrWqNHj7Q"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_sFyIFmZuEeiKwJrWqNHj7Q" name="d5">
+    <lhs xmi:id="_sFyIF2ZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_sFyIGGZuEeiKwJrWqNHj7Q" name="d5a" outgoing="_3uhFwGZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_1gP3YGZuEeiKwJrWqNHj7Q" name="d5b" incoming="_3uhFwGZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_3uhFwGZuEeiKwJrWqNHj7Q" source="_sFyIGGZuEeiKwJrWqNHj7Q" target="_1gP3YGZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_sFyIGWZuEeiKwJrWqNHj7Q" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_sFyvIGZuEeiKwJrWqNHj7Q" name="c5">
+    <lhs xmi:id="_sFyvIWZuEeiKwJrWqNHj7Q" name="Lhs"/>
+    <rhs xmi:id="_sFyvImZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_sFyvI2ZuEeiKwJrWqNHj7Q" name="c5a" outgoing="_34XlUGZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_2DZnwGZuEeiKwJrWqNHj7Q" name="c5b" incoming="_34XlUGZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_34XlUGZuEeiKwJrWqNHj7Q" source="_sFyvI2ZuEeiKwJrWqNHj7Q" target="_2DZnwGZuEeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_sFyvK2ZuEeiKwJrWqNHj7Q" name="r5">
+    <lhs xmi:id="_sFyvLGZuEeiKwJrWqNHj7Q" name="Lhs">
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_sFyvLWZuEeiKwJrWqNHj7Q">
+        <conclusion xmi:id="_sFyvLmZuEeiKwJrWqNHj7Q">
+          <nodes xmi:id="_sFyvL2ZuEeiKwJrWqNHj7Q" name="r5a" outgoing="_4MXfYGZuEeiKwJrWqNHj7Q">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <nodes xmi:id="_3ImVQGZuEeiKwJrWqNHj7Q" name="r5b" incoming="_4MXfYGZuEeiKwJrWqNHj7Q">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <edges xmi:id="_4MXfYGZuEeiKwJrWqNHj7Q" source="_sFyvL2ZuEeiKwJrWqNHj7Q" target="_3ImVQGZuEeiKwJrWqNHj7Q">
+            <type href="my.ecore#//Node/to"/>
+          </edges>
+        </conclusion>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_sFyvMGZuEeiKwJrWqNHj7Q" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6ptrkGZuEeiKwJrWqNHj7Q" name="p2">
+    <lhs xmi:id="_6ptrkWZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_6ptrk2ZuEeiKwJrWqNHj7Q" name="p2a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_Q_iykHCKEeigGPM5eJt1wA" name="p2b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_6ptrlWZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_HU2f0G4iEei307KgGD3e7g" name="p2a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_SMkmYHCKEeigGPM5eJt1wA" name="p2b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_HU2f0m4iEei307KgGD3e7g" origin="_6ptrk2ZuEeiKwJrWqNHj7Q" image="_HU2f0G4iEei307KgGD3e7g"/>
+    <mappings xmi:id="_SMkmYXCKEeigGPM5eJt1wA" origin="_Q_iykHCKEeigGPM5eJt1wA" image="_SMkmYHCKEeigGPM5eJt1wA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6puSoGZuEeiKwJrWqNHj7Q" name="d2">
+    <lhs xmi:id="_6puSoWZuEeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_6puSomZuEeiKwJrWqNHj7Q" name="d2a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_6puSo2ZuEeiKwJrWqNHj7Q" name="d2b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_6puSpWZuEeiKwJrWqNHj7Q" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6puSpmZuEeiKwJrWqNHj7Q" name="c2">
+    <lhs xmi:id="_6puSp2ZuEeiKwJrWqNHj7Q" name="Lhs"/>
+    <rhs xmi:id="_6puSqGZuEeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_6puSqmZuEeiKwJrWqNHj7Q" name="c2b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_6puSqWZuEeiKwJrWqNHj7Q" name="c2a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6pu5sGZuEeiKwJrWqNHj7Q" name="f2">
+    <lhs xmi:id="_6pu5sWZuEeiKwJrWqNHj7Q" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_0K8W0KvGEeij5qlQ3k4qmw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_0K8W0avGEeij5qlQ3k4qmw">
+          <conclusion xmi:id="_0K8W0qvGEeij5qlQ3k4qmw">
+            <nodes xmi:id="_6pu5tWZuEeiKwJrWqNHj7Q" name="f2a">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <nodes xmi:id="_xZNPAKvGEeij5qlQ3k4qmw" name="f2b">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_6pu5uGZuEeiKwJrWqNHj7Q" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6pu5uWZuEeiKwJrWqNHj7Q" name="r2">
+    <lhs xmi:id="_6pu5umZuEeiKwJrWqNHj7Q" name="Lhs">
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_AciXAMGOEeiN2LvxeGHTXA">
+        <conclusion xmi:id="_AciXAcGOEeiN2LvxeGHTXA">
+          <nodes xmi:id="_6pu5vWZuEeiKwJrWqNHj7Q" name="r2a">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <nodes xmi:id="_87OywKB4Eei4jORpTWQcxw" name="r2b">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+        </conclusion>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_6pu5wGZuEeiKwJrWqNHj7Q" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Ml9nAGZ1EeiKwJrWqNHj7Q" name="d3">
+    <lhs xmi:id="_Ml9nAWZ1EeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_Ml9nAmZ1EeiKwJrWqNHj7Q" name="d3a" outgoing="_OCnyQGZ1EeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_Ml9nA2Z1EeiKwJrWqNHj7Q" name="d3b" incoming="_OCnyQGZ1EeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_OCnyQGZ1EeiKwJrWqNHj7Q" source="_Ml9nAmZ1EeiKwJrWqNHj7Q" target="_Ml9nA2Z1EeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Ml9nBGZ1EeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_dRZzkJ4uEeiAEbSws6nxJQ" name="d3a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_4xS_wJ5FEeivsbCZtZv48g" name="d3b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_dRbowJ4uEeiAEbSws6nxJQ" origin="_Ml9nAmZ1EeiKwJrWqNHj7Q" image="_dRZzkJ4uEeiAEbSws6nxJQ"/>
+    <mappings xmi:id="_4xTm0J5FEeivsbCZtZv48g" origin="_Ml9nA2Z1EeiKwJrWqNHj7Q" image="_4xS_wJ5FEeivsbCZtZv48g"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Ml9nBWZ1EeiKwJrWqNHj7Q" name="c3">
+    <lhs xmi:id="_Ml9nBmZ1EeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_QVXQ8GZ1EeiKwJrWqNHj7Q" name="c3b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_Ml9nCGZ1EeiKwJrWqNHj7Q" name="c3a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Ml9nB2Z1EeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_Ml9nCWZ1EeiKwJrWqNHj7Q" name="c3b" incoming="_YfqHQI6VEeiK9cfFkKXcvw">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_QVXQ8mZ1EeiKwJrWqNHj7Q" name="c3a" outgoing="_YfqHQI6VEeiK9cfFkKXcvw">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_YfqHQI6VEeiK9cfFkKXcvw" source="_QVXQ8mZ1EeiKwJrWqNHj7Q" target="_Ml9nCWZ1EeiKwJrWqNHj7Q">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_QVXQ8WZ1EeiKwJrWqNHj7Q" origin="_QVXQ8GZ1EeiKwJrWqNHj7Q" image="_Ml9nCWZ1EeiKwJrWqNHj7Q"/>
+    <mappings xmi:id="_QVX4AGZ1EeiKwJrWqNHj7Q" origin="_Ml9nCGZ1EeiKwJrWqNHj7Q" image="_QVXQ8mZ1EeiKwJrWqNHj7Q"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Ml9nCmZ1EeiKwJrWqNHj7Q" name="f3">
+    <lhs xmi:id="_Ml9nC2Z1EeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_QusW8GZ1EeiKwJrWqNHj7Q" name="f3b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_Ml9nD2Z1EeiKwJrWqNHj7Q" name="f3a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_TGMZ0GZ1EeiKwJrWqNHj7Q">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_TGMZ0WZ1EeiKwJrWqNHj7Q">
+          <conclusion xmi:id="_TGMZ0mZ1EeiKwJrWqNHj7Q">
+            <nodes xmi:id="_TGMZ02Z1EeiKwJrWqNHj7Q" name="f" outgoing="_OSbI0GZ1EeiKwJrWqNHj7Q">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <nodes xmi:id="_TGMZ1WZ1EeiKwJrWqNHj7Q" name="f1" incoming="_OSbI0GZ1EeiKwJrWqNHj7Q">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <edges xmi:id="_OSbI0GZ1EeiKwJrWqNHj7Q" source="_TGMZ02Z1EeiKwJrWqNHj7Q" target="_TGMZ1WZ1EeiKwJrWqNHj7Q">
+              <type href="my.ecore#//Node/to"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_TGMZ1GZ1EeiKwJrWqNHj7Q" origin="_Ml9nD2Z1EeiKwJrWqNHj7Q" image="_TGMZ02Z1EeiKwJrWqNHj7Q"/>
+          <mappings xmi:id="_TGMZ1mZ1EeiKwJrWqNHj7Q" origin="_QusW8GZ1EeiKwJrWqNHj7Q" image="_TGMZ1WZ1EeiKwJrWqNHj7Q"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Ml9nEWZ1EeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_QusW8mZ1EeiKwJrWqNHj7Q" name="f3a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_QusW9GZ1EeiKwJrWqNHj7Q" name="f3b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_QusW82Z1EeiKwJrWqNHj7Q" origin="_Ml9nD2Z1EeiKwJrWqNHj7Q" image="_QusW8mZ1EeiKwJrWqNHj7Q"/>
+    <mappings xmi:id="_QusW9WZ1EeiKwJrWqNHj7Q" origin="_QusW8GZ1EeiKwJrWqNHj7Q" image="_QusW9GZ1EeiKwJrWqNHj7Q"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Ml-OEGZ1EeiKwJrWqNHj7Q" name="r3">
+    <lhs xmi:id="_Ml-OEWZ1EeiKwJrWqNHj7Q" name="Lhs">
+      <nodes xmi:id="_Ml-OFGZ1EeiKwJrWqNHj7Q" name="r3a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_RDY0kGZ1EeiKwJrWqNHj7Q" name="r3b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_T-lmQMHOEeiZ9-LUOp2CTg">
+        <conclusion xmi:id="_T-lmQcHOEeiZ9-LUOp2CTg">
+          <nodes xmi:id="_T-lmQsHOEeiZ9-LUOp2CTg" name="r3a" outgoing="_OplEkGZ1EeiKwJrWqNHj7Q">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <nodes xmi:id="_T-lmRMHOEeiZ9-LUOp2CTg" name="r3b" incoming="_OplEkGZ1EeiKwJrWqNHj7Q">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <edges xmi:id="_OplEkGZ1EeiKwJrWqNHj7Q" source="_T-lmQsHOEeiZ9-LUOp2CTg" target="_T-lmRMHOEeiZ9-LUOp2CTg">
+            <type href="my.ecore#//Node/to"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_T-lmQ8HOEeiZ9-LUOp2CTg" origin="_Ml-OFGZ1EeiKwJrWqNHj7Q" image="_T-lmQsHOEeiZ9-LUOp2CTg"/>
+        <mappings xmi:id="_T-lmRcHOEeiZ9-LUOp2CTg" origin="_RDY0kGZ1EeiKwJrWqNHj7Q" image="_T-lmRMHOEeiZ9-LUOp2CTg"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Ml-OFmZ1EeiKwJrWqNHj7Q" name="Rhs">
+      <nodes xmi:id="_vqoUYJctEeiq-MR1I_6vxw" name="r3a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_TaZ7IMHOEeiZ9-LUOp2CTg" name="r3b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_vqqJkJctEeiq-MR1I_6vxw" origin="_Ml-OFGZ1EeiKwJrWqNHj7Q" image="_vqoUYJctEeiq-MR1I_6vxw"/>
+    <mappings xmi:id="_TaZ7IcHOEeiZ9-LUOp2CTg" origin="_RDY0kGZ1EeiKwJrWqNHj7Q" image="_TaZ7IMHOEeiZ9-LUOp2CTg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VNPmkI64EeiK9cfFkKXcvw" name="p6">
+    <lhs xmi:id="_VNPmkY64EeiK9cfFkKXcvw" name="Lhs">
+      <nodes xmi:id="_VNPmko64EeiK9cfFkKXcvw" name="p6a">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_SAAJwKvBEeij5qlQ3k4qmw" value="false">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_VNPmlI64EeiK9cfFkKXcvw" name="p6b">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_RZN2kKvBEeij5qlQ3k4qmw" value="true">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_VNPmlo64EeiK9cfFkKXcvw" name="Rhs">
+      <nodes xmi:id="_VNPml464EeiK9cfFkKXcvw" name="p6a">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_SAAJwavBEeij5qlQ3k4qmw" value="false">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_VNPmmY64EeiK9cfFkKXcvw" name="p6b">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_RZPrwKvBEeij5qlQ3k4qmw" value="true">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_VNPmm464EeiK9cfFkKXcvw" origin="_VNPmko64EeiK9cfFkKXcvw" image="_VNPml464EeiK9cfFkKXcvw"/>
+    <mappings xmi:id="_VNPmnI64EeiK9cfFkKXcvw" origin="_VNPmlI64EeiK9cfFkKXcvw" image="_VNPmmY64EeiK9cfFkKXcvw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VNPmnY64EeiK9cfFkKXcvw" name="d6">
+    <lhs xmi:id="_VNPmno64EeiK9cfFkKXcvw" name="Lhs">
+      <nodes xmi:id="_VNPmn464EeiK9cfFkKXcvw" name="d6a">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_VNPmoI64EeiK9cfFkKXcvw" value="false">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_VNPmoY64EeiK9cfFkKXcvw" name="d6b">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_VNPmoo64EeiK9cfFkKXcvw" value="true">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_VNPmo464EeiK9cfFkKXcvw" name="Rhs">
+      <nodes xmi:id="_VNPmpI64EeiK9cfFkKXcvw" name="d6a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_VNPmpY64EeiK9cfFkKXcvw" name="d6b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_VNPmpo64EeiK9cfFkKXcvw" origin="_VNPmn464EeiK9cfFkKXcvw" image="_VNPmpI64EeiK9cfFkKXcvw"/>
+    <mappings xmi:id="_VNPmp464EeiK9cfFkKXcvw" origin="_VNPmoY64EeiK9cfFkKXcvw" image="_VNPmpY64EeiK9cfFkKXcvw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VNQNcI64EeiK9cfFkKXcvw" name="c6">
+    <lhs xmi:id="_VNQNcY64EeiK9cfFkKXcvw" name="Lhs">
+      <nodes xmi:id="_VNQNco64EeiK9cfFkKXcvw" name="c6a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_VNQNc464EeiK9cfFkKXcvw" name="c6b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_VNQNdI64EeiK9cfFkKXcvw" name="Rhs">
+      <nodes xmi:id="_VNQNdY64EeiK9cfFkKXcvw" name="c6a">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_VNQNdo64EeiK9cfFkKXcvw" value="false">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_VNQNd464EeiK9cfFkKXcvw" name="c6b">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_VNQNeI64EeiK9cfFkKXcvw" value="true">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_VNQNeY64EeiK9cfFkKXcvw" origin="_VNQNco64EeiK9cfFkKXcvw" image="_VNQNdY64EeiK9cfFkKXcvw"/>
+    <mappings xmi:id="_VNQNeo64EeiK9cfFkKXcvw" origin="_VNQNc464EeiK9cfFkKXcvw" image="_VNQNd464EeiK9cfFkKXcvw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VNQNe464EeiK9cfFkKXcvw" name="f6">
+    <lhs xmi:id="_VNQNfI64EeiK9cfFkKXcvw" name="Lhs">
+      <nodes xmi:id="_VNQNfY64EeiK9cfFkKXcvw" name="f6a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_m2ZkUKSDEeia19ViIVrsxg" name="f6b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_VNQNf464EeiK9cfFkKXcvw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_VNQNgI64EeiK9cfFkKXcvw">
+          <conclusion xmi:id="_VNQNgY64EeiK9cfFkKXcvw">
+            <nodes xmi:id="_VNQNgo64EeiK9cfFkKXcvw">
+              <type href="my.ecore#//Node"/>
+              <attributes xmi:id="_VNQNg464EeiK9cfFkKXcvw" value="false">
+                <type href="my.ecore#//Node/bool"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_sTgtQKSDEeia19ViIVrsxg">
+              <type href="my.ecore#//Node"/>
+              <attributes xmi:id="_n9ERcKSDEeia19ViIVrsxg" value="true">
+                <type href="my.ecore#//Node/bool"/>
+              </attributes>
+            </nodes>
+          </conclusion>
+          <mappings xmi:id="_VNQNho64EeiK9cfFkKXcvw" origin="_VNQNfY64EeiK9cfFkKXcvw" image="_VNQNgo64EeiK9cfFkKXcvw"/>
+          <mappings xmi:id="_sTgtQqSDEeia19ViIVrsxg" origin="_m2ZkUKSDEeia19ViIVrsxg" image="_sTgtQKSDEeia19ViIVrsxg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_VNQNiI64EeiK9cfFkKXcvw" name="Rhs">
+      <nodes xmi:id="_VNQNiY64EeiK9cfFkKXcvw" name="f6a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_m2aycKSDEeia19ViIVrsxg" name="f6b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_VNQNi464EeiK9cfFkKXcvw" origin="_VNQNfY64EeiK9cfFkKXcvw" image="_VNQNiY64EeiK9cfFkKXcvw"/>
+    <mappings xmi:id="_m2aycaSDEeia19ViIVrsxg" origin="_m2ZkUKSDEeia19ViIVrsxg" image="_m2aycKSDEeia19ViIVrsxg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VNQNjY64EeiK9cfFkKXcvw" name="r6">
+    <lhs xmi:id="_VNQNjo64EeiK9cfFkKXcvw" name="Lhs">
+      <nodes xmi:id="_VNQNj464EeiK9cfFkKXcvw" name="r6a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_VNQNkI64EeiK9cfFkKXcvw" name="r6b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_VNQNkY64EeiK9cfFkKXcvw">
+        <conclusion xmi:id="_VNQNko64EeiK9cfFkKXcvw">
+          <nodes xmi:id="_VNQNk464EeiK9cfFkKXcvw">
+            <type href="my.ecore#//Node"/>
+            <attributes xmi:id="_VNQNlI64EeiK9cfFkKXcvw" value="false">
+              <type href="my.ecore#//Node/bool"/>
+            </attributes>
+          </nodes>
+          <nodes xmi:id="_VNQNlY64EeiK9cfFkKXcvw">
+            <type href="my.ecore#//Node"/>
+            <attributes xmi:id="_VNQNlo64EeiK9cfFkKXcvw" value="true">
+              <type href="my.ecore#//Node/bool"/>
+            </attributes>
+          </nodes>
+        </conclusion>
+        <mappings xmi:id="_VNQNl464EeiK9cfFkKXcvw" origin="_VNQNj464EeiK9cfFkKXcvw" image="_VNQNk464EeiK9cfFkKXcvw"/>
+        <mappings xmi:id="_VNQNmI64EeiK9cfFkKXcvw" origin="_VNQNkI64EeiK9cfFkKXcvw" image="_VNQNlY64EeiK9cfFkKXcvw"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_VNQNmY64EeiK9cfFkKXcvw" name="Rhs">
+      <nodes xmi:id="_VNQNmo64EeiK9cfFkKXcvw" name="r6a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_VNQNm464EeiK9cfFkKXcvw" name="r6b">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_VNQNnI64EeiK9cfFkKXcvw" origin="_VNQNj464EeiK9cfFkKXcvw" image="_VNQNmo64EeiK9cfFkKXcvw"/>
+    <mappings xmi:id="_VNQNnY64EeiK9cfFkKXcvw" origin="_VNQNkI64EeiK9cfFkKXcvw" image="_VNQNm464EeiK9cfFkKXcvw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VNQNno64EeiK9cfFkKXcvw" name="ch">
+    <lhs xmi:id="_VNQNn464EeiK9cfFkKXcvw" name="Lhs">
+      <nodes xmi:id="_VNQNoI64EeiK9cfFkKXcvw" name="cha">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_UqjrgKvBEeij5qlQ3k4qmw" value="true">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_6P1eMMHPEeiZ9-LUOp2CTg" name="chb">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_72oc4MHPEeiZ9-LUOp2CTg" value="false">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_VNQNpI64EeiK9cfFkKXcvw" name="Rhs">
+      <nodes xmi:id="_VNQNpY64EeiK9cfFkKXcvw" name="cha">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_WR6-0MGiEeiN2LvxeGHTXA" value="false">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_6P1eMcHPEeiZ9-LUOp2CTg" name="chb">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_72oc4cHPEeiZ9-LUOp2CTg" value="true">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_VNQNqY64EeiK9cfFkKXcvw" origin="_VNQNoI64EeiK9cfFkKXcvw" image="_VNQNpY64EeiK9cfFkKXcvw"/>
+    <mappings xmi:id="_6P1eMsHPEeiZ9-LUOp2CTg" origin="_6P1eMMHPEeiZ9-LUOp2CTg" image="_6P1eMcHPEeiZ9-LUOp2CTg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VjrtfY7ZEeiK9cfFkKXcvw" name="d7">
+    <lhs xmi:id="_Vjrtfo7ZEeiK9cfFkKXcvw" name="Lhs">
+      <nodes xmi:id="_Vjrtf47ZEeiK9cfFkKXcvw" name="d7a">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_c3qfcI_sEeijDZ8toeoALA" value="false">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_VjrtgY7ZEeiK9cfFkKXcvw" name="d7b">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_Vjrtgo7ZEeiK9cfFkKXcvw" value="true">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Vjrtg47ZEeiK9cfFkKXcvw" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VjsUgI7ZEeiK9cfFkKXcvw" name="c7">
+    <lhs xmi:id="_VjsUgY7ZEeiK9cfFkKXcvw" name="Lhs"/>
+    <rhs xmi:id="_VjsUhI7ZEeiK9cfFkKXcvw" name="Rhs">
+      <nodes xmi:id="_VjsUgo7ZEeiK9cfFkKXcvw" name="c7a">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_a4OwQI7ZEeiK9cfFkKXcvw" value="false">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_VjsUg47ZEeiK9cfFkKXcvw" name="c7b">
+        <type href="my.ecore#//Node"/>
+        <attributes xmi:id="_OPAVwI9kEeiXqbPh7Ipa8g" value="true">
+          <type href="my.ecore#//Node/bool"/>
+        </attributes>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Vjs7kI7ZEeiK9cfFkKXcvw" name="f7">
+    <lhs xmi:id="_Vjs7kY7ZEeiK9cfFkKXcvw" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_NFrYQaSDEeia19ViIVrsxg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_NFrYQqSDEeia19ViIVrsxg">
+          <conclusion xmi:id="_NFrYQ6SDEeia19ViIVrsxg">
+            <nodes xmi:id="_Vjs7ko7ZEeiK9cfFkKXcvw" name="f7a">
+              <type href="my.ecore#//Node"/>
+              <attributes xmi:id="_QNtxkMPPEeiPO4UC52naEw" value="false">
+                <type href="my.ecore#//Node/bool"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_9JVa4MHPEeiZ9-LUOp2CTg" name="f7b">
+              <type href="my.ecore#//Node"/>
+              <attributes xmi:id="_qBqGMMPOEeiPO4UC52naEw" value="true">
+                <type href="my.ecore#//Node/bool"/>
+              </attributes>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Vjs7nY7ZEeiK9cfFkKXcvw" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Vjs7oo7ZEeiK9cfFkKXcvw" name="r7">
+    <lhs xmi:id="_Vjs7o47ZEeiK9cfFkKXcvw" name="Lhs">
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_N-nLYaSDEeia19ViIVrsxg">
+        <conclusion xmi:id="_N-nLYqSDEeia19ViIVrsxg">
+          <nodes xmi:id="_Vjs7pI7ZEeiK9cfFkKXcvw" name="r7a" description="">
+            <type href="my.ecore#//Node"/>
+            <attributes xmi:id="_Vjs7qY7ZEeiK9cfFkKXcvw" value="false">
+              <type href="my.ecore#//Node/bool"/>
+            </attributes>
+          </nodes>
+          <nodes xmi:id="_Vjs7pY7ZEeiK9cfFkKXcvw" name="r7b">
+            <type href="my.ecore#//Node"/>
+            <attributes xmi:id="_jh7xAI7ZEeiK9cfFkKXcvw" value="true">
+              <type href="my.ecore#//Node/bool"/>
+            </attributes>
+          </nodes>
+        </conclusion>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Vjs7ro7ZEeiK9cfFkKXcvw" name="Rhs"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_kPdPQJ_5Eein_NTCYb6j5w" name="d4">
+    <lhs xmi:id="_kPdPQZ_5Eein_NTCYb6j5w" name="Lhs">
+      <nodes xmi:id="_kPdPQp_5Eein_NTCYb6j5w" name="d4a" outgoing="_kPdPRJ_5Eein_NTCYb6j5w">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kPdPQ5_5Eein_NTCYb6j5w" name="d4b" incoming="_kPdPRJ_5Eein_NTCYb6j5w">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_uNwzcKSDEeia19ViIVrsxg" name="d4c" incoming="_wMUK0KSDEeia19ViIVrsxg">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_upa0sKSDEeia19ViIVrsxg" name="d4d" outgoing="_wMUK0KSDEeia19ViIVrsxg">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_kPdPRJ_5Eein_NTCYb6j5w" source="_kPdPQp_5Eein_NTCYb6j5w" target="_kPdPQ5_5Eein_NTCYb6j5w">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+      <edges xmi:id="_wMUK0KSDEeia19ViIVrsxg" source="_upa0sKSDEeia19ViIVrsxg" target="_uNwzcKSDEeia19ViIVrsxg">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_kPdPRZ_5Eein_NTCYb6j5w" name="Rhs">
+      <nodes xmi:id="_ljGocJ_5Eein_NTCYb6j5w" name="d4a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_uNyBkKSDEeia19ViIVrsxg" name="d4c">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_ljHPgJ_5Eein_NTCYb6j5w" origin="_kPdPQp_5Eein_NTCYb6j5w" image="_ljGocJ_5Eein_NTCYb6j5w"/>
+    <mappings xmi:id="_uNyBkaSDEeia19ViIVrsxg" origin="_uNwzcKSDEeia19ViIVrsxg" image="_uNyBkKSDEeia19ViIVrsxg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_DC-rsqBiEeiQn6Mxfy37nw" name="c4">
+    <lhs xmi:id="_DC-rs6BiEeiQn6Mxfy37nw" name="Lhs">
+      <nodes xmi:id="_DC-rtKBiEeiQn6Mxfy37nw" name="c4a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_xZtxwKhXEeiMubT4Y3uM6Q" name="c4c">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_DC-ruqBiEeiQn6Mxfy37nw" name="Rhs">
+      <nodes xmi:id="_DC-ru6BiEeiQn6Mxfy37nw" name="c4a" outgoing="_DC-ruKBiEeiQn6Mxfy37nw">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_DC-rtaBiEeiQn6Mxfy37nw" name="c4b" incoming="_DC-ruKBiEeiQn6Mxfy37nw">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_xZu_4KhXEeiMubT4Y3uM6Q" name="c4c" incoming="_0Jw3gKhXEeiMubT4Y3uM6Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_xfEy4KhXEeiMubT4Y3uM6Q" name="c4d" outgoing="_0Jw3gKhXEeiMubT4Y3uM6Q">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_DC-ruKBiEeiQn6Mxfy37nw" source="_DC-ru6BiEeiQn6Mxfy37nw" target="_DC-rtaBiEeiQn6Mxfy37nw">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+      <edges xmi:id="_0Jw3gKhXEeiMubT4Y3uM6Q" source="_xfEy4KhXEeiMubT4Y3uM6Q" target="_xZu_4KhXEeiMubT4Y3uM6Q">
+        <type href="my.ecore#//Node/to"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_DC-rvaBiEeiQn6Mxfy37nw" origin="_DC-rtKBiEeiQn6Mxfy37nw" image="_DC-ru6BiEeiQn6Mxfy37nw"/>
+    <mappings xmi:id="_xZvm8KhXEeiMubT4Y3uM6Q" origin="_xZtxwKhXEeiMubT4Y3uM6Q" image="_xZu_4KhXEeiMubT4Y3uM6Q"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_ZHUsgKBiEeiQn6Mxfy37nw" name="f4">
+    <lhs xmi:id="_ZHUsgaBiEeiQn6Mxfy37nw" name="Lhs">
+      <nodes xmi:id="_ZHUsgqBiEeiQn6Mxfy37nw" name="f4a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_ZHUsg6BiEeiQn6Mxfy37nw" name="f4c">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_eFDKwKBiEeiQn6Mxfy37nw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_eFDKwaBiEeiQn6Mxfy37nw">
+          <conclusion xmi:id="_eFDKwqBiEeiQn6Mxfy37nw">
+            <nodes xmi:id="_eFDx0KBiEeiQn6Mxfy37nw" name="d4a" outgoing="_ZHUsiaBiEeiQn6Mxfy37nw">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <nodes xmi:id="_ZHUsh6BiEeiQn6Mxfy37nw" name="f4b" incoming="_ZHUsiaBiEeiQn6Mxfy37nw">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <nodes xmi:id="_eFDx1aBiEeiQn6Mxfy37nw" name="d4c" incoming="_ZHUsiqBiEeiQn6Mxfy37nw">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <nodes xmi:id="_ZHUsiKBiEeiQn6Mxfy37nw" name="f4d" outgoing="_ZHUsiqBiEeiQn6Mxfy37nw">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <edges xmi:id="_ZHUsiaBiEeiQn6Mxfy37nw" source="_eFDx0KBiEeiQn6Mxfy37nw" target="_ZHUsh6BiEeiQn6Mxfy37nw">
+              <type href="my.ecore#//Node/to"/>
+            </edges>
+            <edges xmi:id="_ZHUsiqBiEeiQn6Mxfy37nw" source="_ZHUsiKBiEeiQn6Mxfy37nw" target="_eFDx1aBiEeiQn6Mxfy37nw">
+              <type href="my.ecore#//Node/to"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_eFDx0aBiEeiQn6Mxfy37nw" origin="_ZHUsgqBiEeiQn6Mxfy37nw" image="_eFDx0KBiEeiQn6Mxfy37nw"/>
+          <mappings xmi:id="_eFDx1qBiEeiQn6Mxfy37nw" origin="_ZHUsg6BiEeiQn6Mxfy37nw" image="_eFDx1aBiEeiQn6Mxfy37nw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_ZHUshKBiEeiQn6Mxfy37nw" name="Rhs">
+      <nodes xmi:id="_ZHUshaBiEeiQn6Mxfy37nw" name="f4a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_ZHUshqBiEeiQn6Mxfy37nw" name="f4c">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_ZHUsi6BiEeiQn6Mxfy37nw" origin="_ZHUsgqBiEeiQn6Mxfy37nw" image="_ZHUshaBiEeiQn6Mxfy37nw"/>
+    <mappings xmi:id="_ZHUsjKBiEeiQn6Mxfy37nw" origin="_ZHUsg6BiEeiQn6Mxfy37nw" image="_ZHUshqBiEeiQn6Mxfy37nw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_bU5-gqBiEeiQn6Mxfy37nw" name="r4">
+    <lhs xmi:id="_bU5-g6BiEeiQn6Mxfy37nw" name="Lhs">
+      <nodes xmi:id="_bU5-hKBiEeiQn6Mxfy37nw" name="r4a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bU5-haBiEeiQn6Mxfy37nw" name="r4c">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_fOSDsKBiEeiQn6Mxfy37nw">
+        <conclusion xmi:id="_fOSDsaBiEeiQn6Mxfy37nw">
+          <nodes xmi:id="_fOSDsqBiEeiQn6Mxfy37nw" name="d4a" outgoing="_bU5-i6BiEeiQn6Mxfy37nw">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <nodes xmi:id="_bU5-iaBiEeiQn6Mxfy37nw" name="r4b" incoming="_bU5-i6BiEeiQn6Mxfy37nw">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <nodes xmi:id="_fOSDt6BiEeiQn6Mxfy37nw" name="d4c" incoming="_bU5-jKBiEeiQn6Mxfy37nw">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <nodes xmi:id="_bU5-iqBiEeiQn6Mxfy37nw" name="r4d" outgoing="_bU5-jKBiEeiQn6Mxfy37nw">
+            <type href="my.ecore#//Node"/>
+          </nodes>
+          <edges xmi:id="_bU5-i6BiEeiQn6Mxfy37nw" source="_fOSDsqBiEeiQn6Mxfy37nw" target="_bU5-iaBiEeiQn6Mxfy37nw">
+            <type href="my.ecore#//Node/to"/>
+          </edges>
+          <edges xmi:id="_bU5-jKBiEeiQn6Mxfy37nw" source="_bU5-iqBiEeiQn6Mxfy37nw" target="_fOSDt6BiEeiQn6Mxfy37nw">
+            <type href="my.ecore#//Node/to"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_fOSDs6BiEeiQn6Mxfy37nw" origin="_bU5-hKBiEeiQn6Mxfy37nw" image="_fOSDsqBiEeiQn6Mxfy37nw"/>
+        <mappings xmi:id="_fOSDuKBiEeiQn6Mxfy37nw" origin="_bU5-haBiEeiQn6Mxfy37nw" image="_fOSDt6BiEeiQn6Mxfy37nw"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_bU5-hqBiEeiQn6Mxfy37nw" name="Rhs">
+      <nodes xmi:id="_bU5-h6BiEeiQn6Mxfy37nw" name="r4a">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bU5-iKBiEeiQn6Mxfy37nw" name="r4c">
+        <type href="my.ecore#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_bU5-jaBiEeiQn6Mxfy37nw" origin="_bU5-hKBiEeiQn6Mxfy37nw" image="_bU5-h6BiEeiQn6Mxfy37nw"/>
+    <mappings xmi:id="_bU5-jqBiEeiQn6Mxfy37nw" origin="_bU5-haBiEeiQn6Mxfy37nw" image="_bU5-iKBiEeiQn6Mxfy37nw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Qxb4UKSDEeia19ViIVrsxg" name="f5">
+    <lhs xmi:id="_Qxb4UaSDEeia19ViIVrsxg" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_TJt-UaSDEeia19ViIVrsxg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_TJt-UqSDEeia19ViIVrsxg">
+          <conclusion xmi:id="_TJt-U6SDEeia19ViIVrsxg">
+            <nodes xmi:id="_Qxb4XKSDEeia19ViIVrsxg" name="f5b" incoming="_Y8FlkKSDEeia19ViIVrsxg">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <nodes xmi:id="_Qxb4VqSDEeia19ViIVrsxg" name="f5a" outgoing="_Y8FlkKSDEeia19ViIVrsxg">
+              <type href="my.ecore#//Node"/>
+            </nodes>
+            <edges xmi:id="_Y8FlkKSDEeia19ViIVrsxg" source="_Qxb4VqSDEeia19ViIVrsxg" target="_Qxb4XKSDEeia19ViIVrsxg">
+              <type href="my.ecore#//Node/to"/>
+            </edges>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Qxb4XaSDEeia19ViIVrsxg" name="Rhs"/>
+  </units>
+</henshin:Module>

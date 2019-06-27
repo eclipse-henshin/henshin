@@ -26,16 +26,13 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.multicda.cda.compareLogger.Logger2;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.tasks.AtomicResultContainer;
 import org.eclipse.emf.henshin.multicda.cda.tasks.CalculateAtomicCpaTask;
 import org.eclipse.emf.henshin.multicda.cda.tasks.CalculateCpaTask;
 import org.eclipse.emf.henshin.multicda.cda.tasks.CalculateCpaTask.AnalysisKind;
 import org.eclipse.emf.henshin.multicda.cda.tasks.SingleCpaTaskResultContainer;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
-import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalConflict;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason;
-import org.eclipse.emf.henshin.multicda.cda.units.MinimalReason.MinimalConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cda.units.Span;
 import org.eclipse.emf.henshin.multicda.cpa.CDAOptions;
@@ -78,14 +75,14 @@ public class Runner {
 	}
 
 	/**
-	 * @return the minimalConflicts
+	 * @return the Reasons
 	 */
-	public List<MinimalConflict> getMinimalConflicts() {
-		return minimalConflicts;
+	public List<Reason> getReasons() {
+		return Reasons;
 	}
 
 	CPAResult essentialCpaResults;
-	List<MinimalConflict> minimalConflicts; //Perhaps it should be MinimalConflictReason? Because Minimal Conflict is a Critical Pair and not Conflict Reason
+	List<Reason> Reasons; //Perhaps it should be ReasonReason? Because Minimal Conflict is a Critical Pair and not Conflict Reason
 
 	public void run(String fullSubDirectoryPath, List<String> deactivatedRules) {
 
@@ -102,7 +99,7 @@ public class Runner {
 		// initialisieren der Ergebnisspeicher:
 		normalCpaResults = new CPAResult();
 		essentialCpaResults = new CPAResult();
-		minimalConflicts = new LinkedList<MinimalConflict>();
+		Reasons = new LinkedList<Reason>();
 
 		// fix inconsistent dangling options : all rules shall "check dangling"
 		for (Rule rule : allLoadedRules) {
@@ -147,8 +144,8 @@ public class Runner {
 		loggers.add(conflictAtomCandidateLogger);
 		Logger2 conflictAtomLogger = new Logger2(Logger2.LogData.CONFLICT_ATOM, allLoadedRules);
 		loggers.add(conflictAtomLogger);
-		Logger2 minimalConflictReasonLogger = new Logger2(Logger2.LogData.MINIMAL_CONFLICT_REASON, allLoadedRules);
-		loggers.add(minimalConflictReasonLogger);
+		Logger2 ReasonReasonLogger = new Logger2(Logger2.LogData.MINIMAL_CONFLICT_REASON, allLoadedRules);
+		loggers.add(ReasonReasonLogger);
 		Logger2 conflictReasonLogger = new Logger2(Logger2.LogData.CONFLICT_REASON, allLoadedRules);
 		loggers.add(conflictReasonLogger);
 
@@ -174,14 +171,14 @@ public class Runner {
 		essentialOptions.essentialCP = true;
 
 		int numberOfAllConflictAtoms = 0;
-		int numberOfAllMinimalConflictReasons = 0;
+		int numberOfAllReason = 0;
 
 		long totalAtomicRuntime = 0;
 
 //		int totalNumberOfEssentialCPs = 0;
 		int totalNumberOfAtomicCPs = 0;
 		int totalNumberOfConflictAtomCandidates = 0;
-		int totalNumberOfMinimalConflictReasons = 0;
+		int totalNumberOfReason = 0;
 
 		int currentRow = 0;
 		int firstRowToAnalyse = 0;
@@ -295,7 +292,7 @@ public class Runner {
 
 								Set<Atom> atomicCoreCpaConflictAtoms = resultKeeper.getConflictAtoms();
 								Set<Atom> atomicCoreCpaCandidates = resultKeeper.getCandidates();
-								Set<MinimalReason> atomicCoreMinimalConflictReasons = resultKeeper
+								Set<ConflictReason> atomicCoreReason = resultKeeper
 										.getMinimalConflictReasons();
 								Set<Reason> atomicCoreConflictReasons = resultKeeper.getConflictReasons();
 
@@ -305,16 +302,16 @@ public class Runner {
 
 //										runTimesOfRuleCombination.append(String.valueOf(atomiRunTime));
 
-								if (atomicCoreCpaConflictAtoms == null || atomicCoreMinimalConflictReasons == null)
+								if (atomicCoreCpaConflictAtoms == null || atomicCoreReason == null)
 									System.out.println("WTF!?!");
 								if (atomicCoreCpaConflictAtoms.size() > 0) {
 									String quickAtomicResultSummary = "" + atomicCoreCpaConflictAtoms.size() + "CA - "
-											+ atomicCoreMinimalConflictReasons.size() + " MCR - " + ruleCombination;
+											+ atomicCoreReason.size() + " MCR - " + ruleCombination;
 									System.out.println("quickAtomicResultSummary: " + quickAtomicResultSummary);
 								}
 
 								numberOfAllConflictAtoms += atomicCoreCpaConflictAtoms.size();
-								numberOfAllMinimalConflictReasons += atomicCoreMinimalConflictReasons.size();
+								numberOfAllReason += atomicCoreReason.size();
 
 //								System.out.println("executed: " + ruleCombination + " del-use-confl: " + atomicCoreCpaConflictAtoms.size()
 //								+ " in " + atomiRunTime + " ms");
@@ -331,7 +328,7 @@ public class Runner {
 //								
 //								totalNumberOfAtomicCPs += atomicCoreCpaConflictAtoms.size();
 //								totalNumberOfConflictAtomCandidates += atomicCoreCpaCandidates.size();
-//								totalNumberOfMinimalConflictReasons += atomicCoreCpaOverallReasons.size();
+//								totalNumberOfReason += atomicCoreCpaOverallReasons.size();
 
 								// relies on equal order of original rule and associated copy without deletion! 
 //									Rule originalRuleOfRule2 = allLoadedRules.get(copiesOfRulesWithoutDeletion.indexOf(secondRule));
@@ -366,16 +363,16 @@ public class Runner {
 //											minimalReasonLogger.addData(firstRule, originalRuleOfRule2, Integer.toString(elementsInLhsOfSecondRule),Integer.toString(elementsInLhsOfSecondRule));
 //										}
 								if (!canceled)
-									minimalConflictReasonLogger.addData(firstRule, originalRuleOfRule2,
+									ReasonReasonLogger.addData(firstRule, originalRuleOfRule2,
 											String.valueOf(resultKeeper.getRunTimeOfMinimalConflictReasons()),
-											String.valueOf(atomicCoreMinimalConflictReasons.size()));
+											String.valueOf(atomicCoreReason.size()));
 
-								for (Span minimalConflictReason : resultKeeper.getMinimalConflictReasons()) {
-									//(11.04.2017): es sollten nur die relevanten 'conflictAtoms' und 'conflictAtomCandidates' zum 'minimalConflictReason' übergeben werden. Wie lassen sich diese abrufen/identifizieren???^
-//									MinimalConflict minimalConflict = new MinimalConflict(firstRule,
-//											originalRuleOfRule2, minimalConflictReason, resultKeeper.getConflictAtoms(),
+								for (Span ReasonReason : resultKeeper.getMinimalConflictReasons()) {
+									//(11.04.2017): es sollten nur die relevanten 'conflictAtoms' und 'conflictAtomCandidates' zum 'ReasonReason' übergeben werden. Wie lassen sich diese abrufen/identifizieren???^
+//									Reason Reason = new Reason(firstRule,
+//											originalRuleOfRule2, ReasonReason, resultKeeper.getConflictAtoms(),
 //											resultKeeper.getCandidates()); //TODO: Which analysis kind is running? Essential or Complete? Every Critical Pair should know which Analysis he created from.
-//									minimalConflicts.add(minimalConflict);
+//									Reasons.add(Reason);
 								}
 
 								if (!canceled)
@@ -401,7 +398,7 @@ public class Runner {
 				"runtime for all essential Delete-Use-Conflicts: " + essentialDeleteUseLogger.getTotalRuntimeAmount());
 		System.err.println("-------------------------");
 		System.err.println("numberOfAllConflictAtoms: " + numberOfAllConflictAtoms);
-		System.err.println("numberOfAllMinimalConflictReasons: " + numberOfAllMinimalConflictReasons);
+		System.err.println("numberOfAllReason: " + numberOfAllReason);
 		System.err.println("-------------------------");
 		System.out.println("HALT");
 

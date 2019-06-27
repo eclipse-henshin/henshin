@@ -1,10 +1,8 @@
 package org.eclipse.emf.henshin.preprocessing;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.model.Graph;
@@ -52,9 +50,9 @@ public class NonDeletingPreparator {
 		}
 		return copiesOfRulesWithoutDeletion;
 	}
-	public static Set<Rule> prepareNoneDeletingsVersionsRules(Set<Rule> rules) {
-		Set<Rule> result = new HashSet<Rule>();
-		Set<RulePair> pairs = new HashSet<>(prepareNonDeletingVersions(new ArrayList<>(rules)));
+	public static List<Rule> prepareNoneDeletingsVersionsRules(List<Rule> rules) {
+		List<Rule> result = new ArrayList<Rule>();
+		List<RulePair> pairs = prepareNonDeletingVersions(rules);
 		for (RulePair rulePair : pairs) {
 			result.add(rulePair.getCopy());
 		}

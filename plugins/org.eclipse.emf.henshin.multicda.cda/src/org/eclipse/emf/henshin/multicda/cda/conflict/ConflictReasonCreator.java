@@ -16,8 +16,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.exporters.HenshinAGGExporter;
 import org.eclipse.emf.henshin.model.impl.MappingListImpl;
-import org.eclipse.emf.henshin.model.impl.NodeImpl;
-import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteReadConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cpa.result.Conflict;
 
@@ -117,7 +116,7 @@ public class ConflictReasonCreator /*extends InitialConflictReason */ {
 				}
 			}
 		}
-		Reason span = new DeleteReadConflictReason(new HashSet<Mapping>(mappingList1), graph,
+		Reason span = new DeleteConflictReason(new HashSet<Mapping>(mappingList1), graph,
 				new HashSet<Mapping>(mappingList2));
 		return new EssentialConflictReason(span);
 	}

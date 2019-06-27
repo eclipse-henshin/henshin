@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.multicda.cda.tester;
+package org.eclipse.emf.henshin.multicda.cda.framework;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -14,6 +14,11 @@ import org.eclipse.emf.henshin.multicda.cda.Utils;
 
 import agg.util.Pair;
 
+/**
+ * This class configures types of rules. The types are needed to produce abstract table.
+ * @author Jevgenij Huebert
+ * @see ResultCreator
+ */
 public class RuleConfigurator {
 
 	public static enum RuleType {
@@ -69,14 +74,14 @@ public class RuleConfigurator {
 			add(RuleType.Require);
 
 		checkAttributes(rule);
-		for (Rule nacRule : Utils.createNACRule(rule))
+		for (Rule nacRule : Utils.createNACRules(rule))
 			checkAttributes(nacRule, false);
-		for (Rule pacRule : Utils.createPACRule(rule))
+		for (Rule pacRule : Utils.createPACRules(rule))
 			checkAttributes(pacRule, true);
 	}
 
 	private void checkAttributes(Rule rule, boolean... nacsPacs) {
-		Map<Node, Set<Pair<Attribute, Attribute>>> changeNodes = Utils.getChangeNodes(rule);
+		Map<Node, Set<Pair<Attribute, Attribute>>> changeNodes = Utils.getAttributeChanges(rule);
 		EList<Parameter> parameters = rule.getParameters();
 		for (Node n : changeNodes.keySet()) {
 			Set<Pair<Attribute, Attribute>> attributes = changeNodes.get(n);
@@ -131,11 +136,6 @@ public class RuleConfigurator {
 		hash = hash | rt.id;
 	}
 
-	private void remove(RuleType rt) {
-		types.remove(rt);
-		hash = hash & (RuleType.All.id - rt.id);
-	}
-
 	public boolean is(RuleType rt) {
 		return (hash & rt.id) == rt.id;
 	}
@@ -167,6 +167,9 @@ public class RuleConfigurator {
 		return rule.getName() + "\t" + (result.isEmpty() ? "" : result.substring(2)) + "\n";// + "\n" + rule.getLhs() + "\n"+ rule.getRhs() + "\n";
 	}
 
+	/**
+	 * @return representation of actions of the rule in a kind of a tag 
+	 */
 	public String getTAG() {
 		setTAG();
 		return TAG;

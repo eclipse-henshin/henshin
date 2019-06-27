@@ -399,7 +399,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 		CPAResult dependencyResult = null;
 		setOptionsOnContainer(dpc, options);
 		computeCriticalPairs(firstAggRuleSetForAnalysis, secondAggRuleSetForAnalysis, dpc);
-		dependencyResult = importer.importExcludePairContainer(dpc, false);
+		dependencyResult = importer.importExcludePairContainer(dpc, options.essentialCP);
 		if (generateCpxFile)
 			saveCPAasCPX(aggDebugFile.getAbsolutePath().replaceAll(".ggx", ".cpx"), null, dpc);
 

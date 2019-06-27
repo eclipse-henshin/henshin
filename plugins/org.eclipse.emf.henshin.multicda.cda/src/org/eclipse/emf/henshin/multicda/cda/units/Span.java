@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -16,10 +17,26 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
+import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateEdgeDeleteNodeConflictReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.ChangeDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteEdgeDeleteNodeDependencyReason;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteDependencyAtom;
+import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteEdgeDeleteNodeDependencyAtom;
 
 import agg.util.Pair;
 
-public abstract class Span {
+public abstract class Span implements Comparable<Span> {
+	public final String ID;
+	public final String NAME;
+
+	protected int sortID = 0;
+	protected String tag = "";
+	protected boolean isForbid = false;
+	protected boolean isRequire = false;
 
 	HenshinFactory henshinFactory = HenshinFactory.eINSTANCE;
 
@@ -29,13 +46,15 @@ public abstract class Span {
 	public Set<Mapping> mappingsInRule1;
 	public Set<Mapping> mappingsInRule2;
 
-	public Graph graph;
+	protected Graph graph;
 
 	private Copier copierForSpanAndMappings;
-	protected Set<GraphElement> deletionElementsInRule1 = new HashSet<>();
-	protected Set<GraphElement> deletionElementsInRule1_2 = new HashSet<>();
+	protected Set<GraphElement> deletionElementsInRule1;
+	protected Set<GraphElement> deletionElementsInRule1_2;
 
-	public Span(Span s1) {
+	public Span(Span s1, String tag, String name) {
+		ID = tag;
+		NAME = name;
 		// copy Graph and mappings!
 		// Copier
 		copierForSpanAndMappings = new Copier();
@@ -65,28 +84,48 @@ public abstract class Span {
 		this.setRule2(getRuleOfMappings(mappingsInRule2));
 	}
 
-	public Span(Span extSpan, Node origin, Node image) {
-		this(extSpan);
+	public Span(Span extSpan, Node origin, Node image, String tag, String name) {
+		this(extSpan, tag, name);
 		Node transformedOrigin = (Node) copierForSpanAndMappings.get(origin);
 
 		Mapping r2Mapping = henshinFactory.createMapping(transformedOrigin, image);
 		mappingsInRule2.add(r2Mapping);
 	}
 
-	public Span(Mapping nodeInRule1Mapping, Graph s1, Mapping nodeInRule2Mapping) {
-		this.graph = s1;
-		mappingsInRule1 = new HashSet<Mapping>();
-		mappingsInRule1.add(nodeInRule1Mapping);
-		mappingsInRule2 = new HashSet<Mapping>();
-		mappingsInRule2.add(nodeInRule2Mapping);
-	}
-
-	public Span(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings) {
+	public Span(Set<Mapping> rule1Mappings, Graph s1, Set<Mapping> rule2Mappings, String tag, String name) {
+		ID = tag;
+		NAME = name;
 		this.mappingsInRule1 = rule1Mappings;
 		this.mappingsInRule2 = rule2Mappings;
 		this.graph = s1;
 		this.setRule1(getRuleOfMappings(rule1Mappings));
 		this.setRule2(getRuleOfMappings(rule2Mappings));
+	}
+
+	public final boolean isForbid() {
+		return isForbid;
+	}
+
+	public final boolean isRequire() {
+		return isRequire;
+	}
+
+	public final String getTag() {
+		return tag;
+	}
+
+	@SuppressWarnings("unchecked")
+	public final <T extends Span> T setForbid(boolean is) {
+		this.isForbid = is;
+		this.isRequire = isRequire && !isForbid;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public final <T extends Span> T setRequire(boolean is) {
+		this.isRequire = is;
+		this.isForbid = isForbid && !isRequire;
+		return (T) this;
 	}
 
 	public Graph getGraph() {
@@ -97,6 +136,8 @@ public abstract class Span {
 	 * @return the deletionElementsInRule1
 	 */
 	public Set<GraphElement> getDeletionElementsInRule1() {
+		if (deletionElementsInRule1 == null)
+			setDeletionElements();
 		return deletionElementsInRule1;
 	}
 
@@ -104,6 +145,8 @@ public abstract class Span {
 	 * @return the deletionElementsInRule1
 	 */
 	public Set<GraphElement> getDeletionElementsInRule1_2() {
+		if (deletionElementsInRule1_2 == null)
+			setDeletionElements();
 		return deletionElementsInRule1_2;
 	}
 
@@ -186,16 +229,15 @@ public abstract class Span {
 		Set<Mapping> mappingsOfSpanInRule1 = getMappingsInRule1();
 		Set<Mapping> mappingsOfSpanInRule2 = getMappingsInRule2();
 		for (Mapping mapping : mappingsOfSpanInRule1) {
-			if (mapping.getImage().getAction().getType().equals(Action.Type.DELETE)) {
+			if (mapping.getImage().getAction().getType().equals(Action.Type.DELETE)
+					|| this instanceof CreateEdgeDeleteNodeConflictReason
+					|| this instanceof DeleteEdgeDeleteNodeDependencyReason) {
 				result.first.add(mapping.getImage());
 				result.second.add(mapping.getOrigin());
 			}
 		}
-		for (Mapping mapping : mappingsOfSpanInRule2)
-			if (mapping.getImage().getAction().getType().equals(Action.Type.DELETE))
-				result.second.add(mapping.getOrigin());
-		for(Mapping mapping : mappingsOfSpanInRule1){
-			Pair<Node, Set<Pair<Attribute, Attribute>>> attributed = Utils.getChangeNodes(mapping.getImage());
+		for (Mapping mapping : mappingsOfSpanInRule1) {
+			Pair<Node, Set<Pair<Attribute, Attribute>>> attributed = Utils.getAttributeChanges(mapping.getImage());
 			if (!attributed.second.isEmpty()) {
 				result.first.add(mapping.getImage());
 				result.second.add(mapping.getOrigin());
@@ -250,88 +292,10 @@ public abstract class Span {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return getGraph().getEdges() + " : " + getGraph().getNodes();
-	}
-
-	public String toShortString() {
-		StringBuilder sB = new StringBuilder();
-		for (Edge edge : graph.getEdges()) {
-			sB.append(shortStringInfoOfGraphEdge(edge));
-			sB.append(", ");
-		}
-		for (Node node : graph.getNodes()) {
-			sB.append(shortStringInfoOfGraphNode(node));
-			sB.append(", ");
-		}
-		//remove last superfluous appendency
-		if (sB.length() > 0)
-			sB.delete(sB.length() - 2, sB.length());
-		return "Span [" + sB.toString() + "]";
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Span))
-			return false;
-		Span other = (Span) obj;
-		if (this == obj)
-			return true;
-		if (graph == null || other.graph == null)
-			return false;
-		if (graph.getNodes().size() != other.getGraph().getNodes().size())
-			return false;
-		if (graph.getEdges().size() != other.getGraph().getEdges().size())
-			return false;
-		if (mappingsInRule1.size() != other.getMappingsInRule1().size())
-			return false;
-		if (mappingsInRule2.size() != other.getMappingsInRule2().size())
-			return false;
-
-		SpanMappings spanMap = new SpanMappings(this);
-		SpanMappings spanMapOther = new SpanMappings(other);
-
-		// Are same nodes in rules 1 and 2 used?
-		Set<Node> nodesRule1 = new HashSet<Node>(spanMap.s1ToRule1.values());
-		Set<Node> nodesRule2 = new HashSet<Node>(spanMap.s1ToRule2.values());
-		Set<Node> nodesRule1Other = new HashSet<Node>(spanMapOther.s1ToRule1.values());
-		Set<Node> nodesRule2Other = new HashSet<Node>(spanMapOther.s1ToRule2.values());
-		if (!(nodesRule1.equals(nodesRule1Other) && nodesRule2.equals(nodesRule2Other)))
-			return false;
-
-		// Are same edges in rules 1 and 2 used?
-		Map<Edge, Edge> edgeMapS1R1 = spanMap.getEdgeMappingsS1Rule1();
-		Map<Edge, Edge> edgeMapS1R2 = spanMap.getEdgeMappingsS1Rule2();
-		Map<Edge, Edge> edgeMapS1R1Other = spanMapOther.getEdgeMappingsS1Rule1();
-		Map<Edge, Edge> edgeMapS1R2Other = spanMapOther.getEdgeMappingsS1Rule2();
-
-		Set<Edge> edgesRule1 = new HashSet<Edge>(edgeMapS1R1.values());
-		Set<Edge> edgesRule2 = new HashSet<Edge>(edgeMapS1R2.values());
-		Set<Edge> edgesRule1Other = new HashSet<Edge>(edgeMapS1R1Other.values());
-		Set<Edge> edgesRule2Other = new HashSet<Edge>(edgeMapS1R2Other.values());
-		if (!(edgesRule1.equals(edgesRule1Other) && edgesRule2.equals(edgesRule2Other)))
-			return false;
-
-		// Do both CRs map the span graph nodes to the same nodes in rules 1 and 2?
-		Map<Node, Node> paired = getPairedNodes(this, spanMap);
-		Map<Node, Node> pairedOther = getPairedNodes(other, spanMapOther);
-		for (Node e1 : paired.keySet()) {
-			if (paired.get(e1) != pairedOther.get(e1))
-				return false;
-		}
-
-		return true;
-	}
 
 	/**
-	 * returns the kernel rule of the first mapping or <code>null</code> if the set <code>mappings</code> is empty.
+	 * returns the kernel rule of the first mapping or <code>null</code> if the set
+	 * <code>mappings</code> is empty.
 	 * 
 	 * @param mappings
 	 * @return a <code>Rule</code> or null.
@@ -353,7 +317,6 @@ public abstract class Span {
 		return result;
 	}
 
-	// e.g.  1,11->2,13:methods
 	private Object shortStringInfoOfGraphEdge(Edge edge) {
 		StringBuilder sB = new StringBuilder();
 		Node src = edge.getSource();
@@ -370,7 +333,6 @@ public abstract class Span {
 		return sB.toString();
 	}
 
-	// e.g.: 2,3:Method
 	private String shortStringInfoOfGraphNode(Node node) {
 		StringBuilder sB = new StringBuilder();
 		Mapping mappingIntoRule1 = getMappingIntoRule1(node);
@@ -383,4 +345,159 @@ public abstract class Span {
 		return sB.toString();
 	}
 
+	@Override
+	public String toString() {
+		EList<Edge> edges = getGraph().getEdges();
+		EList<Node> nodes = getGraph().getNodes();
+		String newID = getFullID();
+		return newID + ": " + (edges.isEmpty() ? "" : edges) + (!edges.isEmpty() && !nodes.isEmpty() ? " | " : "")
+				+ (nodes.isEmpty() ? "" : nodes);
+	}
+
+	public String getFullID() {
+		String tag = "";
+		if (isForbid)
+			tag = "F";
+		else if (isRequire)
+			tag = "Req";
+		return ID.substring(0, ID.length() / 2) + tag + ID.substring(ID.length() / 2);
+	}
+
+	public String getFullName() {
+		String result = NAME;
+		String tag = "";
+		if (isForbid)
+			tag = " forbid";
+		else if (isRequire)
+			tag = " require";
+		String[] parts = result.split(" ");
+		result = parts[0] + tag + result.substring(parts[0].length());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		Span s = (Span) obj;
+		if (isRequire() != s.isRequire() || isForbid() != s.isForbid())
+			return false;
+		if (!getFullID().equals(s.getFullID()))
+			return false;
+		Rule r1 = getRule1();
+		Rule r2 = getRule2();
+		Rule r1o = ((Span) obj).getRule1();
+		Rule r2o = ((Span) obj).getRule2();
+		if (r1 != r1o || r2 != r2o)
+			return false;
+		return equalElements(s);
+	}
+
+	public boolean equalElements(Span span) {
+		Set<GraphElement> ge = getDeletionElementsInRule1_2();
+		Set<GraphElement> geO = span.getDeletionElementsInRule1_2();
+		if (ge.size() != geO.size())
+			return false;
+
+		for (GraphElement element1 : ge) {
+			boolean found = false;
+			for (GraphElement element2 : geO)
+				if (found = element1.getClass() == element2.getClass()
+						&& element1.toString().equals(element2.toString()))
+					break;
+			if (!found)
+				return false;
+		}
+		return true;
+	}
+
+	public static final String NODE_SEPARATOR = "_";
+
+	@Override
+	public int hashCode() {
+		int hashN = 0;
+		int hashE = 0;
+		for (Node n : graph.getNodes())
+			hashN += getHash(n);
+		for (Edge e : graph.getEdges())
+			hashE += getHash(e);
+		return ID.hashCode() + hashN + hashE + (getRule1() != null ? getRule1().hashCode() : 0) * 3
+				+ (getRule2() != null ? getRule2().hashCode() : 0);
+	}
+
+	private int getHash(GraphElement n) {
+		if (n instanceof Node)
+			if (((Node) n).getType() == null)
+				return (((Node) n).getName() + "").hashCode();
+			else {
+				int result = 0;
+				String[] names = ((Node) n).getName().split(Reason.NODE_SEPARATOR);
+				if (names.length == 2)
+					result = names[0].hashCode() * 2 + names[1].hashCode();
+				return (result + ":" + ((Node) n).getType().getName()).hashCode();
+			}
+
+		else if (n instanceof Edge) {
+			Edge e = (Edge) n;
+			if (e.getSource() == null || e.getTarget() == null || e.getType() == null)
+				return super.hashCode();
+			else
+				return getHash(e.getSource()) * 11 + getHash(e.getTarget()) + e.getType().getName().hashCode();
+		}
+		return 0;
+	}
+
+	public void print() {
+		System.out.println(this);
+	}
+
+	protected int sortID() {
+		return sortID + (isForbid ? 8 : 0) + (isRequire ? 16 : 0);
+	}
+
+	@Override
+	public int compareTo(Span o) {
+		if (o == null)
+			return -1;
+		int value = 0;
+		if (!getRule1().getName().equals(o.getRule1().getName()))
+			if ((value = getRule1().hashCode() - o.getRule1().hashCode()) != 0)
+				return value < 0 ? -1 : 1;
+		if (!getRule2().getName().equals(o.getRule2().getName()))
+			if ((value = getRule2().hashCode() - o.getRule2().hashCode()) != 0)
+				return value < 0 ? -1 : 1;
+
+		if (sortID() - o.sortID() != 0)
+			return sortID() - o.sortID();
+		if ((value = getFullID().compareTo(o.getFullID())) != 0)
+			return value < 0 ? -1 : 1;
+
+		String ed1 = graph.getEdges().toString();
+		String ed2 = o.graph.getEdges().toString();
+		if ((value = ed1.length() - ed2.length()) != 0)
+			return value < 0 ? -1 : 1;
+		String no1 = graph.getNodes().toString();
+		String no2 = o.graph.getNodes().toString();
+		if ((value = no1.length() - no2.length()) != 0)
+			return value < 0 ? -1 : 1;
+
+		value = toString().compareTo(o.toString());
+		return value < 0 ? -1 : value > 0 ? 1 : 0;
+	}
+
+	public final boolean is(String string) {
+		return ID.equals(string);
+	}
+
+	public final boolean isDependency() {
+		if (this instanceof SymmetricReason)
+			return ((SymmetricReason) this).getS1().isDependency();
+		return this instanceof CreateDependencyAtom || this instanceof CreateDependencyReason
+				|| this instanceof DeleteDependencyAtom || this instanceof DeleteDependencyReason
+				|| this instanceof ChangeDependencyAtom || this instanceof ChangeDependencyReason
+				|| this instanceof DeleteEdgeDeleteNodeDependencyAtom
+				|| this instanceof DeleteEdgeDeleteNodeDependencyReason;
+	}
 }

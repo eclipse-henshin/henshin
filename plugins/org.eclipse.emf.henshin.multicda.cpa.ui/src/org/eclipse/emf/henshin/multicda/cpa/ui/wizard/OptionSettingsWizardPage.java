@@ -32,8 +32,14 @@ public class OptionSettingsWizardPage extends WizardPage {
 
 	private boolean optionsLoaded;
 	Button binaryButton;
+	Button binaryTableButton;
+	Button binaryATableButton;
 	Button coarseButton;
+	Button coarseTableButton;
+	Button coarseATableButton;
 	Button fineButton;
+	Button fineTableButton;
+	Button fineATableButton;
 	Button veryFineButon;
 	Button enableIgnoreIdenticalRulesButton;
 
@@ -44,11 +50,13 @@ public class OptionSettingsWizardPage extends WizardPage {
 	private final static String IGNOREIDENTICALRULES = "Ignore conflicts and dependencies of the same rule.";
 
 	/**
-	 * Default Constructor for the second page of the wizard. This page provides the functionality to adapt the options
-	 * for the critical pair analysis.
+	 * Default Constructor for the second page of the wizard. This page provides the
+	 * functionality to adapt the options for the critical pair analysis.
 	 * 
-	 * @param pageName The name of the page.
-	 * @param optionsFile Path to the options file.
+	 * @param pageName
+	 *            The name of the page.
+	 * @param optionsFile
+	 *            Path to the options file.
 	 */
 	public OptionSettingsWizardPage(String pageName, String optionsFile) {
 		super(pageName);
@@ -67,8 +75,8 @@ public class OptionSettingsWizardPage extends WizardPage {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.emf.henshin.multicda.cpa.ui.wizard.OptionSettingsWizardPage.createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.emf.henshin.multicda.cpa.ui.wizard.OptionSettingsWizardPage.
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	public void createControl(Composite parent) {
@@ -82,32 +90,59 @@ public class OptionSettingsWizardPage extends WizardPage {
 		granularities.setToolTipText("Choose your granularity to compute");
 		granularities.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-//		Composite granularity = new Composite(container, SWT.NONE);
-//		granularity.setLayout(new GridLayout(2, true));
-
 		binaryButton = new Button(granularities, SWT.CHECK);
 		binaryButton.setText(GranularityType.BINARY.name);
 		binaryButton.addListener(SWT.Selection, checkListener);
 		binaryButton.setSelection(getGranularity().contains(GranularityType.BINARY));
 		binaryButton.setData(GranularityType.BINARY);
-		Label label = new Label(granularities, SWT.NONE);
+		Group granularity = new Group(granularities, SWT.NONE);
+		granularity.setLayout(new GridLayout(1, true));
+		Label label = new Label(granularity, SWT.NONE);
 		label.setText(GranularityType.BINARY.description);
+		binaryTableButton = new Button(granularity, SWT.CHECK);
+		binaryTableButton.setText("Create full result table");
+		binaryTableButton.setSelection(cdaOptions.isBTable);
+		binaryTableButton.setEnabled(getGranularity().contains(GranularityType.BINARY));
+		binaryATableButton = new Button(granularity, SWT.CHECK);
+		binaryATableButton.setText("Create abstract result table");
+		binaryATableButton.setSelection(cdaOptions.isBATable);
+		binaryATableButton.setEnabled(getGranularity().contains(GranularityType.BINARY));
 
 		coarseButton = new Button(granularities, SWT.CHECK);
 		coarseButton.setText(GranularityType.COARSE.name);
 		coarseButton.addListener(SWT.Selection, checkListener);
 		coarseButton.setSelection(getGranularity().contains(GranularityType.COARSE));
 		coarseButton.setData(GranularityType.COARSE);
-		label = new Label(granularities, SWT.NONE);
+		granularity = new Group(granularities, SWT.NONE);
+		granularity.setLayout(new GridLayout(1, true));
+		label = new Label(granularity, SWT.NONE);
 		label.setText(GranularityType.COARSE.description);
+		coarseTableButton = new Button(granularity, SWT.CHECK);
+		coarseTableButton.setText("Create full result table");
+		coarseTableButton.setSelection(cdaOptions.isCTable);
+		coarseTableButton.setEnabled(getGranularity().contains(GranularityType.COARSE));
+		coarseATableButton = new Button(granularity, SWT.CHECK);
+		coarseATableButton.setText("Create abstract result table");
+		coarseATableButton.setSelection(cdaOptions.isCATable);
+		coarseATableButton.setEnabled(getGranularity().contains(GranularityType.COARSE));
 
 		fineButton = new Button(granularities, SWT.CHECK);
 		fineButton.setText(GranularityType.FINE.name);
 		fineButton.addListener(SWT.Selection, checkListener);
 		fineButton.setSelection(getGranularity().contains(GranularityType.FINE));
 		fineButton.setData(GranularityType.FINE);
-		label = new Label(granularities, SWT.NONE);
+		granularity = new Group(granularities, SWT.NONE);
+		granularity.setLayout(new GridLayout(1, true));
+		label = new Label(granularity, SWT.NONE);
 		label.setText(GranularityType.FINE.description);
+		fineTableButton = new Button(granularity, SWT.CHECK);
+		fineTableButton.setText("Create full result table");
+		fineTableButton.setSelection(cdaOptions.isFTable);
+		fineTableButton.setEnabled(getGranularity().contains(GranularityType.FINE));
+		fineATableButton = new Button(granularity, SWT.CHECK);
+		fineATableButton.setText("Create abstract result table");
+		fineATableButton.setSelection(cdaOptions.isFATable);
+		fineATableButton.setEnabled(getGranularity().contains(GranularityType.FINE));
 
 		boolean veryFine = getGranularity().contains(GranularityType.VERY_FINE);
 		veryFineButon = new Button(granularities, SWT.CHECK);
@@ -118,14 +153,15 @@ public class OptionSettingsWizardPage extends WizardPage {
 		label = new Label(granularities, SWT.NONE);
 		label.setText(GranularityType.VERY_FINE.description);
 
-		//________________________________________________________
+		// ________________________________________________________
 		Group cpaOptions = new Group(granularities, SWT.NONE);
 		cpaOptions.setLayout(new GridLayout(1, true));
 		cpaOptions.setText("CPA options");
 		cpaOptions.setToolTipText("Choose critical pair kind to compute");
-		
-		cdaOptions.initialCP = cdaOptions.initialCP || (!cdaOptions.essentialCP && !cdaOptions.initialCP && !cdaOptions.otherCP);
-		
+
+		cdaOptions.initialCP = cdaOptions.initialCP
+				|| (!cdaOptions.essentialCP && !cdaOptions.initialCP && !cdaOptions.otherCP);
+
 		initialConflicts = new Button(cpaOptions, SWT.CHECK);
 		initialConflicts.setText("Compute initial conflicts (initial dependencies)");
 		initialConflicts.addListener(SWT.Selection, checkListener);
@@ -155,8 +191,8 @@ public class OptionSettingsWizardPage extends WizardPage {
 
 	Listener checkListener = new Listener() {
 		public void handleEvent(Event event) {
-			Object data = event.widget.getData();
 			Button button = (Button) (event.widget);
+			Object data = button.getData();
 			if (!binaryButton.getSelection() && !coarseButton.getSelection() && !fineButton.getSelection()
 					&& !veryFineButon.getSelection())
 				button.setSelection(true);
@@ -177,6 +213,28 @@ public class OptionSettingsWizardPage extends WizardPage {
 					button.setSelection(true);
 				else
 					initialConflicts.setSelection(true);
+			if (data == GranularityType.BINARY) {
+				binaryTableButton.setEnabled(button.getSelection());
+				binaryATableButton.setEnabled(button.getSelection());
+				if (!button.getSelection()) {
+					binaryTableButton.setSelection(false);
+					binaryATableButton.setSelection(false);
+				}
+			} else if (data == GranularityType.COARSE) {
+				coarseTableButton.setEnabled(button.getSelection());
+				coarseATableButton.setEnabled(button.getSelection());
+				if (!button.getSelection()) {
+					coarseTableButton.setSelection(false);
+					coarseATableButton.setSelection(false);
+				}
+			} else if (data == GranularityType.FINE) {
+				fineTableButton.setEnabled(button.getSelection());
+				fineATableButton.setEnabled(button.getSelection());
+				if (!button.getSelection()) {
+					fineTableButton.setSelection(false);
+					fineATableButton.setSelection(false);
+				}
+			}
 			cdaOptions.initialCP = initialConflicts.getSelection() && initialConflicts.isEnabled();
 			cdaOptions.essentialCP = essentialConflicts.getSelection() && essentialConflicts.isEnabled();
 			cdaOptions.otherCP = conflicts.getSelection() && conflicts.isEnabled();
@@ -194,7 +252,37 @@ public class OptionSettingsWizardPage extends WizardPage {
 	}
 
 	public CDAOptions getOptions() {
+		cdaOptions.isBTable = isBinTable();
+		cdaOptions.isBATable = isABinTable();
+		cdaOptions.isCTable = isCoarseTable();
+		cdaOptions.isCATable = isACoarseTable();
+		cdaOptions.isFTable = isFineTable();
+		cdaOptions.isFATable = isAFineTable();
 		return cdaOptions;
+	}
+
+	public boolean isBinTable() {
+		return binaryTableButton.getSelection();
+	}
+
+	public boolean isCoarseTable() {
+		return coarseTableButton.getSelection();
+	}
+
+	public boolean isFineTable() {
+		return fineTableButton.getSelection();
+	}
+
+	public boolean isABinTable() {
+		return binaryATableButton.getSelection();
+	}
+
+	public boolean isACoarseTable() {
+		return coarseATableButton.getSelection();
+	}
+
+	public boolean isAFineTable() {
+		return fineATableButton.getSelection();
 	}
 
 	public Boolean getComplete() {

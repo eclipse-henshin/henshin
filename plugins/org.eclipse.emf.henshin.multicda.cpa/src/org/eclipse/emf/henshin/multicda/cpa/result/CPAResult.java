@@ -167,10 +167,10 @@ public class CPAResult implements Iterable<CriticalPair> {
 					result.add(pair);
 					toRemove.add(pair);
 				}
-				if (removeFromEssential)
-					essentialCriticalPairs.removeAll(toRemove);
 			}
 		}
+		if (removeFromEssential)
+			essentialCriticalPairs.removeAll(toRemove);
 		return result;
 	}
 	@Override
