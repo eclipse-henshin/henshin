@@ -7,8 +7,6 @@ import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateEdgeDeleteNodeConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteEdgeDeleteNodeDependencyReason;
 
-import com.google.common.hash.Hasher;
-
 /**
  * Symmetric reason contains one Reason (S1) and a set of Reasons (S2)
  * 
