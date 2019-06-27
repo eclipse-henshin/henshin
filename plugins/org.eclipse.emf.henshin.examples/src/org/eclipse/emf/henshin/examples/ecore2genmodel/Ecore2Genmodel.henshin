@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Cut0cGRbEeGG0NrfTXvizQ" name="Ecore2Genmodel">
-  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <imports href="http://www.eclipse.org/emf/2002/GenModel#/"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
   <imports href="ecore2gen.ecore#_RtaQEGRVEeGvhsE8A4EL5A"/>
   <units xsi:type="henshin:Rule" xmi:id="_Cy0RUGRbEeGG0NrfTXvizQ" name="createGenPackage">
@@ -783,17 +783,23 @@
     <parameters xmi:id="_CzEI8GRbEeGG0NrfTXvizQ" name="seqUnit" kind="IN"/>
     <parameterMappings xmi:id="_C96HAGRbEeGG0NrfTXvizQ" source="_CzEI8GRbEeGG0NrfTXvizQ" target="_Cy2tlGRbEeGG0NrfTXvizQ"/>
   </units>
-  <units xsi:type="henshin:LoopUnit" xmi:id="_Cy2tkWRbEeGG0NrfTXvizQ" name="processAnnotationRepeat" description="" subUnit="_Cy2tkGRbEeGG0NrfTXvizQ"/>
+  <units xsi:type="henshin:LoopUnit" xmi:id="_Cy2tkWRbEeGG0NrfTXvizQ" name="processAnnotationRepeat" description="" subUnit="_Cy2tkGRbEeGG0NrfTXvizQ">
+    <parameters xmi:id="_ZjGwMJjREemj8uFEU3lUrg" name="seqUnit" kind="IN"/>
+    <parameterMappings xmi:id="_eg-YYJjREemj8uFEU3lUrg" source="_ZjGwMJjREemj8uFEU3lUrg" target="_CzEI8GRbEeGG0NrfTXvizQ"/>
+    <parameterMappings xmi:id="_eg-YYZjREemj8uFEU3lUrg" source="_CzEI8GRbEeGG0NrfTXvizQ" target="_ZjGwMJjREemj8uFEU3lUrg"/>
+  </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_Cy2tkmRbEeGG0NrfTXvizQ" name="prepareCustomizationUnit" description="" subUnits="_Cy04fmRbEeGG0NrfTXvizQ _Cy2tkWRbEeGG0NrfTXvizQ">
-    <parameters xmi:id="_C7g6UGRbEeGG0NrfTXvizQ" name="seqUnit" kind="OUT"/>
+    <parameters xmi:id="_C7g6UGRbEeGG0NrfTXvizQ" name="seqUnit" kind="VAR"/>
     <parameterMappings xmi:id="_C7g6UWRbEeGG0NrfTXvizQ" source="_DGZ7sWRbEeGG0NrfTXvizQ" target="_C7g6UGRbEeGG0NrfTXvizQ"/>
+    <parameterMappings xmi:id="_dFDM8JjREemj8uFEU3lUrg" source="_C7g6UGRbEeGG0NrfTXvizQ" target="_ZjGwMJjREemj8uFEU3lUrg"/>
+    <parameterMappings xmi:id="_dFDM8ZjREemj8uFEU3lUrg" source="_ZjGwMJjREemj8uFEU3lUrg" target="_C7g6UGRbEeGG0NrfTXvizQ"/>
   </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_Cy2tk2RbEeGG0NrfTXvizQ" name="singleProcessUnit" description="" subUnits="_Cy04gWRbEeGG0NrfTXvizQ _Cy0Rd2RbEeGG0NrfTXvizQ">
     <parameters xmi:id="_Cy2tlGRbEeGG0NrfTXvizQ" name="seqUnit" kind="IN"/>
-    <parameters xmi:id="_Cy2tlWRbEeGG0NrfTXvizQ" name="key" kind="IN"/>
-    <parameters xmi:id="_Cy2tlmRbEeGG0NrfTXvizQ" name="value" kind="IN"/>
-    <parameters xmi:id="_Cy2tl2RbEeGG0NrfTXvizQ" name="uid" kind="IN"/>
-    <parameters xmi:id="_Cy2tmGRbEeGG0NrfTXvizQ" name="genType" kind="IN"/>
+    <parameters xmi:id="_Cy2tlWRbEeGG0NrfTXvizQ" name="key" kind="VAR"/>
+    <parameters xmi:id="_Cy2tlmRbEeGG0NrfTXvizQ" name="value" kind="VAR"/>
+    <parameters xmi:id="_Cy2tl2RbEeGG0NrfTXvizQ" name="uid" kind="VAR"/>
+    <parameters xmi:id="_Cy2tmGRbEeGG0NrfTXvizQ" name="genType" kind="VAR"/>
     <parameterMappings xmi:id="_Cy2tmWRbEeGG0NrfTXvizQ" source="_DBj38GRbEeGG0NrfTXvizQ" target="_Cy2tlWRbEeGG0NrfTXvizQ"/>
     <parameterMappings xmi:id="_Cy2tmmRbEeGG0NrfTXvizQ" source="_DBj38WRbEeGG0NrfTXvizQ" target="_Cy2tlmRbEeGG0NrfTXvizQ"/>
     <parameterMappings xmi:id="_Cy2tm2RbEeGG0NrfTXvizQ" source="_C5TT0GRbEeGG0NrfTXvizQ" target="_Cy2tl2RbEeGG0NrfTXvizQ"/>

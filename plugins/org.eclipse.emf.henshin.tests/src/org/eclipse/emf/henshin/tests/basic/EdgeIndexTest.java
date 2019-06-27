@@ -37,7 +37,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import agg.gui.icons.NewAtomicIcon;
 
 public class EdgeIndexTest extends HenshinTest {
 	

@@ -162,7 +162,9 @@ public class CombBenchmark {
 	 * Run the complete benchmark.
 	 * @param path Path to the example files.
 	 */
-	public static void run(String path) {
+	public static void run(String path, 
+			int maxFullLen,
+			int maxSparseLen) {
 		
 		System.out.println("Starting comb benchmark...");
 		System.out.println("MaxMemory: " + Runtime.getRuntime().maxMemory()/1024/1024 + "M\n");
@@ -170,10 +172,7 @@ public class CombBenchmark {
 		CombBenchmark benchmark = new CombBenchmark(path);
 		benchmark.engine.getOptions().put(Engine.OPTION_SORT_VARIABLES, false);
 		EGraph grid = new EGraphImpl();
-		
-		int maxFullLen = 60;
-		int maxSparseLen = 100;
-		
+				
 		// Benchmark for full grid:
 		System.out.println("Benchmark for generating sparse grid...");
 		System.out.println("Length\tNodes\tTime");
@@ -216,7 +215,7 @@ public class CombBenchmark {
 	}
 	
 	public static void main(String[] args) {
-		run(PATH);
+		run(PATH, 60, 100);
 	}
 
 }

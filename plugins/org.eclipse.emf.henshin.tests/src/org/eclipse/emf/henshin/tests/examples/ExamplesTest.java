@@ -54,7 +54,7 @@ public class ExamplesTest {
 	@Test
 	public void testSierpinski() {
 		System.out.println();
-		SierpinskiBenchmark.run(EXAMPLES_PATH + SierpinskiBenchmark.PATH, 10);
+		SierpinskiBenchmark.run(EXAMPLES_PATH + SierpinskiBenchmark.PATH, 3);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class ExamplesTest {
 	@Test
 	public void testCombPattern() {
 		System.out.println();
-		CombBenchmark.run(EXAMPLES_PATH + CombBenchmark.PATH);
+		CombBenchmark.run(EXAMPLES_PATH + CombBenchmark.PATH, 20, 30);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class ExamplesTest {
 	@Test
 	public void testDiningPhils() {
 		System.out.println();
-		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 7, Runtime.getRuntime()
+		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 4, Runtime.getRuntime()
 				.availableProcessors());
 	}
 
@@ -111,7 +111,7 @@ public class ExamplesTest {
 	@Test
 	public void testGossingGirls() {
 		System.out.println();
-		GossipingGirls.run(EXAMPLES_PATH + GossipingGirls.PATH, 6);
+		GossipingGirls.run(EXAMPLES_PATH + GossipingGirls.PATH, 3);
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class ExamplesTest {
 	@Test
 	public void testMovies() {
 		System.out.println();
-		MoviesBenchmark.runSyntheticDataTest(EXAMPLES_PATH + MoviesBenchmark.PATH, 1000, 4);
+		MoviesBenchmark.runSyntheticDataTest(EXAMPLES_PATH + MoviesBenchmark.PATH, 50, 4);
 	}
 
 	/**

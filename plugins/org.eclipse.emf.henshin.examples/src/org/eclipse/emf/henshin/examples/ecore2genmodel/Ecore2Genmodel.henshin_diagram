@@ -666,7 +666,9 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_dAz-mbuXEeGQGp23zGlW5Q" x="301" y="39"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_dBqTILuXEeGQGp23zGlW5Q" type="3003" fontName="Ubuntu" italic="true" lineColor="0">
-        <children xmi:type="notation:DecorationNode" xmi:id="_dBq6MbuXEeGQGp23zGlW5Q" type="5005"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_dBq6MbuXEeGQGp23zGlW5Q" type="5005">
+          <element xmi:type="henshin:IndependentUnit" href="Ecore2Genmodel.henshin#_Cy2tkGRbEeGG0NrfTXvizQ"/>
+        </children>
         <element xmi:type="henshin:IndependentUnit" href="Ecore2Genmodel.henshin#_Cy2tkGRbEeGG0NrfTXvizQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dBq6MLuXEeGQGp23zGlW5Q" x="66" y="35"/>
       </children>
@@ -701,7 +703,9 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dB91IbuXEeGQGp23zGlW5Q" x="68" y="22"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_dB-cNLuXEeGQGp23zGlW5Q" type="3003" fontName="Ubuntu" italic="true" lineColor="0">
-        <children xmi:type="notation:DecorationNode" xmi:id="_dB_DQLuXEeGQGp23zGlW5Q" type="5005"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_dB_DQLuXEeGQGp23zGlW5Q" type="5005">
+          <element xmi:type="henshin:LoopUnit" href="Ecore2Genmodel.henshin#_Cy2tkWRbEeGG0NrfTXvizQ"/>
+        </children>
         <element xmi:type="henshin:LoopUnit" href="Ecore2Genmodel.henshin#_Cy2tkWRbEeGG0NrfTXvizQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dB-cNbuXEeGQGp23zGlW5Q" x="172" y="79"/>
       </children>

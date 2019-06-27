@@ -2,7 +2,7 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_al_qMHi1EeGAk55CL1NFNw">
   <imports href="diningphils.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_d1KU4Hi1EeGAk55CL1NFNw" name="left">
-    <parameters xmi:id="_szY24HqmEeGha8YiNsL7gw" name="p" kind="IN"/>
+    <parameters xmi:id="_szY24HqmEeGha8YiNsL7gw" name="p" kind="OUT"/>
     <lhs xmi:id="_d1KU4Xi1EeGAk55CL1NFNw" name="LHS">
       <nodes xmi:id="_hKUS0Hi1EeGAk55CL1NFNw" outgoing="_kYgtIHi1EeGAk55CL1NFNw _mSvlMHi1EeGAk55CL1NFNw">
         <type href="diningphils.ecore#//Table"/>
@@ -61,7 +61,7 @@
     <mappings xmi:id="_ivPCMXi1EeGAk55CL1NFNw" origin="_ivObIHi1EeGAk55CL1NFNw" image="_ivPCMHi1EeGAk55CL1NFNw"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_w7lzMHi1EeGAk55CL1NFNw" name="right">
-    <parameters xmi:id="_t7P20HqmEeGha8YiNsL7gw" name="p" kind="IN"/>
+    <parameters xmi:id="_t7P20HqmEeGha8YiNsL7gw" name="p" kind="OUT"/>
     <lhs xmi:id="_w7lzMXi1EeGAk55CL1NFNw" name="LHS">
       <nodes xmi:id="_w7lzMni1EeGAk55CL1NFNw" outgoing="_w7lzNni1EeGAk55CL1NFNw _w7lzOHi1EeGAk55CL1NFNw">
         <type href="diningphils.ecore#//Table"/>
@@ -120,7 +120,7 @@
     <mappings xmi:id="_w7maSXi1EeGAk55CL1NFNw" origin="_w7lzNXi1EeGAk55CL1NFNw" image="_w7maQXi1EeGAk55CL1NFNw"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_9Q7YMHi1EeGAk55CL1NFNw" name="release">
-    <parameters xmi:id="_w3HLAHqmEeGha8YiNsL7gw" name="p" kind="IN"/>
+    <parameters xmi:id="_w3HLAHqmEeGha8YiNsL7gw" name="p" kind="OUT"/>
     <lhs xmi:id="_9Q7YMXi1EeGAk55CL1NFNw" name="LHS">
       <nodes xmi:id="_9Q7YMni1EeGAk55CL1NFNw" outgoing="_9Q7_QXi1EeGAk55CL1NFNw">
         <type href="diningphils.ecore#//Table"/>

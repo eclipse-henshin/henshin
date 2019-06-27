@@ -208,7 +208,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
-		removeNonOutParametersFromResultAssignment();
+		removeHiddenParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -242,7 +242,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		}
 		if (seqUnit.getSubUnits().isEmpty())
 			success = true;
-		removeNonOutParametersFromResultAssignment();
+		removeHiddenParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -283,7 +283,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (!success) {
 			undo(monitor);
 		}
-		removeNonOutParametersFromResultAssignment();
+		removeHiddenParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -307,7 +307,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
-		removeNonOutParametersFromResultAssignment();
+		removeHiddenParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -396,7 +396,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
-		removeNonOutParametersFromResultAssignment();
+		removeHiddenParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -421,7 +421,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				break;
 			}
 		}
-		removeNonOutParametersFromResultAssignment();
+		removeHiddenParametersFromResultAssignment();
 		monitor.notifyExecute(this, success);
 		return success;
 	}
@@ -551,10 +551,11 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		return new ArrayList<RuleApplication>(undoneRules);
 	}
 	
-	private void removeNonOutParametersFromResultAssignment() {
+	private void removeHiddenParametersFromResultAssignment() {
 		for (Parameter parameter : unit.getParameters()) {
 			ParameterKind parameterKind = parameter.getKind();
-			if (parameterKind != ParameterKind.OUT && parameterKind != ParameterKind.INOUT) {
+			if (parameterKind != ParameterKind.OUT && parameterKind != ParameterKind.INOUT
+					&& parameterKind != ParameterKind.VAR) {
 				resultAssignment.setParameterValue(parameter, null);
 			}
 		}
