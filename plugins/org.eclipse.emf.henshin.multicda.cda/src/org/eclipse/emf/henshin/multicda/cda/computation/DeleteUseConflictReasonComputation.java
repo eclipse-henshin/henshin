@@ -24,13 +24,12 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.multicda.cda.Pair;
 import org.eclipse.emf.henshin.multicda.cda.Pushout;
 import org.eclipse.emf.henshin.multicda.cda.ReasonFactory;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
-
-import agg.util.Pair;
 
 /**
  * 

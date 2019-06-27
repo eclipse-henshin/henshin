@@ -12,9 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.multicda.cda.Pair;
 import org.eclipse.emf.henshin.multicda.cda.units.Span;
-
-import agg.util.Pair;
 
 /**
  * Creates normal and abstract table with results from CdaWorker or a set of spans. 

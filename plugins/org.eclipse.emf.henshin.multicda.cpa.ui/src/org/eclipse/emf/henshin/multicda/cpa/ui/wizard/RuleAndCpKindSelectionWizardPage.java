@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.multicda.cda.Pair;
 import org.eclipse.emf.henshin.multicda.cpa.CDAOptions.ConflictType;
 import org.eclipse.emf.henshin.multicda.cpa.CDAOptions.GranularityType;
 import org.eclipse.emf.henshin.multicda.cpa.InputDataChecker;
@@ -48,7 +49,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-import agg.util.Pair;
 
 /**
  * First wizard page for the selection of the rules and whether the set of rules shall be anaylsed for conflict,

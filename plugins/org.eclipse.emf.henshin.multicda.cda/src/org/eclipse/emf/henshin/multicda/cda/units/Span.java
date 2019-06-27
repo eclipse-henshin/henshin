@@ -16,6 +16,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.multicda.cda.Pair;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateEdgeDeleteNodeConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.ChangeDependencyReason;
@@ -26,8 +27,6 @@ import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeDependencyAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateDependencyAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteDependencyAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteEdgeDeleteNodeDependencyAtom;
-
-import agg.util.Pair;
 
 public abstract class Span implements Comparable<Span> {
 	public final String ID;

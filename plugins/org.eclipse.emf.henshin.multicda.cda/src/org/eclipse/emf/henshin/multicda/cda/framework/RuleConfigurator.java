@@ -10,9 +10,8 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.multicda.cda.Pair;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
-
-import agg.util.Pair;
 
 /**
  * This class configures types of rules. The types are needed to produce abstract table.

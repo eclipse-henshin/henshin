@@ -18,13 +18,12 @@ import org.eclipse.emf.henshin.model.ModelElement;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
+import org.eclipse.emf.henshin.multicda.cda.Pair;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ChangeConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.CreateConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteConflictAtom;
-
-import agg.util.Pair;
 
 public class AtomCandidateComputation {
 	static Action deleteAction = new Action(Action.Type.DELETE);

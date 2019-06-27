@@ -39,6 +39,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.multicda.cda.ConflictAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.DependencyAnalysis;
 import org.eclipse.emf.henshin.multicda.cda.MultiGranularAnalysis;
+import org.eclipse.emf.henshin.multicda.cda.Pair;
 import org.eclipse.emf.henshin.multicda.cda.framework.CdaWorker;
 import org.eclipse.emf.henshin.multicda.cda.framework.ResultCreator;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom;
@@ -60,8 +61,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
-
-import agg.util.Pair;
 
 public class CpaWizard extends Wizard {
 

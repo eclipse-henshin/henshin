@@ -29,8 +29,6 @@ import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;
 import org.eclipse.emf.henshin.multicda.cda.units.Span;
 
-import agg.util.Pair;
-
 public class ConflictAnalysis implements MultiGranularAnalysis {
 
 	private Rule rule1;

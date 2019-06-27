@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.multicda.cda.Pair;
 import org.eclipse.emf.henshin.multicda.cda.Utils;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
@@ -58,8 +59,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiEditorInput;
-
-import agg.util.Pair;
 
 public class CpEditorUtil {
 

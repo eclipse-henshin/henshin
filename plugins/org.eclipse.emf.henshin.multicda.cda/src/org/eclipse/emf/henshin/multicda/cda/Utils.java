@@ -50,8 +50,6 @@ import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 import org.eclipse.emf.henshin.multicda.cpa.result.Dependency;
 import org.eclipse.emf.henshin.preprocessing.RulePair;
 
-import agg.util.Pair;
-
 public abstract class Utils {
 	private static final String INVERTED_TAG = "_Inv";
 	private static HenshinFactory factory = HenshinFactory.eINSTANCE;
