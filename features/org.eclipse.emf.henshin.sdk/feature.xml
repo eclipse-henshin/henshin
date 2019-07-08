@@ -25,6 +25,7 @@ http://www.eclipse.org/legal/epl-v10.html
       <update label="%updateSiteName" url="http://www.eclipse.org/modeling/emft/updates/"/>
       <discovery label="%updateSiteName" url="http://www.eclipse.org/modeling/emft/updates/"/>
       <discovery label="Eclipse Luna" url="download.eclipse.org/releases/luna"/> 
+      <discovery label="Eclipse Oxygen" url="download.eclipse.org/releases/oxygen"/> 
    </url>
 
    <requires>
@@ -69,7 +70,7 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.emf.compare.ide" version="3.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare.ide.ui" version="3.0.0" match="greaterOrEqual"/>
       <import plugin="de.tuberlin.eecs.agg"/>
-      <import plugin="org.eclipse.gmf.tooling.runtime"/>
+      <import plugin="org.eclipse.papyrus.infra.gmfdiag.tooling.runtime"/>
       <import plugin="org.eclipse.uml2.uml" version="5.0.2" match="greaterOrEqual"/>
    </requires>
 
@@ -227,13 +228,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="de.tuberlin.eecs.agg"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gmf.tooling.runtime"
          download-size="0"
          install-size="0"
          version="0.0.0"

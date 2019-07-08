@@ -18,9 +18,8 @@ public class LaunchConfTemplate
   protected final String TEXT_2 = "/launch/";
   protected final String TEXT_3 = ".xml\"/>" + NL + "</listAttribute>" + NL + "<listAttribute key=\"org.eclipse.debug.core.MAPPED_RESOURCE_TYPES\">" + NL + "<listEntry value=\"1\"/>" + NL + "</listAttribute>" + NL + "<stringAttribute key=\"org.eclipse.jdt.launching.CLASSPATH_PROVIDER\" value=\"org.eclipse.ant.ui.AntClasspathProvider\"/>" + NL + "<stringAttribute key=\"org.eclipse.jdt.launching.MAIN_TYPE\" value=\"org.eclipse.ant.internal.launching.remote.InternalAntRunner\"/>" + NL + "<stringAttribute key=\"org.eclipse.jdt.launching.PROJECT_ATTR\" value=\"";
   protected final String TEXT_4 = "\"/>" + NL + "<stringAttribute key=\"org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER\" value=\"org.eclipse.ant.ui.AntClasspathProvider\"/>" + NL + "<stringAttribute key=\"org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE\" value=\"${none}\"/>" + NL + "<stringAttribute key=\"org.eclipse.ui.externaltools.ATTR_LOCATION\" value=\"${workspace_loc:/";
-  protected final String TEXT_5 = "/launch/";
-  protected final String TEXT_6 = ".xml}\"/>" + NL + "<stringAttribute key=\"process_factory_id\" value=\"org.eclipse.ant.ui.remoteAntProcessFactory\"/>" + NL + "</launchConfiguration>";
-  protected final String TEXT_7 = NL;
+  protected final String TEXT_5 = ".xml}\"/>" + NL + "<stringAttribute key=\"process_factory_id\" value=\"org.eclipse.ant.ui.remoteAntProcessFactory\"/>" + NL + "</launchConfiguration>";
+  protected final String TEXT_6 = NL;
 
   public String generate(Object argument)
   {
@@ -39,10 +38,10 @@ String className = (String) args.get("className");
     stringBuffer.append( projectName );
     stringBuffer.append(TEXT_4);
     stringBuffer.append( projectName );
-    stringBuffer.append(TEXT_5);
+    stringBuffer.append(TEXT_2);
     stringBuffer.append( className );
+    stringBuffer.append(TEXT_5);
     stringBuffer.append(TEXT_6);
-    stringBuffer.append(TEXT_7);
     return stringBuffer.toString();
   }
 }

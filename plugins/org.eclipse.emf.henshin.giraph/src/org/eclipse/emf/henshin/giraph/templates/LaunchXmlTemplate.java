@@ -23,9 +23,8 @@ public class LaunchXmlTemplate
   protected final String TEXT_7 = ".HenshinUtil$InputFormat\" />" + NL + "\t\t\t<arg value=\"-vof\" />" + NL + "\t\t\t<arg value=\"";
   protected final String TEXT_8 = ".HenshinUtil$OutputFormat\" />" + NL + "\t\t\t<arg value=\"-vip\" />" + NL + "\t\t\t<arg value=\"/input/";
   protected final String TEXT_9 = ".json\" />" + NL + "\t\t\t<arg value=\"-op\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t\t<arg value=\"-w\" />" + NL + "\t\t\t<arg value=\"2\" />" + NL + "\t\t\t<arg value=\"-mc\" />" + NL + "\t\t\t<arg value=\"";
-  protected final String TEXT_10 = ".";
-  protected final String TEXT_11 = "$MasterCompute\" />" + NL + "\t\t</exec>" + NL + "\t\t<delete dir=\"${root.dir}/output\" />" + NL + "\t\t<mkdir dir=\"${root.dir}/output\" />" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-get\" />" + NL + "\t\t\t<arg value=\"/output/*\" />" + NL + "\t\t\t<arg value=\"${root.dir}/output\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/stop-all.sh\" failonerror=\"true\" />" + NL + "\t</target>" + NL + "" + NL + "</project>";
-  protected final String TEXT_12 = NL;
+  protected final String TEXT_10 = "$MasterCompute\" />" + NL + "\t\t</exec>" + NL + "\t\t<delete dir=\"${root.dir}/output\" />" + NL + "\t\t<mkdir dir=\"${root.dir}/output\" />" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-get\" />" + NL + "\t\t\t<arg value=\"/output/*\" />" + NL + "\t\t\t<arg value=\"${root.dir}/output\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/input\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.cmd}\">" + NL + "\t\t\t<arg value=\"fs\" />" + NL + "\t\t\t<arg value=\"-rmr\" />" + NL + "\t\t\t<arg value=\"/output\" />" + NL + "\t\t</exec>" + NL + "\t\t<exec executable=\"${hadoop.home}/bin/stop-all.sh\" failonerror=\"true\" />" + NL + "\t</target>" + NL + "" + NL + "</project>";
+  protected final String TEXT_11 = NL;
 
   public String generate(Object argument)
   {
@@ -55,10 +54,10 @@ String inputName = (String) args.get("inputName");
     stringBuffer.append( inputName );
     stringBuffer.append(TEXT_9);
     stringBuffer.append( packageName );
-    stringBuffer.append(TEXT_10);
+    stringBuffer.append(TEXT_5);
     stringBuffer.append( className );
+    stringBuffer.append(TEXT_10);
     stringBuffer.append(TEXT_11);
-    stringBuffer.append(TEXT_12);
     return stringBuffer.toString();
   }
 }

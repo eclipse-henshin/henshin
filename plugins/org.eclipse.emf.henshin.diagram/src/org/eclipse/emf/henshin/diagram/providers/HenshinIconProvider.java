@@ -14,7 +14,7 @@ import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
 import org.eclipse.gmf.runtime.common.core.service.IOperation;
 import org.eclipse.gmf.runtime.common.ui.services.icon.GetIconOperation;
 import org.eclipse.gmf.runtime.common.ui.services.icon.IIconProvider;
-import org.eclipse.gmf.tooling.runtime.providers.DefaultElementTypeIconProvider;
+import org.eclipse.papyrus.infra.gmfdiag.tooling.runtime.providers.DefaultElementTypeIconProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**

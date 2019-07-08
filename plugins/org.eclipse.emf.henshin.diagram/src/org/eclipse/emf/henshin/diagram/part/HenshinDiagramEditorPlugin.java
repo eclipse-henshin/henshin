@@ -27,7 +27,7 @@ import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEdit
 import org.eclipse.emf.henshin.diagram.providers.ElementInitializers;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
-import org.eclipse.gmf.tooling.runtime.LogHelper;
+import org.eclipse.papyrus.infra.gmfdiag.tooling.runtime.LogHelper;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;

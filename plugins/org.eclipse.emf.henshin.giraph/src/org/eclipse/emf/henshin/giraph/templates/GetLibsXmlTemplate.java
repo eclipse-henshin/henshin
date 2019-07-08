@@ -20,11 +20,8 @@ public class GetLibsXmlTemplate
   protected final String TEXT_2 = NL + "\t\t<get src=\"";
   protected final String TEXT_3 = "\"" + NL + "\t\t\t dest=\"";
   protected final String TEXT_4 = "\" usetimestamp=\"true\" verbose=\"true\" />";
-  protected final String TEXT_5 = NL + "\t\t<get src=\"";
-  protected final String TEXT_6 = "\"" + NL + "\t\t\t dest=\"";
-  protected final String TEXT_7 = "\" usetimestamp=\"true\" verbose=\"true\" />";
-  protected final String TEXT_8 = NL + "\t</target>" + NL + "" + NL + "</project>";
-  protected final String TEXT_9 = NL;
+  protected final String TEXT_5 = NL + "\t</target>" + NL + "" + NL + "</project>";
+  protected final String TEXT_6 = NL;
 
   public String generate(Object argument)
   {
@@ -37,15 +34,15 @@ public class GetLibsXmlTemplate
     stringBuffer.append( entry.getKey().lastSegment() );
     stringBuffer.append(TEXT_4);
        if (entry.getValue() != null) { 
-    stringBuffer.append(TEXT_5);
+    stringBuffer.append(TEXT_2);
     stringBuffer.append( entry.getValue() );
-    stringBuffer.append(TEXT_6);
+    stringBuffer.append(TEXT_3);
     stringBuffer.append( entry.getValue().lastSegment() );
-    stringBuffer.append(TEXT_7);
+    stringBuffer.append(TEXT_4);
        }
    } 
-    stringBuffer.append(TEXT_8);
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_5);
+    stringBuffer.append(TEXT_6);
     return stringBuffer.toString();
   }
 }
