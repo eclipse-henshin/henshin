@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.emf.henshin.model.*;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * <!-- begin-user-doc -->
