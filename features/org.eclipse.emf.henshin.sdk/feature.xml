@@ -24,7 +24,6 @@ http://www.eclipse.org/legal/epl-v10.html
    <url>
       <update label="%updateSiteName" url="http://www.eclipse.org/modeling/emft/updates/"/>
       <discovery label="%updateSiteName" url="http://www.eclipse.org/modeling/emft/updates/"/>
-      <discovery label="Eclipse Luna" url="download.eclipse.org/releases/luna"/> 
       <discovery label="Eclipse Oxygen" url="download.eclipse.org/releases/oxygen"/> 
    </url>
 
@@ -38,9 +37,9 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.emf.ecore.editor" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.forms" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions"/>
-      <import plugin="org.eclipse.debug.core" version="3.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.debug.core" version="3.10.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.ui.ide" version="3.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.10.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.navigator"/>
       <import plugin="org.eclipse.ui.navigator.resources"/>

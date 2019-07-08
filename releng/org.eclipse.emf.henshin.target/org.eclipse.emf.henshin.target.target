@@ -8,24 +8,19 @@
 </location>    
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.papyrus.infra.gmfdiag.tooling.runtime" version="3.0.0.201803070847"/>
-<unit id="org.eclipse.m2e.feature.feature.group" version="1.5.1.20150109-1820"/>
-<unit id="org.eclipse.emf.compare.feature.group" version="3.0.2.201501201328"/>
-<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.0.2.201501201328"/>
-<unit id="org.eclipse.pde.feature.group" version="3.10.1.v20150204-1700"/>
-<unit id="org.eclipse.papyrus.sdk.feature.feature.group" version="1.0.2.v201502181349"/>
-<unit id="org.eclipse.emf.compare.source.feature.group" version="3.0.2.201501201328"/>
-<unit id="org.eclipse.equinox.sdk.feature.group" version="3.10.2.v20150204-1316"/>
-<unit id="org.eclipse.gmf.feature.group" version="1.8.1.201408201453"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.10.2.v20150123-0452"/>
-<unit id="org.eclipse.ocl.all.sdk.feature.group" version="5.0.2.v20141027-1335"/>
-<unit id="org.eclipse.emf.query.sdk.feature.group" version="1.8.0.201405281426"/>
-<unit id="org.eclipse.uml2.uml" version="5.0.2.v20150202-0947"/>
-<repository location="http://download.eclipse.org/releases/luna"/>
+<unit id="org.eclipse.m2e.feature.feature.group" version="1.8.3.20180227-2137"/>
+<unit id="org.eclipse.emf.compare.feature.group" version="3.3.2.201709090201"/>
+<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.3.2.201709090201"/>
+<unit id="org.eclipse.pde.feature.group" version="3.13.4.v20180330-0640"/>
+<unit id="org.eclipse.papyrus.sdk.feature.feature.group" version="3.3.0.201803070847"/>
+<unit id="org.eclipse.emf.compare.source.feature.group" version="3.3.2.201709090201"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.13.4.v20180322-2228"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.13.0.v20170609-0928"/>
+<unit id="org.eclipse.ocl.all.sdk.feature.group" version="5.3.0.v20170607-1133"/>
+<unit id="org.eclipse.emf.query.sdk.feature.group" version="1.11.0.201706061326"/>
+<unit id="org.eclipse.uml2.uml" version="5.3.0.v20170605-1616"/>
+<unit id="org.eclipse.xtext.sdk.feature.group" version="2.12.0.v20170519-1412"/>
 <repository location="http://download.eclipse.org/releases/oxygen"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.xtend.sdk.feature.group" version="2.13.0.v20171020-0920"/>
-<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
 </location>
 </locations>
 <environment>
