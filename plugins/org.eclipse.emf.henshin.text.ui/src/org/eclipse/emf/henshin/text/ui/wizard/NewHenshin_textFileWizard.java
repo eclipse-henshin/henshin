@@ -84,9 +84,12 @@ public class NewHenshin_textFileWizard extends Wizard implements INewWizard{
 		//add XTextNature to Project
 		   try {
 			if (!container.getProject().hasNature("org.eclipse.xtext.ui.shared.xtextNature")) {
-				      IProjectDescription description = container.getProject().getDescription();
-				      description.setNatureIds(new String[] { "org.eclipse.xtext.ui.shared.xtextNature" });
-				      container.getProject().setDescription(description, null);
+			      IProjectDescription description = container.getProject().getDescription();
+			      String natureList[]=new String[description.getNatureIds().length+1];
+			      System.arraycopy(description.getNatureIds(), 0, natureList, 0, description.getNatureIds().length);
+			      natureList[natureList.length-1]="org.eclipse.xtext.ui.shared.xtextNature";
+			      description.setNatureIds(natureList);
+			      container.getProject().setDescription(description, null);
 				   }
 		} catch (CoreException e) {
 			MessageDialog.openError(getShell(), "Error", "Error adding Xtext nature to Project.");
