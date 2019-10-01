@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.script.ScriptEngine;
@@ -22,10 +23,12 @@ import javax.script.ScriptException;
  */
 public class ScriptEngineWrapper {
 
-	/**
-	 * Wildcard pattern
-	 */
 	private static final Pattern WILDCARD_PATTERN = Pattern.compile("(.*)\\.\\*$");
+
+	private static final Pattern DIR_FQN_PATTERN = Pattern.compile("(.*)\\.([a-z][^.]*)*$");
+	
+	private static final Pattern CLASS_FQN_PATTERN = Pattern.compile("(.*)\\.([A-Z][^.]*)$");
+	
 
 	/**
 	 * The original scripting engine to delegate to.
@@ -86,23 +89,48 @@ public class ScriptEngineWrapper {
 	@SuppressWarnings("unchecked")
 	public Object eval(String script, List<String> localImports) throws ScriptException {
 		if (!globalImports.isEmpty() || !localImports.isEmpty()) {
-			script = "with (new JavaImporter(" + toImportString(globalImports, localImports) + ")) { " + script + " }";
+  			script =  toStringWithImports(script,globalImports, localImports);
 		}
+		ClassLoader cl = this.getClass().getClassLoader();
+		Thread.currentThread().setContextClassLoader(cl);
 		return engine.eval(script);
 	}
 
 	/**
 	 * Converts a list of imports like List("foo.Foo", "foo.bar.*") into one string "foo.Foo, foo.bar"
 	 */
-	private static String toImportString(List<String>... imports) {
+	private static String toStringWithImports(String script, List<String>... imports) {
 		StringBuffer out = new StringBuffer();
 		String delim = "";
+		out.append("with (new JavaImporter(");
+		
 		for (int i = 0; i < imports.length; i++) {
 			for (String entry : imports[i]) {
-				out.append(delim).append(stripWildcard(entry));
-				delim = ", ";
+				if (isDirectory(entry) || isWildcard(entry)) {
+					out.append(delim).append(stripWildcard(entry));
+					delim = ", ";
+				}
 			}
 		}
+
+		out.append(")) { ");
+
+		for (int i = 0; i < imports.length; i++) {
+			for (String entry : imports[i]) {
+				Matcher m = CLASS_FQN_PATTERN.matcher(entry);
+				if (m.matches()) {
+					String filename = m.group(2);
+					out.append("var ");
+					out.append(filename);
+					out.append(" = Java.type('");
+					out.append(entry);
+					out.append("'); ");
+				}
+			}
+		}
+		
+		out.append(script);
+		out.append( " }");
 		return out.toString();
 	}
 
@@ -110,8 +138,11 @@ public class ScriptEngineWrapper {
 		return isWildcard(imp) ? imp.substring(0, imp.length() - 2) : imp;
 	}
 
+	private static boolean isDirectory(String imp) {
+		return DIR_FQN_PATTERN.matcher(imp).matches();
+	}
+	
 	private static boolean isWildcard(String imp) {
 		return WILDCARD_PATTERN.matcher(imp).matches();
 	}
-
 }
