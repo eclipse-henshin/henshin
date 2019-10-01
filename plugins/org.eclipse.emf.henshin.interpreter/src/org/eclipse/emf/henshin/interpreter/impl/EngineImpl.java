@@ -451,7 +451,6 @@ public class EngineImpl implements Engine {
 					while (matchFinder.hasNext()) {
 						nestedMatches.add(matchFinder.next());
 					}
-
 				}
 
 				boolean valid = rule.getMultiRules().isEmpty() || doPostponedDanglingChecks(solution, nextMatch);
@@ -862,6 +861,8 @@ public class EngineImpl implements Engine {
 							+ "'. Register the corresponding package, e.g. using PackageName.eINSTANCE.getName().");
 				}
 			}
+		} else {
+			ruleInfo.updateCached();			
 		}
 		return ruleInfo;
 	}

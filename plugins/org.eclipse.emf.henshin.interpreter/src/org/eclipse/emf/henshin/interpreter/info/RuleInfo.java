@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -79,5 +80,9 @@ public class RuleInfo {
 
 	public Collection<Node> getPostponed() {
 		return postponed;
+	}
+
+	public void updateCached() {
+		variableInfo.updateCached();
 	}
 }
