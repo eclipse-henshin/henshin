@@ -226,8 +226,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		
 		// initialize the domain slot
 		if (!currentSlot.initialize(currentVariable, graph)) {
-			throw new IllegalStateException(
-					"tried to initialize slot with empty domain" + toString());
+			//this can happen and is not a problem
 		}
 		
 		if (debugTarget != null) {
@@ -487,7 +486,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 
 				// update the debug state (current index does not change)
 				updateDebugState(DebugLevel.VALUE, currentVariableIndex, ConstraintType.NONE, -1);
-								
+												
 				break;
 			case VALUE:
 				// go to the "type" constraint type as it is always the first constraint. 
@@ -1580,7 +1579,7 @@ public void stepReturn() throws DebugException {
 	public <U> boolean checkForChange(Object a, Object b) {
 		// TODO: Check that a and b are of same type in method declaration
 		// if we are at DebugLevel.NONE or the suspendCondition is met we stop stepping
-		if (currentDebugLevel == DebugLevel.NONE || a != b) {
+		if (currentDebugLevel == DebugLevel.NONE || a != b || currentDebugState == DebugState.TERMINATED_TRUE || currentDebugState == DebugState.TERMINATED_FALSE) {
 			// suspend application when one ore more of the two conditions are met
 			suspendApplication();
 			// gets assigned to the shouldStep variable in stepOver()
