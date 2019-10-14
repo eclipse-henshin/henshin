@@ -91,8 +91,6 @@ public class ScriptEngineWrapper {
 		if (!globalImports.isEmpty() || !localImports.isEmpty()) {
   			script =  toStringWithImports(script,globalImports, localImports);
 		}
-		ClassLoader cl = this.getClass().getClassLoader();
-		Thread.currentThread().setContextClassLoader(cl);
 		return engine.eval(script);
 	}
 
