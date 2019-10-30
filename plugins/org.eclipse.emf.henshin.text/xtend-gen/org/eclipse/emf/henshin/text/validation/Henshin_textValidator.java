@@ -13,10 +13,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.text.henshin_text.AndExpression;
 import org.eclipse.emf.henshin.text.henshin_text.Attribute;
@@ -24,7 +21,6 @@ import org.eclipse.emf.henshin.text.henshin_text.Call;
 import org.eclipse.emf.henshin.text.henshin_text.ComparisonExpression;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionEdge;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionGraph;
-import org.eclipse.emf.henshin.text.henshin_text.ConditionGraphElements;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionGraphRef;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionNode;
 import org.eclipse.emf.henshin.text.henshin_text.ConditionNodeTypes;
@@ -37,7 +33,6 @@ import org.eclipse.emf.henshin.text.henshin_text.EqualityExpression;
 import org.eclipse.emf.henshin.text.henshin_text.Expression;
 import org.eclipse.emf.henshin.text.henshin_text.Formula;
 import org.eclipse.emf.henshin.text.henshin_text.Graph;
-import org.eclipse.emf.henshin.text.henshin_text.GraphElements;
 import org.eclipse.emf.henshin.text.henshin_text.Henshin_textPackage;
 import org.eclipse.emf.henshin.text.henshin_text.IndependentUnit;
 import org.eclipse.emf.henshin.text.henshin_text.IntegerValue;
@@ -50,7 +45,6 @@ import org.eclipse.emf.henshin.text.henshin_text.LoopUnit;
 import org.eclipse.emf.henshin.text.henshin_text.Match;
 import org.eclipse.emf.henshin.text.henshin_text.MinusExpression;
 import org.eclipse.emf.henshin.text.henshin_text.Model;
-import org.eclipse.emf.henshin.text.henshin_text.ModelElement;
 import org.eclipse.emf.henshin.text.henshin_text.MulOrDivExpression;
 import org.eclipse.emf.henshin.text.henshin_text.MultiRule;
 import org.eclipse.emf.henshin.text.henshin_text.MultiRuleReuseNode;
@@ -60,14 +54,11 @@ import org.eclipse.emf.henshin.text.henshin_text.NumberValue;
 import org.eclipse.emf.henshin.text.henshin_text.OrExpression;
 import org.eclipse.emf.henshin.text.henshin_text.Parameter;
 import org.eclipse.emf.henshin.text.henshin_text.ParameterKind;
-import org.eclipse.emf.henshin.text.henshin_text.ParameterType;
 import org.eclipse.emf.henshin.text.henshin_text.ParameterValue;
 import org.eclipse.emf.henshin.text.henshin_text.PlusExpression;
 import org.eclipse.emf.henshin.text.henshin_text.PriorityUnit;
 import org.eclipse.emf.henshin.text.henshin_text.Rule;
-import org.eclipse.emf.henshin.text.henshin_text.RuleElement;
 import org.eclipse.emf.henshin.text.henshin_text.RuleNodeTypes;
-import org.eclipse.emf.henshin.text.henshin_text.Type;
 import org.eclipse.emf.henshin.text.henshin_text.Unit;
 import org.eclipse.emf.henshin.text.henshin_text.UnitElement;
 import org.eclipse.emf.henshin.text.henshin_text.impl.ANDImpl;
@@ -109,51 +100,33 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCallParameter(final Call call) {
-    ModelElement _elementCall = call.getElementCall();
-    EList<Parameter> _parameters = _elementCall.getParameters();
     final Function1<Parameter, Boolean> _function = (Parameter it) -> {
       ParameterKind _kind = it.getKind();
       return Boolean.valueOf((!Objects.equal(_kind, ParameterKind.VAR)));
     };
-    Iterable<Parameter> _filter = IterableExtensions.<Parameter>filter(_parameters, _function);
-    int _size = IterableExtensions.size(_filter);
-    EList<Parameter> _parameters_1 = call.getParameters();
-    int _size_1 = _parameters_1.size();
+    int _size = IterableExtensions.size(IterableExtensions.<Parameter>filter(call.getElementCall().getParameters(), _function));
+    int _size_1 = call.getParameters().size();
     boolean _notEquals = (_size != _size_1);
     if (_notEquals) {
-      EReference _call_ElementCall = Henshin_textPackage.eINSTANCE.getCall_ElementCall();
-      this.error("Bad Parameter Count.\'", _call_ElementCall);
+      this.error("Bad Parameter Count.\'", Henshin_textPackage.eINSTANCE.getCall_ElementCall());
     } else {
       for (int i = 0; (i < IterableExtensions.size(IterableExtensions.<Parameter>filter(call.getElementCall().getParameters(), ((Function1<Parameter, Boolean>) (Parameter it) -> {
         ParameterKind _kind = it.getKind();
         return Boolean.valueOf((!Objects.equal(_kind, ParameterKind.VAR)));
       })))); i++) {
         {
-          ModelElement _elementCall_1 = call.getElementCall();
-          EList<Parameter> _parameters_2 = _elementCall_1.getParameters();
-          final Parameter param = _parameters_2.get(i);
-          ParameterType _type = param.getType();
-          Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(_type);
-          EList<Parameter> _parameters_3 = call.getParameters();
-          Parameter _get = _parameters_3.get(i);
-          ParameterType _type_1 = _get.getType();
-          Henshin_textType _typeFor_1 = this._henshin_textTypeProvider.typeFor(_type_1);
+          final Parameter param = call.getElementCall().getParameters().get(i);
+          Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(param.getType());
+          Henshin_textType _typeFor_1 = this._henshin_textTypeProvider.typeFor(call.getParameters().get(i).getType());
           boolean _notEquals_1 = (!Objects.equal(_typeFor, _typeFor_1));
           if (_notEquals_1) {
-            ParameterType _type_2 = param.getType();
-            Henshin_textType _typeFor_2 = this._henshin_textTypeProvider.typeFor(_type_2);
-            String _string = _typeFor_2.toString();
+            String _string = this._henshin_textTypeProvider.typeFor(param.getType()).toString();
             String _plus = ("Call expected " + _string);
             String _plus_1 = (_plus + " type, but was ");
-            EList<Parameter> _parameters_4 = call.getParameters();
-            Parameter _get_1 = _parameters_4.get(i);
-            ParameterType _type_3 = _get_1.getType();
-            Henshin_textType _typeFor_3 = this._henshin_textTypeProvider.typeFor(_type_3);
-            String _string_1 = _typeFor_3.toString();
+            String _string_1 = this._henshin_textTypeProvider.typeFor(call.getParameters().get(i).getType()).toString();
             String _plus_2 = (_plus_1 + _string_1);
             String _plus_3 = (_plus_2 + ".\'");
-            EReference _call_Parameters = Henshin_textPackage.eINSTANCE.getCall_Parameters();
-            this.error(_plus_3, call, _call_Parameters);
+            this.error(_plus_3, call, Henshin_textPackage.eINSTANCE.getCall_Parameters());
           }
         }
       }
@@ -192,17 +165,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       RuleNodeTypes _source_1 = edge.getSource();
       if ((_source_1 instanceof Node)) {
         RuleNodeTypes _source_2 = edge.getSource();
-        EClass _nodetype = ((Node) _source_2).getNodetype();
-        sourceType = _nodetype;
+        sourceType = ((Node) _source_2).getNodetype();
       } else {
         try {
           RuleNodeTypes _source_3 = edge.getSource();
-          Node _name = ((MultiRuleReuseNode) _source_3).getName();
-          EClass _nodetype_1 = _name.getNodetype();
-          sourceType = _nodetype_1;
+          sourceType = ((MultiRuleReuseNode) _source_3).getName().getNodetype();
         } catch (final Throwable _t) {
           if (_t instanceof ClassCastException) {
-            final ClassCastException e = (ClassCastException)_t;
             sourceType = null;
           } else {
             throw Exceptions.sneakyThrow(_t);
@@ -216,20 +185,16 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       RuleNodeTypes _target_1 = edge.getTarget();
       if ((_target_1 instanceof Node)) {
         RuleNodeTypes _target_2 = edge.getTarget();
-        EClass _nodetype_2 = ((Node) _target_2).getNodetype();
-        targetType = _nodetype_2;
+        targetType = ((Node) _target_2).getNodetype();
       } else {
         try {
           RuleNodeTypes _target_3 = edge.getTarget();
-          Node _name_1 = ((MultiRuleReuseNode) _target_3).getName();
-          EClass _nodetype_3 = _name_1.getNodetype();
-          targetType = _nodetype_3;
-        } catch (final Throwable _t_1) {
-          if (_t_1 instanceof ClassCastException) {
-            final ClassCastException e_1 = (ClassCastException)_t_1;
+          targetType = ((MultiRuleReuseNode) _target_3).getName().getNodetype();
+        } catch (final Throwable _t) {
+          if (_t instanceof ClassCastException) {
             targetType = null;
           } else {
-            throw Exceptions.sneakyThrow(_t_1);
+            throw Exceptions.sneakyThrow(_t);
           }
         }
       }
@@ -239,37 +204,31 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       EClass referenceType = null;
       EList<EReference> _eAllReferences = sourceType.getEAllReferences();
       for (final EReference reference : _eAllReferences) {
-        EReference _type = edge.getType();
-        String _name_2 = _type.getName();
-        String _name_3 = reference.getName();
-        boolean _equals = Objects.equal(_name_2, _name_3);
+        String _name = edge.getType().getName();
+        String _name_1 = reference.getName();
+        boolean _equals = Objects.equal(_name, _name_1);
         if (_equals) {
           wrongType = false;
-          EClass _eReferenceType = reference.getEReferenceType();
-          referenceType = _eReferenceType;
+          referenceType = reference.getEReferenceType();
         }
       }
       if (wrongType) {
-        EReference _type_1 = edge.getType();
-        String _name_4 = _type_1.getName();
-        String _plus = ("Edgetype " + _name_4);
+        String _name_2 = edge.getType().getName();
+        String _plus = ("Edgetype " + _name_2);
         String _plus_1 = (_plus + " does not exist.\'");
-        EReference _edge_Type = Henshin_textPackage.eINSTANCE.getEdge_Type();
-        this.error(_plus_1, edge, _edge_Type);
+        this.error(_plus_1, edge, Henshin_textPackage.eINSTANCE.getEdge_Type());
       }
       if (((!Objects.equal(referenceType, targetType)) && (!targetType.getEAllSuperTypes().contains(referenceType)))) {
-        String _name_5 = sourceType.getName();
-        String _plus_2 = ("Edge " + _name_5);
+        String _name_3 = sourceType.getName();
+        String _plus_2 = ("Edge " + _name_3);
         String _plus_3 = (_plus_2 + "->");
-        String _name_6 = targetType.getName();
-        String _plus_4 = (_plus_3 + _name_6);
+        String _name_4 = targetType.getName();
+        String _plus_4 = (_plus_3 + _name_4);
         String _plus_5 = (_plus_4 + ":");
-        EReference _type_2 = edge.getType();
-        String _name_7 = _type_2.getName();
-        String _plus_6 = (_plus_5 + _name_7);
+        String _name_5 = edge.getType().getName();
+        String _plus_6 = (_plus_5 + _name_5);
         String _plus_7 = (_plus_6 + " does not exist.\'");
-        EReference _edge_Type_1 = Henshin_textPackage.eINSTANCE.getEdge_Type();
-        this.error(_plus_7, edge, _edge_Type_1);
+        this.error(_plus_7, edge, Henshin_textPackage.eINSTANCE.getEdge_Type());
       }
     }
   }
@@ -284,21 +243,16 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     boolean isImported = false;
     List<EPackageImport> _ePackageImports = this.getEPackageImports(node);
     for (final EPackageImport ePackage : _ePackageImports) {
-      EPackage _ref = ePackage.getRef();
-      EList<EClassifier> _eClassifiers = _ref.getEClassifiers();
-      EClass _nodetype = node.getNodetype();
-      boolean _contains = _eClassifiers.contains(_nodetype);
+      boolean _contains = ePackage.getRef().getEClassifiers().contains(node.getNodetype());
       if (_contains) {
         isImported = true;
       }
     }
     if ((!isImported)) {
-      EClass _nodetype_1 = node.getNodetype();
-      String _name = _nodetype_1.getName();
+      String _name = node.getNodetype().getName();
       String _plus = ("Nodetype " + _name);
       String _plus_1 = (_plus + " is not imported.\'");
-      EReference _node_Nodetype = Henshin_textPackage.eINSTANCE.getNode_Nodetype();
-      this.error(_plus_1, node, _node_Nodetype);
+      this.error(_plus_1, node, Henshin_textPackage.eINSTANCE.getNode_Nodetype());
     }
   }
   
@@ -309,12 +263,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     List<EPackageImport> listOfEPackageImport = new ArrayList<EPackageImport>();
     EObject container = startObject.eContainer();
     while ((!(container instanceof Model))) {
-      EObject _eContainer = container.eContainer();
-      container = _eContainer;
+      container = container.eContainer();
     }
     if ((container instanceof Model)) {
-      EList<EPackageImport> _ePackageimports = ((Model) container).getEPackageimports();
-      listOfEPackageImport.addAll(_ePackageimports);
+      listOfEPackageImport.addAll(((Model) container).getEPackageimports());
     }
     return listOfEPackageImport;
   }
@@ -330,32 +282,23 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     for (final Attribute attribute : _attribute) {
       {
         boolean superTypeAttribute = false;
-        EClass _nodetype = node.getNodetype();
-        EList<EAttribute> _eAttributes = _nodetype.getEAttributes();
-        EAttribute _name = attribute.getName();
-        boolean _contains = _eAttributes.contains(_name);
+        boolean _contains = node.getNodetype().getEAttributes().contains(attribute.getName());
         boolean _not = (!_contains);
         if (_not) {
-          EClass _nodetype_1 = node.getNodetype();
-          EList<EClass> _eAllSuperTypes = _nodetype_1.getEAllSuperTypes();
+          EList<EClass> _eAllSuperTypes = node.getNodetype().getEAllSuperTypes();
           for (final EClass supertype : _eAllSuperTypes) {
-            EList<EAttribute> _eAttributes_1 = supertype.getEAttributes();
-            EAttribute _name_1 = attribute.getName();
-            boolean _contains_1 = _eAttributes_1.contains(_name_1);
+            boolean _contains_1 = supertype.getEAttributes().contains(attribute.getName());
             if (_contains_1) {
               superTypeAttribute = true;
             }
           }
           if ((!superTypeAttribute)) {
-            EClass _nodetype_2 = node.getNodetype();
-            String _name_2 = _nodetype_2.getName();
-            String _plus = (_name_2 + " has no attribute \'");
-            EAttribute _name_3 = attribute.getName();
-            String _name_4 = _name_3.getName();
-            String _plus_1 = (_plus + _name_4);
+            String _name = node.getNodetype().getName();
+            String _plus = (_name + " has no attribute \'");
+            String _name_1 = attribute.getName().getName();
+            String _plus_1 = (_plus + _name_1);
             String _plus_2 = (_plus_1 + "\'.\'");
-            EReference _attribute_Name = Henshin_textPackage.eINSTANCE.getAttribute_Name();
-            this.error(_plus_2, attribute, _attribute_Name);
+            this.error(_plus_2, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Name());
           }
         }
       }
@@ -371,18 +314,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
   public void checkattributeOnlyOnce(final Node node) {
     for (int i = 0; (i < node.getAttribute().size()); i++) {
       {
-        EList<Attribute> _attribute = node.getAttribute();
-        Attribute attribute = _attribute.get(i);
+        Attribute attribute = node.getAttribute().get(i);
         for (int j = (i + 1); (j < node.getAttribute().size()); j++) {
           if ((Objects.equal(attribute.getName(), node.getAttribute().get(j).getName()) && Objects.equal(attribute.getUpdate(), node.getAttribute().get(j).getUpdate()))) {
-            EAttribute _name = attribute.getName();
-            String _name_1 = _name.getName();
-            String _plus = ("\'" + _name_1);
+            String _name = attribute.getName().getName();
+            String _plus = ("\'" + _name);
             String _plus_1 = (_plus + "\' can only be used once.\'");
-            EList<Attribute> _attribute_1 = node.getAttribute();
-            Attribute _get = _attribute_1.get(j);
-            EReference _attribute_Name = Henshin_textPackage.eINSTANCE.getAttribute_Name();
-            this.error(_plus_1, _get, _attribute_Name);
+            this.error(_plus_1, node.getAttribute().get(j), Henshin_textPackage.eINSTANCE.getAttribute_Name());
           }
         }
       }
@@ -397,8 +335,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
   @Check
   public void checkAbstractNode(final Node node) {
     if ((node.getNodetype().isAbstract() && Objects.equal(node.getActiontype(), "create"))) {
-      EReference _node_Nodetype = Henshin_textPackage.eINSTANCE.getNode_Nodetype();
-      this.error("Node of abstract type cannot be created.\'", node, _node_Nodetype);
+      this.error("Node of abstract type cannot be created.\'", node, Henshin_textPackage.eINSTANCE.getNode_Nodetype());
     }
   }
   
@@ -418,10 +355,8 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
           EList<Attribute> _attribute_1 = node.getAttribute();
           for (final Attribute checkAttribute : _attribute_1) {
             if ((((!Objects.equal(checkAttribute, attribute)) && Objects.equal(attribute.getName(), checkAttribute.getName())) && ((!Objects.equal(checkAttribute.getUpdate(), null)) || Objects.equal(checkAttribute.getActiontype(), "create")))) {
-              EAttribute _attribute_Update = Henshin_textPackage.eINSTANCE.getAttribute_Update();
-              this.error("Duplicate update.\'", attribute, _attribute_Update);
-              EAttribute _attribute_Actiontype = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-              this.error("Duplicate update.\'", checkAttribute, _attribute_Actiontype);
+              this.error("Duplicate update.\'", attribute, Henshin_textPackage.eINSTANCE.getAttribute_Update());
+              this.error("Duplicate update.\'", checkAttribute, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
             }
           }
         }
@@ -450,12 +385,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             }
           }
           if ((!matchExist)) {
-            EAttribute _name = attribute.getName();
-            String _name_1 = _name.getName();
-            String _plus = ("Preserve-attribute " + _name_1);
+            String _name = attribute.getName().getName();
+            String _plus = ("Preserve-attribute " + _name);
             String _plus_1 = (_plus + " needed.\'");
-            EAttribute _attribute_Update = Henshin_textPackage.eINSTANCE.getAttribute_Update();
-            this.error(_plus_1, attribute, _attribute_Update);
+            this.error(_plus_1, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Update());
           }
         }
       }
@@ -481,8 +414,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             String _actiontype_2 = node.getActiontype();
             String _plus_1 = (_plus + _actiontype_2);
             String _plus_2 = (_plus_1 + "-nodes.\'");
-            EAttribute _attribute_Actiontype = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-            this.error(_plus_2, attribute, _attribute_Actiontype);
+            this.error(_plus_2, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
           }
           String _update = attribute.getUpdate();
           boolean _notEquals = (!Objects.equal(_update, null));
@@ -490,8 +422,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             String _actiontype_3 = node.getActiontype();
             String _plus_3 = ("set-attributes are not allowed in " + _actiontype_3);
             String _plus_4 = (_plus_3 + "-nodes. \'");
-            EAttribute _attribute_Update = Henshin_textPackage.eINSTANCE.getAttribute_Update();
-            this.error(_plus_4, attribute, _attribute_Update);
+            this.error(_plus_4, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Update());
           }
         }
       }
@@ -508,8 +439,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
               String _actiontype_3 = node.getActiontype();
               String _plus_1 = (_plus + _actiontype_3);
               String _plus_2 = (_plus_1 + "-nodes.\'");
-              EAttribute _attribute_Actiontype = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-              this.error(_plus_2, attribute_1, _attribute_Actiontype);
+              this.error(_plus_2, attribute_1, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
             }
             String _update = attribute_1.getUpdate();
             boolean _notEquals = (!Objects.equal(_update, null));
@@ -517,8 +447,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
               String _actiontype_4 = node.getActiontype();
               String _plus_3 = ("set-attributes are not allowed in " + _actiontype_4);
               String _plus_4 = (_plus_3 + "-nodes.\'");
-              EAttribute _attribute_Update = Henshin_textPackage.eINSTANCE.getAttribute_Update();
-              this.error(_plus_4, attribute_1, _attribute_Update);
+              this.error(_plus_4, attribute_1, Henshin_textPackage.eINSTANCE.getAttribute_Update());
             }
           }
         }
@@ -535,8 +464,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                 String _actiontype_4 = node.getActiontype();
                 String _plus_1 = (_plus + _actiontype_4);
                 String _plus_2 = (_plus_1 + "-nodes.\'");
-                EAttribute _attribute_Actiontype = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-                this.error(_plus_2, attribute_2, _attribute_Actiontype);
+                this.error(_plus_2, attribute_2, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
               }
               String _update = attribute_2.getUpdate();
               boolean _notEquals = (!Objects.equal(_update, null));
@@ -544,8 +472,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                 String _actiontype_5 = node.getActiontype();
                 String _plus_3 = ("set-attributes are not allowed in " + _actiontype_5);
                 String _plus_4 = (_plus_3 + "-nodes.\'");
-                EAttribute _attribute_Update = Henshin_textPackage.eINSTANCE.getAttribute_Update();
-                this.error(_plus_4, attribute_2, _attribute_Update);
+                this.error(_plus_4, attribute_2, Henshin_textPackage.eINSTANCE.getAttribute_Update());
               }
             }
           }
@@ -562,8 +489,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                   String _actiontype_5 = node.getActiontype();
                   String _plus_1 = (_plus + _actiontype_5);
                   String _plus_2 = (_plus_1 + "-nodes.\'");
-                  EAttribute _attribute_Actiontype = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-                  this.error(_plus_2, attribute_3, _attribute_Actiontype);
+                  this.error(_plus_2, attribute_3, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
                 }
                 String _update = attribute_3.getUpdate();
                 boolean _notEquals = (!Objects.equal(_update, null));
@@ -571,8 +497,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                   String _actiontype_6 = node.getActiontype();
                   String _plus_3 = ("set-attributes are not allowed in " + _actiontype_6);
                   String _plus_4 = (_plus_3 + "-nodes.\'");
-                  EAttribute _attribute_Update = Henshin_textPackage.eINSTANCE.getAttribute_Update();
-                  this.error(_plus_4, attribute_3, _attribute_Update);
+                  this.error(_plus_4, attribute_3, Henshin_textPackage.eINSTANCE.getAttribute_Update());
                 }
               }
             }
@@ -598,11 +523,9 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     } else {
       try {
         RuleNodeTypes _source_2 = edge.getSource();
-        Node _name = ((MultiRuleReuseNode) _source_2).getName();
-        source = _name;
+        source = ((MultiRuleReuseNode) _source_2).getName();
       } catch (final Throwable _t) {
         if (_t instanceof ClassCastException) {
-          final ClassCastException e = (ClassCastException)_t;
           target = null;
         } else {
           throw Exceptions.sneakyThrow(_t);
@@ -616,14 +539,12 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     } else {
       try {
         RuleNodeTypes _target_2 = edge.getTarget();
-        Node _name_1 = ((MultiRuleReuseNode) _target_2).getName();
-        target = _name_1;
-      } catch (final Throwable _t_1) {
-        if (_t_1 instanceof ClassCastException) {
-          final ClassCastException e_1 = (ClassCastException)_t_1;
+        target = ((MultiRuleReuseNode) _target_2).getName();
+      } catch (final Throwable _t) {
+        if (_t instanceof ClassCastException) {
           target = null;
         } else {
-          throw Exceptions.sneakyThrow(_t_1);
+          throw Exceptions.sneakyThrow(_t);
         }
       }
     }
@@ -645,12 +566,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       }
       if ((Objects.equal(edge.getActiontype(), "preserve") || Objects.equal(edge.getActiontype(), null))) {
         if (((Objects.equal(source.getActiontype(), "preserve") || Objects.equal(source.getActiontype(), null)) && ((!Objects.equal(target.getActiontype(), "preserve")) && (!Objects.equal(target.getActiontype(), null))))) {
-          EAttribute _edge_Actiontype = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-          this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype);
+          this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
         } else {
           if (((!Objects.equal(source.getActiontype(), "preserve")) && (!Objects.equal(source.getActiontype(), null)))) {
-            EAttribute _edge_Actiontype_1 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-            this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_1);
+            this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
           }
         }
       } else {
@@ -658,12 +577,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         boolean _equals_3 = Objects.equal(_actiontype, "create");
         if (_equals_3) {
           if ((((Objects.equal(source.getActiontype(), null) || Objects.equal(source.getActiontype(), "preserve")) || Objects.equal(source.getActiontype(), "create")) && (((!Objects.equal(target.getActiontype(), null)) && (!Objects.equal(target.getActiontype(), "preserve"))) && (!Objects.equal(target.getActiontype(), "create"))))) {
-            EAttribute _edge_Actiontype_2 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-            this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_2);
+            this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
           } else {
             if ((((!Objects.equal(source.getActiontype(), null)) && (!Objects.equal(source.getActiontype(), "preserve"))) && (!Objects.equal(source.getActiontype(), "create")))) {
-              EAttribute _edge_Actiontype_3 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-              this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_3);
+              this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
             }
           }
         } else {
@@ -671,12 +588,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
           boolean _equals_4 = Objects.equal(_actiontype_1, "delete");
           if (_equals_4) {
             if ((((Objects.equal(source.getActiontype(), null) || Objects.equal(source.getActiontype(), "preserve")) || Objects.equal(source.getActiontype(), "delete")) && (((!Objects.equal(target.getActiontype(), null)) && (!Objects.equal(target.getActiontype(), "preserve"))) && (!Objects.equal(target.getActiontype(), "delete"))))) {
-              EAttribute _edge_Actiontype_4 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-              this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_4);
+              this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
             } else {
               if ((((!Objects.equal(source.getActiontype(), null)) && (!Objects.equal(source.getActiontype(), "preserve"))) && (!Objects.equal(source.getActiontype(), "delete")))) {
-                EAttribute _edge_Actiontype_5 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-                this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_5);
+                this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
               }
             }
           } else {
@@ -684,12 +599,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             boolean _equals_5 = Objects.equal(_actiontype_2, "forbid");
             if (_equals_5) {
               if (((((Objects.equal(source.getActiontype(), null) || Objects.equal(source.getActiontype(), "preserve")) || Objects.equal(source.getActiontype(), "delete")) || Objects.equal(source.getActiontype(), "forbid")) && (Objects.equal(target.getActiontype(), "create") || Objects.equal(target.getActiontype(), "require")))) {
-                EAttribute _edge_Actiontype_6 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-                this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_6);
+                this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
               } else {
                 if ((Objects.equal(source.getActiontype(), "create") || Objects.equal(source.getActiontype(), "require"))) {
-                  EAttribute _edge_Actiontype_7 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-                  this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_7);
+                  this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
                 }
               }
             } else {
@@ -697,12 +610,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
               boolean _equals_6 = Objects.equal(_actiontype_3, "require");
               if (_equals_6) {
                 if (((((Objects.equal(source.getActiontype(), null) || Objects.equal(source.getActiontype(), "preserve")) || Objects.equal(source.getActiontype(), "delete")) || Objects.equal(source.getActiontype(), "require")) && (Objects.equal(target.getActiontype(), "create") || Objects.equal(target.getActiontype(), "forbid")))) {
-                  EAttribute _edge_Actiontype_8 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-                  this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_8);
+                  this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
                 } else {
                   if ((Objects.equal(source.getActiontype(), "create") || Objects.equal(source.getActiontype(), "forbid"))) {
-                    EAttribute _edge_Actiontype_9 = Henshin_textPackage.eINSTANCE.getEdge_Actiontype();
-                    this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, _edge_Actiontype_9);
+                    this.error((((((("A " + edgetype) + "-edge is not allowed between a ") + sourcetype) + "-node and a ") + tagettype) + "-node.\'"), edge, Henshin_textPackage.eINSTANCE.getEdge_Actiontype());
                   }
                 }
               }
@@ -720,8 +631,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountGraph(final Rule rule) {
-    EList<RuleElement> _ruleElements = rule.getRuleElements();
-    Iterable<GraphImpl> iterableOfGraphImpl = Iterables.<GraphImpl>filter(_ruleElements, GraphImpl.class);
+    Iterable<GraphImpl> iterableOfGraphImpl = Iterables.<GraphImpl>filter(rule.getRuleElements(), GraphImpl.class);
     int _size = IterableExtensions.size(iterableOfGraphImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -738,8 +648,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         String _name_1 = rule.getName();
         String _plus_2 = ("No graph in rule " + _name_1);
         String _plus_3 = (_plus_2 + ".\'");
-        EReference _rule_RuleElements = Henshin_textPackage.eINSTANCE.getRule_RuleElements();
-        this.error(_plus_3, rule, _rule_RuleElements);
+        this.error(_plus_3, rule, Henshin_textPackage.eINSTANCE.getRule_RuleElements());
       }
     }
   }
@@ -751,8 +660,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountCheckDangling(final Rule rule) {
-    EList<RuleElement> _ruleElements = rule.getRuleElements();
-    Iterable<CheckDanglingImpl> iterableOfCheckDanglingImpl = Iterables.<CheckDanglingImpl>filter(_ruleElements, CheckDanglingImpl.class);
+    Iterable<CheckDanglingImpl> iterableOfCheckDanglingImpl = Iterables.<CheckDanglingImpl>filter(rule.getRuleElements(), CheckDanglingImpl.class);
     int _size = IterableExtensions.size(iterableOfCheckDanglingImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -769,8 +677,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountInjectiveMatching(final Rule rule) {
-    EList<RuleElement> _ruleElements = rule.getRuleElements();
-    Iterable<InjectiveMatchingImpl> iterableOfInjectiveMatchingImpl = Iterables.<InjectiveMatchingImpl>filter(_ruleElements, InjectiveMatchingImpl.class);
+    Iterable<InjectiveMatchingImpl> iterableOfInjectiveMatchingImpl = Iterables.<InjectiveMatchingImpl>filter(rule.getRuleElements(), InjectiveMatchingImpl.class);
     int _size = IterableExtensions.size(iterableOfInjectiveMatchingImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -787,8 +694,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountCondition(final Rule rule) {
-    EList<RuleElement> _ruleElements = rule.getRuleElements();
-    Iterable<ConditionsImpl> iterableOfConditionsImpl = Iterables.<ConditionsImpl>filter(_ruleElements, ConditionsImpl.class);
+    Iterable<ConditionsImpl> iterableOfConditionsImpl = Iterables.<ConditionsImpl>filter(rule.getRuleElements(), ConditionsImpl.class);
     int _size = IterableExtensions.size(iterableOfConditionsImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -805,15 +711,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkJavaImport(final Rule rule) {
-    EList<RuleElement> _ruleElements = rule.getRuleElements();
-    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(_ruleElements, JavaImportImpl.class);
+    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(rule.getRuleElements(), JavaImportImpl.class);
     for (final JavaImportImpl javaImport : iterableOfJavaImportImpl) {
-      String _packagename = javaImport.getPackagename();
-      Package _package = Package.getPackage(_packagename);
+      Package _package = Package.getPackage(javaImport.getPackagename());
       boolean _equals = Objects.equal(_package, null);
       if (_equals) {
-        String _packagename_1 = javaImport.getPackagename();
-        String _plus = ("Package " + _packagename_1);
+        String _packagename = javaImport.getPackagename();
+        String _plus = ("Package " + _packagename);
         String _plus_1 = (_plus + " doesn\'t exist.\'");
         this.error(_plus_1, javaImport, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
       }
@@ -827,16 +731,14 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkMultiJavaImport(final Rule rule) {
-    EList<RuleElement> _ruleElements = rule.getRuleElements();
-    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(_ruleElements, JavaImportImpl.class);
+    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(rule.getRuleElements(), JavaImportImpl.class);
     for (int i = 0; (i < IterableExtensions.size(iterableOfJavaImportImpl)); i++) {
       {
         final Iterable<JavaImportImpl> _converted_iterableOfJavaImportImpl = (Iterable<JavaImportImpl>)iterableOfJavaImportImpl;
         JavaImportImpl javaImport = ((JavaImportImpl[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl, JavaImportImpl.class))[i];
         for (int j = (i + 1); (j < IterableExtensions.size(iterableOfJavaImportImpl)); j++) {
           final Iterable<JavaImportImpl> _converted_iterableOfJavaImportImpl_1 = (Iterable<JavaImportImpl>)iterableOfJavaImportImpl;
-          JavaImportImpl _get = ((JavaImportImpl[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl_1, JavaImportImpl.class))[j];
-          String _packagename = _get.getPackagename();
+          String _packagename = (((JavaImportImpl[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl_1, JavaImportImpl.class))[j]).getPackagename();
           String _packagename_1 = javaImport.getPackagename();
           boolean _equals = Objects.equal(_packagename, _packagename_1);
           if (_equals) {
@@ -844,8 +746,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             String _plus = ("Package " + _packagename_2);
             String _plus_1 = (_plus + " is already imported.\'");
             final Iterable<JavaImportImpl> _converted_iterableOfJavaImportImpl_2 = (Iterable<JavaImportImpl>)iterableOfJavaImportImpl;
-            EObject _get_1 = ((EObject[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl_2, EObject.class))[j];
-            this.warning(_plus_1, _get_1, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
+            this.warning(_plus_1, ((EObject[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl_2, EObject.class))[j], Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
           }
         }
       }
@@ -859,15 +760,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkJavaImport(final MultiRule rule) {
-    EList<RuleElement> _multiruleElements = rule.getMultiruleElements();
-    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(_multiruleElements, JavaImportImpl.class);
+    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(rule.getMultiruleElements(), JavaImportImpl.class);
     for (final JavaImportImpl javaImport : iterableOfJavaImportImpl) {
-      String _packagename = javaImport.getPackagename();
-      Package _package = Package.getPackage(_packagename);
+      Package _package = Package.getPackage(javaImport.getPackagename());
       boolean _equals = Objects.equal(_package, null);
       if (_equals) {
-        String _packagename_1 = javaImport.getPackagename();
-        String _plus = ("Package " + _packagename_1);
+        String _packagename = javaImport.getPackagename();
+        String _plus = ("Package " + _packagename);
         String _plus_1 = (_plus + " doesn\'t exist.\'");
         this.error(_plus_1, javaImport, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
       }
@@ -881,16 +780,14 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkMultiJavaImport(final MultiRule rule) {
-    EList<RuleElement> _multiruleElements = rule.getMultiruleElements();
-    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(_multiruleElements, JavaImportImpl.class);
+    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(rule.getMultiruleElements(), JavaImportImpl.class);
     for (int i = 0; (i < IterableExtensions.size(iterableOfJavaImportImpl)); i++) {
       {
         final Iterable<JavaImportImpl> _converted_iterableOfJavaImportImpl = (Iterable<JavaImportImpl>)iterableOfJavaImportImpl;
         JavaImportImpl javaImport = ((JavaImportImpl[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl, JavaImportImpl.class))[i];
         for (int j = (i + 1); (j < IterableExtensions.size(iterableOfJavaImportImpl)); j++) {
           final Iterable<JavaImportImpl> _converted_iterableOfJavaImportImpl_1 = (Iterable<JavaImportImpl>)iterableOfJavaImportImpl;
-          JavaImportImpl _get = ((JavaImportImpl[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl_1, JavaImportImpl.class))[j];
-          String _packagename = _get.getPackagename();
+          String _packagename = (((JavaImportImpl[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl_1, JavaImportImpl.class))[j]).getPackagename();
           String _packagename_1 = javaImport.getPackagename();
           boolean _equals = Objects.equal(_packagename, _packagename_1);
           if (_equals) {
@@ -898,8 +795,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             String _plus = ("Package " + _packagename_2);
             String _plus_1 = (_plus + " is already imported.\'");
             final Iterable<JavaImportImpl> _converted_iterableOfJavaImportImpl_2 = (Iterable<JavaImportImpl>)iterableOfJavaImportImpl;
-            EObject _get_1 = ((EObject[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl_2, EObject.class))[j];
-            this.warning(_plus_1, _get_1, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
+            this.warning(_plus_1, ((EObject[])Conversions.unwrapArray(_converted_iterableOfJavaImportImpl_2, EObject.class))[j], Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
           }
         }
       }
@@ -913,8 +809,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountCondition(final MultiRule rule) {
-    EList<RuleElement> _multiruleElements = rule.getMultiruleElements();
-    Iterable<ConditionsImpl> iterableOfConditionsImpl = Iterables.<ConditionsImpl>filter(_multiruleElements, ConditionsImpl.class);
+    Iterable<ConditionsImpl> iterableOfConditionsImpl = Iterables.<ConditionsImpl>filter(rule.getMultiruleElements(), ConditionsImpl.class);
     int _size = IterableExtensions.size(iterableOfConditionsImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -931,8 +826,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountInjectiveMatching(final MultiRule rule) {
-    EList<RuleElement> _multiruleElements = rule.getMultiruleElements();
-    Iterable<InjectiveMatchingImpl> iterableOfInjectiveMatchingImpl = Iterables.<InjectiveMatchingImpl>filter(_multiruleElements, InjectiveMatchingImpl.class);
+    Iterable<InjectiveMatchingImpl> iterableOfInjectiveMatchingImpl = Iterables.<InjectiveMatchingImpl>filter(rule.getMultiruleElements(), InjectiveMatchingImpl.class);
     int _size = IterableExtensions.size(iterableOfInjectiveMatchingImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -949,8 +843,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountCheckDangling(final MultiRule rule) {
-    EList<RuleElement> _multiruleElements = rule.getMultiruleElements();
-    Iterable<CheckDanglingImpl> iterableOfCheckDanglingImpl = Iterables.<CheckDanglingImpl>filter(_multiruleElements, CheckDanglingImpl.class);
+    Iterable<CheckDanglingImpl> iterableOfCheckDanglingImpl = Iterables.<CheckDanglingImpl>filter(rule.getMultiruleElements(), CheckDanglingImpl.class);
     int _size = IterableExtensions.size(iterableOfCheckDanglingImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -967,8 +860,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountGraph(final MultiRule rule) {
-    EList<RuleElement> _multiruleElements = rule.getMultiruleElements();
-    Iterable<GraphImpl> iterableOfGraphImpl = Iterables.<GraphImpl>filter(_multiruleElements, GraphImpl.class);
+    Iterable<GraphImpl> iterableOfGraphImpl = Iterables.<GraphImpl>filter(rule.getMultiruleElements(), GraphImpl.class);
     int _size = IterableExtensions.size(iterableOfGraphImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -992,35 +884,23 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     for (final Attribute attribute : _attribute) {
       {
         boolean superTypeAttribute = false;
-        Node _name = node.getName();
-        EClass _nodetype = _name.getNodetype();
-        EList<EAttribute> _eAttributes = _nodetype.getEAttributes();
-        EAttribute _name_1 = attribute.getName();
-        boolean _contains = _eAttributes.contains(_name_1);
+        boolean _contains = node.getName().getNodetype().getEAttributes().contains(attribute.getName());
         boolean _not = (!_contains);
         if (_not) {
-          Node _name_2 = node.getName();
-          EClass _nodetype_1 = _name_2.getNodetype();
-          EList<EClass> _eAllSuperTypes = _nodetype_1.getEAllSuperTypes();
+          EList<EClass> _eAllSuperTypes = node.getName().getNodetype().getEAllSuperTypes();
           for (final EClass supertype : _eAllSuperTypes) {
-            EList<EAttribute> _eAttributes_1 = supertype.getEAttributes();
-            EAttribute _name_3 = attribute.getName();
-            boolean _contains_1 = _eAttributes_1.contains(_name_3);
+            boolean _contains_1 = supertype.getEAttributes().contains(attribute.getName());
             if (_contains_1) {
               superTypeAttribute = true;
             }
           }
           if ((!superTypeAttribute)) {
-            Node _name_4 = node.getName();
-            EClass _nodetype_2 = _name_4.getNodetype();
-            String _name_5 = _nodetype_2.getName();
-            String _plus = (_name_5 + " has no attribute \'");
-            EAttribute _name_6 = attribute.getName();
-            String _name_7 = _name_6.getName();
-            String _plus_1 = (_plus + _name_7);
+            String _name = node.getName().getNodetype().getName();
+            String _plus = (_name + " has no attribute \'");
+            String _name_1 = attribute.getName().getName();
+            String _plus_1 = (_plus + _name_1);
             String _plus_2 = (_plus_1 + "\'.\'");
-            EReference _attribute_Name = Henshin_textPackage.eINSTANCE.getAttribute_Name();
-            this.error(_plus_2, attribute, _attribute_Name);
+            this.error(_plus_2, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Name());
           }
         }
       }
@@ -1036,18 +916,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
   public void checkattributeOnlyOnce(final MultiRuleReuseNode node) {
     for (int i = 0; (i < node.getAttribute().size()); i++) {
       {
-        EList<Attribute> _attribute = node.getAttribute();
-        Attribute attribute = _attribute.get(i);
+        Attribute attribute = node.getAttribute().get(i);
         for (int j = (i + 1); (j < node.getAttribute().size()); j++) {
           if ((Objects.equal(attribute.getName(), node.getAttribute().get(j).getName()) && Objects.equal(attribute.getUpdate(), node.getAttribute().get(j).getUpdate()))) {
-            EAttribute _name = attribute.getName();
-            String _name_1 = _name.getName();
-            String _plus = ("\'" + _name_1);
+            String _name = attribute.getName().getName();
+            String _plus = ("\'" + _name);
             String _plus_1 = (_plus + "\' can only be used once.\'");
-            EList<Attribute> _attribute_1 = node.getAttribute();
-            Attribute _get = _attribute_1.get(j);
-            EReference _attribute_Name = Henshin_textPackage.eINSTANCE.getAttribute_Name();
-            this.error(_plus_1, _get, _attribute_Name);
+            this.error(_plus_1, node.getAttribute().get(j), Henshin_textPackage.eINSTANCE.getAttribute_Name());
           }
         }
       }
@@ -1061,8 +936,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    * @param graph Zu überprüfender Graph
    */
   private void checkEdgesInMultiRuleRekursive(final List<Node> conNodes, final Graph graph) {
-    EList<GraphElements> _graphElements = graph.getGraphElements();
-    Iterable<Edges> _filter = Iterables.<Edges>filter(_graphElements, Edges.class);
+    Iterable<Edges> _filter = Iterables.<Edges>filter(graph.getGraphElements(), Edges.class);
     for (final Edges edges : _filter) {
       EList<Edge> _edges = edges.getEdges();
       for (final Edge edge : _edges) {
@@ -1078,11 +952,9 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             } else {
               try {
                 RuleNodeTypes _source_3 = edge.getSource();
-                Node _name = ((MultiRuleReuseNode) _source_3).getName();
-                testNode = _name;
+                testNode = ((MultiRuleReuseNode) _source_3).getName();
               } catch (final Throwable _t) {
                 if (_t instanceof ClassCastException) {
-                  final ClassCastException e = (ClassCastException)_t;
                   testNode = null;
                 } else {
                   throw Exceptions.sneakyThrow(_t);
@@ -1091,14 +963,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             }
           }
           for (final Node conNode : conNodes) {
-            String _name_1 = conNode.getName();
-            String _name_2 = testNode.getName();
-            boolean _equals = Objects.equal(_name_1, _name_2);
+            String _name = conNode.getName();
+            String _name_1 = testNode.getName();
+            boolean _equals = Objects.equal(_name, _name_1);
             if (_equals) {
               String _actiontype = testNode.getActiontype();
               String _plus = (_actiontype + "-nodes are not allowed to be reused in edges in MultiRuleReuseNodes.\'");
-              EReference _edge_Source = Henshin_textPackage.eINSTANCE.getEdge_Source();
-              this.error(_plus, edge, _edge_Source);
+              this.error(_plus, edge, Henshin_textPackage.eINSTANCE.getEdge_Source());
             }
           }
           RuleNodeTypes _target = edge.getTarget();
@@ -1110,41 +981,34 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
               testNode = ((Node) _target_2);
             } else {
               RuleNodeTypes _target_3 = edge.getTarget();
-              Node _name_3 = ((MultiRuleReuseNode) _target_3).getName();
-              testNode = _name_3;
+              testNode = ((MultiRuleReuseNode) _target_3).getName();
             }
           }
           for (final Node conNode_1 : conNodes) {
-            String _name_4 = conNode_1.getName();
-            String _name_5 = testNode.getName();
-            boolean _equals_1 = Objects.equal(_name_4, _name_5);
+            String _name_2 = conNode_1.getName();
+            String _name_3 = testNode.getName();
+            boolean _equals_1 = Objects.equal(_name_2, _name_3);
             if (_equals_1) {
               String _actiontype_1 = testNode.getActiontype();
               String _plus_1 = (_actiontype_1 + "-nodes are not allowed to be reused in edges in MultiRuleReuseNodes.\'");
-              EReference _edge_Target = Henshin_textPackage.eINSTANCE.getEdge_Target();
-              this.error(_plus_1, edge, _edge_Target);
+              this.error(_plus_1, edge, Henshin_textPackage.eINSTANCE.getEdge_Target());
             }
           }
         }
       }
     }
-    EList<GraphElements> _graphElements_1 = graph.getGraphElements();
-    Iterable<MultiRule> multiRules = Iterables.<MultiRule>filter(_graphElements_1, MultiRule.class);
+    Iterable<MultiRule> multiRules = Iterables.<MultiRule>filter(graph.getGraphElements(), MultiRule.class);
     int _size = IterableExtensions.size(multiRules);
     boolean _greaterThan = (_size > 0);
     if (_greaterThan) {
-      EList<GraphElements> _graphElements_2 = graph.getGraphElements();
-      Iterable<Node> _filter_1 = Iterables.<Node>filter(_graphElements_2, Node.class);
+      Iterable<Node> _filter_1 = Iterables.<Node>filter(graph.getGraphElements(), Node.class);
       for (final Node node : _filter_1) {
         if ((Objects.equal(node.getActiontype(), "forbid") || Objects.equal(node.getActiontype(), "require"))) {
           conNodes.add(node);
         }
       }
       for (final MultiRule multiRule : multiRules) {
-        EList<RuleElement> _multiruleElements = multiRule.getMultiruleElements();
-        Iterable<Graph> _filter_2 = Iterables.<Graph>filter(_multiruleElements, Graph.class);
-        Graph _get = ((Graph[])Conversions.unwrapArray(_filter_2, Graph.class))[0];
-        this.checkEdgesInMultiRuleRekursive(conNodes, _get);
+        this.checkEdgesInMultiRuleRekursive(conNodes, ((Graph[])Conversions.unwrapArray(Iterables.<Graph>filter(multiRule.getMultiruleElements(), Graph.class), Graph.class))[0]);
       }
     }
   }
@@ -1156,35 +1020,25 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkEdgesInMultiRule(final Rule rule) {
-    EList<RuleElement> _ruleElements = rule.getRuleElements();
-    Iterable<Graph> graph = Iterables.<Graph>filter(_ruleElements, Graph.class);
+    Iterable<Graph> graph = Iterables.<Graph>filter(rule.getRuleElements(), Graph.class);
     int _size = IterableExtensions.size(graph);
     boolean _greaterThan = (_size > 0);
     if (_greaterThan) {
       List<Node> conNodes = new ArrayList<Node>();
       final Iterable<Graph> _converted_graph = (Iterable<Graph>)graph;
-      Graph _get = ((Graph[])Conversions.unwrapArray(_converted_graph, Graph.class))[0];
-      EList<GraphElements> _graphElements = _get.getGraphElements();
-      Iterable<Node> _filter = Iterables.<Node>filter(_graphElements, Node.class);
+      Iterable<Node> _filter = Iterables.<Node>filter((((Graph[])Conversions.unwrapArray(_converted_graph, Graph.class))[0]).getGraphElements(), Node.class);
       for (final Node node : _filter) {
         if ((Objects.equal(node.getActiontype(), "forbid") || Objects.equal(node.getActiontype(), "require"))) {
           conNodes.add(node);
         }
       }
       final Iterable<Graph> _converted_graph_1 = (Iterable<Graph>)graph;
-      Graph _get_1 = ((Graph[])Conversions.unwrapArray(_converted_graph_1, Graph.class))[0];
-      EList<GraphElements> _graphElements_1 = _get_1.getGraphElements();
-      Iterable<MultiRule> _filter_1 = Iterables.<MultiRule>filter(_graphElements_1, MultiRule.class);
+      Iterable<MultiRule> _filter_1 = Iterables.<MultiRule>filter((((Graph[])Conversions.unwrapArray(_converted_graph_1, Graph.class))[0]).getGraphElements(), MultiRule.class);
       for (final MultiRule multiRule : _filter_1) {
-        EList<RuleElement> _multiruleElements = multiRule.getMultiruleElements();
-        Iterable<Graph> _filter_2 = Iterables.<Graph>filter(_multiruleElements, Graph.class);
-        int _size_1 = IterableExtensions.size(_filter_2);
+        int _size_1 = IterableExtensions.size(Iterables.<Graph>filter(multiRule.getMultiruleElements(), Graph.class));
         boolean _greaterThan_1 = (_size_1 > 0);
         if (_greaterThan_1) {
-          EList<RuleElement> _multiruleElements_1 = multiRule.getMultiruleElements();
-          Iterable<Graph> _filter_3 = Iterables.<Graph>filter(_multiruleElements_1, Graph.class);
-          Graph _get_2 = ((Graph[])Conversions.unwrapArray(_filter_3, Graph.class))[0];
-          this.checkEdgesInMultiRuleRekursive(conNodes, _get_2);
+          this.checkEdgesInMultiRuleRekursive(conNodes, ((Graph[])Conversions.unwrapArray(Iterables.<Graph>filter(multiRule.getMultiruleElements(), Graph.class), Graph.class))[0]);
         }
       }
     }
@@ -1198,15 +1052,12 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
   @Check
   public void checkMultiRuleReuseNodeActionType(final MultiRuleReuseNode multiReuseNode) {
     if ((Objects.equal(multiReuseNode.getName().getActiontype(), "require") || Objects.equal(multiReuseNode.getName().getActiontype(), "forbid"))) {
-      Node _name = multiReuseNode.getName();
-      String _actiontype = _name.getActiontype();
+      String _actiontype = multiReuseNode.getName().getActiontype();
       String _plus = (_actiontype + "-Node \'");
-      Node _name_1 = multiReuseNode.getName();
-      String _name_2 = _name_1.getName();
-      String _plus_1 = (_plus + _name_2);
+      String _name = multiReuseNode.getName().getName();
+      String _plus_1 = (_plus + _name);
       String _plus_2 = (_plus_1 + "\' is not allowed in MultiRules.\'");
-      EReference _multiRuleReuseNode_Name = Henshin_textPackage.eINSTANCE.getMultiRuleReuseNode_Name();
-      this.error(_plus_2, multiReuseNode, _multiRuleReuseNode_Name);
+      this.error(_plus_2, multiReuseNode, Henshin_textPackage.eINSTANCE.getMultiRuleReuseNode_Name());
     }
   }
   
@@ -1222,8 +1073,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       String _update = attribute.getUpdate();
       boolean _notEquals = (!Objects.equal(_update, null));
       if (_notEquals) {
-        EAttribute _attribute_Actiontype = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-        this.error("Set-attributes are not allowed in MultiRuleReuseNodes.\'", attribute, _attribute_Actiontype);
+        this.error("Set-attributes are not allowed in MultiRuleReuseNodes.\'", attribute, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
       }
     }
   }
@@ -1235,14 +1085,12 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkMultiRuleReuseNodAttributeAction(final MultiRuleReuseNode reuseNode) {
-    Node _name = reuseNode.getName();
-    String reuseNodeType = _name.getActiontype();
+    String reuseNodeType = reuseNode.getName().getActiontype();
     boolean _equals = Objects.equal(reuseNodeType, null);
     if (_equals) {
       reuseNodeType = "preserve";
     }
-    Node _name_1 = reuseNode.getName();
-    String _actiontype = _name_1.getActiontype();
+    String _actiontype = reuseNode.getName().getActiontype();
     boolean _equals_1 = Objects.equal(_actiontype, "create");
     if (_equals_1) {
       EList<Attribute> _attribute = reuseNode.getAttribute();
@@ -1252,13 +1100,11 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
           String _plus = (_actiontype_1 + "-attributes are not allowed in ");
           String _plus_1 = (_plus + reuseNodeType);
           String _plus_2 = (_plus_1 + "-reuseNodes. \'");
-          EAttribute _attribute_Actiontype = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-          this.error(_plus_2, attribute, _attribute_Actiontype);
+          this.error(_plus_2, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
         }
       }
     } else {
-      Node _name_2 = reuseNode.getName();
-      String _actiontype_2 = _name_2.getActiontype();
+      String _actiontype_2 = reuseNode.getName().getActiontype();
       boolean _equals_2 = Objects.equal(_actiontype_2, "delete");
       if (_equals_2) {
         EList<Attribute> _attribute_1 = reuseNode.getAttribute();
@@ -1268,8 +1114,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
             String _plus_3 = (_actiontype_3 + "-attributes are not allowed in ");
             String _plus_4 = (_plus_3 + reuseNodeType);
             String _plus_5 = (_plus_4 + "-reuseNodes. \'");
-            EAttribute _attribute_Actiontype_1 = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-            this.error(_plus_5, attribute_1, _attribute_Actiontype_1);
+            this.error(_plus_5, attribute_1, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
           }
         }
       } else {
@@ -1281,8 +1126,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
               String _plus_6 = (_actiontype_4 + "-attributes are not allowed in ");
               String _plus_7 = (_plus_6 + reuseNodeType);
               String _plus_8 = (_plus_7 + "-reuseNodes. \'");
-              EAttribute _attribute_Actiontype_2 = Henshin_textPackage.eINSTANCE.getAttribute_Actiontype();
-              this.error(_plus_8, attribute_2, _attribute_Actiontype_2);
+              this.error(_plus_8, attribute_2, Henshin_textPackage.eINSTANCE.getAttribute_Actiontype());
             }
           }
         }
@@ -1297,18 +1141,14 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkRuleReuseNodes(final Rule rule) {
-    EList<RuleElement> _ruleElements = rule.getRuleElements();
-    Iterable<Graph> graph = Iterables.<Graph>filter(_ruleElements, Graph.class);
+    Iterable<Graph> graph = Iterables.<Graph>filter(rule.getRuleElements(), Graph.class);
     int _size = IterableExtensions.size(graph);
     boolean _greaterThan = (_size > 0);
     if (_greaterThan) {
       final Iterable<Graph> _converted_graph = (Iterable<Graph>)graph;
-      Graph _get = ((Graph[])Conversions.unwrapArray(_converted_graph, Graph.class))[0];
-      EList<GraphElements> _graphElements = _get.getGraphElements();
-      Iterable<MultiRuleReuseNode> reuseNodes = Iterables.<MultiRuleReuseNode>filter(_graphElements, MultiRuleReuseNode.class);
+      Iterable<MultiRuleReuseNode> reuseNodes = Iterables.<MultiRuleReuseNode>filter((((Graph[])Conversions.unwrapArray(_converted_graph, Graph.class))[0]).getGraphElements(), MultiRuleReuseNode.class);
       for (final MultiRuleReuseNode node : reuseNodes) {
-        EReference _multiRuleReuseNode_Name = Henshin_textPackage.eINSTANCE.getMultiRuleReuseNode_Name();
-        this.error("Reuse-Nodes are only allowed in multiRules.\'\'", node, _multiRuleReuseNode_Name);
+        this.error("Reuse-Nodes are only allowed in multiRules.\'\'", node, Henshin_textPackage.eINSTANCE.getMultiRuleReuseNode_Name());
       }
     }
   }
@@ -1320,19 +1160,15 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkMultiRuleGraphNodes(final Graph graph) {
-    EList<GraphElements> _graphElements = graph.getGraphElements();
-    Iterable<MultiRuleReuseNode> _filter = Iterables.<MultiRuleReuseNode>filter(_graphElements, MultiRuleReuseNode.class);
+    Iterable<MultiRuleReuseNode> _filter = Iterables.<MultiRuleReuseNode>filter(graph.getGraphElements(), MultiRuleReuseNode.class);
     for (final MultiRuleReuseNode reuse : _filter) {
-      EList<GraphElements> _graphElements_1 = graph.getGraphElements();
-      Iterable<Node> _filter_1 = Iterables.<Node>filter(_graphElements_1, Node.class);
+      Iterable<Node> _filter_1 = Iterables.<Node>filter(graph.getGraphElements(), Node.class);
       for (final Node node : _filter_1) {
-        Node _name = reuse.getName();
-        String _name_1 = _name.getName();
-        String _name_2 = node.getName();
-        boolean _equals = Objects.equal(_name_1, _name_2);
+        String _name = reuse.getName().getName();
+        String _name_1 = node.getName();
+        boolean _equals = Objects.equal(_name, _name_1);
         if (_equals) {
-          EReference _multiRuleReuseNode_Name = Henshin_textPackage.eINSTANCE.getMultiRuleReuseNode_Name();
-          this.error("Graph cannot reuse its own nodes.\'", reuse, _multiRuleReuseNode_Name);
+          this.error("Graph cannot reuse its own nodes.\'", reuse, Henshin_textPackage.eINSTANCE.getMultiRuleReuseNode_Name());
         }
       }
     }
@@ -1345,29 +1181,20 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkGraphMultiReuse(final Graph graph) {
-    EList<GraphElements> _graphElements = graph.getGraphElements();
-    Iterable<MultiRuleReuseNode> reuseNodes = Iterables.<MultiRuleReuseNode>filter(_graphElements, MultiRuleReuseNode.class);
+    Iterable<MultiRuleReuseNode> reuseNodes = Iterables.<MultiRuleReuseNode>filter(graph.getGraphElements(), MultiRuleReuseNode.class);
     for (int i = 0; (i < IterableExtensions.size(reuseNodes)); i++) {
       for (int j = (i + 1); (j < IterableExtensions.size(reuseNodes)); j++) {
         final Iterable<MultiRuleReuseNode> _converted_reuseNodes = (Iterable<MultiRuleReuseNode>)reuseNodes;
-        MultiRuleReuseNode _get = ((MultiRuleReuseNode[])Conversions.unwrapArray(_converted_reuseNodes, MultiRuleReuseNode.class))[i];
-        Node _name = _get.getName();
-        String _name_1 = _name.getName();
+        String _name = (((MultiRuleReuseNode[])Conversions.unwrapArray(_converted_reuseNodes, MultiRuleReuseNode.class))[i]).getName().getName();
         final Iterable<MultiRuleReuseNode> _converted_reuseNodes_1 = (Iterable<MultiRuleReuseNode>)reuseNodes;
-        MultiRuleReuseNode _get_1 = ((MultiRuleReuseNode[])Conversions.unwrapArray(_converted_reuseNodes_1, MultiRuleReuseNode.class))[j];
-        Node _name_2 = _get_1.getName();
-        String _name_3 = _name_2.getName();
-        boolean _equals = Objects.equal(_name_1, _name_3);
+        String _name_1 = (((MultiRuleReuseNode[])Conversions.unwrapArray(_converted_reuseNodes_1, MultiRuleReuseNode.class))[j]).getName().getName();
+        boolean _equals = Objects.equal(_name, _name_1);
         if (_equals) {
           final Iterable<MultiRuleReuseNode> _converted_reuseNodes_2 = (Iterable<MultiRuleReuseNode>)reuseNodes;
-          MultiRuleReuseNode _get_2 = ((MultiRuleReuseNode[])Conversions.unwrapArray(_converted_reuseNodes_2, MultiRuleReuseNode.class))[j];
-          Node _name_4 = _get_2.getName();
-          String _name_5 = _name_4.getName();
-          String _plus = (_name_5 + " is already reused.\'");
+          String _name_2 = (((MultiRuleReuseNode[])Conversions.unwrapArray(_converted_reuseNodes_2, MultiRuleReuseNode.class))[j]).getName().getName();
+          String _plus = (_name_2 + " is already reused.\'");
           final Iterable<MultiRuleReuseNode> _converted_reuseNodes_3 = (Iterable<MultiRuleReuseNode>)reuseNodes;
-          EObject _get_3 = ((EObject[])Conversions.unwrapArray(_converted_reuseNodes_3, EObject.class))[j];
-          EReference _multiRuleReuseNode_Name = Henshin_textPackage.eINSTANCE.getMultiRuleReuseNode_Name();
-          this.error(_plus, _get_3, _multiRuleReuseNode_Name);
+          this.error(_plus, ((EObject[])Conversions.unwrapArray(_converted_reuseNodes_3, EObject.class))[j], Henshin_textPackage.eINSTANCE.getMultiRuleReuseNode_Name());
         }
       }
     }
@@ -1380,19 +1207,15 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkOverrideNodeNamesinMultiRuleGraph(final Graph graph) {
-    EList<GraphElements> _graphElements = graph.getGraphElements();
-    Iterable<MultiRule> multiRules = Iterables.<MultiRule>filter(_graphElements, MultiRule.class);
+    Iterable<MultiRule> multiRules = Iterables.<MultiRule>filter(graph.getGraphElements(), MultiRule.class);
     List<Node> topNodes = new ArrayList<Node>();
     for (final MultiRule rule : multiRules) {
-      EList<RuleElement> _multiruleElements = rule.getMultiruleElements();
-      Iterable<Graph> _filter = Iterables.<Graph>filter(_multiruleElements, Graph.class);
+      Iterable<Graph> _filter = Iterables.<Graph>filter(rule.getMultiruleElements(), Graph.class);
       for (final Graph multiGraph : _filter) {
         {
-          EList<GraphElements> _graphElements_1 = multiGraph.getGraphElements();
-          Iterable<Node> _filter_1 = Iterables.<Node>filter(_graphElements_1, Node.class);
+          Iterable<Node> _filter_1 = Iterables.<Node>filter(multiGraph.getGraphElements(), Node.class);
           for (final Node multiNode : _filter_1) {
-            EList<GraphElements> _graphElements_2 = graph.getGraphElements();
-            Iterable<Node> _filter_2 = Iterables.<Node>filter(_graphElements_2, Node.class);
+            Iterable<Node> _filter_2 = Iterables.<Node>filter(graph.getGraphElements(), Node.class);
             for (final Node node : _filter_2) {
               {
                 topNodes.add(node);
@@ -1403,15 +1226,12 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                   String _name_2 = multiNode.getName();
                   String _plus = ("Duplicate Node \'" + _name_2);
                   String _plus_1 = (_plus + "\'.\'");
-                  EReference _node_Nodetype = Henshin_textPackage.eINSTANCE.getNode_Nodetype();
-                  this.error(_plus_1, multiNode, _node_Nodetype);
+                  this.error(_plus_1, multiNode, Henshin_textPackage.eINSTANCE.getNode_Nodetype());
                 }
               }
             }
           }
-          EList<GraphElements> _graphElements_3 = multiGraph.getGraphElements();
-          Iterable<MultiRule> _filter_3 = Iterables.<MultiRule>filter(_graphElements_3, MultiRule.class);
-          int _size = IterableExtensions.size(_filter_3);
+          int _size = IterableExtensions.size(Iterables.<MultiRule>filter(multiGraph.getGraphElements(), MultiRule.class));
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
             this.checkRekursiveOverrideNodeNamesinMultiRuleGraph(topNodes, multiGraph);
@@ -1428,15 +1248,12 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    * @param graph Zu überprüfender Graph
    */
   private void checkRekursiveOverrideNodeNamesinMultiRuleGraph(final List<Node> topNodes, final Graph graph) {
-    EList<GraphElements> _graphElements = graph.getGraphElements();
-    Iterable<MultiRule> multiRules = Iterables.<MultiRule>filter(_graphElements, MultiRule.class);
+    Iterable<MultiRule> multiRules = Iterables.<MultiRule>filter(graph.getGraphElements(), MultiRule.class);
     for (final MultiRule rule : multiRules) {
-      EList<RuleElement> _multiruleElements = rule.getMultiruleElements();
-      Iterable<Graph> _filter = Iterables.<Graph>filter(_multiruleElements, Graph.class);
+      Iterable<Graph> _filter = Iterables.<Graph>filter(rule.getMultiruleElements(), Graph.class);
       for (final Graph multiGraph : _filter) {
         {
-          EList<GraphElements> _graphElements_1 = multiGraph.getGraphElements();
-          Iterable<Node> _filter_1 = Iterables.<Node>filter(_graphElements_1, Node.class);
+          Iterable<Node> _filter_1 = Iterables.<Node>filter(multiGraph.getGraphElements(), Node.class);
           for (final Node multiNode : _filter_1) {
             {
               for (final Node node : topNodes) {
@@ -1447,12 +1264,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                   String _name_2 = multiNode.getName();
                   String _plus = ("Duplicate Node \'" + _name_2);
                   String _plus_1 = (_plus + "\'.\'");
-                  EReference _node_Nodetype = Henshin_textPackage.eINSTANCE.getNode_Nodetype();
-                  this.error(_plus_1, multiNode, _node_Nodetype);
+                  this.error(_plus_1, multiNode, Henshin_textPackage.eINSTANCE.getNode_Nodetype());
                 }
               }
-              EList<GraphElements> _graphElements_2 = graph.getGraphElements();
-              Iterable<Node> _filter_2 = Iterables.<Node>filter(_graphElements_2, Node.class);
+              Iterable<Node> _filter_2 = Iterables.<Node>filter(graph.getGraphElements(), Node.class);
               for (final Node node_1 : _filter_2) {
                 {
                   topNodes.add(node_1);
@@ -1463,16 +1278,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                     String _name_5 = multiNode.getName();
                     String _plus_2 = ("Duplicate Node \'" + _name_5);
                     String _plus_3 = (_plus_2 + "\'.\'");
-                    EReference _node_Nodetype_1 = Henshin_textPackage.eINSTANCE.getNode_Nodetype();
-                    this.error(_plus_3, multiNode, _node_Nodetype_1);
+                    this.error(_plus_3, multiNode, Henshin_textPackage.eINSTANCE.getNode_Nodetype());
                   }
                 }
               }
             }
           }
-          EList<GraphElements> _graphElements_2 = multiGraph.getGraphElements();
-          Iterable<MultiRule> _filter_2 = Iterables.<MultiRule>filter(_graphElements_2, MultiRule.class);
-          int _size = IterableExtensions.size(_filter_2);
+          int _size = IterableExtensions.size(Iterables.<MultiRule>filter(multiGraph.getGraphElements(), MultiRule.class));
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
             this.checkRekursiveOverrideNodeNamesinMultiRuleGraph(topNodes, multiGraph);
@@ -1494,16 +1306,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     ConditionNodeTypes _source = edge.getSource();
     if ((_source instanceof Node)) {
       ConditionNodeTypes _source_1 = edge.getSource();
-      EClass _nodetype = ((Node) _source_1).getNodetype();
-      sourceType = _nodetype;
+      sourceType = ((Node) _source_1).getNodetype();
     } else {
       try {
         ConditionNodeTypes _source_2 = edge.getSource();
-        EClass _type = ((ConditionNode) _source_2).getType();
-        sourceType = _type;
+        sourceType = ((ConditionNode) _source_2).getType();
       } catch (final Throwable _t) {
         if (_t instanceof ClassCastException) {
-          final ClassCastException e = (ClassCastException)_t;
           sourceType = null;
         } else {
           throw Exceptions.sneakyThrow(_t);
@@ -1513,19 +1322,16 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     ConditionNodeTypes _target = edge.getTarget();
     if ((_target instanceof Node)) {
       ConditionNodeTypes _target_1 = edge.getTarget();
-      EClass _nodetype_1 = ((Node) _target_1).getNodetype();
-      targetType = _nodetype_1;
+      targetType = ((Node) _target_1).getNodetype();
     } else {
       try {
         ConditionNodeTypes _target_2 = edge.getTarget();
-        EClass _type_1 = ((ConditionNode) _target_2).getType();
-        targetType = _type_1;
-      } catch (final Throwable _t_1) {
-        if (_t_1 instanceof ClassCastException) {
-          final ClassCastException e_1 = (ClassCastException)_t_1;
+        targetType = ((ConditionNode) _target_2).getType();
+      } catch (final Throwable _t) {
+        if (_t instanceof ClassCastException) {
           targetType = null;
         } else {
-          throw Exceptions.sneakyThrow(_t_1);
+          throw Exceptions.sneakyThrow(_t);
         }
       }
     }
@@ -1534,38 +1340,31 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       EClass referenceType = null;
       EList<EReference> _eAllReferences = sourceType.getEAllReferences();
       for (final EReference reference : _eAllReferences) {
-        EReference _type_2 = edge.getType();
-        String _name = _type_2.getName();
+        String _name = edge.getType().getName();
         String _name_1 = reference.getName();
         boolean _equals = Objects.equal(_name, _name_1);
         if (_equals) {
           wrongType = false;
-          EClass _eReferenceType = reference.getEReferenceType();
-          referenceType = _eReferenceType;
+          referenceType = reference.getEReferenceType();
         }
       }
       if (wrongType) {
-        EReference _type_3 = edge.getType();
-        String _name_2 = _type_3.getName();
+        String _name_2 = edge.getType().getName();
         String _plus = ("Edgetype " + _name_2);
         String _plus_1 = (_plus + " does not exist.\'");
-        EReference _conditionEdge_Type = Henshin_textPackage.eINSTANCE.getConditionEdge_Type();
-        this.error(_plus_1, edge, _conditionEdge_Type);
+        this.error(_plus_1, edge, Henshin_textPackage.eINSTANCE.getConditionEdge_Type());
       }
-      boolean _notEquals = (!Objects.equal(referenceType, targetType));
-      if (_notEquals) {
+      if (((!Objects.equal(referenceType, targetType)) && (!targetType.getEAllSuperTypes().contains(referenceType)))) {
         String _name_3 = sourceType.getName();
         String _plus_2 = ("Edge " + _name_3);
         String _plus_3 = (_plus_2 + "->");
         String _name_4 = targetType.getName();
         String _plus_4 = (_plus_3 + _name_4);
         String _plus_5 = (_plus_4 + ":");
-        EReference _type_4 = edge.getType();
-        String _name_5 = _type_4.getName();
+        String _name_5 = edge.getType().getName();
         String _plus_6 = (_plus_5 + _name_5);
         String _plus_7 = (_plus_6 + " does not exist.\'");
-        EReference _conditionEdge_Type_1 = Henshin_textPackage.eINSTANCE.getConditionEdge_Type();
-        this.error(_plus_7, edge, _conditionEdge_Type_1);
+        this.error(_plus_7, edge, Henshin_textPackage.eINSTANCE.getConditionEdge_Type());
       }
     }
   }
@@ -1581,32 +1380,23 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     for (final Match attribute : _attribute) {
       {
         boolean superTypeAttribute = false;
-        EClass _type = node.getType();
-        EList<EAttribute> _eAttributes = _type.getEAttributes();
-        EAttribute _name = attribute.getName();
-        boolean _contains = _eAttributes.contains(_name);
+        boolean _contains = node.getType().getEAttributes().contains(attribute.getName());
         boolean _not = (!_contains);
         if (_not) {
-          EClass _type_1 = node.getType();
-          EList<EClass> _eAllSuperTypes = _type_1.getEAllSuperTypes();
+          EList<EClass> _eAllSuperTypes = node.getType().getEAllSuperTypes();
           for (final EClass supertype : _eAllSuperTypes) {
-            EList<EAttribute> _eAttributes_1 = supertype.getEAttributes();
-            EAttribute _name_1 = attribute.getName();
-            boolean _contains_1 = _eAttributes_1.contains(_name_1);
+            boolean _contains_1 = supertype.getEAttributes().contains(attribute.getName());
             if (_contains_1) {
               superTypeAttribute = true;
             }
           }
           if ((!superTypeAttribute)) {
-            EClass _type_2 = node.getType();
-            String _name_2 = _type_2.getName();
-            String _plus = (_name_2 + " has no attribute \'");
-            EAttribute _name_3 = attribute.getName();
-            String _name_4 = _name_3.getName();
-            String _plus_1 = (_plus + _name_4);
+            String _name = node.getType().getName();
+            String _plus = (_name + " has no attribute \'");
+            String _name_1 = attribute.getName().getName();
+            String _plus_1 = (_plus + _name_1);
             String _plus_2 = (_plus_1 + "\'.\'");
-            EReference _match_Name = Henshin_textPackage.eINSTANCE.getMatch_Name();
-            this.error(_plus_2, attribute, _match_Name);
+            this.error(_plus_2, attribute, Henshin_textPackage.eINSTANCE.getMatch_Name());
           }
         }
       }
@@ -1623,21 +1413,16 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     boolean isImported = false;
     List<EPackageImport> _ePackageImports = this.getEPackageImports(node);
     for (final EPackageImport ePackage : _ePackageImports) {
-      EPackage _ref = ePackage.getRef();
-      EList<EClassifier> _eClassifiers = _ref.getEClassifiers();
-      EClass _type = node.getType();
-      boolean _contains = _eClassifiers.contains(_type);
+      boolean _contains = ePackage.getRef().getEClassifiers().contains(node.getType());
       if (_contains) {
         isImported = true;
       }
     }
     if ((!isImported)) {
-      EClass _type_1 = node.getType();
-      String _name = _type_1.getName();
+      String _name = node.getType().getName();
       String _plus = ("Nodetype " + _name);
       String _plus_1 = (_plus + " is not imported.\'");
-      EReference _conditionNode_Type = Henshin_textPackage.eINSTANCE.getConditionNode_Type();
-      this.error(_plus_1, node, _conditionNode_Type);
+      this.error(_plus_1, node, Henshin_textPackage.eINSTANCE.getConditionNode_Type());
     }
   }
   
@@ -1652,16 +1437,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     ConditionNodeTypes _name = node.getName();
     if ((_name instanceof Node)) {
       ConditionNodeTypes _name_1 = node.getName();
-      EClass _nodetype = ((Node) _name_1).getNodetype();
-      nodeType = _nodetype;
+      nodeType = ((Node) _name_1).getNodetype();
     } else {
       try {
         ConditionNodeTypes _name_2 = node.getName();
-        EClass _type = ((ConditionNode) _name_2).getType();
-        nodeType = _type;
+        nodeType = ((ConditionNode) _name_2).getType();
       } catch (final Throwable _t) {
         if (_t instanceof ClassCastException) {
-          final ClassCastException e = (ClassCastException)_t;
           nodeType = null;
         } else {
           throw Exceptions.sneakyThrow(_t);
@@ -1674,29 +1456,23 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       for (final Match attribute : _attribute) {
         {
           boolean superTypeAttribute = false;
-          EList<EAttribute> _eAttributes = nodeType.getEAttributes();
-          EAttribute _name_3 = attribute.getName();
-          boolean _contains = _eAttributes.contains(_name_3);
+          boolean _contains = nodeType.getEAttributes().contains(attribute.getName());
           boolean _not = (!_contains);
           if (_not) {
             EList<EClass> _eAllSuperTypes = nodeType.getEAllSuperTypes();
             for (final EClass supertype : _eAllSuperTypes) {
-              EList<EAttribute> _eAttributes_1 = supertype.getEAttributes();
-              EAttribute _name_4 = attribute.getName();
-              boolean _contains_1 = _eAttributes_1.contains(_name_4);
+              boolean _contains_1 = supertype.getEAttributes().contains(attribute.getName());
               if (_contains_1) {
                 superTypeAttribute = true;
               }
             }
             if ((!superTypeAttribute)) {
-              String _name_5 = nodeType.getName();
-              String _plus = (_name_5 + " has no attribute \'");
-              EAttribute _name_6 = attribute.getName();
-              String _name_7 = _name_6.getName();
-              String _plus_1 = (_plus + _name_7);
+              String _name_2 = nodeType.getName();
+              String _plus = (_name_2 + " has no attribute \'");
+              String _name_3 = attribute.getName().getName();
+              String _plus_1 = (_plus + _name_3);
               String _plus_2 = (_plus_1 + "\'.\'");
-              EReference _match_Name = Henshin_textPackage.eINSTANCE.getMatch_Name();
-              this.error(_plus_2, attribute, _match_Name);
+              this.error(_plus_2, attribute, Henshin_textPackage.eINSTANCE.getMatch_Name());
             }
           }
         }
@@ -1713,23 +1489,16 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
   public void checkattributeOnlyOnce(final ConditionNode node) {
     for (int i = 0; (i < node.getAttribute().size()); i++) {
       {
-        EList<Match> _attribute = node.getAttribute();
-        Match match = _attribute.get(i);
+        Match match = node.getAttribute().get(i);
         for (int j = (i + 1); (j < node.getAttribute().size()); j++) {
           EAttribute _name = match.getName();
-          EList<Match> _attribute_1 = node.getAttribute();
-          Match _get = _attribute_1.get(j);
-          EAttribute _name_1 = _get.getName();
+          EAttribute _name_1 = node.getAttribute().get(j).getName();
           boolean _equals = Objects.equal(_name, _name_1);
           if (_equals) {
-            EAttribute _name_2 = match.getName();
-            String _name_3 = _name_2.getName();
-            String _plus = ("\'" + _name_3);
+            String _name_2 = match.getName().getName();
+            String _plus = ("\'" + _name_2);
             String _plus_1 = (_plus + "\' can only be used once.\'");
-            EList<Match> _attribute_2 = node.getAttribute();
-            Match _get_1 = _attribute_2.get(j);
-            EReference _match_Name = Henshin_textPackage.eINSTANCE.getMatch_Name();
-            this.error(_plus_1, _get_1, _match_Name);
+            this.error(_plus_1, node.getAttribute().get(j), Henshin_textPackage.eINSTANCE.getMatch_Name());
           }
         }
       }
@@ -1745,23 +1514,16 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
   public void checkattributeOnlyOnce(final ConditionReuseNode node) {
     for (int i = 0; (i < node.getAttribute().size()); i++) {
       {
-        EList<Match> _attribute = node.getAttribute();
-        Match match = _attribute.get(i);
+        Match match = node.getAttribute().get(i);
         for (int j = (i + 1); (j < node.getAttribute().size()); j++) {
           EAttribute _name = match.getName();
-          EList<Match> _attribute_1 = node.getAttribute();
-          Match _get = _attribute_1.get(j);
-          EAttribute _name_1 = _get.getName();
+          EAttribute _name_1 = node.getAttribute().get(j).getName();
           boolean _equals = Objects.equal(_name, _name_1);
           if (_equals) {
-            EAttribute _name_2 = match.getName();
-            String _name_3 = _name_2.getName();
-            String _plus = ("\'" + _name_3);
+            String _name_2 = match.getName().getName();
+            String _plus = ("\'" + _name_2);
             String _plus_1 = (_plus + "\' can only be used once.\'");
-            EList<Match> _attribute_2 = node.getAttribute();
-            Match _get_1 = _attribute_2.get(j);
-            EReference _match_Name = Henshin_textPackage.eINSTANCE.getMatch_Name();
-            this.error(_plus_1, _get_1, _match_Name);
+            this.error(_plus_1, node.getAttribute().get(j), Henshin_textPackage.eINSTANCE.getMatch_Name());
           }
         }
       }
@@ -1782,8 +1544,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         String _name_2 = ((Node) _name_1).getName();
         String _plus = ("Node \'" + _name_2);
         String _plus_1 = (_plus + "\' is not in LHS.\'");
-        EReference _conditionReuseNode_Name = Henshin_textPackage.eINSTANCE.getConditionReuseNode_Name();
-        this.error(_plus_1, conReuseNode, _conditionReuseNode_Name);
+        this.error(_plus_1, conReuseNode, Henshin_textPackage.eINSTANCE.getConditionReuseNode_Name());
       }
     }
   }
@@ -1802,8 +1563,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         String _name = ((Node) _source_1).getName();
         String _plus = ("Node \'" + _name);
         String _plus_1 = (_plus + "\' is not in LHS.\'");
-        EReference _conditionEdge_Source = Henshin_textPackage.eINSTANCE.getConditionEdge_Source();
-        this.error(_plus_1, conEdge, _conditionEdge_Source);
+        this.error(_plus_1, conEdge, Henshin_textPackage.eINSTANCE.getConditionEdge_Source());
       }
     }
     ConditionNodeTypes _target = conEdge.getTarget();
@@ -1813,8 +1573,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         String _name_1 = ((Node) _target_1).getName();
         String _plus_2 = ("Node \'" + _name_1);
         String _plus_3 = (_plus_2 + "\' is not in LHS.\'");
-        EReference _conditionEdge_Target = Henshin_textPackage.eINSTANCE.getConditionEdge_Target();
-        this.error(_plus_3, conEdge, _conditionEdge_Target);
+        this.error(_plus_3, conEdge, Henshin_textPackage.eINSTANCE.getConditionEdge_Target());
       }
     }
   }
@@ -1826,8 +1585,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void matchingFormulaOnce(final Graph graph) {
-    EList<GraphElements> _graphElements = graph.getGraphElements();
-    Iterable<Formula> formulaList = Iterables.<Formula>filter(_graphElements, Formula.class);
+    Iterable<Formula> formulaList = Iterables.<Formula>filter(graph.getGraphElements(), Formula.class);
     int _size = IterableExtensions.size(formulaList);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -1844,8 +1602,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void matchingFormulaOnce(final ConditionGraph graph) {
-    EList<ConditionGraphElements> _conditionGraphElements = graph.getConditionGraphElements();
-    Iterable<Formula> formulaList = Iterables.<Formula>filter(_conditionGraphElements, Formula.class);
+    Iterable<Formula> formulaList = Iterables.<Formula>filter(graph.getConditionGraphElements(), Formula.class);
     int _size = IterableExtensions.size(formulaList);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -1862,23 +1619,19 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkOverrideNodeNamesinConditionGraph(final Graph graph) {
-    EList<GraphElements> _graphElements = graph.getGraphElements();
-    Iterable<Formula> formula = Iterables.<Formula>filter(_graphElements, Formula.class);
+    Iterable<Formula> formula = Iterables.<Formula>filter(graph.getGraphElements(), Formula.class);
     List<ConditionNode> topConNodes = new ArrayList<ConditionNode>();
     int _size = IterableExtensions.size(formula);
     boolean _greaterThan = (_size > 0);
     if (_greaterThan) {
       final Iterable<Formula> _converted_formula = (Iterable<Formula>)formula;
-      Formula _get = ((Formula[])Conversions.unwrapArray(_converted_formula, Formula.class))[0];
-      EList<ConditionGraph> _conditionGraphs = _get.getConditionGraphs();
+      EList<ConditionGraph> _conditionGraphs = (((Formula[])Conversions.unwrapArray(_converted_formula, Formula.class))[0]).getConditionGraphs();
       for (final ConditionGraph conGraph : _conditionGraphs) {
         {
-          EList<ConditionGraphElements> _conditionGraphElements = conGraph.getConditionGraphElements();
-          Iterable<ConditionNode> _filter = Iterables.<ConditionNode>filter(_conditionGraphElements, ConditionNode.class);
+          Iterable<ConditionNode> _filter = Iterables.<ConditionNode>filter(conGraph.getConditionGraphElements(), ConditionNode.class);
           for (final ConditionNode conNode : _filter) {
             {
-              EList<GraphElements> _graphElements_1 = graph.getGraphElements();
-              Iterable<Node> _filter_1 = Iterables.<Node>filter(_graphElements_1, Node.class);
+              Iterable<Node> _filter_1 = Iterables.<Node>filter(graph.getGraphElements(), Node.class);
               for (final Node node : _filter_1) {
                 String _name = conNode.getName();
                 String _name_1 = node.getName();
@@ -1887,21 +1640,16 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                   String _name_2 = conNode.getName();
                   String _plus = ("Duplicate Node \'" + _name_2);
                   String _plus_1 = (_plus + "\'.\'");
-                  EReference _conditionNode_Type = Henshin_textPackage.eINSTANCE.getConditionNode_Type();
-                  this.error(_plus_1, conNode, _conditionNode_Type);
+                  this.error(_plus_1, conNode, Henshin_textPackage.eINSTANCE.getConditionNode_Type());
                 }
               }
               topConNodes.add(conNode);
             }
           }
-          EList<ConditionGraphElements> _conditionGraphElements_1 = conGraph.getConditionGraphElements();
-          Iterable<Formula> _filter_1 = Iterables.<Formula>filter(_conditionGraphElements_1, Formula.class);
-          int _size_1 = IterableExtensions.size(_filter_1);
+          int _size_1 = IterableExtensions.size(Iterables.<Formula>filter(conGraph.getConditionGraphElements(), Formula.class));
           boolean _greaterThan_1 = (_size_1 > 0);
           if (_greaterThan_1) {
-            EList<GraphElements> _graphElements_1 = graph.getGraphElements();
-            Iterable<Node> _filter_2 = Iterables.<Node>filter(_graphElements_1, Node.class);
-            this.checkRekursiveOverrideNodeNamesinConditionGraph(_filter_2, topConNodes, conGraph);
+            this.checkRekursiveOverrideNodeNamesinConditionGraph(Iterables.<Node>filter(graph.getGraphElements(), Node.class), topConNodes, conGraph);
           }
         }
       }
@@ -1916,22 +1664,18 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    * @param graph Zu überprüfender Graph
    */
   private void checkRekursiveOverrideNodeNamesinConditionGraph(final Iterable<Node> topNodes, final List<ConditionNode> topConNodes, final ConditionGraph graph) {
-    EList<ConditionGraphElements> _conditionGraphElements = graph.getConditionGraphElements();
-    Iterable<Formula> formula = Iterables.<Formula>filter(_conditionGraphElements, Formula.class);
+    Iterable<Formula> formula = Iterables.<Formula>filter(graph.getConditionGraphElements(), Formula.class);
     int _size = IterableExtensions.size(formula);
     boolean _greaterThan = (_size > 0);
     if (_greaterThan) {
       final Iterable<Formula> _converted_formula = (Iterable<Formula>)formula;
-      Formula _get = ((Formula[])Conversions.unwrapArray(_converted_formula, Formula.class))[0];
-      EList<ConditionGraph> _conditionGraphs = _get.getConditionGraphs();
+      EList<ConditionGraph> _conditionGraphs = (((Formula[])Conversions.unwrapArray(_converted_formula, Formula.class))[0]).getConditionGraphs();
       for (final ConditionGraph conGraph : _conditionGraphs) {
         {
-          EList<ConditionGraphElements> _conditionGraphElements_1 = conGraph.getConditionGraphElements();
-          Iterable<ConditionNode> _filter = Iterables.<ConditionNode>filter(_conditionGraphElements_1, ConditionNode.class);
+          Iterable<ConditionNode> _filter = Iterables.<ConditionNode>filter(conGraph.getConditionGraphElements(), ConditionNode.class);
           for (final ConditionNode conNode : _filter) {
             {
-              EList<ConditionGraphElements> _conditionGraphElements_2 = graph.getConditionGraphElements();
-              Iterable<ConditionNode> _filter_1 = Iterables.<ConditionNode>filter(_conditionGraphElements_2, ConditionNode.class);
+              Iterable<ConditionNode> _filter_1 = Iterables.<ConditionNode>filter(graph.getConditionGraphElements(), ConditionNode.class);
               for (final ConditionNode node : _filter_1) {
                 String _name = conNode.getName();
                 String _name_1 = node.getName();
@@ -1940,8 +1684,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                   String _name_2 = conNode.getName();
                   String _plus = ("Duplicate Node \'" + _name_2);
                   String _plus_1 = (_plus + "\'.\'");
-                  EReference _conditionNode_Type = Henshin_textPackage.eINSTANCE.getConditionNode_Type();
-                  this.error(_plus_1, conNode, _conditionNode_Type);
+                  this.error(_plus_1, conNode, Henshin_textPackage.eINSTANCE.getConditionNode_Type());
                 }
               }
               for (final Node node_1 : topNodes) {
@@ -1952,8 +1695,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                   String _name_5 = conNode.getName();
                   String _plus_2 = ("Duplicate Node \'" + _name_5);
                   String _plus_3 = (_plus_2 + "\'.\'");
-                  EReference _conditionNode_Type_1 = Henshin_textPackage.eINSTANCE.getConditionNode_Type();
-                  this.error(_plus_3, conNode, _conditionNode_Type_1);
+                  this.error(_plus_3, conNode, Henshin_textPackage.eINSTANCE.getConditionNode_Type());
                 }
               }
               for (final ConditionNode node_2 : topConNodes) {
@@ -1964,16 +1706,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
                   String _name_8 = conNode.getName();
                   String _plus_4 = ("Duplicate Node \'" + _name_8);
                   String _plus_5 = (_plus_4 + "\'.\'");
-                  EReference _conditionNode_Type_2 = Henshin_textPackage.eINSTANCE.getConditionNode_Type();
-                  this.error(_plus_5, conNode, _conditionNode_Type_2);
+                  this.error(_plus_5, conNode, Henshin_textPackage.eINSTANCE.getConditionNode_Type());
                 }
               }
               topConNodes.add(conNode);
             }
           }
-          EList<ConditionGraphElements> _conditionGraphElements_2 = conGraph.getConditionGraphElements();
-          Iterable<Formula> _filter_1 = Iterables.<Formula>filter(_conditionGraphElements_2, Formula.class);
-          int _size_1 = IterableExtensions.size(_filter_1);
+          int _size_1 = IterableExtensions.size(Iterables.<Formula>filter(conGraph.getConditionGraphElements(), Formula.class));
           boolean _greaterThan_1 = (_size_1 > 0);
           if (_greaterThan_1) {
             this.checkRekursiveOverrideNodeNamesinConditionGraph(topNodes, topConNodes, conGraph);
@@ -1994,8 +1733,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     ArrayList<ConditionGraph> _arrayList = new ArrayList<ConditionGraph>();
     ArrayList<ConditionGraph> formulaGraphs = this.findDuplicate(_formula, _arrayList);
     for (final ConditionGraph graph : formulaGraphs) {
-      EList<ConditionGraph> _conditionGraphs = formula.getConditionGraphs();
-      boolean _contains = _conditionGraphs.contains(graph);
+      boolean _contains = formula.getConditionGraphs().contains(graph);
       boolean _not = (!_contains);
       if (_not) {
         String _name = graph.getName();
@@ -2022,13 +1760,9 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         boolean _xblockexpression_1 = false;
         {
           Logic _formula_1 = formula.getFormula();
-          Logic _left = ((ANDImpl) _formula_1).getLeft();
-          ArrayList<ConditionGraph> _findDuplicate = this.findDuplicate(_left, conditionGraphs);
-          conditionGraphs.addAll(_findDuplicate);
+          conditionGraphs.addAll(this.findDuplicate(((ANDImpl) _formula_1).getLeft(), conditionGraphs));
           Logic _formula_2 = formula.getFormula();
-          Logic _right = ((ANDImpl) _formula_2).getRight();
-          ArrayList<ConditionGraph> _findDuplicate_1 = this.findDuplicate(_right, conditionGraphs);
-          _xblockexpression_1 = conditionGraphs.addAll(_findDuplicate_1);
+          _xblockexpression_1 = conditionGraphs.addAll(this.findDuplicate(((ANDImpl) _formula_2).getRight(), conditionGraphs));
         }
         _xifexpression = _xblockexpression_1;
       } else {
@@ -2038,13 +1772,9 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
           boolean _xblockexpression_2 = false;
           {
             Logic _formula_2 = formula.getFormula();
-            Logic _left = ((ORorXORImpl) _formula_2).getLeft();
-            ArrayList<ConditionGraph> _findDuplicate = this.findDuplicate(_left, conditionGraphs);
-            conditionGraphs.addAll(_findDuplicate);
+            conditionGraphs.addAll(this.findDuplicate(((ORorXORImpl) _formula_2).getLeft(), conditionGraphs));
             Logic _formula_3 = formula.getFormula();
-            Logic _right = ((ORorXORImpl) _formula_3).getRight();
-            ArrayList<ConditionGraph> _findDuplicate_1 = this.findDuplicate(_right, conditionGraphs);
-            _xblockexpression_2 = conditionGraphs.addAll(_findDuplicate_1);
+            _xblockexpression_2 = conditionGraphs.addAll(this.findDuplicate(((ORorXORImpl) _formula_3).getRight(), conditionGraphs));
           }
           _xifexpression_1 = _xblockexpression_2;
         } else {
@@ -2052,9 +1782,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
           Logic _formula_2 = formula.getFormula();
           if ((_formula_2 instanceof NotImpl)) {
             Logic _formula_3 = formula.getFormula();
-            Logic _negation = ((NotImpl) _formula_3).getNegation();
-            ArrayList<ConditionGraph> _findDuplicate = this.findDuplicate(_negation, conditionGraphs);
-            _xifexpression_2 = conditionGraphs.addAll(_findDuplicate);
+            _xifexpression_2 = conditionGraphs.addAll(this.findDuplicate(((NotImpl) _formula_3).getNegation(), conditionGraphs));
           }
           _xifexpression_1 = _xifexpression_2;
         }
@@ -2074,39 +1802,25 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   private ArrayList<ConditionGraph> findDuplicate(final Logic logic, final ArrayList<ConditionGraph> conditionGraphs) {
     if ((logic instanceof ANDImpl)) {
-      Logic _left = ((ANDImpl) logic).getLeft();
-      ArrayList<ConditionGraph> _findDuplicate = this.findDuplicate(_left, conditionGraphs);
-      conditionGraphs.addAll(_findDuplicate);
-      Logic _right = ((ANDImpl) logic).getRight();
-      ArrayList<ConditionGraph> _findDuplicate_1 = this.findDuplicate(_right, conditionGraphs);
-      conditionGraphs.addAll(_findDuplicate_1);
+      conditionGraphs.addAll(this.findDuplicate(((ANDImpl) logic).getLeft(), conditionGraphs));
+      conditionGraphs.addAll(this.findDuplicate(((ANDImpl) logic).getRight(), conditionGraphs));
     } else {
       if ((logic instanceof ORorXORImpl)) {
-        Logic _left_1 = ((ORorXORImpl) logic).getLeft();
-        ArrayList<ConditionGraph> _findDuplicate_2 = this.findDuplicate(_left_1, conditionGraphs);
-        conditionGraphs.addAll(_findDuplicate_2);
-        Logic _right_1 = ((ORorXORImpl) logic).getRight();
-        ArrayList<ConditionGraph> _findDuplicate_3 = this.findDuplicate(_right_1, conditionGraphs);
-        conditionGraphs.addAll(_findDuplicate_3);
+        conditionGraphs.addAll(this.findDuplicate(((ORorXORImpl) logic).getLeft(), conditionGraphs));
+        conditionGraphs.addAll(this.findDuplicate(((ORorXORImpl) logic).getRight(), conditionGraphs));
       } else {
         if ((logic instanceof NotImpl)) {
-          Logic _negation = ((NotImpl) logic).getNegation();
-          ArrayList<ConditionGraph> _findDuplicate_4 = this.findDuplicate(_negation, conditionGraphs);
-          conditionGraphs.addAll(_findDuplicate_4);
+          conditionGraphs.addAll(this.findDuplicate(((NotImpl) logic).getNegation(), conditionGraphs));
         } else {
           if ((logic instanceof ConditionGraphRef)) {
-            ConditionGraph _conditionGraphRef = ((ConditionGraphRef) logic).getConditionGraphRef();
-            boolean _contains = conditionGraphs.contains(_conditionGraphRef);
+            boolean _contains = conditionGraphs.contains(((ConditionGraphRef) logic).getConditionGraphRef());
             if (_contains) {
-              ConditionGraph _conditionGraphRef_1 = ((ConditionGraphRef) logic).getConditionGraphRef();
-              String _name = _conditionGraphRef_1.getName();
+              String _name = ((ConditionGraphRef) logic).getConditionGraphRef().getName();
               String _plus = ("Duplicate ConditionGraph \'" + _name);
               String _plus_1 = (_plus + "\'.\'");
-              EReference _conditionGraphRef_ConditionGraphRef = Henshin_textPackage.eINSTANCE.getConditionGraphRef_ConditionGraphRef();
-              this.error(_plus_1, ((ConditionGraphRef) logic), _conditionGraphRef_ConditionGraphRef);
+              this.error(_plus_1, ((ConditionGraphRef) logic), Henshin_textPackage.eINSTANCE.getConditionGraphRef_ConditionGraphRef());
             } else {
-              ConditionGraph _conditionGraphRef_2 = ((ConditionGraphRef) logic).getConditionGraphRef();
-              conditionGraphs.add(_conditionGraphRef_2);
+              conditionGraphs.add(((ConditionGraphRef) logic).getConditionGraphRef());
             }
           }
         }
@@ -2122,19 +1836,15 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkConditionGraphReuseOwnNodes(final ConditionGraph graph) {
-    EList<ConditionGraphElements> _conditionGraphElements = graph.getConditionGraphElements();
-    Iterable<ConditionReuseNode> _filter = Iterables.<ConditionReuseNode>filter(_conditionGraphElements, ConditionReuseNode.class);
+    Iterable<ConditionReuseNode> _filter = Iterables.<ConditionReuseNode>filter(graph.getConditionGraphElements(), ConditionReuseNode.class);
     for (final ConditionReuseNode reuse : _filter) {
-      EList<ConditionGraphElements> _conditionGraphElements_1 = graph.getConditionGraphElements();
-      Iterable<ConditionNode> _filter_1 = Iterables.<ConditionNode>filter(_conditionGraphElements_1, ConditionNode.class);
+      Iterable<ConditionNode> _filter_1 = Iterables.<ConditionNode>filter(graph.getConditionGraphElements(), ConditionNode.class);
       for (final ConditionNode node : _filter_1) {
-        ConditionNodeTypes _name = reuse.getName();
-        String _name_1 = _name.getName();
-        String _name_2 = node.getName();
-        boolean _equals = Objects.equal(_name_1, _name_2);
+        String _name = reuse.getName().getName();
+        String _name_1 = node.getName();
+        boolean _equals = Objects.equal(_name, _name_1);
         if (_equals) {
-          EReference _conditionReuseNode_Name = Henshin_textPackage.eINSTANCE.getConditionReuseNode_Name();
-          this.error("ConditionGraph cannot reuse its own nodes.\'", reuse, _conditionReuseNode_Name);
+          this.error("ConditionGraph cannot reuse its own nodes.\'", reuse, Henshin_textPackage.eINSTANCE.getConditionReuseNode_Name());
         }
       }
     }
@@ -2147,32 +1857,23 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkConditionGraphMultiReuse(final ConditionGraph graph) {
-    EList<ConditionGraphElements> _conditionGraphElements = graph.getConditionGraphElements();
-    Iterable<ConditionReuseNode> reuseNodes = Iterables.<ConditionReuseNode>filter(_conditionGraphElements, ConditionReuseNode.class);
+    Iterable<ConditionReuseNode> reuseNodes = Iterables.<ConditionReuseNode>filter(graph.getConditionGraphElements(), ConditionReuseNode.class);
     for (int i = 0; (i < IterableExtensions.size(reuseNodes)); i++) {
       for (int j = (i + 1); (j < IterableExtensions.size(reuseNodes)); j++) {
         final Iterable<ConditionReuseNode> _converted_reuseNodes = (Iterable<ConditionReuseNode>)reuseNodes;
-        ConditionReuseNode _get = ((ConditionReuseNode[])Conversions.unwrapArray(_converted_reuseNodes, ConditionReuseNode.class))[i];
-        ConditionNodeTypes _name = _get.getName();
-        String _name_1 = _name.getName();
+        String _name = (((ConditionReuseNode[])Conversions.unwrapArray(_converted_reuseNodes, ConditionReuseNode.class))[i]).getName().getName();
         final Iterable<ConditionReuseNode> _converted_reuseNodes_1 = (Iterable<ConditionReuseNode>)reuseNodes;
-        ConditionReuseNode _get_1 = ((ConditionReuseNode[])Conversions.unwrapArray(_converted_reuseNodes_1, ConditionReuseNode.class))[j];
-        ConditionNodeTypes _name_2 = _get_1.getName();
-        String _name_3 = _name_2.getName();
-        boolean _equals = Objects.equal(_name_1, _name_3);
+        String _name_1 = (((ConditionReuseNode[])Conversions.unwrapArray(_converted_reuseNodes_1, ConditionReuseNode.class))[j]).getName().getName();
+        boolean _equals = Objects.equal(_name, _name_1);
         if (_equals) {
           final Iterable<ConditionReuseNode> _converted_reuseNodes_2 = (Iterable<ConditionReuseNode>)reuseNodes;
-          ConditionReuseNode _get_2 = ((ConditionReuseNode[])Conversions.unwrapArray(_converted_reuseNodes_2, ConditionReuseNode.class))[j];
-          ConditionNodeTypes _name_4 = _get_2.getName();
-          String _name_5 = _name_4.getName();
-          String _plus = (_name_5 + " is already reused in ConditionGraph ");
-          String _name_6 = graph.getName();
-          String _plus_1 = (_plus + _name_6);
+          String _name_2 = (((ConditionReuseNode[])Conversions.unwrapArray(_converted_reuseNodes_2, ConditionReuseNode.class))[j]).getName().getName();
+          String _plus = (_name_2 + " is already reused in ConditionGraph ");
+          String _name_3 = graph.getName();
+          String _plus_1 = (_plus + _name_3);
           String _plus_2 = (_plus_1 + ".\'");
           final Iterable<ConditionReuseNode> _converted_reuseNodes_3 = (Iterable<ConditionReuseNode>)reuseNodes;
-          EObject _get_3 = ((EObject[])Conversions.unwrapArray(_converted_reuseNodes_3, EObject.class))[j];
-          EReference _conditionReuseNode_Name = Henshin_textPackage.eINSTANCE.getConditionReuseNode_Name();
-          this.error(_plus_2, _get_3, _conditionReuseNode_Name);
+          this.error(_plus_2, ((EObject[])Conversions.unwrapArray(_converted_reuseNodes_3, EObject.class))[j], Henshin_textPackage.eINSTANCE.getConditionReuseNode_Name());
         }
       }
     }
@@ -2188,21 +1889,17 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     Expression _iterations = unit.getIterations();
     if ((_iterations instanceof NumberValue)) {
       Expression _iterations_1 = unit.getIterations();
-      String _value = ((NumberValue) _iterations_1).getValue();
-      boolean _contains = _value.contains("-");
+      boolean _contains = ((NumberValue) _iterations_1).getValue().contains("-");
       if (_contains) {
-        EReference _iteratedUnit_Iterations = Henshin_textPackage.eINSTANCE.getIteratedUnit_Iterations();
-        this.error("Negative values are not allowed.\'", unit, _iteratedUnit_Iterations);
+        this.error("Negative values are not allowed.\'", unit, Henshin_textPackage.eINSTANCE.getIteratedUnit_Iterations());
       }
     } else {
       Expression _iterations_2 = unit.getIterations();
       if ((_iterations_2 instanceof IntegerValue)) {
         Expression _iterations_3 = unit.getIterations();
-        String _value_1 = ((IntegerValue) _iterations_3).getValue();
-        boolean _contains_1 = _value_1.contains("-");
+        boolean _contains_1 = ((IntegerValue) _iterations_3).getValue().contains("-");
         if (_contains_1) {
-          EReference _iteratedUnit_Iterations_1 = Henshin_textPackage.eINSTANCE.getIteratedUnit_Iterations();
-          this.error("Negative values are not allowed.\'", unit, _iteratedUnit_Iterations_1);
+          this.error("Negative values are not allowed.\'", unit, Henshin_textPackage.eINSTANCE.getIteratedUnit_Iterations());
         }
       }
     }
@@ -2218,17 +1915,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     Expression _iterations = unit.getIterations();
     boolean _notEquals = (!Objects.equal(_iterations, null));
     if (_notEquals) {
-      Expression _iterations_1 = unit.getIterations();
-      Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(_iterations_1);
-      String _string = _typeFor.toString();
+      String _string = this._henshin_textTypeProvider.typeFor(unit.getIterations()).toString();
       boolean _notEquals_1 = (!Objects.equal(_string, "number"));
       if (_notEquals_1) {
-        Expression _iterations_2 = unit.getIterations();
-        Henshin_textType _typeFor_1 = this._henshin_textTypeProvider.typeFor(_iterations_2);
-        String _plus = ("IteratedUnit expected number type, but was " + _typeFor_1);
+        Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(unit.getIterations());
+        String _plus = ("IteratedUnit expected number type, but was " + _typeFor);
         String _plus_1 = (_plus + ".\'");
-        EReference _iteratedUnit_Iterations = Henshin_textPackage.eINSTANCE.getIteratedUnit_Iterations();
-        this.error(_plus_1, unit, _iteratedUnit_Iterations);
+        this.error(_plus_1, unit, Henshin_textPackage.eINSTANCE.getIteratedUnit_Iterations());
       }
     }
   }
@@ -2240,8 +1933,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountStrict(final Unit unit) {
-    EList<UnitElement> _unitElements = unit.getUnitElements();
-    Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(_unitElements, StrictImpl.class);
+    Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(unit.getUnitElements(), StrictImpl.class);
     int _size = IterableExtensions.size(iterableOfStrictImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2258,8 +1950,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountStrictSubSequence(final UnitElement unit) {
-    EList<UnitElement> _subSequence = unit.getSubSequence();
-    Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(_subSequence, StrictImpl.class);
+    Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(unit.getSubSequence(), StrictImpl.class);
     int _size = IterableExtensions.size(iterableOfStrictImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2279,8 +1970,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     EList<org.eclipse.emf.henshin.text.henshin_text.List> _listOfLists = unit.getListOfLists();
     for (final org.eclipse.emf.henshin.text.henshin_text.List e : _listOfLists) {
       {
-        EList<UnitElement> _subElements = e.getSubElements();
-        Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(_subElements, StrictImpl.class);
+        Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(e.getSubElements(), StrictImpl.class);
         int _size = IterableExtensions.size(iterableOfStrictImpl);
         boolean _greaterThan = (_size > 1);
         if (_greaterThan) {
@@ -2299,12 +1989,9 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountStrictConditionalUnit(final ConditionalUnit unit) {
-    EList<UnitElement> _if = unit.getIf();
-    Iterable<StrictImpl> iterableOfStrictImplIF = Iterables.<StrictImpl>filter(_if, StrictImpl.class);
-    EList<UnitElement> _then = unit.getThen();
-    Iterable<StrictImpl> iterableOfStrictImplTHEN = Iterables.<StrictImpl>filter(_then, StrictImpl.class);
-    EList<UnitElement> _else = unit.getElse();
-    Iterable<StrictImpl> iterableOfStrictImplELSE = Iterables.<StrictImpl>filter(_else, StrictImpl.class);
+    Iterable<StrictImpl> iterableOfStrictImplIF = Iterables.<StrictImpl>filter(unit.getIf(), StrictImpl.class);
+    Iterable<StrictImpl> iterableOfStrictImplTHEN = Iterables.<StrictImpl>filter(unit.getThen(), StrictImpl.class);
+    Iterable<StrictImpl> iterableOfStrictImplELSE = Iterables.<StrictImpl>filter(unit.getElse(), StrictImpl.class);
     int _size = IterableExtensions.size(iterableOfStrictImplIF);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2338,8 +2025,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     EList<org.eclipse.emf.henshin.text.henshin_text.List> _listOfLists = unit.getListOfLists();
     for (final org.eclipse.emf.henshin.text.henshin_text.List e : _listOfLists) {
       {
-        EList<UnitElement> _subElements = e.getSubElements();
-        Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(_subElements, StrictImpl.class);
+        Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(e.getSubElements(), StrictImpl.class);
         int _size = IterableExtensions.size(iterableOfStrictImpl);
         boolean _greaterThan = (_size > 1);
         if (_greaterThan) {
@@ -2358,8 +2044,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountStrictIteratedUnit(final IteratedUnit unit) {
-    EList<UnitElement> _subElement = unit.getSubElement();
-    Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(_subElement, StrictImpl.class);
+    Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(unit.getSubElement(), StrictImpl.class);
     int _size = IterableExtensions.size(iterableOfStrictImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2376,8 +2061,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountStrictLoopUnit(final LoopUnit unit) {
-    EList<UnitElement> _subElement = unit.getSubElement();
-    Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(_subElement, StrictImpl.class);
+    Iterable<StrictImpl> iterableOfStrictImpl = Iterables.<StrictImpl>filter(unit.getSubElement(), StrictImpl.class);
     int _size = IterableExtensions.size(iterableOfStrictImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2394,8 +2078,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountRollback(final Unit unit) {
-    EList<UnitElement> _unitElements = unit.getUnitElements();
-    Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(_unitElements, RollbackImpl.class);
+    Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(unit.getUnitElements(), RollbackImpl.class);
     int _size = IterableExtensions.size(iterableOfRollbackImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2412,8 +2095,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountRollbackSubSequence(final UnitElement unit) {
-    EList<UnitElement> _subSequence = unit.getSubSequence();
-    Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(_subSequence, RollbackImpl.class);
+    Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(unit.getSubSequence(), RollbackImpl.class);
     int _size = IterableExtensions.size(iterableOfRollbackImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2433,8 +2115,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     EList<org.eclipse.emf.henshin.text.henshin_text.List> _listOfLists = unit.getListOfLists();
     for (final org.eclipse.emf.henshin.text.henshin_text.List e : _listOfLists) {
       {
-        EList<UnitElement> _subElements = e.getSubElements();
-        Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(_subElements, RollbackImpl.class);
+        Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(e.getSubElements(), RollbackImpl.class);
         int _size = IterableExtensions.size(iterableOfRollbackImpl);
         boolean _greaterThan = (_size > 1);
         if (_greaterThan) {
@@ -2453,12 +2134,9 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountRollbackConditionalUnit(final ConditionalUnit unit) {
-    EList<UnitElement> _if = unit.getIf();
-    Iterable<RollbackImpl> iterableOfRollbackImplIF = Iterables.<RollbackImpl>filter(_if, RollbackImpl.class);
-    EList<UnitElement> _then = unit.getThen();
-    Iterable<RollbackImpl> iterableOfRollbackImplTHEN = Iterables.<RollbackImpl>filter(_then, RollbackImpl.class);
-    EList<UnitElement> _else = unit.getElse();
-    Iterable<RollbackImpl> iterableOfRollbackImplELSE = Iterables.<RollbackImpl>filter(_else, RollbackImpl.class);
+    Iterable<RollbackImpl> iterableOfRollbackImplIF = Iterables.<RollbackImpl>filter(unit.getIf(), RollbackImpl.class);
+    Iterable<RollbackImpl> iterableOfRollbackImplTHEN = Iterables.<RollbackImpl>filter(unit.getThen(), RollbackImpl.class);
+    Iterable<RollbackImpl> iterableOfRollbackImplELSE = Iterables.<RollbackImpl>filter(unit.getElse(), RollbackImpl.class);
     int _size = IterableExtensions.size(iterableOfRollbackImplIF);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2492,8 +2170,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     EList<org.eclipse.emf.henshin.text.henshin_text.List> _listOfLists = unit.getListOfLists();
     for (final org.eclipse.emf.henshin.text.henshin_text.List e : _listOfLists) {
       {
-        EList<UnitElement> _subElements = e.getSubElements();
-        Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(_subElements, RollbackImpl.class);
+        Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(e.getSubElements(), RollbackImpl.class);
         int _size = IterableExtensions.size(iterableOfRollbackImpl);
         boolean _greaterThan = (_size > 1);
         if (_greaterThan) {
@@ -2512,8 +2189,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountRollbackIteratedUnit(final IteratedUnit unit) {
-    EList<UnitElement> _subElement = unit.getSubElement();
-    Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(_subElement, RollbackImpl.class);
+    Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(unit.getSubElement(), RollbackImpl.class);
     int _size = IterableExtensions.size(iterableOfRollbackImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2530,8 +2206,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCountRollbackLoopUnit(final LoopUnit unit) {
-    EList<UnitElement> _subElement = unit.getSubElement();
-    Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(_subElement, RollbackImpl.class);
+    Iterable<RollbackImpl> iterableOfRollbackImpl = Iterables.<RollbackImpl>filter(unit.getSubElement(), RollbackImpl.class);
     int _size = IterableExtensions.size(iterableOfRollbackImpl);
     boolean _greaterThan = (_size > 1);
     if (_greaterThan) {
@@ -2548,8 +2223,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkTypeNot(final NotExpression not) {
-    Expression _expression = not.getExpression();
-    this.checkExpectedType(_expression, Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.NOT_EXPRESSION__EXPRESSION);
+    this.checkExpectedType(not.getExpression(), Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.NOT_EXPRESSION__EXPRESSION);
   }
   
   /**
@@ -2559,10 +2233,8 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkTypeMulOrDiv(final MulOrDivExpression mulOrDiv) {
-    Expression _left = mulOrDiv.getLeft();
-    this.checkExpectedType(_left, Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.MUL_OR_DIV_EXPRESSION__LEFT);
-    Expression _right = mulOrDiv.getRight();
-    this.checkExpectedType(_right, Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.MUL_OR_DIV_EXPRESSION__RIGHT);
+    this.checkExpectedType(mulOrDiv.getLeft(), Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.MUL_OR_DIV_EXPRESSION__LEFT);
+    this.checkExpectedType(mulOrDiv.getRight(), Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.MUL_OR_DIV_EXPRESSION__RIGHT);
   }
   
   /**
@@ -2572,10 +2244,8 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkTypeMinus(final MinusExpression minus) {
-    Expression _left = minus.getLeft();
-    this.checkExpectedType(_left, Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.MINUS_EXPRESSION__LEFT);
-    Expression _right = minus.getRight();
-    this.checkExpectedType(_right, Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.MINUS_EXPRESSION__RIGHT);
+    this.checkExpectedType(minus.getLeft(), Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.MINUS_EXPRESSION__LEFT);
+    this.checkExpectedType(minus.getRight(), Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.MINUS_EXPRESSION__RIGHT);
   }
   
   /**
@@ -2585,10 +2255,8 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkTypePlus(final PlusExpression plus) {
-    Expression _left = plus.getLeft();
-    this.checkExpectedType(_left, Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.PLUS_EXPRESSION__LEFT);
-    Expression _right = plus.getRight();
-    this.checkExpectedType(_right, Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.PLUS_EXPRESSION__RIGHT);
+    this.checkExpectedType(plus.getLeft(), Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.PLUS_EXPRESSION__LEFT);
+    this.checkExpectedType(plus.getRight(), Henshin_textTypeProvider.numberType, Henshin_textPackage.Literals.PLUS_EXPRESSION__RIGHT);
   }
   
   /**
@@ -2598,10 +2266,8 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkTypeAnd(final AndExpression and) {
-    Expression _left = and.getLeft();
-    this.checkExpectedType(_left, Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.AND_EXPRESSION__LEFT);
-    Expression _right = and.getRight();
-    this.checkExpectedType(_right, Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.AND_EXPRESSION__RIGHT);
+    this.checkExpectedType(and.getLeft(), Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.AND_EXPRESSION__LEFT);
+    this.checkExpectedType(and.getRight(), Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.AND_EXPRESSION__RIGHT);
   }
   
   /**
@@ -2611,10 +2277,8 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkTypeOr(final OrExpression or) {
-    Expression _left = or.getLeft();
-    this.checkExpectedType(_left, Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.OR_EXPRESSION__LEFT);
-    Expression _right = or.getRight();
-    this.checkExpectedType(_right, Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.OR_EXPRESSION__RIGHT);
+    this.checkExpectedType(or.getLeft(), Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.OR_EXPRESSION__LEFT);
+    this.checkExpectedType(or.getRight(), Henshin_textTypeProvider.boolType, Henshin_textPackage.Literals.OR_EXPRESSION__RIGHT);
   }
   
   /**
@@ -2624,13 +2288,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkTypeEquality(final EqualityExpression equality) {
-    Expression _left = equality.getLeft();
-    final Henshin_textType leftType = this.getTypeAndCheckNotNull(_left, Henshin_textPackage.Literals.EQUALITY_EXPRESSION__LEFT);
-    Expression _right = equality.getRight();
-    final Henshin_textType rightType = this.getTypeAndCheckNotNull(_right, Henshin_textPackage.Literals.EQUALITY_EXPRESSION__RIGHT);
+    final Henshin_textType leftType = this.getTypeAndCheckNotNull(equality.getLeft(), Henshin_textPackage.Literals.EQUALITY_EXPRESSION__LEFT);
+    final Henshin_textType rightType = this.getTypeAndCheckNotNull(equality.getRight(), Henshin_textPackage.Literals.EQUALITY_EXPRESSION__RIGHT);
     if ((((!Objects.equal(leftType, rightType)) && (!Objects.equal(leftType, null))) && (!Objects.equal(rightType, null)))) {
-      EAttribute _eIDAttribute = Henshin_textPackage.Literals.EQUALITY_EXPRESSION.getEIDAttribute();
-      this.error((((("Expression expected the same type, but was " + leftType) + " and ") + rightType) + ".\'"), _eIDAttribute, "");
+      this.error((((("Expression expected the same type, but was " + leftType) + " and ") + rightType) + ".\'"), Henshin_textPackage.Literals.EQUALITY_EXPRESSION.getEIDAttribute(), "");
     }
   }
   
@@ -2641,13 +2302,10 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkTypeComparison(final ComparisonExpression comparison) {
-    Expression _left = comparison.getLeft();
-    final Henshin_textType leftType = this.getTypeAndCheckNotNull(_left, Henshin_textPackage.Literals.COMPARISON_EXPRESSION__LEFT);
-    Expression _right = comparison.getRight();
-    final Henshin_textType rightType = this.getTypeAndCheckNotNull(_right, Henshin_textPackage.Literals.COMPARISON_EXPRESSION__RIGHT);
+    final Henshin_textType leftType = this.getTypeAndCheckNotNull(comparison.getLeft(), Henshin_textPackage.Literals.COMPARISON_EXPRESSION__LEFT);
+    final Henshin_textType rightType = this.getTypeAndCheckNotNull(comparison.getRight(), Henshin_textPackage.Literals.COMPARISON_EXPRESSION__RIGHT);
     if ((((!Objects.equal(leftType, rightType)) && (!Objects.equal(leftType, null))) && (!Objects.equal(rightType, null)))) {
-      EAttribute _eIDAttribute = Henshin_textPackage.Literals.COMPARISON_EXPRESSION.getEIDAttribute();
-      this.error((((("Expression expected the same type, but was " + leftType) + " and ") + rightType) + ".\'"), _eIDAttribute, "");
+      this.error((((("Expression expected the same type, but was " + leftType) + " and ") + rightType) + ".\'"), Henshin_textPackage.Literals.COMPARISON_EXPRESSION.getEIDAttribute(), "");
     }
     if ((Objects.equal(leftType, Henshin_textTypeProvider.boolType) || Objects.equal(leftType, Henshin_textTypeProvider.complexType))) {
       this.error("Value cannot be compared.\'", Henshin_textPackage.Literals.COMPARISON_EXPRESSION__LEFT, "");
@@ -2684,8 +2342,7 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     Henshin_textType type = null;
     boolean _notEquals = (!Objects.equal(expression, null));
     if (_notEquals) {
-      Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(expression);
-      type = _typeFor;
+      type = this._henshin_textTypeProvider.typeFor(expression);
     }
     boolean _equals = Objects.equal(type, null);
     if (_equals) {
@@ -2704,51 +2361,35 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     Expression _value = attribute.getValue();
     if ((_value instanceof ParameterValue)) {
       if (((!Objects.equal(((ParameterValue) attribute.getValue()).getValue().getType().getType(), null)) && (!Objects.equal(attribute.getName().getEAttributeType().getName(), ((ParameterValue) attribute.getValue()).getValue().getType().getType().getName())))) {
-        EAttribute _name = attribute.getName();
-        EDataType _eAttributeType = _name.getEAttributeType();
-        String _name_1 = _eAttributeType.getName();
-        String _plus = ("Attribute expected " + _name_1);
+        String _name = attribute.getName().getEAttributeType().getName();
+        String _plus = ("Attribute expected " + _name);
         String _plus_1 = (_plus + " type, but was ");
         Expression _value_1 = attribute.getValue();
-        Parameter _value_2 = ((ParameterValue) _value_1).getValue();
-        ParameterType _type = _value_2.getType();
-        EClass _type_1 = _type.getType();
-        String _name_2 = _type_1.getName();
-        String _plus_2 = (_plus_1 + _name_2);
+        String _name_1 = ((ParameterValue) _value_1).getValue().getType().getType().getName();
+        String _plus_2 = (_plus_1 + _name_1);
         String _plus_3 = (_plus_2 + ".\'");
-        EReference _attribute_Value = Henshin_textPackage.eINSTANCE.getAttribute_Value();
-        this.error(_plus_3, attribute, _attribute_Value);
+        this.error(_plus_3, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Value());
       } else {
         if (((!Objects.equal(this._henshin_textTypeProvider.typeFor(attribute.getName().getEAttributeType().getName()).toString(), "string")) && (!Objects.equal(this._henshin_textTypeProvider.typeFor(attribute.getName().getEAttributeType().getName()), this._henshin_textTypeProvider.typeFor(((ParameterValue) attribute.getValue()).getValue().getType().getEnumType().getLiteral()))))) {
-          EAttribute _name_3 = attribute.getName();
-          EDataType _eAttributeType_1 = _name_3.getEAttributeType();
-          String _name_4 = _eAttributeType_1.getName();
-          String _plus_4 = ("Attribute expected " + _name_4);
+          String _name_2 = attribute.getName().getEAttributeType().getName();
+          String _plus_4 = ("Attribute expected " + _name_2);
           String _plus_5 = (_plus_4 + " type, but was ");
-          Expression _value_3 = attribute.getValue();
-          Parameter _value_4 = ((ParameterValue) _value_3).getValue();
-          ParameterType _type_2 = _value_4.getType();
-          Type _enumType = _type_2.getEnumType();
-          String _literal = _enumType.getLiteral();
+          Expression _value_2 = attribute.getValue();
+          String _literal = ((ParameterValue) _value_2).getValue().getType().getEnumType().getLiteral();
           String _plus_6 = (_plus_5 + _literal);
           String _plus_7 = (_plus_6 + ".\'");
-          EReference _attribute_Value_1 = Henshin_textPackage.eINSTANCE.getAttribute_Value();
-          this.error(_plus_7, attribute, _attribute_Value_1);
+          this.error(_plus_7, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Value());
         }
       }
     } else {
       if (((!Objects.equal(this._henshin_textTypeProvider.typeFor(attribute.getName().getEAttributeType().getName()).toString(), "string")) && (!Objects.equal(this._henshin_textTypeProvider.typeFor(attribute.getName().getEAttributeType().getName()), this._henshin_textTypeProvider.typeFor(attribute.getValue()))))) {
-        EAttribute _name_5 = attribute.getName();
-        EDataType _eAttributeType_2 = _name_5.getEAttributeType();
-        String _name_6 = _eAttributeType_2.getName();
-        String _plus_8 = ("Attribute expected " + _name_6);
+        String _name_3 = attribute.getName().getEAttributeType().getName();
+        String _plus_8 = ("Attribute expected " + _name_3);
         String _plus_9 = (_plus_8 + " type, but was ");
-        Expression _value_5 = attribute.getValue();
-        Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(_value_5);
+        Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(attribute.getValue());
         String _plus_10 = (_plus_9 + _typeFor);
         String _plus_11 = (_plus_10 + ".\'");
-        EReference _attribute_Value_2 = Henshin_textPackage.eINSTANCE.getAttribute_Value();
-        this.error(_plus_11, attribute, _attribute_Value_2);
+        this.error(_plus_11, attribute, Henshin_textPackage.eINSTANCE.getAttribute_Value());
       }
     }
   }
@@ -2763,51 +2404,35 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     Expression _value = match.getValue();
     if ((_value instanceof ParameterValue)) {
       if (((!Objects.equal(((ParameterValue) match.getValue()).getValue().getType().getType(), null)) && (!Objects.equal(match.getName().getEAttributeType().getName(), ((ParameterValue) match.getValue()).getValue().getType().getType().getName())))) {
-        EAttribute _name = match.getName();
-        EDataType _eAttributeType = _name.getEAttributeType();
-        String _name_1 = _eAttributeType.getName();
-        String _plus = ("Attribute expected " + _name_1);
+        String _name = match.getName().getEAttributeType().getName();
+        String _plus = ("Attribute expected " + _name);
         String _plus_1 = (_plus + " type, but was ");
         Expression _value_1 = match.getValue();
-        Parameter _value_2 = ((ParameterValue) _value_1).getValue();
-        ParameterType _type = _value_2.getType();
-        EClass _type_1 = _type.getType();
-        String _name_2 = _type_1.getName();
-        String _plus_2 = (_plus_1 + _name_2);
+        String _name_1 = ((ParameterValue) _value_1).getValue().getType().getType().getName();
+        String _plus_2 = (_plus_1 + _name_1);
         String _plus_3 = (_plus_2 + ".\'");
-        EReference _match_Value = Henshin_textPackage.eINSTANCE.getMatch_Value();
-        this.error(_plus_3, match, _match_Value);
+        this.error(_plus_3, match, Henshin_textPackage.eINSTANCE.getMatch_Value());
       } else {
         if (((!Objects.equal(this._henshin_textTypeProvider.typeFor(match.getName().getEAttributeType().getName()).toString(), "string")) && (!Objects.equal(this._henshin_textTypeProvider.typeFor(match.getName().getEAttributeType().getName()), this._henshin_textTypeProvider.typeFor(((ParameterValue) match.getValue()).getValue().getType().getEnumType().getLiteral()))))) {
-          EAttribute _name_3 = match.getName();
-          EDataType _eAttributeType_1 = _name_3.getEAttributeType();
-          String _name_4 = _eAttributeType_1.getName();
-          String _plus_4 = ("Attribute expected " + _name_4);
+          String _name_2 = match.getName().getEAttributeType().getName();
+          String _plus_4 = ("Attribute expected " + _name_2);
           String _plus_5 = (_plus_4 + " type, but was ");
-          Expression _value_3 = match.getValue();
-          Parameter _value_4 = ((ParameterValue) _value_3).getValue();
-          ParameterType _type_2 = _value_4.getType();
-          Type _enumType = _type_2.getEnumType();
-          String _literal = _enumType.getLiteral();
+          Expression _value_2 = match.getValue();
+          String _literal = ((ParameterValue) _value_2).getValue().getType().getEnumType().getLiteral();
           String _plus_6 = (_plus_5 + _literal);
           String _plus_7 = (_plus_6 + ".\'");
-          EReference _match_Value_1 = Henshin_textPackage.eINSTANCE.getMatch_Value();
-          this.error(_plus_7, match, _match_Value_1);
+          this.error(_plus_7, match, Henshin_textPackage.eINSTANCE.getMatch_Value());
         }
       }
     } else {
       if (((!Objects.equal(this._henshin_textTypeProvider.typeFor(match.getName().getEAttributeType().getName()).toString(), "string")) && (!Objects.equal(this._henshin_textTypeProvider.typeFor(match.getName().getEAttributeType().getName()), this._henshin_textTypeProvider.typeFor(match.getValue()))))) {
-        EAttribute _name_5 = match.getName();
-        EDataType _eAttributeType_2 = _name_5.getEAttributeType();
-        String _name_6 = _eAttributeType_2.getName();
-        String _plus_8 = ("Attribute expected " + _name_6);
+        String _name_3 = match.getName().getEAttributeType().getName();
+        String _plus_8 = ("Attribute expected " + _name_3);
         String _plus_9 = (_plus_8 + " type, but was ");
-        Expression _value_5 = match.getValue();
-        Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(_value_5);
+        Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(match.getValue());
         String _plus_10 = (_plus_9 + _typeFor);
         String _plus_11 = (_plus_10 + ".\'");
-        EReference _match_Value_2 = Henshin_textPackage.eINSTANCE.getMatch_Value();
-        this.error(_plus_11, match, _match_Value_2);
+        this.error(_plus_11, match, Henshin_textPackage.eINSTANCE.getMatch_Value());
       }
     }
   }
@@ -2825,17 +2450,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       try {
         String _packagename = imports.getPackagename();
         String _plus = (_packagename + ".");
-        String _value = attribute.getValue();
-        String[] _split = _value.split("\\.");
-        String _get = _split[0];
+        String _get = attribute.getValue().split("\\.")[0];
         String _plus_1 = (_plus + _get);
         Class<?> calledClass = Class.forName(_plus_1);
         Field[] _declaredFields = calledClass.getDeclaredFields();
         for (final Field atrib : _declaredFields) {
           String _name = atrib.getName();
-          String _value_1 = attribute.getValue();
-          String[] _split_1 = _value_1.split("\\.");
-          Object _get_1 = _split_1[1];
+          Object _get_1 = attribute.getValue().split("\\.")[1];
           boolean _equals = Objects.equal(_name, _get_1);
           if (_equals) {
             javaAttribute = atrib;
@@ -2843,18 +2464,16 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         }
       } catch (final Throwable _t) {
         if (_t instanceof ClassNotFoundException) {
-          final ClassNotFoundException e = (ClassNotFoundException)_t;
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
       }
     }
-    boolean _equals_1 = Objects.equal(javaAttribute, null);
-    if (_equals_1) {
-      String _value_2 = attribute.getValue();
-      String _plus_2 = (_value_2 + " doesn\'t exist.\'");
-      EAttribute _javaAttributeValue_Value = Henshin_textPackage.eINSTANCE.getJavaAttributeValue_Value();
-      this.error(_plus_2, attribute, _javaAttributeValue_Value);
+    boolean _equals = Objects.equal(javaAttribute, null);
+    if (_equals) {
+      String _value = attribute.getValue();
+      String _plus = (_value + " doesn\'t exist.\'");
+      this.error(_plus, attribute, Henshin_textPackage.eINSTANCE.getJavaAttributeValue_Value());
     }
   }
   
@@ -2871,17 +2490,13 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
       try {
         String _packagename = imports.getPackagename();
         String _plus = (_packagename + ".");
-        String _value = classCall.getValue();
-        String[] _split = _value.split("\\.");
-        String _get = _split[0];
+        String _get = classCall.getValue().split("\\.")[0];
         String _plus_1 = (_plus + _get);
         Class<?> calledClass = Class.forName(_plus_1);
         Method[] _methods = calledClass.getMethods();
         for (final Method method : _methods) {
           String _name = method.getName();
-          String _value_1 = classCall.getValue();
-          String[] _split_1 = _value_1.split("\\.");
-          Object _get_1 = _split_1[1];
+          Object _get_1 = classCall.getValue().split("\\.")[1];
           boolean _equals = Objects.equal(_name, _get_1);
           if (_equals) {
             methods.add(method);
@@ -2889,7 +2504,6 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         }
       } catch (final Throwable _t) {
         if (_t instanceof ClassNotFoundException) {
-          final ClassNotFoundException e = (ClassNotFoundException)_t;
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
@@ -2898,31 +2512,23 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     int _size = methods.size();
     boolean _lessEqualsThan = (_size <= 0);
     if (_lessEqualsThan) {
-      String _value_2 = classCall.getValue();
-      String _plus_2 = (_value_2 + " doesn\'t exist.\'");
-      EAttribute _javaClassValue_Value = Henshin_textPackage.eINSTANCE.getJavaClassValue_Value();
-      this.error(_plus_2, classCall, _javaClassValue_Value);
+      String _value = classCall.getValue();
+      String _plus = (_value + " doesn\'t exist.\'");
+      this.error(_plus, classCall, Henshin_textPackage.eINSTANCE.getJavaClassValue_Value());
     } else {
       boolean badParametercount = true;
       boolean wrongParameterType = false;
       boolean methodExist = false;
-      for (final Method method_1 : methods) {
+      for (final Method method : methods) {
         if ((!methodExist)) {
-          Class<?>[] _parameterTypes = method_1.getParameterTypes();
-          int _size_1 = ((List<Class<?>>)Conversions.doWrapArray(_parameterTypes)).size();
-          EList<Expression> _javaParameter = classCall.getJavaParameter();
-          int _size_2 = _javaParameter.size();
-          boolean _equals_1 = (_size_1 == _size_2);
-          if (_equals_1) {
+          int _size_1 = ((List<Class<?>>)Conversions.doWrapArray(method.getParameterTypes())).size();
+          int _size_2 = classCall.getJavaParameter().size();
+          boolean _equals = (_size_1 == _size_2);
+          if (_equals) {
             badParametercount = false;
             for (int i = 0; (i < classCall.getJavaParameter().size()); i++) {
-              EList<Expression> _javaParameter_1 = classCall.getJavaParameter();
-              Expression _get_2 = _javaParameter_1.get(i);
-              Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(_get_2);
-              Class<?>[] _parameterTypes_1 = method_1.getParameterTypes();
-              Class<?> _get_3 = _parameterTypes_1[i];
-              String _name_1 = _get_3.getName();
-              Henshin_textType _typeForJavaType = this._henshin_textTypeProvider.typeForJavaType(_name_1);
+              Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(classCall.getJavaParameter().get(i));
+              Henshin_textType _typeForJavaType = this._henshin_textTypeProvider.typeForJavaType((method.getParameterTypes()[i]).getName());
               boolean _notEquals = (!Objects.equal(_typeFor, _typeForJavaType));
               if (_notEquals) {
                 wrongParameterType = true;
@@ -2938,42 +2544,24 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
         }
       }
       if ((!methodExist)) {
-        Method _get_2 = methods.get(0);
-        Class<?>[] _parameterTypes_1 = _get_2.getParameterTypes();
-        int _size_3 = ((List<Class<?>>)Conversions.doWrapArray(_parameterTypes_1)).size();
-        EList<Expression> _javaParameter_1 = classCall.getJavaParameter();
-        int _size_4 = _javaParameter_1.size();
+        int _size_3 = ((List<Class<?>>)Conversions.doWrapArray(methods.get(0).getParameterTypes())).size();
+        int _size_4 = classCall.getJavaParameter().size();
         boolean _notEquals = (_size_3 != _size_4);
         if (_notEquals) {
-          EAttribute _javaClassValue_Value_1 = Henshin_textPackage.eINSTANCE.getJavaClassValue_Value();
-          this.error("Bad Parameter Count.\'", classCall, _javaClassValue_Value_1);
+          this.error("Bad Parameter Count.\'", classCall, Henshin_textPackage.eINSTANCE.getJavaClassValue_Value());
         } else {
           for (int i = 0; (i < classCall.getJavaParameter().size()); i++) {
-            EList<Expression> _javaParameter_2 = classCall.getJavaParameter();
-            Expression _get_3 = _javaParameter_2.get(i);
-            Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(_get_3);
-            Method _get_4 = methods.get(0);
-            Class<?>[] _parameterTypes_2 = _get_4.getParameterTypes();
-            Class<?> _get_5 = _parameterTypes_2[i];
-            String _name_1 = _get_5.getName();
-            Henshin_textType _typeForJavaType = this._henshin_textTypeProvider.typeForJavaType(_name_1);
+            Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(classCall.getJavaParameter().get(i));
+            Henshin_textType _typeForJavaType = this._henshin_textTypeProvider.typeForJavaType((methods.get(0).getParameterTypes()[i]).getName());
             boolean _notEquals_1 = (!Objects.equal(_typeFor, _typeForJavaType));
             if (_notEquals_1) {
-              Method _get_6 = methods.get(0);
-              Class<?>[] _parameterTypes_3 = _get_6.getParameterTypes();
-              Class<?> _get_7 = _parameterTypes_3[i];
-              String _name_2 = _get_7.getName();
-              String _plus_3 = ("Methode expected " + _name_2);
-              String _plus_4 = (_plus_3 + " type, but was ");
-              EList<Expression> _javaParameter_3 = classCall.getJavaParameter();
-              Expression _get_8 = _javaParameter_3.get(i);
-              Henshin_textType _typeFor_1 = this._henshin_textTypeProvider.typeFor(_get_8);
-              String _plus_5 = (_plus_4 + _typeFor_1);
-              String _plus_6 = (_plus_5 + ".\'");
-              EList<Expression> _javaParameter_4 = classCall.getJavaParameter();
-              Expression _get_9 = _javaParameter_4.get(i);
-              EReference _javaClassValue_JavaParameter = Henshin_textPackage.eINSTANCE.getJavaClassValue_JavaParameter();
-              this.error(_plus_6, _get_9, _javaClassValue_JavaParameter);
+              String _name = (methods.get(0).getParameterTypes()[i]).getName();
+              String _plus_1 = ("Methode expected " + _name);
+              String _plus_2 = (_plus_1 + " type, but was ");
+              Henshin_textType _typeFor_1 = this._henshin_textTypeProvider.typeFor(classCall.getJavaParameter().get(i));
+              String _plus_3 = (_plus_2 + _typeFor_1);
+              String _plus_4 = (_plus_3 + ".\'");
+              this.error(_plus_4, classCall.getJavaParameter().get(i), Henshin_textPackage.eINSTANCE.getJavaClassValue_JavaParameter());
             }
           }
         }
@@ -2992,23 +2580,17 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     List<JavaImport> iterableOfJavaImportImpl = new ArrayList<JavaImport>();
     EObject container = startObject.eContainer();
     while (((!(container instanceof Rule)) && (!(container instanceof MultiRule)))) {
-      EObject _eContainer = container.eContainer();
-      container = _eContainer;
+      container = container.eContainer();
     }
     if ((container instanceof Rule)) {
-      EList<RuleElement> _ruleElements = ((Rule) container).getRuleElements();
-      Iterable<JavaImport> _filter = Iterables.<JavaImport>filter(_ruleElements, JavaImport.class);
-      Iterables.<JavaImport>addAll(iterableOfJavaImportImpl, _filter);
+      Iterables.<JavaImport>addAll(iterableOfJavaImportImpl, Iterables.<JavaImport>filter(((Rule) container).getRuleElements(), JavaImport.class));
     } else {
-      EList<RuleElement> _multiruleElements = ((MultiRule) container).getMultiruleElements();
-      Iterable<JavaImport> _filter_1 = Iterables.<JavaImport>filter(_multiruleElements, JavaImport.class);
-      Iterables.<JavaImport>addAll(iterableOfJavaImportImpl, _filter_1);
+      Iterables.<JavaImport>addAll(iterableOfJavaImportImpl, Iterables.<JavaImport>filter(((MultiRule) container).getMultiruleElements(), JavaImport.class));
     }
     EObject _eContainer = container.eContainer();
     boolean _not = (!(_eContainer instanceof Model));
     if (_not) {
-      List<JavaImport> _importList = this.getImportList(container);
-      iterableOfJavaImportImpl.addAll(_importList);
+      iterableOfJavaImportImpl.addAll(this.getImportList(container));
     }
     return iterableOfJavaImportImpl;
   }
