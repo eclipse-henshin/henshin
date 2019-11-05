@@ -1094,7 +1094,7 @@ public class EngineImpl implements Engine {
 	 *            Many-flag.
 	 * @return The casted object.
 	 */
-	private static Object castValueToDataType(Object value, EDataType type, boolean isMany) {
+	protected static Object castValueToDataType(Object value, EDataType type, boolean isMany) {
 
 		// List of values?
 		if (isMany) {

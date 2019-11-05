@@ -47,7 +47,7 @@ import org.eclipse.swt.widgets.Shell;
 public class AttributeCreateCommand extends EditElementCommand {
 
 	// Parent shell to be used for displaying the menu.
-	private Shell shell;
+	protected Shell shell;
 
 	/**
 	 * @generated
@@ -184,7 +184,10 @@ public class AttributeCreateCommand extends EditElementCommand {
 		return new PopupMenu(attributes, labelProvider);
 	}
 
-	private void addAttribute(Node node, Attribute attribute) {
+	/**
+	 * @generated NOT
+	 */
+	protected void addAttribute(Node node, Attribute attribute) {
 		Attribute old = node.getAttribute(attribute.getType());
 		if (old != null) {
 			node.getAttributes().set(node.getAttributes().indexOf(old), attribute);
