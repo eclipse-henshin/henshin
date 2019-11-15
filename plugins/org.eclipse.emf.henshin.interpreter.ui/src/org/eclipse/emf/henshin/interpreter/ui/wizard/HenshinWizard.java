@@ -230,7 +230,7 @@ public class HenshinWizard extends Wizard
 		// search index of initialUnit
 		int initIdx = -1;
 		for (int index = 0; index < allUnits.size(); index++) {
-			var unit = allUnits.get(index);
+			Unit unit = allUnits.get(index);
 			if (initialUnit != null) {
 				if (initialUnit == unit) {
 					initIdx = index;
