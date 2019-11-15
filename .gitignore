@@ -2,3 +2,12 @@
 .settings/
 bin/
 target/
+/.metadata/
+/plugins/adapters/org.eclipse.emf.henshin.adapters.xtext/xtend-gen/
+/plugins/adapters/org.eclipse.emf.henshin.adapters.xtext.ui/xtend-gen/
+/plugins/org.eclipse.emf.henshin.text/src-gen/
+/plugins/org.eclipse.emf.henshin.text/xtend-gen/
+/plugins/org.eclipse.emf.henshin.text.tests/src-gen/
+/plugins/org.eclipse.emf.henshin.text.tests/xtend-gen/
+/plugins/org.eclipse.emf.henshin.text.ui/src-gen/
+/plugins/org.eclipse.emf.henshin.text.ui/xtend-gen/

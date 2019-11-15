@@ -65,8 +65,8 @@ import org.eclipse.swt.widgets.Composite;
  * @author Gregor Bonifer, Stefan Jurack, Christian Krause
  */
 @SuppressWarnings("restriction")
-public class HenshinWizard extends Wizard implements UnitSelectionListener,
-		ModelSelectorListener, ParameterChangeListener {
+public class HenshinWizard extends Wizard
+		implements UnitSelectionListener, ModelSelectorListener, ParameterChangeListener {
 
 	protected Unit initialUnit;
 
@@ -75,7 +75,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	protected List<Unit> allUnits;
 
 	protected List<Unit> outerUnits;
-	
+
 	protected List<CompletionListener> completionListeners = new ArrayList<HenshinWizard.CompletionListener>();
 
 	protected TransformOperation transformOperation;
@@ -93,8 +93,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	/**
 	 * Constructor.
 	 * 
-	 * @param module
-	 *            Module to be used.
+	 * @param module Module to be used.
 	 */
 	public HenshinWizard(Module module) {
 		this();
@@ -104,8 +103,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	/**
 	 * Constructor.
 	 * 
-	 * @param unit
-	 *            Unit to be applied.
+	 * @param unit Unit to be applied.
 	 */
 	public HenshinWizard(Unit unit) {
 		this(unit.getModule());
@@ -113,9 +111,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	@Override
 	public void addPages() {
@@ -124,11 +120,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.wizard.Wizard#createPageControls(org.eclipse.swt.widgets
-	 * .Composite)
 	 */
 	@Override
 	public void createPageControls(Composite pageContainer) {
@@ -146,9 +138,9 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 		// Copy the original module into the fresh resource:
 		Copier copier = new Copier();
 		Collection<EObject> copies = copier.copyAll(oldModuleResource.getContents());
-	    copier.copyReferences();		
+		copier.copyReferences();
 		newModuleResource.getContents().addAll(copies);
-	    
+
 		// Now switch to the copied versions:
 		module = (Module) copier.get(module);
 		if (initialUnit != null) {
@@ -159,75 +151,123 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 		for (EPackage ePackage : module.getImports()) {
 			resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 		}
-		
+
+		//initialize allUnits 
 		allUnits = new ArrayList<Unit>();
 		allUnits.addAll(module.getUnits());
-		outerUnits = new ArrayList<Unit>();
 		
-		List<String> selectableUnitLabels = new ArrayList<String>();
-		List<String> outerUnitLabels = new ArrayList<String>();
+		// initialize outerUnits
+		initializeOuterUnits();
 
-		int initIdx = -1;
-		int idx = 0;
-		Unit selectedUnit = initialUnit;
-		for (Unit unit : allUnits) {
-			String unitLabel = unit.toString();
-			selectableUnitLabels.add(unitLabel);
-			boolean isOuterUnit = true;
-			for (Unit outerUnit : allUnits) {
-				if (outerUnit.getSubUnits(true).contains(unit)) {
-					isOuterUnit = false;
-					break;
-				}
-			}
-			if (isOuterUnit) {
-				outerUnits.add(unit);
-				outerUnitLabels.add(unitLabel);
-			}
-
-			if (initialUnit != null) {
-				if (initialUnit == unit) {
-					initIdx = idx;
-					selectedUnit = unit;
-				}
-			} else {
-				if (initIdx < 0 && unit.getName() != null
-						&& unit.getName().toLowerCase().equals("main")) {
-					initIdx = idx;
-					selectedUnit = unit;
-				}
-			}
-			idx++;
-		}
-		if (initIdx < 0) {
-			initIdx = 0;
-			selectedUnit = allUnits.get(0);
-		}
+		//get index Of intialUnit
+		int initIdx = getInitialUnitIndex();
 		
-		if(!outerUnits.contains(initialUnit)){
-			page.unitSelector.unitFilter.setSelection(true);
-		}
-		
-		page.unitSelector.setSelectableUnits(
-				selectableUnitLabels.toArray(new String[0]),
-				outerUnitLabels.toArray(new String[0]));
-		page.unitSelector.setSelection(initIdx);
+        //set unit selector
+		setUnitSelector(initIdx);
 
 		transformOperation = new TransformOperation();
-		if (selectedUnit != null) {
-			transformOperation.setUnit(selectedUnit,
-					getParameterPreferences(selectedUnit));
-		}
-
-		if (selectedUnit != null) {
-			page.parameterEditor.setParameters(transformOperation
-					.getParameterConfigurations());
+		if (initialUnit != null) {
+			transformOperation.setUnit(initialUnit, getParameterPreferences(initialUnit));
+			page.parameterEditor.setParameters(transformOperation.getParameterConfigurations());
 		}
 
 		page.unitSelector.addUnitSelectionListener(HenshinWizard.this);
 		page.inputSelector.addModelSelectorListener(HenshinWizard.this);
 		page.outputSelector.addModelSelectorListener(HenshinWizard.this);
 		page.parameterEditor.addParameterChangeListener(HenshinWizard.this);
+	}
+
+	/**
+	 * 
+	 */
+	private void initializeOuterUnits() {
+		outerUnits = new ArrayList<Unit>();
+		for (Unit unit : allUnits) {
+			boolean isOuterUnit = isUnitOuterUnit(unit);
+			if (isOuterUnit) {
+				outerUnits.add(unit);
+			}
+		}
+	}
+
+	/**
+	 * @param initIdx
+	 */
+	private void setUnitSelector(int initIdx) {
+		// get selectableUnitLabels
+		List<String> selectableUnitLabels = new ArrayList<String>();
+		for (Unit unit : allUnits) {
+			String unitLabel = unit.toString();
+			selectableUnitLabels.add(unitLabel);
+		}
+		//get outerUnitLabels
+		List<String> outerUnitLabels = new ArrayList<String>();
+		for (Unit outUnit : outerUnits) {
+			String outUnitLabel = outUnit.toString();
+			outerUnitLabels.add(outUnitLabel);
+		}
+		
+		// if initialUnit is not outerUnit, load allUnits
+		if (!outerUnits.contains(initialUnit)) {
+			page.unitSelector.unitFilter.setSelection(true);
+		}
+		page.unitSelector.setSelectableUnits(selectableUnitLabels.toArray(new String[0]),
+				outerUnitLabels.toArray(new String[0]));
+		page.unitSelector.setSelection(initIdx);
+	}
+
+	/**
+	 * @return get index of InitialUnit in unitList
+	 */
+	private int getInitialUnitIndex() {
+		
+		// If initialUnit is outerUnit, use the index inside outerUnits list
+		if (outerUnits.contains(initialUnit)) {
+			
+			return outerUnits.indexOf(initialUnit);
+		} 
+		
+		// search index of initialUnit
+		int initIdx = -1;
+		for (int index = 0; index < allUnits.size(); index++) {
+			var unit = allUnits.get(index);
+			if (initialUnit != null) {
+				if (initialUnit == unit) {
+					initIdx = index;
+					break;
+				}
+			} else {
+				if (initIdx < 0 && unit.getName() != null && unit.getName().toLowerCase().equals("main")) {
+					initIdx = index;
+					initialUnit = unit;
+					break;
+				}
+			}
+		}
+		
+		// if no-match
+		if (initIdx < 0) {
+			initIdx = 0;
+			initialUnit = allUnits.get(0);
+		}
+		return initIdx;
+	}
+
+	/**
+	 * determine if a unit is an outerUnit
+	 * 
+	 * @param unit
+	 * @return
+	 */
+	private boolean isUnitOuterUnit(Unit unit) {
+		boolean isOuterUnit = true;
+		for (Unit outerUnit : allUnits) {
+			if (outerUnit.getSubUnits(true).contains(unit)) {
+				isOuterUnit = false;
+				break;
+			}
+		}
+		return isOuterUnit;
 	}
 
 	protected List<ParameterConfig> getParameterPreferences(Unit unit) {
@@ -239,14 +279,11 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
 	 */
 	@Override
 	public boolean canFinish() {
-		if (transformOperation.getInputUri() == null
-				|| transformOperation.getOutputUri() == null
+		if (transformOperation.getInputUri() == null || transformOperation.getOutputUri() == null
 				|| transformOperation.getUnit() == null) {
 			return false;
 		}
@@ -272,16 +309,14 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
 		try {
 			getContainer().run(true, true, transformOperation);
 
-			if (page.openCompare.getSelection()) {	// Load the two input models
+			if (page.openCompare.getSelection()) { // Load the two input models
 				ResourceSet resourceSet1 = new ResourceSetImpl();
 				ResourceSet resourceSet2 = new ResourceSetImpl();
 				String xmi1 = page.outputSelector.getModelURI();
@@ -293,21 +328,22 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 				IEObjectMatcher matcher = DefaultMatchEngine.createDefaultEObjectMatcher(UseIdentifiers.NEVER);
 				IComparisonFactory comparisonFactory = new DefaultComparisonFactory(new DefaultEqualityHelperFactory());
 				IMatchEngine.Factory matchEngineFactory = new MatchEngineFactoryImpl(matcher, comparisonFactory);
-			        matchEngineFactory.setRanking(20);
-			        IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
-			        matchEngineRegistry.add(matchEngineFactory);
+				matchEngineFactory.setRanking(20);
+				IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
+				matchEngineRegistry.add(matchEngineFactory);
 				EMFCompare comparator = EMFCompare.builder().setMatchEngineFactoryRegistry(matchEngineRegistry).build();
 
 				// Compare the two models
 				IComparisonScope scope = new DefaultComparisonScope(resourceSet1, resourceSet2, null);
-			    ICompareEditingDomain editingDomain = EMFCompareEditingDomain.create(resourceSet1, resourceSet2, null);
-			    AdapterFactory adapterFactory = new ComposedAdapterFactory(
-				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-			    
-				CompareEditorInput input = new ComparisonScopeEditorInput(new EMFCompareConfiguration(new CompareConfiguration()), 
-			        editingDomain, adapterFactory, comparator, scope);
+				ICompareEditingDomain editingDomain = EMFCompareEditingDomain.create(resourceSet1, resourceSet2, null);
+				AdapterFactory adapterFactory = new ComposedAdapterFactory(
+						ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-			    CompareUI.openCompareEditor(input);
+				CompareEditorInput input = new ComparisonScopeEditorInput(
+						new EMFCompareConfiguration(new CompareConfiguration()), editingDomain, adapterFactory,
+						comparator, scope);
+
+				CompareUI.openCompareEditor(input);
 			}
 
 		} catch (InvocationTargetException e) {
@@ -332,37 +368,27 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 		// Resource will be loaded within the resource set
 		resourceSet.getResource(uri, true);
 	}
-	
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector.
-	 * UnitSelectionListener#unitSelected(int)
+	 * 	 
 	 */
 	@Override
 	public boolean unitSelected(int idx, boolean showInnerUnits) {
 		Unit unit = showInnerUnits ? this.allUnits.get(idx) : this.outerUnits.get(idx);
 		transformOperation.setUnit(unit, getParameterPreferences(unit));
-		page.parameterEditor.setParameters(transformOperation
-				.getParameterConfigurations());
+		page.parameterEditor.setParameters(transformOperation.getParameterConfigurations());
 		fireCompletionChange();
 		return false;
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ModelSelector.
-	 * ModelSelectorListener#modelURIChanged(org.eclipse.emf.common.util.URI)
 	 */
 	@Override
 	public boolean modelURIChanged(String modelUri) {
 		try {
-			transformOperation.setInputURI(URI.createURI(page.inputSelector
-					.getModelURI()));
-			transformOperation.setOutputURI(URI.createURI(page.outputSelector
-					.getModelURI()));
+			transformOperation.setInputURI(URI.createURI(page.inputSelector.getModelURI()));
+			transformOperation.setOutputURI(URI.createURI(page.outputSelector.getModelURI()));
 			fireCompletionChange();
 		} catch (IllegalArgumentException e) {
 		}
@@ -370,13 +396,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ParameterEditTable
-	 * .ParameterChangeListener
-	 * #parameterChanged(org.eclipse.emf.henshin.interpreter
-	 * .ui.wizard.ParameterConfiguration)
 	 */
 	@Override
 	public void parameterChanged(ParameterConfig paramCfg) {
@@ -399,11 +419,5 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener,
 	public static interface CompletionListener {
 		public void completionChanged();
 	}
-
-
-	// @Override
-	// public boolean isHelpAvailable() {
-	// return true;
-	// }
 
 }
