@@ -15,5 +15,5 @@ BUILD=$1
 SRC="p2updatesite/target/repository"
 TRG="/home/data/httpd/download.eclipse.org/modeling/emft/henshin/updates/$BUILD"
 
-rm -R $TRG/* 2> /dev/null
-cp -R $SRC/* $TRG
+scp -R $SRC/ genie.<projectname>@projects-storage.eclipse.org:$TRG
+ssh genie.henshin@projects-storage.eclipse.org ls -al $TRG
