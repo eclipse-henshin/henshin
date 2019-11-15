@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Py1cUL9aEemvZa0qyWhzpg">
+  <imports href="www.boxing.com#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_QQH1QL9aEemvZa0qyWhzpg" name="addItemToBox">
+    <lhs xmi:id="_QQQYIL9aEemvZa0qyWhzpg" name="Lhs">
+      <nodes xmi:id="_Vu1gsL9aEemvZa0qyWhzpg" name="b">
+        <type href="www.boxing.com#//Box"/>
+      </nodes>
+      <nodes xmi:id="_WVcNsL9aEemvZa0qyWhzpg" name="i">
+        <type href="www.boxing.com#//Item"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_Xu_akL9aEemvZa0qyWhzpg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_Xu_akb9aEemvZa0qyWhzpg">
+          <conclusion xmi:id="_Xu_akr9aEemvZa0qyWhzpg">
+            <nodes xmi:id="_XvABoL9aEemvZa0qyWhzpg" name="b" outgoing="_XG5f0L9aEemvZa0qyWhzpg">
+              <type href="www.boxing.com#//Box"/>
+            </nodes>
+            <nodes xmi:id="_XvABor9aEemvZa0qyWhzpg" name="i" incoming="_XG5f0L9aEemvZa0qyWhzpg">
+              <type href="www.boxing.com#//Item"/>
+            </nodes>
+            <edges xmi:id="_XG5f0L9aEemvZa0qyWhzpg" source="_XvABoL9aEemvZa0qyWhzpg" target="_XvABor9aEemvZa0qyWhzpg">
+              <type href="www.boxing.com#//Box/stores"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_XvABob9aEemvZa0qyWhzpg" origin="_Vu1gsL9aEemvZa0qyWhzpg" image="_XvABoL9aEemvZa0qyWhzpg"/>
+          <mappings xmi:id="_XvABo79aEemvZa0qyWhzpg" origin="_WVcNsL9aEemvZa0qyWhzpg" image="_XvABor9aEemvZa0qyWhzpg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_QQQYIb9aEemvZa0qyWhzpg" name="Rhs">
+      <nodes xmi:id="_Vu2HwL9aEemvZa0qyWhzpg" name="b" outgoing="_YNyPYL9aEemvZa0qyWhzpg">
+        <type href="www.boxing.com#//Box"/>
+      </nodes>
+      <nodes xmi:id="_WVcNsb9aEemvZa0qyWhzpg" name="i" incoming="_YNyPYL9aEemvZa0qyWhzpg">
+        <type href="www.boxing.com#//Item"/>
+      </nodes>
+      <edges xmi:id="_YNyPYL9aEemvZa0qyWhzpg" source="_Vu2HwL9aEemvZa0qyWhzpg" target="_WVcNsb9aEemvZa0qyWhzpg">
+        <type href="www.boxing.com#//Box/stores"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Vu2u0L9aEemvZa0qyWhzpg" origin="_Vu1gsL9aEemvZa0qyWhzpg" image="_Vu2HwL9aEemvZa0qyWhzpg"/>
+    <mappings xmi:id="_WVc0wL9aEemvZa0qyWhzpg" origin="_WVcNsL9aEemvZa0qyWhzpg" image="_WVcNsb9aEemvZa0qyWhzpg"/>
+  </units>
+</henshin:Module>
