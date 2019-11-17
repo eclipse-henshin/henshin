@@ -623,13 +623,14 @@ public class DebugApplicationCondition extends ApplicationCondition {
 				
 				// set the value
 				if (!currentSlot.setValueAndLock()) {
-					throw new IllegalStateException("stepInto called on Variable level, but no values left: "
-						+ toString());
+					tryLowerIndexVariable();
 				}
-				
-				// update the debug state (current index does not change)
-				updateDebugState(DebugLevel.VALUE, currentVariableIndex, ConstraintType.NONE, -1);
-				setCurrentDebugState(DebugState.SUSPENDED);
+				else {
+					
+					// update the debug state (current index does not change)
+					updateDebugState(DebugLevel.VALUE, currentVariableIndex, ConstraintType.NONE, -1);
+					setCurrentDebugState(DebugState.SUSPENDED);
+				}
 				break;
 			case VALUE:
 				// go to the "type" constraint type as it is always the first constraint.
