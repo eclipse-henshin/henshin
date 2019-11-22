@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroup;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroupDetectionResult;
 import org.eclipse.emf.henshin.variability.ui.MergeClusteredRulesAction;
+import org.eclipse.emf.henshin.variability.ui.views.CloneGroupView.TreeObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.figures.BorderedNodeFigure;
@@ -133,18 +134,18 @@ class TreeObject implements IAdaptable {
 			return getName();
 		}
 
-		public Object getAdapter(Class key) {
+		public <T> T getAdapter(Class<T> key) {
 			return null;
 		}
 	}
 
 	class TreeParent extends TreeObject {
 
-		private ArrayList children;
+		private ArrayList<TreeObject> children;
 
 		public TreeParent(String name) {
 			super(name);
-			children = new ArrayList();
+			children = new ArrayList<TreeObject>();
 		}
 
 		public void addChild(TreeObject child) {
@@ -197,7 +198,7 @@ class TreeObject implements IAdaptable {
 			if (parent instanceof List) {
 				ArrayList<Object> children = new ArrayList<Object>();
 				int index = 0;
-				for (Object o : (List) parent) {
+				for (Object o : (List<?>) parent) {
 					index++;
 					CloneGroup cg = (CloneGroup) o;
 					TreeParent tp = new TreeParent("Clone group "+
@@ -224,7 +225,7 @@ class TreeObject implements IAdaptable {
 			if (parent instanceof TreeParent)
 				return ((TreeParent) parent).hasChildren();
 			if (parent instanceof List)
-				return !((List) parent).isEmpty();
+				return !((List<?>) parent).isEmpty();
 			return false;
 		}
 
@@ -409,7 +410,7 @@ class TreeObject implements IAdaptable {
 
 		private void recolorEdge(NodeEditPart nodeEditPart, Edge e, boolean fromOrigin) {
 			Edge actionEdge = e.getActionEdge();
-			List connectionSet = fromOrigin ? nodeEditPart.getSourceConnections() : nodeEditPart.getTargetConnections() ;
+			List<?> connectionSet = fromOrigin ? nodeEditPart.getSourceConnections() : nodeEditPart.getTargetConnections() ;
 			for (Object connection : connectionSet) {
 				if (connection instanceof EdgeEditPart) {
 					EdgeEditPart edgePart = (EdgeEditPart) connection;

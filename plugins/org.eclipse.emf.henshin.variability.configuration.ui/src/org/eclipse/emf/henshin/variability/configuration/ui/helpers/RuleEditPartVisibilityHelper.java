@@ -1,7 +1,6 @@
 package org.eclipse.emf.henshin.variability.configuration.ui.helpers;
 
 import org.eclipse.core.runtime.Adapters;
-import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;

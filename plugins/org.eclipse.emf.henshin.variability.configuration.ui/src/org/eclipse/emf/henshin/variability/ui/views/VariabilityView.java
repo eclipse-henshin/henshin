@@ -111,7 +111,7 @@ public class VariabilityView extends ViewPart
 	private DataBindingContext variabilityModelTextBindingContext;
 	private FeatureViewerComparator comparator;
 	private ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
-	private WritableValue writableValue;
+	private WritableValue<Rule> writableValue;
 	private CreationMode creationMode = CreationMode.SELECTION;
 	private Configuration config;
 
@@ -358,10 +358,10 @@ public class VariabilityView extends ViewPart
 		variabilityModelLabel.setImage(ImageHelper.getImage("/icons/variability.gif"));
 		variabilityModelText = new Text(composite, SWT.BORDER | SWT.SEARCH);
 		variabilityModelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		IObservableValue target = WidgetProperties.text(SWT.Modify).observe(variabilityModelText);
+		IObservableValue<?> target = WidgetProperties.text(SWT.Modify).observe(variabilityModelText);
 		variabilityModelTextBindingContext = new DataBindingContext();
-		writableValue = new WritableValue();
-		IObservableValue model = EMFProperties.value(HenshinPackage.Literals.MODEL_ELEMENT__ANNOTATIONS)
+		writableValue = new WritableValue<Rule>();
+		IObservableValue<String> model = EMFProperties.value(HenshinPackage.Literals.MODEL_ELEMENT__ANNOTATIONS)
 				.observeDetail(writableValue);
 //		UpdateValueStrategy strategy = new UpdateValueStrategy();
 //		strategy.setBeforeSetValidator(new IValidator() {
@@ -373,7 +373,7 @@ public class VariabilityView extends ViewPart
 //		});
 //		
 //		bindingContext.bindValue(target, new ObservableFeatureModelValue(model), null, null);
-		variabilityModelTextBindingContext.bindValue(target, new ObservableFeatureModelValue(model));
+		variabilityModelTextBindingContext.bindValue(target, new ObservableFeatureModelValue<Object>(model));
 		
 		Label separator = new Label(parent, SWT.HORIZONTAL | SWT.SEPARATOR);
 		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));

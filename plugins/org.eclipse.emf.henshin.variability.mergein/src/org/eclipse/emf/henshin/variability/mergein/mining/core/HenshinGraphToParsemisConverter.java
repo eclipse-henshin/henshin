@@ -22,7 +22,7 @@ import de.parsemis.graph.ListGraph.Factory;
 /**
  * Creates parsemis compatible graph representations of Henshin rule graphs.
  * 
- * @author strüber
+ * @author strï¿½ber
  *
  */
 /**
