@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="mergeSuggestion.MergeRule"
+            id="org.eclipse.emf.henshin.variability.mergein.refactoring.contribution1">
+         <menu
+               label="Refactor"
+               path="additions"
+               id="org.eclipse.emf.henshin.variability.mergein.refactoring.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Merge"
+               class="org.eclipse.emf.henshin.variability.mergein.refactoring.popup.actions.MergeAction"
+               menubarPath="org.eclipse.emf.henshin.variability.mergein.refactoring.menu1/group1"
+               enablesFor="1"
+               id="org.eclipse.emf.henshin.variability.mergein.refactoring.newAction">
+         </action>
+         <action
+               label="Merge 2"
+               class="org.eclipse.emf.henshin.variability.mergein.refactoring.popup.actions.MergeAction"
+               menubarPath="org.eclipse.emf.henshin.variability.mergein.refactoring.menu1/group1"
+               enablesFor="1"
+               id="org.eclipse.emf.henshin.variability.mergein.refactoring.newAction2">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

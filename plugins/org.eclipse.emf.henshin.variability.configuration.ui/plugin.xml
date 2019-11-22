@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+
+      <view 
+            category="org.eclipse.emf.henshin.variability.ui"
+            class="org.eclipse.emf.henshin.variability.ui.views.VariabilityView"
+            icon="icons/variability.gif"
+            id="org.eclipse.emf.henshin.variability.ui.views.VariabilityView"
+            name="Variability">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="org.eclipse.emf.henshin.variability.ui.views.VariabilityView"
+               ratio="0.7"
+               relationship="right"
+               relative="org.eclipse.ui.editorss"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension point="org.eclipse.ui.commands">
+  </extension>
+  <extension point="org.eclipse.ui.popupMenus">
+
+     <objectContribution
+     	id="org.eclipse.emf.henshin.variability.ui.objectContribution.ModuleEditPart2"
+        objectClass="org.eclipse.gef.editparts.AbstractEditPart">
+         <visibility>
+	         <or>
+		         <or>
+			         <objectClass
+			               name="org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart">
+			         </objectClass>
+			         <objectClass
+			               name="org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart">
+			         </objectClass>
+			         <objectClass
+			               name="org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart">
+			         </objectClass>
+			         <objectClass
+			               name="org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart">
+			         </objectClass>
+		         </or>
+		         <or>
+			         <objectClass
+			               name="org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart">
+			         </objectClass>
+		         </or>
+		         <or>
+			         <objectClass
+			               name="org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart">
+			         </objectClass>
+			         <objectClass
+			               name="org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart">
+			         </objectClass>
+			         <objectClass
+			               name="org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart">
+			         </objectClass>
+		         </or>
+	         </or>
+         </visibility>
+         <action
+         	class="org.eclipse.emf.henshin.variability.configuration.ui.actions.MoveElementToConfigurationAction"
+            enablesFor="+"
+            id="org.eclipse.emf.henshin.variability.ui.popup.MoveElementToConfigurationActionID"
+            label="&amp;Move to active configuration">
+         </action>
+         <action
+         	class="org.eclipse.emf.henshin.variability.configuration.ui.actions.MoveElementToBaseRuleAction"
+            enablesFor="+"
+            id="org.eclipse.emf.henshin.variability.ui.popup.MoveElementToBaseRuleActionID"
+            label="&amp;Move to base rule">
+         </action>
+     </objectContribution>
+     
+</extension>
+  <extension
+        point="org.eclipse.ui.menus">
+  </extension>
+</plugin>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kxn04PrFEeOq45P1juQ_TA">
+  <imports href="../../../../../../../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/ecore2rdb/rdb.ecore#_wEs6IFv7EeG02funq3QXug"/>
+  <imports href="http://www.eclipse.org/emf/2011/Henshin/Trace#/"/>
+  <imports href="GAEDataStore.ecore#/"/>
+  <imports href="classdiagram.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qJClgPrFEeOq45P1juQ_TA" name="Class2Model">
+    <parameters xmi:id="_7tCmwPrQEeOFHJlDwORCZg" name="className">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_w56dgPujEeOrOdSsimkRfw" name="c">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </parameters>
+    <lhs xmi:id="_qJFo1PrFEeOq45P1juQ_TA" name="Lhs">
+      <nodes xmi:id="_yNK0APrFEeOq45P1juQ_TA" presenceCondition="def(RDBMS) and (def(c.AllTheClasses) or def(AllClasses))">
+        <type href="../../../../../../../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/ecore2rdb/rdb.ecore#//Schema"/>
+      </nodes>
+      <nodes xmi:id="_IzvtYPrIEeOq45P1juQ_TA">
+        <type href="GAEDataStore.ecore#//Datastore"/>
+      </nodes>
+      <nodes xmi:id="_g_PHYPrQEeOFHJlDwORCZg" outgoing="_h7jls_rQEeOFHJlDwORCZg">
+        <type href="classdiagram.ecore#//Package"/>
+      </nodes>
+      <nodes xmi:id="_h7jlsPrQEeOFHJlDwORCZg" name="c" incoming="_h7jls_rQEeOFHJlDwORCZg">
+        <type href="classdiagram.ecore#//Class"/>
+        <attributes xmi:id="_zWE70PrQEeOFHJlDwORCZg" value="className">
+          <type href="classdiagram.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_h7jls_rQEeOFHJlDwORCZg" source="_g_PHYPrQEeOFHJlDwORCZg" target="_h7jlsPrQEeOFHJlDwORCZg">
+        <type href="classdiagram.ecore#//Package/classes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qJIsIPrFEeOq45P1juQ_TA" name="Rhs">
+      <nodes xmi:id="_vGCrAPrFEeOq45P1juQ_TA" outgoing="_V4QskPrIEeOq45P1juQ_TA _mJ9ZcPrIEeOq45P1juQ_TA _oTD6UPrQEeOFHJlDwORCZg">
+        <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace"/>
+      </nodes>
+      <nodes xmi:id="_zIJ1kPrFEeOq45P1juQ_TA" outgoing="_jVaqs_rHEeOq45P1juQ_TA">
+        <type href="../../../../../../../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/ecore2rdb/rdb.ecore#//Schema"/>
+      </nodes>
+      <nodes xmi:id="_jVaqsPrHEeOq45P1juQ_TA" presenceCondition="def(RDBMS) and (def(c.persistent) or def(AllClasses))" incoming="_jVaqs_rHEeOq45P1juQ_TA _V4QskPrIEeOq45P1juQ_TA">
+        <type href="../../../../../../../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/ecore2rdb/rdb.ecore#//Table"/>
+        <attributes xmi:id="_PTx80PrREeOFHJlDwORCZg" value="className">
+          <type href="../../../../../../../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/ecore2rdb/rdb.ecore#//Table/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_K97tAPrIEeOq45P1juQ_TA" incoming="_JkSZg_rIEeOq45P1juQ_TA _mJ9ZcPrIEeOq45P1juQ_TA">
+        <type href="GAEDataStore.ecore#//Entity"/>
+        <attributes xmi:id="_Oy0k0PrREeOFHJlDwORCZg" value="className">
+          <type href="GAEDataStore.ecore#//Entity/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_K9-wUPrIEeOq45P1juQ_TA" outgoing="_JkSZg_rIEeOq45P1juQ_TA">
+        <type href="GAEDataStore.ecore#//Datastore"/>
+      </nodes>
+      <nodes xmi:id="_hkGH8PrQEeOFHJlDwORCZg" outgoing="_h7jltPrQEeOFHJlDwORCZg">
+        <type href="classdiagram.ecore#//Package"/>
+      </nodes>
+      <nodes xmi:id="_h7jlsfrQEeOFHJlDwORCZg" name="c" incoming="_h7jltPrQEeOFHJlDwORCZg _oTD6UPrQEeOFHJlDwORCZg">
+        <type href="classdiagram.ecore#//Class"/>
+        <attributes xmi:id="_zWE70frQEeOFHJlDwORCZg" value="className">
+          <type href="classdiagram.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_jVaqs_rHEeOq45P1juQ_TA" source="_zIJ1kPrFEeOq45P1juQ_TA" target="_jVaqsPrHEeOq45P1juQ_TA">
+        <type href="../../../../../../../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/ecore2rdb/rdb.ecore#//Schema/tables"/>
+      </edges>
+      <edges xmi:id="_JkSZg_rIEeOq45P1juQ_TA" source="_K9-wUPrIEeOq45P1juQ_TA" target="_K97tAPrIEeOq45P1juQ_TA">
+        <type href="GAEDataStore.ecore#//Datastore/entities"/>
+      </edges>
+      <edges xmi:id="_V4QskPrIEeOq45P1juQ_TA" source="_vGCrAPrFEeOq45P1juQ_TA" target="_jVaqsPrHEeOq45P1juQ_TA">
+        <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/target"/>
+      </edges>
+      <edges xmi:id="_mJ9ZcPrIEeOq45P1juQ_TA" source="_vGCrAPrFEeOq45P1juQ_TA" target="_K97tAPrIEeOq45P1juQ_TA">
+        <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/target"/>
+      </edges>
+      <edges xmi:id="_h7jltPrQEeOFHJlDwORCZg" source="_hkGH8PrQEeOFHJlDwORCZg" target="_h7jlsfrQEeOFHJlDwORCZg">
+        <type href="classdiagram.ecore#//Package/classes"/>
+      </edges>
+      <edges xmi:id="_oTD6UPrQEeOFHJlDwORCZg" source="_vGCrAPrFEeOq45P1juQ_TA" target="_h7jlsfrQEeOFHJlDwORCZg">
+        <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/target"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_zIJ1kfrFEeOq45P1juQ_TA" origin="_yNK0APrFEeOq45P1juQ_TA" image="_zIJ1kPrFEeOq45P1juQ_TA"/>
+    <mappings xmi:id="_K9-wUfrIEeOq45P1juQ_TA" origin="_IzvtYPrIEeOq45P1juQ_TA" image="_K9-wUPrIEeOq45P1juQ_TA"/>
+    <mappings xmi:id="_hkGH8frQEeOFHJlDwORCZg" origin="_g_PHYPrQEeOFHJlDwORCZg" image="_hkGH8PrQEeOFHJlDwORCZg"/>
+    <mappings xmi:id="_h7jlsvrQEeOFHJlDwORCZg" origin="_h7jlsPrQEeOFHJlDwORCZg" image="_h7jlsfrQEeOFHJlDwORCZg"/>
+  </units>
+</henshin:Module>

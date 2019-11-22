@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.henshin.variability.mergein.evaluation;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.emf.henshin.variability.mergein.evaluation,
+ metrics,
+ metrics.impl,
+ metrics.util
+Require-Bundle: org.eclipse.emf.henshin.model;visibility:=reexport,
+ org.eclipse.emf.henshin.variability
+Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.emf.henshin.variability.mergein.evaluation

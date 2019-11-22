@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Multi
+Bundle-SymbolicName: org.eclipse.emf.henshin.variability.multi
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.eclipse.emf.henshin.variability.multi
+Require-Bundle: org.eclipse.emf.henshin.interpreter,
+ org.eclipse.emf.henshin.variability,
+ org.sat4j.core,
+ de.ovgu.featureide.fm.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.emf.henshin.variability.multi

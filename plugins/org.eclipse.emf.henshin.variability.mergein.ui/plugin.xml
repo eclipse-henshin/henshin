@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.emf.henshin.variability.ui"
+            name="Clone Detection">
+      </category>
+      <view
+            category="org.eclipse.emf.henshin.variability.ui"
+            class="org.eclipse.emf.henshin.variability.ui.views.CloneGroupView"
+            icon="icons/sample.gif"
+            id="org.eclipse.emf.henshin.variability.ui.views.CloneGroupView"
+            name="CloneGroupView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="org.eclipse.emf.henshin.variability.ui.views.CloneGroupView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.ProblemView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension point="org.eclipse.ui.commands">
+	   <category name="Variability extraction" description="Commands related to variability extraction." id="org.eclipse.emf.henshin.variability.extr"/>
+     	<command categoryId="org.eclipse.emf.henshin.variability.extr" description="Start Clone Detection" id="org.eclipse.emf.henshin.variability.startCloneDetection" name="Start Clone Detection">
+   </command>
+  </extension>
+  <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.emf.henshin.variability.ui.objectContribution.ModuleEditPart1"
+            objectClass="org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart">
+         <action
+               class="org.eclipse.emf.henshin.variability.ui.StartCloneDetectionAction"
+               definitionId="org.eclipse.emf.henshin.variability.startCloneDetection"
+               enablesFor="1"
+               id="org.eclipse.emf.henshin.variability.ui.popup.StartCloneDetectionActionID"
+               label="&amp;Start Clone Detection"
+               >
+         </action>
+      </objectContribution>                    
+</extension>
+</plugin>
