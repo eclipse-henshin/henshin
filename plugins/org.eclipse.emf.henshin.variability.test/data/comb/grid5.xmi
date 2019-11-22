@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<grid:Grid xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:grid="http://www.eclipse.org/emf/henshin/examples/grid"
+    xsi:schemaLocation="http://www.eclipse.org/emf/henshin/examples/grid grid.ecore"
+    matches="5">
+  <nodes hor="//@nodes.2"
+      ver="//@nodes.1"
+      name="Node1"/>
+  <nodes name="Node1Ver"/>
+  <nodes hor="//@nodes.4"
+      ver="//@nodes.3"
+      name="Node2"/>
+  <nodes name="Node2Ver"/>
+  <nodes hor="//@nodes.6"
+      ver="//@nodes.5"
+      name="Node3"/>
+  <nodes name="Node3Ver"/>
+  <nodes hor="//@nodes.8"
+      ver="//@nodes.7"
+      name="Node4"/>
+  <nodes name="Node4Ver"/>
+  <nodes ver="//@nodes.9"
+      name="Node5"/>
+  <nodes name="Node5Ver"/>
+</grid:Grid>
