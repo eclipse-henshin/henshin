@@ -72,7 +72,7 @@ public class VariabilityEdge implements Edge, VariabilityGraphElement {
 		if(pc != null) {
 			presenceCondition = pc;
 		} else {
-			presenceCondition = VariabilityTransactionHelper.addAnnotation(edge, VariabilityConstants.PRESENCE_CONDITION, null);
+			presenceCondition = VariabilityTransactionHelper.addAnnotation(edge, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
 	}
 	

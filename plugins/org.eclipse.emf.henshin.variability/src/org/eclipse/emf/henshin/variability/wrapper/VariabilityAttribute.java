@@ -71,7 +71,7 @@ public class VariabilityAttribute implements Attribute, VariabilityGraphElement 
 		if(pc != null) {
 			presenceCondition = pc;
 		} else {
-			presenceCondition = VariabilityTransactionHelper.addAnnotation(attribute, VariabilityConstants.PRESENCE_CONDITION, null);
+			presenceCondition = VariabilityTransactionHelper.addAnnotation(attribute, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
 	}
 	

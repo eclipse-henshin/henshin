@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
 public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 	
 	IObservableValue<String> value;
+	boolean shouldUpdate;
 	
 	ObservableFeatureModelValue(IObservableValue<String> value) {
 		this.value = value;
@@ -96,10 +97,12 @@ public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 
 	@Override
 	public void setValue(String value) {
+		shouldUpdate = false;
 		VariabilityRule rule = getTargetVariabilityRule();
 		if (rule != null) {
 			VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURE_MODEL, value);
 		}
+		shouldUpdate = true;
 	}
 
 	@Override
@@ -118,10 +121,14 @@ public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 			EMFObservableValueDecorator emfValue = (EMFObservableValueDecorator) this.value;
 			
 			if (emfValue.getObserved() != null &&  emfValue.getObserved() instanceof Rule) {
-				return VariabilityFactory.createVariabilityRule((Rule) emfValue.getObserved());			
-				
+				return VariabilityFactory.createVariabilityRule((Rule) emfValue.getObserved());
 			}
 		}
 		return null;
+	}
+
+
+	public boolean shouldUpdate() {
+		return shouldUpdate;
 	}
 }

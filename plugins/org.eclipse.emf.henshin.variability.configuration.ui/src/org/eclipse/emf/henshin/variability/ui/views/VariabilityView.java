@@ -88,7 +88,8 @@ import configuration.Feature;
 import configuration.FeatureBinding;
 
 /**
- * Provides a view that enables users to use variability features in the graphical editor.
+ * Provides a view that enables users to use variability features in the
+ * graphical editor.
  * 
  * @author Stefan Schulz
  *
@@ -109,6 +110,7 @@ public class VariabilityView extends ViewPart
 	private boolean linkingActive;
 	private Text variabilityModelText;
 	private DataBindingContext variabilityModelTextBindingContext;
+	private ObservableFeatureModelValue<?> observableFeatureModelValue;
 	private FeatureViewerComparator comparator;
 	private ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
 	private WritableValue<Rule> writableValue;
@@ -118,9 +120,9 @@ public class VariabilityView extends ViewPart
 	private RuleEditPart selectedRuleEditPart;
 
 	private Label ruleNameLabel;
-	
+
 	private Button add, delete, clear, refresh;
-	
+
 	public RuleEditPart getSelectedRuleEditPart() {
 		return selectedRuleEditPart;
 	}
@@ -141,26 +143,27 @@ public class VariabilityView extends ViewPart
 		super.init(site);
 	}
 
-	private Composite createViewer(Composite parent) {	
+	private Composite createViewer(Composite parent) {
 		Composite buttonComposite = new Composite(parent, SWT.NONE);
 		RowLayout buttonCompositeLayout = new RowLayout();
 		buttonCompositeLayout.wrap = true;
 		buttonCompositeLayout.justify = true;
 		buttonCompositeLayout.fill = true;
 		buttonComposite.setLayout(buttonCompositeLayout);
-		
+
 		add = new Button(buttonComposite, SWT.PUSH);
 		add.setImage(ImageHelper.getImage("/icons/add.gif"));
 		add.setToolTipText("Create feature");
 		add.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Rule rule = VariabilityModelHelper.getRuleForEditPart(selectedRuleEditPart);
-				
-				NameDialog dialog = new NameDialog(getViewSite().getShell(), "Feature", VariabilityFactory.createVariabilityRule(rule).getFeatures());
-				
-				if(dialog.open() == Window.OK) {
+
+				NameDialog dialog = new NameDialog(getViewSite().getShell(), "Feature",
+						VariabilityFactory.createVariabilityRule(rule).getFeatures());
+
+				if (dialog.open() == Window.OK) {
 					String featureName = dialog.getName().trim();
 					Feature feature = ConfigurationFactory.eINSTANCE.createFeature();
 					feature.setName(featureName);
@@ -168,98 +171,99 @@ public class VariabilityView extends ViewPart
 					refresh();
 				}
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		add.setEnabled(false);	
-		
+		add.setEnabled(false);
+
 		delete = new Button(buttonComposite, SWT.PUSH);
 		delete.setImage(ImageHelper.getImage("/icons/delete.gif"));
 		delete.setToolTipText("Delete selected features");
 		delete.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Rule rule = VariabilityModelHelper.getRuleForEditPart(selectedRuleEditPart);
 				StructuredSelection selection = (StructuredSelection) viewer.getSelection();
 				ArrayList<Feature> selectedFeatures = new ArrayList<Feature>();
 				Iterator<?> it = selection.iterator();
-				
-				while(it.hasNext()) {
+
+				while (it.hasNext()) {
 					Object obj = it.next();
-					
-					if(obj instanceof Feature) {
-						selectedFeatures.add((Feature)obj);
+
+					if (obj instanceof Feature) {
+						selectedFeatures.add((Feature) obj);
 					}
 				}
-				
-				MessageDialog messageDialog = new MessageDialog(getViewSite().getShell(), "Delete features", null, 
-						"Do you really want to delete the selected features?\nDoing so may render the rule's feature model invalid.", MessageDialog.WARNING, new String[]{"No", "Yes"}, 0);
 
-				if(messageDialog.open() == 1) {
+				MessageDialog messageDialog = new MessageDialog(getViewSite().getShell(), "Delete features", null,
+						"Do you really want to delete the selected features?\nDoing so may render the rule's feature model invalid.",
+						MessageDialog.WARNING, new String[] { "No", "Yes" }, 0);
+
+				if (messageDialog.open() == 1) {
 					for (Feature feature : selectedFeatures) {
 						config.removeFeature(feature);
 					}
 					refresh();
 				}
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		delete.setEnabled(false);
-		
+
 		clear = new Button(buttonComposite, SWT.PUSH);
 		clear.setImage(ImageHelper.getImage("/icons/clear.gif"));
 		clear.setToolTipText("Clear feature bindings");
 		clear.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(config != null) {
-					for(Feature feature : config.getFeatures()) {
+				if (config != null) {
+					for (Feature feature : config.getFeatures()) {
 						feature.setBinding(FeatureBinding.UNBOUND);
 					}
-					//viewer.update(viewer.getInput(), new String[]{"features"});
+					// viewer.update(viewer.getInput(), new String[]{"features"});
 					refresh();
 				}
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		clear.setEnabled(false);
-		
+
 		refresh = new Button(buttonComposite, SWT.PUSH);
 		refresh.setImage(ImageHelper.getImage("/icons/refresh.gif"));
 		refresh.setToolTipText("Refresh");
 		refresh.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refresh();
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		clear.setEnabled(false);
-		
+
 		Composite tableComposite = new Composite(parent, SWT.NONE);
 		tableComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
 		TableColumnLayout tableColumnLayout = new TableColumnLayout();
@@ -302,6 +306,7 @@ public class VariabilityView extends ViewPart
 				Feature vp = (Feature) element;
 				return vp.getName();
 			}
+
 			@Override
 			public Image getImage(Object element) {
 				return ImageHelper.getImage("/icons/table_default.png");
@@ -317,10 +322,12 @@ public class VariabilityView extends ViewPart
 				Feature vp = (Feature) element;
 				return vp.getBinding().getName();
 			}
+
 			@Override
 			public Image getImage(Object element) {
 				return ImageHelper.getImage("/icons/table_default.png");
-				//return ImageHelper.getImage("/icons/" +  ((Feature) element).getBinding().getName().toLowerCase() +  ".png");
+				// return ImageHelper.getImage("/icons/" + ((Feature)
+				// element).getBinding().getName().toLowerCase() + ".png");
 			}
 		});
 		col.setEditingSupport(new FeatureViewerBindingEditingSupport(viewer));
@@ -345,15 +352,15 @@ public class VariabilityView extends ViewPart
 		GridLayout gl_parent = new GridLayout(1, false);
 		gl_parent.verticalSpacing = 0;
 		parent.setLayout(gl_parent);
-		
+
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		composite.setLayout(new GridLayout(2, false));
-		
+
 		ruleNameLabel = new Label(composite, SWT.NONE);
 		ruleNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		ruleNameLabel.setText("No rule selected");
-		
+
 		Label variabilityModelLabel = new Label(composite, SWT.NONE);
 		variabilityModelLabel.setImage(ImageHelper.getImage("/icons/variability.gif"));
 		variabilityModelText = new Text(composite, SWT.BORDER | SWT.SEARCH);
@@ -373,11 +380,12 @@ public class VariabilityView extends ViewPart
 //		});
 //		
 //		bindingContext.bindValue(target, new ObservableFeatureModelValue(model), null, null);
-		variabilityModelTextBindingContext.bindValue(target, new ObservableFeatureModelValue<Object>(model));
-		
+		observableFeatureModelValue = new ObservableFeatureModelValue<Object>(model);
+		variabilityModelTextBindingContext.bindValue(target, observableFeatureModelValue);
+
 		Label separator = new Label(parent, SWT.HORIZONTAL | SWT.SEPARATOR);
 		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		
+
 		GridData tableCompositeGridData = new GridData();
 		tableCompositeGridData.grabExcessHorizontalSpace = true;
 		tableCompositeGridData.grabExcessVerticalSpace = true;
@@ -386,7 +394,7 @@ public class VariabilityView extends ViewPart
 		tableCompositeGridData.horizontalSpan = 2;
 		Composite tableComposite = createViewer(parent);
 		tableComposite.setLayoutData(tableCompositeGridData);
-		
+
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(),
 				"org.eclipse.emf.henshin.variability.ui.viewer");
@@ -395,53 +403,58 @@ public class VariabilityView extends ViewPart
 		createToolbar();
 		toggleLinking(true);
 	}
-		
+
 	private void updateEditPolicy(RuleEditPart ruleEditPart) {
-		if(ruleEditPart == null) {
+		if (ruleEditPart == null) {
 			return;
 		}
-		
+
 		AbstractEditPart parent = (AbstractEditPart) ruleEditPart.getChildren().get(1);
-		
-		if(creationMode == CreationMode.CONFIGURATION || 
-				(creationMode == CreationMode.SELECTION && !showBaseRuleAction.isChecked())) {
+
+		if (creationMode == CreationMode.CONFIGURATION
+				|| (creationMode == CreationMode.SELECTION && !showBaseRuleAction.isChecked())) {
 			installConfigurationEditPolicy(parent);
 		} else {
 			installBasePolicy(parent);
 		}
 	}
-	
+
 	protected void installBasePolicy(AbstractEditPart editPart) {
 		editPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new RuleCompartmentItemSemanticEditPolicy());
 
-		for(Object child : editPart.getChildren()) {
-			if(child instanceof NodeEditPart) {
+		for (Object child : editPart.getChildren()) {
+			if (child instanceof NodeEditPart) {
 				NodeEditPart nodeEditPart = (NodeEditPart) child;
 				nodeEditPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new NodeItemSemanticEditPolicy());
-				NodeCompartmentEditPart nodeCompartmentEditPart = (NodeCompartmentEditPart) nodeEditPart.getChildren().get(2);
-				nodeCompartmentEditPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new NodeCompartmentItemSemanticEditPolicy());
-				
+				NodeCompartmentEditPart nodeCompartmentEditPart = (NodeCompartmentEditPart) nodeEditPart.getChildren()
+						.get(2);
+				nodeCompartmentEditPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+						new NodeCompartmentItemSemanticEditPolicy());
+
 			}
 		}
 	}
 
 	private void installConfigurationEditPolicy(AbstractEditPart editPart) {
 		editPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new RuleVariabilityEditPolicy(config));
-		
-		for(Object child : editPart.getChildren()) {
-			if(child instanceof NodeEditPart) {
+
+		for (Object child : editPart.getChildren()) {
+			if (child instanceof NodeEditPart) {
 				NodeEditPart nodeEditPart = (NodeEditPart) child;
-				nodeEditPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new NodeVariabilityItemSemanticEditPolicy(config));
-				NodeCompartmentEditPart nodeCompartmentEditPart = (NodeCompartmentEditPart) nodeEditPart.getChildren().get(2);
-				nodeCompartmentEditPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new NodeVariabilityEditPolicy(config));
+				nodeEditPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+						new NodeVariabilityItemSemanticEditPolicy(config));
+				NodeCompartmentEditPart nodeCompartmentEditPart = (NodeCompartmentEditPart) nodeEditPart.getChildren()
+						.get(2);
+				nodeCompartmentEditPart.installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+						new NodeVariabilityEditPolicy(config));
 			}
 		}
 	}
-	
+
 	private void createActions(Composite parent) {
 		elementCreationMenu = new DropDownMenuAction("Element creation mode", parent);
 		elementCreationMenu.setImageDescriptor(ImageHelper.getImageDescriptor("icons/creation_mode.gif"));
-		
+
 		linkToViewingMode = new Action("Link to viewing mode", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
@@ -450,7 +463,7 @@ public class VariabilityView extends ViewPart
 			}
 		};
 		linkToViewingMode.setImageDescriptor(ImageHelper.getImageDescriptor("icons/add_to_selection.gif"));
-		
+
 		createInBase = new Action("Create in base rule", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
@@ -459,7 +472,7 @@ public class VariabilityView extends ViewPart
 			}
 		};
 		createInBase.setImageDescriptor(ImageHelper.getImageDescriptor("icons/add_to_base.gif"));
-		
+
 		createInConfiguration = new Action("Create in configuration", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
@@ -468,7 +481,7 @@ public class VariabilityView extends ViewPart
 			}
 		};
 		createInConfiguration.setImageDescriptor(ImageHelper.getImageDescriptor("icons/add_to_configuration.gif"));
-		
+
 		elementCreationMenu.addActionToMenu(linkToViewingMode);
 		elementCreationMenu.addActionToMenu(createInBase);
 		elementCreationMenu.addActionToMenu(createInConfiguration);
@@ -497,7 +510,7 @@ public class VariabilityView extends ViewPart
 				if (isChecked()) {
 					super.run();
 					RuleEditPartVisibilityHelper.showBaseRule(selectedRuleEditPart);
-					if(creationMode == CreationMode.SELECTION) {
+					if (creationMode == CreationMode.SELECTION) {
 						updateEditPolicy(selectedRuleEditPart);
 					}
 				}
@@ -512,7 +525,7 @@ public class VariabilityView extends ViewPart
 					super.run();
 					RuleEditPartVisibilityHelper.showConfiguredRule(selectedRuleEditPart, config,
 							VariabilityFactory.createVariabilityRule(config.getRule()).getFeatureModel());
-					if(creationMode == CreationMode.SELECTION) {
+					if (creationMode == CreationMode.SELECTION) {
 						updateEditPolicy(selectedRuleEditPart);
 					}
 				}
@@ -546,13 +559,12 @@ public class VariabilityView extends ViewPart
 						ArrayList<String> favoriteNames = new ArrayList<String>();
 						Set<Favorite> favorites = configurationProvider.getFavorites(rule);
 
-						if(favorites != null) {
-							for(Favorite fav : favorites) {
+						if (favorites != null) {
+							for (Favorite fav : favorites) {
 								favoriteNames.add(fav.getName());
 							}
 						}
-						NameDialog dialog = new NameDialog(
-								getViewSite().getShell(), "Favorite", favoriteNames);
+						NameDialog dialog = new NameDialog(getViewSite().getShell(), "Favorite", favoriteNames);
 						if (dialog.open() == Window.OK) {
 							String name = dialog.getName();
 							Favorite favorite = configurationProvider.addConfigurationToFavorites(rule, name, config);
@@ -594,8 +606,9 @@ public class VariabilityView extends ViewPart
 
 	private void createMenu() {
 		IMenuManager mgr = getViewSite().getActionBars().getMenuManager();
-		IMenuManager subMgr = new MenuManager("Concealing strategies", ImageHelper.getImageDescriptor("icons/concealing.gif"), null);
-		
+		IMenuManager subMgr = new MenuManager("Concealing strategies",
+				ImageHelper.getImageDescriptor("icons/concealing.gif"), null);
+
 		mgr.add(linkWithEditorAction);
 		mgr.add(subMgr);
 		subMgr.add(fadeConcealingAction);
@@ -624,15 +637,18 @@ public class VariabilityView extends ViewPart
 		viewer.getControl().setFocus();
 	}
 
-	
 	private class ConfigurationListener extends ResourceSetListenerImpl {
-		
+
 		@Override
 		public void resourceSetChanged(ResourceSetChangeEvent event) {
-			 refresh();
+			if (observableFeatureModelValue.shouldUpdate()) {
+				refresh();
+			} else {
+				viewer.refresh();
+			}
 		}
 	}
-	
+
 	@Override
 	public void setContent(Configuration config) {
 		Rule rule = config.getRule();
@@ -644,7 +660,7 @@ public class VariabilityView extends ViewPart
 		ruleNameLabel.setText("Rule " + rule.getName());
 		loadFavoritesMenu.setChecked(configurationProvider.isFavorite(config));
 		writableValue.setValue(rule);
-		
+
 		add.setEnabled(true);
 		delete.setEnabled(true);
 		clear.setEnabled(true);
@@ -688,7 +704,7 @@ public class VariabilityView extends ViewPart
 		} else {
 			getSite().getPage().removeSelectionListener(linkWithEditorSelectionListener);
 		}
-		if(linkWithEditorAction != null) {
+		if (linkWithEditorAction != null) {
 			linkWithEditorAction.setChecked(checked);
 		}
 	}
@@ -718,7 +734,7 @@ public class VariabilityView extends ViewPart
 			if (showConfiguredRuleAction.isChecked()) {
 				showConfiguredRuleAction.run();
 			}
-			
+
 			updateEditPolicy(ruleEditPart);
 			refresh();
 		}
