@@ -44,7 +44,7 @@ public class ConditionInfo {
 		StringTokenizer quoteParser = new StringTokenizer(testString, "\"\'");
 		while (quoteParser.hasMoreElements()) {
 			String nonQuotedString = quoteParser.nextToken();
-			StringTokenizer variableParser = new StringTokenizer(nonQuotedString, ".,()\t\r\n<>=!+[] ");
+			StringTokenizer variableParser = new StringTokenizer(nonQuotedString, ".,()\t\r\n<>=!+-/*|%^~?:[] ");
 			while (variableParser.hasMoreElements()) {
 				String subString = variableParser.nextToken();
 				for (String parameterName : parameterNames) {
