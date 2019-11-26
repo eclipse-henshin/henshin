@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerBindingEd
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerComparator;
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerContentProvider;
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerNameEditingSupport;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.transaction.ResourceSetChangeEvent;
 import org.eclipse.emf.transaction.ResourceSetListenerImpl;
@@ -297,7 +298,7 @@ public class VariabilityView extends ViewPart
 
 	private void createColumns(final Composite parent, final TableColumnLayout tableColumnLayout,
 			final TableViewer viewer) {
-		String[] titles = { "Variability point", "Binding" };
+		String[] titles = { "Feature", "Binding" };
 
 		TableViewerColumn col = createTableViewerColumn(titles[0], 0);
 		col.setLabelProvider(new ColumnLabelProvider() {
@@ -360,11 +361,16 @@ public class VariabilityView extends ViewPart
 		ruleNameLabel = new Label(composite, SWT.NONE);
 		ruleNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		ruleNameLabel.setText("No rule selected");
+		
+		Label separatorName = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
+		separatorName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 
 		Label variabilityModelLabel = new Label(composite, SWT.NONE);
 		variabilityModelLabel.setImage(ImageHelper.getImage("/icons/variability.gif"));
-		variabilityModelText = new Text(composite, SWT.BORDER | SWT.SEARCH);
-		variabilityModelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		variabilityModelLabel.setText("Feature Model");
+		variabilityModelLabel.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, false, false, 2, 1));
+		variabilityModelText = new Text(composite, SWT.BORDER);
+		variabilityModelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 		IObservableValue<?> target = WidgetProperties.text(SWT.Modify).observe(variabilityModelText);
 		variabilityModelTextBindingContext = new DataBindingContext();
 		writableValue = new WritableValue<Rule>();
@@ -657,7 +663,7 @@ public class VariabilityView extends ViewPart
 		domain.addResourceSetListener(new ConfigurationListener());
 
 		viewer.setInput(config);
-		ruleNameLabel.setText("Rule " + rule.getName());
+		ruleNameLabel.setText("Selected Rule: " + rule.getName());
 		loadFavoritesMenu.setChecked(configurationProvider.isFavorite(config));
 		writableValue.setValue(rule);
 
