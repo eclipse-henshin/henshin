@@ -6,6 +6,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.matcher.FeatureExpression;
+import org.eclipse.emf.henshin.variability.util.Logic;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityNode;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
@@ -67,7 +68,7 @@ public class VariabilityModelHelper {
 	private static Sentence getFeatureExpression(Configuration configuration, Feature feature) {
 		Sentence expr = FeatureExpression.getExpr(VariabilityFactory.createVariabilityRule(configuration.getRule()).getFeatureModel());
 		if (expr == null)
-			expr = FeatureExpression.getExpr("True");
+			expr = FeatureExpression.getExpr(Logic.TRUE);
 		for (Feature vp : configuration.getFeatures()) {
 			if (vp.getName() != feature.getName() && vp.getBinding() == FeatureBinding.TRUE) {
 				expr = FeatureExpression.and(expr, FeatureExpression.getExpr(vp.getName()));

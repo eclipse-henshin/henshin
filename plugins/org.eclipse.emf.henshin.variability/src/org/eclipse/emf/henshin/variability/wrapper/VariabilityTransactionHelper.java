@@ -15,13 +15,16 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 
 /**
- * This cladss offers an interface to allow UI elements to modify the underlying
- * models.
+ * This class offers an interface to allow UI elements to modify the underlying models. 
  * 
  * @author Stefan Schulz
  *
  */
 public class VariabilityTransactionHelper {
+	
+	private VariabilityTransactionHelper() {
+		// This class should not be instantiated
+	}
 
 	static Annotation addAnnotation(ModelElement modelElement, String key, String value) {
 		EditingDomain domain = TransactionUtil.getEditingDomain(modelElement);
