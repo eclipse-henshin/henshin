@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Node;
@@ -32,6 +33,25 @@ import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 public class VariabilityAttribute implements Attribute, VariabilityGraphElement {
 	final Attribute attribute;
 	final Annotation presenceCondition;
+	
+	static Annotation addVariabilityToAttribute(Attribute attribute) {
+		EList<Annotation> annos = attribute.getAnnotations();
+		Iterator<Annotation> it = annos.iterator();
+		Annotation pc = null;
+		while(it.hasNext()) {
+			Annotation anno = it.next();
+			if(anno.getKey().equals(VariabilityConstants.PRESENCE_CONDITION)) {
+				pc = anno;
+				break;
+			}
+		}
+		
+		if(pc != null) {
+			return pc;
+		} else {
+			return VariabilityTransactionHelper.addAnnotation(attribute, VariabilityConstants.PRESENCE_CONDITION, "");
+		}
+	}
 	
 	/**
 	 * Creates a new {@link org.eclipse.emf.henshin.model.Attribute} and makes it variability aware.
@@ -56,23 +76,7 @@ public class VariabilityAttribute implements Attribute, VariabilityGraphElement 
 	 */
 	VariabilityAttribute(Attribute attribute) {
 		this.attribute = attribute;
-		
-		Annotation pc = null;
-		EList<Annotation> annos = attribute.getAnnotations();
-		Iterator<Annotation> it = annos.iterator();
-		while(it.hasNext()) {
-			Annotation anno = it.next();
-			if(anno.getKey().equals(VariabilityConstants.PRESENCE_CONDITION)) {
-				pc = anno;
-				break;
-			}
-		}
-		
-		if(pc != null) {
-			presenceCondition = pc;
-		} else {
-			presenceCondition = VariabilityTransactionHelper.addAnnotation(attribute, VariabilityConstants.PRESENCE_CONDITION, "");
-		}
+		this.presenceCondition = addVariabilityToAttribute(attribute);
 	}
 	
 	public GraphElement getGraphElement() {
