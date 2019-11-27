@@ -100,6 +100,10 @@ public class ConfigurationProvider {
 		return result;
 	}
 	
+	public void clearFavorites(Configuration configuration) {
+		favoriteConfigurations.get(configuration.getRule()).clear();
+	}
+	
 	public void removeConfigurationFromFavorites(Configuration configuration) {
 		Favorite favorite = findMatchingFavorite(configuration);
 		
@@ -110,6 +114,10 @@ public class ConfigurationProvider {
 
 	public boolean isFavorite(Configuration configuration) {
 		return findMatchingFavorite(configuration) != null;
+	}
+	
+	public Favorite findFavorite(Configuration configuration) {
+		return findMatchingFavorite(configuration);
 	}
 
 	public void addFavorites(Rule rule, Set<Favorite> favoritesSet) {

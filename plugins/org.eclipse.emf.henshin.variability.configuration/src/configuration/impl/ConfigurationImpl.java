@@ -9,7 +9,10 @@ import configuration.Feature;
 import configuration.FeatureBinding;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -188,6 +191,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	}
 	
 	private void updateAllFeatures() {
+		Map<String, FeatureBinding> bindings = getBindings();
 		List<String> annotationFeatures = VariabilityFactory.createVariabilityRule(rule).getFeatures();
 		EList<Feature> oldFeatures = getFeatures();
 		features.clear();
@@ -198,6 +202,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 		}
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.CONFIGURATION__FEATURES, oldFeatures, features));
+		applyBindings(bindings);
 	}
 	
 	/**
@@ -215,7 +220,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 			featureAnnotationValue += feature.getName();
 		}
 		VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
-		enableContentAdapter();			
+		enableContentAdapter();
 		return features.add(feature);
 	}
 	
@@ -256,6 +261,22 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 			return features.remove(feature);
 		} else {
 			return false;
+		}
+	}
+	
+	private Map<String, FeatureBinding> getBindings() {
+		Map<String, FeatureBinding> result = new HashMap<String, FeatureBinding>();
+		for (Feature feature : features) {
+			result.put(feature.getName(), feature.getBinding());
+		}
+		return result;
+	}
+	
+	private void applyBindings(Map<String, FeatureBinding> bindings) {
+		for (Feature feature : features) {
+			if (bindings.containsKey(feature.getName())) {
+				feature.setBinding(bindings.get(feature.getName()));
+			}
 		}
 	}
 
