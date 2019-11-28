@@ -3,7 +3,7 @@
  */
 package org.eclipse.emf.henshin.variability.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,11 +26,14 @@ import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.emf.henshin.variability.InconsistentRuleException;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareEngine;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareMatch;
 import org.eclipse.emf.henshin.variability.util.RuleUtil;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.Test;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.junit.runner.RunWith;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -43,13 +46,20 @@ import com.google.gson.JsonSyntaxException;
  *         JSON files described by inner classes.
  *
  */
-class VBEngineTest {
+@RunWith(Parameterized.class)
+public class VBEngineParameterizedTest {
 
-	private static final File data = new File("data");
+	private static final File dataFile = new File("data");
+	private VBTestData data;
 
-	private static Collection<VBTestData> collectTests() {
+	public VBEngineParameterizedTest(VBTestData data) {
+		this.data = data;
+	}
+
+	@Parameters(name = "{0}")
+	public static Collection<VBTestData> collectTests() {
 		Collection<VBTestData> tests = new LinkedList<>();
-		for (File folder : data.listFiles()) {
+		for (File folder : dataFile.listFiles()) {
 			if (folder.isDirectory()) {
 				File expectFile = null;
 				List<File> metaModelFiles = new LinkedList<>();
@@ -70,24 +80,36 @@ class VBEngineTest {
 					desc = new Gson().fromJson(new FileReader(expectFile), TestDescription.class);
 				} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e1) {
 					System.err.println("Skip " + expectFile);
+					e1.printStackTrace();
 					continue;
 				}
 
-				File ruleFile = new File(folder, desc.rule);
-				if (!ruleFile.exists()) {
-					System.err.println("Skip " + ruleFile);
-					continue;
-				}
-				for (TestApplication application : desc.applications) {
-					HenshinResourceSet rs = initRS(folder, metaModelFiles);
-					Module module = rs.getModule(ruleFile.getAbsolutePath(), true);
-					File modelFile = new File(folder, application.model);
-					EObject model = rs.getEObject(modelFile.getAbsolutePath());
-					Rule rule = module.getAllRules().get(0);
-					if (!RuleUtil.isVarRule(rule)) {
-						System.err.println("Skip as it is not a VB rule: " + rule);
+				try {
+					File ruleFile = new File(folder, desc.ruleFile);
+					if (!ruleFile.exists()) {
+						System.err.println("Skip " + ruleFile);
+						continue;
 					}
-					tests.add(new VBTestData(rule, model.eResource(), application.results));
+					for (TestApplication application : desc.applications) {
+						HenshinResourceSet rs = initRS(folder, metaModelFiles);
+						Module module = rs.getModule(ruleFile.getAbsolutePath(), true);
+						File modelFile = new File(folder, application.model);
+						EObject model = rs.getEObject(modelFile.getAbsolutePath());
+						Rule rule;
+						if (application.rule == null) {
+							rule = module.getAllRules().get(0);
+						} else {
+							rule = module.getAllRules().parallelStream().filter(r -> application.rule.equals(r.getName()))
+									.findAny().orElse(null);
+						}
+						if (!RuleUtil.isVarRule(rule)) {
+							System.err.println("Skip as it is not a VB rule: " + rule);
+						}
+						tests.add(new VBTestData(rule, model.eResource(), application.results));
+					}
+				} catch (NullPointerException e) {
+					System.err.println("Skipping rule file: " + desc.ruleFile);
+					e.printStackTrace();
 				}
 			}
 		}
@@ -115,29 +137,29 @@ class VBEngineTest {
 	/**
 	 * Executes the specified test
 	 * 
-	 * @param data The test specification
+	 * @param dataFile The test specification
+	 * @throws InconsistentRuleException  If a inconsistent rule should be executed
 	 */
-	@ParameterizedTest(name = "{0}")
-	@MethodSource("collectTests")
-	void testVBEngine(VBTestData data) {
+	@Test
+	public void testVBEngine() throws InconsistentRuleException {
 		EGraphImpl graph = new EGraphImpl(data.resource);
 		VariabilityAwareEngine vbEngine = new VariabilityAwareEngine(data.rule, graph);
 		Set<VariabilityAwareMatch> matches = vbEngine.findMatches();
 		int numberOfMatches = matches.size();
-		
+
 		EngineImpl engine = new EngineImpl();
 		for (VariabilityAwareMatch completeVarMatch : matches) {
 			applyMatch(graph, engine, completeVarMatch);
 		}
-		
+
 		int modelSize = getModelSize(data);
 		for (TestResult check : data.expect) {
 			switch (check.kind) {
 			case MATCHES:
-				assertEquals(((Number) check.value).intValue(), numberOfMatches, "Number of matches not as expected!");
+				assertEquals("Number of matches not as expected!", ((Number) check.value).intValue(), numberOfMatches);
 				break;
 			case MODEL_SIZE:
-				assertEquals(((Number) check.value).intValue(), modelSize, "Model size not as expected!");
+				assertEquals("Model size not as expected!", ((Number) check.value).intValue(), modelSize);
 				break;
 			}
 		}
@@ -146,9 +168,9 @@ class VBEngineTest {
 	/**
 	 * Applies the match
 	 * 
-	 * @param graph The graph
+	 * @param graph  The graph
 	 * @param engine The engine
-	 * @param match The VB match to be applied
+	 * @param match  The VB match to be applied
 	 */
 	private void applyMatch(EGraphImpl graph, EngineImpl engine, VariabilityAwareMatch match) {
 		Match completeMatch = match.getMatch();
@@ -216,13 +238,14 @@ class VBEngineTest {
 			this.resource = resource;
 			this.expect = expect;
 		}
-		
+
 		/**
 		 * Returns a human readable description of the test case
 		 */
 		@Override
 		public String toString() {
-			return "Apply the rule \""+rule.getName()+"\" to the model \""+resource.getURI().lastSegment()+"\".";
+			return "Apply the rule \"" + rule.getName() + "\" to the model \"" + resource.getURI().lastSegment()
+					+ "\".";
 		}
 	}
 
@@ -236,7 +259,7 @@ class VBEngineTest {
 		/**
 		 * The location of the rule which should be applied
 		 */
-		String rule;
+		String ruleFile;
 
 		/**
 		 * A specification of the rule applications
@@ -252,6 +275,11 @@ class VBEngineTest {
 	 *
 	 */
 	private static class TestApplication {
+		/**
+		 * The name of the rule that should be applied
+		 */
+		String rule;
+
 		/**
 		 * The location of the model to which the rule should be applied
 		 */

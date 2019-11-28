@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flyweightjava:Package xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flyweightjava="http://flyweightjava" xsi:schemaLocation="http://flyweightjava Java.ecore" name="p">
+  <classes>
+    <methods/>
+    <fields/>
+  </classes>
+  <classes>
+    <methods/>
+    <methods/>
+  </classes>
+  <classes>
+    <methods/>
+    <methods/>
+    <fields/>
+  </classes>
+</flyweightjava:Package>

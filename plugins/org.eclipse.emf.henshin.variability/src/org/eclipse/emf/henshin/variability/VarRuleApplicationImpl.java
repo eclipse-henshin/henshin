@@ -17,7 +17,8 @@ import org.eclipse.emf.henshin.variability.util.RuleUtil;
  * Variability-aware {@link org.eclipse.emf.henshin.interpreter.RuleApplication
  * RuleApplication} implementation.
  * 
- * @author Daniel Strüber
+ * @author Daniel StrÃ¼ber
+ * @author Sven Peldszus
  */
 public class VarRuleApplicationImpl extends RuleApplicationImpl {
 
@@ -63,8 +64,14 @@ public class VarRuleApplicationImpl extends RuleApplicationImpl {
 						.findMatches((Rule) unit, graph, partialMatch)
 						.iterator().next();
 			} else {
-				Set<VariabilityAwareMatch> matches = new VariabilityAwareEngine(
-						(Rule) unit, graph).findMatches();
+				VariabilityAwareEngine vbEngine;
+				try {
+					vbEngine = new VariabilityAwareEngine(
+							(Rule) unit, graph);
+				} catch (InconsistentRuleException e) {
+					return false;
+				}
+				Set<VariabilityAwareMatch> matches = vbEngine.findMatches();
 				if (!matches.isEmpty()) {
 					completeMatchVar = (VariabilityAwareMatch) matches
 							.iterator().next();
