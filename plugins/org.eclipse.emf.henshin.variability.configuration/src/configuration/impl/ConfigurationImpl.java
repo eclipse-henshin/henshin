@@ -2,41 +2,31 @@
  */
 package configuration.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.henshin.model.Annotation;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
+
 import configuration.Configuration;
 import configuration.ConfigurationFactory;
 import configuration.ConfigurationPackage;
 import configuration.Feature;
 import configuration.FeatureBinding;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.henshin.model.Annotation;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.impl.RuleImpl;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
-import org.eclipse.emf.transaction.ResourceSetChangeEvent;
-import org.eclipse.emf.transaction.ResourceSetListenerImpl;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -83,10 +73,10 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRule()
-	 * @generated
+	 * @generated NOT
 	 * @ordered
 	 */
-	protected Rule rule;
+	protected VariabilityRule rule;
 
 	/**
 	 * The cached value of the '{@link #getFeatures() <em>Features</em>}' reference list.
@@ -122,13 +112,13 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
-	public Rule getRule() {
+	public VariabilityRule getRule() {
 		if (rule != null && rule.eIsProxy()) {
 			InternalEObject oldRule = (InternalEObject)rule;
-			rule = (Rule)eResolveProxy(oldRule);
+			rule = (VariabilityRule)eResolveProxy(oldRule);
 			if (rule != oldRule) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ConfigurationPackage.CONFIGURATION__RULE, oldRule, rule));
@@ -171,7 +161,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 			featuresContentAdapter = new EFeatureModelContentAdapter();
 		}
 		
-		rule = newRule;
+		rule = VariabilityFactory.createVariabilityRule(newRule);
 		rule.eResource().getResourceSet().eAdapters().add(featuresContentAdapter);
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.CONFIGURATION__RULE, oldRule, rule));

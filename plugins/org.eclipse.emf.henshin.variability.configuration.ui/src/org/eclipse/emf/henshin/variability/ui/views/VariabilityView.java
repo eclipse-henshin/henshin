@@ -2,17 +2,20 @@ package org.eclipse.emf.henshin.variability.ui.views;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeCompartmentItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleCompartmentItemSemanticEditPolicy;
+import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.configuration.ui.actions.LoadFavoriteConfigurationAction;
@@ -37,6 +40,7 @@ import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerBindingEd
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerComparator;
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerContentProvider;
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerNameEditingSupport;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.transaction.ResourceSetChangeEvent;
 import org.eclipse.emf.transaction.ResourceSetListenerImpl;
@@ -123,7 +127,7 @@ public class VariabilityView extends ViewPart
 	private Label ruleNameLabel;
 
 	private ToolItem add, delete, clear, refresh, selectedFavorite, deleteFavorite;
-	private ToolBar favoriteToolBar;
+	private ToolBar favoriteToolBar, featureModelToolbar;
 
 	public RuleEditPart getSelectedRuleEditPart() {
 		return selectedRuleEditPart;
@@ -153,25 +157,23 @@ public class VariabilityView extends ViewPart
 		grid.marginTop = -5;
 		grid.marginBottom = -5;
 		grid.horizontalSpacing = 0;
-		
+
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		composite.setLayout(grid);
-		
+
 		favoriteToolBar = new ToolBar(composite, SWT.FLAT);
 		favoriteToolBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 //		deleteFavorite = new ToolItem(favoriteToolBar, SWT.PUSH);
 //		deleteFavorite.setImage(ImageHelper.getImage("/icons/trash.png"));
 //		deleteFavorite.setToolTipText("Create feature");
 		selectedFavorite = new ToolItem(favoriteToolBar, SWT.FLAT);
 		selectedFavorite.setText("");
 
-		
-		
 		ToolBar buttonToolBar = new ToolBar(composite, SWT.FLAT);
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(buttonToolBar);
 		buttonToolBar.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		
+
 		new ToolItem(buttonToolBar, SWT.SEPARATOR);
 		add = new ToolItem(buttonToolBar, SWT.PUSH);
 		add.setImage(ImageHelper.getImage("/icons/add.png"));
@@ -287,7 +289,7 @@ public class VariabilityView extends ViewPart
 		});
 
 		clear.setEnabled(false);
-		
+
 		Composite tableComposite = new Composite(parent, SWT.NONE);
 		tableComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
 		TableColumnLayout tableColumnLayout = new TableColumnLayout();
@@ -384,14 +386,42 @@ public class VariabilityView extends ViewPart
 		ruleNameLabel = new Label(composite, SWT.NONE);
 		ruleNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		ruleNameLabel.setText("No rule selected");
-		
+
 		Label separatorName = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
 		separatorName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 
 		Label variabilityModelLabel = new Label(composite, SWT.NONE);
 		variabilityModelLabel.setImage(ImageHelper.getImage("/icons/variability.gif"));
 		variabilityModelLabel.setText("Feature Model");
-		variabilityModelLabel.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, false, false, 2, 1));
+		variabilityModelLabel.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, false, false, 1, 1));
+		featureModelToolbar = new ToolBar(composite, SWT.FLAT);
+		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(featureModelToolbar);
+		featureModelToolbar.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+		ToolItem createFeatures = new ToolItem(featureModelToolbar, SWT.PUSH);
+		createFeatures.setImage(ImageHelper.getImage("/icons/create_features.png"));
+		createFeatures.setToolTipText("Create all undefined features");
+		createFeatures.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Rule rule = VariabilityModelHelper.getRuleForEditPart(selectedRuleEditPart);
+				String[] missingFeatures = config.getRule().getMissingFeatures();
+				for (String featureName : missingFeatures) {
+					Feature feature = ConfigurationFactory.eINSTANCE.createFeature();
+					feature.setName(featureName);
+					config.addFeature(feature);
+				}
+				featureModelToolbar.setVisible(false);
+				refresh();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+
+			}
+		});
+		featureModelToolbar.setVisible(false);
+		
 		variabilityModelText = new Text(composite, SWT.BORDER);
 		variabilityModelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 		IObservableValue<?> target = WidgetProperties.text(SWT.Modify).observe(variabilityModelText);
@@ -414,7 +444,7 @@ public class VariabilityView extends ViewPart
 
 		Label separator = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
 		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
-		
+
 		GridData tableCompositeGridData = new GridData();
 		tableCompositeGridData.grabExcessHorizontalSpace = true;
 		tableCompositeGridData.grabExcessVerticalSpace = true;
@@ -667,16 +697,38 @@ public class VariabilityView extends ViewPart
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
+	
 
 	private class ConfigurationListener extends ResourceSetListenerImpl {
 
 		@Override
 		public void resourceSetChanged(ResourceSetChangeEvent event) {
+			Annotation annotation = findModifiedAnnotation(event.getNotifications());
+			if (annotation != null) {
+				String value = annotation.getValue();
+				if ((annotation.getKey().equals(VariabilityConstants.FEATURE_MODEL) || annotation.getKey().equals(VariabilityConstants.FEATURES)) && value != null && !value.isEmpty()) {
+					if (config.getRule().hasMissingFeatures()) {
+						featureModelToolbar.setVisible(true);
+					} else {
+						featureModelToolbar.setVisible(false);
+					}
+				}
+				
+			}
 			if (observableFeatureModelValue.shouldUpdate()) {
 				refresh();
 			} else {
 				viewer.refresh();
 			}
+		}
+		
+		private Annotation findModifiedAnnotation(List<Notification> notifications) {
+			for (Notification notification : notifications) {
+				if (notification.getNotifier() instanceof Annotation) {
+					return (Annotation) notification.getNotifier();
+				}
+			}
+			return null;
 		}
 	}
 
@@ -690,11 +742,11 @@ public class VariabilityView extends ViewPart
 		viewer.setInput(config);
 		ruleNameLabel.setText("Selected Rule: " + rule.getName());
 		writableValue.setValue(rule);
-		
+
 		deselectFavorite();
 		populateFavoritesDropDown(rule);
 		selectFavorite(config);
-		
+
 		if (showConfiguredRuleAction.isChecked()) {
 			showConfiguredRuleAction.run();
 		}
@@ -762,7 +814,7 @@ public class VariabilityView extends ViewPart
 			}
 		}
 	}
-	
+
 	@Override
 	public void selectedRuleChanged(RuleEditPart ruleEditPart) {
 		if (ruleEditPart != null) {
@@ -806,13 +858,13 @@ public class VariabilityView extends ViewPart
 		}
 		refresh();
 	}
-	
+
 	private void deselectFavorite() {
 		selectedFavorite.setText("");
 		loadFavoritesMenu.uncheckAll();
 		loadFavoritesMenu.setImageDescriptor(ImageHelper.getImageDescriptor("icons/star_grey.png"));
 	}
-	
+
 	private void selectFavorite(Configuration config) {
 		Favorite favorite = configurationProvider.findFavorite(config);
 		if (favorite != null) {

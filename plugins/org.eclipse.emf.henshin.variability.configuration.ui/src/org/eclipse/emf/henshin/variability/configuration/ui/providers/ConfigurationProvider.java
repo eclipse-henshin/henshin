@@ -101,7 +101,10 @@ public class ConfigurationProvider {
 	}
 	
 	public void clearFavorites(Configuration configuration) {
-		favoriteConfigurations.get(configuration.getRule()).clear();
+		Set<Favorite> favorites = favoriteConfigurations.get(configuration.getRule());
+		if (favorites != null) {
+			favorites.clear();
+		}
 	}
 	
 	public void removeConfigurationFromFavorites(Configuration configuration) {
