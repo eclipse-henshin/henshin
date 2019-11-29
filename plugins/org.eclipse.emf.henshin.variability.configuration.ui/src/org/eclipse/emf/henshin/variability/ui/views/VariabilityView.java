@@ -42,6 +42,7 @@ import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerContentPr
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerNameEditingSupport;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
 import org.eclipse.emf.transaction.ResourceSetChangeEvent;
 import org.eclipse.emf.transaction.ResourceSetListenerImpl;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -734,7 +735,7 @@ public class VariabilityView extends ViewPart
 
 	@Override
 	public void setContent(Configuration config) {
-		Rule rule = config.getRule();
+		VariabilityRule rule = config.getRule();
 
 		TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(rule);
 		domain.addResourceSetListener(new ConfigurationListener());
@@ -749,6 +750,12 @@ public class VariabilityView extends ViewPart
 
 		if (showConfiguredRuleAction.isChecked()) {
 			showConfiguredRuleAction.run();
+		}
+		
+		if (rule.getMissingFeatures().length > 0) {
+			featureModelToolbar.setVisible(true);
+		} else {
+			featureModelToolbar.setVisible(false);
 		}
 
 		add.setEnabled(true);
