@@ -8,7 +8,13 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +24,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.Change;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
@@ -50,6 +57,7 @@ import com.google.gson.JsonSyntaxException;
 public class VBEngineParameterizedTest {
 
 	private static final File dataFile = new File("data");
+	private static final boolean DEBUG = false;
 	private VBTestData data;
 
 	public VBEngineParameterizedTest(VBTestData data) {
@@ -61,59 +69,73 @@ public class VBEngineParameterizedTest {
 		Collection<VBTestData> tests = new LinkedList<>();
 		for (File folder : dataFile.listFiles()) {
 			if (folder.isDirectory()) {
-				File expectFile = null;
+				List<File> expectFiles = new LinkedList<>();
 				List<File> metaModelFiles = new LinkedList<>();
 				for (File file : folder.listFiles()) {
 					if (file.isFile()) {
 						if (file.getName().endsWith(".json")) {
-							expectFile = file;
+							expectFiles.add(file);
 						} else if (file.getName().endsWith(".ecore")) {
 							metaModelFiles.add(file);
 						}
 					}
 				}
-				if (expectFile == null) {
-					continue;
-				}
-				TestDescription desc;
-				try {
-					desc = new Gson().fromJson(new FileReader(expectFile), TestDescription.class);
-				} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e1) {
-					System.err.println("Skip " + expectFile);
-					e1.printStackTrace();
-					continue;
-				}
-
-				try {
-					File ruleFile = new File(folder, desc.ruleFile);
-					if (!ruleFile.exists()) {
-						System.err.println("Skip " + ruleFile);
-						continue;
-					}
-					for (TestApplication application : desc.applications) {
-						HenshinResourceSet rs = initRS(folder, metaModelFiles);
-						Module module = rs.getModule(ruleFile.getAbsolutePath(), true);
-						File modelFile = new File(folder, application.model);
-						EObject model = rs.getEObject(modelFile.getAbsolutePath());
-						Rule rule;
-						if (application.rule == null) {
-							rule = module.getAllRules().get(0);
-						} else {
-							rule = module.getAllRules().parallelStream().filter(r -> application.rule.equals(r.getName()))
-									.findAny().orElse(null);
-						}
-						if (!RuleUtil.isVarRule(rule)) {
-							System.err.println("Skip as it is not a VB rule: " + rule);
-						}
-						tests.add(new VBTestData(rule, model.eResource(), application.results));
-					}
-				} catch (NullPointerException e) {
-					System.err.println("Skipping rule file: " + desc.ruleFile);
-					e.printStackTrace();
+				for (File expectFile : expectFiles) {
+					tests.addAll(createTests(metaModelFiles, expectFile));
 				}
 			}
 		}
 		return tests;
+	}
+
+	/**
+	 * Parses the expect file and creates test data objects
+	 * 
+	 * @param metaModelFiles The relevant meta model files
+	 * @param expectFile     The file containing the test description
+	 * @return The tests
+	 */
+	private static Collection<VBTestData> createTests(List<File> metaModelFiles, File expectFile) {
+		TestDescription desc;
+		try {
+			desc = new Gson().fromJson(new FileReader(expectFile), TestDescription.class);
+		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e1) {
+			System.err.println("Skip " + expectFile);
+			e1.printStackTrace();
+			return Collections.emptyList();
+		}
+
+		try {
+			File folder = expectFile.getParentFile();
+			File ruleFile = new File(folder, desc.ruleFile);
+			if (!ruleFile.exists()) {
+				System.err.println("Skip " + ruleFile);
+				return Collections.emptyList();
+			}
+			Collection<VBTestData> tests = new LinkedList<>();
+			for (TestApplication application : desc.applications) {
+				HenshinResourceSet rs = initRS(folder, metaModelFiles);
+				Module module = rs.getModule(ruleFile.getAbsolutePath(), true);
+				File modelFile = new File(folder, application.model);
+				EObject model = rs.getEObject(modelFile.getAbsolutePath());
+				Rule rule;
+				if (application.rule == null) {
+					rule = module.getAllRules().get(0);
+				} else {
+					rule = module.getAllRules().parallelStream().filter(r -> application.rule.equals(r.getName()))
+							.findAny().orElse(null);
+				}
+				if (!RuleUtil.isVarRule(rule)) {
+					System.err.println("Skip as it is not a VB rule: " + rule);
+				}
+				tests.add(new VBTestData(expectFile.getName(), rule, model.eResource(), application.results));
+			}
+			return tests;
+		} catch (NullPointerException e) {
+			System.err.println("Skipping rule file: " + desc.ruleFile);
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
 	}
 
 	/**
@@ -138,7 +160,7 @@ public class VBEngineParameterizedTest {
 	 * Executes the specified test
 	 * 
 	 * @param dataFile The test specification
-	 * @throws InconsistentRuleException  If a inconsistent rule should be executed
+	 * @throws InconsistentRuleException If a inconsistent rule should be executed
 	 */
 	@Test
 	public void testVBEngine() throws InconsistentRuleException {
@@ -150,6 +172,16 @@ public class VBEngineParameterizedTest {
 		EngineImpl engine = new EngineImpl();
 		for (VariabilityAwareMatch completeVarMatch : matches) {
 			applyMatch(graph, engine, completeVarMatch);
+		}
+		if (DEBUG) {
+			Path path = Paths.get("debug/" + data.resource.getURI().lastSegment());
+			path.getParent().toFile().mkdirs();
+			try (OutputStream outputStream = Files
+					.newOutputStream(path)) {
+				data.resource.save(outputStream, Collections.emptyMap());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		int modelSize = getModelSize(data);
@@ -195,9 +227,10 @@ public class VBEngineParameterizedTest {
 	 */
 	protected int getModelSize(VBTestData data) {
 		int modelSize = 0;
+		EcoreUtil.resolveAll(data.resource);
 		TreeIterator<EObject> contents = data.resource.getAllContents();
 		while (contents.hasNext()) {
-			contents.next();
+			EObject next = contents.next();
 			modelSize++;
 		}
 		return modelSize;
@@ -226,14 +259,18 @@ public class VBEngineParameterizedTest {
 		 */
 		private Collection<TestResult> expect;
 
+		private String description;
+
 		/**
 		 * Creates a new instance
 		 * 
-		 * @param rule     The rule
-		 * @param resource The model
-		 * @param expect   The expected outcome
+		 * @param description A short description of the test
+		 * @param rule        The rule
+		 * @param resource    The model
+		 * @param expect      The expected outcome
 		 */
-		private VBTestData(Rule rule, Resource resource, Collection<TestResult> expect) {
+		private VBTestData(String description, Rule rule, Resource resource, Collection<TestResult> expect) {
+			this.description = description;
 			this.rule = rule;
 			this.resource = resource;
 			this.expect = expect;
@@ -244,8 +281,8 @@ public class VBEngineParameterizedTest {
 		 */
 		@Override
 		public String toString() {
-			return "Apply the rule \"" + rule.getName() + "\" to the model \"" + resource.getURI().lastSegment()
-					+ "\".";
+			return description + ": Apply the rule \"" + rule.getName() + "\" to the model \""
+					+ resource.getURI().lastSegment() + "\".";
 		}
 	}
 
