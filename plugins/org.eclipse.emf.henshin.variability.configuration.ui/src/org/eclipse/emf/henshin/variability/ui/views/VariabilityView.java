@@ -159,7 +159,7 @@ public class VariabilityView extends ViewPart
 		grid.marginBottom = -5;
 		grid.horizontalSpacing = 0;
 
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
 		composite.setLayout(grid);
 
 		favoriteToolBar = new ToolBar(composite, SWT.FLAT);
@@ -169,7 +169,7 @@ public class VariabilityView extends ViewPart
 //		deleteFavorite.setImage(ImageHelper.getImage("/icons/trash.png"));
 //		deleteFavorite.setToolTipText("Create feature");
 		selectedFavorite = new ToolItem(favoriteToolBar, SWT.FLAT);
-		selectedFavorite.setText("");
+		selectedFavorite.setText("Configuration");
 
 		ToolBar buttonToolBar = new ToolBar(composite, SWT.FLAT);
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(buttonToolBar);
@@ -234,7 +234,7 @@ public class VariabilityView extends ViewPart
 						config.removeFeature(feature);
 					}
 					configurationProvider.clearFavorites(config);
-					populateFavoritesDropDown(rule);
+					refreshFavorites(rule);
 					refresh();
 				}
 			}
@@ -255,7 +255,7 @@ public class VariabilityView extends ViewPart
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (config != null) {
-					deselectFavorite();
+					clearFavorite();
 					for (Feature feature : config.getFeatures()) {
 						feature.setBinding(FeatureBinding.UNBOUND);
 					}
@@ -634,13 +634,12 @@ public class VariabilityView extends ViewPart
 							this.uncheckAll();
 							selectFavorite(config);
 							loadConfigurationAction.setChecked(true);
-							selectedFavorite.setText(name);
 						} else {
 							return;
 						}
 					} else {
 						configurationProvider.removeConfigurationFromFavorites(config);
-						populateFavoritesDropDown(config.getRule());
+						refreshFavorites(config.getRule());
 					}
 
 					setChecked(configurationProvider.isFavorite(config));
@@ -743,10 +742,7 @@ public class VariabilityView extends ViewPart
 		viewer.setInput(config);
 		ruleNameLabel.setText("Selected Rule: " + rule.getName());
 		writableValue.setValue(rule);
-
-		deselectFavorite();
-		populateFavoritesDropDown(rule);
-		selectFavorite(config);
+		refreshFavorites(rule);
 
 		if (showConfiguredRuleAction.isChecked()) {
 			showConfiguredRuleAction.run();
@@ -808,11 +804,9 @@ public class VariabilityView extends ViewPart
 		}
 	}
 
-	private void populateFavoritesDropDown(Rule rule) {
+	private void refreshFavorites(Rule rule) {
 		loadFavoritesMenu.clearMenu();
-
 		Set<Favorite> favorites = configurationProvider.getFavorites(rule);
-		deselectFavorite();
 		if (favorites != null) {
 			for (Favorite favorite : favorites) {
 				LoadFavoriteConfigurationAction loadConfigurationAction = new LoadFavoriteConfigurationAction(favorite,
@@ -820,6 +814,7 @@ public class VariabilityView extends ViewPart
 				loadFavoritesMenu.addActionToMenu(loadConfigurationAction);
 			}
 		}
+		selectFavorite(config);
 	}
 
 	@Override
@@ -858,18 +853,10 @@ public class VariabilityView extends ViewPart
 
 	@Override
 	public void tableViewerUpdated() {
-		deselectFavorite();
 		selectFavorite(config);
 		if (showConfiguredRuleAction.isChecked()) {
 			showConfiguredRuleAction.run();
 		}
-		refresh();
-	}
-
-	private void deselectFavorite() {
-		selectedFavorite.setText("");
-		loadFavoritesMenu.uncheckAll();
-		loadFavoritesMenu.setImageDescriptor(ImageHelper.getImageDescriptor("icons/star_grey.png"));
 	}
 
 	private void selectFavorite(Configuration config) {
@@ -877,6 +864,14 @@ public class VariabilityView extends ViewPart
 		if (favorite != null) {
 			selectedFavorite.setText(favorite.getName());
 			loadFavoritesMenu.setImageDescriptor(ImageHelper.getImageDescriptor("icons/star.png"));
+		} else {
+			clearFavorite();
 		}
+	}
+	
+	private void clearFavorite() {
+		selectedFavorite.setText("Configuration");
+		loadFavoritesMenu.uncheckAll();
+		loadFavoritesMenu.setImageDescriptor(ImageHelper.getImageDescriptor("icons/star_grey.png"));
 	}
 }
