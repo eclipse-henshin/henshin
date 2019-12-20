@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.variability.matcher;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.henshin.variability.util.Logic;
 import org.eclipse.emf.henshin.variability.util.SatChecker;
 import org.eclipse.emf.henshin.variability.util.XorEncoderUtil;
 
@@ -15,16 +16,14 @@ import aima.core.logic.propositional.parsing.ast.Sentence;
  * This class serves as a cache for SAT evaluation results, helping to avoid
  * performing the same computations repeatedly.
  * 
- * @author Daniel Strüber
+ * @author Daniel StrÃ¼ber
  *
  */
 public class FeatureExpression {
 	private static PropositionalParser parser = new PropositionalParser();
 
+	public static final Sentence TRUE = parser.parse(Logic.TRUE);
 
-	public static final Sentence true_ = parser.parse("true");
-	
-	static Map<String, Sentence> string2expr = new HashMap<String, Sentence>();
 	static Map<Sentence, Map<Sentence, Boolean>> implies = new HashMap<Sentence, Map<Sentence, Boolean>>();
 	static Map<Sentence, Map<Sentence, Boolean>> contradicts = new HashMap<Sentence, Map<Sentence, Boolean>>();
 	static Map<Sentence, Map<Sentence, Sentence>> and = new HashMap<Sentence, Map<Sentence, Sentence>>();
@@ -72,7 +71,7 @@ public class FeatureExpression {
 			if (andNot.get(expr1).containsKey(expr2)) {
 				return andNot.get(expr1).get(expr2);
 			} else {
-				Sentence val = Sentence.newConjunction(expr1,new ComplexSentence(Connective.NOT, expr2));
+				Sentence val = Sentence.newConjunction(expr1, new ComplexSentence(Connective.NOT, expr2));
 				andNot.get(expr1).put(expr2, val);
 				return val;
 			}
@@ -81,15 +80,10 @@ public class FeatureExpression {
 			return andNot(expr1, expr2);
 		}
 	}
-	
+
 	public static Sentence getExpr(String condition) {
 		condition = XorEncoderUtil.encodeXor(condition);
-		Sentence result = string2expr.get(condition);
-		if (result == null) {
-			result = parser.parse(condition);
-			string2expr.put(condition, result);
-		}
-		return result;
+		return parser.parse(condition);
 	}
 
 	/**
@@ -117,37 +111,46 @@ public class FeatureExpression {
 	/**
 	 * 
 	 * @author speldszus
-	 *
 	 */
 	private static class PropositionalParser extends PLParser {
-		
+
 		private static final String NOT = "~";
 		private static final String AND = "&";
 		private static final String OR = "|";
 
-		
-		private static HashMap<String, Sentence> exprToSentence = new HashMap<>();
+		private static HashMap<String, Sentence> exprToSentence;
+
+		/**
+		 * Creates a new parser and initializes a map with already parsed expressions
+		 */
+		public PropositionalParser() {
+			Sentence trueSentence = super.parse(Logic.TRUE);
+			exprToSentence = new HashMap<>();
+			exprToSentence.put(Logic.TRUE, trueSentence);
+			exprToSentence.put("", trueSentence);
+		}
 
 		@Override
 		public Sentence parse(String input) {
-			if(exprToSentence.containsKey(input)){
-				return exprToSentence.get(input);
+			String trimmed = input.trim();
+			if (exprToSentence.containsKey(trimmed)) {
+				return exprToSentence.get(trimmed);
 			}
-			String resolved = resolveSynonyms(input);
+			String resolved = resolveSynonyms(trimmed);
 			Sentence sentence = super.parse(resolved);
-			exprToSentence.put(input, sentence);
+			exprToSentence.put(trimmed, sentence);
 			exprToSentence.put(resolved, sentence);
 			return sentence;
 		}
-		
-		public static String resolveSynonyms(String expression) {		
-			expression = expression.replaceAll("\\)"," ) "); 			
-			expression = expression.replaceAll("\\("," ( ");
-			expression = expression.replaceAll(" (XOR) ","xor");
-			expression = expression.replaceAll(" (or|OR|\\|\\|)",' '+OR+' '); 
-			expression = expression.replaceAll(" (and|AND|\\&\\&) ",' '+AND+' '); 
-			expression = expression.replaceAll("!",' '+NOT+' '); 
-			expression = expression.replaceAll(" (not|NOT) ",' '+NOT+' ');
+
+		private static String resolveSynonyms(String expression) {
+			expression = expression.replaceAll("\\)", " ) ");
+			expression = expression.replaceAll("\\(", " ( ");
+			expression = expression.replaceAll(" (XOR) ", "xor");
+			expression = expression.replaceAll(" (or|OR|\\|\\|)", ' ' + OR + ' ');
+			expression = expression.replaceAll(" (and|AND|\\&\\&) ", ' ' + AND + ' ');
+			expression = expression.replaceAll("!", ' ' + NOT + ' ');
+			expression = expression.replaceAll(" (not|NOT) ", ' ' + NOT + ' ');
 			return expression;
 		}
 	}

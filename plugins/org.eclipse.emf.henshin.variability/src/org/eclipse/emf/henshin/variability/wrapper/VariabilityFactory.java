@@ -20,6 +20,10 @@ import org.eclipse.emf.henshin.model.Rule;
  */
 public class VariabilityFactory {
 	
+	private VariabilityFactory() {
+		// This class should not be instatiated
+	}
+	
 	/**
 	 * Creates a new empty variability-aware {@link org.eclipse.emf.henshin.model.Attribute}.
 	 * @return the Attribute.

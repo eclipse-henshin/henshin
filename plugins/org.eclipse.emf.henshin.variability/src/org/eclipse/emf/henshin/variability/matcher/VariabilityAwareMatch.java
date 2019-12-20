@@ -8,18 +8,22 @@ import org.eclipse.emf.henshin.model.Rule;
 
 import aima.core.logic.propositional.parsing.ast.Sentence;
 
-
 /**
  * One match as yielded by variability-aware matching, comprising a regular
- * match and a set of selected features producing the regular rule yielding the match.
+ * match and a set of selected features producing the regular rule yielding the
+ * match.
  * 
- * @author Daniel Strüber
+ * @author Daniel StrÃ¼ber
  *
  */
 public class VariabilityAwareMatch {
-	private Rule rule;
-	private RulePreparator rulePreperator;
 	
+	final private Rule rule;
+	final private Match match;
+	final private Set<Sentence> selected;
+	
+	private RulePreparator rulePreperator;
+
 	public VariabilityAwareMatch(Match match, Set<Sentence> selected, Rule rule, RulePreparator rulePreparator) {
 		super();
 		this.match = match;
@@ -33,35 +37,19 @@ public class VariabilityAwareMatch {
 		return match;
 	}
 
-	public void setMatch(Match match) {
-		this.match = match;
-	}
-
 	public Set<Sentence> getSelected() {
 		return selected;
 	}
 
-	public void setSelected(Set<Sentence> selected) {
-		this.selected = selected;
-	}
-
-	private Match match;
-
-	private Set<Sentence> selected;
-
 	public Rule getRule() {
 		return rule;
 	}
-	
+
 	public void prepareRule() {
 		rulePreperator.doPreparation();
 	}
-	
+
 	public void undoPreparation() {
 		rulePreperator.undo();
-	}
-
-	public void setRule(Rule rule) {
-		this.rule = rule;
 	}
 }

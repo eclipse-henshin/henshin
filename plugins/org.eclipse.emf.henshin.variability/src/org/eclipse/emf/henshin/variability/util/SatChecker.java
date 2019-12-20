@@ -24,7 +24,8 @@ import aima.core.logic.propositional.visitors.SymbolCollector;
 
 /**
  * 
- * @author Daniel Strüber
+ * @author Daniel StrÃ¼ber
+ * @author Sven Peldszus
  *
  */
 public class SatChecker {

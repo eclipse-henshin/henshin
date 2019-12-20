@@ -12,27 +12,27 @@ import javax.script.ScriptException;
 
 /**
  * 
- * @author Daniel Strüber
+ * @author Daniel StrÃ¼ber
+ * @author Sven Peldszus 
  *
  */
 public class Logic {
-	public static final String TRUE = " true ";
-	private static final String TRUE_trimmed = TRUE.trim();
-	public static final String FALSE = " false ";
-	private static final String FALSE_trimmed = FALSE.trim();
-	protected static String NOT = " not ";
-	protected static String AND = " and ";
-	protected static String OR = " or ";
-	protected static String LB = " ( ";
-	protected static String RB = " ) ";
-	protected static String SPACE = " ";
+	public static final String TRUE = "true";
+	private static final String TRUE_space = " true ";
+	public static final String FALSE = "false";
+	private static final String FALSE_space = " false ";
+	private static String NOT = " not ";
+	private static String AND = " and ";
+	private static String OR = " or ";
+	private static String LB = " ( ";
+	private static String RB = " ) ";
 	private static String limitForCombinations = "0123456789";
 
 	protected static synchronized String choice(final List<String> expressions, final int min, final int max,
 			final boolean forceFalse) {
 		final List<String> combinationsIndexes = new ArrayList<String>();
 		if (expressions.size() > Logic.limitForCombinations.length()) {
-			return TRUE;
+			return TRUE_space;
 		}
 		final String limit = Logic.limitForCombinations.substring(0, expressions.size());
 		combinations(min, max, "", limit, combinationsIndexes);
@@ -113,14 +113,14 @@ public class Logic {
 		}
 		String lhs_trimmed = lhs.trim();
 		String rhs_trimmed = rhs.trim();
-		if (FALSE_trimmed.equals(lhs_trimmed) || TRUE_trimmed.equals(rhs_trimmed)
+		if (FALSE.equals(lhs_trimmed) || TRUE.equals(rhs_trimmed)
 				|| lhs_trimmed.equals(rhs_trimmed)) {
-			return TRUE;
+			return TRUE_space;
 		}
-		if (FALSE_trimmed.equals(rhs_trimmed)) {
+		if (FALSE.equals(rhs_trimmed)) {
 			return negate(lhs);
 		}
-		if (TRUE_trimmed.equals(lhs_trimmed)) {
+		if (TRUE.equals(lhs_trimmed)) {
 			return rhs;
 		}
 		return or(negate(lhs), rhs);
@@ -128,10 +128,10 @@ public class Logic {
 
 	public static synchronized String negate(String expression) {
 		String trimmed = expression.trim();
-		if (trimmed.contentEquals(TRUE_trimmed)) {
-			return FALSE;
-		} else if (trimmed.equals(FALSE_trimmed)) {
-			return TRUE;
+		if (trimmed.contentEquals(TRUE)) {
+			return FALSE_space;
+		} else if (trimmed.equals(FALSE)) {
+			return TRUE_space;
 		}
 		return Logic.NOT + claused(expression);
 	}
@@ -164,9 +164,9 @@ public class Logic {
 		List<String> reduced = new ArrayList<>(expressions.size());
 		for (String expr : expressions) {
 			String trimmedExpr = expr.trim();
-			if (TRUE_trimmed.equals(trimmedExpr)) {
-				return TRUE;
-			} else if (FALSE_trimmed.equals(trimmedExpr)) {
+			if (TRUE.equals(trimmedExpr)) {
+				return TRUE_space;
+			} else if (FALSE.equals(trimmedExpr)) {
 				// Skip "| false" as id doesn't change the expression
 				continue;
 			} else {
@@ -174,7 +174,7 @@ public class Logic {
 			}
 		}
 		if (reduced.size() == 0) {
-			return Logic.FALSE; // All expressions are FALSE
+			return Logic.FALSE_space; // All expressions are FALSE
 		}
 		if (reduced.size() == 1) {
 			return reduced.get(0);
@@ -189,23 +189,23 @@ public class Logic {
 	protected static synchronized String or(final String s1, final String s2) {
 		String s1_trimmed = s1.trim();
 		String s2_trimmed = s2.trim();
-		if (TRUE_trimmed.equals(s1_trimmed) || TRUE_trimmed.equals(s2_trimmed)) {
-			return Logic.TRUE;
+		if (TRUE.equals(s1_trimmed) || TRUE.equals(s2_trimmed)) {
+			return Logic.TRUE_space;
 		}
 		if (Logic.negate(s1_trimmed).trim().equals(s2_trimmed)
 				|| Logic.negate(s2_trimmed).trim().equals(s1_trimmed)) {
-			return Logic.TRUE;
+			return Logic.TRUE_space;
 		}
 		if (s1_trimmed.equals(s2_trimmed)) {
 			return s1;
 		}
-		if (FALSE_trimmed.equals(s1_trimmed)) {
-			if (FALSE_trimmed.equals(s2_trimmed)) {
-				return Logic.FALSE;
+		if (FALSE.equals(s1_trimmed)) {
+			if (FALSE.equals(s2_trimmed)) {
+				return Logic.FALSE_space;
 			}
 			return s2;
 		}
-		if (FALSE_trimmed.contentEquals(s2_trimmed)) {
+		if (FALSE.contentEquals(s2_trimmed)) {
 			return s1;
 		}
 		return claused(s1) + Logic.OR + claused(s2);
@@ -215,9 +215,9 @@ public class Logic {
 		List<String> reduced = new ArrayList<>(expressions.size());
 		for (String expr : expressions) {
 			String trimmed = expr.trim();
-			if (FALSE_trimmed.equals(trimmed)) {
-				return FALSE;
-			} else if (TRUE_trimmed.equals(trimmed)) {
+			if (FALSE.equals(trimmed)) {
+				return FALSE_space;
+			} else if (TRUE.equals(trimmed)) {
 				// Skip "& true" as id doesn't change the expression
 				continue;
 			} else {
@@ -225,7 +225,7 @@ public class Logic {
 			}
 		}
 		if (reduced.size() == 0) {
-			return Logic.TRUE; // all elements are TRUE
+			return Logic.TRUE_space; // all elements are TRUE
 		}
 		if (reduced.size() == 1) {
 			return reduced.get(0);
@@ -240,22 +240,22 @@ public class Logic {
 	public static synchronized String and(final String s1, final String s2) {
 		String s1_trimmed = s1.trim();
 		String s2_trimmed = s2.trim();
-		if (FALSE_trimmed.equals(s1_trimmed) || FALSE_trimmed.equals(s2_trimmed)) {
-			return Logic.FALSE;
+		if (FALSE.equals(s1_trimmed) || FALSE.equals(s2_trimmed)) {
+			return Logic.FALSE_space;
 		}
 		if (Logic.negate(s1_trimmed).trim().equals(s2_trimmed)
 				|| Logic.negate(s2_trimmed).trim().equals(s1_trimmed)) {
-			return Logic.FALSE;
+			return Logic.FALSE_space;
 		}
 		final List<String> list = new ArrayList<String>();
-		if (!"".equals(s1_trimmed) && !TRUE_trimmed.equals(s1_trimmed)) {
+		if (!"".equals(s1_trimmed) && !TRUE.equals(s1_trimmed)) {
 			list.add(s1);
 		}
-		if (!"".equals(s2_trimmed) && !TRUE_trimmed.equals(s2_trimmed) && !s1_trimmed.equals(s2_trimmed)) {
+		if (!"".equals(s2_trimmed) && !TRUE.equals(s2_trimmed) && !s1_trimmed.equals(s2_trimmed)) {
 			list.add(s2);
 		}
 		if (list.size() == 0) {
-			return Logic.TRUE;
+			return Logic.TRUE_space;
 		}
 		if (list.size() == 1) {
 			return list.get(0);
@@ -283,19 +283,19 @@ public class Logic {
 			delete = false;
 			for (final String variable : variables) {
 				if (((clause.contains(String.valueOf(Logic.AND) + variable) || clause.startsWith(variable))
-						&& clause.contains(String.valueOf(Logic.NOT) + variable)) || clause.contains("false")) {
+						&& clause.contains(String.valueOf(Logic.NOT) + variable)) || clause.contains(Logic.FALSE)) {
 					delete = true;
 					break;
 				}
 			}
 			expression = expression.substring(0, expression.lastIndexOf(" | "));
 			if (!delete && newExpression.indexOf(String.valueOf(Logic.LB) + clause + Logic.RB) == -1
-					&& clause.indexOf("false") == -1) {
+					&& clause.indexOf(Logic.FALSE) == -1) {
 				for (final String variable : variables) {
 					if (clause.indexOf(variable) != clause.lastIndexOf(variable)) {
-						clause = clause.replaceAll(String.valueOf(Logic.AND) + "true" + Logic.AND, Logic.AND)
-								.replaceAll(String.valueOf(Logic.AND) + "true", "")
-								.replaceAll("true" + Logic.AND, "");
+						clause = clause.replaceAll(Logic.AND + Logic.TRUE + Logic.AND, Logic.AND)
+								.replaceAll(String.valueOf(Logic.AND) + Logic.TRUE, "")
+								.replaceAll(Logic.TRUE + Logic.AND, "");
 						final String part1 = clause.substring(0, clause.indexOf(variable) + variable.length());
 						String part2 = clause.substring(clause.indexOf(variable) + variable.length(),
 								clause.length());
@@ -306,7 +306,7 @@ public class Logic {
 				}
 				if (clause.replaceAll(" ", "").length() <= 0
 						|| newExpression.contains(String.valueOf(Logic.LB) + clause + Logic.RB)
-						|| clause.contains(Logic.FALSE)) {
+						|| clause.contains(Logic.FALSE_space)) {
 					continue;
 				}
 				newExpression = String.valueOf(newExpression) + Logic.LB + clause + Logic.RB + Logic.OR;
