@@ -6,6 +6,8 @@ import configuration.Configuration;
 import configuration.ConfigurationFactory;
 import configuration.ConfigurationPackage;
 import configuration.Feature;
+import configuration.FeatureBinding;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -18,13 +20,20 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.impl.RuleImpl;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
+import org.eclipse.emf.transaction.ResourceSetChangeEvent;
+import org.eclipse.emf.transaction.ResourceSetListenerImpl;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -53,6 +62,10 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	private final class EFeatureModelContentAdapter extends EContentAdapter {
 		@Override
 		public void notifyChanged(Notification notification) {
+			if (notification.getEventType() == Notification.REMOVING_ADAPTER) {
+				return;
+			}
+			
 			Object notifier = notification.getNotifier();
 			if (notifier instanceof Annotation && ((Annotation) notifier).eContainer() instanceof Rule) {
 				if (((Annotation) notifier).getKey().equals(VariabilityConstants.FEATURES)) {
@@ -129,16 +142,15 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	public Rule basicGetRule() {
 		return rule;
 	}
-
-	private EContentAdapter createContentAdapter() {
-		return new EFeatureModelContentAdapter();
-	}
 	
 	private void disableContentAdapter() {
 		rule.eResource().getResourceSet().eAdapters().remove(featuresContentAdapter);
 	}
 	
 	private void enableContentAdapter() {
+		if (featuresContentAdapter == null) {
+			featuresContentAdapter = new EFeatureModelContentAdapter();
+		}
 		rule.eResource().getResourceSet().eAdapters().add(featuresContentAdapter);
 	}
 	
@@ -152,10 +164,12 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 		Rule oldRule = rule;
 		if (featuresContentAdapter != null) {
 			oldRule.eResource().getResourceSet().eAdapters().remove(featuresContentAdapter);
+		} else {
+			featuresContentAdapter = new EFeatureModelContentAdapter();
 		}
 		
 		rule = newRule;
-		rule.eResource().getResourceSet().eAdapters().add(createContentAdapter());
+		rule.eResource().getResourceSet().eAdapters().add(featuresContentAdapter);
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.CONFIGURATION__RULE, oldRule, rule));
 	}
@@ -201,11 +215,8 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 			featureAnnotationValue += feature.getName();
 		}
 		VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
-		boolean result = features.add(feature);
-		try {
-			enableContentAdapter();			
-		} catch (IllegalArgumentException e) {} //TODO: This throws an IllegalArgumentException if the added feature was the first one in the rule. Fix this.
-		return result;
+		enableContentAdapter();			
+		return features.add(feature);
 	}
 	
 	/**
@@ -237,7 +248,9 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 					featureAnnotationValue += annotationFeature + ", ";
 				}
 			}
-			featureAnnotationValue = featureAnnotationValue.substring(0, featureAnnotationValue.length() - 2);
+			if (annotationFeatures.size() > 1) {
+				featureAnnotationValue = featureAnnotationValue.substring(0, featureAnnotationValue.length() - 2);
+			}
 			VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
 			enableContentAdapter();
 			return features.remove(feature);
