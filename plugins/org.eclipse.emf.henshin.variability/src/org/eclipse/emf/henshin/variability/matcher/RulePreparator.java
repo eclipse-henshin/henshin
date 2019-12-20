@@ -35,7 +35,7 @@ import aima.core.logic.propositional.parsing.ast.Sentence;
  * application and matching. If the rule is expected to be used later, it is
  * required to call the undo() method after the application has been performed.
  * 
- * @author Daniel Strüber
+ * @author Daniel Strï¿½ber
  *
  */
 public class RulePreparator {
@@ -123,6 +123,7 @@ public class RulePreparator {
 					if (mappings != null) {
 						removeMappings.addAll(mappings);
 					}
+					((Node) ge).getAllEdges().forEach(edge -> addElementToRemoveList(geIsVariabilityAware, edge, removeEdges));
 				} else if (ge instanceof Edge) {
 					addElementToRemoveList(geIsVariabilityAware, ge, removeEdges);
 				} else if (ge instanceof Attribute) {
