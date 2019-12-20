@@ -14,7 +14,6 @@ Export-Package: mergeSuggestion,
  org.eclipse.emf.henshin.variability.mergein.clustering,
  org.eclipse.emf.henshin.variability.mergein.mining,
  org.eclipse.emf.henshin.variability.mergein.normalize
-Require-Bundle: org.eclipse.emf.henshin.model;visibility:=reexport,
- com.apporiented.algorithm.clustering
+Require-Bundle: org.eclipse.emf.henshin.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.henshin.variability.mergein
