@@ -3,7 +3,7 @@ package org.eclipse.emf.henshin.variability.wrapper;
 import org.eclipse.emf.henshin.model.GraphElement;
 
 /**
- * A representation of variaibility-aware graph elements.
+ * A representation of variability-aware graph elements.
  * 
  * @author Stefan Schulz
  *
