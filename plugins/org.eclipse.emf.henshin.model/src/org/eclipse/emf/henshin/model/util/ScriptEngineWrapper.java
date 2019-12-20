@@ -93,6 +93,17 @@ public class ScriptEngineWrapper {
 		}
 		return engine.eval(script);
 	}
+	
+	/**
+	 * A wrapper for the put operation of the wrapped script engine.
+	 * @see javax.script.ScriptEngine.put(String key, Object value)
+	 * 
+	 * @param key The name of named value to add
+	 * @param value The value of named value to add
+	 */
+	public void put(String key, Object value) {
+		engine.put(key, value);
+	}
 
 	/**
 	 * Converts a list of imports like List("foo.Foo", "foo.bar.*") into one string "foo.Foo, foo.bar"

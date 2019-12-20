@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ui
+Bundle-SymbolicName: org.eclipse.emf.henshin.variability.mergein.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.emf.henshin.variability.ui.Activator
+Require-Bundle: org.eclipse.gmf.runtime.emf.ui.properties,
+ org.eclipse.gmf.runtime.diagram.ui,
+ org.eclipse.emf.henshin.diagram,
+ org.eclipse.emf.henshin.variability.mergein.refactoring,
+ org.eclipse.emf.henshin.variability.mergein
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.emf.henshin.variability.mergein.ui
