@@ -1,0 +1,33 @@
+{
+	"ruleFile": "non-vb.henshin",
+	"applications": [
+		{
+			"rule": "preserve",
+			"model": "model1.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 11
+				},
+				{
+					"kind": "MATCHES",
+					"value": 3
+				}
+			]
+		},
+		{
+			"rule": "create",
+			"model": "model1.xmi",
+			"results": [
+				{
+					"kind": "MATCHES",
+					"value": 3
+				},
+{
+					"kind": "MODEL_SIZE",
+					"value": 14
+				}
+			]
+		}
+	]
+}

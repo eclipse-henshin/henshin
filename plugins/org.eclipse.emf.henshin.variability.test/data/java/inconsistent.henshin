@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_EMSTsBBeEeqGYoBEYurJJg">
+  <imports href="Java.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_FRXFYBBeEeqGYoBEYurJJg" name="preserve">
+    <annotations xmi:id="_FR3bsBBeEeqGYoBEYurJJg" key="featureModel" value="(M and not F) or (not M and F)"/>
+    <annotations xmi:id="_FR3bsRBeEeqGYoBEYurJJg" key="injectiveMatchingPresenceCondition" value=""/>
+    <annotations xmi:id="_FR4CwBBeEeqGYoBEYurJJg" key="features" value="M, X"/>
+    <lhs xmi:id="_FRfoQBBeEeqGYoBEYurJJg" name="Lhs">
+      <nodes xmi:id="_HA034BBeEeqGYoBEYurJJg" outgoing="_IognYBBeEeqGYoBEYurJJg _q4RgMBG6Eeqxptn-OOol6g _xlRjsBG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_c5FogBG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_Hz_aMBBeEeqGYoBEYurJJg" incoming="_IognYBBeEeqGYoBEYurJJg">
+        <annotations xmi:id="_c5Ir0BG6Eeqxptn-OOol6g" key="presenceCondition" value="M"/>
+        <type href="Java.ecore#//Method"/>
+      </nodes>
+      <nodes xmi:id="_pOdpwBG6Eeqxptn-OOol6g" incoming="_q4RgMBG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_pOmzsBG6Eeqxptn-OOol6g" key="presenceCondition" value="F"/>
+        <type href="Java.ecore#//Field"/>
+      </nodes>
+      <nodes xmi:id="_wMfL0BG6Eeqxptn-OOol6g" incoming="_xlRjsBG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_wMgZ8BG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Method"/>
+      </nodes>
+      <edges xmi:id="_IognYBBeEeqGYoBEYurJJg" source="_HA034BBeEeqGYoBEYurJJg" target="_Hz_aMBBeEeqGYoBEYurJJg">
+        <annotations xmi:id="_c5JS4BG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_q4RgMBG6Eeqxptn-OOol6g" source="_HA034BBeEeqGYoBEYurJJg" target="_pOdpwBG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_q4sW8BG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Class/fields"/>
+      </edges>
+      <edges xmi:id="_xlRjsBG6Eeqxptn-OOol6g" source="_HA034BBeEeqGYoBEYurJJg" target="_wMfL0BG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_xlSKwBG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Class/methods"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_FRfoQRBeEeqGYoBEYurJJg" name="Rhs">
+      <nodes xmi:id="_HA1e8BBeEeqGYoBEYurJJg" outgoing="_IognYRBeEeqGYoBEYurJJg _q4SHQBG6Eeqxptn-OOol6g _xlRjsRG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_c5J58BG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_Hz_aMRBeEeqGYoBEYurJJg" incoming="_IognYRBeEeqGYoBEYurJJg">
+        <annotations xmi:id="_c5J58RG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Method"/>
+      </nodes>
+      <nodes xmi:id="_pOeQ0BG6Eeqxptn-OOol6g" incoming="_q4SHQBG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_pOqeEBG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Field"/>
+      </nodes>
+      <nodes xmi:id="_wMfy4BG6Eeqxptn-OOol6g" incoming="_xlRjsRG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_wMi2MBG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Method"/>
+      </nodes>
+      <edges xmi:id="_IognYRBeEeqGYoBEYurJJg" source="_HA1e8BBeEeqGYoBEYurJJg" target="_Hz_aMRBeEeqGYoBEYurJJg">
+        <annotations xmi:id="_c5J58hG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_q4SHQBG6Eeqxptn-OOol6g" source="_HA1e8BBeEeqGYoBEYurJJg" target="_pOeQ0BG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_q4uMIBG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Class/fields"/>
+      </edges>
+      <edges xmi:id="_xlRjsRG6Eeqxptn-OOol6g" source="_HA1e8BBeEeqGYoBEYurJJg" target="_wMfy4BG6Eeqxptn-OOol6g">
+        <annotations xmi:id="_xlTY4BG6Eeqxptn-OOol6g" key="presenceCondition" value=""/>
+        <type href="Java.ecore#//Class/methods"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_HA1e8RBeEeqGYoBEYurJJg" origin="_HA034BBeEeqGYoBEYurJJg" image="_HA1e8BBeEeqGYoBEYurJJg"/>
+    <mappings xmi:id="_H0ABQBBeEeqGYoBEYurJJg" origin="_Hz_aMBBeEeqGYoBEYurJJg" image="_Hz_aMRBeEeqGYoBEYurJJg"/>
+    <mappings xmi:id="_pOe34BG6Eeqxptn-OOol6g" origin="_pOdpwBG6Eeqxptn-OOol6g" image="_pOeQ0BG6Eeqxptn-OOol6g"/>
+    <mappings xmi:id="_wMfy4RG6Eeqxptn-OOol6g" origin="_wMfL0BG6Eeqxptn-OOol6g" image="_wMfy4BG6Eeqxptn-OOol6g"/>
+  </units>
+</henshin:Module>

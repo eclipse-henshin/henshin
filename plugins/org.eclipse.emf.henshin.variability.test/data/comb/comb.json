@@ -1,5 +1,5 @@
 {
-	"rule": "comb-var-old_syntax.henshin",
+	"ruleFile": "comb-var-old_syntax.henshin",
 	"applications": [
 		{
 			"model": "grid1.xmi",

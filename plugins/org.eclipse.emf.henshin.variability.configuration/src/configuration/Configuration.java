@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +41,7 @@ public interface Configuration extends EObject {
 	 * @model required="true"
 	 * @generated
 	 */
-	Rule getRule();
+	VariabilityRule getRule();
 
 	/**
 	 * Sets the value of the '{@link configuration.Configuration#getRule <em>Rule</em>}' reference.

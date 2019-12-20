@@ -2,17 +2,20 @@ package org.eclipse.emf.henshin.variability.ui.views;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeCompartmentItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleCompartmentItemSemanticEditPolicy;
+import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.configuration.ui.actions.LoadFavoriteConfigurationAction;
@@ -37,6 +40,7 @@ import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerBindingEd
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerComparator;
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerContentProvider;
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerNameEditingSupport;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.transaction.ResourceSetChangeEvent;
 import org.eclipse.emf.transaction.ResourceSetListenerImpl;
@@ -53,6 +57,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -67,14 +72,14 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
@@ -121,7 +126,8 @@ public class VariabilityView extends ViewPart
 
 	private Label ruleNameLabel;
 
-	private Button add, delete, clear, refresh;
+	private ToolItem add, delete, clear, refresh, selectedFavorite, deleteFavorite;
+	private ToolBar favoriteToolBar, featureModelToolbar;
 
 	public RuleEditPart getSelectedRuleEditPart() {
 		return selectedRuleEditPart;
@@ -144,15 +150,33 @@ public class VariabilityView extends ViewPart
 	}
 
 	private Composite createViewer(Composite parent) {
-		Composite buttonComposite = new Composite(parent, SWT.NONE);
-		RowLayout buttonCompositeLayout = new RowLayout();
-		buttonCompositeLayout.wrap = true;
-		buttonCompositeLayout.justify = true;
-		buttonCompositeLayout.fill = true;
-		buttonComposite.setLayout(buttonCompositeLayout);
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout grid = new GridLayout(2, false);
+		grid.marginLeft = -5;
+		grid.marginRight = -5;
+		grid.marginTop = -5;
+		grid.marginBottom = -5;
+		grid.horizontalSpacing = 0;
 
-		add = new Button(buttonComposite, SWT.PUSH);
-		add.setImage(ImageHelper.getImage("/icons/add.gif"));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		composite.setLayout(grid);
+
+		favoriteToolBar = new ToolBar(composite, SWT.FLAT);
+		favoriteToolBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+//		deleteFavorite = new ToolItem(favoriteToolBar, SWT.PUSH);
+//		deleteFavorite.setImage(ImageHelper.getImage("/icons/trash.png"));
+//		deleteFavorite.setToolTipText("Create feature");
+		selectedFavorite = new ToolItem(favoriteToolBar, SWT.FLAT);
+		selectedFavorite.setText("");
+
+		ToolBar buttonToolBar = new ToolBar(composite, SWT.FLAT);
+		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(buttonToolBar);
+		buttonToolBar.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+
+		new ToolItem(buttonToolBar, SWT.SEPARATOR);
+		add = new ToolItem(buttonToolBar, SWT.PUSH);
+		add.setImage(ImageHelper.getImage("/icons/add.png"));
 		add.setToolTipText("Create feature");
 		add.addSelectionListener(new SelectionListener() {
 
@@ -180,8 +204,8 @@ public class VariabilityView extends ViewPart
 		});
 		add.setEnabled(false);
 
-		delete = new Button(buttonComposite, SWT.PUSH);
-		delete.setImage(ImageHelper.getImage("/icons/delete.gif"));
+		delete = new ToolItem(buttonToolBar, SWT.PUSH);
+		delete.setImage(ImageHelper.getImage("/icons/delete.png"));
 		delete.setToolTipText("Delete selected features");
 		delete.addSelectionListener(new SelectionListener() {
 
@@ -208,6 +232,8 @@ public class VariabilityView extends ViewPart
 					for (Feature feature : selectedFeatures) {
 						config.removeFeature(feature);
 					}
+					configurationProvider.clearFavorites(config);
+					populateFavoritesDropDown(rule);
 					refresh();
 				}
 			}
@@ -220,18 +246,18 @@ public class VariabilityView extends ViewPart
 		});
 		delete.setEnabled(false);
 
-		clear = new Button(buttonComposite, SWT.PUSH);
-		clear.setImage(ImageHelper.getImage("/icons/clear.gif"));
+		clear = new ToolItem(buttonToolBar, SWT.PUSH);
+		clear.setImage(ImageHelper.getImage("/icons/clear.png"));
 		clear.setToolTipText("Clear feature bindings");
 		clear.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (config != null) {
+					deselectFavorite();
 					for (Feature feature : config.getFeatures()) {
 						feature.setBinding(FeatureBinding.UNBOUND);
 					}
-					// viewer.update(viewer.getInput(), new String[]{"features"});
 					refresh();
 				}
 			}
@@ -245,8 +271,8 @@ public class VariabilityView extends ViewPart
 
 		clear.setEnabled(false);
 
-		refresh = new Button(buttonComposite, SWT.PUSH);
-		refresh.setImage(ImageHelper.getImage("/icons/refresh.gif"));
+		refresh = new ToolItem(buttonToolBar, SWT.PUSH);
+		refresh.setImage(ImageHelper.getImage("/icons/refresh.png"));
 		refresh.setToolTipText("Refresh");
 		refresh.addSelectionListener(new SelectionListener() {
 
@@ -297,7 +323,7 @@ public class VariabilityView extends ViewPart
 
 	private void createColumns(final Composite parent, final TableColumnLayout tableColumnLayout,
 			final TableViewer viewer) {
-		String[] titles = { "Variability point", "Binding" };
+		String[] titles = { "Feature", "Binding" };
 
 		TableViewerColumn col = createTableViewerColumn(titles[0], 0);
 		col.setLabelProvider(new ColumnLabelProvider() {
@@ -361,10 +387,43 @@ public class VariabilityView extends ViewPart
 		ruleNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		ruleNameLabel.setText("No rule selected");
 
+		Label separatorName = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
+		separatorName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+
 		Label variabilityModelLabel = new Label(composite, SWT.NONE);
 		variabilityModelLabel.setImage(ImageHelper.getImage("/icons/variability.gif"));
-		variabilityModelText = new Text(composite, SWT.BORDER | SWT.SEARCH);
-		variabilityModelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		variabilityModelLabel.setText("Feature Model");
+		variabilityModelLabel.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, false, false, 1, 1));
+		featureModelToolbar = new ToolBar(composite, SWT.FLAT);
+		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(featureModelToolbar);
+		featureModelToolbar.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+		ToolItem createFeatures = new ToolItem(featureModelToolbar, SWT.PUSH);
+		createFeatures.setImage(ImageHelper.getImage("/icons/create_features.png"));
+		createFeatures.setToolTipText("Create all undefined features");
+		createFeatures.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Rule rule = VariabilityModelHelper.getRuleForEditPart(selectedRuleEditPart);
+				String[] missingFeatures = config.getRule().getMissingFeatures();
+				for (String featureName : missingFeatures) {
+					Feature feature = ConfigurationFactory.eINSTANCE.createFeature();
+					feature.setName(featureName);
+					config.addFeature(feature);
+				}
+				featureModelToolbar.setVisible(false);
+				refresh();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+
+			}
+		});
+		featureModelToolbar.setVisible(false);
+		
+		variabilityModelText = new Text(composite, SWT.BORDER);
+		variabilityModelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 		IObservableValue<?> target = WidgetProperties.text(SWT.Modify).observe(variabilityModelText);
 		variabilityModelTextBindingContext = new DataBindingContext();
 		writableValue = new WritableValue<Rule>();
@@ -383,8 +442,8 @@ public class VariabilityView extends ViewPart
 		observableFeatureModelValue = new ObservableFeatureModelValue<Object>(model);
 		variabilityModelTextBindingContext.bindValue(target, observableFeatureModelValue);
 
-		Label separator = new Label(parent, SWT.HORIZONTAL | SWT.SEPARATOR);
-		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		Label separator = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
+		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 
 		GridData tableCompositeGridData = new GridData();
 		tableCompositeGridData.grabExcessHorizontalSpace = true;
@@ -572,7 +631,9 @@ public class VariabilityView extends ViewPart
 									favorite, VariabilityView.this);
 							this.addActionToMenu(loadConfigurationAction);
 							this.uncheckAll();
+							selectFavorite(config);
 							loadConfigurationAction.setChecked(true);
+							selectedFavorite.setText(name);
 						} else {
 							return;
 						}
@@ -636,16 +697,38 @@ public class VariabilityView extends ViewPart
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
+	
 
 	private class ConfigurationListener extends ResourceSetListenerImpl {
 
 		@Override
 		public void resourceSetChanged(ResourceSetChangeEvent event) {
+			Annotation annotation = findModifiedAnnotation(event.getNotifications());
+			if (annotation != null) {
+				String value = annotation.getValue();
+				if ((annotation.getKey().equals(VariabilityConstants.FEATURE_MODEL) || annotation.getKey().equals(VariabilityConstants.FEATURES)) && value != null && !value.isEmpty()) {
+					if (config.getRule().hasMissingFeatures()) {
+						featureModelToolbar.setVisible(true);
+					} else {
+						featureModelToolbar.setVisible(false);
+					}
+				}
+				
+			}
 			if (observableFeatureModelValue.shouldUpdate()) {
 				refresh();
 			} else {
 				viewer.refresh();
 			}
+		}
+		
+		private Annotation findModifiedAnnotation(List<Notification> notifications) {
+			for (Notification notification : notifications) {
+				if (notification.getNotifier() instanceof Annotation) {
+					return (Annotation) notification.getNotifier();
+				}
+			}
+			return null;
 		}
 	}
 
@@ -657,9 +740,16 @@ public class VariabilityView extends ViewPart
 		domain.addResourceSetListener(new ConfigurationListener());
 
 		viewer.setInput(config);
-		ruleNameLabel.setText("Rule " + rule.getName());
-		loadFavoritesMenu.setChecked(configurationProvider.isFavorite(config));
+		ruleNameLabel.setText("Selected Rule: " + rule.getName());
 		writableValue.setValue(rule);
+
+		deselectFavorite();
+		populateFavoritesDropDown(rule);
+		selectFavorite(config);
+
+		if (showConfiguredRuleAction.isChecked()) {
+			showConfiguredRuleAction.run();
+		}
 
 		add.setEnabled(true);
 		delete.setEnabled(true);
@@ -692,6 +782,8 @@ public class VariabilityView extends ViewPart
 			config = configurationProvider.getConfiguration(rule);
 			setContent(config);
 			refresh();
+		} else if (selection.size() == 1) {
+			refresh();
 		}
 
 	}
@@ -713,7 +805,7 @@ public class VariabilityView extends ViewPart
 		loadFavoritesMenu.clearMenu();
 
 		Set<Favorite> favorites = configurationProvider.getFavorites(rule);
-
+		deselectFavorite();
 		if (favorites != null) {
 			for (Favorite favorite : favorites) {
 				LoadFavoriteConfigurationAction loadConfigurationAction = new LoadFavoriteConfigurationAction(favorite,
@@ -730,11 +822,6 @@ public class VariabilityView extends ViewPart
 			config = configurationProvider.getConfiguration(rule);
 			selectedRuleEditPart = ruleEditPart;
 			setContent(config);
-			populateFavoritesDropDown(rule);
-			if (showConfiguredRuleAction.isChecked()) {
-				showConfiguredRuleAction.run();
-			}
-
 			updateEditPolicy(ruleEditPart);
 			refresh();
 		}
@@ -764,11 +851,25 @@ public class VariabilityView extends ViewPart
 
 	@Override
 	public void tableViewerUpdated() {
-		loadFavoritesMenu.setChecked(configurationProvider.isFavorite(config));
-		loadFavoritesMenu.uncheckAll();
+		deselectFavorite();
+		selectFavorite(config);
 		if (showConfiguredRuleAction.isChecked()) {
 			showConfiguredRuleAction.run();
 		}
 		refresh();
+	}
+
+	private void deselectFavorite() {
+		selectedFavorite.setText("");
+		loadFavoritesMenu.uncheckAll();
+		loadFavoritesMenu.setImageDescriptor(ImageHelper.getImageDescriptor("icons/star_grey.png"));
+	}
+
+	private void selectFavorite(Configuration config) {
+		Favorite favorite = configurationProvider.findFavorite(config);
+		if (favorite != null) {
+			selectedFavorite.setText(favorite.getName());
+			loadFavoritesMenu.setImageDescriptor(ImageHelper.getImageDescriptor("icons/star.png"));
+		}
 	}
 }
