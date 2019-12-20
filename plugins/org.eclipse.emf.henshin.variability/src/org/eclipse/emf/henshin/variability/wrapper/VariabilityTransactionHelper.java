@@ -34,10 +34,10 @@ public class VariabilityTransactionHelper {
 
 		anno.setKey(key);
 		anno.setValue(value);
-		
-		try  {
+
+		try {
 			modelElement.getAnnotations().add(anno);
-		} catch(IllegalStateException e) {
+		} catch (IllegalStateException e) {
 		}
 		return anno;
 	}
@@ -54,7 +54,6 @@ public class VariabilityTransactionHelper {
 			}
 			Command command = SetCommand.create(domain, anno, HenshinPackage.Literals.ANNOTATION__VALUE, value);
 			CommandStack stack = domain.getCommandStack();
-			
 			try {
 				stack.execute(command);
 			} catch (IllegalStateException e) {

@@ -58,7 +58,7 @@ public class VariabilityNestedCondition implements NestedCondition {
 		if(pc != null) {
 			presenceCondition = pc;
 		} else {
-			presenceCondition = VariabilityTransactionHelper.addAnnotation(condition, VariabilityConstants.PRESENCE_CONDITION, null);
+			presenceCondition = VariabilityTransactionHelper.addAnnotation(condition, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
 	}
 	

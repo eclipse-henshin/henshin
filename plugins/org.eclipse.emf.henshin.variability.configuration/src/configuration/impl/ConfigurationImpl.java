@@ -202,11 +202,19 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	public boolean addFeature(Feature feature) {
 		disableContentAdapter();
 		List<String> annotationFeatures = VariabilityFactory.createVariabilityRule(rule).getFeatures();
-		String featureAnnotationValue = String.join(" ,", annotationFeatures);
-		featureAnnotationValue += " ," + feature.getName();
+		String featureAnnotationValue = "";
+		if (annotationFeatures != null && !annotationFeatures.isEmpty()) {
+			featureAnnotationValue = String.join(", ", annotationFeatures);
+			featureAnnotationValue += ", " + feature.getName();
+		} else {
+			featureAnnotationValue += feature.getName();
+		}
 		VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
-		enableContentAdapter();
-		return features.add(feature);
+		boolean result = features.add(feature);
+		try {
+			enableContentAdapter();			
+		} catch (IllegalArgumentException e) {} //TODO: This throws an IllegalArgumentException if the added feature was the first one in the rule. Fix this.
+		return result;
 	}
 	
 	/**
