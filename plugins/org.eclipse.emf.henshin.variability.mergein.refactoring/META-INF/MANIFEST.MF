@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Refactoring
+Bundle-Name: Henshin Variability Mergein Refactoring
 Bundle-SymbolicName: org.eclipse.emf.henshin.variability.mergein.refactoring;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.emf.henshin.variability.mergein.refactoring.Activator
