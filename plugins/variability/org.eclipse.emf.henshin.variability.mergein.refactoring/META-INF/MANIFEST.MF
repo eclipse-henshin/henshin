@@ -15,3 +15,4 @@ Export-Package: org.eclipse.emf.henshin.variability.mergein.refactoring.logic,
  org.eclipse.emf.henshin.variability.mergein.refactoring.popup.actions,
  org.eclipse.emf.henshin.variability.mergein.refactoring.util
 Automatic-Module-Name: org.eclipse.emf.henshin.variability.mergein.refactoring
+Bundle-ClassPath: .
