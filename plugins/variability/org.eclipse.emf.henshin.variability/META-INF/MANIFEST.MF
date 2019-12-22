@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Henshin Variability Core
 Bundle-SymbolicName: org.eclipse.emf.henshin.variability;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.5.0.qualifier
 Require-Bundle: org.eclipse.emf.henshin.trace,
  org.eclipse.emf.henshin.interpreter,
  org.eclipse.ocl.ecore,
