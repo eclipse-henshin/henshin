@@ -10,7 +10,7 @@
     <version>1.5.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.emf.henshin.variability.sdk</artifactId>
+  <artifactId>org.eclipse.emf.henshin.sdk.variability</artifactId>
   <packaging>eclipse-feature</packaging>
   <build>
   <plugins>
