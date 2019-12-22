@@ -7,10 +7,10 @@
     <relativePath>../../pom.xml</relativePath>
     <groupId>org.eclipse.emf.henshin.variability</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.emf.henshin.sdk.variability</artifactId>
+  <artifactId>org.eclipse.emf.henshin.variability.sdk</artifactId>
   <packaging>eclipse-feature</packaging>
   <build>
   <plugins>

@@ -31,7 +31,15 @@
 		<module>plugins/org.eclipse.emf.henshin.text.ide</module>
 		<module>plugins/org.eclipse.emf.henshin.text.transformation</module>
 		<module>plugins/org.eclipse.emf.henshin.text.ui</module>
+		<module>plugins/variability/org.eclipse.emf.henshin.variability</module>
+		<module>plugins/variability/org.eclipse.emf.henshin.configuration</module>
+		<module>plugins/variability/org.eclipse.emf.henshin.configuration.ui</module>
+		<module>plugins/variability/org.eclipse.emf.henshin.mergein</module>	
+		<module>plugins/variability/org.eclipse.emf.henshin.mergein.refactoring</module>
+		<module>plugins/variability/org.eclipse.emf.henshin.mergein.ui</module>	
+		<module>plugins/variability/org.eclipse.emf.henshin.mergein.test</module>
 		<module>features/org.eclipse.emf.henshin.sdk</module>
+		<module>features/org.eclipse.emf.henshin.variability.sdk</module>
 		<module>releng/org.eclipse.emf.henshin.target</module>
 		<module>p2updatesite</module>
 	</modules>
