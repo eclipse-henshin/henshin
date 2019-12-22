@@ -37,9 +37,9 @@
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein</module>	
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein.refactoring</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein.ui</module>	
-		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein.test</module>
+		<module>plugins/variability/org.eclipse.emf.henshin.variability.test</module>
 		<module>features/org.eclipse.emf.henshin.sdk</module>
-		<module>features/org.eclipse.emf.henshin.variability.sdk</module>
+		<module>features/org.eclipse.emf.henshin.sdk.variability</module>
 		<module>releng/org.eclipse.emf.henshin.target</module>
 		<module>p2updatesite</module>
 	</modules>
