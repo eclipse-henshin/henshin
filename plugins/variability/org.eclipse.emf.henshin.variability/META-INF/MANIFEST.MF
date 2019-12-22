@@ -3,6 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Henshin Variability Core
 Bundle-SymbolicName: org.eclipse.emf.henshin.variability;singleton:=true
 Bundle-Version: 1.5.0.qualifier
+Bundle-ClassPath: .,
+ lib/aima-core-3.0.0.jar
+Bundle-Vendor: %providerName
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.emf.henshin.variability,
+ org.eclipse.emf.henshin.variability.matcher,
+ org.eclipse.emf.henshin.variability.util,
+ org.eclipse.emf.henshin.variability.wrapper
 Require-Bundle: org.eclipse.emf.henshin.trace,
  org.eclipse.emf.henshin.interpreter,
  org.eclipse.ocl.ecore,
@@ -10,10 +18,4 @@ Require-Bundle: org.eclipse.emf.henshin.trace,
  org.eclipse.core.runtime,
  org.eclipse.emf.transaction,
  org.sat4j.core
-Bundle-ClassPath: lib/aima-core-3.0.0.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.eclipse.emf.henshin.variability,
- org.eclipse.emf.henshin.variability.matcher,
- org.eclipse.emf.henshin.variability.util,
- org.eclipse.emf.henshin.variability.wrapper
 Automatic-Module-Name: org.eclipse.emf.henshin.variability

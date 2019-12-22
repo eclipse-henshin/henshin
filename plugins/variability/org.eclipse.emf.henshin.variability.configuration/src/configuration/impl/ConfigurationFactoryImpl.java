@@ -2,7 +2,12 @@
  */
 package configuration.impl;
 
-import configuration.*;
+import configuration.Configuration;
+import configuration.ConfigurationFactory;
+import configuration.ConfigurationPackage;
+import configuration.Feature;
+import configuration.Favorite;
+import configuration.FeatureBinding;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
