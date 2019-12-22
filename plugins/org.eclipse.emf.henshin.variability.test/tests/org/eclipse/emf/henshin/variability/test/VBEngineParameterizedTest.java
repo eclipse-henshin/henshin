@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.variability.InconsistentRuleException;
+import org.eclipse.emf.henshin.variability.VarRuleApplicationImpl;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareEngine;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareMatch;
 import org.eclipse.emf.henshin.variability.util.RuleUtil;
@@ -168,10 +169,8 @@ public class VBEngineParameterizedTest {
 		VariabilityAwareEngine vbEngine = new VariabilityAwareEngine(data.rule, graph);
 		Set<VariabilityAwareMatch> matches = vbEngine.findMatches();
 		int numberOfMatches = matches.size();
-
-		EngineImpl engine = new EngineImpl();
 		for (VariabilityAwareMatch completeVarMatch : matches) {
-			applyMatch(graph, engine, completeVarMatch);
+			applyRuleAtMatch(graph, vbEngine, completeVarMatch);
 		}
 		if (DEBUG) {
 			Path path = Paths.get("debug/" + data.resource.getURI().lastSegment());
@@ -204,19 +203,22 @@ public class VBEngineParameterizedTest {
 	 * @param engine The engine
 	 * @param match  The VB match to be applied
 	 */
-	private void applyMatch(EGraphImpl graph, EngineImpl engine, VariabilityAwareMatch match) {
-		Match completeMatch = match.getMatch();
-		Rule unit = match.getMatch().getRule();
-		match.prepareRule();
-		MatchImpl resultMatch = new MatchImpl((Rule) unit, true);
-		Change change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);
-		if (change == null) {
-			fail("Creating change failed!");
-		}
-		change.applyAndReverse();
-		if (match != null) {
-			match.undoPreparation();
-		}
+	private void applyRuleAtMatch(EGraphImpl graph, VariabilityAwareEngine engine, VariabilityAwareMatch match) {
+		VarRuleApplicationImpl app = new VarRuleApplicationImpl(new EngineImpl(), graph, match.getRule(), match);
+		app.execute(null);
+		
+//		Match completeMatch = match.getMatch();
+//		Rule unit = match.getMatch().getRule();
+//		match.prepareRule();
+//		MatchImpl resultMatch = new MatchImpl((Rule) unit, true);
+//		Change change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);
+//		if (change == null) {
+//			fail("Creating change failed!");
+//		}
+//		change.applyAndReverse();
+//		if (match != null) {
+//			match.undoPreparation();
+//		}
 	}
 
 	/**

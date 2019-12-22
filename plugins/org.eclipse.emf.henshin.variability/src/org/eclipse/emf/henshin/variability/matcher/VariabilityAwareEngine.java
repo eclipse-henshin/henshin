@@ -26,6 +26,7 @@ import org.eclipse.emf.henshin.variability.InconsistentRuleException;
 import org.eclipse.emf.henshin.variability.util.RuleUtil;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityGraphElement;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityNode;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
 
 import aima.core.logic.propositional.parsing.ast.Sentence;
@@ -71,6 +72,7 @@ public class VariabilityAwareEngine {
 	 */
 	public VariabilityAwareEngine(Rule rule, EGraph graph) throws InconsistentRuleException {
 		super();
+		fixInconsistencies(rule);
 		if(!RuleUtil.checkRule(rule)) {
 			throw new InconsistentRuleException();
 		}
@@ -85,6 +87,20 @@ public class VariabilityAwareEngine {
 		populateExpressionMap();
 	}
 
+	private void fixInconsistencies(Rule rule) {
+		// Per definition, mapped nodes must have the same presence condition
+		// in the LHS and the RHS.
+		for (Mapping mapping : rule.getMappings()) {
+
+			VariabilityNode origin = VariabilityFactory.createVariabilityNode(mapping.getOrigin());
+			VariabilityNode image = VariabilityFactory.createVariabilityNode(mapping.getImage());
+
+			if (origin.getPresenceCondition() != image.getPresenceCondition()) {
+				image.setPresenceCondition(origin.getPresenceCondition());
+			}	
+		}
+	}
+	
 	private void populateExpressionMap() {
 		if (ruleInfoRegistry.containsKey(rule)) {
 			expressions = ruleInfo.getExpressions();

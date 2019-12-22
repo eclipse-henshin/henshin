@@ -27,6 +27,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareEngine.RuleInfo;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityGraphElement;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityNode;
 
 import aima.core.logic.propositional.parsing.ast.Sentence;
 
@@ -65,7 +66,8 @@ public class RulePreparator {
 		this.rule = rule;
 		this.checkDangling = rule.isCheckDangling();
 	}
-
+	
+	
 	/**
 	 * Prepares the rule for variability-based merging and rule application:
 	 * rejected elements and removed and the "injective" flag is set. Assumes
@@ -284,8 +286,6 @@ public class RulePreparator {
 
 	private void determineRemoverOrder(And and, Set<Formula> formulas, EObject container,
 			EReference feature) {
-		if (rule.getName().contains("tr_E_10_argument"))
-		System.out.println();
 		if (formulas.contains(and.getLeft())
 				&& formulas.contains(and.getRight())) {
 			removeFormulaContainingRef.put(and, feature);

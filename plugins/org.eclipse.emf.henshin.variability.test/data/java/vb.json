@@ -11,7 +11,49 @@
 				},
 				{
 					"kind": "MATCHES",
-					"value": 3
+					"value": 7
+				}
+			]
+		},
+		{
+			"rule": "create1",
+			"model": "model1.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 14
+				},
+				{
+					"kind": "MATCHES",
+					"value": 7
+				}
+			]
+		},
+		{
+			"rule": "create2",
+			"model": "model1.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 18
+				},
+				{
+					"kind": "MATCHES",
+					"value": 7
+				}
+			]
+		},
+		{
+			"rule": "delete2",
+			"model": "model1.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 6 
+				},
+				{
+					"kind": "MATCHES",
+					"value": 7
 				}
 			]
 		}

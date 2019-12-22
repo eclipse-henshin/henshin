@@ -21,10 +21,15 @@ import org.eclipse.emf.henshin.variability.util.RuleUtil;
  * @author Sven Peldszus
  */
 public class VarRuleApplicationImpl extends RuleApplicationImpl {
+	VariabilityAwareMatch completeVarMatch;
 
-	public VarRuleApplicationImpl(Engine engine, EGraph graph, Rule rule,
-			Assignment partialMatch) {
+	public VarRuleApplicationImpl(Engine engine, EGraph graph, Rule rule, Assignment partialMatch) {
 		super(engine, graph, rule, partialMatch);
+	}
+
+	public VarRuleApplicationImpl(Engine engine, EGraph graph, Rule rule, VariabilityAwareMatch completeMatchVar) {
+		super(engine, graph, rule, null);
+		this.completeVarMatch = completeMatchVar;
 	}
 
 	public VarRuleApplicationImpl(Engine engine) {
@@ -34,8 +39,7 @@ public class VarRuleApplicationImpl extends RuleApplicationImpl {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.emf.henshin.interpreter.UnitApplication#execute(org.eclipse
+	 * @see org.eclipse.emf.henshin.interpreter.UnitApplication#execute(org.eclipse
 	 * .emf.henshin.interpreter.ApplicationMonitor)
 	 */
 	@Override
@@ -56,50 +60,47 @@ public class VarRuleApplicationImpl extends RuleApplicationImpl {
 			resultMatch = null;
 		}
 		// Do we need to derive a complete match?
-		long startTime = System.currentTimeMillis();
-		VariabilityAwareMatch completeMatchVar = null;
-		if (completeMatch == null) {
-			if (!RuleUtil.isVarRule(unit)) {
-				completeMatch = engine
-						.findMatches((Rule) unit, graph, partialMatch)
-						.iterator().next();
-			} else {
-				VariabilityAwareEngine vbEngine;
-				try {
-					vbEngine = new VariabilityAwareEngine(
-							(Rule) unit, graph);
-				} catch (InconsistentRuleException e) {
-					return false;
-				}
-				Set<VariabilityAwareMatch> matches = vbEngine.findMatches();
-				if (!matches.isEmpty()) {
-					completeMatchVar = (VariabilityAwareMatch) matches
-							.iterator().next();
-					completeMatch = completeMatchVar.getMatch();
-					unit = completeMatchVar.getMatch().getRule();
+
+		if (completeVarMatch != null) {
+			completeMatch = completeVarMatch.getMatch();
+		} else {
+			long startTime = System.currentTimeMillis();
+
+			if (completeMatch == null) {
+				if (!RuleUtil.isVarRule(unit)) {
+					completeMatch = engine.findMatches((Rule) unit, graph, partialMatch).iterator().next();
+				} else {
+					VariabilityAwareEngine vbEngine;
+					try {
+						vbEngine = new VariabilityAwareEngine((Rule) unit, graph);
+					} catch (InconsistentRuleException e) {
+						return false;
+					}
+					Set<VariabilityAwareMatch> matches = vbEngine.findMatches();
+					if (!matches.isEmpty()) {
+						completeVarMatch = (VariabilityAwareMatch) matches.iterator().next();
+						completeMatch = completeVarMatch.getMatch();
+						unit = completeVarMatch.getMatch().getRule();
+
+					}
 
 				}
-
+				isCompleteMatchDerived = true;
 			}
-			isCompleteMatchDerived = true;
-		}
-		long runtime = (System.currentTimeMillis() - startTime);
-		MatchingLog.getEntries().add(
-				new MatchingLogEntry(unit, completeMatch != null, runtime,
-						graph.size(), 0)); // InterpreterUtil.countEdges(graph)));
-		if (completeMatch == null) {
-			if (monitor != null) {
-				monitor.notifyExecute(this, false);
+			long runtime = (System.currentTimeMillis() - startTime);
+			MatchingLog.getEntries().add(new MatchingLogEntry(unit, completeMatch != null, runtime, graph.size(), 0)); // InterpreterUtil.countEdges(graph)));
+			if (completeMatch == null) {
+				if (monitor != null) {
+					monitor.notifyExecute(this, false);
+				}
+				return false;
 			}
-			return false;
 		}
-		Rule rule = null;
-		if (completeMatchVar != null) {
-			completeMatchVar.prepareRule();
-		} 
+		if (completeVarMatch != null) {
+			completeVarMatch.prepareRule();
+		}
 		resultMatch = new MatchImpl((Rule) unit, true);
-		change = engine.createChange((Rule) unit, graph, completeMatch,
-				resultMatch);
+		change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);
 		if (change == null) {
 			if (monitor != null) {
 				monitor.notifyExecute(this, false);
@@ -110,9 +111,10 @@ public class VarRuleApplicationImpl extends RuleApplicationImpl {
 		isExecuted = true;
 		if (monitor != null) {
 			monitor.notifyExecute(this, true);
-		}	if (completeMatchVar != null) {
-			completeMatchVar.undoPreparation();
-		} 
+		}
+		if (completeVarMatch != null) {
+			completeVarMatch.undoPreparation();
+		}
 		return true;
 	}
 
