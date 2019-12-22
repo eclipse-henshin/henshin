@@ -2,10 +2,11 @@ package org.eclipse.emf.henshin.variability.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * 
- * @author Daniel Strüber
+ * @author Daniel Strüber, Stefan Schulz
  *
  */
 public class XorEncoderUtil {
@@ -19,11 +20,31 @@ public class XorEncoderUtil {
 	 * @return
 	 */
 	public static String encodeXor(String expression) {
+		if (!isWellFormed(expression)) {
+			return expression;
+		}
+		
 		expression = expression.replace("XOR(", "xor(");
 		while (expression.contains("xor(")) {
 			expression = eliminateFirstXor(expression);
 		}
 		return expression;
+	}
+	
+	public static boolean isWellFormed(String expression) {		
+		Stack<Character> stack = new Stack<Character>();		
+		for(Character c : expression.toCharArray()) {
+			if (c.equals('(')) {
+				stack.push(c);
+			} else if (c.equals(')')) {
+				if (stack.empty()) {
+					return false;
+				} else {
+					stack.pop();
+				}
+			}
+		}
+		return stack.isEmpty();
 	}
 
 	private static String eliminateFirstXor(String expression) {

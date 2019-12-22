@@ -27,6 +27,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareEngine.RuleInfo;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityGraphElement;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityNode;
 
 import aima.core.logic.propositional.parsing.ast.Sentence;
 
@@ -35,7 +36,7 @@ import aima.core.logic.propositional.parsing.ast.Sentence;
  * application and matching. If the rule is expected to be used later, it is
  * required to call the undo() method after the application has been performed.
  * 
- * @author Daniel Strüber
+ * @author Daniel Strï¿½ber
  *
  */
 public class RulePreparator {
@@ -65,7 +66,8 @@ public class RulePreparator {
 		this.rule = rule;
 		this.checkDangling = rule.isCheckDangling();
 	}
-
+	
+	
 	/**
 	 * Prepares the rule for variability-based merging and rule application:
 	 * rejected elements and removed and the "injective" flag is set. Assumes
@@ -123,6 +125,7 @@ public class RulePreparator {
 					if (mappings != null) {
 						removeMappings.addAll(mappings);
 					}
+					((Node) ge).getAllEdges().forEach(edge -> addElementToRemoveList(geIsVariabilityAware, edge, removeEdges));
 				} else if (ge instanceof Edge) {
 					addElementToRemoveList(geIsVariabilityAware, ge, removeEdges);
 				} else if (ge instanceof Attribute) {
@@ -283,8 +286,6 @@ public class RulePreparator {
 
 	private void determineRemoverOrder(And and, Set<Formula> formulas, EObject container,
 			EReference feature) {
-		if (rule.getName().contains("tr_E_10_argument"))
-		System.out.println();
 		if (formulas.contains(and.getLeft())
 				&& formulas.contains(and.getRight())) {
 			removeFormulaContainingRef.put(and, feature);

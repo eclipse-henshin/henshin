@@ -1,0 +1,70 @@
+{
+	"ruleFile": "comb-var-old_syntax.henshin",
+	"applications": [
+		{
+			"model": "grid1.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 3
+				},
+				{
+					"kind": "MATCHES",
+					"value": 0
+				}
+			]
+		},
+		{
+			"model": "grid2.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 5
+				},
+				{
+					"kind": "MATCHES",
+					"value": 1
+				}
+			]
+		},
+		{
+			"model": "grid3.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 7
+				},
+				{
+					"kind": "MATCHES",
+					"value": 3
+				}
+			]
+		},
+		{
+			"model": "grid4.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 9
+				},
+				{
+					"kind": "MATCHES",
+					"value": 6
+				}
+			]
+		},
+		{
+			"model": "grid5.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 11
+				},
+				{
+					"kind": "MATCHES",
+					"value": 10
+				}
+			]
+		}
+	]
+}

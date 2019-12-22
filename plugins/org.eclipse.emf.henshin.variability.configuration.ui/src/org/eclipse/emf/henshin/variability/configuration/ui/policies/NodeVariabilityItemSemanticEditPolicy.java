@@ -2,7 +2,6 @@ package org.eclipse.emf.henshin.variability.configuration.ui.policies;
 
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
-import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.variability.configuration.ui.commands.VariabilityEdgeCreateCommand;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;

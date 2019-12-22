@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -31,6 +32,12 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
+import org.eclipse.emf.henshin.variability.matcher.FeatureExpression;
+
+import aima.core.logic.common.ParserException;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.visitors.SymbolCollector;
 
 /**
  * This class wraps an instance of {@link org.eclipse.emf.henshin.model.Rule} and adds variability awareness to it.
@@ -91,19 +98,19 @@ public class VariabilityRule implements Rule {
 		if(featModel != null) {
 			featureModel = featModel;
 		} else {
-			featureModel = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, null);
+			featureModel = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, "");
 		}
 		
 		if(injMatPreCon != null) {
 			injectiveMatchingPresenceCondition = injMatPreCon;
 		} else {
-			injectiveMatchingPresenceCondition = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.INJECTIVE_MATCHING_PC, null);
+			injectiveMatchingPresenceCondition = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.INJECTIVE_MATCHING_PC, "");
 		}
 		
 		if(feats != null) {
 			features = feats;
 		} else {
-			features = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURES, null);
+			features = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURES, "");
 		}
 	}
 
@@ -205,6 +212,40 @@ public class VariabilityRule implements Rule {
 		List<String> featureList = new ArrayList<String>(Arrays.asList(features.getValue().split(",")));
 		featureList.remove(feature);
 		features.setValue(String.join(",", featureList));
+	}
+	
+	String oldFeatureModel = "";
+	String oldFeatures = "";
+	List<String> missingFeatures = new ArrayList<String>();;
+	
+	public boolean hasMissingFeatures() {
+		calculateMissingFeatureNames();
+		return missingFeatures == null || !missingFeatures.isEmpty();
+	}
+	
+	public String[] getMissingFeatures() {
+		calculateMissingFeatureNames();
+		return missingFeatures.toArray(new String[0]);
+	}
+	
+	private void calculateMissingFeatureNames() {
+		String currentModel = getFeatureModel();
+		if (!currentModel.trim().equals(oldFeatureModel) || !oldFeatures.equals(features.getValue())) {
+			try {
+				Sentence sentence = FeatureExpression.getExpr(currentModel);
+				missingFeatures.clear();
+				Set<PropositionSymbol> symbols = SymbolCollector.getSymbolsFrom(sentence);
+				List<String> definedFeatures = getFeatures();
+				for (PropositionSymbol symbol : symbols) {
+					String symbolName = symbol.getSymbol();
+					if (!definedFeatures.contains(symbolName)) {
+						missingFeatures.add(symbolName);
+					}
+				}
+			} catch (ParserException e) {} //TODO: Validate model before parsing
+			oldFeatureModel = currentModel.trim();
+			oldFeatures = features.getValue();
+		}
 	}
 
 	/**

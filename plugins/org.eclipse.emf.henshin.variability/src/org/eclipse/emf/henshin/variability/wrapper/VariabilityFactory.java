@@ -10,6 +10,7 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.variability.VarRuleApplicationImpl;
 
 /**
  * The factory for the variability-aware graph elements.
@@ -19,6 +20,10 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  */
 public class VariabilityFactory {
+	
+	private VariabilityFactory() {
+		// This class should not be instatiated
+	}
 	
 	/**
 	 * Creates a new empty variability-aware {@link org.eclipse.emf.henshin.model.Attribute}.
@@ -153,6 +158,7 @@ public class VariabilityFactory {
 		if (node instanceof VariabilityNode) {
 			return (VariabilityNode) node;
 		} else {
+			transformAttributes(node);
 			return new VariabilityNode(node);
 		}
 	}
@@ -184,7 +190,37 @@ public class VariabilityFactory {
 		if (rule instanceof VariabilityRule) {
 			return (VariabilityRule) rule;
 		} else {
+			transformGraphElements(rule.getLhs());
+			transformGraphElements(rule.getRhs());
 			return new VariabilityRule(rule);
+		}
+	}
+	
+	/**
+	 * Transforms all elements in a {@link Graph} to be variability-aware without creating new wrapper objects.
+	 * @param graph the {@link Graph} to be transformed.
+	 */
+	private static void transformGraphElements(Graph graph) {
+		for (Node node : graph.getNodes()) {
+			VariabilityNode.addVariabilityToNode(node);
+			transformAttributes(node);
+		}
+		for (Edge edge : graph.getEdges()) {
+			VariabilityEdge.addVariabilityToEdge(edge);
+		}
+		for (NestedCondition condition : graph.getNestedConditions()) {
+			VariabilityNestedCondition.addVariabilityToNestedCondition(condition);
+			transformGraphElements(condition.getConclusion());
+		}
+	}
+	
+	/**
+	 * Transform all attributes in a {@link }
+	 * @param node
+	 */
+	private static void transformAttributes(Node node) {
+		for (Attribute attribute : node.getAttributes()) {
+			VariabilityAttribute.addVariabilityToAttribute(attribute);
 		}
 	}
 }

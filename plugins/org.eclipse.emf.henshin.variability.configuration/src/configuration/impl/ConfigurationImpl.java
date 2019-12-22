@@ -2,38 +2,31 @@
  */
 package configuration.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.henshin.model.Annotation;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
+
 import configuration.Configuration;
 import configuration.ConfigurationFactory;
 import configuration.ConfigurationPackage;
 import configuration.Feature;
 import configuration.FeatureBinding;
-
-import java.util.Collection;
-import java.util.List;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.henshin.model.Annotation;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.impl.RuleImpl;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
-import org.eclipse.emf.transaction.ResourceSetChangeEvent;
-import org.eclipse.emf.transaction.ResourceSetListenerImpl;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -62,6 +55,10 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	private final class EFeatureModelContentAdapter extends EContentAdapter {
 		@Override
 		public void notifyChanged(Notification notification) {
+			if (notification.getEventType() == Notification.REMOVING_ADAPTER) {
+				return;
+			}
+			
 			Object notifier = notification.getNotifier();
 			if (notifier instanceof Annotation && ((Annotation) notifier).eContainer() instanceof Rule) {
 				if (((Annotation) notifier).getKey().equals(VariabilityConstants.FEATURES)) {
@@ -76,10 +73,10 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRule()
-	 * @generated
+	 * @generated NOT
 	 * @ordered
 	 */
-	protected Rule rule;
+	protected VariabilityRule rule;
 
 	/**
 	 * The cached value of the '{@link #getFeatures() <em>Features</em>}' reference list.
@@ -115,13 +112,13 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
-	public Rule getRule() {
+	public VariabilityRule getRule() {
 		if (rule != null && rule.eIsProxy()) {
 			InternalEObject oldRule = (InternalEObject)rule;
-			rule = (Rule)eResolveProxy(oldRule);
+			rule = (VariabilityRule)eResolveProxy(oldRule);
 			if (rule != oldRule) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ConfigurationPackage.CONFIGURATION__RULE, oldRule, rule));
@@ -138,16 +135,15 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	public Rule basicGetRule() {
 		return rule;
 	}
-
-	private EContentAdapter createContentAdapter() {
-		return new EFeatureModelContentAdapter();
-	}
 	
 	private void disableContentAdapter() {
 		rule.eResource().getResourceSet().eAdapters().remove(featuresContentAdapter);
 	}
 	
 	private void enableContentAdapter() {
+		if (featuresContentAdapter == null) {
+			featuresContentAdapter = new EFeatureModelContentAdapter();
+		}
 		rule.eResource().getResourceSet().eAdapters().add(featuresContentAdapter);
 	}
 	
@@ -161,10 +157,12 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 		Rule oldRule = rule;
 		if (featuresContentAdapter != null) {
 			oldRule.eResource().getResourceSet().eAdapters().remove(featuresContentAdapter);
+		} else {
+			featuresContentAdapter = new EFeatureModelContentAdapter();
 		}
 		
-		rule = newRule;
-		rule.eResource().getResourceSet().eAdapters().add(createContentAdapter());
+		rule = VariabilityFactory.createVariabilityRule(newRule);
+		rule.eResource().getResourceSet().eAdapters().add(featuresContentAdapter);
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.CONFIGURATION__RULE, oldRule, rule));
 	}
@@ -183,6 +181,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	}
 	
 	private void updateAllFeatures() {
+		Map<String, FeatureBinding> bindings = getBindings();
 		List<String> annotationFeatures = VariabilityFactory.createVariabilityRule(rule).getFeatures();
 		EList<Feature> oldFeatures = getFeatures();
 		features.clear();
@@ -193,6 +192,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 		}
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.CONFIGURATION__FEATURES, oldFeatures, features));
+		applyBindings(bindings);
 	}
 	
 	/**
@@ -202,8 +202,13 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	public boolean addFeature(Feature feature) {
 		disableContentAdapter();
 		List<String> annotationFeatures = VariabilityFactory.createVariabilityRule(rule).getFeatures();
-		String featureAnnotationValue = String.join(" ,", annotationFeatures);
-		featureAnnotationValue += " ," + feature.getName();
+		String featureAnnotationValue = "";
+		if (annotationFeatures != null && !annotationFeatures.isEmpty()) {
+			featureAnnotationValue = String.join(", ", annotationFeatures);
+			featureAnnotationValue += ", " + feature.getName();
+		} else {
+			featureAnnotationValue += feature.getName();
+		}
 		VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
 		enableContentAdapter();
 		return features.add(feature);
@@ -238,12 +243,30 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 					featureAnnotationValue += annotationFeature + ", ";
 				}
 			}
-			featureAnnotationValue = featureAnnotationValue.substring(0, featureAnnotationValue.length() - 2);
+			if (annotationFeatures.size() > 1) {
+				featureAnnotationValue = featureAnnotationValue.substring(0, featureAnnotationValue.length() - 2);
+			}
 			VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
 			enableContentAdapter();
 			return features.remove(feature);
 		} else {
 			return false;
+		}
+	}
+	
+	private Map<String, FeatureBinding> getBindings() {
+		Map<String, FeatureBinding> result = new HashMap<String, FeatureBinding>();
+		for (Feature feature : features) {
+			result.put(feature.getName(), feature.getBinding());
+		}
+		return result;
+	}
+	
+	private void applyBindings(Map<String, FeatureBinding> bindings) {
+		for (Feature feature : features) {
+			if (bindings.containsKey(feature.getName())) {
+				feature.setBinding(bindings.get(feature.getName()));
+			}
 		}
 	}
 

@@ -32,7 +32,8 @@ public class VariabilityEdgeCreateCommand extends EdgeCreateCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		CommandResult result = super.doExecuteWithResult(monitor, info);
 		Edge edge = (Edge) result.getReturnValue();
-		VariabilityFactory.createVariabilityEdge(edge).setPresenceCondition(VariabilityModelHelper.getPresenceConditionForNewEdge(edge, configuration));
+		String pc = VariabilityModelHelper.getPresenceConditionForNewEdge(edge, configuration);
+		VariabilityFactory.createVariabilityEdge(edge).setPresenceCondition(pc);
 		return result;
 	}
 

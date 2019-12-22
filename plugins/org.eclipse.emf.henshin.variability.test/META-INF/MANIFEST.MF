@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: org.eclipse.emf.henshin.variability.test
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.henshin.variability.mergein,
+ org.eclipse.emf.henshin.interpreter,
+ org.eclipse.emf.ecore.xmi;bundle-version="2.5.0",
+ org.eclipse.emf.henshin.variability,
+ org.junit
+Export-Package: org.eclipse.emf.henshin.variability.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.emf.henshin.variability.test
+Bundle-ClassPath: .,
+ lib/gson-2.8.6.jar

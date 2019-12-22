@@ -6,7 +6,6 @@ import org.eclipse.core.databinding.observable.IStaleListener;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
-import org.eclipse.core.internal.databinding.observable.masterdetail.DetailObservableValue;
 import org.eclipse.emf.databinding.internal.EMFObservableValueDecorator;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
@@ -23,9 +22,10 @@ import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
  */
 public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 	
-	IObservableValue value;
+	IObservableValue<String> value;
+	boolean shouldUpdate;
 	
-	ObservableFeatureModelValue(IObservableValue value) {
+	ObservableFeatureModelValue(IObservableValue<String> value) {
 		this.value = value;
 	}
 	
@@ -97,10 +97,12 @@ public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 
 	@Override
 	public void setValue(String value) {
+		shouldUpdate = false;
 		VariabilityRule rule = getTargetVariabilityRule();
 		if (rule != null) {
 			VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURE_MODEL, value);
 		}
+		shouldUpdate = true;
 	}
 
 	@Override
@@ -119,10 +121,14 @@ public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 			EMFObservableValueDecorator emfValue = (EMFObservableValueDecorator) this.value;
 			
 			if (emfValue.getObserved() != null &&  emfValue.getObserved() instanceof Rule) {
-				return VariabilityFactory.createVariabilityRule((Rule) emfValue.getObserved());			
-				
+				return VariabilityFactory.createVariabilityRule((Rule) emfValue.getObserved());
 			}
 		}
 		return null;
+	}
+
+
+	public boolean shouldUpdate() {
+		return shouldUpdate;
 	}
 }

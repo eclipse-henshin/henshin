@@ -17,6 +17,7 @@ import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 
 /**
@@ -29,6 +30,25 @@ import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 public class VariabilityNestedCondition implements NestedCondition {
 	final NestedCondition nestedCondition;
 	final Annotation presenceCondition;
+	
+	static Annotation addVariabilityToNestedCondition(NestedCondition condition) {
+		EList<Annotation> annos = condition.getAnnotations();
+		Iterator<Annotation> it = annos.iterator();
+		Annotation pc = null;
+		while(it.hasNext()) {
+			Annotation anno = it.next();
+			if(anno.getKey().equals(VariabilityConstants.PRESENCE_CONDITION)) {
+				pc = anno;
+				break;
+			}
+		}
+		
+		if(pc != null) {
+			return pc;
+		} else {
+			return VariabilityTransactionHelper.addAnnotation(condition, VariabilityConstants.PRESENCE_CONDITION, "");
+		}
+	}
 	
 	/**
 	 * Creates a new {@link org.eclipse.emf.henshin.model.NestedCondition} and makes it variability aware.
@@ -43,23 +63,7 @@ public class VariabilityNestedCondition implements NestedCondition {
 	 */
 	VariabilityNestedCondition(NestedCondition condition) {
 		this.nestedCondition = condition;
-		
-		Annotation pc = null;
-		EList<Annotation> annos = nestedCondition.getAnnotations();
-		Iterator<Annotation> it = annos.iterator();
-		while(it.hasNext()) {
-			Annotation anno = it.next();
-			if(anno.getKey().equals(VariabilityConstants.PRESENCE_CONDITION)) {
-				pc = anno;
-				break;
-			}
-		}
-		
-		if(pc != null) {
-			presenceCondition = pc;
-		} else {
-			presenceCondition = VariabilityTransactionHelper.addAnnotation(condition, VariabilityConstants.PRESENCE_CONDITION, null);
-		}
+		this.presenceCondition = addVariabilityToNestedCondition(condition);
 	}
 	
 	/**

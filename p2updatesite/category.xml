@@ -6,6 +6,11 @@
    <feature id="org.eclipse.emf.henshin.sdk.source">
       <category name="org.eclipse.modeling"/>
    </feature>
-   <category-def name="org.eclipse.modeling" label="Modeling">
-   </category-def>
+   <feature id="org.eclipse.emf.henshin.sdk.variability">
+      <category name="org.eclipse.modeling"/>
+   </feature>
+   <feature id="org.eclipse.emf.henshin.sdk.variability.source">
+      <category name="org.eclipse.modeling"/>
+   </feature>
+   <category-def name="org.eclipse.modeling" label="Modeling"/>
 </site>

@@ -1,31 +1,31 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Ui
+Bundle-Name: Variability UI
 Bundle-SymbolicName: org.eclipse.emf.henshin.variability.configuration.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.emf.henshin.variability.ui.Activator
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.emf.henshin.model,
- org.eclipse.core.runtime,
- org.eclipse.jface,
- org.eclipse.ui.workbench,
- org.eclipse.emf.edit.ui,
- org.eclipse.gef;visibility:=reexport,
- org.eclipse.emf.henshin.diagram,
+Require-Bundle: org.eclipse.emf.henshin.diagram,
  org.eclipse.emf.henshin.variability,
  org.eclipse.emf.henshin.variability.configuration;bundle-version="0.1.0",
- org.eclipse.swt,
- org.eclipse.ui.ide,
- org.eclipse.core.databinding,
  org.eclipse.jface.databinding,
- org.eclipse.core.databinding.property,
  org.eclipse.emf.databinding,
- org.eclipse.draw2d,
  org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.8.0",
- org.eclipse.emf.transaction
+ org.eclipse.core.databinding.property,
+ org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/swing2swt.jar
-Export-Package: org.eclipse.emf.henshin.variability.configuration.ui.commands
+Export-Package: org.eclipse.emf.henshin.variability.configuration.ui,
+ org.eclipse.emf.henshin.variability.configuration.ui.actions,
+ org.eclipse.emf.henshin.variability.configuration.ui.commands,
+ org.eclipse.emf.henshin.variability.configuration.ui.controls,
+ org.eclipse.emf.henshin.variability.configuration.ui.dialogs,
+ org.eclipse.emf.henshin.variability.configuration.ui.helpers,
+ org.eclipse.emf.henshin.variability.configuration.ui.parts,
+ org.eclipse.emf.henshin.variability.configuration.ui.policies,
+ org.eclipse.emf.henshin.variability.configuration.ui.providers,
+ org.eclipse.emf.henshin.variability.ui,
+ org.eclipse.emf.henshin.variability.ui.viewer.util,
+ org.eclipse.emf.henshin.variability.ui.views
+Automatic-Module-Name: org.eclipse.emf.henshin.variability.configuration.ui

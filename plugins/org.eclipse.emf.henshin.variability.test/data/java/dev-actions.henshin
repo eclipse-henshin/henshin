@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_I7QH8JZyEem9eqq-XCLikw">
+  <imports href="Java.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_KBU_MJZyEem9eqq-XCLikw" name="createClass">
+    <parameters xmi:id="_qdFf4JZyEem9eqq-XCLikw" name="className" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_KBjosJZyEem9eqq-XCLikw" name="Lhs">
+      <formula xsi:type="henshin:Not" xmi:id="_j-PNIJZyEem9eqq-XCLikw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_j-PNIZZyEem9eqq-XCLikw">
+          <conclusion xmi:id="_j-PNIpZyEem9eqq-XCLikw">
+            <nodes xmi:id="_cj7-wJZyEem9eqq-XCLikw">
+              <type href="Java.ecore#//Class"/>
+              <attributes xmi:id="_fpYFsJZyEem9eqq-XCLikw" value="className">
+                <type href="Java.ecore#//Class/name"/>
+              </attributes>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_KBjosZZyEem9eqq-XCLikw" name="Rhs">
+      <nodes xmi:id="_m8aOcJZyEem9eqq-XCLikw">
+        <type href="Java.ecore#//Class"/>
+        <attributes xmi:id="_0Iq0YJZyEem9eqq-XCLikw" value="className">
+          <type href="Java.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_CIHKwJZzEem9eqq-XCLikw" name="createField">
+    <parameters xmi:id="_HwNbsJZzEem9eqq-XCLikw" name="className" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_HwOCwJZzEem9eqq-XCLikw" name="fieldName" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_CIJnAJZzEem9eqq-XCLikw" name="Lhs">
+      <nodes xmi:id="_IW8EgJZzEem9eqq-XCLikw">
+        <type href="Java.ecore#//Class"/>
+        <attributes xmi:id="_J2DG0JZzEem9eqq-XCLikw" value="className">
+          <type href="Java.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_Q9JFUZZzEem9eqq-XCLikw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_Q9JFUpZzEem9eqq-XCLikw">
+          <conclusion xmi:id="_Q9JFU5ZzEem9eqq-XCLikw">
+            <nodes xmi:id="_Q9JFVJZzEem9eqq-XCLikw" outgoing="_YI0o4ZZzEem9eqq-XCLikw">
+              <type href="Java.ecore#//Class"/>
+            </nodes>
+            <nodes xmi:id="_YI0B0JZzEem9eqq-XCLikw" incoming="_YI0o4ZZzEem9eqq-XCLikw">
+              <type href="Java.ecore#//Field"/>
+              <attributes xmi:id="_YI0B0ZZzEem9eqq-XCLikw" value="fieldName">
+                <type href="Java.ecore#//Field/name"/>
+              </attributes>
+            </nodes>
+            <edges xmi:id="_YI0o4ZZzEem9eqq-XCLikw" source="_Q9JFVJZzEem9eqq-XCLikw" target="_YI0B0JZzEem9eqq-XCLikw">
+              <type href="Java.ecore#//Class/fields"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_Q9JFVZZzEem9eqq-XCLikw" origin="_IW8EgJZzEem9eqq-XCLikw" image="_Q9JFVJZzEem9eqq-XCLikw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_CIJnAZZzEem9eqq-XCLikw" name="Rhs">
+      <nodes xmi:id="_IW8EgZZzEem9eqq-XCLikw" outgoing="_W7esAJZzEem9eqq-XCLikw">
+        <type href="Java.ecore#//Class"/>
+        <attributes xmi:id="_81DG8JZ4Eem9eqq-XCLikw" value="className">
+          <type href="Java.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_UlE1UJZzEem9eqq-XCLikw" incoming="_W7esAJZzEem9eqq-XCLikw">
+        <type href="Java.ecore#//Field"/>
+        <attributes xmi:id="_VmsqYJZzEem9eqq-XCLikw" value="fieldName">
+          <type href="Java.ecore#//Field/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_W7esAJZzEem9eqq-XCLikw" source="_IW8EgZZzEem9eqq-XCLikw" target="_UlE1UJZzEem9eqq-XCLikw">
+        <type href="Java.ecore#//Class/fields"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_IW8EgpZzEem9eqq-XCLikw" origin="_IW8EgJZzEem9eqq-XCLikw" image="_IW8EgZZzEem9eqq-XCLikw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_0qUTcJZzEem9eqq-XCLikw" name="createMethod">
+    <parameters xmi:id="_-pXWgJZzEem9eqq-XCLikw" name="className" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_CSfZUJZ0Eem9eqq-XCLikw" name="methodName" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_qMcw8JZ0Eem9eqq-XCLikw" name="returnType" kind="IN">
+      <type xsi:type="ecore:EClass" href="Java.ecore#//Class"/>
+    </parameters>
+    <lhs xmi:id="_0qWIoJZzEem9eqq-XCLikw" name="Lhs">
+      <nodes xmi:id="_HggWUJZ0Eem9eqq-XCLikw">
+        <type href="Java.ecore#//Class"/>
+        <attributes xmi:id="_MfqX8JZ0Eem9eqq-XCLikw" value="className">
+          <type href="Java.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_aPd6YJZ1Eem9eqq-XCLikw" name="returnType">
+        <type href="Java.ecore#//Class"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_M0OAwZZ2Eem9eqq-XCLikw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_M0OAwpZ2Eem9eqq-XCLikw">
+          <conclusion xmi:id="_M0OAw5Z2Eem9eqq-XCLikw">
+            <nodes xmi:id="_M0OAxJZ2Eem9eqq-XCLikw" outgoing="_woeZMZZ0Eem9eqq-XCLikw">
+              <type href="Java.ecore#//Class"/>
+            </nodes>
+            <nodes xmi:id="_wodLEJZ0Eem9eqq-XCLikw" incoming="_woeZMZZ0Eem9eqq-XCLikw" outgoing="_L3B_wJZ2Eem9eqq-XCLikw">
+              <type href="Java.ecore#//Method"/>
+              <attributes xmi:id="_YRCUQJZ0Eem9eqq-XCLikw" value="methodName">
+                <type href="Java.ecore#//Method/name"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_M0OAypZ2Eem9eqq-XCLikw" name="returnType" incoming="_L3B_wJZ2Eem9eqq-XCLikw">
+              <type href="Java.ecore#//Class"/>
+            </nodes>
+            <edges xmi:id="_woeZMZZ0Eem9eqq-XCLikw" source="_M0OAxJZ2Eem9eqq-XCLikw" target="_wodLEJZ0Eem9eqq-XCLikw">
+              <type href="Java.ecore#//Class/methods"/>
+            </edges>
+            <edges xmi:id="_L3B_wJZ2Eem9eqq-XCLikw" source="_wodLEJZ0Eem9eqq-XCLikw" target="_M0OAypZ2Eem9eqq-XCLikw">
+              <type href="Java.ecore#//Method/type"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_M0OAxZZ2Eem9eqq-XCLikw" origin="_HggWUJZ0Eem9eqq-XCLikw" image="_M0OAxJZ2Eem9eqq-XCLikw"/>
+          <mappings xmi:id="_M0OAy5Z2Eem9eqq-XCLikw" origin="_aPd6YJZ1Eem9eqq-XCLikw" image="_M0OAypZ2Eem9eqq-XCLikw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_0qWIoZZzEem9eqq-XCLikw" name="Rhs">
+      <nodes xmi:id="_LlFmEJZ0Eem9eqq-XCLikw" outgoing="_fwtK0JZ0Eem9eqq-XCLikw">
+        <type href="Java.ecore#//Class"/>
+        <attributes xmi:id="_7-CmcJZ4Eem9eqq-XCLikw" value="className">
+          <type href="Java.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_diQ9UJZ0Eem9eqq-XCLikw" incoming="_fwtK0JZ0Eem9eqq-XCLikw" outgoing="_OrnAMJZ2Eem9eqq-XCLikw">
+        <type href="Java.ecore#//Method"/>
+        <attributes xmi:id="_eVgYIJZ0Eem9eqq-XCLikw" value="methodName">
+          <type href="Java.ecore#//Method/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_aPd6YZZ1Eem9eqq-XCLikw" name="returnType" incoming="_OrnAMJZ2Eem9eqq-XCLikw">
+        <type href="Java.ecore#//Class"/>
+      </nodes>
+      <edges xmi:id="_fwtK0JZ0Eem9eqq-XCLikw" source="_LlFmEJZ0Eem9eqq-XCLikw" target="_diQ9UJZ0Eem9eqq-XCLikw">
+        <type href="Java.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_OrnAMJZ2Eem9eqq-XCLikw" source="_diQ9UJZ0Eem9eqq-XCLikw" target="_aPd6YZZ1Eem9eqq-XCLikw">
+        <type href="Java.ecore#//Method/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_LlG0MJZ0Eem9eqq-XCLikw" origin="_HggWUJZ0Eem9eqq-XCLikw" image="_LlFmEJZ0Eem9eqq-XCLikw"/>
+    <mappings xmi:id="_aPd6YpZ1Eem9eqq-XCLikw" origin="_aPd6YJZ1Eem9eqq-XCLikw" image="_aPd6YZZ1Eem9eqq-XCLikw"/>
+  </units>
+</henshin:Module>

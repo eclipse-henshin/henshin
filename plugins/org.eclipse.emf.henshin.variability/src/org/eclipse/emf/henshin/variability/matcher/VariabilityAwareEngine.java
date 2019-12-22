@@ -22,12 +22,14 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.variability.InconsistentRuleException;
+import org.eclipse.emf.henshin.variability.util.RuleUtil;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityGraphElement;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityNode;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
 
 import aima.core.logic.propositional.parsing.ast.Sentence;
-
 
 /**
  * Applies the algorithm described in [1] to determine all variability-aware
@@ -35,10 +37,10 @@ import aima.core.logic.propositional.parsing.ast.Sentence;
  * 
  * [1] <a href=
  * "https://www.uni-marburg.de/fb12/swt/forschung/publikationen/2015/SRCT15.pdf"
- * >Strüber, Julia , Chechik, Taentzer (2015): A Variability-Based Approach to
+ * >Strï¿½ber, Julia , Chechik, Taentzer (2015): A Variability-Based Approach to
  * Reusable and Efficient Model Transformations</a>.
- *  
- *  @author Daniel Strüber
+ * 
+ * @author Daniel Strï¿½ber
  *
  */
 public class VariabilityAwareEngine {
@@ -54,26 +56,51 @@ public class VariabilityAwareEngine {
 
 	/**
 	 * Variability-based matching needs to create a new matching engine for each
-	 * base match. Hence, if the number of base matches is too great,
-	 * performance will suffer due to the initialization effort.
+	 * base match. Hence, if the number of base matches is too great, performance
+	 * will suffer due to the initialization effort.
 	 */
 	protected int THRESHOLD_MAXIMUM_BASE_MATCHES = 10;
 
 	private static Map<Rule, RuleInfo> ruleInfoRegistry = new HashMap<Rule, RuleInfo>();
 
-	public VariabilityAwareEngine(Rule rule, EGraph graph) {
+	/**
+	 * Creates a new engine for the execution of a rule on a graph
+	 * 
+	 * @param rule The rule to be executed
+	 * @param graph The graph on which the rule should be executed
+	 * @throws InconsistentRuleException If the rule is inconsistent
+	 */
+	public VariabilityAwareEngine(Rule rule, EGraph graph) throws InconsistentRuleException {
 		super();
+		fixInconsistencies(rule);
+		if(!RuleUtil.checkRule(rule)) {
+			throw new InconsistentRuleException();
+		}
 		this.rule = rule;
 		this.graph = graph;
 		this.engine = new EngineImpl();
 		this.rulePreparator = new RulePreparator(rule);
-
+		
 		if (!ruleInfoRegistry.containsKey(rule))
 			ruleInfoRegistry.put(rule, new RuleInfo(rule));
 		this.ruleInfo = ruleInfoRegistry.get(rule);
 		populateExpressionMap();
 	}
 
+	private void fixInconsistencies(Rule rule) {
+		// Per definition, mapped nodes must have the same presence condition
+		// in the LHS and the RHS.
+		for (Mapping mapping : rule.getMappings()) {
+
+			VariabilityNode origin = VariabilityFactory.createVariabilityNode(mapping.getOrigin());
+			VariabilityNode image = VariabilityFactory.createVariabilityNode(mapping.getImage());
+
+			if (origin.getPresenceCondition() != image.getPresenceCondition()) {
+				image.setPresenceCondition(origin.getPresenceCondition());
+			}	
+		}
+	}
+	
 	private void populateExpressionMap() {
 		if (ruleInfoRegistry.containsKey(rule)) {
 			expressions = ruleInfo.getExpressions();
@@ -82,8 +109,7 @@ public class VariabilityAwareEngine {
 
 	public Set<VariabilityAwareMatch> findMatches() {
 		// Remove everything except for the base rule
-		BitSet bs = rulePreparator.prepare(ruleInfo, ruleInfo.getPc2Elem()
-				.keySet(), rule.isInjectiveMatching(), true);
+		BitSet bs = rulePreparator.prepare(ruleInfo, ruleInfo.getPc2Elem().keySet(), rule.isInjectiveMatching(), true);
 		Set<Match> baseMatches = new HashSet<Match>();
 		Iterator<Match> it = engine.findMatches(rule, graph, null).iterator();
 		while (it.hasNext()) {
@@ -92,7 +118,7 @@ public class VariabilityAwareEngine {
 			} else {
 				baseMatches.clear();
 				baseMatches.add(null);
-				System.out.println("Too many base matches:"+rule);
+				System.out.println("Too many base matches:" + rule);
 				break;
 			}
 		}
@@ -113,16 +139,20 @@ public class VariabilityAwareEngine {
 		return matches;
 	}
 
-	private Set<VariabilityAwareMatch> findMatches(Rule rule,
-			MatchingInfo matchingInfo, Set<Match> baseMatches,
+	private Set<VariabilityAwareMatch> findMatches(Rule rule, MatchingInfo matchingInfo, Set<Match> baseMatches,
 			Set<VariabilityAwareMatch> matches) {
 		Sentence current = getFirstNeutral(matchingInfo);
-		matchingInfo.set(current, null, true);
-		findMatchInner(rule, matchingInfo, baseMatches, matches);
+		if (current == null) {
+			findMatchInner(rule, matchingInfo, baseMatches, matches);
+		} else {
+			matchingInfo.set(current, null, true);
+			findMatchInner(rule, matchingInfo, baseMatches, matches);
 
-		matchingInfo.set(current, true, false);
-		findMatchInner(rule, matchingInfo, baseMatches, matches);
-		matchingInfo.set(current, false, null);
+			matchingInfo.set(current, true, false);
+			findMatchInner(rule, matchingInfo, baseMatches, matches);
+
+			matchingInfo.set(current, false, null);
+		}
 		return matches;
 	}
 
@@ -134,8 +164,7 @@ public class VariabilityAwareEngine {
 		return null;
 	}
 
-	private Set<VariabilityAwareMatch> findMatchInner(Rule rule,
-			MatchingInfo matchingInfo, Set<Match> baseMatches,
+	private Set<VariabilityAwareMatch> findMatchInner(Rule rule, MatchingInfo matchingInfo, Set<Match> baseMatches,
 			Set<VariabilityAwareMatch> matches) {
 		Set<Sentence> newContradictory = getNewContradictory(matchingInfo);
 		matchingInfo.setAll(newContradictory, null, false);
@@ -147,20 +176,17 @@ public class VariabilityAwareEngine {
 		// current assignment (= neutral is empty), calculate the matches
 		// classically.
 		if (matchingInfo.getNeutrals().isEmpty()) {
-			BitSet reducedRule = rulePreparator.prepare(ruleInfo,
-					matchingInfo.getAssumedFalse(),
+			BitSet reducedRule = rulePreparator.prepare(ruleInfo, matchingInfo.getAssumedFalse(),
 					determineInjectiveMatching(matchingInfo), false);
 			// The following check ensures that we will not match the same
 			// sub-rule twice.
 			if (!matchingInfo.getMatchedSubrules().contains(reducedRule)) {
 				for (Match bm : baseMatches) {
-					Iterator<Match> classicMatches = engine.findMatches(rule,
-							graph, bm).iterator();
+					Iterator<Match> classicMatches = engine.findMatches(rule, graph, bm).iterator();
 					RulePreparator prep = rulePreparator.getSnapShot();
 					while (classicMatches.hasNext()) {
 						Match next = classicMatches.next();
-						matches.add(new VariabilityAwareMatch(next,
-								matchingInfo.getAssumedTrue(), rule, prep));
+						matches.add(new VariabilityAwareMatch(next, matchingInfo.getAssumedTrue(), rule, prep));
 					}
 				}
 				matchingInfo.getMatchedSubrules().add(reducedRule);
@@ -181,8 +207,7 @@ public class VariabilityAwareEngine {
 	}
 
 	private boolean determineInjectiveMatching(MatchingInfo matchingInfo) {
-		return (FeatureExpression.contradicts(ruleInfo.getInjectiveMatching(),
-				getKnowledgeBase(matchingInfo)));
+		return (FeatureExpression.contradicts(ruleInfo.getInjectiveMatching(), getKnowledgeBase(matchingInfo)));
 	}
 
 	private Set<Sentence> getNewContradictory(MatchingInfo mo) {
@@ -204,7 +229,7 @@ public class VariabilityAwareEngine {
 	}
 
 	private Sentence getKnowledgeBase(MatchingInfo mo) {
-		Sentence fe = FeatureExpression.true_;
+		Sentence fe = FeatureExpression.TRUE;
 		for (Sentence t : mo.getAssumedTrue()) {
 			fe = FeatureExpression.and(fe, t);
 		}
@@ -229,13 +254,11 @@ public class VariabilityAwareEngine {
 
 		public RuleInfo(Rule rule) {
 			this.rule = VariabilityFactory.createVariabilityRule(rule);
-			this.featureModel = FeatureExpression.getExpr(this.rule
-					.getFeatureModel());
-			String injective = this.rule
-					.getInjectiveMatchingPresenceCondition();
+			this.featureModel = FeatureExpression.getExpr(this.rule.getFeatureModel());
+			String injective = this.rule.getInjectiveMatchingPresenceCondition();
 			if (injective == null)
-				injective = rule.isInjectiveMatching()+"";
-			this.injectiveMatching = FeatureExpression.getExpr(injective); 
+				injective = rule.isInjectiveMatching() + "";
+			this.injectiveMatching = FeatureExpression.getExpr(injective);
 			populateMaps();
 		}
 
@@ -258,8 +281,7 @@ public class VariabilityAwareEngine {
 			TreeIterator<EObject> it = rule.eAllContents();
 			while (it.hasNext()) {
 				EObject o = it.next();
-				if (o instanceof Node || o instanceof Edge
-						|| o instanceof Attribute) {
+				if (o instanceof Node || o instanceof Edge || o instanceof Attribute) {
 					VariabilityGraphElement g = VariabilityFactory.createVariabilityGraphElement((GraphElement) o);
 					if (!presenceConditionEmpty(g)) {
 						String pc = g.getPresenceCondition();
@@ -325,8 +347,7 @@ public class VariabilityAwareEngine {
 			return matchedSubRules;
 		}
 
-		public void setAll(Collection<Sentence> exprs, Boolean old,
-				Boolean new_) {
+		public void setAll(Collection<Sentence> exprs, Boolean old, Boolean new_) {
 			for (Sentence expr : exprs) {
 				set(expr, old, new_);
 			}
