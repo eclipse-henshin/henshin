@@ -227,9 +227,9 @@ public class VariabilityView extends ViewPart
 
 				MessageDialog messageDialog = new MessageDialog(getViewSite().getShell(), "Delete features", null,
 						"Do you really want to delete the selected features?\nDoing so may render the rule's feature model invalid.",
-						MessageDialog.WARNING, new String[] { "No", "Yes" }, 0);
-
-				if (messageDialog.open() == 1) {
+						MessageDialog.WARNING, new String[] { "Yes", "No" }, 0);
+				
+				if (messageDialog.open() == 0) {
 					for (Feature feature : selectedFeatures) {
 						config.removeFeature(feature);
 					}
@@ -393,7 +393,7 @@ public class VariabilityView extends ViewPart
 
 		Label variabilityModelLabel = new Label(composite, SWT.NONE);
 		variabilityModelLabel.setImage(ImageHelper.getImage("/icons/variability.gif"));
-		variabilityModelLabel.setText("Feature Model");
+		variabilityModelLabel.setText("Configuration constraint");
 		variabilityModelLabel.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, false, false, 1, 1));
 		featureModelToolbar = new ToolBar(composite, SWT.FLAT);
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(featureModelToolbar);
@@ -740,7 +740,7 @@ public class VariabilityView extends ViewPart
 		domain.addResourceSetListener(new ConfigurationListener());
 
 		viewer.setInput(config);
-		ruleNameLabel.setText("Selected Rule: " + rule.getName());
+		ruleNameLabel.setText("Selected rule: " + rule.getName());
 		writableValue.setValue(rule);
 		refreshFavorites(rule);
 

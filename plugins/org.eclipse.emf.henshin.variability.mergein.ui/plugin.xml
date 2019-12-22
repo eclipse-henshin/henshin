@@ -5,14 +5,14 @@
          point="org.eclipse.ui.views">
       <category
             id="org.eclipse.emf.henshin.variability.ui"
-            name="Clone Detection">
+            name="Henshin Variability">
       </category>
       <view
             category="org.eclipse.emf.henshin.variability.ui"
             class="org.eclipse.emf.henshin.variability.ui.views.CloneGroupView"
             icon="icons/sample.gif"
             id="org.eclipse.emf.henshin.variability.ui.views.CloneGroupView"
-            name="CloneGroupView">
+            name="Clone Groups">
       </view>
    </extension>
    <extension
