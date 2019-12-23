@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
@@ -23,6 +24,7 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinNodeDescriptor;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -183,10 +185,42 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 			if (view.getElement() instanceof Unit && unitView.getElement() instanceof Unit) {
 				Unit unit = (Unit) unitView.getElement();
 				Unit subUnit = (Unit) view.getElement();
-				return !unit.getSubUnits(false).contains(subUnit);
+				EList<Unit> subUnits = unit.getSubUnits(false);
+				for(Unit sub : subUnits) {
+					boolean result = unitSignaturesIdentical(subUnit, sub);
+					if(result) {
+						return result;
+					}
+				}
 			}
 		}
 		return super.shouldDeleteView(view);
 	}
+	
+	/**
+	 * Checks whether the signatures of two Units are identical.
+	 * 
+	 * @param unit1
+	 * @param unit2
+	 * @return true, if the units have matching names and parameters.
+	 */
+	private boolean unitSignaturesIdentical(Unit unit1, Unit unit2) {
+		boolean result = false;
 
+		result = unit1.getName().equals(unit2.getName());
+		if (result) {
+			for (Parameter unit1Param : unit1.getParameters()) {
+				Parameter unit2Param = unit2.getParameter(unit1Param.getName());
+				result = result && unit2Param != null && isMatchingParameterType(unit1Param, unit2Param);
+				if(result) {
+					return result;
+				}
+			}
+		}
+		return result;
+	}
+	
+	private boolean isMatchingParameterType(Parameter param1, Parameter param2) {
+		return (param1.getType() == null && param2.getType() == null) || param1.getType().equals(param2.getType());
+	}
 }
