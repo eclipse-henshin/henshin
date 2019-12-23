@@ -2,6 +2,7 @@ package org.eclipse.emf.henshin.variability.mergein.normalize;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;

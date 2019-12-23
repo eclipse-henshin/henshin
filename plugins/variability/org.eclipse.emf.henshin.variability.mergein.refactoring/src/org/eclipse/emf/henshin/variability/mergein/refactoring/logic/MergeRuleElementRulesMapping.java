@@ -1,8 +1,8 @@
 package org.eclipse.emf.henshin.variability.mergein.refactoring.logic;
 
-import mergeSuggestion.MergeRuleElement;
-
 import org.eclipse.emf.henshin.model.Rule;
+
+import mergeSuggestion.MergeRuleElement;
 
 public class MergeRuleElementRulesMapping extends RulesMapping {
 	

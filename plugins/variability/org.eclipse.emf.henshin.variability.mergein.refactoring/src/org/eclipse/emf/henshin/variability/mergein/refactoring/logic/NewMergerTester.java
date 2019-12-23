@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeRuleElement;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -25,6 +22,9 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
+
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeRuleElement;
 
 public abstract class NewMergerTester {
 

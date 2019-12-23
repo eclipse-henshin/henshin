@@ -6,9 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import mergeSuggestion.MergeRuleElement;
-import mergeSuggestion.MergeSuggestionPackage;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -21,6 +18,9 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+
+import mergeSuggestion.MergeRuleElement;
+import mergeSuggestion.MergeSuggestionPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '

@@ -2,14 +2,20 @@
  */
 package mergeSuggestion.util;
 
-import mergeSuggestion.*;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+
+import mergeSuggestion.CloneDetectionResult;
+import mergeSuggestion.CloneGroup;
+import mergeSuggestion.CloneGroupElement;
+import mergeSuggestion.MergeAC;
+import mergeSuggestion.MergeNAC;
+import mergeSuggestion.MergePAC;
 import mergeSuggestion.MergeRule;
 import mergeSuggestion.MergeRuleElement;
 import mergeSuggestion.MergeSuggestion;
 import mergeSuggestion.MergeSuggestionPackage;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->

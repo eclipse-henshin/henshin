@@ -6,12 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import mergeSuggestion.MergeNAC;
-import mergeSuggestion.MergePAC;
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeRuleElement;
-import mergeSuggestion.MergeSuggestionPackage;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -25,6 +19,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Rule;
+
+import mergeSuggestion.MergeNAC;
+import mergeSuggestion.MergePAC;
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeRuleElement;
+import mergeSuggestion.MergeSuggestionPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '

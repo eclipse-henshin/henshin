@@ -4,16 +4,14 @@ package mergeSuggestion.impl;
 
 import java.util.Collection;
 
-import mergeSuggestion.CloneGroupElement;
-import mergeSuggestion.MergeSuggestionPackage;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.eclipse.emf.henshin.model.GraphElement;
+
+import mergeSuggestion.CloneGroupElement;
+import mergeSuggestion.MergeSuggestionPackage;
 
 /**
  * <!-- begin-user-doc -->

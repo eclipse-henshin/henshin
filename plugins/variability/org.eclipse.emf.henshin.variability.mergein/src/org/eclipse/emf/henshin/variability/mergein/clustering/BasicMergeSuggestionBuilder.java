@@ -7,16 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import mergeSuggestion.MergeNAC;
-import mergeSuggestion.MergePAC;
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeRuleElement;
-import mergeSuggestion.MergeSuggestion;
-import mergeSuggestion.impl.MergeSuggestionFactoryImpl;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -24,8 +18,14 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroup;
+
+import mergeSuggestion.MergeNAC;
+import mergeSuggestion.MergePAC;
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeRuleElement;
+import mergeSuggestion.MergeSuggestion;
+import mergeSuggestion.impl.MergeSuggestionFactoryImpl;
 
 public class BasicMergeSuggestionBuilder {
 	static BasicMergeSuggestionBuilder instance = new BasicMergeSuggestionBuilder();

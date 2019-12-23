@@ -3,10 +3,11 @@ package org.eclipse.emf.henshin.variability.mergein.clustering;
 import java.util.ArrayList;
 import java.util.List;
 
-import mergeSuggestion.MergeSuggestion;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroup;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroupDetectionResult;
+
+import mergeSuggestion.MergeSuggestion;
 
 public class GreedyMergeClusterer extends MergeClusterer {
 

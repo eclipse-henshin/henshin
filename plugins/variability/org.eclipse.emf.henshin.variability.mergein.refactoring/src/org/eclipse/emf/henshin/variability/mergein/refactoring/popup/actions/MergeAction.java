@@ -1,8 +1,5 @@
 package org.eclipse.emf.henshin.variability.mergein.refactoring.popup.actions;
 
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeSuggestion;
-
 import org.eclipse.emf.henshin.variability.mergein.refactoring.logic.MergeInException;
 import org.eclipse.emf.henshin.variability.mergein.refactoring.logic.NewMerger;
 import org.eclipse.jface.action.IAction;
@@ -13,6 +10,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeSuggestion;
 
 public class MergeAction implements IObjectActionDelegate {
 	

@@ -3,7 +3,6 @@ package org.eclipse.emf.henshin.variability.mergein.conqat;
 import org.conqat.engine.model_clones.model.IModelGraph;
 import org.conqat.engine.model_clones.model.INode;
 import org.eclipse.emf.henshin.variability.mergein.normalize.HenshinAttributeNode;
-import org.eclipse.emf.henshin.variability.mergein.normalize.HenshinNode;
 
 /**
  * Represents a Henshin Attribute in the {@link IModelGraph} graph representation required by

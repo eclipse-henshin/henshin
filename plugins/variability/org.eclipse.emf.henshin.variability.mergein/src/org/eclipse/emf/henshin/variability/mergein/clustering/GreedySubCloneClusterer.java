@@ -5,10 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import mergeSuggestion.MergeSuggestion;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroup;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroupDetectionResult;
+
+import mergeSuggestion.MergeSuggestion;
 
 public abstract class GreedySubCloneClusterer extends MergeClusterer {
 

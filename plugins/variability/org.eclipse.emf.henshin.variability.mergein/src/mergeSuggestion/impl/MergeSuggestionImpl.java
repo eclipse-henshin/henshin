@@ -5,10 +5,6 @@ package mergeSuggestion.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeSuggestion;
-import mergeSuggestion.MergeSuggestionPackage;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -17,6 +13,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Rule;
+
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeSuggestion;
+import mergeSuggestion.MergeSuggestionPackage;
 
 /**
  * <!-- begin-user-doc -->

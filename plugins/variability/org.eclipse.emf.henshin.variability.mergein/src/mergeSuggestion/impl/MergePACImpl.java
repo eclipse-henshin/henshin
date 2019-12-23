@@ -4,19 +4,15 @@ package mergeSuggestion.impl;
 
 import java.util.Collection;
 
-import mergeSuggestion.MergePAC;
-import mergeSuggestion.MergeSuggestionPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.eclipse.emf.henshin.model.Graph;
+
+import mergeSuggestion.MergePAC;
+import mergeSuggestion.MergeSuggestionPackage;
 
 /**
  * <!-- begin-user-doc -->

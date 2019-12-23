@@ -9,12 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import mergeSuggestion.MergeNAC;
-import mergeSuggestion.MergePAC;
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeRuleElement;
-import mergeSuggestion.MergeSuggestionFactory;
-
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -38,6 +32,12 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
+
+import mergeSuggestion.MergeNAC;
+import mergeSuggestion.MergePAC;
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeRuleElement;
+import mergeSuggestion.MergeSuggestionFactory;
 
 public class NewMerger {
 

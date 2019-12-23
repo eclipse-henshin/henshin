@@ -2,15 +2,21 @@
  */
 package mergeSuggestion.util;
 
-import mergeSuggestion.*;
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeRuleElement;
-import mergeSuggestion.MergeSuggestion;
-import mergeSuggestion.MergeSuggestionPackage;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+
+import mergeSuggestion.CloneDetectionResult;
+import mergeSuggestion.CloneGroup;
+import mergeSuggestion.CloneGroupElement;
+import mergeSuggestion.MergeAC;
+import mergeSuggestion.MergeNAC;
+import mergeSuggestion.MergePAC;
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeRuleElement;
+import mergeSuggestion.MergeSuggestion;
+import mergeSuggestion.MergeSuggestionPackage;
 
 /**
  * <!-- begin-user-doc -->

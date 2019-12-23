@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.conqat.engine.core.logging.ELogLevel;
 import org.conqat.engine.core.logging.IConQATLogger;
 import org.conqat.engine.model_clones.detection.ModelCloneReporterMock;

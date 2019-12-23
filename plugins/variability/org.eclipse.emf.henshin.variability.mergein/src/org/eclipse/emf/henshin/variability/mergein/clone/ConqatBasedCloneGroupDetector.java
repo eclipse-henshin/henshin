@@ -3,6 +3,7 @@
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
 import org.conqat.engine.model_clones.detection.ModelCloneReporterMock;
 import org.conqat.engine.model_clones.detection.ModelCloneReporterMock.ModelClone;
 import org.eclipse.emf.henshin.model.Attribute;

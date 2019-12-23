@@ -2,9 +2,6 @@ package org.eclipse.emf.henshin.variability.mergein.clustering;
 
 import java.util.HashMap;
 import java.util.Map;
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeRuleElement;
-import mergeSuggestion.MergeSuggestion;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -13,6 +10,10 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeRuleElement;
+import mergeSuggestion.MergeSuggestion;
 
 public class Diagnostic {
 	public static void findDanglingObject(Rule rule) {

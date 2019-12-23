@@ -5,16 +5,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import mergeSuggestion.MergeNAC;
-import mergeSuggestion.MergePAC;
-import mergeSuggestion.MergeRule;
-import mergeSuggestion.MergeRuleElement;
-import mergeSuggestion.MergeSuggestion;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroup;
+
+import mergeSuggestion.MergeNAC;
+import mergeSuggestion.MergePAC;
+import mergeSuggestion.MergeRule;
+import mergeSuggestion.MergeRuleElement;
+import mergeSuggestion.MergeSuggestion;
 
 public class HierarchicalMergeSuggestionBuilder extends BasicMergeSuggestionBuilder {
 //	private Set<GraphElement> checked = new HashSet<GraphElement>(); // caches checked

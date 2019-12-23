@@ -2,12 +2,11 @@
  */
 package mergeSuggestion.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import mergeSuggestion.MergeAC;
 import mergeSuggestion.MergeSuggestionPackage;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

@@ -2,6 +2,14 @@
  */
 package mergeSuggestion.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.henshin.model.HenshinPackage;
+
 import mergeSuggestion.CloneDetectionResult;
 import mergeSuggestion.CloneGroup;
 import mergeSuggestion.CloneGroupElement;
@@ -13,14 +21,6 @@ import mergeSuggestion.MergeRuleElement;
 import mergeSuggestion.MergeSuggestion;
 import mergeSuggestion.MergeSuggestionFactory;
 import mergeSuggestion.MergeSuggestionPackage;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
  * <!-- begin-user-doc -->

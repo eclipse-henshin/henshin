@@ -2,10 +2,10 @@ package org.eclipse.emf.henshin.variability.mergein.logic;
 
 import java.util.List;
 
+import org.eclipse.emf.henshin.model.Rule;
+
 import mergeSuggestion.MergeSuggestion;
 import mergeSuggestion.MergeSuggestionFactory;
-
-import org.eclipse.emf.henshin.model.Rule;
 
 public class Mergein {
 	
