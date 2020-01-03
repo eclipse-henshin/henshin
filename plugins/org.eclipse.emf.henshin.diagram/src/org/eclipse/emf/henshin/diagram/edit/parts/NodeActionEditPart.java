@@ -588,7 +588,7 @@ public class NodeActionEditPart extends CompartmentEditPart implements ITextAwar
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void handleNotificationEvent(Notification event) {
 		Object feature = event.getFeature();
@@ -618,6 +618,9 @@ public class NodeActionEditPart extends CompartmentEditPart implements ITextAwar
 					refreshLabel();
 				}
 			}
+		}
+		if (event.getEventType() == Notification.SET) {
+			getParent().refresh();
 		}
 		super.handleNotificationEvent(event);
 	}

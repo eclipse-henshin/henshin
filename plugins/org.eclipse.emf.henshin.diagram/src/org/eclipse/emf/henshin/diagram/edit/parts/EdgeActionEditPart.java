@@ -588,7 +588,7 @@ public class EdgeActionEditPart extends LabelEditPart implements ITextAwareEditP
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void handleNotificationEvent(Notification event) {
 		Object feature = event.getFeature();
@@ -618,6 +618,10 @@ public class EdgeActionEditPart extends LabelEditPart implements ITextAwareEditP
 					refreshLabel();
 				}
 			}
+		}
+		if (event.getEventType() == Notification.SET) {
+			getParent().refresh();
+			refreshVisuals();
 		}
 		super.handleNotificationEvent(event);
 	}
