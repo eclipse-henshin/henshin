@@ -11,10 +11,10 @@ import static extension org.eclipse.emf.henshin.adapters.xtext.NamingHelper.*
 
 class HenshinQualifiedNameProvider extends IQualifiedNameProvider.AbstractImpl {
 	
-	private static val HENSHIN_CACHE_KEY ="HENSHIN_CACHE_KEY"
+	static val HENSHIN_CACHE_KEY ="HENSHIN_CACHE_KEY"
 	
 	@Inject
-	private val IResourceScopeCache cache = IResourceScopeCache.NullImpl.INSTANCE;
+	val IResourceScopeCache cache = IResourceScopeCache.NullImpl.INSTANCE;
 	
 	override getFullyQualifiedName(EObject obj) {
 		cache.get(Tuples.pair(obj, HENSHIN_CACHE_KEY), obj.eResource(), [
