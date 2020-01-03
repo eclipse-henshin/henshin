@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<!-- register the Xtext UI language services for Henshin to Xtext's registry -->
+   	<extension
+         point="org.eclipse.xtext.extension_resourceServiceProvider">
+	    <resourceServiceProvider
+	          class="org.eclipse.emf.henshin.adapters.xtext.ui.HenshinExecutableExtensionFactory:org.eclipse.xtext.ui.resource.generic.EmfResourceUIServiceProvider"
+	          uriExtension="henshin">
+	    </resourceServiceProvider>
+   	</extension>
+
+</plugin>

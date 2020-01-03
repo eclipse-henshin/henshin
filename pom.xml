@@ -31,6 +31,7 @@
 		<module>plugins/org.eclipse.emf.henshin.text.ide</module>
 		<module>plugins/org.eclipse.emf.henshin.text.transformation</module>
 		<module>plugins/org.eclipse.emf.henshin.text.ui</module>
+		<module>plugins/adapters/org.eclipse.emf.henshin.adapters.xtext</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.configuration</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.configuration.ui</module>
