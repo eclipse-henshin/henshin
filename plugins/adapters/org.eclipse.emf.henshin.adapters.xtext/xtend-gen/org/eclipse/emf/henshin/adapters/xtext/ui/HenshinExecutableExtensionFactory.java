@@ -12,13 +12,11 @@ import org.osgi.framework.Bundle;
 public class HenshinExecutableExtensionFactory extends AbstractGuiceAwareExecutableExtensionFactory {
   @Override
   protected Bundle getBundle() {
-    Activator _default = Activator.getDefault();
-    return _default.getBundle();
+    return Activator.getDefault().getBundle();
   }
   
   @Override
   protected Injector getInjector() {
-    Activator _default = Activator.getDefault();
-    return _default.getInjector();
+    return Activator.getDefault().getInjector();
   }
 }
