@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.henshin.variability.configuration;singleton:=true
 Automatic-Module-Name: org.eclipse.emf.henshin.variability.configuration
-Bundle-Version: 1.5.0.qualifier
+Bundle-Version: 1.6.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
