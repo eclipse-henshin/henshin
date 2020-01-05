@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.emf.henshin.adapters.xtext;singleton:=true
 Bundle-Version: 1.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.eclipse.emf.henshin.adapters.xtext.ui.Activator
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.henshin.adapters.xtext.ui,
  org.eclipse.emf.henshin.adapters.xtext
 Require-Bundle: org.eclipse.emf.henshin.model;bundle-version="1.4.0";visibility:=reexport,

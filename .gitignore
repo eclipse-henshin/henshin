@@ -1,4 +1,6 @@
 *.class
+*.xtendbin
+*._trace
 .settings/
 bin/
 target/
