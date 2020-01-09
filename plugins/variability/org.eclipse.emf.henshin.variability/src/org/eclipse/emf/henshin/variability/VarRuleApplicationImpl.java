@@ -1,6 +1,10 @@
 package org.eclipse.emf.henshin.variability;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
@@ -21,14 +25,28 @@ import org.eclipse.emf.henshin.variability.util.RuleUtil;
  * @author Sven Peldszus
  */
 public class VarRuleApplicationImpl extends RuleApplicationImpl {
-	VariabilityAwareMatch completeVarMatch;
+	private VariabilityAwareMatch completeVarMatch;
+	private Map<String, Boolean> configuration;
 
 	public VarRuleApplicationImpl(Engine engine, EGraph graph, Rule rule, Assignment partialMatch) {
 		super(engine, graph, rule, partialMatch);
+		this.completeVarMatch = null;
 	}
 
-	public VarRuleApplicationImpl(Engine engine, EGraph graph, Rule rule, VariabilityAwareMatch completeMatchVar) {
+	/**
+	 * 
+	 * @param engine
+	 * @param graph
+	 * @param rule
+	 * @param completeMatchVar If available, a complete match
+	 * @param configuration A (potentially partial) map of feature names to a boolean value
+	 */
+	public VarRuleApplicationImpl(Engine engine, EGraph graph, Rule rule, Map<String,Boolean> configuration, VariabilityAwareMatch completeMatchVar) {
 		super(engine, graph, rule, null);
+		if (configuration == null)
+			this.configuration = new HashMap<String,Boolean>();
+		else
+			this.configuration = configuration;
 		this.completeVarMatch = completeMatchVar;
 	}
 
@@ -72,7 +90,10 @@ public class VarRuleApplicationImpl extends RuleApplicationImpl {
 				} else {
 					VariabilityAwareEngine vbEngine;
 					try {
-						vbEngine = new VariabilityAwareEngine((Rule) unit, graph);
+						List<String> initiallyTrue = configuration.keySet().stream().filter(s -> configuration.get(s) == true).collect(Collectors.toList());
+						List<String> initiallyFalse = configuration.keySet().stream().filter(s -> configuration.get(s) == false).collect(Collectors.toList());
+						System.out.println(initiallyTrue);
+						vbEngine = new VariabilityAwareEngine((Rule) unit, graph, initiallyTrue, initiallyFalse);
 					} catch (InconsistentRuleException e) {
 						return false;
 					}
