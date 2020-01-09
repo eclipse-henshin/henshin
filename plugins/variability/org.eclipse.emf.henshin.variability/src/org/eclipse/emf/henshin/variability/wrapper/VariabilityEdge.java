@@ -47,7 +47,7 @@ public class VariabilityEdge implements Edge, VariabilityGraphElement {
 		if(pc != null) {
 			return pc;
 		} else {
-			return VariabilityTransactionHelper.addAnnotation(edge, VariabilityConstants.PRESENCE_CONDITION, "");
+			return VariabilityHelper.addAnnotation(edge, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
 	}
 	

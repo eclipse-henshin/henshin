@@ -98,19 +98,19 @@ public class VariabilityRule implements Rule {
 		if(featModel != null) {
 			featureModel = featModel;
 		} else {
-			featureModel = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, "");
+			featureModel = VariabilityHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, "");
 		}
 		
 		if(injMatPreCon != null) {
 			injectiveMatchingPresenceCondition = injMatPreCon;
 		} else {
-			injectiveMatchingPresenceCondition = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.INJECTIVE_MATCHING_PC, "");
+			injectiveMatchingPresenceCondition = VariabilityHelper.addAnnotation(rule, VariabilityConstants.INJECTIVE_MATCHING_PC, "");
 		}
 		
 		if(feats != null) {
 			features = feats;
 		} else {
-			features = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURES, "");
+			features = VariabilityHelper.addAnnotation(rule, VariabilityConstants.FEATURES, "");
 		}
 	}
 

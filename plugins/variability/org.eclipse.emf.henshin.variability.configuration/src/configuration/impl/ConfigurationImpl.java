@@ -19,8 +19,8 @@ import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityHelper;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
 
 import configuration.Configuration;
 import configuration.ConfigurationFactory;
@@ -209,7 +209,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 		} else {
 			featureAnnotationValue += feature.getName();
 		}
-		VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
+		VariabilityHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
 		enableContentAdapter();
 		return features.add(feature);
 	}
@@ -246,7 +246,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 			if (annotationFeatures.size() > 1) {
 				featureAnnotationValue = featureAnnotationValue.substring(0, featureAnnotationValue.length() - 2);
 			}
-			VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
+			VariabilityHelper.setAnnotationValue(rule, VariabilityConstants.FEATURES, featureAnnotationValue);
 			enableContentAdapter();
 			return features.remove(feature);
 		} else {

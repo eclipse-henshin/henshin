@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Node;
@@ -49,7 +48,7 @@ public class VariabilityAttribute implements Attribute, VariabilityGraphElement 
 		if(pc != null) {
 			return pc;
 		} else {
-			return VariabilityTransactionHelper.addAnnotation(attribute, VariabilityConstants.PRESENCE_CONDITION, "");
+			return VariabilityHelper.addAnnotation(attribute, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
 	}
 	

@@ -10,7 +10,6 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.variability.VarRuleApplicationImpl;
 
 /**
  * The factory for the variability-aware graph elements.

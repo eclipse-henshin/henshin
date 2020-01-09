@@ -49,7 +49,7 @@ public class VariabilityNode implements Node, VariabilityGraphElement {
 		if(pc != null) {
 			return pc;
 		} else {
-			return VariabilityTransactionHelper.addAnnotation(node, VariabilityConstants.PRESENCE_CONDITION, "");
+			return VariabilityHelper.addAnnotation(node, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
 	}
 	
