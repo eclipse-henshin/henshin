@@ -212,7 +212,7 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 			for (Parameter unit1Param : unit1.getParameters()) {
 				Parameter unit2Param = unit2.getParameter(unit1Param.getName());
 				result = result && unit2Param != null && isMatchingParameterType(unit1Param, unit2Param);
-				if(result) {
+				if(!result) {
 					return result;
 				}
 			}
