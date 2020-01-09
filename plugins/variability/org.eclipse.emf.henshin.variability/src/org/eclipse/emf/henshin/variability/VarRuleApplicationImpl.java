@@ -13,8 +13,8 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareMatch;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareEngine;
+import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareMatch;
 import org.eclipse.emf.henshin.variability.util.RuleUtil;
 
 /**
@@ -31,6 +31,7 @@ public class VarRuleApplicationImpl extends RuleApplicationImpl {
 	public VarRuleApplicationImpl(Engine engine, EGraph graph, Rule rule, Assignment partialMatch) {
 		super(engine, graph, rule, partialMatch);
 		this.completeVarMatch = null;
+		this.configuration = new HashMap<String,Boolean>();
 	}
 
 	/**
@@ -92,7 +93,6 @@ public class VarRuleApplicationImpl extends RuleApplicationImpl {
 					try {
 						List<String> initiallyTrue = configuration.keySet().stream().filter(s -> configuration.get(s) == true).collect(Collectors.toList());
 						List<String> initiallyFalse = configuration.keySet().stream().filter(s -> configuration.get(s) == false).collect(Collectors.toList());
-						System.out.println(initiallyTrue);
 						vbEngine = new VariabilityAwareEngine((Rule) unit, graph, initiallyTrue, initiallyFalse);
 					} catch (InconsistentRuleException e) {
 						return false;

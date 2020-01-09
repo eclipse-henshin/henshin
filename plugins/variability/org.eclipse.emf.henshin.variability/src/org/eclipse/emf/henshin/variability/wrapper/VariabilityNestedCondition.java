@@ -17,7 +17,6 @@ import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 
 /**
@@ -46,7 +45,7 @@ public class VariabilityNestedCondition implements NestedCondition {
 		if(pc != null) {
 			return pc;
 		} else {
-			return VariabilityTransactionHelper.addAnnotation(condition, VariabilityConstants.PRESENCE_CONDITION, "");
+			return VariabilityHelper.addAnnotation(condition, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
 	}
 	
