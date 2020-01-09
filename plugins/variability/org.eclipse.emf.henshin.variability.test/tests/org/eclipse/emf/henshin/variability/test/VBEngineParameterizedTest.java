@@ -204,7 +204,7 @@ public class VBEngineParameterizedTest {
 	 * @param match  The VB match to be applied
 	 */
 	private void applyRuleAtMatch(EGraphImpl graph, VariabilityAwareEngine engine, VariabilityAwareMatch match) {
-		VarRuleApplicationImpl app = new VarRuleApplicationImpl(new EngineImpl(), graph, match.getRule(), match);
+		VarRuleApplicationImpl app = new VarRuleApplicationImpl(new EngineImpl(), graph, match.getRule(), null, match);
 		app.execute(null);
 		
 //		Match completeMatch = match.getMatch();
