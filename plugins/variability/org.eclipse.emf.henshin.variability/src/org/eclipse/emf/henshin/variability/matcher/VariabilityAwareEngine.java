@@ -102,7 +102,7 @@ public class VariabilityAwareEngine {
 		this.initiallyFalseFeatures = initiallyFalse;
 		
 		if (!ruleInfoRegistry.containsKey(rule))
-			ruleInfoRegistry.put(rule, new RuleInfo(rule, initiallyTrue, initiallyFalse));
+			ruleInfoRegistry.put(rule, new RuleInfo(rule));
 		this.ruleInfo = ruleInfoRegistry.get(rule);
 		populateExpressionMap();
 	}
@@ -134,7 +134,7 @@ public class VariabilityAwareEngine {
 		
 		// Remove everything except for the base rule
 		Set<Sentence> nonTauotologies = getNonTautologies(mo);
-		BitSet bs = rulePreparator.prepare(ruleInfo, nonTauotologies, rule.isInjectiveMatching(), true);
+		rulePreparator.prepare(ruleInfo, nonTauotologies, rule.isInjectiveMatching(), true);
 		
 		Set<Match> baseMatches = new HashSet<Match>();
 		Iterator<Match> it = engine.findMatches(rule, graph, null).iterator();
@@ -153,7 +153,6 @@ public class VariabilityAwareEngine {
 
 		Set<VariabilityAwareMatch> matches = new HashSet<VariabilityAwareMatch>();
 		if (!baseMatches.isEmpty()) {
-			mo.getMatchedSubrules().add(bs);
 			mo.set(ruleInfo.getFeatureModel(), null, true);
 			findMatches(rule, mo, baseMatches, matches);
 			mo.set(ruleInfo.getFeatureModel(), true, null);
@@ -285,7 +284,7 @@ public class VariabilityAwareEngine {
 		Sentence injectiveMatching;
 		
 
-		public RuleInfo(Rule rule, List<String> initiallyTrue, List<String> initiallyFalse) {
+		public RuleInfo(Rule rule) {
 			this.rule = VariabilityFactory.createVariabilityRule(rule);
 			this.featureModel = FeatureExpression.getExpr(this.rule.getFeatureModel());
 			String injective = this.rule.getInjectiveMatchingPresenceCondition();

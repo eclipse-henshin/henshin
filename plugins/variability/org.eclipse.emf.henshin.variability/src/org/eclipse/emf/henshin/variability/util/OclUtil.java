@@ -6,10 +6,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.OCL;
 import org.eclipse.ocl.ecore.OCL.Helper;
-import org.eclipse.ocl.ecore.OCLExpression;
-import org.eclipse.ocl.expressions.Variable;
 import org.eclipse.ocl.ecore.OCL.Query;
+import org.eclipse.ocl.ecore.OCLExpression;
 import org.eclipse.ocl.ecore.impl.EcoreFactoryImpl;
+import org.eclipse.ocl.expressions.Variable;
 
 /**
  * Utility for parsing OCL expressions (currently not used).

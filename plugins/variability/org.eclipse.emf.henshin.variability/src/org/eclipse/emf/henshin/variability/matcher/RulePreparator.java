@@ -27,7 +27,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareEngine.RuleInfo;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityGraphElement;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityNode;
 
 import aima.core.logic.propositional.parsing.ast.Sentence;
 
@@ -115,7 +114,11 @@ public class RulePreparator {
 	private void fillMaps(RuleInfo ruleInfo, Set<Sentence> rejected) {
 		
 		for (Sentence expr : rejected) {
-			for (GraphElement ge : ruleInfo.getPc2Elem().get(expr)) {
+			Set<GraphElement> elements = ruleInfo.getPc2Elem().get(expr);
+			if (elements == null)
+				continue;
+			
+			for (GraphElement ge : elements) {
 				boolean geIsVariabilityAware = ge instanceof VariabilityGraphElement;
 				
 				if (ge instanceof Node) {
