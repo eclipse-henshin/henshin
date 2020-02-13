@@ -298,6 +298,26 @@
          </action>
       </objectContribution>
    </extension>
+    <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.emf.henshin.menu">
+         <command
+               commandId="org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinateHenshinFileActionDelegate"
+               icon="icons/henshin-apply.gif"
+               label="%_UI_Command_ApplyWithHenshin"
+               style="push">
+               <visibleWhen>
+               <with variable="selection">
+ 			       <iterate ifEmpty="false">
+			            <instanceof value="org.eclipse.core.resources.IResource"/>
+			            	<test property="org.eclipse.core.resources.name" value="*.henshin"/>
+        			</iterate>
+				</with>
+               </visibleWhen>
+         </command>
+      </menuContribution>
+  </extension>
   <extension
         point="org.eclipse.ui.exportWizards">
      <category
