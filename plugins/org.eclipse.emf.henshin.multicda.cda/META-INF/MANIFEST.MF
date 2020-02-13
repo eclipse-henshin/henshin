@@ -22,4 +22,5 @@ Export-Package: org.eclipse.emf.henshin.multicda.cda,
  org.eclipse.emf.henshin.multicda.cda.dependency,
  org.eclipse.emf.henshin.multicda.cda.framework,
  org.eclipse.emf.henshin.multicda.cda.tasks,
- org.eclipse.emf.henshin.multicda.cda.units
+ org.eclipse.emf.henshin.multicda.cda.units,
+ org.eclipse.emf.henshin.preprocessing

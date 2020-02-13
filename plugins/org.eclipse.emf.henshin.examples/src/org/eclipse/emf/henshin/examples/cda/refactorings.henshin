@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_JOv2EIQsEeahnb1CuKz0kQ">
+  <imports href="classDiagramMM.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_LZz_cIQsEeahnb1CuKz0kQ" name="decapsulateAttribute">
+    <parameters xmi:id="_MTQesIpoEeaAQbd2omPwng" name="clN"/>
+    <parameters xmi:id="_ZFhEgYpNEeaAQbd2omPwng" name="attrN"/>
+    <parameters xmi:id="_ZFhrkIpNEeaAQbd2omPwng" name="getterN"/>
+    <parameters xmi:id="_ZFhrkYpNEeaAQbd2omPwng" name="setterN"/>
+    <lhs xmi:id="_LZ6tIIQsEeahnb1CuKz0kQ" name="Lhs">
+      <nodes xmi:id="_fnYE8IQsEeazN5kGEUQNbg" name="4.1" outgoing="_tDBKsIQsEeazN5kGEUQNbg _t7x-sIQsEeazN5kGEUQNbg _uPVz4IQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class"/>
+        <attributes xmi:id="_YZegMIZjEearFcW47UN1vg" value="clN">
+          <type href="classDiagramMM.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_gmKBYIQsEeazN5kGEUQNbg" name="4.3" incoming="_tDBKsIQsEeazN5kGEUQNbg" outgoing="_wWbeAIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Attribute"/>
+        <attributes xmi:id="_jAZbkIZjEearFcW47UN1vg" value="attrN">
+          <type href="classDiagramMM.ecore#//Attribute/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_k8beEIQsEeazN5kGEUQNbg" name="4.5" incoming="_t7x-sIQsEeazN5kGEUQNbg" outgoing="_wy7MwIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Method"/>
+        <attributes xmi:id="_1Pb-4IZjEearFcW47UN1vg" value="getterN">
+          <type href="classDiagramMM.ecore#//Method/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_lXC9gIQsEeazN5kGEUQNbg" name="4.4" incoming="_uPVz4IQsEeazN5kGEUQNbg" outgoing="_uzcmgIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Method"/>
+        <attributes xmi:id="_5V3BsIZjEearFcW47UN1vg" value="setterN">
+          <type href="classDiagramMM.ecore#//Method/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_oEhQYIQsEeazN5kGEUQNbg" name="4.6" incoming="_uzcmgIQsEeazN5kGEUQNbg" outgoing="_vKaVAIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Parameter"/>
+      </nodes>
+      <nodes xmi:id="_seDeQIZiEearFcW47UN1vg" name="4.2" incoming="_vKaVAIQsEeazN5kGEUQNbg _wWbeAIZiEearFcW47UN1vg _wy7MwIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <edges xmi:id="_tDBKsIQsEeazN5kGEUQNbg" source="_fnYE8IQsEeazN5kGEUQNbg" target="_gmKBYIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/attributes"/>
+      </edges>
+      <edges xmi:id="_t7x-sIQsEeazN5kGEUQNbg" source="_fnYE8IQsEeazN5kGEUQNbg" target="_k8beEIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_uPVz4IQsEeazN5kGEUQNbg" source="_fnYE8IQsEeazN5kGEUQNbg" target="_lXC9gIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_uzcmgIQsEeazN5kGEUQNbg" source="_lXC9gIQsEeazN5kGEUQNbg" target="_oEhQYIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Method/parameters"/>
+      </edges>
+      <edges xmi:id="_vKaVAIQsEeazN5kGEUQNbg" source="_oEhQYIQsEeazN5kGEUQNbg" target="_seDeQIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Parameter/type"/>
+      </edges>
+      <edges xmi:id="_wWbeAIZiEearFcW47UN1vg" source="_gmKBYIQsEeazN5kGEUQNbg" target="_seDeQIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Attribute/type"/>
+      </edges>
+      <edges xmi:id="_wy7MwIZiEearFcW47UN1vg" source="_k8beEIQsEeazN5kGEUQNbg" target="_seDeQIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Method/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_LZ6tIYQsEeahnb1CuKz0kQ" name="Rhs">
+      <nodes xmi:id="_fnYE8YQsEeazN5kGEUQNbg" name="4.1" outgoing="_tDBKsYQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class"/>
+        <attributes xmi:id="_a7hmMIZjEearFcW47UN1vg" value="clN">
+          <type href="classDiagramMM.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_gmKBYYQsEeazN5kGEUQNbg" name="4.3" incoming="_tDBKsYQsEeazN5kGEUQNbg" outgoing="_wWbeAYZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Attribute"/>
+        <attributes xmi:id="_ozTOUIZjEearFcW47UN1vg" value="attrN">
+          <type href="classDiagramMM.ecore#//Attribute/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_teZg8IZiEearFcW47UN1vg" name="4.2" incoming="_wWbeAYZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <edges xmi:id="_tDBKsYQsEeazN5kGEUQNbg" source="_fnYE8YQsEeazN5kGEUQNbg" target="_gmKBYYQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/attributes"/>
+      </edges>
+      <edges xmi:id="_wWbeAYZiEearFcW47UN1vg" source="_gmKBYYQsEeazN5kGEUQNbg" target="_teZg8IZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Attribute/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_fnYsAIQsEeazN5kGEUQNbg" origin="_fnYE8IQsEeazN5kGEUQNbg" image="_fnYE8YQsEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_gmKBYoQsEeazN5kGEUQNbg" origin="_gmKBYIQsEeazN5kGEUQNbg" image="_gmKBYYQsEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_teZg8YZiEearFcW47UN1vg" origin="_seDeQIZiEearFcW47UN1vg" image="_teZg8IZiEearFcW47UN1vg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_wov7QIQsEeazN5kGEUQNbg" name="pullUpEncapsulatedAttribute">
+    <parameters xmi:id="_Ld488IpoEeaAQbd2omPwng" name="subClN"/>
+    <parameters xmi:id="_Ld488YpoEeaAQbd2omPwng" name="superClN"/>
+    <parameters xmi:id="_WGwNUYpNEeaAQbd2omPwng" name="attrN"/>
+    <parameters xmi:id="_WGwNUopNEeaAQbd2omPwng" name="getterN"/>
+    <parameters xmi:id="_WGwNU4pNEeaAQbd2omPwng" name="setterN"/>
+    <lhs xmi:id="_wov7QYQsEeazN5kGEUQNbg" name="Lhs">
+      <nodes xmi:id="_wov7QoQsEeazN5kGEUQNbg" name="5.2" outgoing="_wov7R4QsEeazN5kGEUQNbg _wov7SIQsEeazN5kGEUQNbg _wov7SYQsEeazN5kGEUQNbg _Pl7lIIQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class"/>
+        <attributes xmi:id="_YoKnAIZkEearFcW47UN1vg" value="subClN">
+          <type href="classDiagramMM.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_wov7Q4QsEeazN5kGEUQNbg" name="5.5" incoming="_wov7R4QsEeazN5kGEUQNbg" outgoing="_z5n38IZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Attribute"/>
+        <attributes xmi:id="_hTh0oIZkEearFcW47UN1vg" value="attrN">
+          <type href="classDiagramMM.ecore#//Attribute/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_wov7RIQsEeazN5kGEUQNbg" name="5.6" incoming="_wov7SIQsEeazN5kGEUQNbg" outgoing="_8giDYIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Method"/>
+        <attributes xmi:id="_x7Y-wIZkEearFcW47UN1vg" value="getterN">
+          <type href="classDiagramMM.ecore#//Method/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_wov7RYQsEeazN5kGEUQNbg" name="5.7" incoming="_wov7SYQsEeazN5kGEUQNbg" outgoing="_wov7SoQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Method"/>
+        <attributes xmi:id="_06xhAIZkEearFcW47UN1vg" value="setterN">
+          <type href="classDiagramMM.ecore#//Method/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_wov7RoQsEeazN5kGEUQNbg" name="5.8" incoming="_wov7SoQsEeazN5kGEUQNbg" outgoing="_wov7S4QsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Parameter"/>
+      </nodes>
+      <nodes xmi:id="_H96D0IQtEeazN5kGEUQNbg" name="5.1" incoming="_P856sIQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class"/>
+        <attributes xmi:id="_q6dSoIZkEearFcW47UN1vg" value="superClN">
+          <type href="classDiagramMM.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Ice2MIQtEeazN5kGEUQNbg" name="5.4" incoming="_Pl7lIIQtEeazN5kGEUQNbg" outgoing="_P856sIQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <nodes xmi:id="_r0Bp0IZiEearFcW47UN1vg" name="5.3" incoming="_wov7S4QsEeazN5kGEUQNbg _z5n38IZiEearFcW47UN1vg _8giDYIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <edges xmi:id="_wov7R4QsEeazN5kGEUQNbg" source="_wov7QoQsEeazN5kGEUQNbg" target="_wov7Q4QsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/attributes"/>
+      </edges>
+      <edges xmi:id="_wov7SIQsEeazN5kGEUQNbg" source="_wov7QoQsEeazN5kGEUQNbg" target="_wov7RIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_wov7SYQsEeazN5kGEUQNbg" source="_wov7QoQsEeazN5kGEUQNbg" target="_wov7RYQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_wov7SoQsEeazN5kGEUQNbg" source="_wov7RYQsEeazN5kGEUQNbg" target="_wov7RoQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Method/parameters"/>
+      </edges>
+      <edges xmi:id="_wov7S4QsEeazN5kGEUQNbg" source="_wov7RoQsEeazN5kGEUQNbg" target="_r0Bp0IZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Parameter/type"/>
+      </edges>
+      <edges xmi:id="_Pl7lIIQtEeazN5kGEUQNbg" source="_wov7QoQsEeazN5kGEUQNbg" target="_Ice2MIQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_P856sIQtEeazN5kGEUQNbg" source="_Ice2MIQtEeazN5kGEUQNbg" target="_H96D0IQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+      <edges xmi:id="_z5n38IZiEearFcW47UN1vg" source="_wov7Q4QsEeazN5kGEUQNbg" target="_r0Bp0IZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Attribute/type"/>
+      </edges>
+      <edges xmi:id="_8giDYIZiEearFcW47UN1vg" source="_wov7RIQsEeazN5kGEUQNbg" target="_r0Bp0IZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Method/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wov7TIQsEeazN5kGEUQNbg" name="Rhs">
+      <nodes xmi:id="_wov7TYQsEeazN5kGEUQNbg" name="5.2" outgoing="_Pl8MMIQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class"/>
+        <attributes xmi:id="_euuVkIZkEearFcW47UN1vg" value="subClN">
+          <type href="classDiagramMM.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_wov7ToQsEeazN5kGEUQNbg" name="5.5" incoming="_NW2YoISUEeaBAc0PWfONiQ" outgoing="_z5n38YZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Attribute"/>
+        <attributes xmi:id="_jDWMcIZkEearFcW47UN1vg" value="attrN">
+          <type href="classDiagramMM.ecore#//Attribute/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_6vh-AIQsEeazN5kGEUQNbg" name="5.6" incoming="_NEuG0ISUEeaBAc0PWfONiQ" outgoing="_8giDYYZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Method"/>
+        <attributes xmi:id="_z9DUgIZkEearFcW47UN1vg" value="getterN">
+          <type href="classDiagramMM.ecore#//Method/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7P78YIQsEeazN5kGEUQNbg" name="5.7" incoming="_MdBNoISUEeaBAc0PWfONiQ" outgoing="_7P8jc4QsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Method"/>
+        <attributes xmi:id="_2z93QIZkEearFcW47UN1vg" value="setterN">
+          <type href="classDiagramMM.ecore#//Method/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7P8jcYQsEeazN5kGEUQNbg" name="5.8" incoming="_7P8jc4QsEeazN5kGEUQNbg" outgoing="_TsqWUIZkEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Parameter"/>
+      </nodes>
+      <nodes xmi:id="_H96D0YQtEeazN5kGEUQNbg" name="5.1" incoming="_P856sYQtEeazN5kGEUQNbg" outgoing="_NW2YoISUEeaBAc0PWfONiQ _NEuG0ISUEeaBAc0PWfONiQ _MdBNoISUEeaBAc0PWfONiQ">
+        <type href="classDiagramMM.ecore#//Class"/>
+        <attributes xmi:id="_uWU8kIZkEearFcW47UN1vg" value="superClN">
+          <type href="classDiagramMM.ecore#//Class/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Ice2MYQtEeazN5kGEUQNbg" name="5.4" incoming="_Pl8MMIQtEeazN5kGEUQNbg" outgoing="_P856sYQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <nodes xmi:id="_r0DfAIZiEearFcW47UN1vg" name="5.3" incoming="_z5n38YZiEearFcW47UN1vg _8giDYYZiEearFcW47UN1vg _TsqWUIZkEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <edges xmi:id="_7P8jc4QsEeazN5kGEUQNbg" source="_7P78YIQsEeazN5kGEUQNbg" target="_7P8jcYQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Method/parameters"/>
+      </edges>
+      <edges xmi:id="_Pl8MMIQtEeazN5kGEUQNbg" source="_wov7TYQsEeazN5kGEUQNbg" target="_Ice2MYQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_P856sYQtEeazN5kGEUQNbg" source="_Ice2MYQtEeazN5kGEUQNbg" target="_H96D0YQtEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+      <edges xmi:id="_NW2YoISUEeaBAc0PWfONiQ" source="_H96D0YQtEeazN5kGEUQNbg" target="_wov7ToQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/attributes"/>
+      </edges>
+      <edges xmi:id="_NEuG0ISUEeaBAc0PWfONiQ" source="_H96D0YQtEeazN5kGEUQNbg" target="_6vh-AIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_MdBNoISUEeaBAc0PWfONiQ" source="_H96D0YQtEeazN5kGEUQNbg" target="_7P78YIQsEeazN5kGEUQNbg">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_z5n38YZiEearFcW47UN1vg" source="_wov7ToQsEeazN5kGEUQNbg" target="_r0DfAIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Attribute/type"/>
+      </edges>
+      <edges xmi:id="_8giDYYZiEearFcW47UN1vg" source="_6vh-AIQsEeazN5kGEUQNbg" target="_r0DfAIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Method/type"/>
+      </edges>
+      <edges xmi:id="_TsqWUIZkEearFcW47UN1vg" source="_7P8jcYQsEeazN5kGEUQNbg" target="_r0DfAIZiEearFcW47UN1vg">
+        <type href="classDiagramMM.ecore#//Parameter/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wov7UIQsEeazN5kGEUQNbg" origin="_wov7QoQsEeazN5kGEUQNbg" image="_wov7TYQsEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_wov7UYQsEeazN5kGEUQNbg" origin="_wov7Q4QsEeazN5kGEUQNbg" image="_wov7ToQsEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_6vh-AYQsEeazN5kGEUQNbg" origin="_wov7RIQsEeazN5kGEUQNbg" image="_6vh-AIQsEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_7P78YYQsEeazN5kGEUQNbg" origin="_wov7RYQsEeazN5kGEUQNbg" image="_7P78YIQsEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_7P8jcoQsEeazN5kGEUQNbg" origin="_wov7RoQsEeazN5kGEUQNbg" image="_7P8jcYQsEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_H96D0oQtEeazN5kGEUQNbg" origin="_H96D0IQtEeazN5kGEUQNbg" image="_H96D0YQtEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_Ice2MoQtEeazN5kGEUQNbg" origin="_Ice2MIQtEeazN5kGEUQNbg" image="_Ice2MYQtEeazN5kGEUQNbg"/>
+    <mappings xmi:id="_r0DfAYZiEearFcW47UN1vg" origin="_r0Bp0IZiEearFcW47UN1vg" image="_r0DfAIZiEearFcW47UN1vg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_QW6i4NJdEea00auyScFgmQ" name="moveMethod">
+    <lhs xmi:id="_QXxegNJdEea00auyScFgmQ" name="Lhs">
+      <nodes xmi:id="_V-aW4NJdEea00auyScFgmQ" name="3.1" outgoing="_XQykwNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_WEcGYNJdEea00auyScFgmQ" name="3.2">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_Wp3HoNJdEea00auyScFgmQ" name="3.3" incoming="_XQykwNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Method"/>
+      </nodes>
+      <edges xmi:id="_XQykwNJdEea00auyScFgmQ" source="_V-aW4NJdEea00auyScFgmQ" target="_Wp3HoNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_QXxegdJdEea00auyScFgmQ" name="Rhs">
+      <nodes xmi:id="_V-aW4dJdEea00auyScFgmQ" name="3.1">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_WEcGYdJdEea00auyScFgmQ" name="3.2" outgoing="_XlxWQNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_Wp3usNJdEea00auyScFgmQ" name="3.3" incoming="_XlxWQNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Method"/>
+      </nodes>
+      <edges xmi:id="_XlxWQNJdEea00auyScFgmQ" source="_WEcGYdJdEea00auyScFgmQ" target="_Wp3usNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_V-aW4tJdEea00auyScFgmQ" origin="_V-aW4NJdEea00auyScFgmQ" image="_V-aW4dJdEea00auyScFgmQ"/>
+    <mappings xmi:id="_WEcGYtJdEea00auyScFgmQ" origin="_WEcGYNJdEea00auyScFgmQ" image="_WEcGYdJdEea00auyScFgmQ"/>
+    <mappings xmi:id="_Wp3usdJdEea00auyScFgmQ" origin="_Wp3HoNJdEea00auyScFgmQ" image="_Wp3usNJdEea00auyScFgmQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_p3lgwNJdEea00auyScFgmQ" name="moveAttribute">
+    <lhs xmi:id="_p3n9ANJdEea00auyScFgmQ" name="Lhs">
+      <nodes xmi:id="_rUDewNJdEea00auyScFgmQ" name="2.1" outgoing="_sR_tsNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_rZszwNJdEea00auyScFgmQ" name="2.2">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_r3e78NJdEea00auyScFgmQ" name="2.3" incoming="_sR_tsNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Attribute"/>
+      </nodes>
+      <edges xmi:id="_sR_tsNJdEea00auyScFgmQ" source="_rUDewNJdEea00auyScFgmQ" target="_r3e78NJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Class/attributes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_p3n9AdJdEea00auyScFgmQ" name="Rhs">
+      <nodes xmi:id="_rUDewdJdEea00auyScFgmQ" name="2.1">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_rZszwdJdEea00auyScFgmQ" name="2.2" outgoing="_twIfoNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_r3e78dJdEea00auyScFgmQ" name="2.3" incoming="_twIfoNJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Attribute"/>
+      </nodes>
+      <edges xmi:id="_twIfoNJdEea00auyScFgmQ" source="_rZszwdJdEea00auyScFgmQ" target="_r3e78dJdEea00auyScFgmQ">
+        <type href="classDiagramMM.ecore#//Class/attributes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_rUDewtJdEea00auyScFgmQ" origin="_rUDewNJdEea00auyScFgmQ" image="_rUDewdJdEea00auyScFgmQ"/>
+    <mappings xmi:id="_rZszwtJdEea00auyScFgmQ" origin="_rZszwNJdEea00auyScFgmQ" image="_rZszwdJdEea00auyScFgmQ"/>
+    <mappings xmi:id="_r3e78tJdEea00auyScFgmQ" origin="_r3e78NJdEea00auyScFgmQ" image="_r3e78dJdEea00auyScFgmQ"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_gIw_INJqEea0bI0X2fK16g" name="deleteClass">
+    <lhs xmi:id="_gJh0INJqEea0bI0X2fK16g" name="Lhs">
+      <nodes xmi:id="_hZY5gNJqEea0bI0X2fK16g" name="1.2" incoming="_OpSwcNawEeaY9ojyonRHiA">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_73UfMNavEeaY9ojyonRHiA" name="1.1" outgoing="_OpSwcNawEeaY9ojyonRHiA">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <edges xmi:id="_OpSwcNawEeaY9ojyonRHiA" source="_73UfMNavEeaY9ojyonRHiA" target="_hZY5gNJqEea0bI0X2fK16g">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_gJibMNJqEea0bI0X2fK16g" name="Rhs">
+      <nodes xmi:id="_8new0NavEeaY9ojyonRHiA" name="1.1">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_8new0davEeaY9ojyonRHiA" origin="_73UfMNavEeaY9ojyonRHiA" image="_8new0NavEeaY9ojyonRHiA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_fR-QQNW7EeadYZBwILVQVw" name="introduceNewPackageForSingleClass">
+    <lhs xmi:id="_fR_eYNW7EeadYZBwILVQVw" name="Lhs">
+      <nodes xmi:id="_jBhrMNW7EeadYZBwILVQVw" name="10.1" outgoing="_k_9t0NW7EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <nodes xmi:id="_jrDJUNW7EeadYZBwILVQVw" name="10.3" incoming="_k_9t0NW7EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <edges xmi:id="_k_9t0NW7EeadYZBwILVQVw" source="_jBhrMNW7EeadYZBwILVQVw" target="_jrDJUNW7EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_fR_eYdW7EeadYZBwILVQVw" name="Rhs">
+      <nodes xmi:id="_jBhrMdW7EeadYZBwILVQVw" name="10.1">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <nodes xmi:id="_jGg44NW7EeadYZBwILVQVw" name="10.2" outgoing="_lcMW0NW7EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <nodes xmi:id="_jrDwYNW7EeadYZBwILVQVw" name="10.3" incoming="_lcMW0NW7EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <edges xmi:id="_lcMW0NW7EeadYZBwILVQVw" source="_jGg44NW7EeadYZBwILVQVw" target="_jrDwYNW7EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_jBhrMtW7EeadYZBwILVQVw" origin="_jBhrMNW7EeadYZBwILVQVw" image="_jBhrMdW7EeadYZBwILVQVw"/>
+    <mappings xmi:id="_jrDwYdW7EeadYZBwILVQVw" origin="_jrDJUNW7EeadYZBwILVQVw" image="_jrDwYNW7EeadYZBwILVQVw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_-31qwNW7EeadYZBwILVQVw" name="newPackageForImplementations">
+    <lhs xmi:id="_-35VINW7EeadYZBwILVQVw" name="Lhs">
+      <nodes xmi:id="_CP_5YNW8EeadYZBwILVQVw" name="13.1" outgoing="_DcC1wNW8EeadYZBwILVQVw _Ep2FoNW8EeadYZBwILVQVw _E9XekNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <nodes xmi:id="_CpnTQNW8EeadYZBwILVQVw" name="13.3" incoming="_DcC1wNW8EeadYZBwILVQVw _P4CcYNW8EeadYZBwILVQVw _QCCF4NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+        <attributes xmi:id="_L6AegNaWEeafHOEph_I5qQ" value="true">
+          <type href="classDiagramMM.ecore#//Class/abstract"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_CyAaQNW8EeadYZBwILVQVw" name="13.4" incoming="_Ep2FoNW8EeadYZBwILVQVw" outgoing="_PguIkNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_C7d4QNW8EeadYZBwILVQVw" name="13.5" incoming="_E9XekNW8EeadYZBwILVQVw" outgoing="_Pr1MYNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_Kf7vQNW8EeadYZBwILVQVw" name="13.7" incoming="_Pr1MYNW8EeadYZBwILVQVw" outgoing="_P4CcYNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <nodes xmi:id="_KT9v0NW8EeadYZBwILVQVw" name="13.6" incoming="_PguIkNW8EeadYZBwILVQVw" outgoing="_QCCF4NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <edges xmi:id="_DcC1wNW8EeadYZBwILVQVw" source="_CP_5YNW8EeadYZBwILVQVw" target="_CpnTQNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+      <edges xmi:id="_Ep2FoNW8EeadYZBwILVQVw" source="_CP_5YNW8EeadYZBwILVQVw" target="_CyAaQNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+      <edges xmi:id="_E9XekNW8EeadYZBwILVQVw" source="_CP_5YNW8EeadYZBwILVQVw" target="_C7d4QNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+      <edges xmi:id="_PguIkNW8EeadYZBwILVQVw" source="_CyAaQNW8EeadYZBwILVQVw" target="_KT9v0NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_Pr1MYNW8EeadYZBwILVQVw" source="_C7d4QNW8EeadYZBwILVQVw" target="_Kf7vQNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_P4CcYNW8EeadYZBwILVQVw" source="_Kf7vQNW8EeadYZBwILVQVw" target="_CpnTQNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+      <edges xmi:id="_QCCF4NW8EeadYZBwILVQVw" source="_KT9v0NW8EeadYZBwILVQVw" target="_CpnTQNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_-35VIdW7EeadYZBwILVQVw" name="Rhs">
+      <nodes xmi:id="_CP_5YdW8EeadYZBwILVQVw" name="13.1" outgoing="_DcC1wdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <nodes xmi:id="_CVYvsNW8EeadYZBwILVQVw" name="13.2" outgoing="_QURFYNW8EeadYZBwILVQVw _QqDIINW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <nodes xmi:id="_Cpn6UNW8EeadYZBwILVQVw" name="13.3" incoming="_DcC1wdW8EeadYZBwILVQVw _P4CcYdW8EeadYZBwILVQVw _QCCF4dW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+        <attributes xmi:id="_L6AegdaWEeafHOEph_I5qQ" value="true">
+          <type href="classDiagramMM.ecore#//Class/abstract"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_CyAaQdW8EeadYZBwILVQVw" name="13.4" incoming="_QURFYNW8EeadYZBwILVQVw" outgoing="_PguIkdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_C7d4QdW8EeadYZBwILVQVw" name="13.5" incoming="_QqDIINW8EeadYZBwILVQVw" outgoing="_Pr1MYdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_LMViQNW8EeadYZBwILVQVw" name="13.7" incoming="_Pr1MYdW8EeadYZBwILVQVw" outgoing="_P4CcYdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <nodes xmi:id="_L0nqQNW8EeadYZBwILVQVw" name="13.6" incoming="_PguIkdW8EeadYZBwILVQVw" outgoing="_QCCF4dW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <edges xmi:id="_DcC1wdW8EeadYZBwILVQVw" source="_CP_5YdW8EeadYZBwILVQVw" target="_Cpn6UNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+      <edges xmi:id="_PguIkdW8EeadYZBwILVQVw" source="_CyAaQdW8EeadYZBwILVQVw" target="_L0nqQNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_Pr1MYdW8EeadYZBwILVQVw" source="_C7d4QdW8EeadYZBwILVQVw" target="_LMViQNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_P4CcYdW8EeadYZBwILVQVw" source="_LMViQNW8EeadYZBwILVQVw" target="_Cpn6UNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+      <edges xmi:id="_QCCF4dW8EeadYZBwILVQVw" source="_L0nqQNW8EeadYZBwILVQVw" target="_Cpn6UNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+      <edges xmi:id="_QURFYNW8EeadYZBwILVQVw" source="_CVYvsNW8EeadYZBwILVQVw" target="_CyAaQdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+      <edges xmi:id="_QqDIINW8EeadYZBwILVQVw" source="_CVYvsNW8EeadYZBwILVQVw" target="_C7d4QdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_CP_5YtW8EeadYZBwILVQVw" origin="_CP_5YNW8EeadYZBwILVQVw" image="_CP_5YdW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_Cpn6UdW8EeadYZBwILVQVw" origin="_CpnTQNW8EeadYZBwILVQVw" image="_Cpn6UNW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_CyAaQtW8EeadYZBwILVQVw" origin="_CyAaQNW8EeadYZBwILVQVw" image="_CyAaQdW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_C7d4QtW8EeadYZBwILVQVw" origin="_C7d4QNW8EeadYZBwILVQVw" image="_C7d4QdW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_LMViQdW8EeadYZBwILVQVw" origin="_Kf7vQNW8EeadYZBwILVQVw" image="_LMViQNW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_L0nqQdW8EeadYZBwILVQVw" origin="_KT9v0NW8EeadYZBwILVQVw" image="_L0nqQNW8EeadYZBwILVQVw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_duQlUNW8EeadYZBwILVQVw" name="joinClassesWithCommonSuperclass">
+    <lhs xmi:id="_duUPsNW8EeadYZBwILVQVw" name="Lhs">
+      <nodes xmi:id="_gcRqwNW8EeadYZBwILVQVw" name="14.2" incoming="_kwBX4NW8EeadYZBwILVQVw _k5Vr8NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_gkpjoNW8EeadYZBwILVQVw" name="14.3" outgoing="_kVCsENW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_gq-1INW8EeadYZBwILVQVw" name="14.4" incoming="_uNCr8NW8EeadYZBwILVQVw" outgoing="_kmaI4NW8EeadYZBwILVQVw _lSnuoNW8EeadYZBwILVQVw _leSMENW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_hXJ-oNW8EeadYZBwILVQVw" name="14.6" incoming="_kVCsENW8EeadYZBwILVQVw" outgoing="_kwBX4NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <nodes xmi:id="_hap-kNW8EeadYZBwILVQVw" name="14.5" incoming="_kmaI4NW8EeadYZBwILVQVw" outgoing="_k5Vr8NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <nodes xmi:id="_iefaINW8EeadYZBwILVQVw" name="14.7" incoming="_leSMENW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Attribute"/>
+      </nodes>
+      <nodes xmi:id="_iubTkNW8EeadYZBwILVQVw" name="14.8" incoming="_lSnuoNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Method"/>
+      </nodes>
+      <nodes xmi:id="_tRrP4NW8EeadYZBwILVQVw" name="14.1" outgoing="_uNCr8NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <edges xmi:id="_kVCsENW8EeadYZBwILVQVw" source="_gkpjoNW8EeadYZBwILVQVw" target="_hXJ-oNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_kmaI4NW8EeadYZBwILVQVw" source="_gq-1INW8EeadYZBwILVQVw" target="_hap-kNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_kwBX4NW8EeadYZBwILVQVw" source="_hXJ-oNW8EeadYZBwILVQVw" target="_gcRqwNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+      <edges xmi:id="_k5Vr8NW8EeadYZBwILVQVw" source="_hap-kNW8EeadYZBwILVQVw" target="_gcRqwNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+      <edges xmi:id="_lSnuoNW8EeadYZBwILVQVw" source="_gq-1INW8EeadYZBwILVQVw" target="_iubTkNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+      <edges xmi:id="_leSMENW8EeadYZBwILVQVw" source="_gq-1INW8EeadYZBwILVQVw" target="_iefaINW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/attributes"/>
+      </edges>
+      <edges xmi:id="_uNCr8NW8EeadYZBwILVQVw" source="_tRrP4NW8EeadYZBwILVQVw" target="_gq-1INW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Package/classes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_duUPsdW8EeadYZBwILVQVw" name="Rhs">
+      <nodes xmi:id="_gcRqwdW8EeadYZBwILVQVw" name="14.2" incoming="_kwBX4dW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_gkpjodW8EeadYZBwILVQVw" name="14.3" outgoing="_kVCsEdW8EeadYZBwILVQVw _lsrNYNW8EeadYZBwILVQVw _l8BQ8NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class"/>
+      </nodes>
+      <nodes xmi:id="_hXJ-odW8EeadYZBwILVQVw" name="14.6" incoming="_kVCsEdW8EeadYZBwILVQVw" outgoing="_kwBX4dW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization"/>
+      </nodes>
+      <nodes xmi:id="_iefaIdW8EeadYZBwILVQVw" name="14.7" incoming="_lsrNYNW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Attribute"/>
+      </nodes>
+      <nodes xmi:id="_iubTkdW8EeadYZBwILVQVw" name="14.8" incoming="_l8BQ8NW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Method"/>
+      </nodes>
+      <nodes xmi:id="_twEcENW8EeadYZBwILVQVw" name="14.1">
+        <type href="classDiagramMM.ecore#//Package"/>
+      </nodes>
+      <edges xmi:id="_kVCsEdW8EeadYZBwILVQVw" source="_gkpjodW8EeadYZBwILVQVw" target="_hXJ-odW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/generalized"/>
+      </edges>
+      <edges xmi:id="_kwBX4dW8EeadYZBwILVQVw" source="_hXJ-odW8EeadYZBwILVQVw" target="_gcRqwdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Generalization/by"/>
+      </edges>
+      <edges xmi:id="_lsrNYNW8EeadYZBwILVQVw" source="_gkpjodW8EeadYZBwILVQVw" target="_iefaIdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/attributes"/>
+      </edges>
+      <edges xmi:id="_l8BQ8NW8EeadYZBwILVQVw" source="_gkpjodW8EeadYZBwILVQVw" target="_iubTkdW8EeadYZBwILVQVw">
+        <type href="classDiagramMM.ecore#//Class/methods"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_gcRqwtW8EeadYZBwILVQVw" origin="_gcRqwNW8EeadYZBwILVQVw" image="_gcRqwdW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_gkpjotW8EeadYZBwILVQVw" origin="_gkpjoNW8EeadYZBwILVQVw" image="_gkpjodW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_hXJ-otW8EeadYZBwILVQVw" origin="_hXJ-oNW8EeadYZBwILVQVw" image="_hXJ-odW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_iefaItW8EeadYZBwILVQVw" origin="_iefaINW8EeadYZBwILVQVw" image="_iefaIdW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_iubTktW8EeadYZBwILVQVw" origin="_iubTkNW8EeadYZBwILVQVw" image="_iubTkdW8EeadYZBwILVQVw"/>
+    <mappings xmi:id="_twEcEdW8EeadYZBwILVQVw" origin="_tRrP4NW8EeadYZBwILVQVw" image="_twEcENW8EeadYZBwILVQVw"/>
+  </units>
+</henshin:Module>
