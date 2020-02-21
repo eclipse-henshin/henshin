@@ -40,6 +40,7 @@ import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerBindingEd
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerComparator;
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerContentProvider;
 import org.eclipse.emf.henshin.variability.ui.viewer.util.FeatureViewerNameEditingSupport;
+import org.eclipse.emf.henshin.variability.wrapper.TransactionalVariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
@@ -186,7 +187,7 @@ public class VariabilityView extends ViewPart
 				Rule rule = VariabilityModelHelper.getRuleForEditPart(selectedRuleEditPart);
 
 				NameDialog dialog = new NameDialog(getViewSite().getShell(), "Feature",
-						VariabilityFactory.createVariabilityRule(rule).getFeatures());
+						TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(rule).getFeatures());
 
 				if (dialog.open() == Window.OK) {
 					String featureName = dialog.getName().trim();
@@ -584,7 +585,7 @@ public class VariabilityView extends ViewPart
 				if (isChecked() && selectedRuleEditPart != null) {
 					super.run();
 					RuleEditPartVisibilityHelper.showConfiguredRule(selectedRuleEditPart, config,
-							VariabilityFactory.createVariabilityRule(config.getRule()).getFeatureModel());
+							TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(config.getRule()).getFeatureModel());
 					if (creationMode == CreationMode.SELECTION) {
 						updateEditPolicy(selectedRuleEditPart);
 					}

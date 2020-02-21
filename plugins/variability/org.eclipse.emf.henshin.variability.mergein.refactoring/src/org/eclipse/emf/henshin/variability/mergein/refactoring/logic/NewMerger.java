@@ -198,7 +198,7 @@ public class NewMerger {
 
 	private void setFeatureModel() {
 		String featureModel = XOR;
-		VariabilityRule masterVarRule = VariabilityFactory.createVariabilityRule(masterRule);
+		VariabilityRule masterVarRule = VariabilityFactory.INSTANCE.createVariabilityRule(masterRule);
 		masterVarRule.addFeature(masterVarRule.getName());
 		featureModel += BRACKET_LEFT;
 		featureModel += getCondition(masterRule);
@@ -208,7 +208,7 @@ public class NewMerger {
 			masterVarRule.addFeature(rule.getName());
 		}
 		featureModel += BRACKET_RIGHT;
-		VariabilityFactory.createVariabilityRule(masterRule).setFeatureModel(featureModel);
+		VariabilityFactory.INSTANCE.createVariabilityRule(masterRule).setFeatureModel(featureModel);
 	}
 	
 	private void setFeatures() {
@@ -219,7 +219,7 @@ public class NewMerger {
 		}
 		String value = sb.toString();
 		value = value.substring(0, value.length()-1);
-		VariabilityFactory.createVariabilityRule(masterRule).setFeatures(value);
+		VariabilityFactory.INSTANCE.createVariabilityRule(masterRule).setFeatures(value);
 	}
 
 	private void addNestedCondition2Graph(NestedCondition condition, boolean nac) {
@@ -543,10 +543,10 @@ public class NewMerger {
 
 	private void setPresenceCondition(MergeRuleElement mre) {
 		for (GraphElement elem : mre.getReferenceElements()) {
-			String presenceCondition = VariabilityFactory.createVariabilityGraphElement(elem).getPresenceCondition();
+			String presenceCondition = VariabilityFactory.INSTANCE.createVariabilityGraphElement(elem).getPresenceCondition();
 			if (elem.getGraph().isNestedCondition()) {
 				NestedCondition condition = (NestedCondition) elem.getGraph().eContainer();
-				VariabilityFactory.createVariabilityNestedCondition(condition).setPresenceCondition(presenceCondition);
+				VariabilityFactory.INSTANCE.createVariabilityNestedCondition(condition).setPresenceCondition(presenceCondition);
 			}
 		}
 	}
@@ -574,7 +574,7 @@ public class NewMerger {
 			if (mre.getReferenceElements().size() != numberOfRules) {
 				for (GraphElement elem : mre.getReferenceElements()) {
 					String condition = getCondition(mre);
-					VariabilityFactory.createVariabilityGraphElement(elem).setPresenceCondition(condition);
+					VariabilityFactory.INSTANCE.createVariabilityGraphElement(elem).setPresenceCondition(condition);
 				}
 			}
 		}
@@ -594,19 +594,19 @@ public class NewMerger {
 
 	private void setPresenceCondition(MergeNAC nac, Graph g) {
 		String condition = getCondition(nac);
-		VariabilityFactory.createVariabilityNestedCondition(((NestedCondition) g.eContainer())).setPresenceCondition(condition);
+		VariabilityFactory.INSTANCE.createVariabilityNestedCondition(((NestedCondition) g.eContainer())).setPresenceCondition(condition);
 		for (Node node : g.getNodes()) {
 			if (node.getActionNode() == node)
-				VariabilityFactory.createVariabilityNode(node).setPresenceCondition(condition);
+				VariabilityFactory.INSTANCE.createVariabilityNode(node).setPresenceCondition(condition);
 
 			for (Attribute attribute : node.getAttributes()) {
 				if (attribute.getActionAttribute() == attribute)
-					VariabilityFactory.createVariabilityAttribute(attribute).setPresenceCondition(condition);
+					VariabilityFactory.INSTANCE.createVariabilityAttribute(attribute).setPresenceCondition(condition);
 			}
 		}
 		for (Edge edge : g.getEdges()) {
 			if (edge.getActionEdge() == edge)
-				VariabilityFactory.createVariabilityEdge(edge).setPresenceCondition(condition);
+				VariabilityFactory.INSTANCE.createVariabilityEdge(edge).setPresenceCondition(condition);
 		}
 	}
 
@@ -700,7 +700,7 @@ public class NewMerger {
 				injective.add(rule);
 		}
 		if (injective.isEmpty()) {
-			VariabilityFactory.createVariabilityRule(masterRule).setInjectiveMatchingPresenceCondition("false");
+			VariabilityFactory.INSTANCE.createVariabilityRule(masterRule).setInjectiveMatchingPresenceCondition("false");
 		} else if (injective.size() == mergeRule.getRules().size()) {
 			// NOOP, is default.
 		} else {
@@ -708,7 +708,7 @@ public class NewMerger {
 			for (int i = 1; i < injective.size(); i++) {
 				condition += OR + getCondition(injective.get(i));
 			}
-			VariabilityFactory.createVariabilityRule(masterRule).setInjectiveMatchingPresenceCondition(condition);
+			VariabilityFactory.INSTANCE.createVariabilityRule(masterRule).setInjectiveMatchingPresenceCondition(condition);
 		}
 	}
 

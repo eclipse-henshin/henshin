@@ -51,29 +51,9 @@ public class VariabilityRule implements Rule {
 	final Annotation featureModel;
 	final Annotation injectiveMatchingPresenceCondition;
 	final Annotation features;
-
-	/**
-	 * Creates a new {@link org.eclipse.emf.henshin.model.Rule} and makes it variability aware.
-	 */
-	VariabilityRule() {
-		this(HenshinFactoryImpl.eINSTANCE.createRule());
-	}
 	
-	/**
-	 * Creates a new {@link org.eclipse.emf.henshin.model.Rule} with the given name and makes it variability aware.
-	 * @param name the name of the new henshin rule
-	 */
-	VariabilityRule(String name) {
-		this(HenshinFactoryImpl.eINSTANCE.createRule(name));
-	}
-	
-	/**
-	 * Adds multiple {@link org.eclipse.emf.henshin.model.Annotation} to the given {@link org.eclipse.emf.henshin.model.Rule} in order to enable variability awareness.
-	 * @param rule
-	 */
-	VariabilityRule(Rule rule) {
-		this.rule = rule;
-
+	static Annotation[] addVariabilityToRule(Rule rule, boolean transactional) {
+		Annotation[] result = new Annotation[3];
 		Annotation featModel = null;
 		Annotation injMatPreCon = null;
 		Annotation feats = null;
@@ -96,22 +76,66 @@ public class VariabilityRule implements Rule {
 		}
 		
 		if(featModel != null) {
-			featureModel = featModel;
+			result[0] = featModel;
+		} else if (transactional) {
+			result[0] = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, "");
 		} else {
-			featureModel = VariabilityHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, "");
+			result[0] = VariabilityHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, "");
 		}
 		
 		if(injMatPreCon != null) {
-			injectiveMatchingPresenceCondition = injMatPreCon;
+			result[1] = injMatPreCon;
+		} else if (transactional) {
+			result[1] = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.INJECTIVE_MATCHING_PC, "");
 		} else {
-			injectiveMatchingPresenceCondition = VariabilityHelper.addAnnotation(rule, VariabilityConstants.INJECTIVE_MATCHING_PC, "");
+			result[1] = VariabilityHelper.addAnnotation(rule, VariabilityConstants.INJECTIVE_MATCHING_PC, "");
 		}
 		
 		if(feats != null) {
-			features = feats;
+			result[2] = feats;
+		} else if (transactional) {
+			result[2] = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURES, "");
 		} else {
-			features = VariabilityHelper.addAnnotation(rule, VariabilityConstants.FEATURES, "");
+			result[2] = VariabilityHelper.addAnnotation(rule, VariabilityConstants.FEATURES, "");
 		}
+		
+		return result;
+	}
+
+	/**
+	 * Creates a new {@link org.eclipse.emf.henshin.model.Rule} and makes it variability aware.
+	 */
+	VariabilityRule() {
+		this(HenshinFactoryImpl.eINSTANCE.createRule());
+	}
+	
+	/**
+	 * Creates a new {@link org.eclipse.emf.henshin.model.Rule} with the given name and makes it variability aware.
+	 * @param name the name of the new henshin rule
+	 */
+	VariabilityRule(String name) {
+		this(HenshinFactoryImpl.eINSTANCE.createRule(name));
+	}
+	
+	/**
+	 * Adds multiple {@link org.eclipse.emf.henshin.model.Annotation} to the given {@link org.eclipse.emf.henshin.model.Rule} in order to enable variability awareness.
+	 * @param rule
+	 */
+	VariabilityRule(Rule rule) {
+		this(rule, false);
+	}
+	
+	/**
+	 * Adds multiple {@link org.eclipse.emf.henshin.model.Annotation} to the given {@link org.eclipse.emf.henshin.model.Rule} in order to enable variability awareness.
+	 * @param rule
+	 * @param transactional
+	 */
+	VariabilityRule(Rule rule, boolean transactional) {
+		this.rule = rule;
+		Annotation[] annos = addVariabilityToRule(rule, transactional);
+		featureModel = annos[0];
+		injectiveMatchingPresenceCondition = annos[1];
+		features = annos[2];
 	}
 
 	/**

@@ -34,7 +34,7 @@ public class VariabilityNode implements Node, VariabilityGraphElement {
 	final Node node;
 	final Annotation presenceCondition;
 	
-	static Annotation addVariabilityToNode(Node node) {
+	static Annotation addVariabilityToNode(Node node, boolean transactional) {
 		EList<Annotation> annos = node.getAnnotations();
 		Iterator<Annotation> it = annos.iterator();
 		Annotation pc = null;
@@ -48,6 +48,8 @@ public class VariabilityNode implements Node, VariabilityGraphElement {
 		
 		if(pc != null) {
 			return pc;
+		} else if (transactional) {
+			return VariabilityTransactionHelper.addAnnotation(node, VariabilityConstants.PRESENCE_CONDITION, "");
 		} else {
 			return VariabilityHelper.addAnnotation(node, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
@@ -75,8 +77,17 @@ public class VariabilityNode implements Node, VariabilityGraphElement {
 	 * @param node
 	 */
 	VariabilityNode(Node node) {
+		this(node, false);
+	}
+	
+	/**
+	 * Adds an {@link org.eclipse.emf.henshin.model.Annotation} to the given {@link org.eclipse.emf.henshin.model.Node} in order to enable variability awareness.
+	 * @param node
+	 * @param transactional
+	 */
+	VariabilityNode(Node node, boolean transactional) {
 		this.node = node;
-		this.presenceCondition = addVariabilityToNode(node);
+		this.presenceCondition = addVariabilityToNode(node, transactional);
 	}
 	
 	public GraphElement getGraphElement() {

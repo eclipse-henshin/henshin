@@ -12,6 +12,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.configuration.ui.helpers.VariabilityModelHelper;
+import org.eclipse.emf.henshin.variability.wrapper.TransactionalVariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
@@ -38,7 +39,7 @@ public class VariabilityNodeCreateCommand extends NodeCreateCommand {
 			IAdaptable info) throws ExecutionException {
 		CommandResult result = super.doExecuteWithResult(monitor, info);
 		Node node = (Node) result.getReturnValue();
-		if (node != null) VariabilityFactory.createVariabilityNode(node).setPresenceCondition(VariabilityModelHelper.getPresenceCondition(configuration));
+		if (node != null) TransactionalVariabilityFactory.INSTANCE.createVariabilityNode(node).setPresenceCondition(VariabilityModelHelper.getPresenceCondition(configuration));
 		return result;
 	}
 
@@ -68,7 +69,7 @@ public class VariabilityNodeCreateCommand extends NodeCreateCommand {
 						|| (newNode.getType()).isSuperTypeOf(refType)) {
 					if (rule.canCreateEdge(container, newNode, ref)) {
 						Edge edge = rule.createEdge(container, newNode, ref);
-						VariabilityFactory.createVariabilityEdge(edge).setPresenceCondition(VariabilityModelHelper.getPresenceCondition(configuration));
+						TransactionalVariabilityFactory.INSTANCE.createVariabilityEdge(edge).setPresenceCondition(VariabilityModelHelper.getPresenceCondition(configuration));
 						return;
 					}
 				}

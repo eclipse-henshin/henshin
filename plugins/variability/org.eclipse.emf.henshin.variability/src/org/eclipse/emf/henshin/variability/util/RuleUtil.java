@@ -55,7 +55,7 @@ public class RuleUtil {
 
 	public static boolean isVarRule(Unit unit) {
 		if (unit instanceof Rule) {
-			if (VariabilityFactory.createVariabilityRule((Rule) unit).getFeatureModel() != null) {
+			if (VariabilityFactory.INSTANCE.createVariabilityRule((Rule) unit).getFeatureModel() != null) {
 				return true;
 			}
 		}
@@ -66,7 +66,7 @@ public class RuleUtil {
 		if (!isVarRule(rule)) {
 			return true;
 		}
-		VariabilityRule varRule = VariabilityFactory.createVariabilityRule(rule);
+		VariabilityRule varRule = VariabilityFactory.INSTANCE.createVariabilityRule(rule);
 		List<String> features = varRule.getFeatures();
 
 		Stream<PropositionSymbol> fm = SymbolCollector

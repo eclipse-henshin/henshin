@@ -32,7 +32,7 @@ public class VariabilityEdge implements Edge, VariabilityGraphElement {
 	final Edge edge;
 	final Annotation presenceCondition;
 	
-	static Annotation addVariabilityToEdge(Edge edge) {
+	static Annotation addVariabilityToEdge(Edge edge, boolean transactional) {
 		EList<Annotation> annos = edge.getAnnotations();
 		Iterator<Annotation> it = annos.iterator();
 		Annotation pc = null;
@@ -46,6 +46,8 @@ public class VariabilityEdge implements Edge, VariabilityGraphElement {
 		
 		if(pc != null) {
 			return pc;
+		} else if (transactional) {
+			return VariabilityTransactionHelper.addAnnotation(edge, VariabilityConstants.PRESENCE_CONDITION, "");
 		} else {
 			return VariabilityHelper.addAnnotation(edge, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
@@ -75,8 +77,17 @@ public class VariabilityEdge implements Edge, VariabilityGraphElement {
 	 * @param edge
 	 */
 	VariabilityEdge(Edge edge) {
+		this(edge, false);
+	}
+	
+	/**
+	 * Adds an {@link org.eclipse.emf.henshin.model.Annotation} to the given {@link org.eclipse.emf.henshin.model.Edge} in order to enable variability awareness.
+	 * @param edge
+	 * @param transactional
+	 */
+	VariabilityEdge(Edge edge, boolean transactional) {
 		this.edge = edge;
-		this.presenceCondition = addVariabilityToEdge(edge);
+		this.presenceCondition = addVariabilityToEdge(edge, transactional);
 	}
 	
 	public GraphElement getGraphElement() {
