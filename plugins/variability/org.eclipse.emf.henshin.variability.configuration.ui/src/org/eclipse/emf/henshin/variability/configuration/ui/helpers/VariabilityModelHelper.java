@@ -7,6 +7,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.matcher.FeatureExpression;
 import org.eclipse.emf.henshin.variability.util.Logic;
+import org.eclipse.emf.henshin.variability.wrapper.TransactionalVariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityNode;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
@@ -35,7 +36,7 @@ public class VariabilityModelHelper {
 	}
 
 	public static Sentence getFeatureExpression(Configuration configuration) {
-		Sentence expr = FeatureExpression.getExpr(VariabilityFactory.createVariabilityRule(configuration.getRule()).getFeatureModel());
+		Sentence expr = FeatureExpression.getExpr(TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(configuration.getRule()).getFeatureModel());
 		for (Feature vp : configuration.getFeatures()) {
 			if (vp.getBinding() == FeatureBinding.TRUE) {
 				expr = FeatureExpression.and(expr, FeatureExpression.getExpr(vp.getName()));
@@ -66,7 +67,7 @@ public class VariabilityModelHelper {
 	}
 
 	private static Sentence getFeatureExpression(Configuration configuration, Feature feature) {
-		Sentence expr = FeatureExpression.getExpr(VariabilityFactory.createVariabilityRule(configuration.getRule()).getFeatureModel());
+		Sentence expr = FeatureExpression.getExpr(TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(configuration.getRule()).getFeatureModel());
 		if (expr == null)
 			expr = FeatureExpression.getExpr(Logic.TRUE);
 		for (Feature vp : configuration.getFeatures()) {
@@ -102,8 +103,8 @@ public class VariabilityModelHelper {
 
 	public static String getPresenceConditionForNewEdge(Edge edge, Configuration configuration) {
 		String configPC = getPresenceCondition(configuration);
-		VariabilityNode varSource = VariabilityFactory.createVariabilityNode(edge.getSource());
-		VariabilityNode varTarget = VariabilityFactory.createVariabilityNode(edge.getTarget());
+		VariabilityNode varSource = TransactionalVariabilityFactory.INSTANCE.createVariabilityNode(edge.getSource());
+		VariabilityNode varTarget = TransactionalVariabilityFactory.INSTANCE.createVariabilityNode(edge.getTarget());
 		Sentence config = FeatureExpression.getExpr(configPC);
 		Sentence source = FeatureExpression.getExpr(varSource.getPresenceCondition());
 		Sentence target = FeatureExpression.getExpr(varTarget.getPresenceCondition());

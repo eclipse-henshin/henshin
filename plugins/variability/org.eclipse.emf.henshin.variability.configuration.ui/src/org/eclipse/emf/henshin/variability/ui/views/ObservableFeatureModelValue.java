@@ -8,6 +8,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.emf.databinding.internal.EMFObservableValueDecorator;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.variability.wrapper.TransactionalVariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
@@ -121,7 +122,7 @@ public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 			EMFObservableValueDecorator emfValue = (EMFObservableValueDecorator) this.value;
 			
 			if (emfValue.getObserved() != null &&  emfValue.getObserved() instanceof Rule) {
-				return VariabilityFactory.createVariabilityRule((Rule) emfValue.getObserved());
+				return TransactionalVariabilityFactory.INSTANCE.createVariabilityRule((Rule) emfValue.getObserved());
 			}
 		}
 		return null;

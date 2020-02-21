@@ -17,8 +17,8 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityHelper;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
 
@@ -150,18 +150,27 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void setRule(Rule newRule) {
+		setRule(VariabilityFactory.INSTANCE.createVariabilityRule(newRule));
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public void setRule(VariabilityRule newRule) {
 		Rule oldRule = rule;
 		if (featuresContentAdapter != null) {
 			oldRule.eResource().getResourceSet().eAdapters().remove(featuresContentAdapter);
 		} else {
 			featuresContentAdapter = new EFeatureModelContentAdapter();
 		}
-		
-		rule = VariabilityFactory.createVariabilityRule(newRule);
+		rule = newRule;
 		rule.eResource().getResourceSet().eAdapters().add(featuresContentAdapter);
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.CONFIGURATION__RULE, oldRule, rule));
@@ -182,7 +191,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	
 	private void updateAllFeatures() {
 		Map<String, FeatureBinding> bindings = getBindings();
-		List<String> annotationFeatures = VariabilityFactory.createVariabilityRule(rule).getFeatures();
+		List<String> annotationFeatures = VariabilityFactory.INSTANCE.createVariabilityRule(rule).getFeatures();
 		EList<Feature> oldFeatures = getFeatures();
 		features.clear();
 		for (String featureName : annotationFeatures) {
@@ -201,7 +210,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	@Override
 	public boolean addFeature(Feature feature) {
 		disableContentAdapter();
-		List<String> annotationFeatures = VariabilityFactory.createVariabilityRule(rule).getFeatures();
+		List<String> annotationFeatures = VariabilityFactory.INSTANCE.createVariabilityRule(rule).getFeatures();
 		String featureAnnotationValue = "";
 		if (annotationFeatures != null && !annotationFeatures.isEmpty()) {
 			featureAnnotationValue = String.join(", ", annotationFeatures);
@@ -236,7 +245,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	public boolean removeFeature(final Feature feature) {
 		disableContentAdapter();
 		if (feature != null) {
-			List<String> annotationFeatures = VariabilityFactory.createVariabilityRule(rule).getFeatures();
+			List<String> annotationFeatures = VariabilityFactory.INSTANCE.createVariabilityRule(rule).getFeatures();
 			String featureAnnotationValue = "";
 			for (String annotationFeature : annotationFeatures) {
 				if (!annotationFeature.equals(feature.getName())) {					

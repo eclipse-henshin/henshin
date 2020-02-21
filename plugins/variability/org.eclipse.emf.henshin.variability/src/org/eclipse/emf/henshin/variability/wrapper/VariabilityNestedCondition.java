@@ -30,7 +30,7 @@ public class VariabilityNestedCondition implements NestedCondition {
 	final NestedCondition nestedCondition;
 	final Annotation presenceCondition;
 	
-	static Annotation addVariabilityToNestedCondition(NestedCondition condition) {
+	static Annotation addVariabilityToNestedCondition(NestedCondition condition, boolean transactional) {
 		EList<Annotation> annos = condition.getAnnotations();
 		Iterator<Annotation> it = annos.iterator();
 		Annotation pc = null;
@@ -44,6 +44,8 @@ public class VariabilityNestedCondition implements NestedCondition {
 		
 		if(pc != null) {
 			return pc;
+		} else if (transactional) {
+			return VariabilityTransactionHelper.addAnnotation(condition, VariabilityConstants.PRESENCE_CONDITION, "");
 		} else {
 			return VariabilityHelper.addAnnotation(condition, VariabilityConstants.PRESENCE_CONDITION, "");
 		}
@@ -61,8 +63,17 @@ public class VariabilityNestedCondition implements NestedCondition {
 	 * @param condition
 	 */
 	VariabilityNestedCondition(NestedCondition condition) {
+		this(condition, false);
+	}
+	
+	/**
+	 * Adds an {@link org.eclipse.emf.henshin.model.Annotation} to the given {@link org.eclipse.emf.henshin.model.NestedCondition} in order to enable variability awareness.
+	 * @param condition
+	 * @param transactional
+	 */
+	VariabilityNestedCondition(NestedCondition condition, boolean transactional) {
 		this.nestedCondition = condition;
-		this.presenceCondition = addVariabilityToNestedCondition(condition);
+		this.presenceCondition = addVariabilityToNestedCondition(condition, transactional);
 	}
 	
 	/**

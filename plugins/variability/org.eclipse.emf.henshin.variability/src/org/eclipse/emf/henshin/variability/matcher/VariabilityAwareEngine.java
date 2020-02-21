@@ -112,10 +112,10 @@ public class VariabilityAwareEngine {
 		// in the LHS and the RHS.
 		for (Mapping mapping : rule.getMappings()) {
 
-			VariabilityNode origin = VariabilityFactory.createVariabilityNode(mapping.getOrigin());
-			VariabilityNode image = VariabilityFactory.createVariabilityNode(mapping.getImage());
+			VariabilityNode origin = VariabilityFactory.INSTANCE.createVariabilityNode(mapping.getOrigin());
+			VariabilityNode image = VariabilityFactory.INSTANCE.createVariabilityNode(mapping.getImage());
 
-			if (origin.getPresenceCondition() != image.getPresenceCondition()) {
+			if (!origin.getPresenceCondition().equals(image.getPresenceCondition())) {
 				image.setPresenceCondition(origin.getPresenceCondition());
 			}	
 		}
@@ -271,7 +271,7 @@ public class VariabilityAwareEngine {
 	}
 
 	private static boolean presenceConditionEmpty(GraphElement elem) {
-		String presenceCondition = VariabilityFactory.createVariabilityGraphElement(elem).getPresenceCondition();
+		String presenceCondition = VariabilityFactory.INSTANCE.createVariabilityGraphElement(elem).getPresenceCondition();
 		return (presenceCondition == null) || presenceCondition.isEmpty();
 	}
 
@@ -285,7 +285,18 @@ public class VariabilityAwareEngine {
 		
 
 		public RuleInfo(Rule rule) {
-			this.rule = VariabilityFactory.createVariabilityRule(rule);
+			this.rule = VariabilityFactory.INSTANCE.createVariabilityRule(rule);
+			this.featureModel = FeatureExpression.getExpr(this.rule.getFeatureModel());
+			String injective = this.rule.getInjectiveMatchingPresenceCondition();
+			if (injective == null)
+				injective = rule.isInjectiveMatching() + "";
+			this.injectiveMatching = FeatureExpression.getExpr(injective);
+
+			populateMaps();
+		}
+		
+		public RuleInfo(VariabilityRule rule) {
+			this.rule = rule;
 			this.featureModel = FeatureExpression.getExpr(this.rule.getFeatureModel());
 			String injective = this.rule.getInjectiveMatchingPresenceCondition();
 			if (injective == null)
@@ -315,7 +326,7 @@ public class VariabilityAwareEngine {
 			while (it.hasNext()) {
 				EObject o = it.next();
 				if (o instanceof Node || o instanceof Edge || o instanceof Attribute) {
-					VariabilityGraphElement g = VariabilityFactory.createVariabilityGraphElement((GraphElement) o);
+					VariabilityGraphElement g = VariabilityFactory.INSTANCE.createVariabilityGraphElement((GraphElement) o);
 					if (!presenceConditionEmpty(g)) {
 						String pc = g.getPresenceCondition();
 						Sentence expr = FeatureExpression.getExpr(pc);

@@ -144,7 +144,7 @@ public class RulePreparator {
 			removeFormulaContainingRef.put(rule.getLhs().getFormula(), rule.getLhs().getFormula().eContainingFeature());
 		} else {
 			for (NestedCondition ac : rule.getLhs().getNestedConditions()) {
-				Sentence acPC = ruleInfo.getExpressions().get(VariabilityFactory.createVariabilityNestedCondition(ac).getPresenceCondition());
+				Sentence acPC = ruleInfo.getExpressions().get(VariabilityFactory.INSTANCE.createVariabilityNestedCondition(ac).getPresenceCondition());
 				if (rejected.contains(acPC)) {
 					Formula removeFormula = null;
 					if (ac.isNAC())

@@ -30,6 +30,9 @@ import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
+import org.eclipse.emf.henshin.model.Annotation;
+import org.eclipse.emf.henshin.model.GraphElement;
+import org.eclipse.emf.henshin.model.ModelElement;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
@@ -38,6 +41,8 @@ import org.eclipse.emf.henshin.variability.VarRuleApplicationImpl;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareEngine;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareMatch;
 import org.eclipse.emf.henshin.variability.util.RuleUtil;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
+import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -166,6 +171,7 @@ public class VBEngineParameterizedTest {
 	@Test
 	public void testVBEngine() throws InconsistentRuleException {
 		EGraphImpl graph = new EGraphImpl(data.resource);
+		//VariabilityRule varRule = VariabilityFactory.INSTANCE.createVariabilityRule(data.rule);
 		VariabilityAwareEngine vbEngine = new VariabilityAwareEngine(data.rule, graph);
 		Set<VariabilityAwareMatch> matches = vbEngine.findMatches();
 		int numberOfMatches = matches.size();
@@ -194,6 +200,26 @@ public class VBEngineParameterizedTest {
 				break;
 			}
 		}
+	}
+	
+	private void compareRules(Rule rule1, Rule rule2) {
+		//Compare Annotations
+		for (Annotation anno : rule1.getAnnotations()) {
+			if (!containsAnnotation(rule2, anno.getKey(), anno.getValue())) {
+				System.out.println("Rule 2 does not contain Annotation " + anno.getKey() + " - " + anno.getValue());
+			}
+		}
+	}
+	
+	private boolean containsAnnotation(ModelElement modelElement, String key, String value) {
+		for (Annotation anno : modelElement.getAnnotations()) {
+			if (anno.getKey().equals(key) && 
+			   ((anno.getValue() == null && value == null) || anno.getValue().equals(value)) &&
+			   ((anno.getValue() == null && value == null) || anno.getValue().equals(value))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

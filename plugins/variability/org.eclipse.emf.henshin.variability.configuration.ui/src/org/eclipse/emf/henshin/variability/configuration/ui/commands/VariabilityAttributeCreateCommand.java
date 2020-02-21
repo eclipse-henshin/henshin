@@ -16,6 +16,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.henshin.variability.configuration.ui.helpers.VariabilityModelHelper;
+import org.eclipse.emf.henshin.variability.wrapper.TransactionalVariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.ui.menus.PopupMenu;
@@ -72,7 +73,7 @@ public class VariabilityAttributeCreateCommand extends AttributeCreateCommand {
 			}
 		}
 		attribute.setValue(param!=null ? param.getName() : String.valueOf(type.getDefaultValue()));
-		VariabilityFactory.createVariabilityAttribute(attribute).setPresenceCondition(VariabilityModelHelper.getPresenceCondition(configuration));
+		TransactionalVariabilityFactory.INSTANCE.createVariabilityAttribute(attribute).setPresenceCondition(VariabilityModelHelper.getPresenceCondition(configuration));
 		node.getAttributes().add(attribute);
 
 		// and to all mapped nodes...

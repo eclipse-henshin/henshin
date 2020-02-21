@@ -11,7 +11,7 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.variability.matcher.FeatureExpression;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
+import org.eclipse.emf.henshin.variability.wrapper.TransactionalVariabilityFactory;
 
 import aima.core.logic.propositional.parsing.ast.Sentence;
 import configuration.Configuration;
@@ -46,7 +46,7 @@ public class RuleEditPartVisibilityHelper {
 
 		@Override
 		public boolean shouldConceal(GraphElement graphElement) {
-			String pc = VariabilityFactory.createVariabilityGraphElement(graphElement).getPresenceCondition();
+			String pc = TransactionalVariabilityFactory.INSTANCE.createVariabilityGraphElement(graphElement).getPresenceCondition();
 			return pc != null && !pc.isEmpty();
 		}
 	}
@@ -62,7 +62,7 @@ public class RuleEditPartVisibilityHelper {
 		@Override
 		public boolean shouldConceal(GraphElement graphElement) {
 			boolean result = REVEAL;
-			String pc = VariabilityFactory.createVariabilityGraphElement(graphElement).getPresenceCondition();
+			String pc = TransactionalVariabilityFactory.INSTANCE.createVariabilityGraphElement(graphElement).getPresenceCondition();
 			if (pc != null && !pc.isEmpty()) {
 				Sentence expr = FeatureExpression.getExpr(pc);
 				result = FeatureExpression.contradicts(expr, configurationExpr);
