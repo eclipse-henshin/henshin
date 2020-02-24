@@ -79,6 +79,30 @@ public class VariabilityAwareEngine {
 	}
 	
 	/**
+	 * Creates a new engine for the execution of a variability rule on a graph
+	 * 
+	 * @param rule The variability rule to be executed
+	 * @param graph The graph on which the rule should be executed
+	 * @throws InconsistentRuleException If the rule is inconsistent
+	 */
+	public VariabilityAwareEngine(VariabilityRule rule, EGraph graph) throws InconsistentRuleException {
+		this(rule.getRule(), graph, new ArrayList<String>(), new ArrayList<String>());
+	}
+	
+	/**
+	 * Creates a new engine for the execution of a variability rule on a graph
+	 * 
+	 * @param rule The variability rule to be executed
+	 * @param graph The graph on which the rule should be executed
+	 * @param initiallyTrue All features set to 'true' 
+	 * @param initiallyFalse All features set to 'false' 
+	 * @throws InconsistentRuleException If the rule is inconsistent
+	 */
+	public VariabilityAwareEngine(VariabilityRule rule, EGraph graph, List<String> initiallyTrue, List<String> initiallyFalse) throws InconsistentRuleException {
+		this(rule.getRule(), graph, initiallyTrue, initiallyFalse);
+	}
+	
+	/**
 	 * Creates a new engine for the execution of a rule on a graph
 	 * 
 	 * @param rule The rule to be executed

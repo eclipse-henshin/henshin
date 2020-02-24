@@ -101,6 +101,14 @@ public class VariabilityRule implements Rule {
 		
 		return result;
 	}
+	
+	/**
+	 * Returns the original {@link org.eclipse.emf.henshin.model.Rule}.
+	 * @return the rule.
+	 */
+	public Rule getRule() {
+		return rule;
+	}
 
 	/**
 	 * Creates a new {@link org.eclipse.emf.henshin.model.Rule} and makes it variability aware.
