@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.diagram.edit.helpers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
@@ -18,6 +19,8 @@ import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.MultiUnit;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.UnaryUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
@@ -121,6 +124,26 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 		}
 		// Otherwise search the compartment:
 		return ViewUtil.getChildBySemanticHint(view, type);
+	}
+	
+	/** delete the corresponding Mapping to invocation in Unit
+	 * @param unit
+	 * @param invocation
+	 */
+	public static void  removeParameterMappingsToInvocation(Unit unit,Unit invocation)
+	{
+		final List<Parameter>  invocationParams =invocation.getParameters();
+		ParameterMapping mapping;
+		Iterator<ParameterMapping> mappings = unit.getParameterMappings().iterator();
+		while (mappings.hasNext()) {
+			mapping = mappings.next();
+			Parameter srcParam=mapping.getSource();
+			Parameter tarParam=mapping.getTarget();
+			if(invocationParams.contains(srcParam)||invocationParams.contains(tarParam))
+			{
+				mappings.remove();
+			}
+		}
 	}
 
 }
