@@ -18,19 +18,25 @@ import static org.eclipse.emf.henshin.model.Action.Type.REQUIRE;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 
@@ -165,6 +171,7 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 			
 			// For CREATE actions, replace the image in the RHS by the origin:
 			else if (newType==CREATE) {
+				updateACsAndSubrules(rule,element,oldAction,newAction);
 				editor.replace(image);
 			}
 			
@@ -174,11 +181,14 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 				// Remove the image in the RHS:
 				editor.remove(image);
 				
+				//Need to update first, otherwise the object cannot be found
+				updateACsAndSubrules(rule,element,oldAction,newAction);
+				
 				// Move the node to the AC:
 				NestedCondition ac = getOrCreateAC(newAction, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
-				
+			  
 			} 
 			
 		}
@@ -197,6 +207,7 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 			// For NONE actions, create a copy of the element in the RHS and map to it:
 			if (newType==PRESERVE) {
 				editor.copy(element);
+				updateACsAndSubrules(rule,element,oldAction,newAction);
 			}
 			
 			// For REQUIRE / FORBID actions, move the element further to the AC:
@@ -217,6 +228,7 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 			// For PRESERVE actions, create a copy of the element in the RHS and map to it:
 			if (newType==PRESERVE) {
 				editor.copy(element);
+				updateACsAndSubrules(rule,element,oldAction,newAction);
 			}
 			
 			// For CREATE actions, move the element to the RHS:
@@ -247,6 +259,7 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 			if (newType==PRESERVE) {
 				editor = getMapEditor(rule.getRhs());
 				editor.copy(element);
+				updateACsAndSubrules(rule,element,oldAction,newAction);
 			}
 			// For CREATE actions, move the element to the RHS:
 			else if (newType==CREATE) {
@@ -268,11 +281,13 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 		oldAction = getAction(element);
 
 		// Is the old action a multi-action?
-		if (oldAction.isMulti()) {
+		if (oldAction!=null &&oldAction.isMulti()) {
 			
 			// If the new one is not a multi-action, move the element up to the root rule:
 			if (!newAction.isMulti()) {
 				moveMultiElement(rule, rule.getRootRule(), newAction, element);
+				updateACsAndSubrules(rule,element,oldAction,newAction);
+				
 			}
 			
 			// Does the new action have a different path? (it IS a multi-action)
@@ -303,7 +318,7 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 			// Then find the new target multi-rule and move the element there:
 			Rule multi = getOrCreateMultiRule(rule.getRootRule(), newAction);
 			moveMultiElement(element.getGraph().getRule(), multi, newAction, element);
-			
+			updateACsAndSubrules(rule,element,oldAction,newAction);
 		}
 		
 		// NOW EVERYTHING SHOULD BE CORRECT.
@@ -407,24 +422,6 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 		}
 
 	}
-	
-	/*
-	private void replaceNodeInMappings(Node oldNode, Node newNode) {
-		Iterator<EObject> it = newNode.getGraph().getRule().getRootRule().eAllContents();
-		while (it.hasNext()) {
-			EObject obj = it.next();
-			if (obj instanceof Mapping) {
-				Mapping m = (Mapping) obj;
-				if (m.getOrigin()==oldNode) {
-					m.setOrigin(newNode);
-				}
-				else if (m.getImage()==oldNode) {
-					m.setImage(newNode);
-				}				
-			}
-		}
-	}
-	*/
 	
 	/*
 	 * Create a new map editor for a given target graph.
@@ -570,5 +567,350 @@ public abstract class GenericActionHelper<E extends GraphElement,C extends EObje
 		}
 		return ac;
 	}
+	 
+	/**update related elements of all ACs and sub-rules inside this rule
+	 * @param rule
+	 * @param element
+	 * @param oldAction
+	 * @param newAction
+	 */
+	public void updateACsAndSubrules(Rule rule, E element, Action oldAction, Action newAction) {
+		// if element is Node
+		if (element instanceof Node) {
+			Node node = (Node) element;
+			updateACSAndSubrulesForNode(rule, oldAction, newAction, node);
+		}
+		// if element is Edge
+		else if (element instanceof Edge) {
+			Edge edge = (Edge) element;
+			updateACSAndSubrulesForEdge(rule, oldAction, newAction, edge);
+		}
+	}
+
+	private void updateACSAndSubrulesForEdge(Rule rule, Action oldAction, Action newAction, Edge edge) {
+		//if delete edge
+		if (newAction == null)
+		{
+			 removeEdgeFromAllACsOfAllSubrulesWithRecursion(rule, edge); 
+			 removeEdgeFromAllSubRulesOfRuleWithRecursion(rule, edge); 
+		}
+		// if create edge
+		else if(oldAction==null)
+		{
+			if(newAction.getType()==Action.Type.PRESERVE)
+			{
+				completeAllSubRulesOfRuleWithRecursion(rule);
+				copyEdgeToAllACsOfRuleWithRecursion(rule, edge);
+			}
+		}
+		//if edit edge 
+		else if ((!oldAction.isMulti()&&!newAction.isMulti())
+				   || (oldAction.isMulti()&&newAction.isMulti()))
+		{
+			if(oldAction.getType()==Action.Type.PRESERVE)
+			{
+				 if(newAction.getType()==Action.Type.FORBID
+						 ||newAction.getType()==Action.Type.CREATE
+								 ||newAction.getType()==Action.Type.REQUIRE
+								   	  ||newAction.getType()==Action.Type.DELETE)
+				 {
+					 removeEdgeFromAllACsOfRuleWithRecursion(rule, edge);
+					//  not allow to remove edge from all sub-rule, otherwise cause error
+					 removeEdgeFromAllSubRulesOfRuleWithRecursion(rule, edge);
+				 }
+			}
+			else if(oldAction.getType()==Action.Type.FORBID
+					||oldAction.getType()==Action.Type.CREATE
+					   ||oldAction.getType()==Action.Type.REQUIRE
+					     ||oldAction.getType()==Action.Type.DELETE)
+			{
+				if(newAction.getType()==Action.Type.PRESERVE)
+				{
+					completeAllSubRulesOfRuleWithRecursion(rule);
+					copyEdgeToAllACsOfRuleWithRecursion(rule, edge);
+				}
+			}
+		}
+	}
+
+	private void updateACSAndSubrulesForNode(Rule rule, Action oldAction, Action newAction, Node node) {
+		//if new Node is created
+		if (oldAction == null)
+		{
+			if(newAction==null) {
+			 
+			}
+			else if(!newAction.isMulti())
+			{
+				if(newAction.getType()==Action.Type.PRESERVE)
+				{
+					completeAllSubRulesOfRuleWithRecursion(rule);
+					copyNodeToAllACsOfRuleWithRecursion(rule, node);
+				}
+			}
+		}
+		else if ((!oldAction.isMulti()&&!newAction.isMulti())
+				   || (oldAction.isMulti()&&newAction.isMulti()))
+		{
+			if(oldAction.getType()==Action.Type.PRESERVE)
+			{
+				 if(newAction.getType()==Action.Type.FORBID
+						 ||newAction.getType()==Action.Type.CREATE
+								 ||newAction.getType()==Action.Type.REQUIRE
+								   	  ||newAction.getType()==Action.Type.DELETE)
+				 {
+					 removeNodeFromAllACsOfRuleWithRecursion(rule, node);
+					 removeNodeFromAllSubRulesOfRuleWithRecursion(rule, node);
+				 }
+			}
+			else if(oldAction.getType()==Action.Type.FORBID
+					||oldAction.getType()==Action.Type.CREATE
+					   ||oldAction.getType()==Action.Type.REQUIRE
+					     ||oldAction.getType()==Action.Type.DELETE)
+			{
+				if(newAction.getType()==Action.Type.PRESERVE)
+				{
+					completeAllSubRulesOfRuleWithRecursion(rule);
+					copyNodeToAllACsOfRuleWithRecursion(rule, node);
+				}
+			}
+		}
+		else if (!oldAction.isMulti()&&newAction.isMulti())
+		{
+			if(oldAction.getType()==Action.Type.PRESERVE)
+			{
+				if(newAction.getType()==Action.Type.PRESERVE)
+				{
+					removeNodeFromAllACsOfRuleWithRecursion(rule, node);
+					removeNodeFromAllSubRulesOfRuleWithRecursion(rule, node);
+					completeAllSubRulesOfRuleWithRecursion(rule);
+					copyNodeToAllACsOfAllSubrulesWithRecursion(rule, node);
+				}
+				else 
+				{
+					removeNodeFromAllACsOfRuleWithRecursion(rule, node);
+					removeNodeFromAllSubRulesOfRuleWithRecursion(rule, node);
+				}
+			}
+			else if(oldAction.getType()==Action.Type.FORBID
+					||oldAction.getType()==Action.Type.CREATE
+					   ||oldAction.getType()==Action.Type.REQUIRE
+					     ||oldAction.getType()==Action.Type.DELETE)
+			{
+				if(newAction.getType()==Action.Type.PRESERVE)
+				{
+					completeAllSubRulesOfRuleWithRecursion(rule);
+					copyNodeToAllACsOfAllSubrulesWithRecursion(rule, node);
+				}
+			}
+				 
+		}
+		else if (oldAction.isMulti()&&!newAction.isMulti())
+		{
+			if(oldAction.getType()==Action.Type.PRESERVE)
+			{
+				if(newAction.getType()==Action.Type.PRESERVE)
+				{
+					removeNodeFromAllACsOfRuleWithRecursion(rule, node);
+					removeNodeFromAllSubRulesOfRuleWithRecursion(rule, node);
+					completeAllSubRulesOfRuleWithRecursion(rule.getRootRule());
+					copyNodeToAllACsOfRuleWithRecursion(rule.getRootRule(), node);
+				}
+				else 
+				{
+					removeNodeFromAllACsOfRuleWithRecursion(rule, node);
+					removeNodeFromAllSubRulesOfRuleWithRecursion(rule, node);
+				}
+			}
+			else if(oldAction.getType()==Action.Type.FORBID
+					||oldAction.getType()==Action.Type.CREATE
+					   ||oldAction.getType()==Action.Type.REQUIRE
+					     ||oldAction.getType()==Action.Type.DELETE)
+			{
+				if(newAction.getType()==Action.Type.PRESERVE)
+				{
+					completeAllSubRulesOfRuleWithRecursion(rule.getRootRule());
+					copyNodeToAllACsOfAllSubrulesWithRecursion(rule.getRootRule(), node);
+				}
+			}
+		}
+	}
+
+	private void completeAllSubRulesOfRuleWithRecursion(Rule rule)
+	{
+		EList<Rule> subUnits= rule.getAllMultiRules();
+		for (Rule multi : subUnits) {
+			MultiRuleMapEditor editor = new MultiRuleMapEditor(rule, multi);
+			editor.ensureCompleteness();
+			completeAllSubRulesOfRuleWithRecursion(multi);
+		}
+	}
+
+	
+	/*********edge operation**************/
+	private void copyEdgeToAllACsOfRuleWithRecursion(Rule rule, Edge edge)
+	{
+		copyEdgeToAllACsOfRule(rule, edge);
+		copyEdgeToAllACsOfAllSubrulesWithRecursion(rule, edge);
+	}
+	private void copyEdgeToAllACsOfAllSubrulesWithRecursion(Rule kernrule, Edge edge)
+	{
+		EList<Rule> subUnits= kernrule.getAllMultiRules();
+		for (Rule multi : subUnits) {
+			Edge eImage = multi.getMultiMappings().getImage(edge, null);
+			if(null!=eImage)
+			{
+			copyEdgeToAllACsOfRule(multi,eImage);
+			copyEdgeToAllACsOfAllSubrulesWithRecursion(multi,eImage);
+			}
+		}
+		
+	} 
+	private void copyEdgeToAllACsOfRule(Rule rule, Edge edge)
+	{
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			if(rule.getLhs().getEdges().contains(edge))
+		   {
+				MapEditor<Edge> editorACEdges = new EdgeMapEditor(rule.getLhs(), nc.getConclusion(), nc.getMappings());
+				editorACEdges.copy(edge);
+		   }
+		}
+	}
+	private void removeEdgeFromAllSubRulesOfRuleWithRecursion(Rule rule, Edge edge) {
+		EList<Rule> subUnits = rule.getAllMultiRules();
+		for (Rule multi : subUnits) {
+			Edge leImage = multi.getMultiMappings().getImage(edge, null);
+			if (null != leImage) {
+				Edge reImage = multi.getMappings().getImage(leImage, null);
+				
+				if (null != reImage) {
+					multi.removeEdge(leImage, false);
+					multi.removeEdge(reImage, false);
+					removeEdgeFromAllSubRulesOfRuleWithRecursion(multi, reImage);
+				}
+				else {
+					multi.removeEdge(leImage, false);
+					removeEdgeFromAllSubRulesOfRuleWithRecursion(multi, leImage);
+				}
+			}
+		}
+	}
+	private void removeEdgeFromAllACsOfRuleWithRecursion(Rule rule, Edge edge)
+	{
+		removeEdgeFromAllACsOfRule(rule, edge);
+		removeEdgeFromAllACsOfAllSubrulesWithRecursion(rule, edge);
+	}
+	private void removeEdgeFromAllACsOfAllSubrulesWithRecursion(Rule kernrule, Edge edge)
+	{
+		EList<Rule> subUnits= kernrule.getAllMultiRules();
+		for (Rule multi : subUnits) {
+			Edge eImage = multi.getMultiMappings().getImage(edge, null);
+			if(null!=eImage)
+			{
+				removeEdgeFromAllACsOfRule(multi,eImage);
+				removeEdgeFromAllACsOfAllSubrulesWithRecursion(multi,eImage);
+			}
+		}
+		
+	}
+	private void removeEdgeFromAllACsOfRule(Rule rule, Edge edge)
+	{
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			MapEditor<Edge> editorACEdges = new EdgeMapEditor(rule.getLhs(), nc.getConclusion(), nc.getMappings());
+			EList<Edge> edges = nc.getConclusion().getEdges();
+			Edge eimage = editorACEdges.getOpposite(edge);
+			if (null!=eimage&&edges.contains(eimage)) {
+				nc.getConclusion().removeEdge(eimage);
+			}
+		}
+	}
+	/*********end  Edge operation**************/
+	/*********node operation**************/
+	private void copyNodeToAllACsOfRuleWithRecursion(Rule rule, Node node)
+	{
+		copyNodeToAllACsOfRule(rule, node);
+		copyNodeToAllACsOfAllSubrulesWithRecursion(rule, node);
+	}
+	private void copyNodeToAllACsOfAllSubrulesWithRecursion(Rule kernrule, Node node)
+	{
+		EList<Rule> subUnits= kernrule.getAllMultiRules();
+		for (Rule multi : subUnits) {
+			Node eImage = multi.getMultiMappings().getImage(node, null);
+			if(null!=eImage)
+			{
+			copyNodeToAllACsOfRule(multi,eImage);
+			copyNodeToAllACsOfAllSubrulesWithRecursion(multi,eImage);
+			}
+		}
+		
+	}
+	private void copyNodeToAllACsOfRule(Rule rule, Node node)
+	{
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			if(rule.getLhs().getNodes().contains(node))
+		   {
+				MapEditor<Node> editorACNodes = new NodeMapEditor(rule.getLhs(), nc.getConclusion(), nc.getMappings());
+				editorACNodes.copy(node);
+		   }
+		}
+	}
+	private void removeNodeFromAllACsOfRuleWithRecursion(Rule rule, Node node)
+	{
+		removeNodeFromAllACsOfRule(rule, node);
+		removeNodeFromAllACsOfAllSubrulesWithRecursion(rule, node);
+	}
+	private void removeNodeFromAllSubRulesOfRuleWithRecursion(Rule rule, Node node)
+	{
+		EList<Rule> subUnits= rule.getAllMultiRules();
+		for (Rule multi : subUnits) {
+			Node eImage = multi.getMultiMappings().getImage(node, null);
+			if(null!=eImage)
+			{
+			//node is only possible in LHS
+			multi.getLhs().removeNode(eImage);
+			multi.getMultiMappings().remove(node, eImage);
+			removeNodeFromAllSubRulesOfRuleWithRecursion(multi,eImage);
+			}
+		}
+	}
+	private void removeNodeFromAllACsOfAllSubrulesWithRecursion(Rule kernrule, Node node)
+	{
+		EList<Rule> subUnits= kernrule.getAllMultiRules();
+		for (Rule multi : subUnits) {
+			Node eImage = multi.getMultiMappings().getImage(node, null);
+			if(null!=eImage)
+			{
+				removeNodeFromAllACsOfRule(multi,eImage);
+				removeNodeFromAllACsOfAllSubrulesWithRecursion(multi,eImage);
+			}
+		}
+		
+	}
+	private void removeNodeFromAllACsOfRule(Rule rule, Node node)
+	{
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			removeNodeFromAC(node, nc);
+		}
+	}
+	private void removeNodeFromAC(Node node, NestedCondition nc) {
+		Set<Mapping> mappings = new HashSet<Mapping>();
+		for (Mapping m : nc.getMappings()) {
+			mappings.add(m);
+		}
+		Node imageNode = null;
+		for (Mapping m : mappings) {
+			if (m.getOrigin() == node) {
+				imageNode = m.getImage();
+				m.setOrigin(null);
+				m.setImage(null);
+				EcoreUtil.remove(m);
+			}
+		}
+		if (null != imageNode) {
+			nc.getConclusion().removeNode(imageNode);
+		}
+	}
+	/*********End  node Operation**************/
+	
 
 }

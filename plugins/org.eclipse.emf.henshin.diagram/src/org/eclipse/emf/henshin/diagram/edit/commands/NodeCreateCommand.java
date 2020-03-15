@@ -33,8 +33,13 @@ import org.eclipse.emf.henshin.diagram.preferences.DiagramPreferenceInitializer;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Action.Type;
+import org.eclipse.emf.henshin.model.actions.MapEditor;
+import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
+import org.eclipse.emf.henshin.model.actions.NodeMapEditor;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
@@ -154,8 +159,15 @@ public class NodeCreateCommand extends EditElementCommand {
 			action = dialog.getAction();
 		}
 		try {
+			//Set action of node
 			node.setAction(action);
+			
+			//update the ACs in the rule
+		    NodeActionHelper.INSTANCE.updateACsAndSubrules(rule,node,null,action);
+			
+			//Set default-action for the next operation 
 			RuleEditHelper.setDefaultAction(rule, action);
+			
 		} catch (Throwable t) {
 			HenshinDiagramEditorPlugin.getInstance().logError("Error setting node action", t);
 		}
@@ -208,7 +220,7 @@ public class NodeCreateCommand extends EditElementCommand {
 				}
 			}
 		}
-
+		
 	}
 
 	/**

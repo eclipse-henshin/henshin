@@ -18,6 +18,7 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -56,8 +57,12 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		}
 		Rule rule = edge.getGraph().getRule();
 		
+		//update the ACs in the rule
+	    EdgeActionHelper.INSTANCE.updateACsAndSubrules(rule,edge,edge.getAction(),null);
+		
 		// Remove the edge.
 		doRemove(edge);
+		
 		
 		// Clean up:
 		HenshinModelCleaner.cleanRule(rule.getRootRule());
