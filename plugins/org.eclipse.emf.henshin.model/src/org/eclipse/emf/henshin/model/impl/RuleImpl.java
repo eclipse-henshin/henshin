@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
@@ -639,8 +640,14 @@ public class RuleImpl extends UnitImpl implements Rule {
 
 		// Check if there is an edge and create a new one if necessary:
 		Edge edge = source.getOutgoing(type, target);
+
 		if (edge==null) {
-			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);			
+			Boolean changeToForbid=shouldSetTypeForbid(source, target, type);
+			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);	
+			if(changeToForbid)
+			{
+				edge.setAction(new Action(Type.FORBID));
+			}
 		}
 		
 		// If the source and the target lie both in an LHS, try to create an image in the RHS as well:
@@ -716,6 +723,65 @@ public class RuleImpl extends UnitImpl implements Rule {
 		// Everything ok:
 		return true;
 	}
+	
+	
+	/**  determine if the type of newly created edge needs to be changed to forbid
+	 * @param source
+	 * @param target
+	 * @param type
+	 * @return
+	 */
+	private Boolean shouldSetTypeForbid(Node source, Node target, EReference type)
+	{
+		        // Get the source and target graphs:
+				Graph sourceGraph = source.getGraph();
+				Graph targetGraph = target.getGraph();
+				if (sourceGraph==null || targetGraph==null) {
+					return false;
+				}
+
+				// Get the rules:
+				Rule sourceRule = sourceGraph.getRule();
+				Rule targetRule = targetGraph.getRule();
+				if (sourceRule==null || targetRule==null) {
+					return false;
+				}
+				if (sourceRule==targetRule) {
+					//same Graph
+					if (sourceGraph==targetGraph) {		 
+						// If create Edge is found on the right
+						if (createEdgeInRhsExists(source, target, type)) {
+							// Check if the edge already exists in NAC
+							if (source.getGraph().getNACs().size() > 0) {
+								for (NestedCondition nac : source.getGraph().getNACs()) {
+									Node nACSrc = null;
+									Node nACTrg = null;
+									for (Node node : nac.getConclusion().getNodes()) {
+										if (node.getActionNode() == source) {
+											nACSrc = node;
+										} else if (node.getActionNode() == target) {
+											nACTrg = node;
+										}
+									}
+									if (nACSrc != null && nACTrg != null) {
+										Edge edge = nACSrc.getOutgoing(type, nACTrg);
+										if (edge != null &&edge.getAction()!=null&& edge.getAction().getType() == Action.Type.FORBID) {
+											//if exists, do nothing
+											return false;
+										} else {
+											return true;
+										}
+									}
+								}
+							}
+							else {
+								return true;
+							}
+						}
+					}
+				}
+		return false;
+	}
 
 	/*
 	 * Get the source and target nodes to be used for creating an edge.
@@ -752,7 +818,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 		// Same rule?
 		if (sourceRule==targetRule) {
 			if (sourceGraph==targetGraph) {		// same graphs?
-				if (!forbidEdgeExists(source, target, type)) {
+				 if (!forbidEdgeExists(source, target, type)) {
 					result.add(source);
 					result.add(target);					
 				} else {  						// create the edge only in the RHS
@@ -822,7 +888,31 @@ public class RuleImpl extends UnitImpl implements Rule {
 		return (result==null || result.isEmpty()) ? null : result;
 		
 	}
-	
+	private boolean createEdgeInRhsExists(Node source, Node target, EReference type) {
+		if (source.getAction() == null || target.getAction() == null || 
+				source.getAction().getType() != Action.Type.PRESERVE &&
+				target.getAction().getType() != Action.Type.PRESERVE)
+			return false;
+		//check if create edge in RHS
+		Node rhsSource = null;
+		Node rhsTarget = null;
+		for (Node node : rhs.getNodes()) {
+			if (node.getActionNode() == source) 
+				rhsSource = node;
+			if (node.getActionNode() == target)
+				rhsTarget = node;
+		}
+		if (rhsSource != null && rhsTarget != null) {
+			Edge rhsEdge = rhsSource.getOutgoing(type, rhsTarget);
+			if (rhsEdge != null)
+				if (rhsEdge.getAction().getType() == Action.Type.CREATE)
+				{
+					return true;
+				}
+		}
+		
+		return false;
+	}
 
 	private boolean forbidEdgeExists(Node source, Node target, EReference type) {
 		if (source.getAction() == null || target.getAction() == null || 
