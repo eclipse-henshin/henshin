@@ -22,6 +22,8 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
+import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -125,7 +127,10 @@ public class EdgeCreateCommand extends EditElementCommand {
 
 		// Create the edge:
 		Edge edge = rule.createEdge(getSource(), getTarget(), type);
-
+		
+		//update the ACs in the rule
+	    EdgeActionHelper.INSTANCE.updateACsAndSubrules(rule,edge,null,edge.getAction());
+	    
 		// Update the root containment is the edge is containment / container:
 		if (type.isContainment() || type.isContainer()) {
 			View ruleView = RuleEditHelper.findRuleView(rule);
