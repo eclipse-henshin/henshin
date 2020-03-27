@@ -107,7 +107,7 @@ public class ProfilingApplicationMonitor extends BasicApplicationMonitor {
 	 * @return The total execution time
 	 */
 	private long getTotalExecutionTime(Rule rule) {
-		if(executions.containsKey(rule)) {
+		if(durations.containsKey(rule)) {
 			return durations.get(rule);
 		}
 		return 0;
