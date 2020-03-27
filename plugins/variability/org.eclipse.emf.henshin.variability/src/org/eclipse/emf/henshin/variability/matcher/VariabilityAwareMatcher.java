@@ -10,7 +10,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -44,89 +46,85 @@ import aima.core.logic.propositional.parsing.ast.Sentence;
  * @author Daniel Str�ber
  *
  */
-public class VariabilityAwareEngine {
+public class VariabilityAwareMatcher {
 
 	protected Rule rule;
 	protected EGraph graph;
 	protected EngineImpl engine;
-	
+
 	protected Map<String, Sentence> expressions;
 
 	protected RuleInfo ruleInfo;
 	protected RulePreparator rulePreparator;
 
-	protected List<String> initiallyTrueFeatures; 
-	protected List<String> initiallyFalseFeatures; 
+	protected Collection<String> initiallyTrueFeatures;
+	protected Collection<String> initiallyFalseFeatures;
 
 	/**
 	 * Variability-based matching needs to create a new matching engine for each
 	 * base match. Hence, if the number of base matches is too great, performance
 	 * will suffer due to the initialization effort.
 	 */
-	protected int THRESHOLD_MAXIMUM_BASE_MATCHES = 10;
+	protected static final int THRESHOLD_MAXIMUM_BASE_MATCHES = 10;
 
-	private static Map<Rule, RuleInfo> ruleInfoRegistry = new HashMap<Rule, RuleInfo>();
+	private static Map<Rule, RuleInfo> ruleInfoRegistry = new HashMap<>();
 
 	/**
 	 * Creates a new engine for the execution of a rule on a graph
 	 * 
-	 * @param rule The rule to be executed
+	 * @param rule  The rule to be executed
 	 * @param graph The graph on which the rule should be executed
 	 * @throws InconsistentRuleException If the rule is inconsistent
 	 */
-	public VariabilityAwareEngine(Rule rule, EGraph graph) throws InconsistentRuleException {
-		this(rule, graph, new ArrayList<String>(), new ArrayList<String>());
-	}
-	
-	/**
-	 * Creates a new engine for the execution of a variability rule on a graph
-	 * 
-	 * @param rule The variability rule to be executed
-	 * @param graph The graph on which the rule should be executed
-	 * @throws InconsistentRuleException If the rule is inconsistent
-	 */
-	public VariabilityAwareEngine(VariabilityRule rule, EGraph graph) throws InconsistentRuleException {
-		this(rule.getRule(), graph, new ArrayList<String>(), new ArrayList<String>());
-	}
-	
-	/**
-	 * Creates a new engine for the execution of a variability rule on a graph
-	 * 
-	 * @param rule The variability rule to be executed
-	 * @param graph The graph on which the rule should be executed
-	 * @param initiallyTrue All features set to 'true' 
-	 * @param initiallyFalse All features set to 'false' 
-	 * @throws InconsistentRuleException If the rule is inconsistent
-	 */
-	public VariabilityAwareEngine(VariabilityRule rule, EGraph graph, List<String> initiallyTrue, List<String> initiallyFalse) throws InconsistentRuleException {
-		this(rule.getRule(), graph, initiallyTrue, initiallyFalse);
+	public VariabilityAwareMatcher(Rule rule, EGraph graph) throws InconsistentRuleException {
+		this(rule, graph, new ArrayList<>(), new ArrayList<>());
 	}
 	
 	/**
 	 * Creates a new engine for the execution of a rule on a graph
 	 * 
-	 * @param rule The rule to be executed
-	 * @param graph The graph on which the rule should be executed
-	 * @param initiallyTrue All features set to 'true' 
-	 * @param initiallyFalse All features set to 'false' 
+	 * @param rule           The rule to be executed
+	 * @param graph          The graph on which the rule should be executed
+	 * @param initiallyTrue  All features set to 'true'
+	 * @param initiallyFalse All features set to 'false'
 	 * @throws InconsistentRuleException If the rule is inconsistent
 	 */
-	public VariabilityAwareEngine(Rule rule, EGraph graph, List<String> initiallyTrue, List<String> initiallyFalse) throws InconsistentRuleException {
+	public VariabilityAwareMatcher(Rule rule, EGraph graph, Map<String, Boolean> configuration)
+			throws InconsistentRuleException {
+		this(rule, graph,
+				configuration.entrySet().parallelStream().filter(Entry::getValue).map(Entry::getKey)
+						.collect(Collectors.toSet()),
+				configuration.entrySet().parallelStream().filter(e -> !e.getValue()).map(Entry::getKey)
+						.collect(Collectors.toSet()));
+	}
+
+	/**
+	 * Creates a new engine for the execution of a rule on a graph
+	 * 
+	 * @param rule           The rule to be executed
+	 * @param graph          The graph on which the rule should be executed
+	 * @param initiallyTrue  All features set to 'true'
+	 * @param initiallyFalse All features set to 'false'
+	 * @throws InconsistentRuleException If the rule is inconsistent
+	 */
+	public VariabilityAwareMatcher(Rule rule, EGraph graph, Collection<String> initiallyTrue,
+			Collection<String> initiallyFalse) throws InconsistentRuleException {
 		super();
 		fixInconsistencies(rule);
-		if(!RuleUtil.checkRule(rule)) {
+		if (!RuleUtil.checkRule(rule)) {
 			throw new InconsistentRuleException();
 		}
 		this.rule = rule;
 		this.graph = graph;
 		this.engine = new EngineImpl();
 		this.rulePreparator = new RulePreparator(rule);
-		
+
 		this.initiallyTrueFeatures = initiallyTrue;
 		this.initiallyFalseFeatures = initiallyFalse;
-		
-		if (!ruleInfoRegistry.containsKey(rule))
+
+		if (!ruleInfoRegistry.containsKey(rule)) {
 			ruleInfoRegistry.put(rule, new RuleInfo(rule));
+		}
 		this.ruleInfo = ruleInfoRegistry.get(rule);
 		populateExpressionMap();
 	}
@@ -141,10 +139,10 @@ public class VariabilityAwareEngine {
 
 			if (!origin.getPresenceCondition().equals(image.getPresenceCondition())) {
 				image.setPresenceCondition(origin.getPresenceCondition());
-			}	
+			}
 		}
 	}
-	
+
 	private void populateExpressionMap() {
 		if (ruleInfoRegistry.containsKey(rule)) {
 			expressions = ruleInfo.getExpressions();
@@ -155,11 +153,11 @@ public class VariabilityAwareEngine {
 		List<Sentence> conditions = new LinkedList<Sentence>();
 		conditions.addAll(expressions.values());
 		MatchingInfo mo = new MatchingInfo(conditions, ruleInfo, initiallyTrueFeatures, initiallyFalseFeatures);
-		
+
 		// Remove everything except for the base rule
 		Set<Sentence> nonTauotologies = getNonTautologies(mo);
 		rulePreparator.prepare(ruleInfo, nonTauotologies, rule.isInjectiveMatching(), true);
-		
+
 		Set<Match> baseMatches = new HashSet<Match>();
 		Iterator<Match> it = engine.findMatches(rule, graph, null).iterator();
 		while (it.hasNext()) {
@@ -185,10 +183,10 @@ public class VariabilityAwareEngine {
 		return matches;
 	}
 
-	private Set<Sentence> getNonTautologies(MatchingInfo matchingInfo) {	
+	private Set<Sentence> getNonTautologies(MatchingInfo matchingInfo) {
 		Set<Sentence> newImplicated = getNewImplicated(matchingInfo);
 		matchingInfo.setAll(newImplicated, null, true);
-				
+
 		Set<Sentence> result = new HashSet<Sentence>(matchingInfo.getNeutrals());
 		result.addAll(matchingInfo.getAssumedFalse());
 		return result;
@@ -212,8 +210,9 @@ public class VariabilityAwareEngine {
 	}
 
 	private Sentence getFirstNeutral(MatchingInfo matchingInfo) {
+		Set<Sentence> contradictory = getNewContradictory(matchingInfo);
 		for (Sentence e : matchingInfo.getInfo().keySet()) {
-			if (matchingInfo.getInfo().get(e) == null)
+			if (matchingInfo.getInfo().get(e) == null && !contradictory.contains(e))
 				return e;
 		}
 		return null;
@@ -266,7 +265,7 @@ public class VariabilityAwareEngine {
 	}
 
 	private Set<Sentence> getNewContradictory(MatchingInfo mo) {
-		Set<Sentence> result = new HashSet<Sentence>();
+		Set<Sentence> result = new HashSet<>();
 		Sentence knowledge = getKnowledgeBase(mo);
 		for (Sentence e : mo.getNeutrals())
 			if (FeatureExpression.contradicts(knowledge, e))
@@ -294,11 +293,6 @@ public class VariabilityAwareEngine {
 		return fe;
 	}
 
-	private static boolean presenceConditionEmpty(GraphElement elem) {
-		String presenceCondition = VariabilityFactory.INSTANCE.createVariabilityGraphElement(elem).getPresenceCondition();
-		return (presenceCondition == null) || presenceCondition.isEmpty();
-	}
-
 	public static class RuleInfo {
 		VariabilityRule rule;
 		Map<String, Sentence> usedExpressions;
@@ -306,7 +300,6 @@ public class VariabilityAwareEngine {
 		Map<Node, Set<Mapping>> node2Mapping;
 		Sentence featureModel;
 		Sentence injectiveMatching;
-		
 
 		public RuleInfo(Rule rule) {
 			this.rule = VariabilityFactory.INSTANCE.createVariabilityRule(rule);
@@ -343,15 +336,15 @@ public class VariabilityAwareEngine {
 		}
 
 		public void populateMaps() {
-			usedExpressions = new HashMap<String, Sentence>();
-			node2Mapping = new HashMap<Node, Set<Mapping>>();
-			pc2elem = new HashMap<Sentence, Set<GraphElement>>();
+			usedExpressions = new HashMap<>();
+			node2Mapping = new HashMap<>();
+			pc2elem = new HashMap<>();
 			TreeIterator<EObject> it = rule.eAllContents();
 			while (it.hasNext()) {
 				EObject o = it.next();
 				if (o instanceof Node || o instanceof Edge || o instanceof Attribute) {
 					VariabilityGraphElement g = VariabilityFactory.INSTANCE.createVariabilityGraphElement((GraphElement) o);
-					if (!presenceConditionEmpty(g)) {
+					if (!RuleInfo.presenceConditionEmpty(g)) {
 						String pc = g.getPresenceCondition();
 						Sentence expr = FeatureExpression.getExpr(pc);
 						usedExpressions.put(pc, expr);
@@ -373,18 +366,18 @@ public class VariabilityAwareEngine {
 					Node origin = m.getOrigin();
 					set = node2Mapping.get(origin);
 					if (set == null) {
-						set = new HashSet<Mapping>();
+						set = new HashSet<>();
 						node2Mapping.put(origin, set);
 					}
 					set.add(m);
 				}
 			}
 
-			if (featureModel != null && !featureModel.equals("")) {
-				if (!pc2elem.containsKey(featureModel))
-					pc2elem.put(featureModel, new HashSet<GraphElement>());
+			if (featureModel != null && !featureModel.equals("") 
+					&& !pc2elem.containsKey(featureModel)) {
+				pc2elem.put(featureModel, new HashSet<GraphElement>());
 			}
-			
+
 		}
 
 		public Map<Node, Set<Mapping>> getNode2Mapping() {
@@ -395,16 +388,22 @@ public class VariabilityAwareEngine {
 			return injectiveMatching;
 		}
 
+		private static boolean presenceConditionEmpty(GraphElement elem) {
+			String presenceCondition = VariabilityFactory.INSTANCE.createVariabilityGraphElement(elem).getPresenceCondition();
+			return (presenceCondition == null) || presenceCondition.isEmpty();
+		}
+
 	}
 
 	public static class MatchingInfo {
-		private Map<Sentence, Boolean> info = new LinkedHashMap<Sentence, Boolean>();
-		private Set<Sentence> assumedTrue = new HashSet<Sentence>();
-		private Set<Sentence> assumedFalse = new HashSet<Sentence>();
-		private Set<Sentence> neutrals = new HashSet<Sentence>();
-		private Set<BitSet> matchedSubRules = new HashSet<BitSet>();
+		private Map<Sentence, Boolean> info = new LinkedHashMap<>();
+		private Set<Sentence> assumedTrue = new HashSet<>();
+		private Set<Sentence> assumedFalse = new HashSet<>();
+		private Set<Sentence> neutrals = new HashSet<>();
+		private Set<BitSet> matchedSubRules = new HashSet<>();
 
-		public MatchingInfo(List<Sentence> conditions, RuleInfo ruleInfo, List<String> initiallyTrue, List<String> initiallyFalse) {
+		public MatchingInfo(Collection<Sentence> conditions, RuleInfo ruleInfo, Collection<String> initiallyTrue,
+				Collection<String> initiallyFalse) {
 			for (Sentence expr : conditions) {
 				info.put(expr, null);
 			}
@@ -424,23 +423,21 @@ public class VariabilityAwareEngine {
 			}
 		}
 
-		public void set(Sentence expr, Boolean old, Boolean new_) {
+		private void set(Sentence expr, Boolean old, Boolean new_) {
 			if (old == null) {
 				neutrals.remove(expr);
+			} else if (Boolean.TRUE.equals(old)) {
+				assumedTrue.remove(expr);
 			} else {
-				if (old)
-					assumedTrue.remove(expr);
-				else
-					assumedFalse.remove(expr);
+				assumedFalse.remove(expr);
 			}
 
 			if (new_ == null) {
 				neutrals.add(expr);
+			} else if (Boolean.TRUE.equals(new_)) {
+				assumedTrue.add(expr);
 			} else {
-				if (new_)
-					assumedTrue.add(expr);
-				else
-					assumedFalse.add(expr);
+				assumedFalse.add(expr);
 			}
 
 			info.put(expr, new_);

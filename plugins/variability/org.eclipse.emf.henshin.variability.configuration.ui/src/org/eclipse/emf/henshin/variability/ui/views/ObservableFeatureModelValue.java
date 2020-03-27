@@ -10,7 +10,6 @@ import org.eclipse.emf.databinding.internal.EMFObservableValueDecorator;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.wrapper.TransactionalVariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityConstants;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
 
@@ -90,10 +89,9 @@ public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 	public String getValue() {
 		VariabilityRule rule = getTargetVariabilityRule();
 		if (rule != null) {
-			return getTargetVariabilityRule().getFeatureModel();			
-		} else {
-			return value.getValue().toString();
+			return rule.getFeatureModel();			
 		}
+		return value.getValue();
 	}
 
 	@Override

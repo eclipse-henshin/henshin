@@ -6,23 +6,29 @@
     xmlns:flyweightjava="http://flyweightjava"
     xsi:schemaLocation="http://flyweightjava Java.ecore"
     name="p">
-  <classes name="a">
+  <classes name="c">
     <methods
         name="m1"/>
-    <fields
-        name="f1"/>
-  </classes>
-  <classes name="b">
     <methods
         name="m2"/>
     <methods
         name="m3"/>
-  </classes>
-  <classes name="c">
     <methods
         name="m4"/>
     <methods
         name="m5"/>
+    <methods
+        name="m6"/>
+    <methods
+        name="m7"/>
+    <methods
+        name="m8"/>
+    <methods
+        name="m9"/>
+    <methods
+        name="m10"/>
+    <methods
+        name="m11"/>
     <fields
         name="f2"/>
   </classes>

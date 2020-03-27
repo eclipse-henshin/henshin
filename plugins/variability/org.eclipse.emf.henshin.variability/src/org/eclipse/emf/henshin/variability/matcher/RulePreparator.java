@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareEngine.RuleInfo;
+import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareMatcher.RuleInfo;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityGraphElement;
 
@@ -44,7 +44,7 @@ public class RulePreparator {
 	private boolean injectiveMatching;
 	private boolean injectiveMatchingOriginal;
 	private boolean baseRule;
-	
+
 	public HashSet<Node> removeNodes;
 	public HashSet<Edge> removeEdges;
 	public HashSet<Attribute> removeAttributes;
@@ -59,18 +59,16 @@ public class RulePreparator {
 	public HashMap<Formula, EStructuralFeature> pulledUpFormulasToContainingRef;
 	public HashMap<Formula, EObject> pulledUpFormulasToOldContainer;
 	public HashMap<Formula, EStructuralFeature> pulledUpFormulasToOldContainingRef;
-	
 
 	public RulePreparator(Rule rule) {
 		this.rule = rule;
 		this.checkDangling = rule.isCheckDangling();
 	}
-	
-	
+
 	/**
 	 * Prepares the rule for variability-based merging and rule application:
-	 * rejected elements and removed and the "injective" flag is set. Assumes
-	 * that the reject() method has been invoked method before.
+	 * rejected elements and removed and the "injective" flag is set. Assumes that
+	 * the reject() method has been invoked method before.
 	 * 
 	 * @param rule
 	 * @param ruleInfo
@@ -78,73 +76,74 @@ public class RulePreparator {
 	 * @param executed
 	 * @return
 	 */
-	public BitSet prepare(RuleInfo ruleInfo, Set<Sentence> rejected,
-			boolean injectiveMatching, boolean baseRule) {
+	public BitSet prepare(RuleInfo ruleInfo, Set<Sentence> rejected, boolean injectiveMatching, boolean baseRule) {
 		this.baseRule = baseRule;
 		this.injectiveMatching = injectiveMatching;
 		injectiveMatchingOriginal = ruleInfo.rule.isInjectiveMatching();
-		removeElementContainers = new HashMap<EObject, EObject>();
-		removeNodes = new HashSet<Node>();
-		removeEdges = new HashSet<Edge>();
-		removeAttributes = new HashSet<Attribute>();
-		removeEdgeSources = new HashMap<Edge, Node>();
-		removeEdgeTargets = new HashMap<Edge, Node>();
-		removeMappings = new HashSet<Mapping>();
-		removeMappingContainingRef = new HashMap<Mapping, EStructuralFeature>();
-		removeFormulaContainingRef = new HashMap<Formula, EStructuralFeature>();
-		removeFormulas = new HashSet<Formula>();
+		removeElementContainers = new HashMap<>();
+		removeNodes = new HashSet<>();
+		removeEdges = new HashSet<>();
+		removeAttributes = new HashSet<>();
+		removeEdgeSources = new HashMap<>();
+		removeEdgeTargets = new HashMap<>();
+		removeMappings = new HashSet<>();
+		removeMappingContainingRef = new HashMap<>();
+		removeFormulaContainingRef = new HashMap<>();
+		removeFormulas = new HashSet<>();
 
 		fillMaps(ruleInfo, rejected);
 
-		BitSet bs = getRepresentation(rule, removeAttributes, removeNodes,
-				removeEdges, removeFormulas, injectiveMatching);
+		BitSet bs = getRepresentation(rule, removeAttributes, removeNodes, removeEdges, removeFormulas,
+				injectiveMatching);
 
 		doPreparation();
 		return bs;
 	}
-	
-	private <T extends GraphElement> void addElementToRemoveList(boolean geIsVariabilityAware, GraphElement ge, Collection<T> list) {
+
+	private <T extends GraphElement> void addElementToRemoveList(boolean geIsVariabilityAware, GraphElement ge,
+			Collection<T> list) {
 		if (geIsVariabilityAware) {
-			list.add((T) ((VariabilityGraphElement)ge).getGraphElement());
+			list.add((T) ((VariabilityGraphElement) ge).getGraphElement());
 		} else {
-			list.add((T)ge);
+			list.add((T) ge);
 		}
 	}
 
 	private void fillMaps(RuleInfo ruleInfo, Set<Sentence> rejected) {
-		
+
 		for (Sentence expr : rejected) {
 			Set<GraphElement> elements = ruleInfo.getPc2Elem().get(expr);
 			if (elements == null)
 				continue;
-			
+
 			for (GraphElement ge : elements) {
 				boolean geIsVariabilityAware = ge instanceof VariabilityGraphElement;
-				
+
 				if (ge instanceof Node) {
 					addElementToRemoveList(geIsVariabilityAware, ge, removeNodes);
-					Set<Mapping> mappings = ruleInfo.getNode2Mapping().get(
-							(Node) ge);
+					Set<Mapping> mappings = ruleInfo.getNode2Mapping().get((Node) ge);
 					if (mappings != null) {
 						removeMappings.addAll(mappings);
 					}
-					((Node) ge).getAllEdges().forEach(edge -> addElementToRemoveList(geIsVariabilityAware, edge, removeEdges));
+					((Node) ge).getAllEdges()
+							.forEach(edge -> addElementToRemoveList(geIsVariabilityAware, edge, removeEdges));
 				} else if (ge instanceof Edge) {
 					addElementToRemoveList(geIsVariabilityAware, ge, removeEdges);
 				} else if (ge instanceof Attribute) {
 					addElementToRemoveList(geIsVariabilityAware, ge, removeAttributes);
 				}
-			
+
 			}
 		}
-		
+
 		if (baseRule && rule.getLhs().getFormula() != null) {
 			removeFormulas.add(rule.getLhs().getFormula());
 			removeElementContainers.put(rule.getLhs().getFormula(), rule.getLhs());
 			removeFormulaContainingRef.put(rule.getLhs().getFormula(), rule.getLhs().getFormula().eContainingFeature());
 		} else {
 			for (NestedCondition ac : rule.getLhs().getNestedConditions()) {
-				Sentence acPC = ruleInfo.getExpressions().get(VariabilityFactory.INSTANCE.createVariabilityNestedCondition(ac).getPresenceCondition());
+				Sentence acPC = ruleInfo.getExpressions()
+						.get(VariabilityFactory.INSTANCE.createVariabilityNestedCondition(ac).getPresenceCondition());
 				if (rejected.contains(acPC)) {
 					Formula removeFormula = null;
 					if (ac.isNAC())
@@ -155,20 +154,19 @@ public class RulePreparator {
 					removeFormulas.add(removeFormula);
 					removeElementContainers.put(removeFormula, removeFormula.eContainer());
 					removeFormulaContainingRef.put(removeFormula, removeFormula.eContainingFeature());
-				}	
-			}	
+				}
+			}
 		}
 	}
 
 	/**
 	 * Prepares the rule for variability-based merging and rule application:
-	 * rejected elements and removed and the "injective" flag is set. Assumes
-	 * that the reject() method has been invoked method before.
+	 * rejected elements and removed and the "injective" flag is set. Assumes that
+	 * the reject() method has been invoked method before.
 	 */
 	public void doPreparation() {
 		if (removeNodes == null) {
-			throw new IllegalStateException(
-					"This method may only be invoked after reject() has been invoked.");
+			throw new IllegalStateException("This method may only be invoked after reject() has been invoked.");
 		}
 
 		removeFormulas();
@@ -177,7 +175,7 @@ public class RulePreparator {
 			EStructuralFeature feature = m.eContainingFeature();
 			removeMappingContainingRef.put(m, feature);
 			removeElementContainers.put(m, m.eContainer());
-			((EList) m.eContainer().eGet(feature)).remove(m);
+			((EList<EObject>) m.eContainer().eGet(feature)).remove(m);
 		}
 		for (Attribute a : removeAttributes) {
 			removeElementContainers.put(a, a.getNode());
@@ -207,8 +205,9 @@ public class RulePreparator {
 	private void removeFormulas() {
 		for (Formula formula : removeFormulas) {
 			removeElementContainers.get(formula).eUnset(removeFormulaContainingRef.get(formula));
-			removeElementContainers.get(formula).eSet(removeFormulaContainingRef.get(formula), HenshinFactory.eINSTANCE.createTrue());
-		}		
+			removeElementContainers.get(formula).eSet(removeFormulaContainingRef.get(formula),
+					HenshinFactory.eINSTANCE.createTrue());
+		}
 	}
 
 	/**
@@ -235,8 +234,7 @@ public class RulePreparator {
 		for (Mapping m : removeMappings) {
 			EStructuralFeature feature = removeMappingContainingRef.get(m);
 			@SuppressWarnings("unchecked")
-			EList<Mapping> list = (EList<Mapping>) removeElementContainers.get(
-					m).eGet(feature);
+			EList<Mapping> list = (EList<Mapping>) removeElementContainers.get(m).eGet(feature);
 			list.add(m);
 		}
 
@@ -261,13 +259,13 @@ public class RulePreparator {
 //			container.eSet(removeFormulaContainingRef.get(f), f);
 //		}
 	}
+
 	/**
 	 * Calling this method ensures that the elements to be removed can later be
 	 * added in the correct order to produce the original rule.
 	 * 
-	 * @param formulas
-	 *            All instances must be either a NestedCondition (i.e., a Graph)
-	 *            or a NOT
+	 * @param formulas All instances must be either a NestedCondition (i.e., a
+	 *                 Graph) or a NOT
 	 */
 	private void determineRemoveOrder(Set<Formula> formulas) {
 		Formula outer = rule.getLhs().getFormula(); //
@@ -275,39 +273,32 @@ public class RulePreparator {
 			Formula formula = formulas.iterator().next();
 			if (formula == outer) {
 				removeElementContainers.put(formula, rule.getLhs());
-				removeFormulaContainingRef.put(formula,
-						HenshinPackage.Literals.GRAPH__FORMULA);
+				removeFormulaContainingRef.put(formula, HenshinPackage.Literals.GRAPH__FORMULA);
 			}
 		} else if (outer instanceof And) {
-			determineRemoverOrder((And) outer, formulas, rule.getLhs(),
-					HenshinPackage.Literals.GRAPH__FORMULA);
+			determineRemoverOrder((And) outer, formulas, rule.getLhs(), HenshinPackage.Literals.GRAPH__FORMULA);
 		} else {
 			throw new IllegalArgumentException(
 					"TODO: Only AND-based nesting of applications conditions supported yet.");
 		}
 	}
 
-	private void determineRemoverOrder(And and, Set<Formula> formulas, EObject container,
-			EReference feature) {
-		if (formulas.contains(and.getLeft())
-				&& formulas.contains(and.getRight())) {
+	private void determineRemoverOrder(And and, Set<Formula> formulas, EObject container, EReference feature) {
+		if (formulas.contains(and.getLeft()) && formulas.contains(and.getRight())) {
 			removeFormulaContainingRef.put(and, feature);
 			removeElementContainers.put(and, container);
 		}
-		if (!formulas.contains(and.getLeft())
-				&& formulas.contains(and.getRight())) {
+		if (!formulas.contains(and.getLeft()) && formulas.contains(and.getRight())) {
 			designatePullupChild(and.getLeft(), and, HenshinPackage.Literals.BINARY_FORMULA__LEFT, container, feature);
 		}
-		if (formulas.contains(and.getLeft())
-				&& !formulas.contains(and.getRight())) {
-			designatePullupChild(and.getRight(), and, HenshinPackage.Literals.BINARY_FORMULA__RIGHT, container, feature);
+		if (formulas.contains(and.getLeft()) && !formulas.contains(and.getRight())) {
+			designatePullupChild(and.getRight(), and, HenshinPackage.Literals.BINARY_FORMULA__RIGHT, container,
+					feature);
 
 		}
-		if (!formulas.contains(and.getLeft())
-				&& !formulas.contains(and.getRight())) {
+		if (!formulas.contains(and.getLeft()) && !formulas.contains(and.getRight())) {
 			if (and.getLeft() instanceof And) {
-				determineRemoverOrder((And) and.getLeft(), formulas, and,
-						HenshinPackage.Literals.BINARY_FORMULA__LEFT);
+				determineRemoverOrder((And) and.getLeft(), formulas, and, HenshinPackage.Literals.BINARY_FORMULA__LEFT);
 			}
 			if (and.getRight() instanceof And) {
 				determineRemoverOrder((And) and.getRight(), formulas, and,
@@ -316,8 +307,8 @@ public class RulePreparator {
 		}
 	}
 
-	private void designatePullupChild(Formula formula, And oldContainer,
-			EReference oldFeature, EObject newContainer, EReference newFeature) {
+	private void designatePullupChild(Formula formula, And oldContainer, EReference oldFeature, EObject newContainer,
+			EReference newFeature) {
 		removeFormulaContainingRef.put(oldContainer, newFeature);
 		removeElementContainers.put(oldContainer, newContainer);
 		pulledUpFormulasToContainingRef.put(formula, newFeature);
@@ -325,7 +316,6 @@ public class RulePreparator {
 		pulledUpFormulasToOldContainingRef.put(formula, oldFeature);
 		pulledUpFormulasToOldContainer.put(formula, oldContainer);
 	}
-
 
 	/**
 	 * A representation of the removed elements in a rule as a bit set. Aims at
@@ -339,12 +329,9 @@ public class RulePreparator {
 	 * @param injectiveMatching
 	 * @return
 	 */
-	private BitSet getRepresentation(Rule rule,
-			Set<Attribute> deleteAttributes, Set<Node> deleteNodes,
-			Set<Edge> deleteEdges, Set<Formula> deleteFormula,
-			boolean injectiveMatching) {
-		BitSet result = new BitSet(rule.getLhs().getNodes().size()
-				+ rule.getLhs().getEdges().size()
+	private BitSet getRepresentation(Rule rule, Set<Attribute> deleteAttributes, Set<Node> deleteNodes,
+			Set<Edge> deleteEdges, Set<Formula> deleteFormula, boolean injectiveMatching) {
+		BitSet result = new BitSet(rule.getLhs().getNodes().size() + rule.getLhs().getEdges().size()
 				+ rule.getLhs().getNestedConditions().size() + 1);
 
 		result.set(0, injectiveMatching);
@@ -386,23 +373,20 @@ public class RulePreparator {
 
 	public RulePreparator getSnapShot() {
 		RulePreparator result = new RulePreparator(rule);
-		result.removeNodes = new HashSet<Node>(removeNodes);
-		result.removeEdges = new HashSet<Edge>(removeEdges);
-		result.removeAttributes = new HashSet<Attribute>(removeAttributes);
-		result.removeEdgeSources = new HashMap<Edge, Node>(removeEdgeSources);
-		result.removeEdgeTargets = new HashMap<Edge, Node>(removeEdgeTargets);
-		result.removeElementContainers = new HashMap<EObject, EObject>(
-				removeElementContainers);
-		result.removeFormulas = new HashSet<Formula>(removeFormulas);
-		result.removeFormulaContainingRef = new HashMap<Formula, EStructuralFeature>(
-				removeFormulaContainingRef);
+		result.removeNodes = new HashSet<>(removeNodes);
+		result.removeEdges = new HashSet<>(removeEdges);
+		result.removeAttributes = new HashSet<>(removeAttributes);
+		result.removeEdgeSources = new HashMap<>(removeEdgeSources);
+		result.removeEdgeTargets = new HashMap<>(removeEdgeTargets);
+		result.removeElementContainers = new HashMap<>(removeElementContainers);
+		result.removeFormulas = new HashSet<>(removeFormulas);
+		result.removeFormulaContainingRef = new HashMap<>(removeFormulaContainingRef);
 //		result.pulledUpFormulasToContainer = new HashMap<Formula, EObject>(
 //				pulledUpFormulasToContainer);
 //		result.pulledUpFormulasToContainingRef = new HashMap<Formula, EStructuralFeature>(
 //				pulledUpFormulasToContainingRef);
-		result.removeMappings = new HashSet<Mapping>(removeMappings);
-		result.removeMappingContainingRef = new HashMap<Mapping, EStructuralFeature>(
-				removeMappingContainingRef);
+		result.removeMappings = new HashSet<>(removeMappings);
+		result.removeMappingContainingRef = new HashMap<>(removeMappingContainingRef);
 //		result.pulledUpFormulasToOldContainingRef = new HashMap<Formula, EStructuralFeature>();
 //		result.pulledUpFormulasToOldContainer = new HashMap<Formula, EObject>();
 

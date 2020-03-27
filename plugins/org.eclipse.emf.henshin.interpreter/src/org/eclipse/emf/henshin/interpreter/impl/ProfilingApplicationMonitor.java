@@ -65,7 +65,7 @@ public class ProfilingApplicationMonitor extends BasicApplicationMonitor {
 		executions.put(rule, count);
 		
 		// Update duration:
-		Long duration = durations.get(rule);
+		Long duration = getTotalExecutionTime(rule);
 		if (duration==null) {
 			duration = executionTime;
 		} else {
@@ -81,10 +81,49 @@ public class ProfilingApplicationMonitor extends BasicApplicationMonitor {
 	public void printStats() {
 		for (Rule rule : executions.keySet()) {
 			System.out.println("Stats for rule '" + rule.getName() + "':");
-			System.out.println(" - Number of Executions: " + executions.get(rule));
-			System.out.println(" - Total execution time: " + durations.get(rule) + "ms");
-			System.out.println(" - Aver. execution time: " + (durations.get(rule) / executions.get(rule)) + "ms\n");
+			System.out.println(" - Number of Executions: " + getNumberOfExecutions(rule));
+			System.out.println(" - Total execution time: " + getTotalExecutionTime(rule) + "ms");
+			System.out.println(" - Aver. execution time: " + getAverageExecutionTime(rule) + "ms\n");
 		}
+	}
+
+	/**
+	 * A getter for the average execution time of the given rule
+	 * 
+	 * @param rule A rule
+	 * @return The average execution time
+	 */
+	private long getAverageExecutionTime(Rule rule) {
+		if(executions.containsKey(rule)) {
+			return getTotalExecutionTime(rule) / executions.get(rule);
+		}
+		return 0;
+	}
+
+	/**
+	 * A getter for the total execution time of a rule
+	 * 
+	 * @param rule A rule
+	 * @return The total execution time
+	 */
+	private long getTotalExecutionTime(Rule rule) {
+		if(executions.containsKey(rule)) {
+			return durations.get(rule);
+		}
+		return 0;
+	}
+
+	/**
+	 * A getter for the number of applications of a rule
+	 * 
+	 * @param rule A rule
+	 * @return How often the rule has been applied
+	 */
+	public int getNumberOfExecutions(Rule rule) {
+		if(executions.containsKey(rule)) {
+			return executions.get(rule);
+		}
+		return 0;
 	}
 	
 }

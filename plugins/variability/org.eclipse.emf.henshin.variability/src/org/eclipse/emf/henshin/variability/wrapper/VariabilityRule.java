@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Annotation;
@@ -24,6 +25,7 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
@@ -31,22 +33,22 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.variability.matcher.FeatureExpression;
 
-import aima.core.logic.common.ParserException;
 import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
 import aima.core.logic.propositional.parsing.ast.Sentence;
 import aima.core.logic.propositional.visitors.SymbolCollector;
 
 /**
- * This class wraps an instance of {@link org.eclipse.emf.henshin.model.Rule} and adds variability awareness to it.
- * The variability awareness is enabled by adding multiple {@link org.eclipse.emf.henshin.model.Annotation}s to the wrapped object. 
+ * This class wraps an instance of {@link org.eclipse.emf.henshin.model.Rule}
+ * and adds variability awareness to it. The variability awareness is enabled by
+ * adding multiple {@link org.eclipse.emf.henshin.model.Annotation}s to the
+ * wrapped object.
  * 
  * @author Stefan Schulz
  *
  */
-public class VariabilityRule implements Rule {
+public class VariabilityRule extends EObjectImpl implements Rule {
 	final Rule rule;
 	final Annotation featureModel;
 	final Annotation injectiveMatchingPresenceCondition;
@@ -60,17 +62,17 @@ public class VariabilityRule implements Rule {
 		EList<Annotation> annos = rule.getAnnotations();
 		Iterator<Annotation> it = annos.iterator();
 
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Annotation anno = it.next();
 			String key = anno.getKey();
-			if(key.equals(VariabilityConstants.FEATURE_MODEL)) {
+			if (key.equals(VariabilityConstants.FEATURE_MODEL)) {
 				featModel = anno;
-			} else if(key.equals(VariabilityConstants.INJECTIVE_MATCHING_PC)) {
+			} else if (key.equals(VariabilityConstants.INJECTIVE_MATCHING_PC)) {
 				injMatPreCon = anno;
-			} else if(key.equals(VariabilityConstants.FEATURES)) {
+			} else if (key.equals(VariabilityConstants.FEATURES)) {
 				feats = anno;
 			}
-			if(featModel != null && injMatPreCon != null && feats != null) {
+			if (featModel != null && injMatPreCon != null && feats != null) {
 				break;
 			}
 		}
@@ -114,7 +116,7 @@ public class VariabilityRule implements Rule {
 	 * Creates a new {@link org.eclipse.emf.henshin.model.Rule} and makes it variability aware.
 	 */
 	VariabilityRule() {
-		this(HenshinFactoryImpl.eINSTANCE.createRule());
+		this(HenshinFactory.eINSTANCE.createRule());
 	}
 	
 	/**
@@ -122,7 +124,7 @@ public class VariabilityRule implements Rule {
 	 * @param name the name of the new henshin rule
 	 */
 	VariabilityRule(String name) {
-		this(HenshinFactoryImpl.eINSTANCE.createRule(name));
+		this(HenshinFactory.eINSTANCE.createRule(name));
 	}
 	
 	/**
@@ -148,46 +150,52 @@ public class VariabilityRule implements Rule {
 
 	/**
 	 * Returns the feature model of this Rule.
+	 * 
 	 * @return the feature model of this Rule.
 	 */
 	public String getFeatureModel() {
 		return featureModel.getValue();
 	}
-	
+
 	/**
 	 * Sets this Rule's feature model to the given model.
+	 * 
 	 * @param featureModelString the feature model to be set for this Rule.
 	 */
 	public void setFeatureModel(String featureModelString) {
 		featureModel.setValue(featureModelString);
-		//TODO: Update list of features
+		// TODO: Update list of features
 	}
-	
+
 	/**
 	 * Returns the injective matching presence condition of this Rule.
+	 * 
 	 * @return the injective matching presence condition of this Rule.
 	 */
 	public String getInjectiveMatchingPresenceCondition() {
 		return injectiveMatchingPresenceCondition.getValue();
 	}
-	
+
 	/**
 	 * Returns the injective matching presence condition for this Rule.
-	 * @param condition the injective matching presence condition to be set for this Rule.
+	 * 
+	 * @param condition the injective matching presence condition to be set for this
+	 *                  Rule.
 	 */
 	public void setInjectiveMatchingPresenceCondition(String condition) {
 		injectiveMatchingPresenceCondition.setValue(condition);
 	}
-	
+
 	/**
 	 * Returns an unmodifiable list of this Rule's features.
+	 * 
 	 * @return an {@link java.util.List} containing this Rule's variability points.
 	 */
 	public List<String> getFeatures() {
-		if(features.getValue() == null) {
+		if (features.getValue() == null) {
 			return null;
 		}
-		
+
 		if (!features.getValue().isEmpty()) {
 			List<String> featureList = Arrays.asList(features.getValue().split(","));
 			List<String> result = new ArrayList<String>();
@@ -199,96 +207,100 @@ public class VariabilityRule implements Rule {
 			return Collections.unmodifiableList(new ArrayList<String>());
 		}
 	}
-	
+
 	/**
-	* Sets the features of this Rule.
-	* @param featureString the string containing all features
-	*/
+	 * Sets the features of this Rule.
+	 * 
+	 * @param featureString the string containing all features
+	 */
 	public void setFeatures(String featureString) {
 		features.setValue(featureString);
 	}
-	
+
 	/**
-	* Sets the features of this Rule.
-	* @param featureList the list containing all features
-	*/
+	 * Sets the features of this Rule.
+	 * 
+	 * @param featureList the list containing all features
+	 */
 	public void setFeatures(List<String> featureList) {
-		for (String feature : featureList) {		
+		for (String feature : featureList) {
 			addFeature(feature);
 		}
 	}
-	
+
 	/**
 	 * Adds the given feature to this Rule.
-	 * @param feature the variability point to be added to this 
+	 * 
+	 * @param feature the variability point to be added to this
 	 */
 	public void addFeature(String feature) {
-		if(features.getValue() == null) {
+		if (features.getValue() == null) {
 			features.setValue("");
 		}
-		
+
 		String featuresString = features.getValue();
 		featuresString += (featuresString.length() > 0) ? "," + features : features;
 		features.setValue(featuresString);
 	}
-	
+
 	/**
 	 * Removes the given feature if it is a part of this Rule.
+	 * 
 	 * @param variabilityPoint the variability point to be removed.
 	 */
 	public void removeFeature(String feature) {
-		if(features.getValue() == null) {
+		if (features.getValue() == null) {
 			return;
 		}
-		
+
 		List<String> featureList = new ArrayList<String>(Arrays.asList(features.getValue().split(",")));
 		featureList.remove(feature);
 		features.setValue(String.join(",", featureList));
 	}
-	
+
 	String oldFeatureModel = "";
 	String oldFeatures = "";
 	List<String> missingFeatures = new ArrayList<String>();;
-	
+
 	public boolean hasMissingFeatures() {
 		calculateMissingFeatureNames();
 		return missingFeatures == null || !missingFeatures.isEmpty();
 	}
-	
+
 	public String[] getMissingFeatures() {
 		calculateMissingFeatureNames();
 		return missingFeatures.toArray(new String[0]);
 	}
-	
+
 	private void calculateMissingFeatureNames() {
 		String currentModel = getFeatureModel();
 		if (!currentModel.trim().equals(oldFeatureModel) || !oldFeatures.equals(features.getValue())) {
-			try {
-				Sentence sentence = FeatureExpression.getExpr(currentModel);
-				missingFeatures.clear();
-				Set<PropositionSymbol> symbols = SymbolCollector.getSymbolsFrom(sentence);
-				List<String> definedFeatures = getFeatures();
-				for (PropositionSymbol symbol : symbols) {
-					String symbolName = symbol.getSymbol();
-					if (!definedFeatures.contains(symbolName)) {
-						missingFeatures.add(symbolName);
-					}
+			Sentence sentence = FeatureExpression.getExpr(currentModel);
+			missingFeatures.clear();
+			Set<PropositionSymbol> symbols = SymbolCollector.getSymbolsFrom(sentence);
+			List<String> definedFeatures = getFeatures();
+			for (PropositionSymbol symbol : symbols) {
+				String symbolName = symbol.getSymbol();
+				if (!definedFeatures.contains(symbolName)) {
+					missingFeatures.add(symbolName);
 				}
-			} catch (ParserException e) {} //TODO: Validate model before parsing
+			}
 			oldFeatureModel = currentModel.trim();
 			oldFeatures = features.getValue();
 		}
 	}
 
 	/**
-	 * @see org.eclipse.emf.henshin.model.Rule#canCreateEdge(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.henshin.model.Node, org.eclipse.emf.ecore.EReference)
+	 * @see org.eclipse.emf.henshin.model.Rule#canCreateEdge(org.eclipse.emf.henshin.model.Node,
+	 *      org.eclipse.emf.henshin.model.Node, org.eclipse.emf.ecore.EReference)
 	 */
 	public boolean canCreateEdge(Node arg0, Node arg1, EReference arg2) {
 		return rule.canCreateEdge(arg0, arg1, arg2);
 	}
 
 	/**
-	 * @see org.eclipse.emf.henshin.model.Rule#createEdge(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.henshin.model.Node, org.eclipse.emf.ecore.EReference)
+	 * @see org.eclipse.emf.henshin.model.Rule#createEdge(org.eclipse.emf.henshin.model.Node,
+	 *      org.eclipse.emf.henshin.model.Node, org.eclipse.emf.ecore.EReference)
 	 */
 	public Edge createEdge(Node arg0, Node arg1, EReference arg2) {
 		return rule.createEdge(arg0, arg1, arg2);
@@ -400,14 +412,16 @@ public class VariabilityRule implements Rule {
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.EObject#eGet(org.eclipse.emf.ecore.EStructuralFeature, boolean)
+	 * @see org.eclipse.emf.ecore.EObject#eGet(org.eclipse.emf.ecore.EStructuralFeature,
+	 *      boolean)
 	 */
 	public Object eGet(EStructuralFeature feature, boolean resolve) {
 		return rule.eGet(feature, resolve);
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.EObject#eSet(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * @see org.eclipse.emf.ecore.EObject#eSet(org.eclipse.emf.ecore.EStructuralFeature,
+	 *      java.lang.Object)
 	 */
 	public void eSet(EStructuralFeature feature, Object newValue) {
 		rule.eSet(feature, newValue);
@@ -428,7 +442,8 @@ public class VariabilityRule implements Rule {
 	}
 
 	/**
-	 * @see org.eclipse.emf.ecore.EObject#eInvoke(org.eclipse.emf.ecore.EOperation, org.eclipse.emf.common.util.EList)
+	 * @see org.eclipse.emf.ecore.EObject#eInvoke(org.eclipse.emf.ecore.EOperation,
+	 *      org.eclipse.emf.common.util.EList)
 	 */
 	public Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException {
 		return rule.eInvoke(operation, arguments);
@@ -639,21 +654,24 @@ public class VariabilityRule implements Rule {
 	}
 
 	/**
-	 * @see org.eclipse.emf.henshin.model.Rule#removeAttribute(org.eclipse.emf.henshin.model.Attribute, boolean)
+	 * @see org.eclipse.emf.henshin.model.Rule#removeAttribute(org.eclipse.emf.henshin.model.Attribute,
+	 *      boolean)
 	 */
 	public boolean removeAttribute(Attribute arg0, boolean arg1) {
 		return rule.removeAttribute(arg0, arg1);
 	}
 
 	/**
-	 * @see org.eclipse.emf.henshin.model.Rule#removeEdge(org.eclipse.emf.henshin.model.Edge, boolean)
+	 * @see org.eclipse.emf.henshin.model.Rule#removeEdge(org.eclipse.emf.henshin.model.Edge,
+	 *      boolean)
 	 */
 	public boolean removeEdge(Edge arg0, boolean arg1) {
 		return rule.removeEdge(arg0, arg1);
 	}
 
 	/**
-	 * @see org.eclipse.emf.henshin.model.Rule#removeNode(org.eclipse.emf.henshin.model.Node, boolean)
+	 * @see org.eclipse.emf.henshin.model.Rule#removeNode(org.eclipse.emf.henshin.model.Node,
+	 *      boolean)
 	 */
 	public boolean removeNode(Node arg0, boolean arg1) {
 		return rule.removeNode(arg0, arg1);
@@ -707,7 +725,7 @@ public class VariabilityRule implements Rule {
 	public void setRhs(Graph arg0) {
 		rule.setRhs(arg0);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return rule.hashCode();

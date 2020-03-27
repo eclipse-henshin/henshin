@@ -25,6 +25,7 @@ import mergeSuggestion.MergePAC;
 import mergeSuggestion.MergeRule;
 import mergeSuggestion.MergeRuleElement;
 import mergeSuggestion.MergeSuggestion;
+import mergeSuggestion.MergeSuggestionFactory;
 import mergeSuggestion.impl.MergeSuggestionFactoryImpl;
 
 public class BasicMergeSuggestionBuilder {
@@ -200,7 +201,7 @@ public class BasicMergeSuggestionBuilder {
 	}
 
 	protected void addApplicationConditionToResult(List<Graph> graphs, MergeRule result, CloneGroup cloneGroup) {
-
+		throw new UnsupportedOperationException();
 	}
 
 	protected void addGraphElementToResult(GraphElement ge, List<Graph> correspondingGraphs, MergeRule result,
@@ -216,21 +217,21 @@ public class BasicMergeSuggestionBuilder {
 	}
 
 	protected List<Graph> getAllLhs(List<Rule> list) {
-		List<Graph> result = new ArrayList<Graph>();
+		List<Graph> result = new ArrayList<>();
 		for (Rule rule : list)
 			result.add(rule.getLhs());
 		return result;
 	}
 
 	protected List<Graph> getAllRhs(List<Rule> list) {
-		List<Graph> result = new ArrayList<Graph>();
+		List<Graph> result = new ArrayList<>();
 		for (Rule rule : list)
 			result.add(rule.getRhs());
 		return result;
 	}
 
 	protected List<Graph> getAllMultiLhs(List<Rule> list) {
-		List<Graph> result = new ArrayList<Graph>();
+		List<Graph> result = new ArrayList<>();
 		for (Rule rule : list)
 			for (Rule multiRule : rule.getMultiRules())
 				result.add(multiRule.getLhs());
@@ -238,7 +239,7 @@ public class BasicMergeSuggestionBuilder {
 	}
 
 	protected List<Graph> getAllMultiRhs(List<Rule> list) {
-		List<Graph> result = new ArrayList<Graph>();
+		List<Graph> result = new ArrayList<>();
 		for (Rule rule : list)
 			for (Rule multiRule : rule.getMultiRules())
 				result.add(multiRule.getRhs());
@@ -246,7 +247,7 @@ public class BasicMergeSuggestionBuilder {
 	}
 
 	protected List<Graph> getPacs(List<Rule> list) {
-		List<Graph> result = new ArrayList<Graph>();
+		List<Graph> result = new ArrayList<>();
 		for (Rule rule : list)
 			for (NestedCondition nac : rule.getLhs().getPACs()) {
 				result.add(nac.getConclusion());
@@ -267,7 +268,7 @@ public class BasicMergeSuggestionBuilder {
 	}
 
 	protected List<GraphElement> getAllGraphElements(Rule r) {
-		List<GraphElement> result = new ArrayList<GraphElement>();
+		List<GraphElement> result = new ArrayList<>();
 		TreeIterator<EObject> it = r.eAllContents();
 		while (it.hasNext()) {
 			EObject e = it.next();
@@ -337,14 +338,14 @@ public class BasicMergeSuggestionBuilder {
 	}
 
 	protected MergeRuleElement addSingleElementToResult(MergeRule result, GraphElement ge) {
-		MergeRuleElement el = MergeSuggestionFactoryImpl.eINSTANCE.createMergeRuleElement();
+		MergeRuleElement el = MergeSuggestionFactory.eINSTANCE.createMergeRuleElement();
 		el.getReferenceElements().add(ge);
 		result.addMergeRuleElement(el);
 		return el;
 	}
 
 	private List<GraphElement> getGraphElements(Graph graph) {
-		List<GraphElement> result = new ArrayList<GraphElement>();
+		List<GraphElement> result = new ArrayList<>();
 		result.addAll(graph.getNodes());
 		result.addAll(graph.getEdges());
 		for (Node n : graph.getNodes()) {

@@ -11,12 +11,11 @@ Require-Bundle: org.eclipse.emf.henshin.diagram,
  org.eclipse.emf.databinding,
  org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.8.0",
  org.eclipse.core.databinding.property
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/swing2swt.jar
-Export-Package: org.eclipse.emf.henshin.variability.configuration.ui,
- org.eclipse.emf.henshin.variability.configuration.ui.actions,
+Export-Package: org.eclipse.emf.henshin.variability.configuration.ui.actions,
  org.eclipse.emf.henshin.variability.configuration.ui.commands,
  org.eclipse.emf.henshin.variability.configuration.ui.controls,
  org.eclipse.emf.henshin.variability.configuration.ui.dialogs,

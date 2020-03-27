@@ -8,7 +8,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.matcher.FeatureExpression;
 import org.eclipse.emf.henshin.variability.util.Logic;
 import org.eclipse.emf.henshin.variability.wrapper.TransactionalVariabilityFactory;
-import org.eclipse.emf.henshin.variability.wrapper.VariabilityFactory;
 import org.eclipse.emf.henshin.variability.wrapper.VariabilityNode;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 

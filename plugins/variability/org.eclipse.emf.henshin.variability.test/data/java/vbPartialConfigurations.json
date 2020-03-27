@@ -1,0 +1,91 @@
+{
+	"ruleFile": "vb.henshin",
+	"applications": [
+		{
+			"rule": "preserve",
+			"model": "model1.xmi",
+			"partialConfiguration" : [
+				{
+					"feature": "M",
+					"selection": true
+				},
+				{
+					"feature": "F",
+					"selection": false
+				}
+			],
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 11
+				},
+				{
+					"kind": "MATCHES",
+					"value": 4
+				}
+			]
+		},
+		{
+			"rule": "preserve",
+			"model": "model1.xmi",
+			"partialConfiguration" : [
+				{
+					"feature": "F",
+					"selection": true
+				}
+			],
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 11
+				},
+				{
+					"kind": "MATCHES",
+					"value": 3
+				}
+			]
+		},
+		{
+			"rule": "create1",
+			"model": "model1.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 14
+				},
+				{
+					"kind": "MATCHES",
+					"value": 7
+				}
+			]
+		},
+		{
+			"rule": "create2",
+			"model": "model1.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 18
+				},
+				{
+					"kind": "MATCHES",
+					"value": 7
+				}
+			]
+		},
+		{
+			"rule": "delete2",
+			"model": "model1.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 6 
+				},
+				{
+					"kind": "MATCHES",
+					"value": 7
+				}
+			]
+		}
+	]
+}

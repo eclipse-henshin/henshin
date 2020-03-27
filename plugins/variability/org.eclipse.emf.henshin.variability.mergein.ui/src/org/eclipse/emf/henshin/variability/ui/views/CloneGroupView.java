@@ -21,7 +21,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroup;
 import org.eclipse.emf.henshin.variability.mergein.clone.CloneGroupDetectionResult;
 import org.eclipse.emf.henshin.variability.ui.MergeClusteredRulesAction;
-import org.eclipse.emf.henshin.variability.ui.views.CloneGroupView.TreeObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.figures.BorderedNodeFigure;

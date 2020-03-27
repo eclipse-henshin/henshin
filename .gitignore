@@ -11,3 +11,4 @@ target/
 /plugins/org.eclipse.emf.henshin.text.tests/xtend-gen/
 /plugins/org.eclipse.emf.henshin.text.ui/src-gen/
 /plugins/org.eclipse.emf.henshin.text.ui/xtend-gen/
+.DS_Store

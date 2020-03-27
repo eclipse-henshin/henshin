@@ -46,12 +46,12 @@ import de.parsemis.strategy.ThreadedDFSStrategy;
 public class MiningManager {
 	private TransformationSystemMiner miner = new TransformationSystemMiner(
 			this);
-	private Settings<INodeLabel, IEdgeLabel> settings = new Settings<INodeLabel, IEdgeLabel>();
+	private Settings<INodeLabel, IEdgeLabel> settings = new Settings<>();
 	private ParsemisParserSerializer serializer = new ParsemisParserSerializer();
 
 	private List<HenshinGraph> ruleGraphs;
 	private HenshinGraphToParsemisGraphMap henshinToParsemisGraphMap = new HenshinGraphToParsemisGraphMap();
-	private Map<Graph, HenshinGraphToParsemisGraphElementsMap> henshinToMinableGraphElementMap = new HashMap<Graph, HenshinGraphToParsemisGraphElementsMap>();
+	private Map<Graph<INodeLabel, IEdgeLabel>, HenshinGraphToParsemisGraphElementsMap> henshinToMinableGraphElementMap = new HashMap<>();
 
 	private List<Fragment<INodeLabel, IEdgeLabel>> minedFragments;
 
@@ -89,7 +89,7 @@ public class MiningManager {
 	public List<HenshinNode> getNodesCorrespondingToFragmentNode(
 			Node<INodeLabel, IEdgeLabel> node,
 			Fragment<INodeLabel, IEdgeLabel> fragment) {
-		List<HenshinNode> nodeList = new ArrayList<HenshinNode>();
+		List<HenshinNode> nodeList = new ArrayList<>();
 
 		int nodeIndex = node.getIndex();
 		for (Embedding<INodeLabel, IEdgeLabel> embedding : fragment
@@ -123,9 +123,9 @@ public class MiningManager {
 	public List<HenshinEdge> getEdgesCorrespondingToFragmentEdge(
 			Edge<INodeLabel, IEdgeLabel> edge,
 			Fragment<INodeLabel, IEdgeLabel> fragment) {
-		List<HenshinEdge> result = new ArrayList<HenshinEdge>();
+		List<HenshinEdge> result = new ArrayList<>();
 
-		Set<HenshinGraph> considered = new HashSet<HenshinGraph>();
+		Set<HenshinGraph> considered = new HashSet<>();
 		int edgeIndex = edge.getIndex();
 		for (Embedding<INodeLabel, IEdgeLabel> embedding : fragment
 				.getMaximalNonOverlappingSubSet()) {
@@ -155,7 +155,7 @@ public class MiningManager {
 	 * @param f
 	 * @return
 	 */
-	public String printFragment(Fragment f) {
+	public String printFragment(Fragment<INodeLabel, IEdgeLabel> f) {
 		return serializer.serialize(f.toGraph());
 	}
 
@@ -168,11 +168,11 @@ public class MiningManager {
 	 */
 	public List<Set<HenshinGraphElement>> getGraphElementsOfEmbeddings(
 			Fragment<INodeLabel, IEdgeLabel> fragment) {
-		List<Set<HenshinGraphElement>> embeddings = new ArrayList<Set<HenshinGraphElement>>();
+		List<Set<HenshinGraphElement>> embeddings = new ArrayList<>();
 
 		for (Embedding<INodeLabel, IEdgeLabel> emb : fragment
 				.getMaximalNonOverlappingSubSet()) {
-			Set<HenshinGraphElement> embeddedElements = new HashSet<HenshinGraphElement>();
+			Set<HenshinGraphElement> embeddedElements = new HashSet<>();
 			HPEmbedding<INodeLabel, IEdgeLabel> highPerformantEmbedding = emb
 					.toHPEmbedding();
 			HPGraph<INodeLabel, IEdgeLabel> highPerformantSupergraph = highPerformantEmbedding
@@ -254,7 +254,7 @@ public class MiningManager {
 		henshinToParsemisGraphMap.put(henshinGraph, graph);
 	}
 
-	public Map<Graph, HenshinGraphToParsemisGraphElementsMap> getHenshinToMinableGraphElementsMap() {
+	public Map<Graph<INodeLabel, IEdgeLabel>, HenshinGraphToParsemisGraphElementsMap> getHenshinToMinableGraphElementsMap() {
 		return henshinToMinableGraphElementMap;
 	}
 
@@ -267,7 +267,7 @@ public class MiningManager {
 	 */
 	public Set<HenshinEdge> getSuperGraphEdges(
 			Embedding<INodeLabel, IEdgeLabel> e1) {
-		Set<HenshinEdge> result = new HashSet<HenshinEdge>();
+		Set<HenshinEdge> result = new HashSet<>();
 		Iterator<Edge<INodeLabel, IEdgeLabel>> it = e1.getSuperGraph()
 				.edgeIterator();
 		while (it.hasNext()) {
@@ -297,16 +297,16 @@ public class MiningManager {
 	 */
 	public Map<HenshinEdge, Map<HenshinGraph, HenshinEdge>> createHenshinEdgeMappings(
 			Fragment<INodeLabel, IEdgeLabel> fragment) {
-		HashMap<HenshinEdge, Map<HenshinGraph, HenshinEdge>> outerMap = new HashMap<HenshinEdge, Map<HenshinGraph, HenshinEdge>>();
+		HashMap<HenshinEdge, Map<HenshinGraph, HenshinEdge>> outerMap = new HashMap<>();
 		for (Embedding<INodeLabel, IEdgeLabel> e1 : fragment.getEmbeddings()) {
 			Iterator<Edge<INodeLabel, IEdgeLabel>> it = e1.getSubGraph()
 					.edgeIterator();
 			while (it.hasNext()) {
-				Set<HenshinGraph> considered = new HashSet<HenshinGraph>();
+				Set<HenshinGraph> considered = new HashSet<>();
 				Edge<INodeLabel, IEdgeLabel> subGraphEdge = it.next();
 				List<HenshinEdge> correspondingEdges = getEdgesCorrespondingToFragmentEdge(
 						subGraphEdge, fragment);
-				Map<HenshinGraph, HenshinEdge> innerMap = new HashMap<HenshinGraph, HenshinEdge>();
+				Map<HenshinGraph, HenshinEdge> innerMap = new HashMap<>();
 				HenshinGraph graph = correspondingEdges.iterator().next()
 						.getHenshinGraph();
 				if (!considered.contains(graph)) {
@@ -333,7 +333,7 @@ public class MiningManager {
 	 */
 	public Map<HenshinEdge, Map<HenshinGraph, HenshinEdge>> createHenshinAttributeMappings(
 			Fragment<INodeLabel, IEdgeLabel> fragment) {
-		HashMap<HenshinEdge, Map<HenshinGraph, HenshinEdge>> outerMap = new HashMap<HenshinEdge, Map<HenshinGraph, HenshinEdge>>();
+		HashMap<HenshinEdge, Map<HenshinGraph, HenshinEdge>> outerMap = new HashMap<>();
 		for (Embedding<INodeLabel, IEdgeLabel> e1 : fragment.getEmbeddings()) {
 			Iterator<Edge<INodeLabel, IEdgeLabel>> it = e1.getSubGraph()
 					.edgeIterator();
@@ -342,7 +342,7 @@ public class MiningManager {
 				List<HenshinEdge> correspondingEdges = getEdgesCorrespondingToFragmentEdge(
 						subGraphEdge, fragment);
 				if (correspondingEdges.get(0).getType() == AttributeEReference.instance) {
-					Map<HenshinGraph, HenshinEdge> innerMap = new HashMap<HenshinGraph, HenshinEdge>();
+					Map<HenshinGraph, HenshinEdge> innerMap = new HashMap<>();
 					for (HenshinEdge attributeEdge : correspondingEdges) {
 						innerMap.put(attributeEdge.getHenshinGraph(),
 								attributeEdge);

@@ -16,11 +16,11 @@ import de.parsemis.graph.Node;
  */
 public class HenshinGraphToParsemisGraphElementsMap {
 	
-	private Map<HenshinNode,Integer> nodeToIndexMap = new HashMap<HenshinNode,Integer>();
-	private Map<Integer,HenshinNode> indexToNodeMap = new HashMap<Integer, HenshinNode>();
+	private Map<HenshinNode,Integer> nodeToIndexMap = new HashMap<>();
+	private Map<Integer,HenshinNode> indexToNodeMap = new HashMap<>();
 	
-	private Map<HenshinEdge,Integer> edgeToIndexMap = new HashMap<HenshinEdge,Integer>();
-	private Map<Integer,HenshinEdge> indexToEdgeMap = new HashMap<Integer, HenshinEdge>();
+	private Map<HenshinEdge,Integer> edgeToIndexMap = new HashMap<>();
+	private Map<Integer,HenshinEdge> indexToEdgeMap = new HashMap<>();
 
 	public void put(HenshinEdge relation,int index) {
 		edgeToIndexMap.put(relation, index);
@@ -33,11 +33,11 @@ public class HenshinGraphToParsemisGraphElementsMap {
 	}
 	
 	
-	public HenshinEdge get(Edge edge) {
+	public HenshinEdge get(Edge<?, ?> edge) {
 		return indexToEdgeMap.get(edge.getIndex());
 	}
 	
-	public HenshinNode get(Node node) {
+	public HenshinNode get(Node<?, ?> node) {
 		return indexToNodeMap.get(node.getIndex());		
 	}
 

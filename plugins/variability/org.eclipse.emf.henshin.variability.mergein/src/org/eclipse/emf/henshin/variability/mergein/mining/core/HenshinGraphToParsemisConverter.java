@@ -36,7 +36,7 @@ public class HenshinGraphToParsemisConverter {
 
 	private HPMutableGraph<INodeLabel, IEdgeLabel> highPerformanceGraph;
 
-	private Map<Graph, HenshinGraphToParsemisGraphElementsMap> maps = MiningManagerFactory
+	private Map<Graph<INodeLabel, IEdgeLabel>, HenshinGraphToParsemisGraphElementsMap> maps = MiningManagerFactory
 			.getInstance().getManager().getHenshinToMinableGraphElementsMap();
 
 	/**
@@ -48,7 +48,7 @@ public class HenshinGraphToParsemisConverter {
 	 */
 	public Graph<INodeLabel, IEdgeLabel> createParsemisGraph(
 			HenshinGraph henshinGraph) {
-		GraphFactory<INodeLabel, IEdgeLabel> factory = new Factory<INodeLabel, IEdgeLabel>(
+		GraphFactory<INodeLabel, IEdgeLabel> factory = new Factory<>(
 				new ParsemisParserSerializer(),
 				new ParsemisParserSerializer());
 		Graph<INodeLabel, IEdgeLabel> graph = factory.newGraph(henshinGraph

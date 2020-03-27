@@ -1,0 +1,19 @@
+{
+	"ruleFile": "vb.henshin",
+	"applications": [
+		{
+			"rule": "preserve",
+			"model": "model2.xmi",
+			"results": [
+				{
+					"kind": "MODEL_SIZE",
+					"value": 14
+				},
+				{
+					"kind": "MATCHES",
+					"value": 121
+				}
+			]
+		}
+	]
+}

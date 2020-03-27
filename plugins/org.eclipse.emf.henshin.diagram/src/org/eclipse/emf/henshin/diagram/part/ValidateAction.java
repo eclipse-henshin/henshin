@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.henshin.diagram.providers.HenshinMarkerNavigationProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinValidationProvider;
@@ -162,7 +163,11 @@ public class ValidateAction extends Action {
 	}
 
 	/**
-	 * @generated
+	 * Previously generated code, was fixed to avoid NPE
+	 * 
+	 * @param target
+	 * @param validationStatus
+	 * @param diagramEditPart
 	 */
 	private static void createMarkers(IFile target, IStatus validationStatus, DiagramEditPart diagramEditPart) {
 		if (validationStatus.isOK()) {
@@ -176,9 +181,14 @@ public class ValidateAction extends Action {
 		for (Iterator it = allStatuses.iterator(); it.hasNext();) {
 			IConstraintStatus nextStatus = (IConstraintStatus) it.next();
 			View view = HenshinDiagramEditorUtil.findView(diagramEditPart, nextStatus.getTarget(), element2ViewMap);
-			addMarker(diagramEditPart.getViewer(), target, view.eResource().getURIFragment(view),
-					EMFCoreUtil.getQualifiedName(nextStatus.getTarget(), true), nextStatus.getMessage(),
-					nextStatus.getSeverity());
+			if (view != null) {
+				Resource eResource = view.eResource();
+				if (eResource != null) {
+					addMarker(diagramEditPart.getViewer(), target, eResource.getURIFragment(view),
+							EMFCoreUtil.getQualifiedName(nextStatus.getTarget(), true), nextStatus.getMessage(),
+							nextStatus.getSeverity());
+				}
+			}
 		}
 	}
 
