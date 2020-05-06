@@ -386,14 +386,14 @@ public class VariabilityView extends ViewPart
 
 		ruleNameLabel = new Label(composite, SWT.NONE);
 		ruleNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		ruleNameLabel.setText("No rule selected");
+		resetRuleNameLabel();
 
 		Label separatorName = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
 		separatorName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 
 		Label variabilityModelLabel = new Label(composite, SWT.NONE);
 		variabilityModelLabel.setImage(ImageHelper.getImage("/icons/variability.gif"));
-		variabilityModelLabel.setText("Configuration constraint");
+		variabilityModelLabel.setText("Feature Constraint");
 		variabilityModelLabel.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, false, false, 1, 1));
 		featureConstraintToolbar = new ToolBar(composite, SWT.FLAT);
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(featureConstraintToolbar);
@@ -740,7 +740,7 @@ public class VariabilityView extends ViewPart
 		domain.addResourceSetListener(new ConfigurationListener());
 
 		viewer.setInput(config);
-		ruleNameLabel.setText("Selected rule: " + rule.getName());
+		updateRuleNameLabel(rule);
 		writableValue.setValue(rule);
 		refreshFavorites(rule);
 
@@ -759,6 +759,23 @@ public class VariabilityView extends ViewPart
 		clear.setEnabled(true);
 		refresh.setEnabled(true);
 	}
+	
+	private void resetRuleNameLabel() {
+		ruleNameLabel.setText("No rule selected");
+	}
+
+	private void updateRuleNameLabel(VariabilityRule rule) {
+		if (rule != null) {
+			String ruleName = rule.getName();
+			if (ruleName != null && ! ruleName.isEmpty()) {
+				ruleNameLabel.setText("Selected rule: " + rule.getName());				
+			} else {
+				ruleNameLabel.setText("Selected rule is unnamed");		
+			}
+		} else {
+			resetRuleNameLabel();
+		}
+	}
 
 	@Override
 	public Configuration getContent() {
@@ -769,6 +786,7 @@ public class VariabilityView extends ViewPart
 		viewer.refresh();
 		variabilityModelTextBindingContext.updateModels();
 		variabilityModelTextBindingContext.updateTargets();
+		updateRuleNameLabel(config.getRule());
 	}
 
 	@Override
