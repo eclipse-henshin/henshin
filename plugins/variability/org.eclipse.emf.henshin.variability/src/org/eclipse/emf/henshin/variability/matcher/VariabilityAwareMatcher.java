@@ -175,9 +175,9 @@ public class VariabilityAwareMatcher {
 
 		Set<VariabilityAwareMatch> matches = new HashSet<VariabilityAwareMatch>();
 		if (!baseMatches.isEmpty()) {
-			mo.set(ruleInfo.getFeatureModel(), null, true);
+			mo.set(ruleInfo.getFeatureConstraint(), null, true);
 			findMatches(rule, mo, baseMatches, matches);
-			mo.set(ruleInfo.getFeatureModel(), true, null);
+			mo.set(ruleInfo.getFeatureConstraint(), true, null);
 		}
 
 		return matches;
@@ -298,12 +298,12 @@ public class VariabilityAwareMatcher {
 		Map<String, Sentence> usedExpressions;
 		Map<Sentence, Set<GraphElement>> pc2elem;
 		Map<Node, Set<Mapping>> node2Mapping;
-		Sentence featureModel;
+		Sentence featureConstraint;
 		Sentence injectiveMatching;
 
 		public RuleInfo(Rule rule) {
 			this.rule = VariabilityFactory.INSTANCE.createVariabilityRule(rule);
-			this.featureModel = FeatureExpression.getExpr(this.rule.getFeatureModel());
+			this.featureConstraint = FeatureExpression.getExpr(this.rule.getFeatureConstraint());
 			String injective = this.rule.getInjectiveMatchingPresenceCondition();
 			if (injective == null)
 				injective = rule.isInjectiveMatching() + "";
@@ -314,7 +314,7 @@ public class VariabilityAwareMatcher {
 		
 		public RuleInfo(VariabilityRule rule) {
 			this.rule = rule;
-			this.featureModel = FeatureExpression.getExpr(this.rule.getFeatureModel());
+			this.featureConstraint = FeatureExpression.getExpr(this.rule.getFeatureConstraint());
 			String injective = this.rule.getInjectiveMatchingPresenceCondition();
 			if (injective == null)
 				injective = rule.isInjectiveMatching() + "";
@@ -331,8 +331,8 @@ public class VariabilityAwareMatcher {
 			return usedExpressions;
 		}
 
-		public Sentence getFeatureModel() {
-			return featureModel;
+		public Sentence getFeatureConstraint() {
+			return featureConstraint;
 		}
 
 		public void populateMaps() {
@@ -373,9 +373,9 @@ public class VariabilityAwareMatcher {
 				}
 			}
 
-			if (featureModel != null && !featureModel.equals("") 
-					&& !pc2elem.containsKey(featureModel)) {
-				pc2elem.put(featureModel, new HashSet<GraphElement>());
+			if (featureConstraint != null && !featureConstraint.equals("") 
+					&& !pc2elem.containsKey(featureConstraint)) {
+				pc2elem.put(featureConstraint, new HashSet<GraphElement>());
 			}
 
 		}
@@ -407,7 +407,7 @@ public class VariabilityAwareMatcher {
 			for (Sentence expr : conditions) {
 				info.put(expr, null);
 			}
-			assumedTrue.add(ruleInfo.getFeatureModel());
+			assumedTrue.add(ruleInfo.getFeatureConstraint());
 			initiallyTrue.forEach(f -> assumedTrue.add(FeatureExpression.getExpr(f)));
 			initiallyFalse.forEach(f -> assumedFalse.add(FeatureExpression.getExpr(f)));
 			neutrals.addAll(conditions);

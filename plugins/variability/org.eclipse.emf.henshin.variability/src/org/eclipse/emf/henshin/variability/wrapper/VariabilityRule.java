@@ -50,7 +50,7 @@ import aima.core.logic.propositional.visitors.SymbolCollector;
  */
 public class VariabilityRule extends EObjectImpl implements Rule {
 	final Rule rule;
-	final Annotation featureModel;
+	final Annotation featureConstraint;
 	final Annotation injectiveMatchingPresenceCondition;
 	final Annotation features;
 	
@@ -65,7 +65,7 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 		while (it.hasNext()) {
 			Annotation anno = it.next();
 			String key = anno.getKey();
-			if (key.equals(VariabilityConstants.FEATURE_MODEL)) {
+			if (key.equals(VariabilityConstants.FEATURE_CONSTRAINT)) {
 				featModel = anno;
 			} else if (key.equals(VariabilityConstants.INJECTIVE_MATCHING_PC)) {
 				injMatPreCon = anno;
@@ -80,9 +80,9 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 		if(featModel != null) {
 			result[0] = featModel;
 		} else if (transactional) {
-			result[0] = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, "");
+			result[0] = VariabilityTransactionHelper.addAnnotation(rule, VariabilityConstants.FEATURE_CONSTRAINT, "");
 		} else {
-			result[0] = VariabilityHelper.addAnnotation(rule, VariabilityConstants.FEATURE_MODEL, "");
+			result[0] = VariabilityHelper.addAnnotation(rule, VariabilityConstants.FEATURE_CONSTRAINT, "");
 		}
 		
 		if(injMatPreCon != null) {
@@ -143,7 +143,7 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 	VariabilityRule(Rule rule, boolean transactional) {
 		this.rule = rule;
 		Annotation[] annos = addVariabilityToRule(rule, transactional);
-		featureModel = annos[0];
+		featureConstraint = annos[0];
 		injectiveMatchingPresenceCondition = annos[1];
 		features = annos[2];
 	}
@@ -153,17 +153,17 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 	 * 
 	 * @return the feature model of this Rule.
 	 */
-	public String getFeatureModel() {
-		return featureModel.getValue();
+	public String getFeatureConstraint() {
+		return featureConstraint.getValue();
 	}
 
 	/**
 	 * Sets this Rule's feature model to the given model.
 	 * 
-	 * @param featureModelString the feature model to be set for this Rule.
+	 * @param featureConstraintString the feature model to be set for this Rule.
 	 */
-	public void setFeatureModel(String featureModelString) {
-		featureModel.setValue(featureModelString);
+	public void setFeatureConstraint(String featureConstraintString) {
+		featureConstraint.setValue(featureConstraintString);
 		// TODO: Update list of features
 	}
 
@@ -258,7 +258,7 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 		features.setValue(String.join(",", featureList));
 	}
 
-	String oldFeatureModel = "";
+	String oldFeatureConstraint = "";
 	String oldFeatures = "";
 	List<String> missingFeatures = new ArrayList<String>();;
 
@@ -273,8 +273,8 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 	}
 
 	private void calculateMissingFeatureNames() {
-		String currentModel = getFeatureModel();
-		if (!currentModel.trim().equals(oldFeatureModel) || !oldFeatures.equals(features.getValue())) {
+		String currentModel = getFeatureConstraint();
+		if (!currentModel.trim().equals(oldFeatureConstraint) || !oldFeatures.equals(features.getValue())) {
 			Sentence sentence = FeatureExpression.getExpr(currentModel);
 			missingFeatures.clear();
 			Set<PropositionSymbol> symbols = SymbolCollector.getSymbolsFrom(sentence);
@@ -285,7 +285,7 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 					missingFeatures.add(symbolName);
 				}
 			}
-			oldFeatureModel = currentModel.trim();
+			oldFeatureConstraint = currentModel.trim();
 			oldFeatures = features.getValue();
 		}
 	}

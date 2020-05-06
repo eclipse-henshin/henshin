@@ -55,7 +55,7 @@ public class RuleUtil {
 
 	public static boolean isVarRule(Unit unit) {
 		if (unit instanceof Rule) {
-			if (VariabilityFactory.INSTANCE.createVariabilityRule((Rule) unit).getFeatureModel() != null) {
+			if (VariabilityFactory.INSTANCE.createVariabilityRule((Rule) unit).getFeatureConstraint() != null) {
 				return true;
 			}
 		}
@@ -70,7 +70,7 @@ public class RuleUtil {
 		List<String> features = varRule.getFeatures();
 
 		Stream<PropositionSymbol> fm = SymbolCollector
-				.getSymbolsFrom(FeatureExpression.getExpr(varRule.getFeatureModel())).parallelStream();
+				.getSymbolsFrom(FeatureExpression.getExpr(varRule.getFeatureConstraint())).parallelStream();
 		Stream<PropositionSymbol> symbols = varRule.getAnnotations().parallelStream()
 				.filter(annot -> VariabilityConstants.PRESENCE_CONDITION.equals(annot.getKey()))
 				.flatMap(annot -> SymbolCollector.getSymbolsFrom(FeatureExpression.getExpr(annot.getValue()))

@@ -157,7 +157,7 @@ public class NewMerger {
 
 	private void completeMerging() throws MergeInException {
 		setInjectiveMatching();
-		setFeatureModel();
+		setFeatureConstraint();
 		setFeatures();
 		setAnnotation();
 		if (furtherRules.isEmpty()) {
@@ -196,19 +196,19 @@ public class NewMerger {
 		henshinModule.getUnits().removeAll(furtherRules);
 	}
 
-	private void setFeatureModel() {
-		String featureModel = XOR;
+	private void setFeatureConstraint() {
+		String featureConstraint = XOR;
 		VariabilityRule masterVarRule = VariabilityFactory.INSTANCE.createVariabilityRule(masterRule);
 		masterVarRule.addFeature(masterVarRule.getName());
-		featureModel += BRACKET_LEFT;
-		featureModel += getCondition(masterRule);
+		featureConstraint += BRACKET_LEFT;
+		featureConstraint += getCondition(masterRule);
 		for (Rule rule : furtherRules) {
-			featureModel += COMMA;
-			featureModel += getCondition(rule);
+			featureConstraint += COMMA;
+			featureConstraint += getCondition(rule);
 			masterVarRule.addFeature(rule.getName());
 		}
-		featureModel += BRACKET_RIGHT;
-		VariabilityFactory.INSTANCE.createVariabilityRule(masterRule).setFeatureModel(featureModel);
+		featureConstraint += BRACKET_RIGHT;
+		VariabilityFactory.INSTANCE.createVariabilityRule(masterRule).setFeatureConstraint(featureConstraint);
 	}
 	
 	private void setFeatures() {

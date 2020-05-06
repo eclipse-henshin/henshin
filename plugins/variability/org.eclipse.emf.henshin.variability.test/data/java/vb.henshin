@@ -2,7 +2,7 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_EMSTsBBeEeqGYoBEYurJJg">
   <imports href="Java.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_FRXFYBBeEeqGYoBEYurJJg" name="preserve">
-    <annotations xmi:id="_FR3bsBBeEeqGYoBEYurJJg" key="featureModel" value="(M and not F) or (not M and F)"/>
+    <annotations xmi:id="_FR3bsBBeEeqGYoBEYurJJg" key="featureConstraint" value="(M and not F) or (not M and F)"/>
     <annotations xmi:id="_FR3bsRBeEeqGYoBEYurJJg" key="injectiveMatchingPresenceCondition" value=""/>
     <annotations xmi:id="_FR4CwBBeEeqGYoBEYurJJg" key="features" value="M, F"/>
     <lhs xmi:id="_FRfoQBBeEeqGYoBEYurJJg" name="Lhs">
@@ -71,7 +71,7 @@
     <mappings xmi:id="_wMfy4RG6Eeqxptn-OOol6g" origin="_wMfL0BG6Eeqxptn-OOol6g" image="_wMfy4BG6Eeqxptn-OOol6g"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_0rWAkCTxEeqQuPO741JcQw" name="create1">
-    <annotations xmi:id="_0rWAkSTxEeqQuPO741JcQw" key="featureModel" value="(M and not F) or (not M and F)"/>
+    <annotations xmi:id="_0rWAkSTxEeqQuPO741JcQw" key="featureConstraint" value="(M and not F) or (not M and F)"/>
     <annotations xmi:id="_0rWAkiTxEeqQuPO741JcQw" key="injectiveMatchingPresenceCondition" value=""/>
     <annotations xmi:id="_0rWAkyTxEeqQuPO741JcQw" key="features" value="M, F"/>
     <lhs xmi:id="_0rWAlCTxEeqQuPO741JcQw" name="Lhs">
@@ -148,7 +148,7 @@
     <mappings xmi:id="_0rWAtSTxEeqQuPO741JcQw" origin="_0rWAmyTxEeqQuPO741JcQw" image="_0rWAqiTxEeqQuPO741JcQw"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_52y8UCTyEeqmvcN2WI4rvQ" name="create2">
-    <annotations xmi:id="_52y8USTyEeqmvcN2WI4rvQ" key="featureModel" value="(M and not F) or (not M and F)"/>
+    <annotations xmi:id="_52y8USTyEeqmvcN2WI4rvQ" key="featureConstraint" value="(M and not F) or (not M and F)"/>
     <annotations xmi:id="_52y8UiTyEeqmvcN2WI4rvQ" key="injectiveMatchingPresenceCondition" value=""/>
     <annotations xmi:id="_52y8UyTyEeqmvcN2WI4rvQ" key="features" value="M, F"/>
     <lhs xmi:id="_52y8VCTyEeqmvcN2WI4rvQ" name="Lhs">
@@ -225,7 +225,7 @@
     <mappings xmi:id="_52y8eSTyEeqmvcN2WI4rvQ" origin="_52y8WyTyEeqmvcN2WI4rvQ" image="_52y8aiTyEeqmvcN2WI4rvQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_SrasgCTzEeqmvcN2WI4rvQ" name="delete1">
-    <annotations xmi:id="_SrasgSTzEeqmvcN2WI4rvQ" key="featureModel" value="(M and not F) or (not M and F)"/>
+    <annotations xmi:id="_SrasgSTzEeqmvcN2WI4rvQ" key="featureConstraint" value="(M and not F) or (not M and F)"/>
     <annotations xmi:id="_SrasgiTzEeqmvcN2WI4rvQ" key="injectiveMatchingPresenceCondition" value=""/>
     <annotations xmi:id="_SrasgyTzEeqmvcN2WI4rvQ" key="features" value="M, F"/>
     <lhs xmi:id="_SrashCTzEeqmvcN2WI4rvQ" name="Lhs">
@@ -285,7 +285,7 @@
     <mappings xmi:id="_SraspSTzEeqmvcN2WI4rvQ" origin="_SrasiyTzEeqmvcN2WI4rvQ" image="_SrasmiTzEeqmvcN2WI4rvQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_Z6vIACT1EeqBU_anwUtFuQ" name="delete2">
-    <annotations xmi:id="_Z6vIAST1EeqBU_anwUtFuQ" key="featureModel" value="(M and not F) or (not M and F)"/>
+    <annotations xmi:id="_Z6vIAST1EeqBU_anwUtFuQ" key="featureConstraint" value="(M and not F) or (not M and F)"/>
     <annotations xmi:id="_Z6vIAiT1EeqBU_anwUtFuQ" key="injectiveMatchingPresenceCondition" value=""/>
     <annotations xmi:id="_Z6vIAyT1EeqBU_anwUtFuQ" key="features" value="M, F"/>
     <lhs xmi:id="_Z6vIBCT1EeqBU_anwUtFuQ" name="Lhs">

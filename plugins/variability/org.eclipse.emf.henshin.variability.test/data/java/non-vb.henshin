@@ -2,7 +2,7 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_QYMFABHAEeqxptn-OOol6g">
   <imports href="Java.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_RDazUBHAEeqxptn-OOol6g" name="preserve">
-    <annotations xmi:id="_RD6ikBHAEeqxptn-OOol6g" key="featureModel" value=""/>
+    <annotations xmi:id="_RD6ikBHAEeqxptn-OOol6g" key="featureConstraint" value=""/>
     <annotations xmi:id="_RD6ikRHAEeqxptn-OOol6g" key="injectiveMatchingPresenceCondition" value=""/>
     <annotations xmi:id="_RD7JoBHAEeqxptn-OOol6g" key="features" value=""/>
     <lhs xmi:id="_RDkkUBHAEeqxptn-OOol6g" name="Lhs">

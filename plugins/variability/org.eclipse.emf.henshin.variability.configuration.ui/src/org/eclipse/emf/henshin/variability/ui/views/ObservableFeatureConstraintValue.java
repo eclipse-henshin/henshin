@@ -20,12 +20,12 @@ import org.eclipse.emf.henshin.variability.wrapper.VariabilityTransactionHelper;
  *
  * @param <T>
  */
-public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
+public class ObservableFeatureConstraintValue<T> implements IObservableValue<String>{
 	
 	IObservableValue<String> value;
 	boolean shouldUpdate;
 	
-	ObservableFeatureModelValue(IObservableValue<String> value) {
+	ObservableFeatureConstraintValue(IObservableValue<String> value) {
 		this.value = value;
 	}
 	
@@ -89,7 +89,7 @@ public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 	public String getValue() {
 		VariabilityRule rule = getTargetVariabilityRule();
 		if (rule != null) {
-			return rule.getFeatureModel();			
+			return rule.getFeatureConstraint();			
 		}
 		return value.getValue();
 	}
@@ -99,7 +99,7 @@ public class ObservableFeatureModelValue<T> implements IObservableValue<String>{
 		shouldUpdate = false;
 		VariabilityRule rule = getTargetVariabilityRule();
 		if (rule != null) {
-			VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURE_MODEL, value);
+			VariabilityTransactionHelper.setAnnotationValue(rule, VariabilityConstants.FEATURE_CONSTRAINT, value);
 		}
 		shouldUpdate = true;
 	}

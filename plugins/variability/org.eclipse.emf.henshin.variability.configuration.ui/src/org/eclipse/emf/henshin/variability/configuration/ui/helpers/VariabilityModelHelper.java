@@ -35,7 +35,7 @@ public class VariabilityModelHelper {
 	}
 
 	public static Sentence getFeatureExpression(Configuration configuration) {
-		Sentence expr = FeatureExpression.getExpr(TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(configuration.getRule()).getFeatureModel());
+		Sentence expr = FeatureExpression.getExpr(TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(configuration.getRule()).getFeatureConstraint());
 		for (Feature vp : configuration.getFeatures()) {
 			if (vp.getBinding() == FeatureBinding.TRUE) {
 				expr = FeatureExpression.and(expr, FeatureExpression.getExpr(vp.getName()));
@@ -66,7 +66,7 @@ public class VariabilityModelHelper {
 	}
 
 	private static Sentence getFeatureExpression(Configuration configuration, Feature feature) {
-		Sentence expr = FeatureExpression.getExpr(TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(configuration.getRule()).getFeatureModel());
+		Sentence expr = FeatureExpression.getExpr(TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(configuration.getRule()).getFeatureConstraint());
 		if (expr == null)
 			expr = FeatureExpression.getExpr(Logic.TRUE);
 		for (Feature vp : configuration.getFeatures()) {

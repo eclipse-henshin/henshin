@@ -2,7 +2,7 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_q2mewKo1EeGWmNM0TiX1dQ">
   <imports href="grid.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_OVdmvvPvEeSqRohALvsrgg" name="combPattern">
-    <annotations xmi:id="_Be-oAJaQEemUmuWcLbh5qQ" key="featureModel" value="xor(combPattern3, combPattern4, combPattern5)"/>
+    <annotations xmi:id="_Be-oAJaQEemUmuWcLbh5qQ" key="featureConstraint" value="xor(combPattern3, combPattern4, combPattern5)"/>
     <annotations xmi:id="_Be-oAZaQEemUmuWcLbh5qQ" key="features" value="combPattern3, combPattern4, combPattern5"/>
     <annotations xmi:id="_QirmcPpWEem5wpnPu4aQLQ" key="injectiveMatchingPresenceCondition"/>
     <lhs xmi:id="_OVdmv_PvEeSqRohALvsrgg" name="LHS">
@@ -132,7 +132,7 @@
     <mappings xmi:id="_zaEUUQZEEeq-0oliJiwLkQ" origin="_zaCfIAZEEeq-0oliJiwLkQ" image="_zaEUUAZEEeq-0oliJiwLkQ"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_3nCLYAZBEeqhdr1yv25vOw" name="test">
-    <annotations xmi:id="_3ncbEAZBEeqhdr1yv25vOw" key="featureModel"/>
+    <annotations xmi:id="_3ncbEAZBEeqhdr1yv25vOw" key="featureConstraint"/>
     <annotations xmi:id="_3nmzIAZBEeqhdr1yv25vOw" key="injectiveMatchingPresenceCondition"/>
     <annotations xmi:id="_3nrEkAZBEeqhdr1yv25vOw" key="features"/>
     <lhs xmi:id="_3nHq8AZBEeqhdr1yv25vOw" name="Lhs"/>

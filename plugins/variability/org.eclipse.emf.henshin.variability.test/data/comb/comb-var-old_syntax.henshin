@@ -4,7 +4,7 @@
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <imports href="grid.ecore#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_OVdmvvPvEeSqRohALvsrgg" name="combPattern">
-    <annotations xmi:id="_Be-oAJaQEemUmuWcLbh5qQ" key="featureModel" value="xor(combPattern3,combPattern4,combPattern5)"/>
+    <annotations xmi:id="_Be-oAJaQEemUmuWcLbh5qQ" key="featureConstraint" value="xor(combPattern3,combPattern4,combPattern5)"/>
     <annotations xmi:id="_Be-oAZaQEemUmuWcLbh5qQ" key="features" value="combPattern3, combPattern4, combPattern5"/>
     <lhs xmi:id="_OVdmv_PvEeSqRohALvsrgg" name="LHS">
       <nodes xmi:id="_OVdmwPPvEeSqRohALvsrgg" name="comb1" outgoing="_OVdmyPPvEeSqRohALvsrgg _OVdmyfPvEeSqRohALvsrgg">

@@ -116,7 +116,7 @@ public class VariabilityView extends ViewPart
 	private boolean linkingActive;
 	private Text variabilityModelText;
 	private DataBindingContext variabilityModelTextBindingContext;
-	private ObservableFeatureModelValue<?> observableFeatureModelValue;
+	private ObservableFeatureConstraintValue<?> observableFeatureConstraintValue;
 	private FeatureViewerComparator comparator;
 	private ConfigurationProvider configurationProvider = ConfigurationProvider.getInstance();
 	private WritableValue<Rule> writableValue;
@@ -128,7 +128,7 @@ public class VariabilityView extends ViewPart
 	private Label ruleNameLabel;
 
 	private ToolItem add, delete, clear, refresh, selectedFavorite, deleteFavorite;
-	private ToolBar favoriteToolBar, featureModelToolbar;
+	private ToolBar favoriteToolBar, featureConstraintToolbar;
 
 	public RuleEditPart getSelectedRuleEditPart() {
 		return selectedRuleEditPart;
@@ -395,10 +395,10 @@ public class VariabilityView extends ViewPart
 		variabilityModelLabel.setImage(ImageHelper.getImage("/icons/variability.gif"));
 		variabilityModelLabel.setText("Configuration constraint");
 		variabilityModelLabel.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, false, false, 1, 1));
-		featureModelToolbar = new ToolBar(composite, SWT.FLAT);
-		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(featureModelToolbar);
-		featureModelToolbar.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		ToolItem createFeatures = new ToolItem(featureModelToolbar, SWT.PUSH);
+		featureConstraintToolbar = new ToolBar(composite, SWT.FLAT);
+		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).grab(true, false).applyTo(featureConstraintToolbar);
+		featureConstraintToolbar.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+		ToolItem createFeatures = new ToolItem(featureConstraintToolbar, SWT.PUSH);
 		createFeatures.setImage(ImageHelper.getImage("/icons/create_features.png"));
 		createFeatures.setToolTipText("Create all undefined features");
 		createFeatures.addSelectionListener(new SelectionListener() {
@@ -412,7 +412,7 @@ public class VariabilityView extends ViewPart
 					feature.setName(featureName);
 					config.addFeature(feature);
 				}
-				featureModelToolbar.setVisible(false);
+				featureConstraintToolbar.setVisible(false);
 				refresh();
 			}
 
@@ -421,7 +421,7 @@ public class VariabilityView extends ViewPart
 
 			}
 		});
-		featureModelToolbar.setVisible(false);
+		featureConstraintToolbar.setVisible(false);
 		
 		variabilityModelText = new Text(composite, SWT.BORDER);
 		variabilityModelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
@@ -439,9 +439,9 @@ public class VariabilityView extends ViewPart
 //			}
 //		});
 //		
-//		bindingContext.bindValue(target, new ObservableFeatureModelValue(model), null, null);
-		observableFeatureModelValue = new ObservableFeatureModelValue<Object>(model);
-		variabilityModelTextBindingContext.bindValue(target, observableFeatureModelValue);
+//		bindingContext.bindValue(target, new ObservableFeatureConstraintValue(model), null, null);
+		observableFeatureConstraintValue = new ObservableFeatureConstraintValue<Object>(model);
+		variabilityModelTextBindingContext.bindValue(target, observableFeatureConstraintValue);
 
 		Label separator = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
 		separator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
@@ -584,7 +584,7 @@ public class VariabilityView extends ViewPart
 				if (isChecked() && selectedRuleEditPart != null) {
 					super.run();
 					RuleEditPartVisibilityHelper.showConfiguredRule(selectedRuleEditPart, config,
-							TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(config.getRule()).getFeatureModel());
+							TransactionalVariabilityFactory.INSTANCE.createVariabilityRule(config.getRule()).getFeatureConstraint());
 					if (creationMode == CreationMode.SELECTION) {
 						updateEditPolicy(selectedRuleEditPart);
 					}
@@ -706,16 +706,16 @@ public class VariabilityView extends ViewPart
 			Annotation annotation = findModifiedAnnotation(event.getNotifications());
 			if (annotation != null) {
 				String value = annotation.getValue();
-				if ((annotation.getKey().equals(VariabilityConstants.FEATURE_MODEL) || annotation.getKey().equals(VariabilityConstants.FEATURES)) && value != null && !value.isEmpty()) {
+				if ((annotation.getKey().equals(VariabilityConstants.FEATURE_CONSTRAINT) || annotation.getKey().equals(VariabilityConstants.FEATURES)) && value != null && !value.isEmpty()) {
 					if (config.getRule().hasMissingFeatures()) {
-						featureModelToolbar.setVisible(true);
+						featureConstraintToolbar.setVisible(true);
 					} else {
-						featureModelToolbar.setVisible(false);
+						featureConstraintToolbar.setVisible(false);
 					}
 				}
 				
 			}
-			if (observableFeatureModelValue.shouldUpdate()) {
+			if (observableFeatureConstraintValue.shouldUpdate()) {
 				refresh();
 			} else {
 				viewer.refresh();
@@ -749,9 +749,9 @@ public class VariabilityView extends ViewPart
 		}
 		
 		if (rule.getMissingFeatures().length > 0) {
-			featureModelToolbar.setVisible(true);
+			featureConstraintToolbar.setVisible(true);
 		} else {
-			featureModelToolbar.setVisible(false);
+			featureConstraintToolbar.setVisible(false);
 		}
 
 		add.setEnabled(true);

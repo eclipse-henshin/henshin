@@ -139,7 +139,7 @@ public class ConfigurationProvider {
 			ConfigurationFactory fac = ConfigurationFactoryImpl.init();
 			result = fac.createConfiguration();
 			result.setRule(varRule);
-			String featureModel = varRule.getFeatureModel();
+			String featureConstraint = varRule.getFeatureConstraint();
 			EList<Feature> variabilityPoints = result.getFeatures();
 
 			if(varRule.getFeatures() != null) {
@@ -148,8 +148,8 @@ public class ConfigurationProvider {
 					vp.setName(variabilityPointName);
 					variabilityPoints.add(vp);
 				}
-			} else if (featureModel != null && !featureModel.isEmpty()) {
-				Matcher match = Pattern.compile(REGEX).matcher(featureModel);
+			} else if (featureConstraint != null && !featureConstraint.isEmpty()) {
+				Matcher match = Pattern.compile(REGEX).matcher(featureConstraint);
 				while (match.find()) {
 					for (int i = 1; i <= match.groupCount(); i++) {
 						Feature vp = fac.createFeature();

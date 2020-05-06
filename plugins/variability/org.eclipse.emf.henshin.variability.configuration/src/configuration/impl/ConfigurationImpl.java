@@ -52,7 +52,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	 * @author Stefan Schulz
 	 *
 	 */
-	private final class EFeatureModelContentAdapter extends EContentAdapter {
+	private final class EFeatureConstraintContentAdapter extends EContentAdapter {
 		@Override
 		public void notifyChanged(Notification notification) {
 			if (notification.getEventType() == Notification.REMOVING_ADAPTER) {
@@ -88,7 +88,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	 */
 	protected EList<Feature> features;
 
-	protected EFeatureModelContentAdapter featuresContentAdapter;
+	protected EFeatureConstraintContentAdapter featuresContentAdapter;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -142,7 +142,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 	
 	private void enableContentAdapter() {
 		if (featuresContentAdapter == null) {
-			featuresContentAdapter = new EFeatureModelContentAdapter();
+			featuresContentAdapter = new EFeatureConstraintContentAdapter();
 		}
 		rule.eResource().getResourceSet().eAdapters().add(featuresContentAdapter);
 	}
@@ -168,7 +168,7 @@ public class ConfigurationImpl extends MinimalEObjectImpl.Container implements C
 		if (featuresContentAdapter != null) {
 			oldRule.eResource().getResourceSet().eAdapters().remove(featuresContentAdapter);
 		} else {
-			featuresContentAdapter = new EFeatureModelContentAdapter();
+			featuresContentAdapter = new EFeatureConstraintContentAdapter();
 		}
 		rule = newRule;
 		rule.eResource().getResourceSet().eAdapters().add(featuresContentAdapter);

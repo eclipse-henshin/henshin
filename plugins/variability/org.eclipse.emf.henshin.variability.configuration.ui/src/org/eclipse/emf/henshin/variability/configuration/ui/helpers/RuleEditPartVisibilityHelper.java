@@ -168,8 +168,8 @@ public class RuleEditPartVisibilityHelper {
 		toggleRuleParts(ruleEditPart, new BaseRuleConcealingCondition());
 	}
 
-	public static void showConfiguredRule(RuleEditPart ruleEditPart, Configuration configuration, String featureModel) {
-		if (featureModel == null || configuration == null || ruleEditPart == null) {
+	public static void showConfiguredRule(RuleEditPart ruleEditPart, Configuration configuration, String featureConstraint) {
+		if (featureConstraint == null || configuration == null || ruleEditPart == null) {
 			return;
 		}
 
