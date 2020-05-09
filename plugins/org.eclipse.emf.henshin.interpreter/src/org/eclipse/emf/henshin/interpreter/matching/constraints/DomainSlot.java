@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -147,15 +148,22 @@ public class DomainSlot {
 			return false;
 		}
 		
-		if (!setValueAndLock()) {
-			return false;
-		}
+		//if (!setValueAndLock()) {
+		//	return false;
+		//}
 		
 		// Check the variable?
 		if (!checkedVariables.contains(variable)) {
 			
 			if (!checkTypeConstraint(variable)) {
 				return false;
+			}
+			
+			//Check injective
+			if(injective)
+			{
+			   if(!checkInjective(variable, domainMap))
+				   return false;
 			}
 			
 			// Check the dangling constraints:
@@ -212,6 +220,34 @@ public class DomainSlot {
 		// Instantiation was successful:
 		return true;
 		
+	}
+
+	/**Check if matching of variables violates injective
+	 * @param variable
+	 * @param domainMap
+	 */
+	private Boolean checkInjective(Variable variable, Map<Variable, DomainSlot> domainMap) {
+		
+		if(variable.name.isEmpty())
+			return true;
+		
+		for (Entry<Variable, DomainSlot> entry : domainMap.entrySet()) {
+			Variable checkDoaminVariable = entry.getKey();
+			DomainSlot checkDomainSlot = entry.getValue();
+			// If different variables have the same name
+			if (checkDoaminVariable.name.equals(variable.name) && variable != checkDoaminVariable)
+				// And the variables correspond to the same type
+				if (checkDoaminVariable.typeConstraint.type == variable.typeConstraint.type) {
+					// Compare whether their corresponding maps are consistent
+					if (checkDomainSlot.initialized) {
+						if (checkDomainSlot.value != domainMap.get(variable).value) {
+							return false;
+						}
+					}
+				}
+		}
+		
+		return true;
 	}
 	
 	/**
