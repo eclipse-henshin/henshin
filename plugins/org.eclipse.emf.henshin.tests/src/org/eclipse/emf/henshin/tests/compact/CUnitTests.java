@@ -1,9 +1,8 @@
 package org.eclipse.emf.henshin.tests.compact;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -16,29 +15,29 @@ import org.eclipse.emf.henshin.model.compact.CModule;
 import org.eclipse.emf.henshin.model.compact.CRule;
 import org.eclipse.emf.henshin.model.compact.CUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-class CUnitTests {
-	
+public class CUnitTests {
+
 	static EClassifier account;
 	static String path;
 	static EPackage pack;
-	CModule mod,bank;
+	CModule mod, bank;
 	CUnit unit;
 	CRule rule;
 
-	@BeforeAll
+	@BeforeClass
 	public static void globalSetup() {
 		path = "src/org/eclipse/emf/henshin/tests/compact/";
 		HenshinResourceSet hrs = new HenshinResourceSet(path);
 		pack = hrs.registerDynamicEPackages("bank.ecore").get(0);
 		account = pack.getEClassifier("Account");
-		
+
 	}
-	
-	@BeforeEach
+
+	@Before
 	public void localSetup() {
 		mod = new CModule("module");
 		rule = mod.createRule("rule");
@@ -46,49 +45,45 @@ class CUnitTests {
 	}
 
 	@Test
-	void createParameterTest() {
+	public void createParameterTest() {
 		unit.createParameter(ParameterKind.IN, "param", EcorePackage.Literals.EINT);
 		Parameter par = unit.getUnit().getParameter("param");
 		assertNotNull(par);
-		assertEquals(par.getKind(),ParameterKind.IN);
-		assertEquals(par.getName(),"param");
+		assertEquals(par.getKind(), ParameterKind.IN);
+		assertEquals(par.getName(), "param");
 		assertEquals(par.getType(), EcorePackage.Literals.EINT);
 	}
-	
+
 	@Test
-	void createParameterWithStringKind() {
+	public void createParameterWithStringKind() {
 		unit.createParameter("in", "param", EcorePackage.Literals.EINT);
 		Parameter par = unit.getUnit().getParameter("param");
 		assertNotNull(par);
-		assertEquals(par.getKind(),ParameterKind.IN);
-		assertEquals(par.getName(),"param");
+		assertEquals(par.getKind(), ParameterKind.IN);
+		assertEquals(par.getName(), "param");
 		assertEquals(par.getType(), EcorePackage.Literals.EINT);
 	}
-	
-	@Test
-	void createParameterWithWrongStringKind() {
-		assertThrows(RuntimeException.class,() -> {
-			unit.createParameter("cheesecake", "param", EcorePackage.Literals.EINT);
-			});
+
+	@Test(expected = RuntimeException.class)
+	public void createParameterWithWrongStringKind() {
+		unit.createParameter("cheesecake", "param", EcorePackage.Literals.EINT);
 	}
-	
+
 	@Test
-	void createParameterWithClassifierString() {
+	public void createParameterWithClassifierString() {
 		mod.addImport(pack);
 		rule.createParameter(ParameterKind.IN, "param", "Account");
 		Parameter par = rule.getUnit().getParameter("param");
-		assertEquals(par.getType(),account);
+		assertEquals(par.getType(), account);
 	}
-	
-	@Test
-	void createParameterWithWrongClassifierString() {
-		assertThrows(RuntimeException.class,() -> {
-			unit.createParameter(ParameterKind.IN, "param", "cheesecake");
-			});
+
+	@Test(expected = RuntimeException.class)
+	public void createParameterWithWrongClassifierString() {
+		unit.createParameter(ParameterKind.IN, "param", "cheesecake");
 	}
-	
+
 	@Test
-	void createParameterAllStrings() {
+	public void createParameterAllStrings() {
 		mod.addImport(pack);
 		rule.createParameter("inout", "param", "Account");
 		Parameter par = rule.getUnit().getParameter("param");
@@ -97,9 +92,9 @@ class CUnitTests {
 		assertEquals(par.getType(), account);
 		assertEquals(par.getName(), "param");
 	}
-	
+
 	@Test
-	void mapParameterTest() {
+	public void mapParameterTest() {
 		unit.createParameter("out", "param1", EcorePackage.Literals.EINT);
 		rule.createParameter("in", "param2", EcorePackage.Literals.EINT);
 		assertTrue(unit.getUnit().getParameterMappings().isEmpty());
@@ -110,43 +105,38 @@ class CUnitTests {
 		assertEquals(map.getSource(), unit.getUnit().getParameter("param1"));
 		assertEquals(map.getTarget(), rule.getUnit().getParameter("param2"));
 	}
-	
-	@Test
-	void mapParameterWrongUnitTest() {
+
+	@Test(expected = RuntimeException.class)
+	public void mapParameterWrongUnitTest() {
 		unit.createParameter("out", "param1", EcorePackage.Literals.EINT);
 		rule.createParameter("in", "param2", EcorePackage.Literals.EINT);
-		Exception e = assertThrows(RuntimeException.class,() -> {
-			unit.mapParameterToSubunit("param1", "cheesecake", "param2");
-			});
-		assertEquals("Unit: cheesecake not found", e.getMessage());
+		unit.mapParameterToSubunit("param1", "cheesecake", "param2");
 	}
-	
-	@Test
-	void mapParameterWrongParamTest() {
+
+	@Test(expected = RuntimeException.class)
+	public void mapParameterWrongParamTest1() {
 		unit.createParameter("out", "param1", EcorePackage.Literals.EINT);
 		rule.createParameter("in", "param2", EcorePackage.Literals.EINT);
-		Exception e = assertThrows(RuntimeException.class,() -> {
-			unit.mapParameterToSubunit("cheesecake", "rule", "param2");
-			});
-		assertEquals(e.getMessage(), "Parameter: cheesecake not found");
-		e = assertThrows(RuntimeException.class,() -> {
-			unit.mapParameterToSubunit("param1", "rule", "cheesecake");
-			});
-		assertEquals(e.getMessage(), "Parameter: cheesecake in rule not found");
+		unit.mapParameterToSubunit("cheesecake", "rule", "param2");
+		;
 	}
-	
-	@Test
-	void mapParameterTypesNotEqualTest() {
+
+	@Test(expected = RuntimeException.class)
+	public void mapParameterWrongParamTest2() {
+		unit.createParameter("out", "param1", EcorePackage.Literals.EINT);
+		rule.createParameter("in", "param2", EcorePackage.Literals.EINT);
+		unit.mapParameterToSubunit("param1", "rule", "cheesecake");
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void mapParameterTypesNotEqualTest() {
 		unit.createParameter("out", "param1", EcorePackage.Literals.EINT);
 		rule.createParameter("in", "param2", EcorePackage.Literals.ESTRING);
-		Exception e = assertThrows(RuntimeException.class,() -> {
-			unit.mapParameterToSubunit("param1", "rule", "param2");
-			});
-		assertEquals(e.getMessage(), "Parameters do not have equal Types");
+		unit.mapParameterToSubunit("param1", "rule", "param2");
 	}
-	
+
 	@Test
-	void setUnitTest() {
+	public void setUnitTest() {
 		unit.setUnit(rule.getUnit());
 		assertEquals(unit.getUnit(), rule.getUnit());
 	}

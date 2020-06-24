@@ -1,9 +1,9 @@
 package org.eclipse.emf.henshin.tests.compact;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.List;
@@ -22,11 +22,10 @@ import org.eclipse.emf.henshin.model.compact.CModule;
 import org.eclipse.emf.henshin.model.compact.CRule;
 import org.eclipse.emf.henshin.model.compact.CUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-class CModuleTests {
+public class CModuleTests {
 	
 	static String path;
 	
@@ -39,8 +38,8 @@ class CModuleTests {
 	
 	CModule mod;
 	
-	@BeforeAll
-	public static void globalSetup() {
+	@Before
+	public void globalSetup() {
 		path = "src/org/eclipse/emf/henshin/tests/compact/";
 		res = new HenshinResourceSet(path);
 		pack = res.registerDynamicEPackages("bank.ecore").get(0);
@@ -63,48 +62,48 @@ class CModuleTests {
 		u.setName("unit");
 	}
 	
-	@BeforeEach
+	@Before
 	public void localSetup() {
 		mod = new CModule("module");
 	}
 	
 
 	@Test
-	void createModuleTest() {
+	public void createModuleTest() {
 		mod = new CModule("module");
 		assertNotNull(mod);
 		assertEquals(mod.getModule().getName(),"module");
 	}
 	
 	@Test
-	void addImportTest() {
+	public void addImportTest() {
 		assertTrue(mod.getModule().getImports().isEmpty());
 		mod.addImport(pack);
 		assertEquals(mod.getModule().getImports().get(0),pack);	
 		}
 	
 	@Test
-	void addImportFromFile() {
+	public void addImportFromFile() {
 		assertTrue(mod.getModule().getImports().isEmpty());
 		mod.addImportsFromFile(path+"bank.ecore");
 		assertTrue(!mod.getModule().getImports().isEmpty());
 	}
 	
 	@Test
-	void reuseModuleTest() {
+	public void reuseModuleTest() {
 		mod = new CModule(m);
 		assertEquals(mod.getModule(),m);
 	}
 	
 	@Test
-	void loadModuleTest() {
+	public void loadModuleTest() {
 		mod = CModule.loadFromFile(path+"bank.henshin");
 		//.equals is not implemented for Module-Class. .toString is. Therefore the Strings are compared rather than the Modules themselves.
 		assertEquals(mod.getModule().toString(),m.toString());
 	}
 	
 	@Test
-	void saveTestWithName() {
+	public void saveTestWithName() {
 		mod = new CModule(m);
 		assertTrue(!moduleFile2.exists());
 		mod.save(path+"test");
@@ -112,7 +111,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void saveTestWithoutName() {
+	public void saveTestWithoutName() {
 		mod = new CModule(m);
 		mod.getModule().setName("module");
 		assertTrue(!moduleFile.exists());
@@ -121,7 +120,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void addRuleTest() {
+	public void addRuleTest() {
 		CRule c = mod.addRule(r);
 		assertTrue(!mod.getModule().getUnits().isEmpty());
 		assertNotNull(c);
@@ -130,7 +129,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void addUnitTest() {
+	public void addUnitTest() {
 		CUnit cu = mod.addUnit(u);
 		assertTrue(mod.getModule().getUnits().contains(u));
 		assertNotNull(cu);
@@ -139,7 +138,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void ruleCreationTest() {
+	public void ruleCreationTest() {
 		CRule cr = mod.createRule("rule");
 		assertNotNull(cr);
 		assertNotNull(cr.getUnit());
@@ -147,7 +146,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void loopUnitCreationTest() {
+	public void loopUnitCreationTest() {
 		CRule cr = mod.addRule(r);
 		mod.createLoop(cr);
 		assertTrue(mod.getModule().getUnits().size()==2);
@@ -156,7 +155,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void iteratedUnitCreationTest() {
+	public void iteratedUnitCreationTest() {
 		CRule cr = mod.addRule(r);
 		mod.createIteration(cr,"2");
 		assertTrue(mod.getModule().getUnits().size()==2);
@@ -165,7 +164,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void conditionalUnitCreationTestWithElse() {
+	public void conditionalUnitCreationTestWithElse() {
 		CRule cr = mod.addRule(r);
 		mod.createConditional(cr,cr,cr,"conditional");
 		assertTrue(mod.getModule().getUnits().size()==2);
@@ -177,7 +176,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void conditionalUnitCreationTestWithoutElse() {
+	public void conditionalUnitCreationTestWithoutElse() {
 		CRule cr = mod.addRule(r);
 		mod.createConditional(cr,cr,null,"conditional");
 		assertTrue(mod.getModule().getUnits().size()==2);
@@ -189,7 +188,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void priorityUnitCreationTest() {
+	public void priorityUnitCreationTest() {
 		CRule cr = mod.addRule(r);
 		assertNull(mod.getModule().getUnit("priority"));
 		mod.addToPriority(cr, "priority");
@@ -199,7 +198,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void priorityUnitAddTest() {
+	public void priorityUnitAddTest() {
 		CRule cr = mod.addRule(r);
 		mod.addToPriority(cr, "priority");
 		assertNotNull(mod.getModule().getUnit("priority"));
@@ -209,7 +208,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void sequentialUnitCreationTest() {
+	public void sequentialUnitCreationTest() {
 		CRule cr = mod.addRule(r);
 		assertNull(mod.getModule().getUnit("sequence"));
 		mod.addToSequence(cr, "sequence");
@@ -219,7 +218,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void sequentialUnitAddTest() {
+	public void sequentialUnitAddTest() {
 		CRule cr = mod.addRule(r);
 		mod.addToSequence(cr, "sequence");
 		assertNotNull(mod.getModule().getUnit("sequence"));
@@ -229,7 +228,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void independentUnitCreationTest() {
+	public void independentUnitCreationTest() {
 		CRule cr = mod.addRule(r);
 		assertNull(mod.getModule().getUnit("independent"));
 		mod.addToIndependent(cr, "independent");
@@ -239,7 +238,7 @@ class CModuleTests {
 	}
 	
 	@Test
-	void independentUnitAddTest() {
+	public void independentUnitAddTest() {
 		CRule cr = mod.addRule(r);
 		mod.addToIndependent(cr, "independent");
 		assertNotNull(mod.getModule().getUnit("independent"));
@@ -250,7 +249,7 @@ class CModuleTests {
 	
 	
 	@Test
-	void getAllCUnitsTest() {
+	public void getAllCUnitsTest() {
 		mod = new CModule(m);
 		List<CUnit> list = mod.getAllCUnits();
 		assertEquals(list.size(),m.getUnits().size());
