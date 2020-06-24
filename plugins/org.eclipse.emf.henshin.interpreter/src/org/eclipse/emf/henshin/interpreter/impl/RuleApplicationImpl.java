@@ -88,11 +88,10 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 			change = null;
 			resultMatch = null;
 		}
-
-		areNecessaryParametersSet(unit.getParameters(), unit.getName(), partialMatch);
-
+		
 		// Do we need to derive a complete match?
 		if (completeMatch==null) {
+			areNecessaryParametersSet(unit.getParameters(), unit.getName(), partialMatch);
 			completeMatch = engine.findMatches((Rule) unit, graph, partialMatch).iterator().next();
 			isCompleteMatchDerived = true;
 		}
