@@ -1,8 +1,7 @@
 package org.eclipse.emf.henshin.tests.compact;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -19,11 +18,11 @@ import org.eclipse.emf.henshin.model.compact.CNode;
 import org.eclipse.emf.henshin.model.compact.CRule;
 import org.eclipse.emf.henshin.model.compact.CUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-class CRuleTests {
+public class CRuleTests {
 	
 	static EClass account;
 	static String path;
@@ -31,7 +30,7 @@ class CRuleTests {
 	CModule mod;
 	CRule rule;
 	
-	@BeforeAll
+	@BeforeClass
 	public static void globalSetUp() {
 		path = "src/org/eclipse/emf/henshin/tests/compact/";
 		HenshinResourceSet hrs = new HenshinResourceSet(path);
@@ -39,7 +38,7 @@ class CRuleTests {
 		account = (EClass) pack.getEClassifier("Account");
 	}
 	
-	@BeforeEach
+	@Before
 	public void localSetUp() {
 		mod = new CModule("module");
 		mod.addImport(pack);
@@ -47,7 +46,7 @@ class CRuleTests {
 	}
 
 	@Test
-	void createNodeTest() {
+	public void createNodeTest() {
 		CNode node = rule.createNode(account, new Action(Action.Type.PRESERVE));
 		assertTrue(!rule.getUnit().getLhs().getNodes().isEmpty());
 		assertEquals(node.getNode().getType(),account);
@@ -56,7 +55,7 @@ class CRuleTests {
 	}
 	
 	@Test
-	void createNodeTestClassStringTest() {
+	public void createNodeTestClassStringTest() {
 		CNode node = rule.createNode("Account", new Action(Action.Type.PRESERVE));
 		assertTrue(!rule.getUnit().getLhs().getNodes().isEmpty());
 		assertEquals(node.getNode().getType(),account);
@@ -65,7 +64,7 @@ class CRuleTests {
 	}
 	
 	@Test
-	void createNodeTestActionStringTest() {
+	public void createNodeTestActionStringTest() {
 		CNode node = rule.createNode(account, "preserve");
 		assertTrue(!rule.getUnit().getLhs().getNodes().isEmpty());
 		assertEquals(node.getNode().getType(),account);
@@ -74,7 +73,7 @@ class CRuleTests {
 	}
 	
 	@Test
-	void createNodeAllStrings() {
+	public void createNodeAllStrings() {
 		CNode node = rule.createNode("Account", "preserve");
 		assertTrue(!rule.getUnit().getLhs().getNodes().isEmpty());
 		assertEquals(node.getNode().getType(),account);
@@ -83,7 +82,7 @@ class CRuleTests {
 	}
 	
 	@Test
-	void createNodeDefaultActionTest() {
+	public void createNodeDefaultActionTest() {
 		CNode node = rule.createNode(account);
 		assertTrue(!rule.getUnit().getLhs().getNodes().isEmpty());
 		assertEquals(node.getNode().getType(),account);
@@ -92,7 +91,7 @@ class CRuleTests {
 	}
 	
 	@Test
-	void createNodeDefaultActionClassStringTest() {
+	public void createNodeDefaultActionClassStringTest() {
 		CNode node = rule.createNode("Account");
 		assertTrue(!rule.getUnit().getLhs().getNodes().isEmpty());
 		assertEquals(node.getNode().getType(),account);
@@ -100,20 +99,20 @@ class CRuleTests {
 		assertEquals(node.getNode().getGraph(), rule.getUnit().getLhs());
 	}
 	
-	@Test
-	void createNodeWrongActionStringTest() {
-		Exception e = assertThrows(RuntimeException.class,() -> {
+	@Test(expected = RuntimeException.class)
+	public void createNodeWrongActionStringTest1() {
 			rule.createNode(account, "cheesecake");
-			});
-		assertEquals(e.getMessage(), "cheesecake is not a valid Action");
-		e = assertThrows(RuntimeException.class,() -> {
-			rule.createNode("Account", "cheesecake");
-			});
-		assertEquals(e.getMessage(), "cheesecake is not a valid Action");
 	}
 	
+
+	@Test(expected = RuntimeException.class)
+	public void createNodeWrongActionStringTest2() {
+			rule.createNode("Account", "cheesecake");
+	}
+	
+	
 	@Test
-	void createNodeInMultiRuleTest() {
+	public void createNodeInMultiRuleTest() {
 		rule.createParameter("in", "param", EcorePackage.Literals.EINT);
 		
 		CNode node = rule.createNode(account, "delete*/myMultiRule");
@@ -124,56 +123,50 @@ class CRuleTests {
 	}
 	
 	@Test
-	void createNodeInNAC() {
+	public void createNodeInNAC() {
 		CNode node = rule.createNode(account, "forbid#myNAC");
 		assertTrue(rule.getUnit().getLhs().getNAC("myNAC").getConclusion().getNodes().contains(node.getNode()));
 	}
 	
 	@Test
-	void createNodeInPAC() {
+	public void createNodeInPAC() {
 		CNode node = rule.createNode(account, "require#myPAC");
 		assertTrue(rule.getUnit().getLhs().getPAC("myPAC").getConclusion().getNodes().contains(node.getNode()));
 	}
 	
 	@Test
-	void extractNACTest() {
+	public void extractNACTest() {
 		rule.createNode(account, "forbid#myNAC");
 		Not n = rule.getNAC("myNAC");
 		assertEquals(n, ((Not)rule.getUnit().getLhs().getFormula()));
 	}
 	
 	@Test
-	void extractPACTest() {
+	public void extractPACTest() {
 		rule.createNode(account, "require#myPAC");
 		NestedCondition n = rule.getPAC("myPAC");
 		assertEquals(n, rule.getUnit().getLhs().getFormula());
 	}
 	
-	@Test
-	void extractNACNonExistentTest() {
-		Exception e = assertThrows(RuntimeException.class,() -> {
+	@Test(expected = RuntimeException.class)
+	public void extractNACNonExistentTest() {
 			rule.getNAC("myNAC");
-			});
-		assertEquals(e.getMessage(), "Could not find any Condition named: myNAC");
 	}
 	
-	@Test
-	void extractPACNonExistentTest() {
-		Exception e = assertThrows(RuntimeException.class,() -> {
+	@Test(expected = RuntimeException.class)
+	public void extractPACNonExistentTest() {
 			rule.getPAC("myPAC");
-			});
-		assertEquals(e.getMessage(), "Could not find any Condition named: myPAC");
 	}
 	
 	@Test
-	void setFormulaTest() {
+	public void setFormulaTest() {
 		Or or = HenshinFactory.eINSTANCE.createOr();
 		rule.setPreConditionFormula(or);
 		assertEquals(rule.getUnit().getLhs().getFormula(), or);
 	}
 	
 	@Test
-	void createAttributeConditionTest() {
+	public void createAttributeConditionTest() {
 		rule.createParameter("in", "param", EcorePackage.Literals.EINT);
 		rule.createAttributeCondition("cond", "param=100");
 		AttributeCondition cond = rule.getUnit().getAttributeConditions().get(0);
@@ -182,18 +175,15 @@ class CRuleTests {
 	}
 	
 	@Test
-	void setUnitTest() {
+	public void setUnitTest() {
 		CRule newRule = mod.createRule("newRule");
 		newRule.setUnit(rule.getUnit());
 		assertEquals(newRule.getUnit(), rule.getUnit());
 	}
 	
-	@Test
-	void setUnitTestNotARule() {
+	@Test(expected = RuntimeException.class)
+	public void setUnitTestNotARule() {
 		CUnit unit = mod.createLoop(rule);
-		Exception e = assertThrows(RuntimeException.class,() -> {
 			rule.setUnit(unit.getUnit());
-			});
-		assertEquals(e.getMessage(), "Given Unit is not a Rule!");
 	}
 }
