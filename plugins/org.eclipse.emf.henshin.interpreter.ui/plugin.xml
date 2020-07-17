@@ -7,6 +7,7 @@
   http://www.eclipse.org/legal/epl-v10.html
  -->
 <plugin>
+   <extension-point id="org.eclipse.emf.henshin.monitoring.ui" name="MonitoringUI" schema="schema/org.eclipse.emf.henshin.monitoring.ui.exsd"/>
    <extension
          id="org.eclipse.emf.henshin.menu"
          point="org.eclipse.ui.menus">

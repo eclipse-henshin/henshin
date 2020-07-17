@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
 import java.util.Map;
 
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
@@ -36,11 +37,12 @@ public class SolutionFinder extends ApplicationCondition {
 	 * @param graph Target graph.
 	 * @param variableDomainMap Variable domain map.
 	 * @param conditionHandler Attribute condition handler.
+	 * @param monitor Monitor to collect performance data
 	 */
 	public SolutionFinder(EGraph graph, 
 			Map<Variable, DomainSlot> variableDomainMap,
-			ConditionHandler conditionHandler) {
-		super(graph, variableDomainMap);
+			ConditionHandler conditionHandler,ApplicationMonitor monitor) {
+		super(graph, variableDomainMap,monitor); //added monitor
 		this.conditionHandler = conditionHandler;
 		this.started = false;
 	}

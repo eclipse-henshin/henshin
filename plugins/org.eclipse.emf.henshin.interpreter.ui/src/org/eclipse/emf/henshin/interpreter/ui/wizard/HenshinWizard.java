@@ -19,8 +19,11 @@ import org.eclipse.compare.CompareEditorInput;
 import org.eclipse.compare.CompareUI;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.EMFCompare;
@@ -47,7 +50,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.henshin.interpreter.monitoring.PerformanceMonitor;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.extension.IMonitoringUI;
 import org.eclipse.emf.henshin.interpreter.ui.util.ParameterConfig;
 import org.eclipse.emf.henshin.interpreter.ui.util.TransformOperation;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.ModelSelector.ModelSelectorListener;
@@ -81,6 +86,9 @@ public class HenshinWizard extends Wizard
 	protected TransformOperation transformOperation;
 
 	protected HenshinWizardPage page;
+	
+	private final String EXTENSION_ID="org.eclipse.emf.henshin.monitoring.ui";
+	
 
 	/*
 	 * Private constructor.
@@ -313,6 +321,20 @@ public class HenshinWizard extends Wizard
 	 */
 	@Override
 	public boolean performFinish() {
+		//Start monitoring
+		if (page.monitorExecution.getSelection()){
+	        try {
+	        	IConfigurationElement[] configList=Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_ID);
+	            for (IConfigurationElement config:configList) {
+	                final Object obj =config.createExecutableExtension("class");
+	                if (obj instanceof IMonitoringUI) {
+	                	transformOperation.setPerformanceMonitor(((IMonitoringUI)obj).getPerformanceMonitor());
+	                }
+	            }
+	        } catch (CoreException e) {
+	            System.err.println(e.getMessage());
+	        }
+		}
 		try {
 			getContainer().run(true, true, transformOperation);
 
@@ -345,6 +367,12 @@ public class HenshinWizard extends Wizard
 
 				CompareUI.openCompareEditor(input);
 			}
+			
+			//Profiler: start analysis and open Gui
+			if (page.monitorExecution.getSelection()){
+				transformOperation.getPerformanceMonitor().showVisualizations();
+			}
+			
 
 		} catch (InvocationTargetException e) {
 			String message = "Error applying transformation";

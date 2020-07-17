@@ -20,5 +20,6 @@ Export-Package: org.eclipse.emf.henshin.interpreter,
  org.eclipse.emf.henshin.interpreter.info,
  org.eclipse.emf.henshin.interpreter.matching.conditions,
  org.eclipse.emf.henshin.interpreter.matching.constraints,
+ org.eclipse.emf.henshin.interpreter.monitoring,
  org.eclipse.emf.henshin.interpreter.util
 Import-Package: org.eclipse.emf.henshin.diagram.providers

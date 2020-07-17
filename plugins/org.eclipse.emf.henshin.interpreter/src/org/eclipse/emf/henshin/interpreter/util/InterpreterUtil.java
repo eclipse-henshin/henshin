@@ -397,6 +397,7 @@ public class InterpreterUtil {
 	 * @param assignment Assignment to be used.
 	 * @param engine Engine to be used.
 	 * @param resource Resource containing the model to be transformed.
+	 * @param monitor Monitor to collect performance data
 	 * @return <code>true</code> if the unit was successfully applied.
 	 */
 	public static boolean applyToResource(Assignment assignment, Engine engine, Resource resource,

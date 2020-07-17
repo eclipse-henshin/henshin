@@ -96,5 +96,15 @@ public interface Engine {
 	 * Shutdown this engine.
 	 */
 	void shutdown();
-
+	
+	/**
+	 * Set monitoring-Object
+	 */
+	void setMonitor(ApplicationMonitor monitor);
+	
+	/**
+	 * Get monitoring-Object
+	 */
+	ApplicationMonitor getMonitor();
+	
 }

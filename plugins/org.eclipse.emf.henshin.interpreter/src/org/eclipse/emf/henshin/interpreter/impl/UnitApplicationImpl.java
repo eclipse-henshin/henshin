@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.interpreter.monitoring.PerformanceMonitor;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
@@ -83,10 +84,12 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	public boolean execute(ApplicationMonitor monitor) {
 		if (monitor==null) {
 			monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
+		}else {
+			//set monitor in engine
+			engine.setMonitor(monitor);
 		}
 
 		areNecessaryParametersSet(unit.getParameters(), unit.getName(), assignment);
-
 		appliedRules.clear();
 		undoneRules.clear();
 		resultAssignment = (assignment!=null) ? 
@@ -99,6 +102,12 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 * Do execute a unit. Assumes that the monitor and the result assignment is set.
 	 */
 	protected boolean doExecute(ApplicationMonitor monitor) {
+		//record to monitor executionTime
+		if(monitor!=null&&monitor instanceof PerformanceMonitor&& !(this.unit instanceof Rule)){
+			((PerformanceMonitor)monitor).addUnitExecutionStartRecord(this.unit.getName(),this.unit.eClass().getName());
+		}
+		
+		
 		if (unit.isActivated()) {
 			switch (unit.eClass().getClassifierID()) {
 				case HenshinPackage.RULE:

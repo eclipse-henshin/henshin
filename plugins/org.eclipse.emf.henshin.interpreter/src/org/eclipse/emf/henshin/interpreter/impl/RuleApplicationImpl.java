@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.interpreter.monitoring.PerformanceMonitor;
 
 import static org.eclipse.emf.henshin.interpreter.util.InterpreterUtil.areNecessaryParametersSet;
 
@@ -76,6 +77,15 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		if (unit==null) {
 			throw new NullPointerException("No transformation unit set");
 		}
+		
+		//set monitor in engine
+		engine.setMonitor(monitor);
+		
+		//record to monitor executionTime
+		if(monitor!=null&&monitor instanceof PerformanceMonitor){
+			((PerformanceMonitor)monitor).addUnitExecutionStartRecord(this.unit.getName(),this.unit.eClass().getName());
+		}
+		
 		
 		// Already executed?
 		if (isExecuted) {

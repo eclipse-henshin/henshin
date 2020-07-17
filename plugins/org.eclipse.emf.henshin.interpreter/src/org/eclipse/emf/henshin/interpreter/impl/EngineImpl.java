@@ -33,12 +33,14 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Change;
 import org.eclipse.emf.henshin.interpreter.Change.CompoundChange;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -152,6 +154,13 @@ public class EngineImpl implements Engine {
 	 * Worker thread pool.
 	 */
 	protected ExecutorService workerPool;
+	
+	//monitor
+	/**
+	 * Object to monitor execution
+	*/
+	ApplicationMonitor monitor=null;
+
 
 	/**
 	 * Constructor.
@@ -552,6 +561,12 @@ public class EngineImpl implements Engine {
 			// Get the required info objects:
 			final ConditionInfo conditionInfo = ruleInfo.getConditionInfo();
 			final VariableInfo varInfo = ruleInfo.getVariableInfo();
+			
+			//Set unique id in each Variable-Object
+			for(Entry<Node, Variable> varEntry:varInfo.getNode2variable().entrySet()){
+				varEntry.getValue().variableId=EcoreUtil.getURI(varEntry.getKey()).toString();
+			}
+			
 
 			// Evaluates attribute conditions of the rule:
 			ConditionHandler conditionHandler = new ConditionHandler(conditionInfo.getConditionParameters(),
@@ -574,7 +589,7 @@ public class EngineImpl implements Engine {
 				Node node = varInfo.getVariableForNode(mainVariable);
 				MatchingOptions opt = getGraphOptions(node.getGraph());
 				DomainSlot domainSlot = new DomainSlot(conditionHandler, usedObjects, opt.injective, opt.dangling,
-						opt.deterministic, inverseMatchingOrder);
+						opt.deterministic, inverseMatchingOrder,monitor); //added monitor
 
 				// Fix this slot?
 				EObject target = partialMatch.getNodeTarget(node);
@@ -608,7 +623,7 @@ public class EngineImpl implements Engine {
 			}
 
 			// Now initialize the match finder:
-			SolutionFinder solutionFinder = new SolutionFinder(graph, domainMap, conditionHandler);
+			SolutionFinder solutionFinder = new SolutionFinder(graph, domainMap, conditionHandler,monitor); //added monitor
 			solutionFinder.variables = graphMap.get(rule.getLhs());
 			solutionFinder.formula = initFormula(rule.getLhs().getFormula(), graph, graphMap, domainMap);
 			return solutionFinder;
@@ -658,7 +673,7 @@ public class EngineImpl implements Engine {
 		 */
 		private ApplicationCondition initApplicationCondition(NestedCondition nc, EGraph graph,
 				Map<Graph, List<Variable>> graphMap, Map<Variable, DomainSlot> domainMap) {
-			ApplicationCondition ac = new ApplicationCondition(graph, domainMap);
+			ApplicationCondition ac = new ApplicationCondition(graph, domainMap,monitor);//added monitor parameter
 			ac.variables = graphMap.get(nc.getConclusion());
 			ac.formula = initFormula(nc.getConclusion().getFormula(), graph, graphMap, domainMap);
 			return ac;
@@ -1146,7 +1161,14 @@ public class EngineImpl implements Engine {
 		}
 
 		// Generic attribute value creation as fall-back.
-		return EcoreUtil.createFromString(type, value.toString());
+
+		
+		//fix cast to integer
+		if(!(type instanceof EEnum)&&type.getInstanceClass()==Integer.TYPE){
+			return (int)Math.round(((Number) value).doubleValue());
+		}
+		
+		return EcoreUtil.createFromString(type,value.toString());
 
 	}
 
@@ -1346,5 +1368,16 @@ public class EngineImpl implements Engine {
 	public UnaryConstraint createUserConstraints(Attribute attribute) {
 		return null;
 	}
+
+	@Override
+	public void setMonitor(ApplicationMonitor monitor) {
+		this.monitor=monitor;
+	}
+
+	@Override
+	public ApplicationMonitor getMonitor() {
+		return this.monitor;
+	}
+
 
 }

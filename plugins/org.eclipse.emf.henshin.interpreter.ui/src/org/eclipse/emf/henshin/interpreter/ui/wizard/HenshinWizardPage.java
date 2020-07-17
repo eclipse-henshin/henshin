@@ -27,6 +27,8 @@ public class HenshinWizardPage extends WizardPage {
 
 	Button openCompare;
 	
+	Button monitorExecution;
+	
 	Module module;
 
 	public HenshinWizardPage() {
@@ -78,6 +80,12 @@ public class HenshinWizardPage extends WizardPage {
 		openCompare.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		openCompare.setText("Open Compare");
 		openCompare.setSelection(true);
+		
+		//Add chechbox for Monitoring
+		monitorExecution = new Button(container, SWT.CHECK);
+		monitorExecution.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		monitorExecution.setText("Use Profiler");
+		monitorExecution.setSelection(false);
 		
 		inputSelector.getBrowseWorkspaceButton().setFocus();
 		

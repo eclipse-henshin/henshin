@@ -55,7 +55,11 @@ public class Variable {
 
 	// Whether this variable requires a final re-check:
 	public boolean requiresFinalCheck;
-
+	
+	//Monitoring: Unique variable id 
+	public String variableId=null;
+	
+	
 	/**
 	 * Constructor. Creates the related {@link TypeConstraint} already.
 	 * @param type Type of the node to be matched.

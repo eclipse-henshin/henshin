@@ -136,7 +136,8 @@ public class DebugApplicationCondition extends ApplicationCondition {
 
 	public DebugApplicationCondition(HenshinDebugTarget debugTarget, List<Variable> variables,
 			Map<Variable, DomainSlot> domainMap, EGraph graph, IFormula formula, Observer matchObserver, RuleInfo ruleInfo) {
-		super(graph, domainMap);
+		super(graph, domainMap,null); //added PerformanceMonitor as parameter null=no monitoring
+		
 		this.debugTarget = debugTarget;
 		this.variables = variables;
 		this.formula = formula;

@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
@@ -141,7 +142,7 @@ public class EGraphIsomorphyChecker {
 	 * @return <code>true</code> if the source and the graph are isomorphic.
 	 */
 	public boolean isIsomorphicTo(EGraph graph, Map<EObject, EObject> partialMatch) {
-		return getIsomorphism(graph, partialMatch) != null;
+		return getIsomorphism(graph, partialMatch,null) != null; //no monitoring for isomorphic check
 	}
 
 	/**
@@ -149,10 +150,11 @@ public class EGraphIsomorphyChecker {
 	 * 
 	 * @param graph Graph to which you want to find an isomorphism.
 	 * @param partialMatch Optional partial match from source to the argument graph.
+	 * @param monitor Monitor to collect performance data
 	 * @return map of source objects to target objects if the source and the graph are isomorphic or <code>null</code>
 	 *         if the source and the graph are not isomorphic.
 	 */
-	public Map<EObject, EObject> getIsomorphism(EGraph graph, Map<EObject, EObject> partialMatch) {
+	public Map<EObject, EObject> getIsomorphism(EGraph graph, Map<EObject, EObject> partialMatch,ApplicationMonitor monitor) {
 
 		// We do a quick comparison of the object count first:
 		if (source.size() != graph.size()) {
@@ -165,7 +167,7 @@ public class EGraphIsomorphyChecker {
 		// Create the domain slots:
 		for (Map.Entry<EObject, Variable> entry : variablesMap.entrySet()) {
 			DomainSlot domainSlot = new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, new HashSet<EObject>(), true, false,
-					true, true);
+					true, true,null); //no monitoring for isomorphic check
 			if (partialMatch != null) {
 				EObject match = partialMatch.get(entry.getKey());
 				if (match != null) {
@@ -176,7 +178,7 @@ public class EGraphIsomorphyChecker {
 		}
 
 		// Create the match finder:
-		SolutionFinder matchFinder = new SolutionFinder(graph, domainMap, ATTRIBUTE_CONDITION_HANDLER);
+		SolutionFinder matchFinder = new SolutionFinder(graph, domainMap, ATTRIBUTE_CONDITION_HANDLER,monitor);
 		matchFinder.variables = variablesList;
 		matchFinder.formula = IFormula.TRUE;
 

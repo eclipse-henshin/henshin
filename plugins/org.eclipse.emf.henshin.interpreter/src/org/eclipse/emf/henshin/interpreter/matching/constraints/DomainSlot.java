@@ -18,9 +18,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
+import org.eclipse.emf.henshin.interpreter.monitoring.PerformanceMonitor;
+import org.eclipse.emf.henshin.interpreter.monitoring.VariableCheck;
+
 
 public class DomainSlot {
 	
@@ -111,14 +115,21 @@ public class DomainSlot {
 	 */
 	final boolean inverseMatchingOrder;
 	
+	//Records for monitoring
+	private VariableCheck varCheckRecord=null;
+	
+	//Monitor
+	private PerformanceMonitor monitor=null;
+	
 	/**
 	 * Constructor.
 	 * @param conditionHandler Condition handler to be used.
 	 * @param usedObjects Used objects.
 	 * @param options Options.
+	 * @param monitor Monitor to collect performance data
 	 */
 	public DomainSlot(ConditionHandler conditionHandler, Set<EObject> usedObjects,
-			boolean injective, boolean dangling, boolean deterministic, boolean inverseMatchingOrder) {
+			boolean injective, boolean dangling, boolean deterministic, boolean inverseMatchingOrder, ApplicationMonitor monitor) {
 		
 		this.locked = false;
 		this.initialized = false;
@@ -131,7 +142,10 @@ public class DomainSlot {
 		this.dangling = dangling;
 		this.deterministic = deterministic;
 		this.inverseMatchingOrder = inverseMatchingOrder;
-		
+		//monitor
+		if(monitor instanceof PerformanceMonitor){
+			this.monitor=(PerformanceMonitor) monitor;
+		}
 	}
 	
 	/**
@@ -147,8 +161,18 @@ public class DomainSlot {
 			return false;
 		}
 		
+		//Set current domain size
+		if(varCheckRecord!=null &&varCheckRecord.getDomainSize()==-1&&domain!=null){
+			varCheckRecord.setDomainSize(domain.size());
+		}
+		
 		if (!setValueAndLock()) {
 			return false;
+		}
+		
+		//model element was investigated
+		if(this.monitor!=null){
+			this.varCheckRecord.incCheckedModelElements();
 		}
 		
 		// Check the variable?
@@ -180,6 +204,10 @@ public class DomainSlot {
 				if (!checkContainmentConstraint(containmentConstraint, domainMap)) {
 					return false;
 				}
+				//monitoring of restricted domains
+				if(monitor!=null&&domainMap.get(containmentConstraint.targetVariable).temporaryDomain!=null){
+					this.monitor.addDomainRestrictionRecord(variable.variableId,containmentConstraint.targetVariable.variableId,domainMap.get(containmentConstraint.getTargetVariable()).temporaryDomain.size());
+				}
 			}
 			
 			// Check the reference constraints:
@@ -188,12 +216,20 @@ public class DomainSlot {
 				if (!checkReferenceConstraint(referenceConstraint, binaryUserConstraint, domainMap)) {
 					return false;
 				}
+				//monitoring of restricted domains
+				if(monitor!=null&&domainMap.get(referenceConstraint.targetVariable).temporaryDomain!=null){
+					this.monitor.addDomainRestrictionRecord(variable.variableId,referenceConstraint.targetVariable.variableId,domainMap.get(referenceConstraint.targetVariable).temporaryDomain.size());
+				}
 			}
 
 			// Check the path constraints:
 			for (PathConstraint pathConstraint : variable.pathConstraints) {
 				if (!checkPathConstraint(pathConstraint, domainMap)) {
 					return false;
+				}
+				//monitoring of restricted domains
+				if(monitor!=null&&domainMap.get(pathConstraint.targetVariable).temporaryDomain!=null){ 
+					this.monitor.addDomainRestrictionRecord(variable.variableId,pathConstraint.targetVariable.variableId,domainMap.get(pathConstraint.targetVariable).temporaryDomain.size());
 				}
 			}
 
@@ -495,6 +531,14 @@ public class DomainSlot {
 	
 	public ConditionHandler getConditionHandler() {
 		return conditionHandler;
+	}
+	
+	public VariableCheck getVarCheckRecord() {
+		return this.varCheckRecord;
+	}
+
+	public void setVarCheckRecord(VariableCheck varCheckRecord) {
+		this.varCheckRecord = varCheckRecord;
 	}
 	
 }

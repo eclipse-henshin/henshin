@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl;
 import org.eclipse.emf.henshin.interpreter.impl.BasicApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.monitoring.PerformanceMonitor;
 import org.eclipse.emf.henshin.interpreter.ui.HenshinInterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -64,6 +65,11 @@ public class TransformOperation extends WorkspaceModifyOperation {
 	 * Output Model URI.
 	 */
 	protected URI outputUri;
+	
+	/**
+	 * Performance monitoring
+	 */
+	private PerformanceMonitor performanceMonitor=null;
 
 	public Unit getUnit() {
 		return unit;
@@ -173,6 +179,9 @@ public class TransformOperation extends WorkspaceModifyOperation {
 		};
 
 		try {
+			if(performanceMonitor!=null){
+				appMonitor=(BasicApplicationMonitor) performanceMonitor;
+			}
 			if (!InterpreterUtil.applyToResource(assignment, engine, input,
 					appMonitor) && !monitor.isCanceled()) {
 				throw new CoreException(
@@ -226,6 +235,14 @@ public class TransformOperation extends WorkspaceModifyOperation {
 		monitor.subTask("Finalizing transformation...");
 		monitor.done();
 
+	}
+
+	public PerformanceMonitor getPerformanceMonitor() {
+		return this.performanceMonitor;
+	}
+
+	public void setPerformanceMonitor(PerformanceMonitor performanceMonitor) {
+		this.performanceMonitor = performanceMonitor;
 	}
 
 }
