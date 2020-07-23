@@ -11,11 +11,15 @@ package org.eclipse.emf.henshin.interpreter.matching.conditions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import javax.script.ScriptEngine;
+
+import org.eclipse.emf.henshin.model.util.ScriptEngineWrapper;
 
 /**
  * Condition handler.
@@ -34,16 +38,18 @@ public class ConditionHandler {
 	final Collection<String> assignedParameters;
 
 	// Used script engine:
-	final ScriptEngine scriptEngine;
+	final ScriptEngineWrapper scriptEngine;
 
 	/**
 	 * Default constructor.
 	 * @param conditionParameters Condition parameters.
 	 * @param scriptEngine Script engine,
+	 * @param localJavaImports 
+	 * @param javaImports 
 	 */
 	public ConditionHandler(
 			Map<String, Collection<String>> conditionParameters,
-			ScriptEngine scriptEngine) {
+			ScriptEngineWrapper scriptEngine, List<String> localJavaImports) {
 		
 		this.attributeConditions = new ArrayList<AttributeCondition>();
 		this.involvedConditions = new HashMap<String, Collection<AttributeCondition>>();
@@ -52,7 +58,7 @@ public class ConditionHandler {
 
 		for (String condition : conditionParameters.keySet()) {
 			Collection<String> usedParameters = conditionParameters.get(condition);
-			AttributeCondition attCondition = new AttributeCondition(condition, usedParameters, scriptEngine);
+			AttributeCondition attCondition = new AttributeCondition(condition, usedParameters, scriptEngine, localJavaImports);
 			attributeConditions.add(attCondition);
 
 			// Create a map for easy lookup of conditions a parameter is involved in:
@@ -65,6 +71,10 @@ public class ConditionHandler {
 				conditionList.add(attCondition);
 			}
 		}
+	}
+
+	public ConditionHandler(HashMap<String, Collection<String>> conditionParameters, ScriptEngine engine) {
+		this(conditionParameters, new ScriptEngineWrapper(engine, new String[0]), Collections.emptyList());
 	}
 
 	/**

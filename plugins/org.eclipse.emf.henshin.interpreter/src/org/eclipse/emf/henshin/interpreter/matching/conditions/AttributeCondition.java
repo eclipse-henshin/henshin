@@ -11,10 +11,12 @@ package org.eclipse.emf.henshin.interpreter.matching.conditions;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+
+import org.eclipse.emf.henshin.model.util.ScriptEngineWrapper;
 
 /**
  * Attribute condition.
@@ -30,7 +32,9 @@ public class AttributeCondition {
 	public final Set<String> parameters;
 	
 	// Script engine:
-	final ScriptEngine scriptEngine;
+	final ScriptEngineWrapper scriptEngine;
+
+	final private List<String> localJavaImports;
 	
 	/**
 	 * Default constructor.
@@ -39,10 +43,11 @@ public class AttributeCondition {
 	 * @param engine Script engine.
 	 */
 	public AttributeCondition(String condition, Collection<String> conditionParameters,
-			ScriptEngine engine) {
+			ScriptEngineWrapper engine, List<String> localJavaImports) {
 		this.conditionText = condition;
 		this.parameters = new HashSet<String>(conditionParameters);
 		this.scriptEngine = engine;
+		this.localJavaImports = localJavaImports;
 	}
 	
 	/**
@@ -52,7 +57,7 @@ public class AttributeCondition {
 	public boolean eval() {
 		if (parameters.isEmpty()) {
 			try {
-				return (Boolean) scriptEngine.eval(conditionText);
+				return (Boolean) scriptEngine.eval(conditionText, localJavaImports);
 			} catch (ScriptException ex) {
 				throw new RuntimeException(ex.getMessage());
 			} catch (ClassCastException ex) {
