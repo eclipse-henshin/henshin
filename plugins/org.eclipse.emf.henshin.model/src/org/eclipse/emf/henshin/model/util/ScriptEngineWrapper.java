@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -94,6 +95,10 @@ public class ScriptEngineWrapper {
 		return engine.eval(script);
 	}
 	
+	public Object eval(String script) throws ScriptException {
+		return eval(script, Collections.emptyList());
+	}
+
 	/**
 	 * A wrapper for the put operation of the wrapped script engine.
 	 * @see javax.script.ScriptEngine.put(String key, Object value)
@@ -153,5 +158,9 @@ public class ScriptEngineWrapper {
 	
 	private static boolean isWildcard(String imp) {
 		return WILDCARD_PATTERN.matcher(imp).matches();
+	}
+
+	public Object get(String paramName) {
+		return engine.get(paramName);
 	}
 }
