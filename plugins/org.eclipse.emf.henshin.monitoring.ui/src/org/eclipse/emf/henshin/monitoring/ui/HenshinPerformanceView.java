@@ -51,8 +51,8 @@ public class HenshinPerformanceView {
 						grid=new JPanel(new GridBagLayout());
 						GridBagConstraints constraints = new GridBagConstraints();
 						grid.setBackground(Color.WHITE);
-						
-						JLabel ctLabel=new JLabel("Backtracking Graph",JLabel.CENTER);
+
+						JLabel ctLabel=new JLabel("Call Graph",JLabel.CENTER);
 						Font labelFont=new Font("Helvetica", Font.BOLD,(ctLabel.getFont().getSize()*2)); //"LucidaGrande"
 						ctLabel.setFont(labelFont);
 						constraints.fill = GridBagConstraints.HORIZONTAL;
