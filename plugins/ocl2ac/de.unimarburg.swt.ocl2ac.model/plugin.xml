@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CompactCondition -->
+      <package
+            uri="http://www.example.org/CompactConditionModel"
+            class="compactconditionmodel.CompactconditionmodelPackage"
+            genModel="model/CompactCondition.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated nestedconstraintmodel -->
+      <package
+            uri="http://www.example.org/nestedconstraintmodel"
+            class="nestedconstraintmodel.NestedconstraintmodelPackage"
+            genModel="model/nestedconstraintmodel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated nestedconstraintmodel -->
+      <package
+            uri="http://www.example.org/nestedcondition"
+            class="nestedcondition.NestedconditionPackage"
+            genModel="model/nestedconstraintmodel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated nestedconstraintmodel -->
+      <package
+            uri="http://www.example.org/graph"
+            class="graph.GraphPackage"
+            genModel="model/nestedconstraintmodel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated nestedconstraintmodel -->
+      <package
+            uri="http://www.example.org/laxcondition"
+            class="laxcondition.LaxconditionPackage"
+            genModel="model/nestedconstraintmodel.genmodel"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated morphisms -->
+      <package
+            uri="http://www.example.org/morphisms"
+            class="morphisms.MorphismsPackage"
+            genModel="model/morphisms.genmodel"/>
+   </extension>
+
+</plugin>
