@@ -1,0 +1,305 @@
+\RequirePackage{array}
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\RequirePackage{stmaryrd}
+%% == Allgemeine Definitionen ==============================================
+\makeatletter%
+\def\ifEmpty#1{\def\@temp{#1}\ifx\@temp\@empty}
+\makeatother
+
+%TODO baseline verträgt sich nicht mit beamertheme Warsaw
+\tikzset{
+  baseline={($(current bounding box.center)-(0,1ex)$)},
+  inner sep=1pt,
+  % Style für Class Nodes
+  CN/.style={draw,shape=rectangle split,rectangle split parts=2,inner sep=1pt,minimum width=1em,rectangle split every empty part={}},
+}
+
+%% == Graphen Malen ========================================================
+%\Hyperedge[Optionen]{Kantenbezeichner}{Knoten1,Knoten2,...,KnotenN}{Position}
+% Malt eine Hyperkante als Rechteck mit /Kantenbezeichner/ darin.
+% Die Knoten werden als Komma-getrennte Liste angegeben.
+% Nach einem Doppelpunkt hinter dem Knotennamen könnne Optionen für deren Position angegeben werden, z.B. {2:{pos=0.5,above=2pt},3,4:right}
+% Das Rechteck wird automatisch im Mittelpunkt der verbundenen Knoten gezeichnet, wenn keine Optionen angegeben sind. Ansonsten kann manuell positioniert werden.
+\newcommand\Hyperedge[4][]{
+  \ifx\thetentakel\undefined\newcounter{tentakel}\else{}\fi% Tentakel-Zähler definieren. The Tentakel, grusel!
+  \setcounter{tentakel}{0}%
+  \def\lposition{}% Position des Hyperkanten-Labels
+  \foreach \Head in {#3} {%
+    \HyperedgeSplitColon{\Head}% Head = HeadN:HeadP
+    \stepcounter{tentakel}
+    \edef\nlposition{\lposition ++(\HeadN)}%
+    \global\let\lposition\nlposition%
+  }%
+  \ifEmpty{#4}% Positionierung entweder automatisch zentriert ...
+    \edef\lposition{\lposition[scale=1/\thetentakel]}%
+  \else% ... oder manuell mit dem optionalen Argument.
+    \def\lposition{#4}%
+  \fi%
+  \ifEmpty{#3}\edef\lposition{#4}\fi% Division durch 0 verhindern
+  \draw \lposition node[draw,shape=rectangle,inner sep=2pt,minimum size=1ex] (Hyperedge) {$#2$};%
+  \setcounter{tentakel}{0}%
+  \foreach \Head in {#3} {% Malen und Beschriften der Tentakel
+    \addtocounter{tentakel}{1}%
+    \HyperedgeSplitColon{\Head}% Head = HeadN:HeadP
+    \draw[-] (Hyperedge) -- (\HeadN) node[\HeadP,pos=0.85,#1]{\tiny\thetentakel};%
+  }%
+}
+
+%\HyperedgeSimple[Optionen]{Label}{Source-Node}{Target-Node}
+% Zeichnet eine Hyperkante mit 2 Tentakeln als normale Kante mit Label (Kurzform).
+\newcommand\HyperedgeSimple[4][]{
+  \draw[->] (#3) to node[above=-1pt,shape=rectangle,inner sep=2pt,minimum size=1ex,pos=0.5,#1]{\small $#2$} (#4);
+}
+
+% HyperedgeSplitColon: Hilfsfunktion, die in Komma-separierten Listen die Elemente aufspaltet.
+% Syntax des Elements: "A:B" oder "A".
+\def\HyperedgeSplitColon#1{%
+  \edef\@tempa{#1:}%
+  \expandafter\HyperedgeSplitColonA\@tempa\relax
+}
+\def\HyperedgeSplitColonB#1:\relax{#1}
+\def\HyperedgeSplitColonA#1:#2\relax{%
+  \edef\HeadN{#1}%
+  \ifx\relax#2\relax%
+  \edef\HeadP{auto}%
+  \else%
+  \edef\HeadP{\HyperedgeSplitColonB#2\relax}%
+  \fi%
+}
+
+\def\nnodepr(#1)#2{              \node(#1)[   inner sep=0.5pt,label=below:{\tiny $#2$},label distance=-1pt]{$\bullet$};}
+\def\nnodepro(#1)#2{             \node(#1)[   inner sep=0.5pt,label=above:{\tiny $#2$},label distance=-1pt]{$\bullet$};}
+\def\nnodepbr(#1)[#2]#3{         \node(#1)[#2,inner sep=0.5pt,label=below:{\tiny $#3$},label distance=-1pt]{$\bullet$};}
+\def\nnodepbro(#1)[#2]#3{        \node(#1)[#2,inner sep=0.5pt,label=above:{\tiny $#3$},label distance=-1pt]{$\bullet$};}
+\def\nnodepabr(#1)at(#2)[#3]#4;{ \node[       inner sep=0.5pt,label=below:{\tiny $#4$},label distance=-1pt](#1) at (#2) [#3]{$\bullet$};}
+\def\nnodepabro(#1)at(#2)[#3]#4;{\node[       inner sep=0.5pt,label=above:{\tiny $#4$},label distance=-1pt](#1) at (#2) [#3]{$\bullet$};}
+\def\unodepr(#1)#2{              \node(#1)[   inner sep=0.5pt,label=below:{\tiny $#2$},label distance=-1pt]{$\circ$};}
+\def\unodepro(#1)#2{             \node(#1)[   inner sep=0.5pt,label=above:{\tiny $#2$},label distance=-1pt]{$\circ$};}
+\def\unodepbr(#1)[#2]#3{         \node(#1)[#2,inner sep=0.5pt,label=below:{\tiny $#3$},label distance=-1pt]{$\circ$};}
+\def\unodepbro(#1)[#2]#3{        \node(#1)[#2,inner sep=0.5pt,label=above:{\tiny $#3$},label distance=-1pt]{$\circ$};}
+\def\unodepabr(#1)at(#2)[#3]#4;{ \node[       inner sep=0.5pt,label=below:{\tiny $#4$},label distance=-1pt](#1) at (#2) [#3]{$\circ$};}
+\def\unodepabro(#1)at(#2)[#3]#4;{\node[       inner sep=0.5pt,label=above:{\tiny $#4$},label distance=-1pt](#1) at (#2) [#3]{$\circ$};}
+
+%% == Kommandos für HR-Conditions =========================================
+\newenvironment{HRCondition}{\par\begin{equation*}\begin{array}{ll}}{\end{array}\end{equation*}} %TODO: Echten Absatz einfügen. Noch besser wäre eine ensuremath-ähnliche Lösung.
+\newcommand\HRcondition[1]{\ensuremath{#1}}
+%% Morphismen. Das Präfix gibt an, wie Bedingungen und Morphismen zu verstehen sind:
+%% - M steht für "Morphism" und bedeutet, dass Parameter #1 und #2 als "echter"
+%%   Morphismus #1 --> #2 dargestellt wird.
+%%   Ohne M wird von einem Morphismus P-->Q nur der Graph Q dargestellt.
+%% - S steht für "Short/Simple/Single" und bedeutet, dass keine Teilbedingung
+%%   dargestellt wird (bzw. implizit Teilbedingung "true").
+%% Die "Standard"-Variante benutzt also die Kurzform für Morphismen und Teilbedingungen.
+\newcommand\cExists[3][]   {\exists  \left( \cMorphismS[#1]{#2}\ , #3    \right)}
+\newcommand\cNExists[3][]  {\nexists \left( \cMorphismS[#1]{#2}\ , #3    \right)}
+\newcommand\cForall[3][]   {\forall  \left( \cMorphismS[#1]{#2}\ , #3    \right)}
+\newcommand\cNForall[3][]  {\nforall \left( \cMorphismS[#1]{#2}\ , #3    \right)}
+\newcommand\cExistsS[2][]  {\exists  \left( \cMorphismS[#1]{#2}        \right)}
+\newcommand\cNExistsS[2][] {\nexists \left( \cMorphismS[#1]{#2}        \right)}
+\newcommand\cForallS[2][]  {\forall  \left( \cMorphismS[#1]{#2}        \right)}
+\newcommand\cNForallS[2][] {\nforall \left( \cMorphismS[#1]{#2}        \right)}
+\newcommand\cExistsM[4][]  {\exists  \left( \cMorphism[#1]{#2}{#3}\ , #4 \right)}
+\newcommand\cNExistsM[4][] {\nexists \left( \cMorphism[#1]{#2}{#3}\ , #4 \right)}
+\newcommand\cForallM[4][]  {\forall  \left( \cMorphism[#1]{#2}{#3}\ , #4 \right)}
+\newcommand\cNForallM[4][] {\nforall \left( \cMorphism[#1]{#2}{#3}\ , #4 \right)}
+\newcommand\cExistsSM[3][] {\exists  \left( \cMorphism[#1]{#2}{#3}     \right)}
+\newcommand\cNExistsSM[3][]{\nexists \left( \cMorphism[#1]{#2}{#3}     \right)}
+\newcommand\cForallSM[3][] {\forall  \left( \cMorphism[#1]{#2}{#3}     \right)}
+\newcommand\cNForallSM[3][]{\nforall \left( \cMorphism[#1]{#2}{#3}     \right)}
+\newcommand\cExistsSub[4][] {\exists  \left( \cGraph[#1]{#2} \raisebox{0.33ex}{$\sqsupseteq$}\; \cGraph{#3}\ , #4 \right)}
+\newcommand\cNExistsSub[4][]{\nexists \left( \cGraph[#1]{#2} \raisebox{0.33ex}{$\sqsupseteq$}\; \cGraph{#3}\ , #4 \right)}
+\newcommand\cForallSub[4][] {\forall  \left( \cGraph[#1]{#2} \raisebox{0.33ex}{$\sqsupseteq$}\; \cGraph{#3}\ , #4 \right)}
+\newcommand\cNForallSub[4][]{\nforall \left( \cGraph[#1]{#2} \raisebox{0.33ex}{$\sqsupseteq$}\; \cGraph{#3}\ , #4 \right)}
+\newcommand\cExSub[4][]{\exists  \left(\cGraph[#1]{#2} \sqsupseteq \cGraph[#1]{#3}\ , #4 \right)}
+\newcommand\cAllSub[4][]{\forall \left(\cGraph[#1]{#2} \sqsupseteq \cGraph[#1]{#3}\ , #4 \right)}
+
+\newcommand\cMorphism[3][]{\cGraph[#1]{#2} \to \cGraph[#1]{#3}}
+\newcommand\cMorphismS[2][]{\cGraph[#1]{#2}}
+\newcommand\cEmpty{\node{$\emptyset$};}
+
+\newcommand\cInclusion[3][]{\cGraph[#1]{#2} \sqsubseteq \cGraph[#1]{#3}}
+
+\newcommand\cGroup[1]{\left({#1}\right)}
+\newcommand\cAnd{\land}
+\newcommand\cOr{\lor}
+\newcommand\cXOr{\underline{\lor}}
+\newcommand\cNeg{\neg}
+\newcommand\cTrue{\mathsc{true}}
+\newcommand\cGraph[2][]{
+  \hspace{-1pt}
+  \tikz[
+  baseline=-1ex, % zentrieren
+  minimum size=2ex, % ungelabelte Kreis-Knoten sollen nicht zu Punkten zusammenfallen
+  scale=1.0, % keine Skalierung
+  inner sep=2pt, % geringer Innenabstand
+  #1] % benutzerdefinierte Optionen
+  {#2}
+  \hspace{-1pt}
+}
+
+%Rules. P=Plain (ohne ac), S=simple(L=>R statt L<-K->R), A=(left) appl. condition
+
+\newcommand\RuleP[3]{\ensuremath{\langle\/ \tikz{#1}\hookleftarrow\tikz{#2}\hookrightarrow\tikz{#3}\/\rangle}}
+\newcommand\RulePS[2]{\ensuremath{\langle\/\tikz{#1} \Rightarrow  \tikz{#2}                   \/\rangle}}
+\newcommand\RuleA[4]{\ensuremath{\langle\/{#1}\hookleftarrow{#2}\hookrightarrow{#3}\/\rangle , #4}}
+\newcommand\RuleAS[4]{\ensuremath{\langle\/ #1 \Rightarrow #2, #3 \/\rangle}}
+
+
+
+%% Load/Save-Funktionalität, um Grafiken wiederverwenden zu können innerhalb einer Formel.
+\newcommand\cSave[2][DEFAULT]{#2%
+  %\pgfkeyssetvalue{/my key}{#2}%\pgfkeysvalueof{my key}
+  \makeatletter%
+  \expandafter\gdef\csname cSavedHRCondition#1\endcsname{#2}%
+  \makeatother%
+}
+\newcommand\cLoad[1][DEFAULT]{%
+  %\pgfkeysvalueof{/my key}
+  \csname cSavedHRCondition#1\endcsname
+}
+
+%% == Häufige Konstrukte ===================================================
+% \nodecircle[Options]{Number of Nodes}{Radius}
+% Draws a number of nodes, arranged in a circle of given radius(tikz units) around (0,0).
+% Also useful for drawing squares and triangles (very rough approximations of a circle).
+% Options include:
+% - label=<style>, where <style> is one of none,num,alpha. default=none
+% - center=<true/false> - draws a node with label 0 in the center if true. default=false.
+% - prefix=<string> - prefix to add in front of node names. default=""
+% - clockwise=<true/false> - determines the direction of drawing the nodes. default=true.
+% - startangle=<deg> - determines the angle of the first point in degrees, clockwise,0°=upwards. default=0°
+% - nodelabel=<string> - symbol to be used to draw nodes (i.e. label).
+\makeatletter
+\define@key{nodecircle}{center}{\node(\ncprefix0){$\nodelabel_0$};}
+\define@key{nodecircle}{prefix}{\def\ncprefix{#1}}
+\def\startangle{0}
+\define@key{nodecircle}{startangle}{\def\startangle{#1}}
+\newcounter{nclabl}
+\define@key{nodecircle}{label}{ \def\nclabel{\csname nclabel@#1\endcsname}}
+\def\nclabel@none#1{}
+\def\nclabel@num#1{#1}
+\def\nclabel@alpha#1{\setcounter{nclabl}{#1}\alph{nclabl}}
+\def\ncnodelabel{$\bullet$}
+\define@key{nodecircle}{nodelabel}{\def\ncnodelabel{#1}}
+\makeatother
+\newcommand\nodecircle[3][]{
+  \def\ncprefix{}
+  \def\nclabel##1{}
+  \setkeys{nodecircle}{#1}
+  \def\winkel{-360/#2+\startangle}
+  \foreach \num in {1,...,#2} {
+    \pgfmathparse{90+(\num-1)*\winkel}
+    \nnodepabr(\ncprefix\num)at(\pgfmathresult:#3)[]{\nclabel{\num}};
+    %\lnodeat(\pgfmathresult:#3)(\nclabel{\num})[]{\ncnodelabel};
+  }
+}
+\newcommand\unodecircle[3][]{\nodecircle[nodelabel={$\circ$},#1]{#2}{#3}}
+
+% \noderow[Options]{Number of Nodes}{Distance}
+% Draws a number of nodes, arranged in a row with given distance(tikz units) between the nodes.
+% Options include:
+% - label=<style>, where <style> is one of none,num,alpha. default=none
+% - prefix=<string> - prefix to add in front of node names. default=""
+\makeatletter
+\define@key{noderow}{prefix}{\def\ncprefix{#1}}
+\define@key{noderow}{label}{\global\def\nclabel{\csname nclabel@#1\endcsname}}
+% These defs are done globally by nodecircle.
+%\newcounter{nclabl}
+\def\nclabel@none#1{}
+\def\nclabel@num#1{#1}
+\def\nclabel@alpha#1{\setcounter{nclabl}{#1}\alph{nclabl}}
+\makeatother
+\newcommand\noderow[3][]{
+  \def\ncprefix{}
+  \def\nclabel##1{}
+  \setkeys{noderow}{#1}
+  \foreach \num in {1,...,#2} {
+    \pgfmathparse{\num-1}
+    \nnodepabr(\ncprefix\num)at(\pgfmathresult, 0)[x=#3]{\nclabel{\num}};
+  }
+}
+
+\newcommand\PPlus[1][]{
+  +_{\scriptscriptstyle\hspace{-0.75ex}#1}
+}
+\makeatletter
+\def\nplabela{\ensuremath{1}}\define@key{nodepath}{node 1 label} {\def\nplabela{#1}}
+\def\nplabelb{\ensuremath{2}}\define@key{nodepath}{node 2 label} {\def\nplabelb{#1}}
+\def\nplabele{\ensuremath{+}}\define@key{nodepath}{edge label}   {\def\nplabele{#1}}
+\def\npnodesymbol{$\bullet$}\define@key{nodepath}{node symbol}   {\def\npnodesymbol{#1}}
+\def\npdist{2.5em}  \define@key{nodepath}{node distance}{\def\npdist{#1}}
+
+\makeatother
+\def\nodepath#1;{%
+  \setkeys{nodepath}{#1}
+  \node(1)[                                 label=below:{\tiny\nplabela},label distance=2pt]{\npnodesymbol};
+  \node(2)[right of=1,node distance=\npdist,label=below:{\tiny\nplabelb},label distance=2pt]{\npnodesymbol};
+  \Hyperedge{\nplabele}{1,2}{}
+%  \ifx\iaoenirdaao\undefined{\Hyperedge{-}{1,2}{}}\else\HyperedgeSimple{\nplabele}{1}{2}\fi
+}
+\def\nodepathS#1;{%
+  \setkeys{nodepath}{#1}%
+  \node(1)[                                 label=below:{\tiny\nplabela},label distance=2pt]{\npnodesymbol};
+  \node(2)[right of=1,node distance=\npdist,label=below:{\tiny\nplabelb},label distance=2pt]{\npnodesymbol};
+  \HyperedgeSimple{\nplabele}{1}{2}
+%  \ifx\iaoenirdaao\undefined{\Hyperedge{-}{1,2}{}}\else\HyperedgeSimple{\nplabele}{1}{2}\fi
+}
+\def\unodepathS#1;{\nodepathS{#1,node symbol={$\circ$}};}
+
+
+\tikzstyle{Class}=[draw,shape=rectangle split,rectangle split parts=2,minimum size=3ex]
+\tikzstyle{SClass}=[draw,shape=rectangle,minimum size=3ex]
+\tikzstyle{NEllipse}=[draw,shape=ellipse,minimum size=3ex]
+\newcommand\gnodelabelClass[2]{#1 \nodepart{two}\begin{tabular}{ll}#2\end{tabular}}
+\makeatletter
+\def\gnodesymbol{$\bullet$}\define@key{grammar}{node symbol}    {\def\gnodesymbol{#1}}
+\def\ghlabel{+}            \define@key{grammar}{hyperedge label}{\def\ghlabel{#1}}
+\def\gnodelabel{}          \define@key{grammar}{node label}     {\def\gnodelabel{#1}}
+\def\gnodestyle{draw,shape=rectangle split,rectangle split parts=2,minimum size=1ex}
+                           \define@key{grammar}{node style}     {\def\gnodestyle{#1}}
+\makeatother
+\newcommand\GrammarPath[1][]{
+  \setkeys{grammar}{#1}%
+  \ensuremath{%
+    \tikz{%
+      \node(1)[                               label=below:{\tiny 1},label distance=2pt]{\gnodesymbol};%
+      \node(2)[right of=1,node distance=2.5em,label=below:{\tiny 2},label distance=2pt]{\gnodesymbol};%
+      \HyperedgeSimple{\ghlabel}{1}{2};%
+    }%
+    ::=%
+    \tikz{%
+      \node(1)[                               label=below:{\tiny 1},label distance=2pt]{\gnodesymbol};%
+      \node(2)[right of=1,node distance=1.5em,label=below:{\tiny 2},label distance=2pt]{\gnodesymbol};%
+      \draw[->] (1) to(2);%
+    }%
+    \ruleor%
+    \tikz{%
+      \node(1)[                               label=below:{\tiny 1},label distance=2pt]{\gnodesymbol};%
+      \node(3)[right of=1,node distance=1.5em,label=below:{\tiny 3},label distance=2pt]{\gnodesymbol};%
+      \node(2)[right of=3,node distance=2.5em,label=below:{\tiny 2},label distance=2pt]{\gnodesymbol};%
+      \draw[->] (1) to(3);%
+      \HyperedgeSimple{\ghlabel}{3}{2};%
+    }%
+  }%
+}
+
+\newcommand\GrammarStar[1][]{
+  \setkeys{grammar}{#1}%
+  \ensuremath{%
+    \tikz{%
+      \node(1)[                               label=below:{\tiny 1},label distance=2pt]{\gnodesymbol};%
+      \Hyperedge{\ghlabel}{1}{(1.5em,0ex)};%
+    }%
+    ::=%
+    \tikz{%
+      \node(1)[                               label=below:{\tiny 1},label distance=2pt]{\gnodesymbol};%
+    }%
+    \ruleor%
+    \tikz{%
+      \node(2)[\gnodestyle]{\gnodelabel};
+      \node(1)[                               label=below:{\tiny 1},label distance=2pt]{\gnodesymbol};%
+      \Hyperedge{\gshlabel}{1}{(1.5em,0ex)};%
+    }%
+  }%
+}

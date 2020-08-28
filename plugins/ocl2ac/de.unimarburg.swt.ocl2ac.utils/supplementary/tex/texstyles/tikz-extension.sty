@@ -1,0 +1,150 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN Dependencies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{tikz}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END Dependencies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN tikz-extension
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\tikzoption{strictly right of}{      \tikz@strictlyof{#1}{west}      {  0}{east}}%
+\tikzoption{strictly above right of}{\tikz@strictlyof{#1}{south west}{ 45}{north east}}%
+\tikzoption{strictly above of}{      \tikz@strictlyof{#1}{south}     { 90}{north}}%
+\tikzoption{strictly above left of}{ \tikz@strictlyof{#1}{south east}{135}{north west}}%
+\tikzoption{strictly left of}{       \tikz@strictlyof{#1}{east}      {180}{west}}%
+\tikzoption{strictly below left of}{ \tikz@strictlyof{#1}{north east}{225}{south west}}%
+\tikzoption{strictly below of}{      \tikz@strictlyof{#1}{north}     {270}{south}}%
+\tikzoption{strictly below right of}{\tikz@strictlyof{#1}{north west}{315}{south east}}%
+% \tikzoption{strictly above half right of}{\tikz@strictlyof{#1}{south}{ 45}{north east}}%
+% \tikzoption{strictly above half left of}{ \tikz@strictlyof{#1}{south}{135}{north west}}%
+% \tikzoption{strictly below half left of}{ \tikz@strictlyof{#1}{north}{225}{south west}}%
+% \tikzoption{strictly below half right of}{\tikz@strictlyof{#1}{north}{315}{south east}}%
+\tikzoption{strictly above half right of}{\tikz@strictlyof{#1}{south west}{ 45}{north}}%
+\tikzoption{strictly above half left of}{ \tikz@strictlyof{#1}{south east}{135}{north}}%
+\tikzoption{strictly below half left of}{ \tikz@strictlyof{#1}{north east}{225}{south}}%
+\tikzoption{strictly below half right of}{\tikz@strictlyof{#1}{north west}{315}{south}}%
+% \tikzoption{strictly above half right of}{\tikz@strictlyof{#1}{south west}{ 90}{north}}%
+% \tikzoption{strictly above half left of}{ \tikz@strictlyof{#1}{south east}{ 90}{north}}%
+% \tikzoption{strictly below half left of}{ \tikz@strictlyof{#1}{north east}{270}{south}}%
+% \tikzoption{strictly below half right of}{\tikz@strictlyof{#1}{north west}{270}{south}}%
+%%%%%%%%%%%%%%%
+\tikzoption{strictly half above right of}{\tikz@strictlyof{#1}{south west}{ 45}{east}}%
+\tikzoption{strictly half above left of}{ \tikz@strictlyof{#1}{south east}{135}{west}}%
+\tikzoption{strictly half below left of}{ \tikz@strictlyof{#1}{north east}{225}{west}}%
+\tikzoption{strictly half below right of}{\tikz@strictlyof{#1}{north west}{315}{east}}%
+\def\tikz@strictlyof#1#2#3#4{%1 parent node %2 child anchor %3 angle %4 parent anchor
+  \def\tikz@anchor{#2}%
+  \let\tikz@do@auto@anchor=\relax%
+  \let\tikzparentnode=\tikz@last@fig@name%
+  \tikz@addtransform{\pgftransformshift{\pgfpointpolar{#3}{\tikz@node@distance}}}%
+  \def\tikz@node@at{\pgfpointanchor{#1}{#4}}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END tikz-extension
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN useful macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\lastnode}{\tikz@last@fig@name}
+\newcommand{\savenode}{\global\edef\savednode{\lastnode}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END useful macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN shape threerectangle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pgfdeclareshape{threerectangle}{%
+  \inheritsavedanchors[from=rectangle] % this is a rectangle
+  \inheritanchorborder[from=rectangle]
+  \inheritanchor[from=rectangle]{north}
+  \inheritanchor[from=rectangle]{north west}
+  \inheritanchor[from=rectangle]{north east}
+  \inheritanchor[from=rectangle]{center}
+  \inheritanchor[from=rectangle]{west}
+  \inheritanchor[from=rectangle]{east}
+  \inheritanchor[from=rectangle]{mid}
+  \inheritanchor[from=rectangle]{mid west}
+  \inheritanchor[from=rectangle]{mid east}
+  \inheritanchor[from=rectangle]{base}
+  \inheritanchor[from=rectangle]{base west}
+  \inheritanchor[from=rectangle]{base east}
+  \inheritanchor[from=rectangle]{south}
+  \inheritanchor[from=rectangle]{south west}
+  \inheritanchor[from=rectangle]{south east}
+  %
+  % Background path
+  %
+  \backgroundpath{%
+    \pgfpathrectanglecorners% original rectangle
+    {\pgfpointadd{\southwest}{\pgfpoint{\pgfshapeouterxsep}{\pgfshapeouterysep}}}
+    {\pgfpointadd{\northeast}{\pgfpointscale{-1}{\pgfpoint{\pgfshapeouterxsep}{\pgfshapeouterysep}}}}
+    \def\len{0.4ex}
+    \def\dlen{0.8ex}
+%     \pgfpathmoveto{\pgfpointadd{\northwest}{\pgfpoint{\len}{0pt}}}
+%     \pgfpathlineto{\pgfpointadd{\northwest}{\pgfpoint{\len}{\len}}}
+%     \pgfpathlineto{\pgfpointadd{\northeast}{\pgfpoint{\len}{\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southeast}{\pgfpoint{\len}{\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southeast}{\pgfpoint{0pt}{\len}}}
+%     \pgfpathmoveto{\pgfpointadd{\northwest}{\pgfpoint{0pt}{-\len}}}
+%     \pgfpathlineto{\pgfpointadd{\northwest}{\pgfpoint{-\len}{-\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{-\len}{-\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southeast}{\pgfpoint{-\len}{-\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southeast}{\pgfpoint{-\len}{0pt}}}
+%
+%     \pgfpathmoveto{\pgfpointadd{\northeast}{\pgfpoint{-\len}{0pt}}}
+%     \pgfpathlineto{\pgfpointadd{\northeast}{\pgfpoint{-\len}{\len}}}
+%     \pgfpathlineto{\pgfpointadd{\northwest}{\pgfpoint{-\len}{\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{-\len}{\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{0pt}{\len}}}
+%     \pgfpathmoveto{\pgfpointadd{\northeast}{\pgfpoint{0pt}{-\len}}}
+%     \pgfpathlineto{\pgfpointadd{\northeast}{\pgfpoint{\len}{-\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southeast}{\pgfpoint{\len}{-\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{\len}{-\len}}}
+%     \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{\len}{0pt}}}
+%
+    \pgfpathmoveto{\pgfpointadd{\northeast}{\pgfpoint{0pt}{-\len}}}
+    \pgfpathlineto{\pgfpointadd{\northeast}{\pgfpoint{\len}{-\len}}}
+    \pgfpathlineto{\pgfpointadd{\southeast}{\pgfpoint{\len}{-\len}}}
+    \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{\len}{-\len}}}
+    \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{\len}{0pt}}}
+    \pgfpathmoveto{\pgfpointadd{\northeast}{\pgfpoint{\len}{-\dlen}}}
+    \pgfpathlineto{\pgfpointadd{\northeast}{\pgfpoint{\dlen}{-\dlen}}}
+    \pgfpathlineto{\pgfpointadd{\southeast}{\pgfpoint{\dlen}{-\dlen}}}
+    \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{\dlen}{-\dlen}}}
+    \pgfpathlineto{\pgfpointadd{\southwest}{\pgfpoint{\dlen}{-\len}}}
+  }
+}
+  \def\northwest{%
+    \southwest
+    \pgf@xa=\pgf@x
+    \northeast
+    \pgf@x=\pgf@xa
+  }
+  \def\southeast{%
+    \northeast
+    \pgf@xa=\pgf@x
+    \southwest
+    \pgf@x=\pgf@xa
+  }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END shape threerectangle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN test
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\testtikzExtension}{%
+In this file, the tikzoptions ``strictly $\ldots$ of'' are defined.
+Furthermore, the shape ``threerectangle'' is defined.
+\subsection{shape threerectangle}
+\tikz{%
+ \node[shape=threerectangle,draw=.](content){Hallo};
+ \node[shape=threerectangle,draw=.](content2)[strictly right of=content]{Welt};
+ \draw[draw=.](content) -- (content2);
+}%
+}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END test
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatother

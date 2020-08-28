@@ -1,0 +1,153 @@
+% PGF+TikZ cell tower and mobile phone, 2006-11-19 Christian Zuckschwerdt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN Dependencies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter%
+ \RequirePackage{tikz}%
+ \usetikzlibrary{shapes,arrows,snakes}
+%\RequirePackage{tikz-circlesnarrows}% soft dependency (only for test)
+%\RequirePackage{color}% soft dependency (only for test)
+%\RequirePackage{tikz-colornstyles}% soft dependency (only for some graphics)
+ \@ifundefined{color}{%
+  \gdef\color#1{}%
+ }{}%
+ \@ifundefined{srule}{%
+  \gdef\srule#1#2#3{\ensuremath{\left\langle #1\leftarrow #2\rightarrow #3\right\rangle}}
+ }{}%
+ \@ifundefined{debug}{%
+  \gdef\debug#1{}%
+ }{}%
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END Dependencies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN cellular
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\cnageneraldebug#1{
+  \draw[overlay,-,line width=0.01pt,red]  (current bounding box.east)|-#1-|(current bounding box.west);
+  \draw[overlay,-,line width=0.01pt,green](current bounding box.west)--(current bounding box.east);% center
+  \draw[overlay,-,line width=0.01pt,blue] (current bounding box.south west) rectangle (current bounding box.north east);% bounding box
+}
+% mobile phone
+\newcommand{\phone}{%
+\begin{tikzpicture}[x=1ex,y=1ex,baseline] % scaled to match an M
+\path[use as bounding box] (-.4,-.1) rectangle (1.4,1.7); % fixed size: 1.8ex by 1.8ex
+\filldraw[solid,rounded corners=.1ex,even odd rule] (0,0) rectangle (1,1.5) 
+                                              (0.15,0.6) [rounded corners=.08ex] rectangle (0.85,1.35);
+\filldraw[solid,rounded corners=.1ex] (0.8,1.35) rectangle (1,1.9);
+\debug{
+  \cnageneraldebug{(0,0)}
+  \draw[-,line width=0.01pt,blue] (.5,.8) circle (1); % bounding circle
+}
+\end{tikzpicture}
+}
+
+% cell tower
+\newcommand{\tower}{%
+\begin{tikzpicture}[x=1ex,y=1ex,baseline] % scaled to match an M
+\path[use as bounding box] (.1,0) rectangle (1.9,1.8); % fixed size: 1.8ex by 1.8ex
+\draw[fill] (1,0.9) -- (1.3,0) -- (0.7,0) -- cycle 
+            (1,1.2) circle (.12);
+\draw[snake=expanding waves,segment length=.4ex,segment angle=45,line width=.2ex] (1.06,1.2) -- (2,1.2)
+                                                                                  (0.94,1.2) -- (0,1.2);
+\debug{
+  \cnageneraldebug{(0,0)}
+  \draw[-,line width=0.01pt,blue] (1,0.9) circle (1); % bounding circle
+}
+\end{tikzpicture}
+}
+
+\newcommand{\link}{%
+\begin{tikzpicture}[>=stealth,baseline,line width=0.15ex]
+\path[use as bounding box] (0,0) rectangle (1.8ex,1.8ex); % fixed size: 1.8ex by 1.8ex
+\draw[->] (.7ex,.6ex) -- (1.8ex,.6ex);
+\draw[->] (1.1ex,1.2ex) -- (0ex,1.2ex);
+\debug{\cnageneraldebug{(0,0)}}
+\end{tikzpicture}
+}
+
+\def\phonelabel{\phone}
+\def\linklabel{\link}
+\def\towerlabel{\tower}
+% text fitting
+\newcommand{\Phone}{\phone\hspace{-.3ex}}
+\newcommand{\Tower}{\tower}
+%\newcommand{\PhoneDash}{\phone\hspace{-.6ex}-}
+%\newcommand{\TowerDash}{\tower\hspace{-.3ex}-}
+
+% node styles
+\tikzstyle{phone}=[smoothblue,circle,thick,inner sep=.4pt]
+\tikzstyle{tower}=[smoothred,circle,thick,inner sep=.4pt]
+\tikzstyle{link}=[smoothgreen,circle,thick,inner sep=.4pt]
+\tikzstyle{every to}=[>=latex,thick]
+
+% simple drawing
+\newcommand{\PhoneNb}[2]{++(1,0) node[phone,name=#1,label=below:\scriptsize#2] {\footnotesize\phone}}
+\newcommand{\TowerNb}[2]{++(1,0) node[tower,name=#1,label=below:\scriptsize#2] {\footnotesize\tower}}
+\newcommand{\PhoneN}[2]{++(1,0) node[phone,name=#1,label=below right:\scriptsize#2] {\footnotesize\phone}}
+\newcommand{\TowerN}[2]{++(1,0) node[tower,name=#1,label=below right:\scriptsize#2] {\footnotesize\tower}}
+\newcommand{\LinkN}[2]{++(1,0)  node [link,name=#1,label=below right:\scriptsize#2] {\footnotesize\link}}
+\newcommand{\Diredge}[3][]{\draw [->]           (#2) to node[below] {\scriptsize#1} (#3);}% this used to be \Arrow
+\newcommand{\Bow}[3][]{\draw [->,bend right=25] (#2) to node[below] {\scriptsize#1} (#3);}
+\newcommand{\boW}[3][]{\draw [->,bend left=25]  (#2) to node[above] {\scriptsize#1} (#3);}
+\newcommand{\BiDi}[2]{\draw [->,bend left=15]   (#1) to (#2); \draw (#2) [->,bend left=15] to (#1);}
+% \newcommand{\Graph}[2]{\begin{tikzpicture}[baseline=-.8ex,inner sep=1pt]\draw#1;#2\end{tikzpicture}}%is defined above and in tikz-enforce-environment.sty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END cellular
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN shortcuts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\TowerNode}[1]{\Graph{\TowerN{}{#1}}{}}
+\newcommand{\PhoneNode}[1]{\Graph{\PhoneN{}{#1}}{}}
+\newcommand{\TowerToTower}[2]{\Graph{\TowerN{T}{#1}\TowerN{U}{#2}}{\Diredge{T}{U}}}
+\newcommand{\TowerTower}[2]{\Graph{\TowerN{}{#1}\TowerN{}{#2}}{}}
+\newcommand{\PhoneTower}[2]{\Graph{\PhoneN{}{#1}\TowerN{}{#2}}{}}
+\newcommand{\PhoneArrowTower}[2]{\Graph{\PhoneN{A}{#1}\TowerN{B}{#2}}{\Diredge{A}{B}}}
+\newcommand{\PhoneLArrowTower}[2]{\Graph{\PhoneN{A}{#1}\TowerN{B}{#2}}{\Diredge{B}{A}}}
+\newcommand{\TowerArrowPhone}[2]{\Graph{\TowerN{A}{#1}\PhoneN{B}{#2}}{\Diredge{A}{B}}}
+\newcommand{\TowerLArrowPhone}[2]{\Graph{\TowerN{A}{#1}\PhoneN{B}{#2}}{\Diredge{B}{A}}}
+\newcommand{\TowerFromPhoneFromTower}[3]{\Graph{\TowerN{T}{#1}\PhoneN{A}{#2}\TowerN{U}{#3}}{\Diredge{A}{T}\Diredge{U}{A}}}
+\newcommand{\TowerToPhoneToTower}[3]{\Graph{\TowerN{T}{#1}\PhoneN{A}{#2}\TowerN{U}{#3}}{\Diredge{T}{A}\Diredge{A}{U}}}
+\newcommand{\TowerToPhoneFromTower}[3]{\Graph{\TowerN{T}{#1}\PhoneN{A}{#2}\TowerN{U}{#3}}{\Diredge{T}{A}\Diredge{U}{A}}}
+\newcommand{\TowerToTowerToPhone}[3]{\Graph{\TowerN{T}{#1}\TowerN{U}{#2}\PhoneN{A}{#3}}{\Diredge{T}{U}\Diredge{U}{A}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END shortcuts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\printcmyk#1{#1}
+\definecolor{testrgb}{rgb}{0.9999,0.0001,0.0001}\def\testrgb{\color{testrgb}}
+\definecolor{testcmyk}{cmyk}{0.9999,0.0001,0.0001,0.0001}\def\testcmyk{\color{testcmyk}}
+\definecolor{testgray}{gray}{.4999}\def\testgray{\color{testgray}}
+\def\forallsizes#1{{\tiny #1}{\scriptsize #1}{\footnotesize #1}{\small #1}{\normalsize #1}{\large #1}{\Large #1}{\LARGE #1}{\huge #1}{\Huge #1}}
+\def\forallsizesnamed#1{{\tiny tiny: #1}{\scriptsize scriptsize: #1}{\footnotesize footnotesize: #1}{\small small: #1}{\normalsize normalsize: #1}{\large large: #1}{\Large Large: #1}{\LARGE LARGE: #1}{\huge huge: #1}{\Huge Huge: #1}}
+\def\forallcolors#1{{#1}{\testrgb #1}{\color{blue} #1}{\color{green} #1}\printcmyk{{\testcmyk #1}{\color{magenta} #1}{\color{yellow} #1}}{\color{white} #1}{\testgray #1}{\color{black} #1}}%
+\def\forallRGBcolors#1{{#1}{\color{red} #1}{\color{blue} #1}{\color{green} #1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN test
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\testtikzCellular}{
+%\def\debug##1{##1}
+In this file, cellular net components such as ``phone'' ($\phone$), ``tower'' ($\tower$) and ``Link'' ($\link$) are defined.
+\subsection{some examples}
+% $$\TowerToTowerToPhone{1}{2}{3}$$
+% 
+% $$\srule{ \Graph{ \TowerN{T}{3}\PhoneN{A}{1}\TowerN{U}{2} }{ \Diredge{A}{T}\Diredge{U}{A}\Bow{U}{T} } }
+% 	{ \Graph{ \TowerN{T}{3}\PhoneN{A}{1}\TowerN{U}{2} }{ \Bow{U}{T} } }
+% 	{ \Graph{ \TowerN{T}{3}\PhoneN{A}{1}\TowerN{U}{2} }{ \Diredge{T}{A}\Diredge{A}{U}\Bow{U}{T} } }$$
+
+\subsection{various colors and sizes}
+
+\forallcolors{$(M\ \tower\ \phone\ \link)$ }
+
+\forallsizes{$(M\ \tower\ \phone\ \link)$ }
+
+\subsection{in circles}
+$$(M\ \Circle{\phone}{}\ \Circle{\tower}{}\ \Circle{\link}{})
+\quad \mbox{\Huge $(M\ \Circle{\phone}{}\ \Circle{\tower}{}\ \Circle{\link}{})$}$$
+
+\forallsizes{(M\Circle{\tower}{}) }
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END test
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
