@@ -15,6 +15,7 @@ import java.util.Observer;
 
 import org.eclipse.compare.internal.CompareAction;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -211,7 +212,15 @@ public class LaunchRuleDelegate implements ILaunchConfigurationDelegate {
 				}
 			});
 
-			engine.getDebugTarget().initTarget(applicationCondition, findResourceForModulePath(modulePath));
+			IResource moduleResource;
+			if (moduleUri.isPlatform()) {
+				moduleResource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(moduleUri.toPlatformString(true)));
+			}
+			else
+			{
+				moduleResource = findResourceForModulePath(modulePath);
+			}	
+			engine.getDebugTarget().initTarget(applicationCondition, moduleResource);
 			launch.addDebugTarget(engine.getDebugTarget());
 
 			applicationCondition.initNextVariable();
