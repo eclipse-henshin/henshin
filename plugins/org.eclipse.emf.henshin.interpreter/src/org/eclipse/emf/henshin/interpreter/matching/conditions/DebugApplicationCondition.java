@@ -9,6 +9,7 @@ import java.util.StringJoiner;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.debug.core.DebugEvent;
@@ -180,12 +181,15 @@ public class DebugApplicationCondition extends ApplicationCondition {
 				if (variable.requiresFinalCheck) {
 					DomainSlot slot = domainMap.get(variable);
 					if (!slot.recheck(variable, domainMap)) {
-						// recheck turned out invalid --> terminate (no match found)
+						// recheck turned out invalid --> go back
+						updateDebugState(DebugLevel.VARIABLE, currentVariableIndex-1, ConstraintType.NONE, -1);
+						tryNextValue();
+/*						// recheck turned out invalid --> terminate (no match found)
 						updateDebugState(DebugLevel.NONE, -1, ConstraintType.NONE, -1);
 						setCurrentDebugState(DebugState.TERMINATED_FALSE);
 						if (debugTarget != null) {
 							debugTarget.fireTerminateEvent();							
-						}
+						}*/
 						return;
 					}
 				}
@@ -211,12 +215,15 @@ public class DebugApplicationCondition extends ApplicationCondition {
 				return;
 			}
 			
-			// else: final evaluation was not successful --> terminate (no match found)
+			// else formula did not work, go back to last variable 
+			updateDebugState(DebugLevel.VARIABLE, currentVariableIndex-1, ConstraintType.NONE, -1);
+			tryNextValue();
+/*			// else: final evaluation was not successful --> terminate (no match found)
 			updateDebugState(DebugLevel.NONE, -1, ConstraintType.NONE, -1);
 			setCurrentDebugState(DebugState.TERMINATED_FALSE);
 			if (debugTarget != null) {
 				debugTarget.fireTerminateEvent();			
-			}
+			}*/
 			return;
 			
 		}
@@ -481,13 +488,13 @@ public class DebugApplicationCondition extends ApplicationCondition {
 				
 				// set the value
 				if (!currentSlot.setValueAndLock()) {
-					throw new IllegalStateException("step called on Variable level, but no values left: "
-						+ toString());
+					//if no furthe valuer, try lower index variable 
+					tryLowerIndexVariable();
+					break;
 				}
-
+				
 				// update the debug state (current index does not change)
 				updateDebugState(DebugLevel.VALUE, currentVariableIndex, ConstraintType.NONE, -1);
-												
 				break;
 			case VALUE:
 				// go to the "type" constraint type as it is always the first constraint. 
@@ -844,7 +851,7 @@ public void stepReturn() throws DebugException {
 		// get all breakpoints
 		IBreakpointManager manager = getManager();
 		// create breakpoint
-		IFile moduleFile = debugTarget.getModuleFile();
+		IResource moduleFile = debugTarget.getModuleResource();
 		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/variable", "Sample VariableBreakpoint", IStatus.OK);
 		VariableBreakpoint breakpoint = new VariableBreakpoint();
 		try {
@@ -879,7 +886,7 @@ public void stepReturn() throws DebugException {
 		// get all breakpoints
 		IBreakpointManager manager = getManager();
 		// create breakpoint
-		IFile moduleFile = debugTarget.getModuleFile();
+		IResource moduleFile = debugTarget.getModuleResource();
 		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/value", "Sample ValueBreakpoint", IStatus.OK);
 		ValueBreakpoint breakpoint = new ValueBreakpoint();
 		try {
@@ -903,7 +910,7 @@ public void stepReturn() throws DebugException {
 		// get all breakpoints
 		IBreakpointManager manager = getManager();
 		// create breakpoint
-		IFile moduleFile = debugTarget.getModuleFile();
+		IResource moduleFile = debugTarget.getModuleResource();
 		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/constraintType", "Sample ConstraintTypeBreakpoint", IStatus.OK);
 		ConstraintTypeBreakpoint breakpoint = new ConstraintTypeBreakpoint();
 		try {
@@ -925,7 +932,7 @@ public void stepReturn() throws DebugException {
 		// get all breakpoints
 		IBreakpointManager manager = getManager();
 		// create breakpoint
-		IFile moduleFile = debugTarget.getModuleFile();
+		IResource moduleFile = debugTarget.getModuleResource();
 		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/constraintInstance", "Sample ConstraintInstanceBreakpoint", IStatus.OK);
 		ConstraintInstanceBreakpoint breakpoint = new ConstraintInstanceBreakpoint();
 		try {

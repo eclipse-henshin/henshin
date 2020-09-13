@@ -2,6 +2,7 @@ package org.eclipse.emf.henshin.interpreter.debug;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarkerDelta;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
@@ -23,7 +24,7 @@ public class HenshinDebugTarget extends HenshinDebugElement implements IDebugTar
 	 */
 	private HenshinDebugThread debugThread;
 	
-	private IFile moduleFile;
+	private IResource moduleResource;
 	
 	/**
 	 * The DebugTarget's name (displays in the debug view)
@@ -53,9 +54,9 @@ public class HenshinDebugTarget extends HenshinDebugElement implements IDebugTar
 	 * Connects the given DebugApplicationCondition to this DebugTarget
 	 * @param applicationCondition the DebugApplicationCondition that will be used for debugging.
 	 */
-	public void initTarget(DebugApplicationCondition applicationCondition, IFile moduleFile) {
+	public void initTarget(DebugApplicationCondition applicationCondition, IResource moduleFile) {
 		this.debugThread = new HenshinDebugThread(this, applicationCondition);
-		this.moduleFile = moduleFile;
+		this.moduleResource = moduleFile;
 		fireCreationEvent();
 	}
 
@@ -69,8 +70,8 @@ public class HenshinDebugTarget extends HenshinDebugElement implements IDebugTar
 		return this;
 	}
 	
-	public IFile getModuleFile() {
-		return this.moduleFile;
+	public IResource getModuleResource() {
+		return this.moduleResource;
 	}
 	
 	@Override
