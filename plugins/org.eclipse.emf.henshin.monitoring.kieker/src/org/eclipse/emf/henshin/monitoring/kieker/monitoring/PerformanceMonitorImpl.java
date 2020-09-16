@@ -15,18 +15,25 @@ import org.eclipse.emf.henshin.monitoring.kieker.records.UnitExecutionStopRecord
 import org.eclipse.emf.henshin.monitoring.kieker.records.VariableCheckRecord;
 import org.eclipse.emf.henshin.monitoring.kieker.records.VariableInfoRecord;
 
+import kieker.common.configuration.Configuration;
 import kieker.common.record.AbstractMonitoringRecord;
+import kieker.monitoring.core.configuration.ConfigurationFactory;
 import kieker.monitoring.core.controller.IMonitoringController;
 import kieker.monitoring.core.controller.MonitoringController;
 
 public class PerformanceMonitorImpl extends BasicApplicationMonitor implements PerformanceMonitor {
 	
-	private static final IMonitoringController MONITORING_CONTROLLER=MonitoringController.getInstance();
+	private final IMonitoringController MONITORING_CONTROLLER;
 	
 	private HashMap<String,BacktrackRecord> varIdToBacktrackRecord=null;
 	private HashMap<String,VariableCheckRecord> varIdToVariableCheckRecord=null;
 	private HashMap<String,DomainRestrictionRecord> varIdtoDomainRestrictionRecord=null;
 	
+	public PerformanceMonitorImpl() {
+		super();
+		MONITORING_CONTROLLER=createNewController();
+	}
+
 	/**
 	 * Decides on the basis of the record type, how it should be handled
 	 * 
@@ -203,7 +210,19 @@ public class PerformanceMonitorImpl extends BasicApplicationMonitor implements P
 		if(!MONITORING_CONTROLLER.isMonitoringTerminated()){
 			MONITORING_CONTROLLER.terminateMonitoring();
 		}
-		PerformanceAnalysis.runPerformanceAnalysis();;
+		PerformanceAnalysis.runPerformanceAnalysis();
+	}
+	
+	private IMonitoringController createNewController() {
+		Configuration config=ConfigurationFactory.createSingletonConfiguration();
+		config.setProperty("kieker.monitoring.writer.filesystem.AsciiFileWriter.customStoragePath","");
+		config.setProperty("kieker.monitoring.writer.filesystem.AsciiFileWriter.maxLogFiles",-1);
+		config.setProperty("kieker.monitoring.writer.filesystem.AsciiFileWriter.flush",false);
+		config.setProperty("kieker.monitoring.writer.filesystem.AsciiFileWriter.maxLogSize",-1);
+		config.setProperty("kieker.monitoring.writer.filesystem.AsciiFileWriter.flushMapfile",true);
+		config.setProperty("kieker.monitoring.writer.filesystem.AsciiFileWriter.maxEntriesInFile",25000);
+		config.setProperty("kieker.monitoring.writer.filesystem.AsciiFileWriter.shouldCompress",false);
+		return MonitoringController.createInstance(config);
 	}
 
 }

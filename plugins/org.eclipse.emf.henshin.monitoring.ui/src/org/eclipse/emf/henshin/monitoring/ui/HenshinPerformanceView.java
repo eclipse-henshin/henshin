@@ -33,7 +33,7 @@ public class HenshinPerformanceView {
 			@Override
 			public void run() {
 				JFrame frame = new JFrame("Henshin Profiler");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				String[] transformationTabs = new String[ruleVisualizationData.size()+1];
 				transformationTabs[0]="Call Graph";
 				int idx=1;

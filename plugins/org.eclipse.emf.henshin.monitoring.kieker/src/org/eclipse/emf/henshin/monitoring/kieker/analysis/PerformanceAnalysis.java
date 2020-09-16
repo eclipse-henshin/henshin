@@ -24,8 +24,6 @@ import kieker.common.record.AbstractMonitoringRecord;
 public class PerformanceAnalysis {
 	
 	private static FSReader reader;
-	private static final Configuration filterConfig = new Configuration();
-	private static final IAnalysisController analysisController = new AnalysisController();
 	private static LinkedList<RuleExecutionData> ruleCalls;
 	private static LinkedList<UnitVisualizationData> unitCallData;
 	private static LinkedList<AbstractMonitoringRecord> startStopRecords;
@@ -150,6 +148,8 @@ public class PerformanceAnalysis {
 		if((new File(kiekerDir)).exists()){
 			final Configuration fsReaderConfig = new Configuration(); 
 			fsReaderConfig.setProperty(FSReader.CONFIG_PROPERTY_NAME_INPUTDIRS,kiekerDir);
+			Configuration filterConfig = new Configuration();
+			IAnalysisController analysisController = new AnalysisController();
 			reader = new FSReader(fsReaderConfig,analysisController);
 			final PerformanceFilter performanceFilter = new PerformanceFilter(filterConfig,analysisController,ruleCalls,startStopRecords,startRecordToRuleCallsIdx);	
 			try{
