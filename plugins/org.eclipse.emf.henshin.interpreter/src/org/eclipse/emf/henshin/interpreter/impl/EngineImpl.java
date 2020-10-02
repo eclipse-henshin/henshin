@@ -986,6 +986,12 @@ public class EngineImpl implements Engine {
 				}
 			}
 		}
+		
+		// Deleted (unset) attributes:
+		for (Attribute attribute : ruleChange.getDeletedAttributes()) {
+			EObject object = completeMatch.getNodeTarget(attribute.getNode());
+			changes.add(new AttributeChangeImpl(graph, object, attribute.getType()));
+		}
 
 		// Preserved objects:
 		for (Node node : ruleChange.getPreservedNodes()) {

@@ -196,6 +196,88 @@ public class TestmodelPackage extends EPackageImpl {
 	public static final int VAL_FEATURE_COUNT = 3;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.tests.testmodel.SpecialVal <em>Special Val</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.tests.testmodel.SpecialVal
+	 * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getSpecialVal()
+	 * @generated
+	 */
+	public static final int SPECIAL_VAL = 3;
+
+	/**
+	 * The feature id for the '<em><b>Intvl</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SPECIAL_VAL__INTVL = VAL__INTVL;
+
+	/**
+	 * The feature id for the '<em><b>Valname</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SPECIAL_VAL__VALNAME = VAL__VALNAME;
+
+	/**
+	 * The feature id for the '<em><b>Intlist</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SPECIAL_VAL__INTLIST = VAL__INTLIST;
+
+	/**
+	 * The feature id for the '<em><b>Derivedvl</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SPECIAL_VAL__DERIVEDVL = VAL_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Unsetablevl</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SPECIAL_VAL__UNSETABLEVL = VAL_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Unchangeablevl</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SPECIAL_VAL__UNCHANGEABLEVL = VAL_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Unsetableunchangeablevl</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SPECIAL_VAL__UNSETABLEUNCHANGEABLEVL = VAL_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Special Val</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SPECIAL_VAL_FEATURE_COUNT = VAL_FEATURE_COUNT + 4;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -215,6 +297,13 @@ public class TestmodelPackage extends EPackageImpl {
 	 * @generated
 	 */
 	private EClass valEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass specialValEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -244,7 +333,7 @@ public class TestmodelPackage extends EPackageImpl {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link TestmodelPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -258,7 +347,8 @@ public class TestmodelPackage extends EPackageImpl {
 		if (isInited) return (TestmodelPackage)EPackage.Registry.INSTANCE.getEPackage(TestmodelPackage.eNS_URI);
 
 		// Obtain or create and register package
-		TestmodelPackage theTestmodelPackage = (TestmodelPackage)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TestmodelPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TestmodelPackage());
+		Object registeredTestmodelPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		TestmodelPackage theTestmodelPackage = registeredTestmodelPackage instanceof TestmodelPackage ? (TestmodelPackage)registeredTestmodelPackage : new TestmodelPackage();
 
 		isInited = true;
 
@@ -271,7 +361,6 @@ public class TestmodelPackage extends EPackageImpl {
 		// Mark meta-data to indicate it can't be changed
 		theTestmodelPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(TestmodelPackage.eNS_URI, theTestmodelPackage);
 		return theTestmodelPackage;
@@ -432,6 +521,75 @@ public class TestmodelPackage extends EPackageImpl {
 	}
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.tests.testmodel.SpecialVal <em>Special Val</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Special Val</em>'.
+	 * @see org.eclipse.emf.henshin.tests.testmodel.SpecialVal
+	 * @generated
+	 */
+	public EClass getSpecialVal() {
+		return specialValEClass;
+	}
+
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.tests.testmodel.SpecialVal#getDerivedvl <em>Derivedvl</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Derivedvl</em>'.
+	 * @see org.eclipse.emf.henshin.tests.testmodel.SpecialVal#getDerivedvl()
+	 * @see #getSpecialVal()
+	 * @generated
+	 */
+	public EAttribute getSpecialVal_Derivedvl() {
+		return (EAttribute)specialValEClass.getEStructuralFeatures().get(0);
+	}
+
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.tests.testmodel.SpecialVal#getUnchangeablevl <em>Unchangeablevl</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Unchangeablevl</em>'.
+	 * @see org.eclipse.emf.henshin.tests.testmodel.SpecialVal#getUnchangeablevl()
+	 * @see #getSpecialVal()
+	 * @generated
+	 */
+	public EAttribute getSpecialVal_Unchangeablevl() {
+		return (EAttribute)specialValEClass.getEStructuralFeatures().get(2);
+	}
+
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.tests.testmodel.SpecialVal#getUnsetableunchangeablevl <em>Unsetableunchangeablevl</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Unsetableunchangeablevl</em>'.
+	 * @see org.eclipse.emf.henshin.tests.testmodel.SpecialVal#getUnsetableunchangeablevl()
+	 * @see #getSpecialVal()
+	 * @generated
+	 */
+	public EAttribute getSpecialVal_Unsetableunchangeablevl() {
+		return (EAttribute)specialValEClass.getEStructuralFeatures().get(3);
+	}
+
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.tests.testmodel.SpecialVal#getUnsetablevl <em>Unsetablevl</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Unsetablevl</em>'.
+	 * @see org.eclipse.emf.henshin.tests.testmodel.SpecialVal#getUnsetablevl()
+	 * @see #getSpecialVal()
+	 * @generated
+	 */
+	public EAttribute getSpecialVal_Unsetablevl() {
+		return (EAttribute)specialValEClass.getEStructuralFeatures().get(1);
+	}
+
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -475,6 +633,12 @@ public class TestmodelPackage extends EPackageImpl {
 		createEAttribute(valEClass, VAL__INTVL);
 		createEAttribute(valEClass, VAL__VALNAME);
 		createEAttribute(valEClass, VAL__INTLIST);
+
+		specialValEClass = createEClass(SPECIAL_VAL);
+		createEAttribute(specialValEClass, SPECIAL_VAL__DERIVEDVL);
+		createEAttribute(specialValEClass, SPECIAL_VAL__UNSETABLEVL);
+		createEAttribute(specialValEClass, SPECIAL_VAL__UNCHANGEABLEVL);
+		createEAttribute(specialValEClass, SPECIAL_VAL__UNSETABLEUNCHANGEABLEVL);
 	}
 
 	/**
@@ -505,6 +669,7 @@ public class TestmodelPackage extends EPackageImpl {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		specialValEClass.getESuperTypes().add(this.getVal());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(contEClass, cont.class, "cont", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -521,6 +686,12 @@ public class TestmodelPackage extends EPackageImpl {
 		initEAttribute(getVal_Intvl(), ecorePackage.getEInt(), "intvl", null, 0, 1, Val.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVal_Valname(), ecorePackage.getEString(), "valname", null, 0, 1, Val.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVal_Intlist(), ecorePackage.getEInt(), "intlist", null, 0, -1, Val.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(specialValEClass, SpecialVal.class, "SpecialVal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSpecialVal_Derivedvl(), ecorePackage.getEInt(), "derivedvl", null, 0, 1, SpecialVal.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSpecialVal_Unsetablevl(), ecorePackage.getEInt(), "unsetablevl", "42", 0, 1, SpecialVal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSpecialVal_Unchangeablevl(), ecorePackage.getEInt(), "unchangeablevl", "42", 0, 1, SpecialVal.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSpecialVal_Unsetableunchangeablevl(), ecorePackage.getEInt(), "unsetableunchangeablevl", "42", 0, 1, SpecialVal.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -640,6 +811,48 @@ public class TestmodelPackage extends EPackageImpl {
 		 * @generated
 		 */
 		public static final EAttribute VAL__INTLIST = eINSTANCE.getVal_Intlist();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.tests.testmodel.SpecialVal <em>Special Val</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.tests.testmodel.SpecialVal
+		 * @see org.eclipse.emf.henshin.tests.testmodel.TestmodelPackage#getSpecialVal()
+		 * @generated
+		 */
+		public static final EClass SPECIAL_VAL = eINSTANCE.getSpecialVal();
+
+		/**
+		 * The meta object literal for the '<em><b>Derivedvl</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute SPECIAL_VAL__DERIVEDVL = eINSTANCE.getSpecialVal_Derivedvl();
+
+		/**
+		 * The meta object literal for the '<em><b>Unchangeablevl</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute SPECIAL_VAL__UNCHANGEABLEVL = eINSTANCE.getSpecialVal_Unchangeablevl();
+
+		/**
+		 * The meta object literal for the '<em><b>Unsetableunchangeablevl</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute SPECIAL_VAL__UNSETABLEUNCHANGEABLEVL = eINSTANCE.getSpecialVal_Unsetableunchangeablevl();
+
+		/**
+		 * The meta object literal for the '<em><b>Unsetablevl</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute SPECIAL_VAL__UNSETABLEVL = eINSTANCE.getSpecialVal_Unsetablevl();
 
 	}
 

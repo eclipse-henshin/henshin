@@ -23,4 +23,15 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="intlist" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecialVal" eSuperTypes="#//Val">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derivedvl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unsetablevl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="42" unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unchangeablevl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" defaultValueLiteral="42"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unsetableunchangeablevl"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
+        defaultValueLiteral="42" unsettable="true"/>
+  </eClassifiers>
 </ecore:EPackage>

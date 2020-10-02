@@ -21,5 +21,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute testmodel.ecore#//Val/valname"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute testmodel.ecore#//Val/intlist"/>
     </genClasses>
+    <genClasses ecoreClass="testmodel.ecore#//SpecialVal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute testmodel.ecore#//SpecialVal/derivedvl"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute testmodel.ecore#//SpecialVal/unsetablevl"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute testmodel.ecore#//SpecialVal/unchangeablevl"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute testmodel.ecore#//SpecialVal/unsetableunchangeablevl"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

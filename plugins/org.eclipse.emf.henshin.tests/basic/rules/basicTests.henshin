@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="CP1252"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_fzh7MPkLEeG8L_O0_HQfRg" name="basicTests">
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_fzh7MPkLEeG8L_O0_HQfRg" name="basicTests">
   <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_fziiQPkLEeG8L_O0_HQfRg" name="createNodeWithContainmentEdge">
     <lhs xmi:id="_fziiQ_kLEeG8L_O0_HQfRg" name="LHS">
@@ -854,5 +854,110 @@
       </edges>
     </rhs>
     <mappings xmi:id="_f05NIfkLEeG8L_O0_HQfRg" origin="_f0tm8fkLEeG8L_O0_HQfRg" image="_f0u1EPkLEeG8L_O0_HQfRg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_407VsASIEeuVKoowyGAAsw" name="setStandardAttributeValue">
+    <lhs xmi:id="_41NCgASIEeuVKoowyGAAsw" name="Lhs">
+      <nodes xmi:id="_jPU-4ASLEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_41NCgQSIEeuVKoowyGAAsw" name="Rhs">
+      <nodes xmi:id="_jPW0EASLEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+        <attributes xmi:id="_mni34ASLEeuVKoowyGAAsw" value="99">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_jPW0EQSLEeuVKoowyGAAsw" origin="_jPU-4ASLEeuVKoowyGAAsw" image="_jPW0EASLEeuVKoowyGAAsw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="__-O6sASIEeuVKoowyGAAsw" name="setDerivedAttributeValue">
+    <lhs xmi:id="__-Qv4ASIEeuVKoowyGAAsw" name="Lhs">
+      <nodes xmi:id="_sufA8ASLEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="__-Qv4QSIEeuVKoowyGAAsw" name="Rhs">
+      <nodes xmi:id="_sufoAASLEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+        <attributes xmi:id="_uK_bMASLEeuVKoowyGAAsw" value="99">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal/derivedvl"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_sufoAQSLEeuVKoowyGAAsw" origin="_sufA8ASLEeuVKoowyGAAsw" image="_sufoAASLEeuVKoowyGAAsw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_MqS9oASJEeuVKoowyGAAsw" name="setUnchangeableAttributeValue">
+    <lhs xmi:id="_MqULwASJEeuVKoowyGAAsw" name="Lhs">
+      <nodes xmi:id="_2m-JAASLEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_MqULwQSJEeuVKoowyGAAsw" name="Rhs">
+      <nodes xmi:id="_2m-JAQSLEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+        <attributes xmi:id="_3zWckASLEeuVKoowyGAAsw" value="99">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal/unchangeablevl"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_2m-JAgSLEeuVKoowyGAAsw" origin="_2m-JAASLEeuVKoowyGAAsw" image="_2m-JAQSLEeuVKoowyGAAsw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_6pMBQASLEeuVKoowyGAAsw" name="unsetUnsetableAttribute">
+    <parameters xmi:id="_XqwTAASMEeuVKoowyGAAsw" name="x" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_6pNPYASLEeuVKoowyGAAsw" name="Lhs">
+      <nodes xmi:id="_UA_XAASMEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+        <attributes xmi:id="_VZKD0ASMEeuVKoowyGAAsw" value="x">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal/unsetablevl"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_6pNPYQSLEeuVKoowyGAAsw" name="Rhs">
+      <nodes xmi:id="_UA_XAQSMEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_UA_XAgSMEeuVKoowyGAAsw" origin="_UA_XAASMEeuVKoowyGAAsw" image="_UA_XAQSMEeuVKoowyGAAsw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_B4WWoASMEeuVKoowyGAAsw" name="unsetStandardAttribute">
+    <parameters xmi:id="_P6MgwASMEeuVKoowyGAAsw" name="x" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_B4XkwASMEeuVKoowyGAAsw" name="Lhs">
+      <nodes xmi:id="_E6uigASMEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+        <attributes xmi:id="_GkXZ0ASMEeuVKoowyGAAsw" value="x">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_B4XkwQSMEeuVKoowyGAAsw" name="Rhs">
+      <nodes xmi:id="_E6uigQSMEeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_E6uiggSMEeuVKoowyGAAsw" origin="_E6uigASMEeuVKoowyGAAsw" image="_E6uigQSMEeuVKoowyGAAsw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_3TW0cAS4EeuVKoowyGAAsw" name="unsetUnsetableUnchangeableAttribute">
+    <parameters xmi:id="_Kdef8AS5EeuVKoowyGAAsw" name="x" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_3TZ3wAS4EeuVKoowyGAAsw" name="Lhs">
+      <nodes xmi:id="_3xI8oAS4EeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+        <attributes xmi:id="_E2qocAS5EeuVKoowyGAAsw" value="x">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal/unsetableunchangeablevl"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_3TZ3wQS4EeuVKoowyGAAsw" name="Rhs">
+      <nodes xmi:id="_3xI8oQS4EeuVKoowyGAAsw" name="v">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//SpecialVal"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_3xI8ogS4EeuVKoowyGAAsw" origin="_3xI8oAS4EeuVKoowyGAAsw" image="_3xI8oQS4EeuVKoowyGAAsw"/>
   </units>
 </henshin:Module>

@@ -148,7 +148,7 @@ public class Node extends EObjectImpl implements EObject {
 	 */
 	public Node getParentNode() {
 		if (parentNode != null && parentNode.eIsProxy()) {
-			InternalEObject oldParentNode = (InternalEObject)parentNode;
+			InternalEObject oldParentNode = parentNode;
 			parentNode = (Node)eResolveProxy(oldParentNode);
 			if (parentNode != oldParentNode) {
 				if (eNotificationRequired())
@@ -186,7 +186,7 @@ public class Node extends EObjectImpl implements EObject {
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.testmodel.Node#getParentNode <em>Parent Node</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Parent Node</em>' reference.
+	 * @param newParentNode the new value of the '<em>Parent Node</em>' reference.
 	 * @see #getParentNode()
 	 * @generated
 	 */
@@ -194,9 +194,9 @@ public class Node extends EObjectImpl implements EObject {
 		if (newParentNode != parentNode) {
 			NotificationChain msgs = null;
 			if (parentNode != null)
-				msgs = ((InternalEObject)parentNode).eInverseRemove(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
+				msgs = parentNode.eInverseRemove(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
 			if (newParentNode != null)
-				msgs = ((InternalEObject)newParentNode).eInverseAdd(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
+				msgs = newParentNode.eInverseAdd(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
 			msgs = basicSetParentNode(newParentNode, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -249,7 +249,7 @@ public class Node extends EObjectImpl implements EObject {
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.testmodel.Node#getNodename <em>Nodename</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Nodename</em>' attribute.
+	 * @param newNodename the new value of the '<em>Nodename</em>' attribute.
 	 * @see #getNodename()
 	 * @generated
 	 */
@@ -271,7 +271,7 @@ public class Node extends EObjectImpl implements EObject {
 		switch (featureID) {
 			case TestmodelPackage.NODE__PARENT_NODE:
 				if (parentNode != null)
-					msgs = ((InternalEObject)parentNode).eInverseRemove(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
+					msgs = parentNode.eInverseRemove(this, TestmodelPackage.NODE__CHILD_NODES, Node.class, msgs);
 				return basicSetParentNode((Node)otherEnd, msgs);
 			case TestmodelPackage.NODE__CHILD_NODES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildNodes()).basicAdd(otherEnd, msgs);
@@ -396,7 +396,7 @@ public class Node extends EObjectImpl implements EObject {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (nodename: ");
 		result.append(nodename);
 		result.append(')');

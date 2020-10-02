@@ -67,6 +67,7 @@ public class TestmodelFactory extends EFactoryImpl {
 			case TestmodelPackage.CONT: return createcont();
 			case TestmodelPackage.NODE: return createNode();
 			case TestmodelPackage.VAL: return createVal();
+			case TestmodelPackage.SPECIAL_VAL: return createSpecialVal();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -100,6 +101,16 @@ public class TestmodelFactory extends EFactoryImpl {
 	public Val createVal() {
 		Val val = new Val();
 		return val;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SpecialVal createSpecialVal() {
+		SpecialVal specialVal = new SpecialVal();
+		return specialVal;
 	}
 
 	/**

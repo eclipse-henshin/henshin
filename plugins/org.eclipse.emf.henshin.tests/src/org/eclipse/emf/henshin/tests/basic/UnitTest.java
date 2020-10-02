@@ -45,7 +45,7 @@ public class UnitTest extends HenshinTest {
 	@Test
 	public void testAmalgamationUnitAttributeInKernelRuleNac() {
 		loadEGraph("graphBefore_amu_attributeInKernelNac");
-		loadUnit("loop_amu_attributeInKernelNac");
+		loadUnit("iter_amu_attributeInKernelNac");
 		Units.assertUnitCanBeExecuted(htUnitApp);
 	}
 

@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.interpreter.Change;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
@@ -112,14 +113,25 @@ public abstract class ChangeImpl implements Change {
 		private EAttribute attribute;
 		private Object oldValue;
 		private Object newValue;
+		/**
+		 * The semantics of deleting an attribute is to unset it.
+		 */
+		private boolean delete;
 		private boolean initialized;
+		private boolean revert = false;
 
 		public AttributeChangeImpl(EGraph graph, EObject object, EAttribute attribute, Object newValue) {
 			super(graph);
 			this.object = object;
 			this.attribute = attribute;
 			this.newValue = newValue;
+			this.delete = false;
 			this.initialized = false;
+		}
+		
+		public AttributeChangeImpl(EGraph graph, EObject object, EAttribute attribute) {
+			this(graph, object, attribute, null);
+			this.delete = true;
 		}
 
 		/*
@@ -132,8 +144,9 @@ public abstract class ChangeImpl implements Change {
 			// Need to initialize?
 			 if (!initialized && attribute != null) { 
 				oldValue = object.eGet(attribute);
-				if ((oldValue==null && newValue==null) ||
-					(oldValue!=null && oldValue.equals(newValue))) {
+				if (!delete 
+						&& ((oldValue==null && newValue==null) 
+								|| (oldValue!=null && oldValue.equals(newValue)))) {
 					attribute = null;
 				}
 			}
@@ -141,7 +154,9 @@ public abstract class ChangeImpl implements Change {
 			if (attribute==null) {
 				return;
 			}
-			if (attribute.isMany()) {
+			if (delete && !revert) {
+				object.eUnset(attribute);				
+			} else if (attribute.isMany()) {
 				List values = (List) object.eGet(attribute);
 				values.clear();
 				if (newValue instanceof List) {
@@ -155,6 +170,7 @@ public abstract class ChangeImpl implements Change {
 			java.lang.Object dummy = oldValue;
 			oldValue = newValue;
 			newValue = dummy;
+			revert = !revert;
 		}
 
 		/*
@@ -191,8 +207,7 @@ public abstract class ChangeImpl implements Change {
 		@Override
 		public Object getNewValue() {
 			return newValue;
-		}
-		
+		}		
 	}
 	
 	/**

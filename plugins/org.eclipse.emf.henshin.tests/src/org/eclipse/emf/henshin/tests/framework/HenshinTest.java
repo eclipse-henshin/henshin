@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -120,18 +121,21 @@ public class HenshinTest {
 	 * @param henshinFile Henshin file to be loaded.
 	 */
 	protected void init(String henshinFile) {
-		if (resourceSet == null)
+		if (resourceSet == null) {
 			resourceSet = new HenshinResourceSet();
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*",
+				new XMIResourceFactoryImpl());
+		}
 		htModule = (Module) HenshinLoaders.loadHenshin(henshinFile, resourceSet);
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
 
 
-	protected void initFactory(String extension, XMIResourceFactoryImpl xmiResourceFactoryImpl) {
+	protected void initFactory(String extension, Resource.Factory factoryImpl) {
 		if (resourceSet == null)
 			resourceSet = new HenshinResourceSet();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(extension, xmiResourceFactoryImpl);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(extension, factoryImpl);
 	}
 	
 	/**

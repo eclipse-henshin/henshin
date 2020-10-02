@@ -126,7 +126,7 @@ public class Val extends EObjectImpl implements EObject {
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.testmodel.Val#getIntvl <em>Intvl</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Intvl</em>' attribute.
+	 * @param newIntvl the new value of the '<em>Intvl</em>' attribute.
 	 * @see #getIntvl()
 	 * @generated
 	 */
@@ -159,7 +159,7 @@ public class Val extends EObjectImpl implements EObject {
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.testmodel.Val#getValname <em>Valname</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Valname</em>' attribute.
+	 * @param newValname the new value of the '<em>Valname</em>' attribute.
 	 * @see #getValname()
 	 * @generated
 	 */
@@ -280,7 +280,7 @@ public class Val extends EObjectImpl implements EObject {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (intvl: ");
 		result.append(intvl);
 		result.append(", valname: ");
