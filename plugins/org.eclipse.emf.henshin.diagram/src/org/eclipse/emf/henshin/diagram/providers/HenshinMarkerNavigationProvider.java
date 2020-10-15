@@ -68,10 +68,10 @@ public class HenshinMarkerNavigationProvider extends AbstractModelMarkerNavigati
 	/**
 	 * @generated
 	 */
-	public static IMarker addMarker(IFile file, String elementId, String location, String message, int statusSeverity) {
+	public static IMarker addMarker(IResource ressource, String elementId, String location, String message, int statusSeverity) {
 		IMarker marker = null;
 		try {
-			marker = file.createMarker(MARKER_TYPE);
+			marker = ressource.createMarker(MARKER_TYPE);
 			marker.setAttribute(IMarker.MESSAGE, message);
 			marker.setAttribute(IMarker.LOCATION, location);
 			marker.setAttribute(org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID, elementId);
