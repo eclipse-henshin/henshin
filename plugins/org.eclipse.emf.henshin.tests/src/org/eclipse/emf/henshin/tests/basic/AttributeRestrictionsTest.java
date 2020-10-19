@@ -16,7 +16,8 @@ public class AttributeRestrictionsTest extends HenshinTest {
 	public void setUp() {
 		TestmodelPackage.eINSTANCE.eClass();
 		init("basic/rules/basicTests.henshin");
-		loadEGraph("basic/models/attributeTestsModels/restrictedAttributes.testmodel");
+		setEGraphPath("basic/models/attributeTestsModels/", "testmodel");
+		loadEGraph("restrictedAttributes");
 	}
 	
 	@Test
