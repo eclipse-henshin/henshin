@@ -18,6 +18,8 @@
 		<module>plugins/org.eclipse.emf.henshin.statespace</module>
 		<module>plugins/org.eclipse.emf.henshin.statespace.explorer</module>
 		<module>plugins/org.eclipse.emf.henshin.statespace.external</module>
+		<module>plugins/org.eclipse.emf.henshin.monitoring.kieker</module>
+		<module>plugins/org.eclipse.emf.henshin.monitoring.ui</module>
 		<module>plugins/org.eclipse.emf.henshin.multicda.cda</module>
 		<module>plugins/org.eclipse.emf.henshin.multicda.cpa</module>
 		<module>plugins/org.eclipse.emf.henshin.multicda.cpa.ui</module>
@@ -52,26 +54,6 @@
 		<tycho-extras-version>1.0.0</tycho-extras-version>
 	</properties>
 
-<!-- 	<repositories>
-		<repository>
-			<id>luna</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/luna</url>
-		</repository>
-		<repository>
-			<id>eclipse-orbit</id>
-			<name>eclipse orbit for AGG</name>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</url>
-		</repository>
-		<repository>
-			<id>xtext</id>
-			<name>xtext for textual syntax</name>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
-		</repository>
-	</repositories> -->
-
 	<build>
 		<plugins>
 			<plugin>
@@ -88,26 +70,6 @@
 					</target>
 
 					<environments>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>
@@ -137,7 +99,28 @@
 					</execution>
 				</executions>
 			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <compilerVersion>1.14</compilerVersion>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
+
+    <distributionManagement>
+    <repository>
+      <id>repo.eclipse.org</id>
+      <name>Project Repository - Releases</name>
+      <url>https://repo.eclipse.org/content/repositories/henshin-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>repo.eclipse.org</id>
+      <name>Project Repository - Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/henshin-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>
