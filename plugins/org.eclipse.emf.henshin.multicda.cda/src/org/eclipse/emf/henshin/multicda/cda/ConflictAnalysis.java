@@ -332,7 +332,15 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 		Set<Node> l1 = new HashSet<>(rule1.getLhs().getNodes());
 		Set<Node> l2 = new HashSet<>(originalR2.getLhs().getNodes());
 		Set<Node> f = new HashSet<>();
-		for (NestedCondition nc : originalR2.getLhs().getNACs())
+		Set<Node> l1InNac = new HashSet<>();
+		Set<Node> l2InNac = new HashSet<>();
+		boolean allowed1 = true;
+		boolean allowed2 = true;
+		boolean nac2Allowed = false;
+		boolean nac1Allowed = false;
+		
+		//collect all negative nodes of rule 2
+		for (NestedCondition nc : originalR2.getLhs().getNACs()) {
 			for (Node fn : nc.getConclusion().getNodes()) {
 				Node mappedNode = nc.getMappings().getOrigin(fn);
 				if (mappedNode == null)
@@ -341,20 +349,32 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 					l2.remove(mappedNode);
 					f.add(fn);
 				}
+				else {
+					l2InNac.add(fn);
+				}
 			}
 
+		//if there are negative elements, add l2
 		if (!f.isEmpty()) {
 			Map<Node, Node> result = new HashMap<>();
-			f.addAll(l2);
+			//f.addAll(l2);
+			f.addAll(l2InNac);
 			Utils.mapNodes(l1, f, result, true);
-			boolean allowed = result.size() < f.size();
-			if (!allowed)
-				return false;
+			boolean allNodesMapped = result.size() == f.size();
+			if (allNodesMapped) {
+					nac2Allowed = checkValidityOfMapping(result);
+			}
+			else nac2Allowed = true;
 		}
+		else nac2Allowed = true;
 		f.clear();
+		l2InNac.clear();
+		allowed1 = allowed1 && nac2Allowed;
+		}
+		
 		l2 = new HashSet<>(originalR2.getLhs().getNodes());
 		l1 = new HashSet<>(rule1.getLhs().getNodes());
-		for (NestedCondition nc : rule1.getLhs().getNACs())
+		for (NestedCondition nc : rule1.getLhs().getNACs()) {
 			for (Node fn : nc.getConclusion().getNodes()) {
 				Node mappedNode = nc.getMappings().getOrigin(fn);
 				if (mappedNode == null)
@@ -363,17 +383,53 @@ public class ConflictAnalysis implements MultiGranularAnalysis {
 					l1.remove(mappedNode);
 					f.add(fn);
 				}
+				else {
+					l1InNac.add(fn);
+				}
 			}
 
 		if (!f.isEmpty()) {
 			Map<Node, Node> result = new HashMap<>();
-			f.addAll(l1);
+			//f.addAll(l1);
+			f.addAll(l1InNac);
 			Utils.mapNodes(l2, f, result, true);
-			boolean allowed = result.size() < f.size();
-			if (!allowed)
-				return false;
+			boolean allNodesMapped = result.size() == f.size();
+			if (allNodesMapped) {
+				nac1Allowed = checkValidityOfMapping(result);
+			}
+		   else nac1Allowed = true;
+		  }
+	      else nac1Allowed = true;
+		   f.clear();
+	       l1InNac.clear();
+	       allowed2 = allowed2 && nac1Allowed;
 		}
-		return true;
+	return allowed1 && allowed2;
+	}
+
+	private boolean checkValidityOfMapping(Map<Node, Node> result) {
+		Set<Node> mappedNodes = result.keySet();
+		for (Node n : mappedNodes) {
+			if(n.getOutgoing().size() != result.get(n).getOutgoing().size() ||
+			   n.getIncoming().size() != result.get(n).getIncoming().size()){
+				   return  true;
+			   }
+			else if (n.getOutgoing().size() == result.get(n).getOutgoing().size()) {
+				for(Edge e: n.getOutgoing()) {
+					if(!result.containsKey(e.getTarget())){
+						return true;
+					}
+				}
+				if (n.getIncoming().size() == result.get(n).getIncoming().size()) {
+				for(Edge e: n.getIncoming()) {
+						if(!result.containsKey(e.getSource())){
+							return true;	
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public <T extends Span> Set<T> setRequires(Set<T> spans) {

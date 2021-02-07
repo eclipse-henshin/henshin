@@ -1046,6 +1046,9 @@ public abstract class Utils {
 
 	public static Map<Node, Node> mapNodes(Set<Node> nodesOriginal1, Set<Node> nodesOriginal2, Set<Node> nodes2,
 			Map<Node, Node> result, boolean allActionTypes) {
+		
+		//Tries to compute a mapping from nodesOriginal1 to nodesOriginal2
+		//When there is a mapping, result is not empty
 		if (result == null)
 			result = new HashMap<>();
 		for (Node n2 : nodes2) {
@@ -1058,12 +1061,16 @@ public abstract class Utils {
 								EList<Edge> e1 = n1.getOutgoing(e2.getType());
 								boolean foundEdge = false;
 								for (Edge e : e1)
-									if ((allActionTypes || e.getAction().getType() == Action.Type.PRESERVE)
-											&& nodesOriginal1.contains(e.getTarget())) {
-										foundEdge = true;
-										break;
-									}
-								found = foundEdge;
+									if (allActionTypes || e.getAction().getType() == Action.Type.PRESERVE) {
+											//&& nodesOriginal1.contains(e.getTarget())
+											if (result.get(e.getTarget()) == null || result.get(e.getTarget())== e2.getTarget()) {
+													foundEdge = true;
+													break;
+												}
+											}
+								if (e1.size() != 0) {
+									found = foundEdge;
+								}
 							}
 						if (found)
 							for (Edge e2 : n2.getIncoming())
@@ -1071,12 +1078,17 @@ public abstract class Utils {
 									EList<Edge> e1 = n1.getIncoming(e2.getType());
 									boolean foundEdge = false;
 									for (Edge e : e1)
-										if ((allActionTypes || e.getAction().getType() == Action.Type.PRESERVE)
-												&& nodesOriginal1.contains(e.getTarget())) {
-											foundEdge = true;
-											break;
-										}
-									found = foundEdge;
+										if (allActionTypes || e.getAction().getType() == Action.Type.PRESERVE) {
+												//&& nodesOriginal1.contains(e.getTarget())
+											// in the follwoing: getTarget() should be getSource()
+												if (result.get(e.getSource()) == null || result.get(e.getSource())== e2.getSource()) {
+														foundEdge = true;
+														break;
+													}
+												}
+									if (e1.size() != 0) {
+										found = foundEdge;
+									}
 								}
 						if (found) {
 							result.put(n1, n2);
@@ -1086,7 +1098,9 @@ public abstract class Utils {
 								return result;
 							}
 							mapNodes(nodesOriginal1, nodesOriginal2, remained, result, allActionTypes);
-							if (result.size() == nodesOriginal2.size()) {
+							//was nodesOriginal2
+							if (result.size() == Math.min(nodesOriginal1.size(),nodesOriginal2.size())) {
+							//if (result.size() == nodesOriginal2.size() - remained.size()) {
 								return result;
 							}
 							result.remove(n1);
