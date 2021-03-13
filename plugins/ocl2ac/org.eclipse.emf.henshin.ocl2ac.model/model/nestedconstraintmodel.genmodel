@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.ocl2ac.model/src" modelPluginID="org.eclipse.emf.henshin.ocl2ac.model"
+    modelName="Nestedconstraintmodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>nestedconstraintmodel.ecore</foreignModel>
+  <genPackages prefix="Nestedconstraintmodel" disposableProviderFactory="true" ecorePackage="nestedconstraintmodel.ecore#/">
+    <genClasses ecoreClass="nestedconstraintmodel.ecore#//NestedConstraintModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nestedconstraintmodel.ecore#//NestedConstraintModel/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedconstraintmodel.ecore#//NestedConstraintModel/nestedconstrainmodels"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Nestedcondition" disposableProviderFactory="true" ecorePackage="nestedcondition.ecore#/">
+    <genClasses ecoreClass="nestedcondition.ecore#//NestedConstraint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nestedcondition.ecore#//NestedConstraint/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//NestedConstraint/typeGraph"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//NestedConstraint/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//NestedConstraint/domain"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="nestedcondition.ecore#//NestedCondition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//NestedCondition/variables"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//NestedCondition/domain"/>
+    </genClasses>
+    <genClasses ecoreClass="nestedcondition.ecore#//Variable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nestedcondition.ecore#//Variable/name"/>
+    </genClasses>
+    <genClasses ecoreClass="nestedcondition.ecore#//QuantifiedCondition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nestedcondition.ecore#//QuantifiedCondition/quantifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//QuantifiedCondition/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//QuantifiedCondition/morphism"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//QuantifiedCondition/codomain"/>
+    </genClasses>
+    <genClasses ecoreClass="nestedcondition.ecore#//True"/>
+    <genClasses ecoreClass="nestedcondition.ecore#//Formula">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute nestedcondition.ecore#//Formula/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//Formula/arguments"/>
+    </genClasses>
+    <genClasses ecoreClass="nestedcondition.ecore#//Morphism">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//Morphism/nodeMappings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//Morphism/from"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//Morphism/to"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//Morphism/edgeMappings"/>
+    </genClasses>
+    <genClasses ecoreClass="nestedcondition.ecore#//NodeMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//NodeMapping/origin"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//NodeMapping/image"/>
+    </genClasses>
+    <genClasses ecoreClass="nestedcondition.ecore#//EdgeMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//EdgeMapping/origin"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference nestedcondition.ecore#//EdgeMapping/image"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Graph" disposableProviderFactory="true" ecorePackage="graph.ecore#/">
+    <genClasses ecoreClass="graph.ecore#//Graph">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference graph.ecore#//Graph/edges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference graph.ecore#//Graph/nodes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference graph.ecore#//Graph/typegraph"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute graph.ecore#//Graph/name"/>
+    </genClasses>
+    <genClasses ecoreClass="graph.ecore#//Node">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference graph.ecore#//Node/attributes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference graph.ecore#//Node/outgoing"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute graph.ecore#//Node/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference graph.ecore#//Node/incoming"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference graph.ecore#//Node/type"/>
+    </genClasses>
+    <genClasses ecoreClass="graph.ecore#//Edge">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference graph.ecore#//Edge/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference graph.ecore#//Edge/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference graph.ecore#//Edge/type"/>
+    </genClasses>
+    <genClasses ecoreClass="graph.ecore#//Attribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute graph.ecore#//Attribute/op"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute graph.ecore#//Attribute/value"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference graph.ecore#//Attribute/type"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Laxcondition" disposableProviderFactory="true" ecorePackage="laxcondition.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="laxcondition.ecore#//Quantifier">
+      <genEnumLiterals ecoreEnumLiteral="laxcondition.ecore#//Quantifier/EXISTS"/>
+      <genEnumLiterals ecoreEnumLiteral="laxcondition.ecore#//Quantifier/FORALL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="laxcondition.ecore#//Operator">
+      <genEnumLiterals ecoreEnumLiteral="laxcondition.ecore#//Operator/NOT"/>
+      <genEnumLiterals ecoreEnumLiteral="laxcondition.ecore#//Operator/AND"/>
+      <genEnumLiterals ecoreEnumLiteral="laxcondition.ecore#//Operator/OR"/>
+      <genEnumLiterals ecoreEnumLiteral="laxcondition.ecore#//Operator/IMPLIES"/>
+      <genEnumLiterals ecoreEnumLiteral="laxcondition.ecore#//Operator/EQUIVALENT"/>
+      <genEnumLiterals ecoreEnumLiteral="laxcondition.ecore#//Operator/XOR"/>
+    </genEnums>
+    <genClasses ecoreClass="laxcondition.ecore#//Condition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference laxcondition.ecore#//Condition/typeGraph"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute laxcondition.ecore#//Condition/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference laxcondition.ecore#//Condition/laxCondition"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="laxcondition.ecore#//LaxCondition">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference laxcondition.ecore#//LaxCondition/formula"/>
+    </genClasses>
+    <genClasses ecoreClass="laxcondition.ecore#//QuantifiedLaxCondition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference laxcondition.ecore#//QuantifiedLaxCondition/graph"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference laxcondition.ecore#//QuantifiedLaxCondition/condition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute laxcondition.ecore#//QuantifiedLaxCondition/quantifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference laxcondition.ecore#//QuantifiedLaxCondition/variables"/>
+    </genClasses>
+    <genClasses ecoreClass="laxcondition.ecore#//True"/>
+    <genClasses ecoreClass="laxcondition.ecore#//Formula">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute laxcondition.ecore#//Formula/op"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference laxcondition.ecore#//Formula/arguments"/>
+    </genClasses>
+    <genClasses ecoreClass="laxcondition.ecore#//Variable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute laxcondition.ecore#//Variable/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

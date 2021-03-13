@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.emf.henshin.ocl2ac.automate.objectContribution2"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               icon="icons/ocl2ac16.png"
+               id="ocl2ac.automate.menu"
+               label="OCL2AC"
+               path="addition">
+            <separator
+                  name="group">
+            </separator>
+         </menu>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.tool.action.GC2AppCondAction"
+               enablesFor="2"
+               id="ocl2ac.automate.NGCtoACAction"
+               label="Integrate Nested Graph Constraints as Application Conditions for Rules"
+               menubarPath="ocl2ac.automate.menu/group">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.tool.action.OCL2GCAction"
+               enablesFor="2"
+               id="ocl2ac.automate.OCLtoNGCAction"
+               label="Translate OCL Constraints to Nested Graph Constraints"
+               menubarPath="ocl2ac.automate.menu/group">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.tool.action.LaxCond2GCAction"
+               enablesFor="1"
+               id="ocl2ac.automate.CCtoNGCAction"
+               label="Compact Condition to Nested Condition"
+               menubarPath="ocl2ac.automate.menu/group">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

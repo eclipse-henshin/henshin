@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.emf.henshin.ocl2ac.objectContribution1"
+            objectClass="nestedcondition.NestedConstraint">
+         <menu
+               icon="icons/ocl2ac16.png"
+               id="ocl2ac.ngc.menu1"
+               label="OCL2AC_Nested Graph Constraints"
+               path="additions">
+            <separator
+                  name="main">
+            </separator>
+         </menu>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.NGCLaxGenerationActionLongVersion"
+               icon="icons/latex.png"
+               id="ocl2ac.action.GenGCLV"
+               label="Generating Latex File for Presenting Graph Constraint (Long Version)"
+               menubarPath="ocl2ac.ngc.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.NGCLaxGenerationActionShortVersion"
+               icon="icons/latex.png"
+               id="ocl2ac.action.GenGCSV"
+               label="Generating Latex File for Presenting Graph Constraint (Short Version)"
+               menubarPath="ocl2ac.ngc.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.NGCPrintViewActionLongVersion"
+               icon="icons/print1.png"
+               id="ocl2ac.action.printnestedconstraint"
+               label="Print and View Nested Graph Constraint (Long Version)"
+               menubarPath="ocl2ac.ngc.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.NGCPrintViewActionShortVersion"
+               icon="icons/print1.png"
+               id="ocl2ac.action.printnestedconstraint"
+               label="Print and View Nested Graph Constraint (Short Version)"
+               menubarPath="ocl2ac.ngc.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.NGCPrintOpenActionLongVersion"
+               icon="icons/print2.png"
+               id="ocl2ac.action.printnestedconstraintOpLV"
+               label="Print and Open Nested Graph Constraint (Long Version)"
+               menubarPath="ocl2ac.ngc.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.NGCPrintOpenActionShortVersion"
+               icon="icons/print2.png"
+               id="ocl2ac.action.printnestedconstraintOpSV"
+               label="Print and Open Nested Graph Constraint (Short Version)"
+               menubarPath="ocl2ac.ngc.menu1/main"
+               style="push">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="henshin.popupmenu.objectcontribution"
+            objectClass="org.eclipse.emf.henshin.model.Rule">
+         <menu
+               icon="icons/ocl2ac16.png"
+               id="henshin.menu1"
+               label="OCL2AC_Henshin"
+               path="additions">
+            <separator
+                  name="main">
+            </separator>
+         </menu>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.HenshinNACLaxGenerationActionLongVersion"
+               enablesFor="1"
+               icon="icons/latex.png"
+               id="henshin.action.nac.GenACLV"
+               label="Generating Latex File for Presenting Application Condition (Long Version)"
+               menubarPath="henshin.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.HenshinNACLaxGenerationActionShortVersion"
+               enablesFor="1"
+               icon="icons/latex.png"
+               id="henshin.action.nac.GenACSV"
+               label="Generating Latex File for Presenting Application Condition (Short Version)"
+               menubarPath="henshin.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.HenshinNACPrintViewActionLongVersion"
+               enablesFor="1"
+               icon="icons/print1.png"
+               id="henshin.action.nac.printlv"
+               label="Print and View Application Condition (Long Version)"
+               menubarPath="henshin.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.HenshinNACPrintViewActionShortVersion"
+               enablesFor="1"
+               icon="icons/print1.png"
+               id="henshin.action.nac.printsv"
+               label="Print and View Application Condition (Short Version)"
+               menubarPath="henshin.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.HenshinNACPrintOpenActionLongVersion"
+               enablesFor="1"
+               icon="icons/print2.png"
+               id="henshin.action.nac.printOpLV"
+               label="Print and Open Application Condition (Long Version)"
+               menubarPath="henshin.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.HenshinNACPrintOpenActionShortVersion"
+               enablesFor="1"
+               icon="icons/print2.png"
+               id="henshin.action.nac.printOpSV"
+               label="Print and Open Application Condition (Short Version)"
+               menubarPath="henshin.menu1/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.HenshinNACSimplifierAction"
+               enablesFor="1"
+               icon="icons/simplify.png"
+               id="henshin.action.nac.simplify"
+               label="Simplify Application Condition"
+               menubarPath="henshin.menu1/main"
+               style="push">
+         </action>
+      </objectContribution>
+      <objectContribution
+            id="henshin.popupmenu.objectcontribution"
+            objectClass="org.eclipse.emf.henshin.model.Module">
+         <menu
+               icon="icons/ocl2ac16.png"
+               id="henshin.menu1"
+               label="OCL2AC_Henshin"
+               path="additions">
+            <separator
+                  name="main">
+            </separator>
+         </menu>
+         <action
+               class="org.eclipse.emf.henshin.ocl2ac.utils.printer.actions.HenshinAllRuleNACSimplifierAction"
+               enablesFor="1"
+               id="henshin.action.nac.simplify.all"
+               label="Simplify Application Conditions of All Rules "
+               menubarPath="henshin.menu1/main"
+               style="push">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.emf.henshin.ocl2ac.utils.viewer.PDFViewer"
+            icon="icons/ocl2ac16.png"
+            id="nas.ocl2ac.viewer.PDFViewer"
+            name="PDF Viewer">
+      </view>
+   </extension>
+
+</plugin>

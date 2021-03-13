@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.ocl2ac.model/src" modelPluginID="org.eclipse.emf.henshin.ocl2ac.model"
+    modelName="Morphisms" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="nestedconstraintmodel.genmodel#//graph" operationReflection="true"
+    importOrganizing="true">
+  <foreignModel>morphisms.ecore</foreignModel>
+  <genPackages prefix="Morphisms" disposableProviderFactory="true" ecorePackage="morphisms.ecore#/">
+    <genClasses ecoreClass="morphisms.ecore#//Morphism">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference morphisms.ecore#//Morphism/domain"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference morphisms.ecore#//Morphism/codomain"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference morphisms.ecore#//Morphism/mappings"/>
+    </genClasses>
+    <genClasses ecoreClass="morphisms.ecore#//Mapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference morphisms.ecore#//Mapping/origin"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference morphisms.ecore#//Mapping/image"/>
+    </genClasses>
+    <genClasses ecoreClass="morphisms.ecore#//Pair">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference morphisms.ecore#//Pair/a"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference morphisms.ecore#//Pair/b"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
