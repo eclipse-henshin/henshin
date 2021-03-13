@@ -41,8 +41,16 @@
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein.refactoring</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein.ui</module>	
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.test</module>
+		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.gc2ac</module>
+		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.model</module>
+		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.model.edit</module>
+		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.model.editor</module>
+		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.ocl2gc</module>
+		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.tool</module>
+		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.utils</module>
 		<module>features/org.eclipse.emf.henshin.sdk</module>
 		<module>features/org.eclipse.emf.henshin.sdk.variability</module>
+		<module>features/org.eclipse.emf.henshin.sdk.ocl2ac</module>
 		<module>releng/org.eclipse.emf.henshin.target</module>
 		<module>p2updatesite</module>
 	</modules>

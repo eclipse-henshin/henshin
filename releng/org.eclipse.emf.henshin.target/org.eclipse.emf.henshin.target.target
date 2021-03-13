@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Running Platform" sequenceNumber="13">
+<?pde version="3.8"?>
+<target name="Running Platform" sequenceNumber="13">
 <locations>
 <location path="${eclipse_home}" type="Profile"/>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -20,6 +21,7 @@
 <unit id="org.eclipse.emf.query.sdk.feature.group" version="1.11.0.201706061326"/>
 <unit id="org.eclipse.uml2.uml" version="5.3.0.v20170605-1616"/>
 <unit id="org.eclipse.xtext.sdk.feature.group" version="2.12.0.v20170519-1412"/>
+<unit id="org.apache.commons.io" version="2.2.0.v201405211200"/>
 <repository location="http://download.eclipse.org/releases/oxygen"/>
 </location>
 </locations>
