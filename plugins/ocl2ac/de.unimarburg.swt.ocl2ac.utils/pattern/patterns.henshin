@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4SHVUE30EeiepIYRFpjorw">
+  <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5MBY0E30EeiepIYRFpjorw" name="find_NC_GR_OR">
+    <parameters xmi:id="_VIzMwE31EeiepIYRFpjorw" name="paramNC" kind="OUT"/>
+    <parameters xmi:id="_VIzMwU31EeiepIYRFpjorw" name="paramG" kind="OUT"/>
+    <parameters xmi:id="_VIzMwk31EeiepIYRFpjorw" name="paramOR" kind="OUT"/>
+    <lhs xmi:id="_5MqSAE30EeiepIYRFpjorw" name="Lhs">
+      <nodes xmi:id="_GFCSoE31EeiepIYRFpjorw" name="paramNC" outgoing="_JdVEIE31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
+      </nodes>
+      <nodes xmi:id="_GrTocE31EeiepIYRFpjorw" name="paramG" incoming="_JdVEIE31EeiepIYRFpjorw" outgoing="_KYY-ME31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes xmi:id="_IfJkoE31EeiepIYRFpjorw" name="paramOR" incoming="_KYY-ME31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
+      </nodes>
+      <edges xmi:id="_JdVEIE31EeiepIYRFpjorw" source="_GFCSoE31EeiepIYRFpjorw" target="_GrTocE31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition/conclusion"/>
+      </edges>
+      <edges xmi:id="_KYY-ME31EeiepIYRFpjorw" source="_GrTocE31EeiepIYRFpjorw" target="_IfJkoE31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5Mq5EE30EeiepIYRFpjorw" name="Rhs">
+      <nodes xmi:id="_GFCSoU31EeiepIYRFpjorw" name="paramNC" outgoing="_JdVEIU31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
+      </nodes>
+      <nodes xmi:id="_GrUPgE31EeiepIYRFpjorw" name="paramG" incoming="_JdVEIU31EeiepIYRFpjorw" outgoing="_KYY-MU31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes xmi:id="_IfJkoU31EeiepIYRFpjorw" name="paramOR" incoming="_KYY-MU31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
+      </nodes>
+      <edges xmi:id="_JdVEIU31EeiepIYRFpjorw" source="_GFCSoU31EeiepIYRFpjorw" target="_GrUPgE31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition/conclusion"/>
+      </edges>
+      <edges xmi:id="_KYY-MU31EeiepIYRFpjorw" source="_GrUPgE31EeiepIYRFpjorw" target="_IfJkoU31EeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_GFC5sE31EeiepIYRFpjorw" origin="_GFCSoE31EeiepIYRFpjorw" image="_GFCSoU31EeiepIYRFpjorw"/>
+    <mappings xmi:id="_GrUPgU31EeiepIYRFpjorw" origin="_GrTocE31EeiepIYRFpjorw" image="_GrUPgE31EeiepIYRFpjorw"/>
+    <mappings xmi:id="_IfJkok31EeiepIYRFpjorw" origin="_IfJkoE31EeiepIYRFpjorw" image="_IfJkoU31EeiepIYRFpjorw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_AOvbkE4fEeiepIYRFpjorw" name="find_NC_GR_NOT_OR">
+    <parameters xmi:id="_AOvbkU4fEeiepIYRFpjorw" name="paramNC" kind="OUT"/>
+    <parameters xmi:id="_AOvbkk4fEeiepIYRFpjorw" name="paramG" kind="OUT"/>
+    <parameters xmi:id="_AOvbk04fEeiepIYRFpjorw" name="paramOR" kind="OUT"/>
+    <lhs xmi:id="_AOvblE4fEeiepIYRFpjorw" name="Lhs">
+      <nodes xmi:id="_AOvblU4fEeiepIYRFpjorw" name="paramNC" outgoing="_AOvbmE4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
+      </nodes>
+      <nodes xmi:id="_AOvblk4fEeiepIYRFpjorw" name="paramG" incoming="_AOvbmE4fEeiepIYRFpjorw" outgoing="_DsIIcE4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes xmi:id="_AOvbl04fEeiepIYRFpjorw" name="paramOR" incoming="_EJpx8E4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
+      </nodes>
+      <nodes xmi:id="_DJOPsE4fEeiepIYRFpjorw" incoming="_DsIIcE4fEeiepIYRFpjorw" outgoing="_EJpx8E4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
+      </nodes>
+      <edges xmi:id="_AOvbmE4fEeiepIYRFpjorw" source="_AOvblU4fEeiepIYRFpjorw" target="_AOvblk4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition/conclusion"/>
+      </edges>
+      <edges xmi:id="_DsIIcE4fEeiepIYRFpjorw" source="_AOvblk4fEeiepIYRFpjorw" target="_DJOPsE4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
+      </edges>
+      <edges xmi:id="_EJpx8E4fEeiepIYRFpjorw" source="_DJOPsE4fEeiepIYRFpjorw" target="_AOvbl04fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula/child"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_AOvbmk4fEeiepIYRFpjorw" name="Rhs">
+      <nodes xmi:id="_AOvbm04fEeiepIYRFpjorw" name="paramNC" outgoing="_AOvbnk4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
+      </nodes>
+      <nodes xmi:id="_AOvbnE4fEeiepIYRFpjorw" name="paramG" incoming="_AOvbnk4fEeiepIYRFpjorw" outgoing="_DsIvgE4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes xmi:id="_AOvbnU4fEeiepIYRFpjorw" name="paramOR" incoming="_EJpx8U4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
+      </nodes>
+      <nodes xmi:id="_DJO2wE4fEeiepIYRFpjorw" incoming="_DsIvgE4fEeiepIYRFpjorw" outgoing="_EJpx8U4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
+      </nodes>
+      <edges xmi:id="_AOvbnk4fEeiepIYRFpjorw" source="_AOvbm04fEeiepIYRFpjorw" target="_AOvbnE4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition/conclusion"/>
+      </edges>
+      <edges xmi:id="_DsIvgE4fEeiepIYRFpjorw" source="_AOvbnE4fEeiepIYRFpjorw" target="_DJO2wE4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
+      </edges>
+      <edges xmi:id="_EJpx8U4fEeiepIYRFpjorw" source="_DJO2wE4fEeiepIYRFpjorw" target="_AOvbnU4fEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula/child"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_AOvboE4fEeiepIYRFpjorw" origin="_AOvblU4fEeiepIYRFpjorw" image="_AOvbm04fEeiepIYRFpjorw"/>
+    <mappings xmi:id="_AOvboU4fEeiepIYRFpjorw" origin="_AOvblk4fEeiepIYRFpjorw" image="_AOvbnE4fEeiepIYRFpjorw"/>
+    <mappings xmi:id="_AOvbok4fEeiepIYRFpjorw" origin="_AOvbl04fEeiepIYRFpjorw" image="_AOvbnU4fEeiepIYRFpjorw"/>
+    <mappings xmi:id="_DJO2wU4fEeiepIYRFpjorw" origin="_DJOPsE4fEeiepIYRFpjorw" image="_DJO2wE4fEeiepIYRFpjorw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_1rD6EE4hEeiepIYRFpjorw" name="find_NotNot">
+    <parameters xmi:id="_CWN-EE4iEeiepIYRFpjorw" name="outerNot" kind="OUT"/>
+    <parameters xmi:id="_CWN-EU4iEeiepIYRFpjorw" name="innerNot" kind="OUT"/>
+    <lhs xmi:id="_1rFIME4hEeiepIYRFpjorw" name="Lhs">
+      <nodes xmi:id="_5__6AE4hEeiepIYRFpjorw" name="outerNot" outgoing="_8ZjLUE4hEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
+      </nodes>
+      <nodes xmi:id="_7yNegE4hEeiepIYRFpjorw" name="innerNot" incoming="_8ZjLUE4hEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
+      </nodes>
+      <edges xmi:id="_8ZjLUE4hEeiepIYRFpjorw" source="_5__6AE4hEeiepIYRFpjorw" target="_7yNegE4hEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula/child"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_1rFIMU4hEeiepIYRFpjorw" name="Rhs">
+      <nodes xmi:id="_5__6AU4hEeiepIYRFpjorw" name="outerNot" outgoing="_8ZjLUU4hEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
+      </nodes>
+      <nodes xmi:id="_7yNegU4hEeiepIYRFpjorw" name="innerNot" incoming="_8ZjLUU4hEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
+      </nodes>
+      <edges xmi:id="_8ZjLUU4hEeiepIYRFpjorw" source="_5__6AU4hEeiepIYRFpjorw" target="_7yNegU4hEeiepIYRFpjorw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula/child"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5__6Ak4hEeiepIYRFpjorw" origin="_5__6AE4hEeiepIYRFpjorw" image="_5__6AU4hEeiepIYRFpjorw"/>
+    <mappings xmi:id="_7yNegk4hEeiepIYRFpjorw" origin="_7yNegE4hEeiepIYRFpjorw" image="_7yNegU4hEeiepIYRFpjorw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_dLaJoE-oEei34uiBkjGJBw" name="find_NC_GR_AND">
+    <parameters xmi:id="_dLaJoU-oEei34uiBkjGJBw" name="paramNC" kind="OUT"/>
+    <parameters xmi:id="_dLaJok-oEei34uiBkjGJBw" name="paramG" kind="OUT"/>
+    <parameters xmi:id="_f8LoIE-oEei34uiBkjGJBw" name="paramAND" kind="OUT"/>
+    <lhs xmi:id="_dLaJpE-oEei34uiBkjGJBw" name="Lhs">
+      <nodes xmi:id="_dLaJpU-oEei34uiBkjGJBw" name="paramNC" outgoing="_dLaJqE-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
+      </nodes>
+      <nodes xmi:id="_dLaJpk-oEei34uiBkjGJBw" name="paramG" incoming="_dLaJqE-oEei34uiBkjGJBw" outgoing="_dLaJqU-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes xmi:id="_dLaJp0-oEei34uiBkjGJBw" name="paramAND" incoming="_dLaJqU-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//And"/>
+      </nodes>
+      <edges xmi:id="_dLaJqE-oEei34uiBkjGJBw" source="_dLaJpU-oEei34uiBkjGJBw" target="_dLaJpk-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition/conclusion"/>
+      </edges>
+      <edges xmi:id="_dLaJqU-oEei34uiBkjGJBw" source="_dLaJpk-oEei34uiBkjGJBw" target="_dLaJp0-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_dLaJqk-oEei34uiBkjGJBw" name="Rhs">
+      <nodes xmi:id="_dLaJq0-oEei34uiBkjGJBw" name="paramNC" outgoing="_dLaJrk-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
+      </nodes>
+      <nodes xmi:id="_dLaJrE-oEei34uiBkjGJBw" name="paramG" incoming="_dLaJrk-oEei34uiBkjGJBw" outgoing="_dLaJr0-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes xmi:id="_dLaJrU-oEei34uiBkjGJBw" name="paramAND" incoming="_dLaJr0-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//And"/>
+      </nodes>
+      <edges xmi:id="_dLaJrk-oEei34uiBkjGJBw" source="_dLaJq0-oEei34uiBkjGJBw" target="_dLaJrE-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition/conclusion"/>
+      </edges>
+      <edges xmi:id="_dLaJr0-oEei34uiBkjGJBw" source="_dLaJrE-oEei34uiBkjGJBw" target="_dLaJrU-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_dLaJsE-oEei34uiBkjGJBw" origin="_dLaJpU-oEei34uiBkjGJBw" image="_dLaJq0-oEei34uiBkjGJBw"/>
+    <mappings xmi:id="_dLaJsU-oEei34uiBkjGJBw" origin="_dLaJpk-oEei34uiBkjGJBw" image="_dLaJrE-oEei34uiBkjGJBw"/>
+    <mappings xmi:id="_dLaJsk-oEei34uiBkjGJBw" origin="_dLaJp0-oEei34uiBkjGJBw" image="_dLaJrU-oEei34uiBkjGJBw"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_j-8S8E-oEei34uiBkjGJBw" name="find_NC_GR_NOT_AND">
+    <parameters xmi:id="_j-8S8U-oEei34uiBkjGJBw" name="paramNC" kind="OUT"/>
+    <parameters xmi:id="_j-8S8k-oEei34uiBkjGJBw" name="paramG" kind="OUT"/>
+    <parameters xmi:id="_m16gEE-oEei34uiBkjGJBw" name="paramAND" kind="OUT"/>
+    <lhs xmi:id="_j-8S9E-oEei34uiBkjGJBw" name="Lhs">
+      <nodes xmi:id="_j-8S9U-oEei34uiBkjGJBw" name="paramNC" outgoing="_j-8S-U-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
+      </nodes>
+      <nodes xmi:id="_j-8S9k-oEei34uiBkjGJBw" name="paramG" incoming="_j-8S-U-oEei34uiBkjGJBw" outgoing="_j-8S-k-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes xmi:id="_j-8S90-oEei34uiBkjGJBw" name="paramAND" incoming="_j-8S-0-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//And"/>
+      </nodes>
+      <nodes xmi:id="_j-8S-E-oEei34uiBkjGJBw" incoming="_j-8S-k-oEei34uiBkjGJBw" outgoing="_j-8S-0-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
+      </nodes>
+      <edges xmi:id="_j-8S-U-oEei34uiBkjGJBw" source="_j-8S9U-oEei34uiBkjGJBw" target="_j-8S9k-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition/conclusion"/>
+      </edges>
+      <edges xmi:id="_j-8S-k-oEei34uiBkjGJBw" source="_j-8S9k-oEei34uiBkjGJBw" target="_j-8S-E-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
+      </edges>
+      <edges xmi:id="_j-8S-0-oEei34uiBkjGJBw" source="_j-8S-E-oEei34uiBkjGJBw" target="_j-8S90-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula/child"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_j-8S_E-oEei34uiBkjGJBw" name="Rhs">
+      <nodes xmi:id="_j-8S_U-oEei34uiBkjGJBw" name="paramNC" outgoing="_j-8TAU-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
+      </nodes>
+      <nodes xmi:id="_j-8S_k-oEei34uiBkjGJBw" name="paramG" incoming="_j-8TAU-oEei34uiBkjGJBw" outgoing="_j-8TAk-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes xmi:id="_j-8S_0-oEei34uiBkjGJBw" name="paramAND" incoming="_j-8TA0-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//And"/>
+      </nodes>
+      <nodes xmi:id="_j-8TAE-oEei34uiBkjGJBw" incoming="_j-8TAk-oEei34uiBkjGJBw" outgoing="_j-8TA0-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
+      </nodes>
+      <edges xmi:id="_j-8TAU-oEei34uiBkjGJBw" source="_j-8S_U-oEei34uiBkjGJBw" target="_j-8S_k-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition/conclusion"/>
+      </edges>
+      <edges xmi:id="_j-8TAk-oEei34uiBkjGJBw" source="_j-8S_k-oEei34uiBkjGJBw" target="_j-8TAE-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
+      </edges>
+      <edges xmi:id="_j-8TA0-oEei34uiBkjGJBw" source="_j-8TAE-oEei34uiBkjGJBw" target="_j-8S_0-oEei34uiBkjGJBw">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula/child"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_j-8TBE-oEei34uiBkjGJBw" origin="_j-8S9U-oEei34uiBkjGJBw" image="_j-8S_U-oEei34uiBkjGJBw"/>
+    <mappings xmi:id="_j-8TBU-oEei34uiBkjGJBw" origin="_j-8S9k-oEei34uiBkjGJBw" image="_j-8S_k-oEei34uiBkjGJBw"/>
+    <mappings xmi:id="_j-8TBk-oEei34uiBkjGJBw" origin="_j-8S90-oEei34uiBkjGJBw" image="_j-8S_0-oEei34uiBkjGJBw"/>
+    <mappings xmi:id="_j-8TB0-oEei34uiBkjGJBw" origin="_j-8S-E-oEei34uiBkjGJBw" image="_j-8TAE-oEei34uiBkjGJBw"/>
+  </units>
+</henshin:Module>
