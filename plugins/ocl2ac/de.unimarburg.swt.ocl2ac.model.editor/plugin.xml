@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated nestedconstraintmodel -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="nestedconstraintmodel.presentation.NestedconstraintmodelModelWizardID"
+            name="%_UI_NestedconstraintmodelModelWizard_label"
+            class="nestedconstraintmodel.presentation.NestedconstraintmodelModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/NestedconstraintmodelModelFile.gif">
+         <description>%_UI_NestedconstraintmodelModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated nestedconstraintmodel -->
+      <editor
+            id="nestedconstraintmodel.presentation.NestedconstraintmodelEditorID"
+            name="%_UI_NestedconstraintmodelEditor_label"
+            icon="icons/full/obj16/NestedconstraintmodelModelFile.gif"
+            extensions="nestedconstraintmodel"
+            class="nestedconstraintmodel.presentation.NestedconstraintmodelEditor"
+            contributorClass="nestedconstraintmodel.presentation.NestedconstraintmodelActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated nestedconstraintmodel -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="nestedcondition.presentation.NestedconditionModelWizardID"
+            name="%_UI_NestedconditionModelWizard_label"
+            class="nestedcondition.presentation.NestedconditionModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/NestedconditionModelFile.gif">
+         <description>%_UI_NestedconditionModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated nestedconstraintmodel -->
+      <editor
+            id="nestedcondition.presentation.NestedconditionEditorID"
+            name="%_UI_NestedconditionEditor_label"
+            icon="icons/full/obj16/NestedconditionModelFile.gif"
+            extensions="nestedcondition"
+            class="nestedcondition.presentation.NestedconditionEditor"
+            contributorClass="nestedcondition.presentation.NestedconditionActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated nestedconstraintmodel -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="graph.presentation.GraphModelWizardID"
+            name="%_UI_GraphModelWizard_label"
+            class="graph.presentation.GraphModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/GraphModelFile.gif">
+         <description>%_UI_GraphModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated nestedconstraintmodel -->
+      <editor
+            id="graph.presentation.GraphEditorID"
+            name="%_UI_GraphEditor_label"
+            icon="icons/full/obj16/GraphModelFile.gif"
+            extensions="graph"
+            class="graph.presentation.GraphEditor"
+            contributorClass="graph.presentation.GraphActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated nestedconstraintmodel -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="laxcondition.presentation.LaxconditionModelWizardID"
+            name="%_UI_LaxconditionModelWizard_label"
+            class="laxcondition.presentation.LaxconditionModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/LaxconditionModelFile.gif">
+         <description>%_UI_LaxconditionModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated nestedconstraintmodel -->
+      <editor
+            id="laxcondition.presentation.LaxconditionEditorID"
+            name="%_UI_LaxconditionEditor_label"
+            icon="icons/full/obj16/LaxconditionModelFile.gif"
+            extensions="laxcondition"
+            class="laxcondition.presentation.LaxconditionEditor"
+            contributorClass="laxcondition.presentation.LaxconditionActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

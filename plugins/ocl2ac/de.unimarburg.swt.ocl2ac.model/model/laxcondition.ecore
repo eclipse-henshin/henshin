@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="laxcondition" nsURI="http://www.example.org/laxcondition" nsPrefix="laxcondition">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+    <details key="graph_0" value="graph.ecore#/"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="TypeGraphConsistency"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="TypeGraphConsistency" value="graph_0::Graph.allInstances() -> forAll(g|g.typegraph = self.typeGraph)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeGraph" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="laxCondition" lowerBound="1"
+        eType="#//LaxCondition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LaxCondition" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formula" eType="#//Formula"
+        eOpposite="#//Formula/arguments"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QuantifiedLaxCondition" eSuperTypes="#//LaxCondition">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="HostGraphConsistency"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="HostGraphConsistency" value="self.graph.edges -> forAll(e|self.graph.nodes -> includes(e.source) and self.graph.nodes -> includes(e.target))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1" eType="ecore:EClass graph.ecore#//Graph"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="#//LaxCondition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" lowerBound="1"
+        eType="#//Quantifier" defaultValueLiteral="EXISTS"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="True" eSuperTypes="#//LaxCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Formula" eSuperTypes="#//LaxCondition">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="OneArgumentForNOT AtLeastTwoArgumentForANDOR TwoArgumentForIMPLEQUALXOR"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="OneArgumentForNOT" value="(self.op = Operator::NOT) implies (self.arguments -> size() = 1)"/>
+      <details key="AtLeastTwoArgumentForANDOR" value="((self.op = Operator::AND) or (self.op = Operator::OR)) implies (self.arguments -> size() > 1)"/>
+      <details key="TwoArgumentForIMPLEQUALXOR" value="((self.op = Operator::IMPLIES) or (self.op = Operator::EQUIVALENT) or (self.op = Operator::XOR)) implies (self.arguments -> size() = 2)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" lowerBound="1" eType="#//Operator"
+        defaultValueLiteral="NOT"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" lowerBound="1"
+        upperBound="-1" eType="#//LaxCondition" containment="true" eOpposite="#//LaxCondition/formula"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Quantifier">
+    <eLiterals name="EXISTS"/>
+    <eLiterals name="FORALL" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Operator">
+    <eLiterals name="NOT"/>
+    <eLiterals name="AND" value="1"/>
+    <eLiterals name="OR" value="2"/>
+    <eLiterals name="IMPLIES" value="3"/>
+    <eLiterals name="EQUIVALENT" value="4"/>
+    <eLiterals name="XOR" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

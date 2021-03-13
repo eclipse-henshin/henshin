@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="nestedcondition" nsURI="http://www.example.org/nestedcondition"
+    nsPrefix="nestedcondition">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore#/"/>
+    <details key="graph" value="graph.ecore#/"/>
+    <details key="laxcondition" value="laxcondition.ecore#/"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="NestedConstraint">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ConstraintDomainIsEmpty RootConditionDomainIsConatraintDomain TypeGraphConsistency HostGraphConsistency"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ConstraintDomainIsEmpty" value="self.domain.nodes -> isEmpty() and self.domain.edges -> isEmpty()"/>
+      <details key="RootConditionDomainIsConatraintDomain" value="self.condition.domain = self.domain"/>
+      <details key="TypeGraphConsistency" value="graph::Graph.allInstances() -> forAll(g|g.typegraph = self.typeGraph)"/>
+      <details key="HostGraphConsistency" value="graph::Graph.allInstances() -> forAll(g|g.edges -> forAll(e|g.nodes -> includes(e.source) and g.nodes -> includes(e.target)))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeGraph" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="#//NestedCondition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domain" lowerBound="1"
+        eType="ecore:EClass graph.ecore#//Graph" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NestedCondition" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domain" lowerBound="1"
+        eType="ecore:EClass graph.ecore#//Graph"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QuantifiedCondition" eSuperTypes="#//NestedCondition">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="NestedDomainIsCoDomain MorphismIsFromDomainToCoDomain"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="NestedDomainIsCoDomain" value="self.condition.domain = self.codomain"/>
+      <details key="MorphismIsFromDomainToCoDomain" value="self.morphism.from = self.domain and self.morphism.to = self.codomain"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="ecore:EEnum laxcondition.ecore#//Quantifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="#//NestedCondition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="morphism" lowerBound="1"
+        eType="#//Morphism" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="codomain" lowerBound="1"
+        eType="ecore:EClass graph.ecore#//Graph" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="True" eSuperTypes="#//NestedCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Formula" eSuperTypes="#//NestedCondition">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ArgumentsDomainConsistency OneArgumentForNOT AtLeastTwoArgumentForANDOR TwoArgumentForIMPLEQUALXOR"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ArgumentsDomainConsistency" value="self.arguments -> forAll(cond|cond.domain = self.domain)"/>
+      <details key="OneArgumentForNOT" value="(self.operator = laxcondition::Operator::NOT) implies (self.arguments -> size() = 1)"/>
+      <details key="AtLeastTwoArgumentForANDOR" value="((self.operator = laxcondition::Operator::AND) or (self.operator = laxcondition::Operator::OR)) implies (self.arguments -> size() > 1)"/>
+      <details key="TwoArgumentForIMPLEQUALXOR" value="((self.operator = laxcondition::Operator::IMPLIES) or (self.operator = laxcondition::Operator::EQUIVALENT) or (self.operator = laxcondition::Operator::XOR)) implies (self.arguments -> size() = 2)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="ecore:EEnum laxcondition.ecore#//Operator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" lowerBound="1"
+        upperBound="-1" eType="#//NestedCondition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Morphism">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="NodeMappingIsFromDomainToCoDomain EdgeMappingIsFromDomainToCoDomain EdgeMappingConsistency"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="NodeMappingIsFromDomainToCoDomain" value="self.nodeMappings -> forAll(m|self.from.nodes -> includes(m.origin) and self.to.nodes -> includes(m.image))"/>
+      <details key="EdgeMappingIsFromDomainToCoDomain" value="self.edgeMappings -> forAll(m|self.from.edges -> includes(m.origin) and self.to.edges -> includes(m.image))"/>
+      <details key="EdgeMappingConsistency" value="self.edgeMappings -> forAll(em|self.nodeMappings -> exists(nm|nm.origin = em.origin.source and nm.image = em.image.source) and self.nodeMappings -> exists(nm|nm.origin = em.origin.target and nm.image = em.image.target))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodeMappings" upperBound="-1"
+        eType="#//NodeMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="ecore:EClass graph.ecore#//Graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="ecore:EClass graph.ecore#//Graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edgeMappings" upperBound="-1"
+        eType="#//EdgeMapping" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
+        eType="ecore:EClass graph.ecore#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="ecore:EClass graph.ecore#//Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EdgeMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
+        eType="ecore:EClass graph.ecore#//Edge"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="ecore:EClass graph.ecore#//Edge"/>
+  </eClassifiers>
+</ecore:EPackage>

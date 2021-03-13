@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="morphisms" nsURI="http://www.example.org/morphisms" nsPrefix="morphisms">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="graph" value="graph.ecore#/"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Morphism">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domain" eType="ecore:EClass graph.ecore#//Graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="codomain" eType="ecore:EClass graph.ecore#//Graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="#//Mapping" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
+        eType="ecore:EClass graph.ecore#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="ecore:EClass graph.ecore#//Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pair">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a" lowerBound="1" eType="#//Morphism"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="b" lowerBound="1" eType="#//Morphism"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>
