@@ -4,13 +4,22 @@
       <category name="org.eclipse.modeling"/>
    </feature>
    <feature id="org.eclipse.emf.henshin.sdk.source">
-      <category name="org.eclipse.modeling"/>
+      <category name="org.eclipse.modeling.source"/>
    </feature>
    <feature id="org.eclipse.emf.henshin.sdk.variability">
       <category name="org.eclipse.modeling"/>
    </feature>
    <feature id="org.eclipse.emf.henshin.sdk.variability.source">
+      <category name="org.eclipse.modeling.source"/>
+   </feature>
+   <feature id="org.eclipse.emf.henshin.sdk.ocl2ac">
       <category name="org.eclipse.modeling"/>
    </feature>
+   <feature id="org.eclipse.emf.henshin.sdk.ocl2ac.source">
+      <category name="org.eclipse.modeling.source"/>
+   </feature>
    <category-def name="org.eclipse.modeling" label="Modeling"/>
+   <category-def name="org.eclipse.modeling.source" label="Source Features">
+      <category name="org.eclipse.modeling"/>
+   </category-def>
 </site>
