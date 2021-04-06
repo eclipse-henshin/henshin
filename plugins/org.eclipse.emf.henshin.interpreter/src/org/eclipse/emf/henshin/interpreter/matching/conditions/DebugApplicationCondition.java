@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Observer;
 import java.util.StringJoiner;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -24,7 +23,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
-import org.eclipse.emf.henshin.diagram.providers.HenshinMarkerNavigationProvider;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.debug.DebugValueEObject;
 import org.eclipse.emf.henshin.interpreter.debug.DebugValueList;
@@ -852,7 +850,7 @@ public void stepReturn() throws DebugException {
 		IBreakpointManager manager = getManager();
 		// create breakpoint
 		IResource moduleFile = debugTarget.getModuleResource();
-		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/variable", "Sample VariableBreakpoint", IStatus.OK);
+		IMarker marker = addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/variable", "Sample VariableBreakpoint", IStatus.OK);
 		VariableBreakpoint breakpoint = new VariableBreakpoint();
 		try {
 			// set marker for breakpoint
@@ -887,7 +885,7 @@ public void stepReturn() throws DebugException {
 		IBreakpointManager manager = getManager();
 		// create breakpoint
 		IResource moduleFile = debugTarget.getModuleResource();
-		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/value", "Sample ValueBreakpoint", IStatus.OK);
+		IMarker marker = addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/value", "Sample ValueBreakpoint", IStatus.OK);
 		ValueBreakpoint breakpoint = new ValueBreakpoint();
 		try {
 			// set marker for breakpoint
@@ -911,7 +909,7 @@ public void stepReturn() throws DebugException {
 		IBreakpointManager manager = getManager();
 		// create breakpoint
 		IResource moduleFile = debugTarget.getModuleResource();
-		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/constraintType", "Sample ConstraintTypeBreakpoint", IStatus.OK);
+		IMarker marker = addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/constraintType", "Sample ConstraintTypeBreakpoint", IStatus.OK);
 		ConstraintTypeBreakpoint breakpoint = new ConstraintTypeBreakpoint();
 		try {
 			// set marker for breakpoint
@@ -933,7 +931,7 @@ public void stepReturn() throws DebugException {
 		IBreakpointManager manager = getManager();
 		// create breakpoint
 		IResource moduleFile = debugTarget.getModuleResource();
-		IMarker marker = HenshinMarkerNavigationProvider.addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/constraintInstance", "Sample ConstraintInstanceBreakpoint", IStatus.OK);
+		IMarker marker = addMarker(moduleFile, HenshinModelPlugin.PLUGIN_ID, "/constraintInstance", "Sample ConstraintInstanceBreakpoint", IStatus.OK);
 		ConstraintInstanceBreakpoint breakpoint = new ConstraintInstanceBreakpoint();
 		try {
 			// set marker for breakpoint
@@ -1678,5 +1676,28 @@ public void stepReturn() throws DebugException {
 				+ ", constraintType: " + currentConstraintType
 				+ ", " + retrieveConstraintLabel()
 				+ "]";
+	}
+
+	private static final String MARKER_TYPE = "org.eclipse.emf.henshin.diagram" + ".diagnostic"; //$NON-NLS-1$
+	// use the same type as in org.eclipse.emf.henshin.diagram.providers.HenshinMarkerNavigationProvider so the markers can still be deleted from there.
+
+	private static IMarker addMarker(IResource ressource, String elementId, String location, String message, int statusSeverity) {
+		IMarker marker = null;
+		try {
+			marker = ressource.createMarker(MARKER_TYPE);
+			marker.setAttribute(IMarker.MESSAGE, message);
+			marker.setAttribute(IMarker.LOCATION, location);
+			marker.setAttribute("elementId", elementId);
+			int markerSeverity = IMarker.SEVERITY_INFO;
+			if (statusSeverity == IStatus.WARNING) {
+				markerSeverity = IMarker.SEVERITY_WARNING;
+			} else if (statusSeverity == IStatus.ERROR || statusSeverity == IStatus.CANCEL) {
+				markerSeverity = IMarker.SEVERITY_ERROR;
+			}
+			marker.setAttribute(IMarker.SEVERITY, markerSeverity);
+		} catch (CoreException e) {
+			HenshinModelPlugin.INSTANCE.logError("Failed to create validation marker", e); //$NON-NLS-1$
+		}
+		return marker;
 	}
 }
