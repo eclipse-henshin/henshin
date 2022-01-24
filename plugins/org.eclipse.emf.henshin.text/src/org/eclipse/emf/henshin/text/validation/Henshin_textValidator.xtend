@@ -69,6 +69,9 @@ import org.eclipse.emf.henshin.text.henshin_text.impl.StrictImpl
 import org.eclipse.emf.henshin.text.typesystem.Henshin_textType
 import org.eclipse.emf.henshin.text.typesystem.Henshin_textTypeProvider
 import org.eclipse.xtext.validation.Check
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.jdt.core.JavaCore
+import org.eclipse.jdt.core.IJavaProject
 
 /**
  * This class contains custom validation rules. 
@@ -501,8 +504,31 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Check
 	def checkJavaImport(Rule rule){
 		var iterableOfJavaImportImpl= Iterables.filter(rule.ruleElements,typeof(JavaImportImpl))
+		
+		var projectName=rule.eResource.URI.toString().replaceAll("platform:/resource/", "").replaceAll("\\/.*", "")
+		
+		var workspace = ResourcesPlugin.getWorkspace();
+        var root = workspace.getRoot();
+        var IJavaProject javaProject=null
+            
+		for(project:root.projects){
+			if(projectName.equals(project.name)){
+				javaProject=JavaCore.create(project)
+			}
+		}
+        	
+		
 		for(javaImport:iterableOfJavaImportImpl){
-			if(Package.getPackage(javaImport.packagename)==null){
+			var importCorrect=false
+        	if(javaProject!==null){
+	            for(package:javaProject.allPackageFragmentRoots){
+	            	if(package.getPackageFragment(javaImport.packagename).exists){
+	            		importCorrect=true
+	            	}
+	            }
+			}
+          
+			if(!importCorrect){
 				error("Package "+javaImport.packagename+" doesn't exist.'",javaImport, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME )
 			}
 		}
@@ -540,10 +566,32 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Check
 	def checkJavaImport(MultiRule rule){
 		var iterableOfJavaImportImpl= Iterables.filter(rule.multiruleElements,typeof(JavaImportImpl))
+		
+		var projectName=rule.eResource.URI.toString().replaceAll("platform:/resource/", "").replaceAll("\\/.*", "")
+		var workspace = ResourcesPlugin.getWorkspace();
+        var root = workspace.getRoot();
+        var IJavaProject javaProject=null
+            
+		for(project:root.projects){
+			if(projectName.equals(project.name)){
+				javaProject=JavaCore.create(project)
+			}
+		}
+		
 		for(javaImport:iterableOfJavaImportImpl){
-			if(Package.getPackage(javaImport.packagename)==null){
+			var importCorrect=false
+        	if(javaProject!==null){
+	            for(package:javaProject.allPackageFragmentRoots){
+	            	if(package.getPackageFragment(javaImport.packagename).exists){
+	            		importCorrect=true
+	            	}
+	            }
+			}
+          
+			if(!importCorrect){
 				error("Package "+javaImport.packagename+" doesn't exist.'",javaImport, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME )
 			}
+			
 		}
 	}
 	
