@@ -10,6 +10,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -73,7 +77,9 @@ import org.eclipse.emf.henshin.text.henshin_text.impl.RollbackImpl;
 import org.eclipse.emf.henshin.text.henshin_text.impl.StrictImpl;
 import org.eclipse.emf.henshin.text.typesystem.Henshin_textType;
 import org.eclipse.emf.henshin.text.typesystem.Henshin_textTypeProvider;
-import org.eclipse.emf.henshin.text.validation.AbstractHenshin_textValidator;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -100,9 +106,11 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkCallParameter(final Call call) {
-    final Function1<Parameter, Boolean> _function = (Parameter it) -> {
-      ParameterKind _kind = it.getKind();
-      return Boolean.valueOf((!Objects.equal(_kind, ParameterKind.VAR)));
+    final Function1<Parameter, Boolean> _function = new Function1<Parameter, Boolean>() {
+      public Boolean apply(final Parameter it) {
+        ParameterKind _kind = it.getKind();
+        return Boolean.valueOf((!Objects.equal(_kind, ParameterKind.VAR)));
+      }
     };
     int _size = IterableExtensions.size(IterableExtensions.<Parameter>filter(call.getElementCall().getParameters(), _function));
     int _size_1 = call.getParameters().size();
@@ -110,10 +118,12 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
     if (_notEquals) {
       this.error("Bad Parameter Count.\'", Henshin_textPackage.eINSTANCE.getCall_ElementCall());
     } else {
-      for (int i = 0; (i < IterableExtensions.size(IterableExtensions.<Parameter>filter(call.getElementCall().getParameters(), ((Function1<Parameter, Boolean>) (Parameter it) -> {
-        ParameterKind _kind = it.getKind();
-        return Boolean.valueOf((!Objects.equal(_kind, ParameterKind.VAR)));
-      })))); i++) {
+      for (int i = 0; (i < IterableExtensions.size(IterableExtensions.<Parameter>filter(call.getElementCall().getParameters(), new Function1<Parameter, Boolean>() {
+        public Boolean apply(final Parameter it) {
+          ParameterKind _kind = it.getKind();
+          return Boolean.valueOf((!Objects.equal(_kind, ParameterKind.VAR)));
+        }
+      }))); i++) {
         {
           final Parameter param = call.getElementCall().getParameters().get(i);
           Henshin_textType _typeFor = this._henshin_textTypeProvider.typeFor(param.getType());
@@ -711,16 +721,41 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkJavaImport(final Rule rule) {
-    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(rule.getRuleElements(), JavaImportImpl.class);
-    for (final JavaImportImpl javaImport : iterableOfJavaImportImpl) {
-      Package _package = Package.getPackage(javaImport.getPackagename());
-      boolean _equals = Objects.equal(_package, null);
-      if (_equals) {
-        String _packagename = javaImport.getPackagename();
-        String _plus = ("Package " + _packagename);
-        String _plus_1 = (_plus + " doesn\'t exist.\'");
-        this.error(_plus_1, javaImport, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
+    try {
+      Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(rule.getRuleElements(), JavaImportImpl.class);
+      String projectName = rule.eResource().getURI().toString().replaceAll("platform:/resource/", "").replaceAll("\\/.*", "");
+      IWorkspace workspace = ResourcesPlugin.getWorkspace();
+      IWorkspaceRoot root = workspace.getRoot();
+      IJavaProject javaProject = null;
+      IProject[] _projects = root.getProjects();
+      for (final IProject project : _projects) {
+        boolean _equals = projectName.equals(project.getName());
+        if (_equals) {
+          javaProject = JavaCore.create(project);
+        }
       }
+      for (final JavaImportImpl javaImport : iterableOfJavaImportImpl) {
+        {
+          boolean importCorrect = false;
+          if ((javaProject != null)) {
+            IPackageFragmentRoot[] _allPackageFragmentRoots = javaProject.getAllPackageFragmentRoots();
+            for (final IPackageFragmentRoot package_ : _allPackageFragmentRoots) {
+              boolean _exists = package_.getPackageFragment(javaImport.getPackagename()).exists();
+              if (_exists) {
+                importCorrect = true;
+              }
+            }
+          }
+          if ((!importCorrect)) {
+            String _packagename = javaImport.getPackagename();
+            String _plus = ("Package " + _packagename);
+            String _plus_1 = (_plus + " doesn\'t exist.\'");
+            this.error(_plus_1, javaImport, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
+          }
+        }
+      }
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
   }
   
@@ -760,16 +795,41 @@ public class Henshin_textValidator extends AbstractHenshin_textValidator {
    */
   @Check
   public void checkJavaImport(final MultiRule rule) {
-    Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(rule.getMultiruleElements(), JavaImportImpl.class);
-    for (final JavaImportImpl javaImport : iterableOfJavaImportImpl) {
-      Package _package = Package.getPackage(javaImport.getPackagename());
-      boolean _equals = Objects.equal(_package, null);
-      if (_equals) {
-        String _packagename = javaImport.getPackagename();
-        String _plus = ("Package " + _packagename);
-        String _plus_1 = (_plus + " doesn\'t exist.\'");
-        this.error(_plus_1, javaImport, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
+    try {
+      Iterable<JavaImportImpl> iterableOfJavaImportImpl = Iterables.<JavaImportImpl>filter(rule.getMultiruleElements(), JavaImportImpl.class);
+      String projectName = rule.eResource().getURI().toString().replaceAll("platform:/resource/", "").replaceAll("\\/.*", "");
+      IWorkspace workspace = ResourcesPlugin.getWorkspace();
+      IWorkspaceRoot root = workspace.getRoot();
+      IJavaProject javaProject = null;
+      IProject[] _projects = root.getProjects();
+      for (final IProject project : _projects) {
+        boolean _equals = projectName.equals(project.getName());
+        if (_equals) {
+          javaProject = JavaCore.create(project);
+        }
       }
+      for (final JavaImportImpl javaImport : iterableOfJavaImportImpl) {
+        {
+          boolean importCorrect = false;
+          if ((javaProject != null)) {
+            IPackageFragmentRoot[] _allPackageFragmentRoots = javaProject.getAllPackageFragmentRoots();
+            for (final IPackageFragmentRoot package_ : _allPackageFragmentRoots) {
+              boolean _exists = package_.getPackageFragment(javaImport.getPackagename()).exists();
+              if (_exists) {
+                importCorrect = true;
+              }
+            }
+          }
+          if ((!importCorrect)) {
+            String _packagename = javaImport.getPackagename();
+            String _plus = ("Package " + _packagename);
+            String _plus_1 = (_plus + " doesn\'t exist.\'");
+            this.error(_plus_1, javaImport, Henshin_textPackage.Literals.JAVA_IMPORT__PACKAGENAME);
+          }
+        }
+      }
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
   }
   

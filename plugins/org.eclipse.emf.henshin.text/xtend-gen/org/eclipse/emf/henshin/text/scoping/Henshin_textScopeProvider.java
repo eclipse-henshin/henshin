@@ -3,8 +3,6 @@
  */
 package org.eclipse.emf.henshin.text.scoping;
 
-import org.eclipse.emf.henshin.text.scoping.AbstractHenshin_textScopeProvider;
-
 /**
  * This class contains custom scoping description.
  * 

@@ -4,11 +4,7 @@
 package org.eclipse.emf.henshin.text;
 
 import com.google.inject.Binder;
-import com.google.inject.binder.AnnotatedBindingBuilder;
-import com.google.inject.binder.LinkedBindingBuilder;
-import com.google.inject.name.Named;
 import com.google.inject.name.Names;
-import org.eclipse.emf.henshin.text.AbstractHenshin_textRuntimeModule;
 import org.eclipse.emf.henshin.text.scoping.Henshin_textImportedNamespaceAwareLocalScopeProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
@@ -18,11 +14,7 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
  */
 @SuppressWarnings("all")
 public class Henshin_textRuntimeModule extends AbstractHenshin_textRuntimeModule {
-  @Override
   public void configureIScopeProviderDelegate(final Binder binder) {
-    AnnotatedBindingBuilder<IScopeProvider> _bind = binder.<IScopeProvider>bind(IScopeProvider.class);
-    Named _named = Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE);
-    LinkedBindingBuilder<IScopeProvider> _annotatedWith = _bind.annotatedWith(_named);
-    _annotatedWith.to(Henshin_textImportedNamespaceAwareLocalScopeProvider.class);
+    binder.<IScopeProvider>bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(Henshin_textImportedNamespaceAwareLocalScopeProvider.class);
   }
 }

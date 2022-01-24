@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.text.henshin_text.AndExpression;
@@ -24,30 +23,22 @@ import org.eclipse.emf.henshin.text.henshin_text.NaturalValue;
 import org.eclipse.emf.henshin.text.henshin_text.NotExpression;
 import org.eclipse.emf.henshin.text.henshin_text.NumberValue;
 import org.eclipse.emf.henshin.text.henshin_text.OrExpression;
-import org.eclipse.emf.henshin.text.henshin_text.Parameter;
 import org.eclipse.emf.henshin.text.henshin_text.ParameterType;
 import org.eclipse.emf.henshin.text.henshin_text.ParameterValue;
 import org.eclipse.emf.henshin.text.henshin_text.PlusExpression;
 import org.eclipse.emf.henshin.text.henshin_text.Rule;
-import org.eclipse.emf.henshin.text.henshin_text.RuleElement;
 import org.eclipse.emf.henshin.text.henshin_text.StringValue;
-import org.eclipse.emf.henshin.text.henshin_text.Type;
-import org.eclipse.emf.henshin.text.typesystem.Henshin_textBoolType;
-import org.eclipse.emf.henshin.text.typesystem.Henshin_textComplexType;
-import org.eclipse.emf.henshin.text.typesystem.Henshin_textNumberType;
-import org.eclipse.emf.henshin.text.typesystem.Henshin_textStringType;
-import org.eclipse.emf.henshin.text.typesystem.Henshin_textType;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 
 @SuppressWarnings("all")
 public class Henshin_textTypeProvider {
-  public final static Henshin_textStringType stringType = new Henshin_textStringType();
+  public static final Henshin_textStringType stringType = new Henshin_textStringType();
   
-  public final static Henshin_textNumberType numberType = new Henshin_textNumberType();
+  public static final Henshin_textNumberType numberType = new Henshin_textNumberType();
   
-  public final static Henshin_textBoolType boolType = new Henshin_textBoolType();
+  public static final Henshin_textBoolType boolType = new Henshin_textBoolType();
   
-  public final static Henshin_textComplexType complexType = new Henshin_textComplexType();
+  public static final Henshin_textComplexType complexType = new Henshin_textComplexType();
   
   /**
    * Liefert den Type eines Ausdrucks
@@ -130,8 +121,7 @@ public class Henshin_textTypeProvider {
     if (!_matched) {
       if (expression instanceof BracketExpression) {
         _matched=true;
-        Expression _expression = ((BracketExpression)expression).getExpression();
-        return this.typeFor(_expression);
+        return this.typeFor(((BracketExpression)expression).getExpression());
       }
     }
     if (!_matched) {
@@ -143,9 +133,7 @@ public class Henshin_textTypeProvider {
     if (!_matched) {
       if (expression instanceof ParameterValue) {
         _matched=true;
-        Parameter _value = ((ParameterValue)expression).getValue();
-        ParameterType _type = _value.getType();
-        return this.typeFor(_type);
+        return this.typeFor(((ParameterValue)expression).getValue().getType());
       }
     }
     if (!_matched) {
@@ -172,44 +160,32 @@ public class Henshin_textTypeProvider {
   public Henshin_textType typeFor(final JavaAttributeValue javaAttribute) {
     EObject container = javaAttribute.eContainer();
     while (((!(container instanceof Rule)) && (!(container instanceof MultiRule)))) {
-      EObject _eContainer = container.eContainer();
-      container = _eContainer;
+      container = container.eContainer();
     }
     Iterable<JavaImport> iterableOfJavaImportImpl = null;
     if ((container instanceof Rule)) {
-      EList<RuleElement> _ruleElements = ((Rule) container).getRuleElements();
-      Iterable<JavaImport> _filter = Iterables.<JavaImport>filter(_ruleElements, JavaImport.class);
-      iterableOfJavaImportImpl = _filter;
+      iterableOfJavaImportImpl = Iterables.<JavaImport>filter(((Rule) container).getRuleElements(), JavaImport.class);
     } else {
-      EList<RuleElement> _multiruleElements = ((MultiRule) container).getMultiruleElements();
-      Iterable<JavaImport> _filter_1 = Iterables.<JavaImport>filter(_multiruleElements, JavaImport.class);
-      iterableOfJavaImportImpl = _filter_1;
+      iterableOfJavaImportImpl = Iterables.<JavaImport>filter(((MultiRule) container).getMultiruleElements(), JavaImport.class);
     }
     for (final JavaImport imports : iterableOfJavaImportImpl) {
       try {
         String _packagename = imports.getPackagename();
         String _plus = (_packagename + ".");
-        String _value = javaAttribute.getValue();
-        String[] _split = _value.split("\\.");
-        String _get = _split[0];
+        String _get = javaAttribute.getValue().split("\\.")[0];
         String _plus_1 = (_plus + _get);
         Class<?> calledClass = Class.forName(_plus_1);
         Field[] _declaredFields = calledClass.getDeclaredFields();
         for (final Field atrib : _declaredFields) {
           String _name = atrib.getName();
-          String _value_1 = javaAttribute.getValue();
-          String[] _split_1 = _value_1.split("\\.");
-          Object _get_1 = _split_1[1];
+          Object _get_1 = javaAttribute.getValue().split("\\.")[1];
           boolean _equals = Objects.equal(_name, _get_1);
           if (_equals) {
-            Class<?> _type = atrib.getType();
-            String _name_1 = _type.getName();
-            return this.typeForJavaType(_name_1);
+            return this.typeForJavaType(atrib.getType().getName());
           }
         }
       } catch (final Throwable _t) {
         if (_t instanceof Exception) {
-          final Exception e = (Exception)_t;
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
@@ -227,44 +203,32 @@ public class Henshin_textTypeProvider {
   public Henshin_textType typeFor(final JavaClassValue javaCall) {
     EObject container = javaCall.eContainer();
     while (((!(container instanceof Rule)) && (!(container instanceof MultiRule)))) {
-      EObject _eContainer = container.eContainer();
-      container = _eContainer;
+      container = container.eContainer();
     }
     Iterable<JavaImport> iterableOfJavaImportImpl = null;
     if ((container instanceof Rule)) {
-      EList<RuleElement> _ruleElements = ((Rule) container).getRuleElements();
-      Iterable<JavaImport> _filter = Iterables.<JavaImport>filter(_ruleElements, JavaImport.class);
-      iterableOfJavaImportImpl = _filter;
+      iterableOfJavaImportImpl = Iterables.<JavaImport>filter(((Rule) container).getRuleElements(), JavaImport.class);
     } else {
-      EList<RuleElement> _multiruleElements = ((MultiRule) container).getMultiruleElements();
-      Iterable<JavaImport> _filter_1 = Iterables.<JavaImport>filter(_multiruleElements, JavaImport.class);
-      iterableOfJavaImportImpl = _filter_1;
+      iterableOfJavaImportImpl = Iterables.<JavaImport>filter(((MultiRule) container).getMultiruleElements(), JavaImport.class);
     }
     for (final JavaImport imports : iterableOfJavaImportImpl) {
       try {
         String _packagename = imports.getPackagename();
         String _plus = (_packagename + ".");
-        String _value = javaCall.getValue();
-        String[] _split = _value.split("\\.");
-        String _get = _split[0];
+        String _get = javaCall.getValue().split("\\.")[0];
         String _plus_1 = (_plus + _get);
         Class<?> calledClass = Class.forName(_plus_1);
         Method[] _methods = calledClass.getMethods();
         for (final Method methode : _methods) {
           String _name = methode.getName();
-          String _value_1 = javaCall.getValue();
-          String[] _split_1 = _value_1.split("\\.");
-          Object _get_1 = _split_1[1];
+          Object _get_1 = javaCall.getValue().split("\\.")[1];
           boolean _equals = Objects.equal(_name, _get_1);
           if (_equals) {
-            Class<?> _returnType = methode.getReturnType();
-            String _name_1 = _returnType.getName();
-            return this.typeForJavaType(_name_1);
+            return this.typeForJavaType(methode.getReturnType().getName());
           }
         }
       } catch (final Throwable _t) {
         if (_t instanceof Exception) {
-          final Exception e = (Exception)_t;
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
@@ -280,46 +244,114 @@ public class Henshin_textTypeProvider {
    * @return Type des Java-Types
    */
   public Henshin_textType typeForJavaType(final String className) {
-    switch (className) {
-      case "java.lang.Boolean":
-        return Henshin_textTypeProvider.boolType;
-      case "boolean":
-        return Henshin_textTypeProvider.boolType;
-      case "java.lang.Byte":
-        return Henshin_textTypeProvider.numberType;
-      case "byte":
-        return Henshin_textTypeProvider.numberType;
-      case "java.lang.Character":
-        return Henshin_textTypeProvider.stringType;
-      case "char":
-        return Henshin_textTypeProvider.stringType;
-      case "java.lang.Double":
-        return Henshin_textTypeProvider.numberType;
-      case "double":
-        return Henshin_textTypeProvider.numberType;
-      case "java.lang.Float":
-        return Henshin_textTypeProvider.numberType;
-      case "float":
-        return Henshin_textTypeProvider.numberType;
-      case "java.lang.Integer":
-        return Henshin_textTypeProvider.numberType;
-      case "int":
-        return Henshin_textTypeProvider.numberType;
-      case "java.lang.Long":
-        return Henshin_textTypeProvider.numberType;
-      case "long":
-        return Henshin_textTypeProvider.numberType;
-      case "java.lang.Short":
-        return Henshin_textTypeProvider.numberType;
-      case "short":
-        return Henshin_textTypeProvider.numberType;
-      case "java.lang.String":
-        return Henshin_textTypeProvider.stringType;
-      case "string":
-        return Henshin_textTypeProvider.stringType;
-      default:
-        return Henshin_textTypeProvider.complexType;
+    boolean _matched = false;
+    if (Objects.equal(className, "java.lang.Boolean")) {
+      _matched=true;
+      return Henshin_textTypeProvider.boolType;
     }
+    if (!_matched) {
+      if (Objects.equal(className, "boolean")) {
+        _matched=true;
+        return Henshin_textTypeProvider.boolType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "java.lang.Byte")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "byte")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "java.lang.Character")) {
+        _matched=true;
+        return Henshin_textTypeProvider.stringType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "char")) {
+        _matched=true;
+        return Henshin_textTypeProvider.stringType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "java.lang.Double")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "double")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "java.lang.Float")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "float")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "java.lang.Integer")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "int")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "java.lang.Long")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "long")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "java.lang.Short")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "short")) {
+        _matched=true;
+        return Henshin_textTypeProvider.numberType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "java.lang.String")) {
+        _matched=true;
+        return Henshin_textTypeProvider.stringType;
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(className, "string")) {
+        _matched=true;
+        return Henshin_textTypeProvider.stringType;
+      }
+    }
+    return Henshin_textTypeProvider.complexType;
   }
   
   /**
@@ -332,9 +364,7 @@ public class Henshin_textTypeProvider {
     EClass _type = parameterType.getType();
     boolean _equals = Objects.equal(_type, null);
     if (_equals) {
-      Type _enumType = parameterType.getEnumType();
-      String _literal = _enumType.getLiteral();
-      return this.typeFor(_literal);
+      return this.typeFor(parameterType.getEnumType().getLiteral());
     } else {
       return Henshin_textTypeProvider.complexType;
     }
@@ -347,73 +377,202 @@ public class Henshin_textTypeProvider {
    * @return Type des E-Types
    */
   public Henshin_textType typeFor(final String eType) {
-    switch (eType) {
-      case "EBigDecimal":
+    boolean _matched = false;
+    if (Objects.equal(eType, "EBigDecimal")) {
+      _matched=true;
+      return Henshin_textTypeProvider.complexType;
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EBigInteger")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EBigInteger":
-        return Henshin_textTypeProvider.complexType;
-      case "EBoolean":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EBoolean")) {
+        _matched=true;
         return Henshin_textTypeProvider.boolType;
-      case "EBooleanObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EBooleanObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EByte":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EByte")) {
+        _matched=true;
         return Henshin_textTypeProvider.numberType;
-      case "EByteArray":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EByteArray")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EByteObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EByteObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EChar":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EChar")) {
+        _matched=true;
         return Henshin_textTypeProvider.stringType;
-      case "ECharacterObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "ECharacterObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EDate":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EDate")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EDiagnosticChain":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EDiagnosticChain")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EDouble":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EDouble")) {
+        _matched=true;
         return Henshin_textTypeProvider.numberType;
-      case "EDoubleObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EDoubleObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EEList":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EEList")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EEnumerator":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EEnumerator")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EFeatureMap":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EFeatureMap")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EFeatureMapEntry":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EFeatureMapEntry")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EFloat":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EFloat")) {
+        _matched=true;
         return Henshin_textTypeProvider.numberType;
-      case "EFloatObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EFloatObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EInt":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EInt")) {
+        _matched=true;
         return Henshin_textTypeProvider.numberType;
-      case "EIntegerObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EIntegerObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "ETreeIterator":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "ETreeIterator")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EInvocationTargetException":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EInvocationTargetException")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EJavaClass":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EJavaClass")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EJavaObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EJavaObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "ELong":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "ELong")) {
+        _matched=true;
         return Henshin_textTypeProvider.numberType;
-      case "ELongObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "ELongObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EMap":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EMap")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EResource":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EResource")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EResourceSet":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EResourceSet")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EShort":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EShort")) {
+        _matched=true;
         return Henshin_textTypeProvider.numberType;
-      case "EShortObject":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EShortObject")) {
+        _matched=true;
         return Henshin_textTypeProvider.complexType;
-      case "EString":
+      }
+    }
+    if (!_matched) {
+      if (Objects.equal(eType, "EString")) {
+        _matched=true;
         return Henshin_textTypeProvider.stringType;
+      }
     }
     return null;
   }
