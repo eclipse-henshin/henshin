@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.henshin.sdk.ocl2ac"
       label="%featureName"
-      version="1.7.0.qualifier"
+      version="1.8.0-legacyjdk.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -53,49 +53,49 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.henshin.ocl2ac.model"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0-legacyjdk.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.model.edit"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0-legacyjdk.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.model.editor"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0-legacyjdk.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.gc2ac"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0-legacyjdk.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.ocl2gc"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0-legacyjdk.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.tool"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0-legacyjdk.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.utils"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0-legacyjdk.qualifier"
          unpack="false"/>
 
 </feature>

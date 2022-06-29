@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Henshinsupport
 Bundle-SymbolicName: org.eclipse.emf.henshin.adapters.xtext;singleton:=true
-Bundle-Version: 1.7.0.qualifier
+Bundle-Version: 1.8.0-legacyjdk.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.eclipse.emf.henshin.adapters.xtext.ui.Activator
 Bundle-ActivationPolicy: lazy

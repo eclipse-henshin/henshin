@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.emf.henshin</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.7.0-SNAPSHOT</version>
+	<version>1.8.0-legacyjdk-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>plugins/org.eclipse.emf.henshin.diagram</module>
@@ -71,7 +71,7 @@
 						<artifact>
 							<groupId>org.eclipse.emf.henshin</groupId>
 							<artifactId>org.eclipse.emf.henshin.target</artifactId>
-							<version>1.7.0-SNAPSHOT</version>
+							<version>1.8.0-legacyjdk-SNAPSHOT</version>
 						</artifact>
 					</target>
 

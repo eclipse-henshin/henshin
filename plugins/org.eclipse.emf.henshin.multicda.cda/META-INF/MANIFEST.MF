@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.emf.henshin.multicda.cda;singleton:=true
-Bundle-Version: 1.7.0.qualifier
+Bundle-Version: 1.8.0-legacyjdk.qualifier
 Bundle-Activator: org.eclipse.emf.henshin.multicda.cda.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.6.0",

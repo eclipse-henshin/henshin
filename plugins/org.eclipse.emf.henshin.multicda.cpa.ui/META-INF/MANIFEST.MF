@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.emf.henshin.multicda.cpa.ui;singleton:=true
-Bundle-Version: 1.7.0.qualifier
+Bundle-Version: 1.8.0-legacyjdk.qualifier
 Bundle-Localization: plugin
 Bundle-Activator: org.eclipse.emf.henshin.multicda.cpa.ui.CriticalPairAnalysisUIPlugin
 Require-Bundle: org.eclipse.ui.ide;bundle-version="3.6.0",
