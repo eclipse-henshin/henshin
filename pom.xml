@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.emf.henshin</groupId>
@@ -37,9 +38,9 @@
 		<module>plugins/variability/org.eclipse.emf.henshin.variability</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.configuration</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.configuration.ui</module>
-		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein</module>	
+		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein.refactoring</module>
-		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein.ui</module>	
+		<module>plugins/variability/org.eclipse.emf.henshin.variability.mergein.ui</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.test</module>
 		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.gc2ac</module>
 		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.model</module>
@@ -56,8 +57,12 @@
 	</modules>
 
 	<properties>
-		<tycho-version>1.3.0</tycho-version>
-		<tycho-extras-version>1.3.0</tycho-extras-version>
+		<tycho-version>1.0.0</tycho-version>
+		<tycho-extras-version>1.0.0</tycho-extras-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.release />
 	</properties>
 
 	<build>
@@ -105,28 +110,28 @@
 					</execution>
 				</executions>
 			</plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <compilerVersion>1.14</compilerVersion>
-        </configuration>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<compilerVersion>1.14</compilerVersion>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
-    <distributionManagement>
-    <repository>
-      <id>repo.eclipse.org</id>
-      <name>Project Repository - Releases</name>
-      <url>https://repo.eclipse.org/content/repositories/henshin-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>repo.eclipse.org</id>
-      <name>Project Repository - Snapshots</name>
-      <url>https://repo.eclipse.org/content/repositories/henshin-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
+	<distributionManagement>
+		<repository>
+			<id>repo.eclipse.org</id>
+			<name>Project Repository - Releases</name>
+			<url>https://repo.eclipse.org/content/repositories/henshin-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>repo.eclipse.org</id>
+			<name>Project Repository - Snapshots</name>
+			<url>https://repo.eclipse.org/content/repositories/henshin-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
