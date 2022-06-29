@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.henshin.sdk"
       label="%featureName"
-      version="1.7.0.qualifier"
+      version="1.8.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -47,7 +47,7 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.gmf.runtime.emf.core"/>
       <import plugin="org.eclipse.gmf.runtime.emf.commands.core"/>
       <import plugin="org.eclipse.gmf.runtime.emf.ui.properties"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.7.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.8.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gmf.runtime.diagram.ui.properties"/>
       <import plugin="org.eclipse.gmf.runtime.diagram.ui.providers"/>
       <import plugin="org.eclipse.gmf.runtime.diagram.ui.providers.ide"/>
@@ -77,159 +77,159 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.henshin.model"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.edit"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"/>
+         version="1.8.0.qualifier"/>
 
    <plugin
          id="org.eclipse.emf.henshin.editor"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.diagram"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.interpreter"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.interpreter.ui"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.examples"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.explorer"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.external"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.trace"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.wrap"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.giraph"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.multicda.cda"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
          
    <plugin
          id="org.eclipse.emf.henshin.multicda.cpa"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.multicda.cpa.ui"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/> 
 
    <plugin
          id="org.eclipse.emf.henshin.rulegen"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
          
    <plugin
          id="org.eclipse.emf.henshin.rulegen.ui"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/> 
 
    <plugin
          id="org.eclipse.emf.henshin.adapters.xtext"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
          
    <plugin
          id="org.eclipse.emf.henshin.text"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.text.ide"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.text.transformation"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"/>
+         version="1.8.0.qualifier"/>
          
    <plugin
          id="org.eclipse.emf.henshin.text.ui"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
