@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: org.eclipse.emf.henshin.variability.test
-Bundle-Version: 1.7.0.qualifier
+Bundle-Version: 1.9.0.qualifier
 Require-Bundle: org.eclipse.emf.henshin.variability.mergein,
  org.eclipse.emf.henshin.interpreter,
  org.eclipse.emf.ecore.xmi;bundle-version="2.5.0",
