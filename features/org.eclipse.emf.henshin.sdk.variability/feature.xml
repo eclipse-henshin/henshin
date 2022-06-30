@@ -46,7 +46,7 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.emf.henshin.variability.configuration" version="0.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.databinding"/>
       <import plugin="org.eclipse.emf.databinding"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.8.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.8.0.qualifier" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.databinding.property"/>
       <import plugin="org.eclipse.emf.ecore"/>
    </requires>
@@ -55,49 +55,49 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.henshin.variability.test"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.mergein"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.mergein.refactoring"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.mergein.ui"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.configuration.ui"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.configuration"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
 </feature>

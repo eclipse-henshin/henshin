@@ -44,7 +44,7 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.emf.henshin.diagram"/>
       <import plugin="org.eclipse.jface.databinding"/>
       <import plugin="org.eclipse.emf.databinding"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.8.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.8.0.qualifier" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.databinding.property"/>
       <import plugin="org.eclipse.emf.ecore"/>
    </requires>
@@ -53,49 +53,49 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.henshin.ocl2ac.model"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.model.edit"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.model.editor"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.gc2ac"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.ocl2gc"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.tool"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.ocl2ac.utils"
          download-size="0"
          install-size="0"
-         version="1.8.0"
+         version="1.8.0.qualifier"
          unpack="false"/>
 
 </feature>
