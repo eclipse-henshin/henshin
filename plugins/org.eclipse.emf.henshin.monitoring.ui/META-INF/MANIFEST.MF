@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.emf.henshin.monitoring.ui
-Bundle-Version: 1.8.0
+Bundle-Version: 1.8.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.swt;bundle-version="3.105.3"
 Export-Package: org.eclipse.emf.henshin.monitoring.ui,

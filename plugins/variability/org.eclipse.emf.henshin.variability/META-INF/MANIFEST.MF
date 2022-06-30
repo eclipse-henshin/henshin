@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Henshin Variability Core
 Bundle-SymbolicName: org.eclipse.emf.henshin.variability;singleton:=true
-Bundle-Version: 1.8.0
+Bundle-Version: 1.8.0.qualifier
 Bundle-ClassPath: .,
  lib/aima-core-3.0.0.jar
 Bundle-Vendor: %providerName

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Translate
 Bundle-SymbolicName: org.eclipse.emf.henshin.ocl2ac.ocl2gc;singleton:=true
-Bundle-Version: 1.8.0
+Bundle-Version: 1.8.0.qualifier
 Bundle-Activator: org.eclipse.emf.henshin.ocl2ac.ocl2gc.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
