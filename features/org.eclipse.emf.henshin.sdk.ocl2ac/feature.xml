@@ -44,7 +44,7 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.emf.henshin.diagram"/>
       <import plugin="org.eclipse.jface.databinding"/>
       <import plugin="org.eclipse.emf.databinding"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.8.0.qualifier" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.diagram.ui" version="1.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.databinding.property"/>
       <import plugin="org.eclipse.emf.ecore"/>
    </requires>
