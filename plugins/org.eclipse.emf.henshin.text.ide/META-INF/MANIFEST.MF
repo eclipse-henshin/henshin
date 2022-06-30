@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.emf.henshin.text.ide
 Bundle-Vendor: Eclipse Modeling Project
-Bundle-Version: 1.8.0.legacyjdk
+Bundle-Version: 1.8.0
 Bundle-SymbolicName: org.eclipse.emf.henshin.text.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.emf.henshin.text,

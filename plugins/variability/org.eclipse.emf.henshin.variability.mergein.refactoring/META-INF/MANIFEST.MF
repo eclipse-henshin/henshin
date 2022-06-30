@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Henshin Variability Mergein Refactoring
 Bundle-SymbolicName: org.eclipse.emf.henshin.variability.mergein.refactoring;singleton:=true
-Bundle-Version: 1.8.0.legacyjdk
+Bundle-Version: 1.8.0
 Bundle-Activator: org.eclipse.emf.henshin.variability.mergein.refactoring.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.henshin.sdk.variability"
       label="%featureName"
-      version="1.8.0.legacyjdk"
+      version="1.8.0"
       provider-name="%providerName">
 
    <description>
@@ -55,49 +55,49 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.henshin.variability.test"
          download-size="0"
          install-size="0"
-         version="1.8.0.legacyjdk"
+         version="1.8.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.mergein"
          download-size="0"
          install-size="0"
-         version="1.8.0.legacyjdk"
+         version="1.8.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.mergein.refactoring"
          download-size="0"
          install-size="0"
-         version="1.8.0.legacyjdk"
+         version="1.8.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability"
          download-size="0"
          install-size="0"
-         version="1.8.0.legacyjdk"
+         version="1.8.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.mergein.ui"
          download-size="0"
          install-size="0"
-         version="1.8.0.legacyjdk"
+         version="1.8.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.configuration.ui"
          download-size="0"
          install-size="0"
-         version="1.8.0.legacyjdk"
+         version="1.8.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.variability.configuration"
          download-size="0"
          install-size="0"
-         version="1.8.0.legacyjdk"
+         version="1.8.0"
          unpack="false"/>
 
 </feature>
