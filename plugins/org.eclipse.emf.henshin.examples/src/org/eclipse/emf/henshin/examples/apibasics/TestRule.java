@@ -1,7 +1,7 @@
 package org.eclipse.emf.henshin.examples.apibasics;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ import org.eclipse.emf.henshin.interpreter.impl.LoggingApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 class TestRule {
 	
@@ -37,7 +37,7 @@ class TestRule {
 	 *  Create the ResourceSet where models and rules are managed in and 
 	 *  register metamodel.
 	 */
-	@BeforeAll
+	@BeforeClass
 	public static void setup() {
 		rs = new HenshinResourceSet(BASEDIR);
 		rs.getPackageRegistry().put(BoxingPackage.eINSTANCE.getNsURI(), BoxingPackage.eINSTANCE);
@@ -55,7 +55,7 @@ class TestRule {
 	 * principle as for the model applies;  we need to use unload to reset the 
 	 * rules. 
 	 */
-	@BeforeEach
+	@Before
 	public void resetUnitApp() {
 		if (modelResource != null) {
 			modelResource.unload();
