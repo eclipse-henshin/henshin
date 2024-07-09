@@ -3,7 +3,6 @@ package org.eclipse.emf.henshin.adapters.xtext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.adapters.xtext.NamingHelper;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.util.IResourceScopeCache;
@@ -12,10 +11,10 @@ import org.eclipse.xtext.util.Tuples;
 @SuppressWarnings("all")
 public class HenshinQualifiedNameProvider extends IQualifiedNameProvider.AbstractImpl {
   private static final String HENSHIN_CACHE_KEY = "HENSHIN_CACHE_KEY";
-  
+
   @Inject
   private final IResourceScopeCache cache = IResourceScopeCache.NullImpl.INSTANCE;
-  
+
   @Override
   public QualifiedName getFullyQualifiedName(final EObject obj) {
     final Provider<QualifiedName> _function = () -> {

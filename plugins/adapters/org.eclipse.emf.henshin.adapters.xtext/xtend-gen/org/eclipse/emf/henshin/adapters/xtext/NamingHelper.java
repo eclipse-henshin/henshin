@@ -1,7 +1,7 @@
 package org.eclipse.emf.henshin.adapters.xtext;
 
+import com.google.inject.Provider;
 import java.util.Arrays;
-import javax.inject.Provider;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -15,11 +15,11 @@ public class NamingHelper {
   protected static String _name(final EObject eo) {
     return null;
   }
-  
+
   protected static String _name(final NamedElement ne) {
     return ne.getName();
   }
-  
+
   protected static String _name(final Edge e) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("[");
@@ -43,7 +43,7 @@ public class NamingHelper {
     _builder.append("]");
     return _builder.toString();
   }
-  
+
   protected static String _name(final Attribute a) {
     String _xifexpression = null;
     EAttribute _type = a.getType();
@@ -55,7 +55,7 @@ public class NamingHelper {
     }
     return _xifexpression;
   }
-  
+
   private static String safe(final Provider<String> expression) {
     String _xtrycatchfinallyexpression = null;
     try {
@@ -69,7 +69,7 @@ public class NamingHelper {
     }
     return _xtrycatchfinallyexpression;
   }
-  
+
   public static String name(final EObject a) {
     if (a instanceof Attribute) {
       return _name((Attribute)a);

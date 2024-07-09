@@ -1,6 +1,6 @@
 package org.eclipse.emf.henshin.adapters.xtext
 
-import javax.inject.Provider
+import com.google.inject.Provider
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.henshin.model.Attribute
 import org.eclipse.emf.henshin.model.Edge
