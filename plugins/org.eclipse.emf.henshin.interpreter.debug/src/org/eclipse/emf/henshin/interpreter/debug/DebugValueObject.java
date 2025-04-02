@@ -7,8 +7,6 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 
 public class DebugValueObject extends HenshinDebugValue {
 	
-	private Object value;
-
 	public DebugValueObject(IDebugTarget target, EGraph graph, String declaredType, Object value, int indexInDomain) {
 		super(target, graph, declaredType);
 		

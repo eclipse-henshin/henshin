@@ -6,7 +6,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.emf.henshin.interpreter.debug.DebugValueObject;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugVariable;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.DebugApplicationCondition;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;

@@ -1,7 +1,7 @@
-package org.eclipse.emf.henshin.interpreter.matching.conditions;
+package org.eclipse.emf.henshin.interpreter.matching.conditions.debug;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition.ConstraintType;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.DebugApplicationCondition.ConstraintType;
 
 public class ConstraintTypeBreakpoint extends HenshinBreakpoint {
 

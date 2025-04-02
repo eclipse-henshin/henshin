@@ -4,11 +4,11 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugVariable;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionDelegate;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.DebugApplicationCondition;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 
 public class AddVariableBreakpoint extends AbstractHandler implements IActionDelegate {

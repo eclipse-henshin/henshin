@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.interpreter.impl;
+package org.eclipse.emf.henshin.interpreter.impl.debug;
 
 import java.util.HashSet;
 import java.util.function.Consumer;
@@ -6,9 +6,10 @@ import java.util.function.Consumer;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugTarget;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.TestDebugApplicationCondition;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.DebugApplicationCondition;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.TestDebugApplicationCondition;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
 import org.eclipse.emf.henshin.model.Rule;
 
