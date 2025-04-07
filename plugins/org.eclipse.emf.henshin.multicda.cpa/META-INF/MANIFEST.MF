@@ -4,7 +4,6 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.emf.henshin.multicda.cpa;singleton:=true
 Bundle-Version: 1.9.0.qualifier
-Bundle-ClassPath: .
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
@@ -28,3 +27,4 @@ Export-Package: org.eclipse.emf.henshin.multicda.cpa,
  org.eclipse.emf.henshin.multicda.cpa.modelExtension,
  org.eclipse.emf.henshin.multicda.cpa.persist,
  org.eclipse.emf.henshin.multicda.cpa.result
+Automatic-Module-Name: org.eclipse.emf.henshin.multicda.cpa

@@ -14,3 +14,4 @@ Export-Package: org.eclipse.emf.henshin.statespace.external,
  org.eclipse.emf.henshin.statespace.external.mcrl2,
  org.eclipse.emf.henshin.statespace.external.prism,
  org.eclipse.emf.henshin.statespace.external.tikz
+Automatic-Module-Name: org.eclipse.emf.henshin.statespace.external

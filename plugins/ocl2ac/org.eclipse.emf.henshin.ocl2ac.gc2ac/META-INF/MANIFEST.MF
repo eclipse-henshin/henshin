@@ -21,3 +21,4 @@ Export-Package: org.eclipse.emf.henshin.ocl2ac.gc2ac,
  org.eclipse.emf.henshin.ocl2ac.gc2ac.actions,
  org.eclipse.emf.henshin.ocl2ac.gc2ac.core,
  org.eclipse.emf.henshin.ocl2ac.gc2ac.util
+Automatic-Module-Name: org.eclipse.emf.henshin.ocl2ac.gc2ac

@@ -34,3 +34,4 @@ Import-Package: org.eclipse.emf.ecore.presentation,
  org.eclipse.emf.henshin.presentation,
  org.eclipse.gmf.runtime.notation,
  org.eclipse.ui.views.contentoutline
+Automatic-Module-Name: org.eclipse.emf.henshin.multicda.cpa.ui
