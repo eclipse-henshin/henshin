@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.edit.ui;bundle-version="2.12.0",
  org.eclipse.ui.ide;bundle-version="3.12.3",
  org.apache.commons.io;bundle-version="2.2.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.henshin.ocl2ac.utils.henshin.simplification,
  org.eclipse.emf.henshin.ocl2ac.utils.printer,

@@ -16,7 +16,7 @@ Bundle-ClassPath: .,
  lib/parsemis-2008-12-01.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: mergeSuggestion,
  mergeSuggestion.impl,
  mergeSuggestion.util,

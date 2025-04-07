@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.compare;bundle-version="3.1.2",
  org.eclipse.emf.henshin.model
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.emf.henshin.rulegen
 Bundle-Vendor: %providerName
 Bundle-ActivationPolicy: lazy

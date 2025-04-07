@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.emf.henshin.text,
  org.eclipse.xtext.junit4,
  org.eclipse.xtext.xbase.junit,
  org.eclipse.xtext.xbase.lib
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.emf.henshin.text.tests
 Import-Package: org.hamcrest.core,
  org.junit;version="4.5.0",
