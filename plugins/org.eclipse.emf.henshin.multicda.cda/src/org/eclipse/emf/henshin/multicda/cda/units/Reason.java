@@ -9,7 +9,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.multicda.cda.ReasonFactory;
 import org.eclipse.emf.henshin.multicda.cda.conflict.EssentialConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
 

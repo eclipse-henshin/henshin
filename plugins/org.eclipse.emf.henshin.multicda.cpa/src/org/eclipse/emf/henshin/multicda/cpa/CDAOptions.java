@@ -21,13 +21,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.print.attribute.HashAttributeSet;
-
-import org.eclipse.emf.henshin.multicda.cpa.CDAOptions.GranularityType;
 
 /**
  * A class for saving the options used by the critical pair analysis within AGG.

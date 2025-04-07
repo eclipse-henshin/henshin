@@ -35,7 +35,6 @@ import org.eclipse.emf.henshin.interpreter.debug.HenshinStackFrame;
 import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
-import org.eclipse.emf.henshin.interpreter.matching.constraints.Constraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;

@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.multicda.cpa.ui.presentation;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

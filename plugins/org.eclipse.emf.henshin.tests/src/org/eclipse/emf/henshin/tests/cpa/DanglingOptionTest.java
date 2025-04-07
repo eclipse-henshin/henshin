@@ -11,9 +11,7 @@ package org.eclipse.emf.henshin.tests.cpa;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;

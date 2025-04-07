@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
-import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
@@ -40,7 +39,6 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
-import org.eclipse.emf.henshin.model.UnaryUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.actions.MultiRuleMapEditor;
 

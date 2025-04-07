@@ -1,7 +1,6 @@
 package org.eclipse.emf.henshin.variability.mergein.conqat;
 
 import org.conqat.engine.model_clones.model.IDirectedEdge;
-import org.conqat.engine.model_clones.model.IModelGraph;
 import org.conqat.engine.model_clones.model.INode;
 import org.eclipse.emf.henshin.variability.mergein.normalize.HenshinEdge;
 

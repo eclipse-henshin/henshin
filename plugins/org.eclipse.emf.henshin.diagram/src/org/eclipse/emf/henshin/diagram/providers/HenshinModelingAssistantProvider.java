@@ -9,20 +9,12 @@
  */
 package org.eclipse.emf.henshin.diagram.providers;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;

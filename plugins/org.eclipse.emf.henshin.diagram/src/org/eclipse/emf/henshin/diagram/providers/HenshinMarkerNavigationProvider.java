@@ -12,7 +12,6 @@ package org.eclipse.emf.henshin.diagram.providers;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;

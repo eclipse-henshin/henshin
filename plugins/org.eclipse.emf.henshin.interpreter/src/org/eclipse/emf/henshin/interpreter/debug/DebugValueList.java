@@ -2,12 +2,9 @@ package org.eclipse.emf.henshin.interpreter.debug;
 
 import java.util.List;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IVariable;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 

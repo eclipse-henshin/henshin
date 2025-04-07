@@ -12,7 +12,6 @@ package org.eclipse.emf.henshin.editor.commands;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.henshin.presentation.HenshinEditorPlugin;
 import org.eclipse.jface.action.Action;

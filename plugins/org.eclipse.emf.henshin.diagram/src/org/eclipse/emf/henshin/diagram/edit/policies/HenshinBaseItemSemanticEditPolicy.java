@@ -11,7 +11,6 @@ package org.eclipse.emf.henshin.diagram.edit.policies;
 
 import java.util.Iterator;
 
-import org.eclipse.emf.henshin.diagram.edit.helpers.HenshinBaseEditHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;

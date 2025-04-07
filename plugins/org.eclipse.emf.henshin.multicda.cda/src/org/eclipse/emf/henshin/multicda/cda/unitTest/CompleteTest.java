@@ -1,11 +1,9 @@
 package org.eclipse.emf.henshin.multicda.cda.unitTest;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.ChangeConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteConflictReason;
@@ -26,7 +24,6 @@ import org.eclipse.emf.henshin.multicda.cda.units.Atom.DeleteDependencyAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Span;
 import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.Test;
 
 public class CompleteTest {

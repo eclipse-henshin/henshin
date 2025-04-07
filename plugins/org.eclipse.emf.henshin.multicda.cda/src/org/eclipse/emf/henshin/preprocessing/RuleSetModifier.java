@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;

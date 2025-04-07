@@ -1,13 +1,6 @@
 package org.eclipse.emf.henshin.text.ide.contentassist.antlr.internal;
 
-import java.io.InputStream;
 import org.eclipse.xtext.*;
-import org.eclipse.xtext.parser.*;
-import org.eclipse.xtext.parser.impl.*;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.parser.antlr.XtextTokenStream;
-import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;
 import org.eclipse.emf.henshin.text.services.Henshin_textGrammarAccess;
@@ -15,9 +8,6 @@ import org.eclipse.emf.henshin.text.services.Henshin_textGrammarAccess;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class InternalHenshin_textParser extends AbstractInternalContentAssistParser {

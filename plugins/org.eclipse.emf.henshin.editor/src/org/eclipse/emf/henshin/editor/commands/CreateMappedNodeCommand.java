@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;

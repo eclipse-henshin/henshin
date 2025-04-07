@@ -11,7 +11,6 @@ package org.eclipse.emf.henshin.diagram.edit.policies;
 
 import java.util.Iterator;
 
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.henshin.diagram.edit.commands.UnitDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeConditionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
@@ -23,7 +22,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.common.core.command.ICompositeCommand;
 import org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand;
-import org.eclipse.gmf.runtime.emf.commands.core.command.CompositeTransactionalCommand;
 import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.notation.Edge;

@@ -13,7 +13,6 @@ import org.eclipse.emf.henshin.diagram.edit.commands.EdgeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 
 /**

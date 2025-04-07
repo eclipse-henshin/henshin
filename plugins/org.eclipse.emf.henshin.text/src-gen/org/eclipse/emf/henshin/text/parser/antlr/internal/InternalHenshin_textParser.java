@@ -1,23 +1,14 @@
 package org.eclipse.emf.henshin.text.parser.antlr.internal;
 
-import org.eclipse.xtext.*;
-import org.eclipse.xtext.parser.*;
-import org.eclipse.xtext.parser.impl.*;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.xtext.parser.antlr.AbstractInternalAntlrParser;
-import org.eclipse.xtext.parser.antlr.XtextTokenStream;
-import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
 import org.eclipse.xtext.parser.antlr.AntlrDatatypeRuleToken;
 import org.eclipse.emf.henshin.text.services.Henshin_textGrammarAccess;
 
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class InternalHenshin_textParser extends AbstractInternalAntlrParser {

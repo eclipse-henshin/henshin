@@ -12,12 +12,9 @@ package org.eclipse.emf.henshin.interpreter.info;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Rule;
 
 public class RuleChangeInfo {

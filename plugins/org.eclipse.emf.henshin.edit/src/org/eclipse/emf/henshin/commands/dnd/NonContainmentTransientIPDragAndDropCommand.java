@@ -23,7 +23,6 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.provider.trans.TransientItemProvider;
 
 /**
  * 
