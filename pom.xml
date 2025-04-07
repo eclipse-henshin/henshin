@@ -59,7 +59,8 @@
 	<properties>
 		<tycho-version>4.0.12</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.release>11</maven.compiler.release>
+		<java.source.release>11</java.source.release>
+		<maven.compiler.release>${java.source.release}</maven.compiler.release>
 	</properties>
 
 	<build>
@@ -144,6 +145,25 @@
 							<goal>p2-metadata</goal>
 						</goals>
 						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>2.26.0</version>
+				<!-- This plugins version should match the Eclipse release defined in the Target-Platform,
+					or if that's not possible because it doesn't yet support the running JVM, it should be as low as possible. -->
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>xtend-gen</outputDirectory>
+							<javaSourceVersion>${java.source.release}</javaSourceVersion>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
