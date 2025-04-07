@@ -4,7 +4,7 @@
 	<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<unit id="de.tuberlin.eecs.agg"/>
-			<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
+			<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<unit id="org.eclipse.sdk.feature.group"/>
@@ -18,7 +18,7 @@
 			<unit id="org.eclipse.emf.query.sdk.feature.group"/>
 			<unit id="org.eclipse.xtext.sdk.feature.group"/>
 			<unit id="org.apache.commons.io"/>
-			<repository location="http://download.eclipse.org/releases/oxygen"/>
+			<repository location="https://download.eclipse.org/releases/2018-12/"/>
 		</location>
 	</locations>
 </target>

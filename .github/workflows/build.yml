@@ -44,5 +44,5 @@ jobs:
           ${{ runner.os }}-maven-
     - name: Build Henshin
       run: >-
-           mvn clean verify -P strict-jdk -DskipTests --fail-at-end
+           mvn clean verify -P strict-jdk --fail-at-end
            --batch-mode --no-transfer-progress --threads 1C
