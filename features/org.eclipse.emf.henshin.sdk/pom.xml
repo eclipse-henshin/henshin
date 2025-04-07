@@ -12,45 +12,5 @@
 
   <artifactId>org.eclipse.emf.henshin.sdk</artifactId>
   <packaging>eclipse-feature</packaging>
-  <build>
-  <plugins>
-    <plugin>
-      <groupId>org.eclipse.tycho.extras</groupId>
-      <artifactId>tycho-source-feature-plugin</artifactId>
-      <version>${tycho-extras-version}</version>
-      <executions>
-        <execution>
-          <id>source-feature</id>
-          <phase>package</phase>
-          <goals>
-            <goal>source-feature</goal>
-          </goals>
-          <configuration>
-            <labelSuffix xml:space="preserve"> Sources</labelSuffix>
-            <excludes>
-              <plugin id="de.tuberlin.eecs.agg"/>
-              <plugin id="org.eclipse.emf.henshin.text.transformation"/>
-              <plugin id="org.eclipse.gmf.tooling.runtime"/>
-            </excludes>
-         </configuration>
-        </execution>
-      </executions>
-    </plugin>
-    <plugin>
-      <groupId>org.eclipse.tycho</groupId>
-      <artifactId>tycho-p2-plugin</artifactId>
-      <version>${tycho-version}</version>
-      <executions>
-        <execution>
-          <id>attach-p2-metadata</id>
-          <phase>package</phase>
-          <goals>
-            <goal>p2-metadata</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-  </plugins>
-  </build>
 
 </project>

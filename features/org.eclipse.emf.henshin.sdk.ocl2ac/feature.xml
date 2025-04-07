@@ -35,12 +35,10 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources" version="3.9.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.henshin.trace"/>
-      <import plugin="org.eclipse.ocl.ecore"/>
       <import plugin="org.eclipse.ocl.ecore" version="3.0.0" match="compatible"/>
       <import plugin="org.eclipse.emf.transaction"/>
       <import plugin="org.sat4j.core"/>
       <import plugin="org.eclipse.gmf.runtime.emf.ui.properties"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui"/>
       <import plugin="org.eclipse.emf.henshin.diagram"/>
       <import plugin="org.eclipse.jface.databinding"/>
       <import plugin="org.eclipse.emf.databinding"/>

@@ -57,8 +57,7 @@
 	</modules>
 
 	<properties>
-		<tycho-version>1.3.0</tycho-version>
-		<tycho-extras-version>1.3.0</tycho-extras-version>
+		<tycho-version>4.0.12</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.release>11</maven.compiler.release>
 	</properties>
@@ -115,18 +114,75 @@
 							<goal>plugin-source</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>feature-source</id>
+						<goals>
+							<goal>feature-source</goal>
+						</goals>
+						<configuration>
+							<labelSuffix xml:space="preserve"> Sources</labelSuffix>
+							<excludes>
+								<plugin id="de.tuberlin.eecs.agg"/>
+								<plugin id="org.eclipse.emf.henshin.text.transformation"/>
+								<plugin id="org.eclipse.gmf.tooling.runtime"/>
+							</excludes>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-plugin</artifactId>
+				<version>${tycho-version}</version>
 				<configuration>
-					<compilerVersion>1.14</compilerVersion>
+					<defaultP2Metadata>false</defaultP2Metadata>
 				</configuration>
+				<executions>
+					<execution>
+						<id>attach-p2-metadata</id>
+						<goals>
+							<goal>p2-metadata</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>strict-jdk</id>
+			<!-- Activating this profile ensures that all projects are built and tested with a JDK
+				of the exact same version as specified as their required execution environment.
+				To make this possible the Maven toolchain.xml file has to be setup accordingly the computer running the build:
+				- https://maven.apache.org/plugins/maven-toolchains-plugin/toolchains/jdk.html
+				- https://maven.apache.org/guides/mini/guide-using-toolchains.html
+				- https://tycho.eclipseprojects.io/doc/latest/tycho-compiler-plugin/compile-mojo.html#useJDK
+				- https://tycho.eclipseprojects.io/doc/latest/tycho-surefire-plugin/test-mojo.html#useJDK
+			-->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-compiler-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<useJDK>BREE</useJDK>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-surefire-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<useJDK>BREE</useJDK>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<distributionManagement>
 		<repository>

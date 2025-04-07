@@ -28,10 +28,12 @@ jobs:
         distribution: 'temurin'
         java-version: |
           11
+          17
+        # This action also generates a suitable Maven toolchains.xml
     - name: Set up Maven
       uses: stCarolas/setup-maven@d6af6abeda15e98926a57b5aa970a96bb37f97d1 # v5
       with:
-        maven-version: 3.6.3
+        maven-version: 3.9.9
     - name: Cache local Maven repository
       uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
       with:
@@ -42,5 +44,5 @@ jobs:
           ${{ runner.os }}-maven-
     - name: Build Henshin
       run: >-
-           mvn clean verify -DskipTests --fail-at-end
+           mvn clean verify -P strict-jdk -DskipTests --fail-at-end
            --batch-mode --no-transfer-progress --threads 1C
