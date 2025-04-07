@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Running Platform" sequenceNumber="13">
-<locations>
-<location path="${eclipse_home}" type="Profile"/>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="de.tuberlin.eecs.agg" version="2.1.0.v201512080800"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
-</location>    
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.papyrus.infra.gmfdiag.tooling.runtime" version="3.0.0.201803070847"/>
-<unit id="org.eclipse.m2e.feature.feature.group" version="1.8.3.20180227-2137"/>
-<unit id="org.eclipse.emf.compare.feature.group" version="3.3.2.201709090201"/>
-<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.3.2.201709090201"/>
-<unit id="org.eclipse.pde.feature.group" version="3.13.4.v20180330-0640"/>
-<unit id="org.eclipse.papyrus.sdk.feature.feature.group" version="3.3.0.201803070847"/>
-<unit id="org.eclipse.emf.compare.source.feature.group" version="3.3.2.201709090201"/>
-<unit id="org.eclipse.equinox.sdk.feature.group" version="3.13.4.v20180322-2228"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.13.0.v20170609-0928"/>
-<unit id="org.eclipse.ocl.all.sdk.feature.group" version="5.3.0.v20170607-1133"/>
-<unit id="org.eclipse.emf.query.sdk.feature.group" version="1.11.0.201706061326"/>
-<unit id="org.eclipse.uml2.uml" version="5.3.0.v20170605-1616"/>
-<unit id="org.eclipse.xtext.sdk.feature.group" version="2.12.0.v20170519-1412"/>
-<unit id="org.apache.commons.io" version="2.2.0.v201405211200"/>
-<repository location="http://download.eclipse.org/releases/oxygen"/>
-</location>
-</locations>
-<environment>
-<os>win32</os>
-<ws>win32</ws>
-<arch>x86_64</arch>
-<nl>de_DE</nl>
-</environment>
+<target name="Henshin Target-Platform">
+	<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="de.tuberlin.eecs.agg"/>
+			<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.sdk.feature.group"/>
+			<unit id="org.eclipse.papyrus.infra.gmfdiag.tooling.runtime"/>
+			<unit id="org.eclipse.m2e.feature.feature.group"/>
+			<unit id="org.eclipse.emf.compare.feature.group"/>
+			<unit id="org.eclipse.emf.compare.ide.ui.feature.group"/>
+			<unit id="org.eclipse.papyrus.sdk.feature.feature.group"/>
+			<unit id="org.eclipse.emf.sdk.feature.group"/>
+			<unit id="org.eclipse.ocl.all.sdk.feature.group"/>
+			<unit id="org.eclipse.emf.query.sdk.feature.group"/>
+			<unit id="org.eclipse.xtext.sdk.feature.group"/>
+			<unit id="org.apache.commons.io"/>
+			<repository location="http://download.eclipse.org/releases/oxygen"/>
+		</location>
+	</locations>
 </target>
