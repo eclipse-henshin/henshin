@@ -4,6 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.emf.henshin.monitoring.kieker;singleton:=true
 Bundle-Version: 1.9.0.qualifier
+Bundle-Localization: plugin
 Bundle-ClassPath: ., kieker-1.13.jar 
 Export-Package: com.beust.jcommander,
  com.beust.jcommander.converters,

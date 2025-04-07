@@ -4,6 +4,7 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.henshin.giraph;singleton:=true
 Bundle-Version: 1.9.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-Localization: plugin
 Export-Package: org.eclipse.emf.henshin.giraph,
  org.eclipse.emf.henshin.giraph.templates
 Require-Bundle: org.eclipse.ant.core;bundle-version="3.2.0",
