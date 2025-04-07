@@ -8,32 +8,7 @@
 	<version>1.9.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<module>plugins/org.eclipse.emf.henshin.diagram</module>
-		<module>plugins/org.eclipse.emf.henshin.edit</module>
-		<module>plugins/org.eclipse.emf.henshin.editor</module>
-		<module>plugins/org.eclipse.emf.henshin.examples</module>
-		<module>plugins/org.eclipse.emf.henshin.giraph</module>
-		<module>plugins/org.eclipse.emf.henshin.interpreter</module>
-		<module>plugins/org.eclipse.emf.henshin.interpreter.ui</module>
-		<module>plugins/org.eclipse.emf.henshin.model</module>
-		<module>plugins/org.eclipse.emf.henshin.statespace</module>
-		<module>plugins/org.eclipse.emf.henshin.statespace.explorer</module>
-		<module>plugins/org.eclipse.emf.henshin.statespace.external</module>
-		<module>plugins/org.eclipse.emf.henshin.multicda.cda</module>
-		<module>plugins/org.eclipse.emf.henshin.multicda.cpa</module>
-		<module>plugins/org.eclipse.emf.henshin.multicda.cpa.ui</module>
-		<module>plugins/org.eclipse.emf.henshin.rulegen</module>
-		<module>plugins/org.eclipse.emf.henshin.rulegen.tests</module>
-		<module>plugins/org.eclipse.emf.henshin.rulegen.ui</module>
-		<module>plugins/org.eclipse.emf.henshin.trace</module>
-		<module>plugins/org.eclipse.emf.henshin.wrap</module>
-		<module>plugins/org.eclipse.emf.henshin.tests</module>
-		<module>plugins/org.eclipse.emf.henshin.text</module>
-		<module>plugins/org.eclipse.emf.henshin.text.ide</module>
-		<module>plugins/org.eclipse.emf.henshin.text.transformation</module>
-		<module>plugins/org.eclipse.emf.henshin.text.ui</module>
-		<module>plugins/org.eclipse.emf.henshin.monitoring.kieker</module>
-		<module>plugins/org.eclipse.emf.henshin.monitoring.ui</module>
+		<module>plugins</module>
 		<module>plugins/adapters/org.eclipse.emf.henshin.adapters.xtext</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability</module>
 		<module>plugins/variability/org.eclipse.emf.henshin.variability.configuration</module>
@@ -49,16 +24,13 @@
 		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.ocl2gc</module>
 		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.tool</module>
 		<module>plugins/ocl2ac/org.eclipse.emf.henshin.ocl2ac.utils</module>
-		<module>features/org.eclipse.emf.henshin.sdk</module>
-		<module>features/org.eclipse.emf.henshin.sdk.variability</module>
-		<module>features/org.eclipse.emf.henshin.sdk.ocl2ac</module>
-		<module>releng/org.eclipse.emf.henshin.target</module>
+		<module>features</module>
+		<module>releng</module>
 		<module>p2updatesite</module>
 	</modules>
 
 	<properties>
 		<java-release>11</java-release>
-		<tycho-version>4.0.12</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.release>${java-release}</maven.compiler.release>
 		<compileLogDir>${project.build.directory}/compilelogs</compileLogDir>
@@ -187,6 +159,23 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.6.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<test>*</test> <!-- Consider all java-files in test-projects -->
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<profiles>
@@ -212,7 +201,6 @@
 					<plugin>
 						<groupId>org.eclipse.tycho</groupId>
 						<artifactId>tycho-surefire-plugin</artifactId>
-						<version>${tycho-version}</version>
 						<configuration>
 							<useJDK>BREE</useJDK>
 						</configuration>
