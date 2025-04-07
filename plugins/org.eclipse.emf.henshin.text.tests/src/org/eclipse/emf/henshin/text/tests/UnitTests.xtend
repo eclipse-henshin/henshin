@@ -1,26 +1,26 @@
 package org.eclipse.emf.henshin.text.tests
 
-import org.eclipse.xtext.junit4.XtextRunner
-import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.InjectWith
 import javax.inject.Inject
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.emf.henshin.text.henshin_text.Model
-import org.junit.Test
-import org.junit.Assert
-import org.eclipse.emf.henshin.text.henshin_text.IndependentUnit
-import org.eclipse.emf.henshin.text.henshin_text.ConditionalUnit
-import org.eclipse.emf.henshin.text.henshin_text.PriorityUnit
-import org.eclipse.emf.henshin.text.henshin_text.LoopUnit
-import org.eclipse.emf.henshin.text.henshin_text.Rollback
-import org.eclipse.emf.henshin.text.henshin_text.Strict
-import org.eclipse.emf.henshin.text.henshin_text.Unit
-import org.eclipse.emf.henshin.text.henshin_text.Rule
 import org.eclipse.emf.henshin.text.henshin_text.Call
+import org.eclipse.emf.henshin.text.henshin_text.ConditionalUnit
+import org.eclipse.emf.henshin.text.henshin_text.IndependentUnit
 import org.eclipse.emf.henshin.text.henshin_text.IteratedUnit
+import org.eclipse.emf.henshin.text.henshin_text.LoopUnit
+import org.eclipse.emf.henshin.text.henshin_text.Model
 import org.eclipse.emf.henshin.text.henshin_text.NaturalValue
 import org.eclipse.emf.henshin.text.henshin_text.NumberValue
 import org.eclipse.emf.henshin.text.henshin_text.ParameterValue
+import org.eclipse.emf.henshin.text.henshin_text.PriorityUnit
+import org.eclipse.emf.henshin.text.henshin_text.Rollback
+import org.eclipse.emf.henshin.text.henshin_text.Rule
+import org.eclipse.emf.henshin.text.henshin_text.Strict
+import org.eclipse.emf.henshin.text.henshin_text.Unit
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.junit.Assert
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(Henshin_textInjectorProvider))

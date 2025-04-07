@@ -1,23 +1,23 @@
 package org.eclipse.emf.henshin.text.tests
 
-import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.InjectWith
-import javax.inject.Inject
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.emf.henshin.text.henshin_text.Model
-import org.junit.Test
-import org.eclipse.emf.henshin.text.henshin_text.Graph
-import org.junit.Assert
 import com.google.common.collect.Iterables
+import javax.inject.Inject
+import org.eclipse.emf.henshin.text.henshin_text.Edges
+import org.eclipse.emf.henshin.text.henshin_text.Graph
+import org.eclipse.emf.henshin.text.henshin_text.Model
+import org.eclipse.emf.henshin.text.henshin_text.MultiRule
+import org.eclipse.emf.henshin.text.henshin_text.MultiRuleReuseNode
+import org.eclipse.emf.henshin.text.henshin_text.Node
+import org.eclipse.emf.henshin.text.henshin_text.ParameterValue
+import org.eclipse.emf.henshin.text.henshin_text.Rule
 import org.eclipse.emf.henshin.text.henshin_text.impl.MultiRuleImpl
 import org.eclipse.emf.henshin.text.henshin_text.impl.NodeImpl
-import org.eclipse.emf.henshin.text.henshin_text.Node
-import org.eclipse.emf.henshin.text.henshin_text.Edges
-import org.eclipse.emf.henshin.text.henshin_text.Rule
-import org.eclipse.emf.henshin.text.henshin_text.MultiRuleReuseNode
-import org.eclipse.emf.henshin.text.henshin_text.MultiRule
-import org.eclipse.emf.henshin.text.henshin_text.ParameterValue
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.junit.Assert
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(Henshin_textInjectorProvider))
