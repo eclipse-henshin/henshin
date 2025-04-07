@@ -1,14 +1,20 @@
+# Ignore class files and friends
 *.class
 *.xtendbin
 *._trace
-.settings/
 bin/
+
+# Ignore temporary build artifacts
 target/
-/.metadata/
+
 /plugins/org.eclipse.emf.henshin.text/src-gen/
 /plugins/org.eclipse.emf.henshin.text/xtend-gen/
 /plugins/org.eclipse.emf.henshin.text.tests/src-gen/
 /plugins/org.eclipse.emf.henshin.text.tests/xtend-gen/
 /plugins/org.eclipse.emf.henshin.text.ui/src-gen/
 /plugins/org.eclipse.emf.henshin.text.ui/xtend-gen/
+
+# Ignore settings and metadata files
+.settings/
+/.metadata/
 .DS_Store
