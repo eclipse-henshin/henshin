@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.henshin.ocl2ac.model;visibility:=reexport,
  org.eclipse.core.resources;bundle-version="3.11.1",
  org.eclipse.emf.ecore.editor;bundle-version="2.12.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: compactconditionmodel,
  compactconditionmodel.impl,
  compactconditionmodel.util,

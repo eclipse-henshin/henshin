@@ -23,7 +23,7 @@ Require-Bundle: org.eclipse.emf.henshin.text,
  org.eclipse.emf.henshin.editor;bundle-version="1.3.0",
  org.eclipse.emf.henshin.interpreter.ui;bundle-version="1.3.0"
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.emf.henshin.text.ui.contentassist,
  org.eclipse.emf.henshin.text.ui.internal,
  org.eclipse.emf.henshin.text.ui.quickfix,

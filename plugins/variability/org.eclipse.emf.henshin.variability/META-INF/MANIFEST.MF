@@ -6,7 +6,7 @@ Bundle-Version: 1.9.0.qualifier
 Bundle-ClassPath: .,
  lib/aima-core-3.0.0.jar
 Bundle-Vendor: %providerName
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: aima.core.logic.propositional.kb.data,
  aima.core.logic.propositional.parsing.ast,
  org.eclipse.emf.henshin.variability,
