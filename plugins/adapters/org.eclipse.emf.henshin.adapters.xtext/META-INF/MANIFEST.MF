@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Henshinsupport
+Bundle-Vendor: Eclipse Modeling Project
 Bundle-SymbolicName: org.eclipse.emf.henshin.adapters.xtext;singleton:=true
 Bundle-Version: 1.9.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
