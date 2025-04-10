@@ -21,3 +21,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.henshin.ocl2ac.utils.henshin.simplification,
  org.eclipse.emf.henshin.ocl2ac.utils.printer,
  org.eclipse.emf.henshin.ocl2ac.utils.viewer
+Automatic-Module-Name: org.eclipse.emf.henshin.ocl2ac.utils

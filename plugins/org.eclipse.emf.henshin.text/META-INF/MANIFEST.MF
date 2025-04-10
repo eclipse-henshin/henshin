@@ -31,3 +31,4 @@ Export-Package: org.eclipse.emf.henshin.text.henshin_text.impl,
  org.eclipse.emf.henshin.text.generator,
  org.eclipse.emf.henshin.text.formatting2
 Import-Package: org.apache.log4j
+Automatic-Module-Name: org.eclipse.emf.henshin.text

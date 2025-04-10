@@ -25,3 +25,4 @@ Export-Package: org.eclipse.emf.henshin.multicda.cda,
  org.eclipse.emf.henshin.multicda.cda.tasks,
  org.eclipse.emf.henshin.multicda.cda.units,
  org.eclipse.emf.henshin.preprocessing
+Automatic-Module-Name: org.eclipse.emf.henshin.multicda.cda

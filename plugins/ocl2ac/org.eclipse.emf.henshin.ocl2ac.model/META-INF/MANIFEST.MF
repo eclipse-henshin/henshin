@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.henshin.ocl2ac.model;singleton:=true
 Bundle-Version: 1.9.0.qualifier
-Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Activator: org.eclipse.emf.henshin.ocl2ac.model.Activator
@@ -36,3 +35,4 @@ Export-Package: compactconditionmodel,
  nestedconstraintmodel.impl,
  nestedconstraintmodel.util
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.emf.henshin.ocl2ac.model

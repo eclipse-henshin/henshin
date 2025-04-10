@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.emf.henshin.interpreter;singleton:=true
-Automatic-Module-Name: org.eclipse.emf.henshin.interpreter
 Bundle-Version: 1.9.0.qualifier
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
@@ -23,3 +22,4 @@ Export-Package: org.eclipse.emf.henshin.interpreter,
  org.eclipse.emf.henshin.interpreter.matching.constraints,
  org.eclipse.emf.henshin.interpreter.monitoring,
  org.eclipse.emf.henshin.interpreter.util
+Automatic-Module-Name: org.eclipse.emf.henshin.interpreter

@@ -11,4 +11,4 @@ Require-Bundle: org.eclipse.emf.henshin.text,
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.emf.henshin.text.ide.contentassist.antlr,
  org.eclipse.emf.henshin.text.ide.contentassist.antlr.internal
-
+Automatic-Module-Name: org.eclipse.emf.henshin.text.ide

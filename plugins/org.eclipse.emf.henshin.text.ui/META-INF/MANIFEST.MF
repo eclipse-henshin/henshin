@@ -30,3 +30,4 @@ Export-Package: org.eclipse.emf.henshin.text.ui.contentassist,
  org.eclipse.emf.henshin.text.ui.util,
  org.eclipse.emf.henshin.text.ui.labeling
 Bundle-Activator: org.eclipse.emf.henshin.text.ui.internal.TextActivator
+Automatic-Module-Name: org.eclipse.emf.henshin.text.ui

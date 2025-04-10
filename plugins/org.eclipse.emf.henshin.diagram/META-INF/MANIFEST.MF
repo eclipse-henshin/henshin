@@ -7,7 +7,6 @@ Bundle-Version: 1.9.0.qualifier
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0",
  org.eclipse.core.resources;bundle-version="3.6.0",
@@ -44,4 +43,4 @@ Export-Package: org.eclipse.emf.henshin.diagram.edit.commands,
  org.eclipse.emf.henshin.diagram.edit.policies,
  org.eclipse.emf.henshin.diagram.part,
  org.eclipse.emf.henshin.diagram.providers
-Eclipse-LazyStart: true
+Automatic-Module-Name: org.eclipse.emf.henshin.diagram

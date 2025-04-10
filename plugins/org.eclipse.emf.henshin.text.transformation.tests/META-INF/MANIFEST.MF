@@ -25,4 +25,4 @@ Import-Package: com.google.inject,
  org.eclipse.emf.henshin.text,
  org.eclipse.emf.henshin.text.ui.util
 Bundle-Vendor: Eclipse Modeling Project
-
+Automatic-Module-Name: org.eclipse.emf.henshin.text.transformation.tests
