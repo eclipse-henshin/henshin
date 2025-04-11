@@ -1,7 +1,7 @@
 pipeline {
 	options {
 		timeout(time: 60, unit: 'MINUTES')
-		buildDiscarder(logRotator(numToKeepStr:'5', artifactNumToKeepStr: 'main'.equals(env.BRANCH_NAME) ? '5' : '2' ))
+		buildDiscarder(logRotator(numToKeepStr:'20', artifactNumToKeepStr: 'main'.equals(env.BRANCH_NAME) ? '5' : '2' ))
 		disableConcurrentBuilds(abortPrevious: true)
 		timestamps()
 	}
@@ -16,9 +16,21 @@ pipeline {
 		stage('Build') {
 			steps {
 				sh '''
-					mvn clean verify -P strict-jdk --fail-at-end \
+					mvn clean verify -P strict-jdk,javadoc --fail-at-end -Dmaven.test.failure.ignore=true \
 						--batch-mode --no-transfer-progress --threads 1C
 				'''
+			}
+			post {
+				always {
+					archiveArtifacts artifacts: '.*log,**/target/**/.*log', allowEmptyArchive: true
+					junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+					discoverGitReferenceBuild referenceJob: 'eclipse.henshin/master'
+					recordIssues enabledForFailure: true, publishAllIssues: true, ignoreQualityGate: true, tools: [
+							eclipse(name: 'Compiler', pattern: '**/target/compilelogs/*.xml'),
+							mavenConsole(),
+							javaDoc()
+						], qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]
+				}
 			}
 		}
 		stage('Deploy') {
