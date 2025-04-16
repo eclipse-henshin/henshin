@@ -16,7 +16,7 @@ import org.eclipse.emf.henshin.model.Rule;
 /**
  * This class represents a dependency, which is on of the two forms of a critical pair.
  * 
- * @author Florian Heﬂ, Kristopher Born
+ * @author Florian He√ü, Kristopher Born
  */
 public class Dependency extends CriticalPair {
 

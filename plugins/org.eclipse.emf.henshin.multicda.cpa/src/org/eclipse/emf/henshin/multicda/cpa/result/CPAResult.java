@@ -26,7 +26,7 @@ import org.eclipse.emf.henshin.multicda.cpa.result.CriticalPair.AppliedAnalysis;
  * This class stores all the <code>CriticalPair</code>s as a result of a
  * critical pair analysis.
  * 
- * @author Florian Heﬂ, Kristopher Born
+ * @author Florian He√ü, Kristopher Born
  *
  */
 public class CPAResult implements Iterable<CriticalPair> {

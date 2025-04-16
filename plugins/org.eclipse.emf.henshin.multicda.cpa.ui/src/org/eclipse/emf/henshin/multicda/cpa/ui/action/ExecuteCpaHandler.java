@@ -1,8 +1,8 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 which 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0 which
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
@@ -22,8 +22,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
- * 
- * @author Florian Heﬂ, Kristopher Born
+ *
+ * @author Florian He√ü, Kristopher Born
  *
  */
 public class ExecuteCpaHandler extends AbstractHandler {
@@ -38,7 +38,7 @@ public class ExecuteCpaHandler extends AbstractHandler {
 		if(sel instanceof IStructuredSelection){
 		    IStructuredSelection selection = (IStructuredSelection) sel;
 		    List<IStructuredSelection> selectedFiles = selection.toList();
-			    
+
 		    Shell shell = HandlerUtil.getActiveShell(event);
 			WizardDialog wizardDialog = new WizardDialog(shell.getShell(), new CpaWizard(selectedFiles));
 			wizardDialog.open();

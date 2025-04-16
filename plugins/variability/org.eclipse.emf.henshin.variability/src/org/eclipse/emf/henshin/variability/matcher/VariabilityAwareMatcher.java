@@ -40,10 +40,10 @@ import aima.core.logic.propositional.parsing.ast.Sentence;
  * 
  * [1] <a href=
  * "https://www.uni-marburg.de/fb12/swt/forschung/publikationen/2015/SRCT15.pdf"
- * >Str�ber, Julia , Chechik, Taentzer (2015): A Variability-Based Approach to
+ * >Strüber, Julia , Chechik, Taentzer (2015): A Variability-Based Approach to
  * Reusable and Efficient Model Transformations</a>.
  * 
- * @author Daniel Str�ber
+ * @author Daniel Strüber
  *
  */
 public class VariabilityAwareMatcher {

@@ -1,8 +1,8 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 which 
+ * Copyright (c) 2010-2014 Henshin developers. All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0 which
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
@@ -24,9 +24,9 @@ import org.junit.Test;
 
 /**
  * Tests creating edges in an existing rule.
- * 
- * @author Daniel STrüber
- * 
+ *
+ * @author Daniel StrÃ¼ber
+ *
  */
 public class AddEdgeToRuleTest extends HenshinTest {
 
@@ -51,7 +51,7 @@ public class AddEdgeToRuleTest extends HenshinTest {
 		Node s = htRule.getLhs().getNode("s");
 		Node t = htRule.getLhs().getNode("t");
 		htRule.createEdge(s, t, EcorePackage.eINSTANCE.getEClass_ESuperTypes());
-	
+
 		Node sRhs = htRule.getRhs().getNode("s");
 		assertTrue(sRhs.getOutgoing().size() == 1);
 		assertTrue(isCreateEdge(sRhs.getOutgoing().get(0)));
@@ -63,12 +63,12 @@ public class AddEdgeToRuleTest extends HenshinTest {
 		Node s = htRule.getLhs().getNode("s");
 		Node t = htRule.getLhs().getNode("t");
 		htRule.createEdge(s, t, EcorePackage.eINSTANCE.getEClass_ESuperTypes());
-		
+
 		Node sRhs = htRule.getRhs().getNode("s");
 		assertTrue(sRhs.getOutgoing().size() == 1);
 		assertTrue(isCreateEdge(sRhs.getOutgoing().get(0)));
 	}
-	
+
 
 	@Test
 	public void testCreateEdgeBetweenPreserveNodesWithNestedApplicationCondition() {
@@ -79,7 +79,7 @@ public class AddEdgeToRuleTest extends HenshinTest {
 		assertTrue(s.getOutgoing().size() == 1);
 		assertTrue(isPreserveEdge(s.getOutgoing().get(0)));
 	}
-	
+
 	private boolean isPreserveEdge(Edge edge) {
 		return edge.getAction().getType() == Action.Type.PRESERVE;
 	}

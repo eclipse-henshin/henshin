@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Log being recorded during variability-aware matching.
  * 
- * @author Daniel Strüber
+ * @author Daniel StrÃ¼ber
  *
  */
 public class MatchingLog {

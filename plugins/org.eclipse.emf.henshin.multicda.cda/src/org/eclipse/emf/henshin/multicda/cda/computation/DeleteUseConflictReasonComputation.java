@@ -195,8 +195,6 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 		return G1toG2;
 	}
 
-	private static final String INTERSECTIONSEPERATOR = "_�_";
-
 	/**
 	 * @param r2
 	 * @param r1
@@ -237,7 +235,7 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 		Reason uniqueSpan = null;
 		Graph pushoutGraph = pushout.getResultGraph();
 		// if (precondition(sap, sp1, sp2)) //TODO: Nachfragen ob die Precondition so
-		// richtig ist: sie schmei�t meiner meinung nach immer false
+		// richtig ist: sie schmeißt meiner meinung nach immer false
 		// return null;
 		Set<Mapping> mappingsInL1 = computeMappingStoL(pushout, rule1, sap, sp1, sp2);
 		Set<Mapping> mappingsInL2 = computeMappingStoL(pushout, rule2, sap, sp2, sp1);
@@ -449,7 +447,7 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 				Node y = existCompatibleElement(x, sp1, sp2);
 				if (y != null) {
 					EClass xType = x.getType();
-					String newName = x.getName() + INTERSECTIONSEPERATOR + y.getName();
+					String newName = "intersect(" + x.getName() + "," + y.getName() + ")";
 					Node newNode = factory.createNode(compatibleGraph, xType, newName);
 					Mapping createMapping = factory.createMapping(newNode, x);
 					Mapping createMapping2 = factory.createMapping(newNode, y);

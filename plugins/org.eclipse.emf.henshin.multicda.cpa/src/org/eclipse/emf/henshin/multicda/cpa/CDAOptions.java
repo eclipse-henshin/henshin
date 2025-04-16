@@ -1,8 +1,8 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 which 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0 which
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
@@ -31,8 +31,8 @@ import org.eclipse.emf.henshin.multicda.cpa.CDAOptions.GranularityType;
 
 /**
  * A class for saving the options used by the critical pair analysis within AGG.
- * 
- * @author Florian Heﬂ, Kristopher Born
+ *
+ * @author Florian He√ü, Kristopher Born
  *
  */
 public class CDAOptions {
@@ -169,7 +169,7 @@ public class CDAOptions {
 
 	/**
 	 * Loads the options from the <code>optionsFile</code>.
-	 * 
+	 *
 	 * @param optionsFile the path to the file (including file name)
 	 * @return <code>true</code> if options were loaded, else <code>false</code>
 	 */
@@ -206,7 +206,7 @@ public class CDAOptions {
 
 	/**
 	 * Persists the options into the file <code>filePath</code>.
-	 * 
+	 *
 	 * @param filePath The path and file name.
 	 */
 	public void persist(String filePath) {
@@ -269,7 +269,7 @@ public class CDAOptions {
 
 	/**
 	 * decides whether critical pairs with the first rule and the second rule being the same are ignored or not
-	 * 
+	 *
 	 * @param ignoreSameRules true to ignoreSameRules results of pairs of the same rule.
 	 */
 	public void setIgnoreSameRules(boolean ignoreSameRules) {

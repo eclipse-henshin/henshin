@@ -24,10 +24,10 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 public class RuleSetModifier {
 
 	public void removeMultiRules(String sourcePath, String targetPath){
-		
+
 		File dir = new File(sourcePath);
 		List<String> pathsToHenshinFiles = DirectoryUtil.inspectDirectoryForHenshinFiles(dir);
-		
+
 		for (String pathToHenshinFiles : pathsToHenshinFiles) {
 			HenshinResourceSet henshinResourceSet = new HenshinResourceSet();
 			Module module = henshinResourceSet.getModule(pathToHenshinFiles);
@@ -51,10 +51,10 @@ public class RuleSetModifier {
 	}
 
 	public void removeUnits(String sourcePath, String targetPath){
-		
+
 		File dir = new File(sourcePath);
 		List<String> pathsToHenshinFiles = DirectoryUtil.inspectDirectoryForHenshinFiles(dir);
-		
+
 		for (String pathToHenshinFiles : pathsToHenshinFiles) {
 			HenshinResourceSet henshinResourceSet = new HenshinResourceSet();
 			Module module = henshinResourceSet.getModule(pathToHenshinFiles);
@@ -69,7 +69,7 @@ public class RuleSetModifier {
 //			if(unitContained){
 //				numberOfFilesWithUnits++;
 //			}
-			
+
 		// Ergebnis speichern
 			String resultPath = pathToHenshinFiles.replace(sourcePath, targetPath);
 			// save result in FileSystem!
@@ -79,10 +79,10 @@ public class RuleSetModifier {
 	}
 
 	public void removeApplicationConditions(String sourcePath, String targetPath) {
-		
+
 		File dir = new File(sourcePath);
 		List<String> pathsToHenshinFiles = DirectoryUtil.inspectDirectoryForHenshinFiles(dir);
-		
+
 		for (String pathToHenshinFiles : pathsToHenshinFiles) {
 			HenshinResourceSet henshinResourceSet = new HenshinResourceSet();
 			Module module = henshinResourceSet.getModule(pathToHenshinFiles);
@@ -104,13 +104,13 @@ public class RuleSetModifier {
 			resultResourceSet.saveEObject(module, resultPath);
 		}
 	}
-	
+
 	public void transformDeleteToPreserve(String sourcePath, String targetPath, boolean adaptRuleName) {
-		
-		
+
+
 		File dir = new File(sourcePath);
 		List<String> pathsToHenshinFiles = DirectoryUtil.inspectDirectoryForHenshinFiles(dir);
-		
+
 		for (String pathToHenshinFiles : pathsToHenshinFiles) {
 			HenshinResourceSet henshinResourceSet = new HenshinResourceSet();
 			Module module = henshinResourceSet.getModule(pathToHenshinFiles);
@@ -145,7 +145,7 @@ public class RuleSetModifier {
 			// createMapping
 			rule.getMappings().add(deletionNode, newNodeInRHS);
 		}
-		
+
 		// identify Delete Edges
 		EList<Edge> deletionEdges = rule.getActionEdges(deleteAction);
 		for(Edge edge : deletionEdges){
@@ -158,13 +158,13 @@ public class RuleSetModifier {
 		if(adaptRuleName)
 			rule.setName(rule.getName()+"_preserve");
 	}
-	
+
 	public static List<Rule> getDeleteToPreserveCopyOfRules(List<Rule> rules, boolean adaptRuleName){
 		List<Rule> copyOfRules = new LinkedList<Rule>();
 		for(Rule rule : rules){
 			Copier copier = new Copier();
 			Rule copiedRule = (Rule) copier.copy(rule);
-			// soll die kopierte Regel auch Teil des Module sein? für den nachfolgenden Export vermutlich nicht verkehrt, aber wirklich gewollt? 
+			// soll die kopierte Regel auch Teil des Module sein? fÃ¼r den nachfolgenden Export vermutlich nicht verkehrt, aber wirklich gewollt?
 			copier.copyReferences();
 			copyOfRules.add(copiedRule);
 			transformDeleteToPreserve(copiedRule, true);

@@ -14,7 +14,7 @@ import org.eclipse.emf.henshin.model.Unit;
 /**
  * Variability-aware {@link org.eclipse.emf.henshin.interpreter.UnitApplication UnitApplication} implementation.
  * 
- * @author Daniel Strüber
+ * @author Daniel StrÃ¼ber
  */
 public class VarUnitApplicationImpl extends UnitApplicationImpl {
 

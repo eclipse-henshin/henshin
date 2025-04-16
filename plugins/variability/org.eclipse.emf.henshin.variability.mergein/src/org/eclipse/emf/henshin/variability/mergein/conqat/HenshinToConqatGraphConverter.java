@@ -14,11 +14,7 @@ import org.eclipse.emf.henshin.variability.mergein.normalize.HenshinNode;
 /**
  * Creates Conquat compatible graph representations of Henshin rule graphs.
  * 
- * @author str�ber
- *
- */
-/**
- * @author strueber
+ * @author Strüber
  *
  */
 public class HenshinToConqatGraphConverter {

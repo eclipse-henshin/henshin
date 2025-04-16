@@ -213,7 +213,7 @@ public class Logger2 {
 
 		fw.append("TIMEOUTS:");
 		fw.append(";");
-		String to = "=ZÄHLENWENN(B2:CCC" + lastRow + ".\"TO\")";
+		String to = "=ZÃ„HLENWENN(B2:CCC" + lastRow + ".\"TO\")";
 		fw.append(to);
 		fw.append(";");
 		fw.append("\n");

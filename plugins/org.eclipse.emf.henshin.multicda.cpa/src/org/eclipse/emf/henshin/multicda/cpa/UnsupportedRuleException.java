@@ -34,9 +34,9 @@ public class UnsupportedRuleException extends Exception {
 	public final static String inconsistentDanglingOptions = "The provided rules have inconsistent Dangling options. Only homogenous rule sets, which all have 'Check Dangling' activated or deactivated, are supported.";
 	public final static String unsupportedAmalgamationRules = "The rules contain nested multi-rules (called amalgamation) which are unsupported yet.";
 	public final static String unsupportedUnits = "Units are not supported yet.";
-	public final static String unsupportedApplicationCondition_noSubformulasOfNOT = "Unsupported application condition. Only ‘Nested Conditions’ are supported as sub formulas of ‘Not’.";
-	public final static String unsupportedApplicationCondition_noBinaryFormulaOfKindOR = "Unsupported application condition. BinaryFormulas of type ‘Or’ are not supported. Hint: try to reformulate using De Morgan’s law.";
-	public final static String unsupportedApplicationCondition_noBinaryFormulaOfKindXOR = "Unsupported application condition. BinaryFormulas of type ‘Or’ are not supported.";
+	public final static String unsupportedApplicationCondition_noSubformulasOfNOT = "Unsupported application condition. Only *Nested Conditions* are supported as sub formulas of *NOT*.";
+	public final static String unsupportedApplicationCondition_noBinaryFormulaOfKindOR = "Unsupported application condition. BinaryFormulas of type *OR* are not supported. Hint: try to reformulate using De Morgan's laws.";
+	public final static String unsupportedApplicationCondition_noBinaryFormulaOfKindXOR = "Unsupported application condition. BinaryFormulas of type *OR* are not supported.";
 	public final static String noInputRule = "The list of rules to analyze is not allowed to be empty!";
 	public final static String exportFailed = "Error occurred while exporting the metamodel and the rules to AGG.";
 	
