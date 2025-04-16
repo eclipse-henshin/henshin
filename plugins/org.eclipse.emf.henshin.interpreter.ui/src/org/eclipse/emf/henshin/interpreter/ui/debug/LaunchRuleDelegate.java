@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.function.Consumer;
 
 import org.eclipse.compare.internal.CompareAction;
 import org.eclipse.core.resources.IFile;
@@ -166,14 +165,9 @@ public class LaunchRuleDelegate implements ILaunchConfigurationDelegate {
 				}
 			}
 
-			DebugApplicationCondition applicationCondition = engine.getDebugApplicationCondition(rule, graph, partialMatch, new Observer() {
+			DebugApplicationCondition applicationCondition = engine.getDebugApplicationCondition(rule, graph, partialMatch, new Consumer<Solution>() {
 				@Override
-				public void update(Observable o, Object arg) {
-					if (!(arg instanceof Solution)) {
-						throw new IllegalStateException("update arg has to be of type Solution, but is of type "
-								+ arg.getClass().getSimpleName());
-					}
-					Solution solution = (Solution) arg;
+				public void accept(Solution solution) {
 					Match completeMatch = engine.getMatchFinder().basicMatchFromSolution(solution);
 					Match resultMatch = new MatchImpl((Rule) unit, true);
 					Change change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);

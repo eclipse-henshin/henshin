@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.ValidationResult;
@@ -48,9 +48,9 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#validate(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
+	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor progressMonitor) throws Exception {
 		
-		monitor.beginTask("Validating property...", 10);
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Validating property...", 10);
 		String basename = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
 		
 		// Check the CADP path first:
@@ -58,14 +58,12 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 		String suffix = isWindows() ? ".exe" : "";
 		
 		// Export the state space to an AUT file:
-		File aut = exportAsAUT(stateSpace, new SubProgressMonitor(monitor, 4));
-		if (monitor.isCanceled()) return null;									// 40%
+		File aut = exportAsAUT(stateSpace, monitor.split(4));					// 40%
 		
 		// Convert the AUT file to a BCG file:
 		File bcg = File.createTempFile(basename, ".bcg");
-		convertFile(aut, bcg, new SubProgressMonitor(monitor,2), 
-					cadpBin.getAbsolutePath() + File.separator + "bcg_io" + suffix);	// 60%
-		if (monitor.isCanceled()) return null;
+		convertFile(aut, bcg, monitor.split(2),									// 60%
+				cadpBin.getAbsolutePath() + File.separator + "bcg_io" + suffix);
 		
 		// Write the property to a MCL file:
 		File mcl = createTempFile("property", ".mcl", property);

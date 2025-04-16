@@ -42,7 +42,6 @@ public class BankMapExample {
 	 * Run the bank example.
 	 * @param path Relative path to the model files.
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void run(String path) {
 		
 		// Create a resource set with a base directory:
@@ -55,8 +54,9 @@ public class BankMapExample {
 		assert bank.eClass().getName().equals("Bank");
 		
 		EReference accounts = (EReference) bank.eClass().getEStructuralFeature("accounts");
-		EMap map = (EMap) bank.eGet(accounts);
-		EObject account = (EObject) map.get(new Integer(10));
+		@SuppressWarnings("unchecked")
+		EMap<Integer, EObject> map = (EMap<Integer, EObject>) bank.eGet(accounts);
+		EObject account = map.get(Integer.valueOf(10));
 		EClass accountClass = account.eClass();
 		EAttribute credits = (EAttribute) accountClass.getEStructuralFeature("credit");
 		
@@ -92,7 +92,7 @@ public class BankMapExample {
 		for (int i = 100; i < 100+maxAccounts; i++) {
 			EObject newAccount = accountClass.getEPackage().getEFactoryInstance().create(accountClass);
 			newAccount.eSet(credits, 42d);
-			map.put(new Integer(i), newAccount);	
+			map.put(Integer.valueOf(i), newAccount);
 		}		
 		graph = new EGraphImpl(resource);
 		

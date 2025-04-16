@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Node;
@@ -55,20 +55,18 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#validate(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
+	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor progressMonitor) throws Exception {
 		
-		monitor.beginTask("Validating property...", 10);
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Validating property...", 10);
 		String name = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
 		
 		// Export the state space to an AUT file:
-		File aut = exportAsAUT(stateSpace, new SubProgressMonitor(monitor,4));	
-		if (monitor.isCanceled()) return null;								// 40%
+		File aut = exportAsAUT(stateSpace, monitor.split(4));				// 40%
 		
 		// Minimize the LTS:
 		File min = File.createTempFile(name, ".aut");
-		convertFile(aut, min, new SubProgressMonitor(monitor,1), 
-				"ltsconvert", "--equivalence=bisim");						// 50%
-		if (monitor.isCanceled()) return null;
+		convertFile(aut, min, monitor.split(1),								// 50%
+				"ltsconvert", "--equivalence=bisim");
 		
 		// Create a dummy mCRL2 specification with the action declarations:
 		String actions = createActions(stateSpace);
@@ -77,18 +75,16 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Convert the LTS to a LPS:
 		File lps = File.createTempFile(name, ".lps");
-		convertFile(min, lps, new SubProgressMonitor(monitor,1), 
-				"lts2lps", "--data=" + act.getAbsolutePath());				// 60%
-		if (monitor.isCanceled()) return null;
+		convertFile(min, lps, monitor.split(1),								// 60%
+				"lts2lps", "--data=" + act.getAbsolutePath());
 		
 		// Write the property to a MCL file:
 		File mcl = createTempFile("property", ".mcl", property);
 		
 		// Generate a PBES from the LPS and the formula:
 		File pbes = File.createTempFile(name, ".pbes");
-		convertFile(lps, pbes, new SubProgressMonitor(monitor,2),
-				"lps2pbes", "--formula=" + mcl.getAbsolutePath());			// 80%
-		if (monitor.isCanceled()) return null;
+		convertFile(lps, pbes, monitor.split(2),								// 80%
+				"lps2pbes", "--formula=" + mcl.getAbsolutePath());
 		
 		// Evaluate the PBES:
 		monitor.subTask("Running pbes2bool...");
