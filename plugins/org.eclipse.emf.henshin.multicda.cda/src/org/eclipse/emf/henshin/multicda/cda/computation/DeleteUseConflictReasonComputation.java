@@ -202,7 +202,7 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 		return G1toG2;
 	}
 
-	private static final String INTERSECTIONSEPERATOR = "_ß_";
+	private static final String INTERSECTIONSEPERATOR = "_ÔøΩ_";
 
 	/**
 	 * @param r2
@@ -244,7 +244,7 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 		Reason uniqueSpan = null;
 		Graph pushoutGraph = pushout.getResultGraph();
 		// if (precondition(sap, sp1, sp2)) //TODO: Nachfragen ob die Precondition so
-		// richtig ist: sie schmeiﬂt meiner meinung nach immer false
+		// richtig ist: sie schmei√üt meiner meinung nach immer false
 		// return null;
 		Set<Mapping> mappingsInL1 = computeMappingStoL(pushout, rule1, sap, sp1, sp2);
 		Set<Mapping> mappingsInL2 = computeMappingStoL(pushout, rule2, sap, sp2, sp1);

@@ -18,9 +18,9 @@ import de.parsemis.parsers.LabelParser;
 
 /**
  * Implements interpretation of the Parsemis representation of the HenshinGraph
- * as String. 
- * 
- * @author strüber
+ * as String.
+ *
+ * @author StrÃ¼ber
  *
  */
 public class ParsemisParserSerializer implements

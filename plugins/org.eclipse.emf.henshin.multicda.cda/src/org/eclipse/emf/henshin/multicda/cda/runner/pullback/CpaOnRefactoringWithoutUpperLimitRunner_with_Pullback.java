@@ -13,13 +13,13 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 public class CpaOnRefactoringWithoutUpperLimitRunner_with_Pullback extends Runner_WithPullback{
 	
 	// Relative path to the transformations.
-//	static String TRANSFORMATIONS = "transformations/"; //überflüssig
+//	static String TRANSFORMATIONS = "transformations/"; //Ã¼berflÃ¼ssig
 	
-//	private static Engine engine;// = new EngineImpl(); //überflüssig
+//	private static Engine engine;// = new EngineImpl(); //Ã¼berflÃ¼ssig
 	
-//	private static Module module; //überflüssig
+//	private static Module module; //Ã¼berflÃ¼ssig
 	
-//	private static HenshinResourceSet henshinResourceSet; // überflüssig
+//	private static HenshinResourceSet henshinResourceSet; // Ã¼berflÃ¼ssig
 
 	public static void main(String args[]){
 		System.out.println("test");

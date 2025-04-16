@@ -5,7 +5,7 @@ import org.eclipse.emf.henshin.model.Unit;
 /**
  * One entry of the {@link MatchingLog}.
  * 
- * @author Daniel Strüber
+ * @author Daniel StrÃ¼ber
  *
  */
 public class MatchingLogEntry {

@@ -1,8 +1,8 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 which 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0 which
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
@@ -46,7 +46,7 @@ import agg.xt_basis.Rule;
 /**
  * The Implementation of the critical pair analysis for the <code>ICriticalPairAnalysis</code> interface by using the
  * analysis implemented in AGG.
- * 
+ *
  * @author Kristopher Born
  *
  */
@@ -87,7 +87,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * A constructor which allows to store the result of the critical pair analysis by AGG within AGGs format.
-	 * 
+	 *
 	 * @param debugFile The File for storing the result of the critical pair analysis by AGG within AGGs format.
 	 */
 	public CpaByAGG(File debugFile) {
@@ -99,7 +99,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * Initializes the critical pair calculation with the <code>rules</code> parameter, used as first and second rules
 	 * as well as the <code>options</code>. Even performs a check to ensure the parameters full fill the requirements to
 	 * perform the analysis.
-	 * 
+	 *
 	 * @param rules The rules for which the critical pair analysis shall be executed.
 	 * @param options The options settings that shall be applied on the calculation of the critical pairs
 	 * @throws UnsupportedRuleException in case of invalid rules.
@@ -114,7 +114,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	 * Initializes the critical pair calculation with <code>r1</code> as first rules and <code>r2</code> as second rules
 	 * of the critical pairs as well as the <code>options</code>. Even performs a check to ensure the parameters full
 	 * fill the requirements to perform the analysis.
-	 * 
+	 *
 	 * @param r1 the first rules for the critical pair analysis.
 	 * @param r2 the second rules for the critical pair analysis.
 	 * @param options the options settings that shall be applied on the calculation of the critical pairs.
@@ -157,7 +157,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 		}
 
 		if (originalModuleOfFirstRule == null || ruleForModuleCopy == null) {
-			System.err.println("ERROR: None of the rules provide a useful Module ñ no meta-model could be resolved.");
+			System.err.println("ERROR: None of the rules provide a useful Module & no meta-model could be resolved.");
 			return;
 		}
 
@@ -166,7 +166,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 		// since even unsatisfactory copies of the rules and units have been created, those have to be removed.
 		module.getUnits().clear();
 
-		// Only the designated rules are copied and added to the module for the export. The original rules remain unchanged. 
+		// Only the designated rules are copied and added to the module for the export. The original rules remain unchanged.
 		for (org.eclipse.emf.henshin.model.Rule rule : listOfAllOriginalRulesToBeExported) {
 			org.eclipse.emf.henshin.model.Rule copyOfRule = EcoreUtil.copy(rule);
 			module.getUnits().add(copyOfRule);
@@ -283,7 +283,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Check for the validity of the rules in regard to the supported features.
-	 * 
+	 *
 	 * @param rules The rules to be checked.
 	 * @return <code>true</code> if the rules are valid for critical pair analysis.
 	 * @throws UnsupportedRuleException in case of invalid rules.
@@ -296,7 +296,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Saves the result of the <code>HenshinAGGExporter</code>.
-	 * 
+	 *
 	 * @param savePath The path for saving the AGG file of the export process.
 	 * @return
 	 */
@@ -312,7 +312,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Loads the *.ggx file <code>fName</code> into the <code>GraGra</code> representation
-	 * 
+	 *
 	 * @param fileName input *.ggx file
 	 * @return the <code>GraGra</code> if input was *.ggx else <code>null</code>
 	 */
@@ -333,7 +333,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Starts the calculation of conflicts for the initialized rules and options.
-	 * 
+	 *
 	 * @return a <code>CPAResult</code>, which consists of a set of <code>Conflict</code>s.
 	 */
 	@Override
@@ -373,7 +373,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Starts the calculation of the conflicts for the initialized rules and options.
-	 * 
+	 *
 	 * @param monitor a monitor to report the progress of the calculation.
 	 * @return a set of critical pair results which are conflicts.
 	 */
@@ -386,7 +386,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Starts the calculation of the dependencies for the initialized rules and options.
-	 * 
+	 *
 	 * @return a set of critical pair results which are dependencies.
 	 */
 	@Override
@@ -408,7 +408,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Starts the calculation of the dependencies for the initialized rules and options.
-	 * 
+	 *
 	 * @param monitor a monitor to report the progress of the calculation.
 	 * @return a set of critical pair results which are dependencies.
 	 */
@@ -422,7 +422,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	/**
 	 * compute the critical pair matrix between the two lists. in the case of N rules1 and M rules2, only N*M + M*N
 	 * combinations will be evaluated. (instead of otherwise (n+m)*(m+n) )
-	 * 
+	 *
 	 * @param rules1 first list of rules (horizontal order)
 	 * @param rules2 second list of rules (vertical order)
 	 */
@@ -437,8 +437,8 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 			int progressIntervalR1 = 10000;
 			int progressIntervalR2 = 10000;
 			if (firstHenshinRuleSetForAnalysis != null && secondHenshinRuleSetForAnalysis != null) {
-				progressIntervalR1 = 10000 / firstHenshinRuleSetForAnalysis.size(); //: wenn "firstHenshinRuleSetForAnalysis" keine Elemnte enth‰lt kommt es zu einem Fehler 
-				progressIntervalR2 = progressIntervalR1 / secondHenshinRuleSetForAnalysis.size(); //: wenn "secondHenshinRuleSetForAnalysis" keine Elemnte enth‰lt kommt es zu einem Fehler
+				progressIntervalR1 = 10000 / firstHenshinRuleSetForAnalysis.size(); //: wenn "firstHenshinRuleSetForAnalysis" keine Elemnte enth√§lt kommt es zu einem Fehler
+				progressIntervalR2 = progressIntervalR1 / secondHenshinRuleSetForAnalysis.size(); //: wenn "secondHenshinRuleSetForAnalysis" keine Elemnte enth√§lt kommt es zu einem Fehler
 			}
 
 			for (Rule r1 : rules1) {
@@ -472,11 +472,11 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Saves the analysis result into a <code>*.ggx</code> file.
-	 * 
+	 *
 	 * @param cpaFileName path and name for the desired <code>*.ggx</code> file.
 	 * @param epc The container object for conflict results.
 	 * @param dpc The container object for dependency results.
-	 * 
+	 *
 	 */
 	private void saveCPAasCPX(String cpaFileName, ExcludePairContainer epc, DependencyPairContainer dpc) {
 		ConflictsDependenciesContainer cDC = new ConflictsDependenciesContainer(epc, dpc);
@@ -494,7 +494,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 
 	/**
 	 * Sets the options from the henshin interface in the associated part in AGG.
-	 * 
+	 *
 	 * @param epc The container with the rules, options and many more within AGG for calculating the critical pairs.
 	 * @param options The options set for the calculation by the henshin interface.
 	 */
@@ -516,7 +516,7 @@ public class CpaByAGG implements ICriticalPairAnalysis {
 	/**
 	 * Sets the creation of rule parameters for all attributes used in a rule. The default case is to create rule
 	 * parameters for all attributes used in a rule.
-	 * 
+	 *
 	 * @param createRuleParameterForAllAttributes The new boolean value for the creation of rule parameters for all
 	 *            rules beeing exported to AGG.
 	 */

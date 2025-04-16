@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.model.Rule;
 /**
  * This class represents a critical pair
  * 
- * @author Florian Heﬂ, Kristopher Born
+ * @author Florian He√ü, Kristopher Born
  *
  */
 public abstract class CriticalPair implements Comparable<CriticalPair>{

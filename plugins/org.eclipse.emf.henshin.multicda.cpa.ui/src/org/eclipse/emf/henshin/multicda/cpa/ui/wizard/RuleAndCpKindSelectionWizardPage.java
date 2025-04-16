@@ -1,8 +1,8 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 which 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0 which
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
@@ -53,7 +53,7 @@ import org.eclipse.swt.widgets.Listener;
 /**
  * First wizard page for the selection of the rules and whether the set of rules shall be anaylsed for conflict,
  * dependencies or both.
- * 
+ *
  * @author Kristopher Born
  *
  */
@@ -77,7 +77,7 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 
 	/**
 	 * Default constructor for this wizard page.
-	 * 
+	 *
 	 * @param rulesAndAssociatedFileNames The rules which shall be provided as selection within in the wizard.
 	 */
 	public RuleAndCpKindSelectionWizardPage(HashMap<Rule, String> rulesAndAssociatedFileNames, String optionsFile) {
@@ -91,7 +91,7 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 
 
 	/**
-	 * A main container ‚containerForBothGroups‘ contains two groups side by side. On the left side the ‘rulesGroup’,
+	 * A main container {@code containerForBothGroups} contains two groups side by side. On the left side the {@code rulesGroup}
 	 * containing a button for each rule to select or deselect it. On the right side the criticalPairKindGroup to select
 	 * whether conflicts, dependencies or both shall be analysed.
 	 */
@@ -134,7 +134,7 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 		// sort the rules alphabetic
 		List<Rule> rulesForSelectionList = new ArrayList<Rule>(rulesAndAssociatedFileNames.keySet());
 		Collections.sort(rulesForSelectionList, new RuleNameComparator());
-		
+
 		selectAllButton1 = new Button(buttonsComposite, SWT.CHECK);
 		selectAllButton1.setText("Select all");
 		selectAllButton1.addListener(SWT.Selection, selectAllListener1);
@@ -178,7 +178,7 @@ public class RuleAndCpKindSelectionWizardPage extends WizardPage {
 			ruleSelectionButton2.addListener(SWT.Selection, checkListener);
 		}
 		checkAtLeastOneRuleIsSelected();
-		
+
 		Button conflictAnalysisButton = new Button(criticalPairKindGroup, SWT.CHECK);
 		conflictAnalysisButton.setText(ConflictType.CONFLICT.name);
 		conflictAnalysisButton.setData(ConflictType.CONFLICT);

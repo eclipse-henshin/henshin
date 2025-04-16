@@ -64,7 +64,7 @@ public class CalculateCpaTask implements Callable<CPAResult> {
 		long cpaEndTime = System.currentTimeMillis();
 		normalRunTime = cpaEndTime - normalStartTime;
 		
-		//Fehlerbehandlung für den Fall einer Exception einführen! 
+		//Fehlerbehandlung fÃ¼r den Fall einer Exception einfÃ¼hren! 
 		taskResultContainer.setResult(cpaResult, normalRunTime);
 		
 		return cpaResult;
