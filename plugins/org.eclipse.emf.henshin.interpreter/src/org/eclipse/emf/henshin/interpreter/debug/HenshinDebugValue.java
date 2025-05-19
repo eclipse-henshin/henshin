@@ -36,9 +36,7 @@ public abstract class HenshinDebugValue extends HenshinDebugElement implements I
 	 * </ol>
 	 * @param target the associated debug target
 	 * @param graph an {@link EGraph} that is used to retrieve a string label for this value, or <code>null</code>
-	 * @param valueObject the actual value. If null, the valueString will be used as value object
 	 * @param declaredType the string representation of the value's declared type.
-	 * @param indexInDomain the index within the domain
 	 */
 	public HenshinDebugValue(IDebugTarget target, EGraph graph, String declaredType) {
 		super(target);
@@ -87,7 +85,7 @@ public abstract class HenshinDebugValue extends HenshinDebugElement implements I
 
 	/**
 	 * checks whether an EAttribute is of a primitive (meta) type
-	 * @param attribute the attribute to check
+	 * @param object the object to check
 	 * @return <code>true</code> if the attribute is primitive
 	 */
 	public boolean isPrimitive(EObject object) {

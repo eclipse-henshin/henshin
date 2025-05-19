@@ -116,12 +116,6 @@ public class TransientItemProvider extends ItemProviderAdapter implements
 				super.createAddCommand(domain, owner, feature, collection, index), owner);
 	}// createAddCommand
 	
-	/**
-	 * @param command
-	 * @param owner
-	 * @param feature
-	 * @return
-	 */
 	protected Command createWrappedCommand(Command command, final EObject owner) {
 		return new CommandWrapper(command) {
 			public Collection<?> getAffectedObjects() {

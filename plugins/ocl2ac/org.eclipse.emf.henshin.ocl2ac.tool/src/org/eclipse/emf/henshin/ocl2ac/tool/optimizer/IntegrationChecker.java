@@ -33,10 +33,6 @@ public class IntegrationChecker {
 
 	/**
 	 * The official ones
-	 * 
-	 * @param rule
-	 * @param nestedConstraint
-	 * @return
 	 */
 	public boolean mustIntegrate(Rule rule, NestedConstraint nestedConstraint) {
 
@@ -140,13 +136,6 @@ public class IntegrationChecker {
 			return true;
 	}
 
-	/**
-	 * 
-	 * 
-	 * @param rule
-	 * @param condition
-	 * @return
-	 */
 	public boolean mustIntegrateWithoutAttribute(Rule rule, Condition condition) {
 
 		EList<Node> createActionNodes = rule.getActionNodes(new Action(Action.Type.CREATE));

@@ -215,10 +215,10 @@ public class Matches {
 	}
 
 	/**
-	 * Asserts that a RuleApplication matches all elements from the group (not neccessarily in one match; if this is
-	 * desired, use {@link assertGroupContainedInAtLeastOneMatch})
+	 * Asserts that a RuleApplication matches all elements from the group (not necessarily in one match; if this is
+	 * desired, use {@link #assertGroupContainedInAtLeastOneMatch})
 	 * 
-	 * @param ra {@link RuleApplication}
+	 * @param rule {@link RuleApplication}
 	 * @param group {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
@@ -250,7 +250,7 @@ public class Matches {
 	 * Asserts that a {@link RuleApplication} matches all elements from the group (not neccessarily in one match) and
 	 * the match doesn't contain any objects not in the group.
 	 * 
-	 * @param ra
+	 * @param rule
 	 * @param group
 	 * @throws AssertionError
 	 */

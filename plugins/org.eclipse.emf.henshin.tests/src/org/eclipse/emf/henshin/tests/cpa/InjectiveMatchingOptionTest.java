@@ -49,8 +49,6 @@ public class InjectiveMatchingOptionTest {
 	/**
 	 * Test for the 'check'-function of the passed rule set. Check function shall deny the inconsistent rule set
 	 * regarding the injective matching property.
-	 * 
-	 * @throws UnsupportedRuleException when attempting to analyze rules which are not supported
 	 */
 	@Test
 	public void checkInjectiveMatchingInconsistent() {

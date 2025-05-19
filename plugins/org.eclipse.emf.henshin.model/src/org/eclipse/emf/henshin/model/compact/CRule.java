@@ -17,7 +17,7 @@ import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Compact Rule
- * Contains a {@link import org.eclipse.emf.henshin.model.Rule;}-Instance
+ * Contains a {@link Rule}-Instance
  * Provides compact Methods to create Rule-Components
  * @author Johannes Ludwig
  */

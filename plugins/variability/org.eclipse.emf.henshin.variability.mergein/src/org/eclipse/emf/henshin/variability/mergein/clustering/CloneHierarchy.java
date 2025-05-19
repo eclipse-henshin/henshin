@@ -55,8 +55,6 @@ public class CloneHierarchy {
 
 	/**
 	 * Returns all clone groups without a super clone group.
-	 * 
-	 * @return
 	 */
 	public Set<CloneGroup> getTopCloneGroups() {
 		Set<CloneGroup> result = new HashSet<CloneGroup>();

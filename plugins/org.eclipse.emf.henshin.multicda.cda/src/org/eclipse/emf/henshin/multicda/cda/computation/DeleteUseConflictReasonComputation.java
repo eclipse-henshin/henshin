@@ -46,10 +46,6 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 
 	/**
 	 * constructor
-	 * 
-	 * @param rule1
-	 * @param rule2
-	 * @param conflictReasonsFromR22
 	 */
 	public DeleteUseConflictReasonComputation(Rule rule1, Rule rule2, Set<T> normalCR, Set<T> DUCRs) {
 		this.rule1 = rule1;
@@ -60,9 +56,6 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 
 	/**
 	 * constructs all Initial Reasons as candidates for r1 and r2
-	 * 
-	 * @param conflictReasons
-	 * @return result
 	 */
 	public Set<T> computeDeleteUseConflictReason() {
 		Set<T> result = new HashSet<>();
@@ -202,7 +195,7 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 		return G1toG2;
 	}
 
-	private static final String INTERSECTIONSEPERATOR = "_§_";
+	private static final String INTERSECTIONSEPERATOR = "_ï¿½_";
 
 	/**
 	 * @param r2
@@ -244,7 +237,7 @@ public class DeleteUseConflictReasonComputation<T extends Reason> {
 		Reason uniqueSpan = null;
 		Graph pushoutGraph = pushout.getResultGraph();
 		// if (precondition(sap, sp1, sp2)) //TODO: Nachfragen ob die Precondition so
-		// richtig ist: sie schmeißt meiner meinung nach immer false
+		// richtig ist: sie schmeiï¿½t meiner meinung nach immer false
 		// return null;
 		Set<Mapping> mappingsInL1 = computeMappingStoL(pushout, rule1, sap, sp1, sp2);
 		Set<Mapping> mappingsInL2 = computeMappingStoL(pushout, rule2, sap, sp2, sp1);

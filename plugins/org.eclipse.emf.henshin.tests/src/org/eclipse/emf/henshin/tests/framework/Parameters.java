@@ -60,10 +60,6 @@ public class Parameters {
 
 	/**
 	 * Asserts that the {@link Match} contains no parameter mapping for "parameterName".
-	 *
-	 * @param ma
-	 * @param parameterName
-	 * @throws AssertionError
 	 */
 	public static void assertParameterNotReadableAfterApplication(UnitApplication unitApp, String parameterName) throws AssertionError {
 		try {

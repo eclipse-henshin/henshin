@@ -25,7 +25,7 @@ public class DeleteStateCommand extends AbstractStateSpaceCommand {
 	/**
 	 * Default constructor.
 	 * @param state State to be deleted.
-	 * @param stateSpace State space.
+	 * @param manager State space manager.
 	 */
 	public DeleteStateCommand(State state, StateSpaceManager manager) {
 		super("deleting state", manager);

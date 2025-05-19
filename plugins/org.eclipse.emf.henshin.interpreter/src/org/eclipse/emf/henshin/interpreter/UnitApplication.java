@@ -89,7 +89,7 @@ public interface UnitApplication {
 	
 	/**
 	 * Undo this unit application. This restores the original model as
-	 * it was before calling {@link #execute()}.
+	 * it was before calling {@link #execute(ApplicationMonitor)}.
 	 * @param monitor The application monitor or <code>null</code>.
 	 * @return <code>true</code> if the unit was successfully undone.
 	 */
@@ -97,7 +97,7 @@ public interface UnitApplication {
 	
 	/**
 	 * Redo this unit application. This method can be invoked after
-	 * {@link #undo()} has been invoked. The effect is that the
+	 * {@link #undo(ApplicationMonitor)} has been invoked. The effect is that the
 	 * unit is executed again.
 	 * @param monitor The application monitor or <code>null</code>.
 	 * @return <code>true</code> if the unit was successfully redone.

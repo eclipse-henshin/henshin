@@ -25,7 +25,6 @@ public interface EqualityHelper extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Check Link Order</b></em>' attribute.
 	 * @return the value of the '<em>Check Link Order</em>' attribute.
-	 * @see #setCheckLinkOrder(boolean)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getEqualityHelper_CheckLinkOrder()
 	 * @model
 	 * @generated

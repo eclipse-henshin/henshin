@@ -81,9 +81,8 @@ public class Debugger extends Interpreter {
 	 * Executes a Transformation-Rule on a given Match
 	 * @param graph The Graph to transform
 	 * @param mod The Module containing the Rule
-	 * @param rule The Name of the Rule
-	 * @param partial the Partial Match(can be null)
-	 * @param complete the complete Match
+	 * @param ruleName The Name of the Rule
+	 * @param match the match(can be null)
 	 * @param parameterValues the Values of the Rules' Parameters.
 	 * @return true - if the Rule was successfully applied. false - Otherwise
 	 */

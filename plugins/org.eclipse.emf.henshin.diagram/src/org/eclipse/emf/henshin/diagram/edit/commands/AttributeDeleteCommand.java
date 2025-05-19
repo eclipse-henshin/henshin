@@ -32,7 +32,7 @@ public class AttributeDeleteCommand extends AbstractTransactionalCommand {
 	/**
 	 * Default constructor.
 	 * @param domain Editing domain.
-	 * @param edge Edge to be deleted.
+	 * @param attribute Attribute to be deleted.
 	 */
 	public AttributeDeleteCommand(TransactionalEditingDomain domain, Attribute attribute) {
 		super(domain, "Delete Attribute", null);

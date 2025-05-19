@@ -51,7 +51,7 @@ public interface ApplicationMonitor {
 	 * @param application Undone unit application.
 	 * @param success Whether the unit application was successfully undone.
 	 */
-	void notifyUndo(UnitApplication application, boolean succeess);
+	void notifyUndo(UnitApplication application, boolean success);
 
 	/**
 	 * Notify this monitor that a unit application has been redone.

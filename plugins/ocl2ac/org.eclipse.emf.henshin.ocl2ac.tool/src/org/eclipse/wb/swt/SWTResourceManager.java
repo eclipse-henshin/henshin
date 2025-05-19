@@ -36,9 +36,10 @@ import org.eclipse.swt.widgets.Display;
  * <code>dispose()</code> method to release the operating system resources
  * managed by cached objects when those objects and OS resources are no longer
  * needed (e.g. on application shutdown)
+ * </p>
  * <p>
  * This class may be freely distributed as part of any application or plugin.
- * <p>
+ * </p>
  * 
  * @author scheglov_ke
  * @author Dan Rubel

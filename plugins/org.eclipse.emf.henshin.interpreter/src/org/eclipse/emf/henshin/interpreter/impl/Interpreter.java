@@ -33,7 +33,7 @@ public class Interpreter {
 	 * Executes a Unit with the given ParameterValues on the given Graph
 	 * @param graph The Graph to execute the transformation on
 	 * @param mod The Module that contains the Unit
-	 * @param unit The Name of the Unit
+	 * @param unitName The Name of the Unit
 	 * @param parameterValues List of ParameterValues using "Object..." syntax. Has to be in same order as all the "in" Parameters of the specified Unit!
 	 * @return the transformed EGraph
 	 */
@@ -112,7 +112,7 @@ public class Interpreter {
 
 	/**
 	 * Returns the Results of the specified Parameter of the last executed Unit
-	 * @param the Name of the Parameter
+	 * @param param the Name of the Parameter
 	 * @return the Parameter Value
 	 */
 	public Object getResultParameterValue(String param) {

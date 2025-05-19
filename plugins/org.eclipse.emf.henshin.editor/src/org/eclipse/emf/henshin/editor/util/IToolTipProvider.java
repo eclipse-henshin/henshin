@@ -11,7 +11,7 @@ package org.eclipse.emf.henshin.editor.util;
 
 /**
  * Implementation interface for ToolTipProviders as required by
- * {@link TreeViewerToolTipSupport}.
+ * {@link HtmlTipSupport}.
  * 
  * @author Gregor Bonifer
  * 

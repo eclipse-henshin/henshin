@@ -84,7 +84,6 @@ public class MiningManager {
 	 * 
 	 * @param node
 	 * @param fragment
-	 * @return
 	 */
 	public List<HenshinNode> getNodesCorrespondingToFragmentNode(
 			Node<INodeLabel, IEdgeLabel> node,
@@ -115,10 +114,6 @@ public class MiningManager {
 	/**
 	 * Returns the list of HenshinGraph edge corresponding to the given edge in
 	 * the given fragment.
-	 * 
-	 * @param node
-	 * @param fragment
-	 * @return
 	 */
 	public List<HenshinEdge> getEdgesCorrespondingToFragmentEdge(
 			Edge<INodeLabel, IEdgeLabel> edge,
@@ -153,7 +148,6 @@ public class MiningManager {
 	 * fragment.
 	 * 
 	 * @param f
-	 * @return
 	 */
 	public String printFragment(Fragment<INodeLabel, IEdgeLabel> f) {
 		return serializer.serialize(f.toGraph());
@@ -164,7 +158,6 @@ public class MiningManager {
 	 * subgraph pattern represented by the given fragment.
 	 * 
 	 * @param fragment
-	 * @return
 	 */
 	public List<Set<HenshinGraphElement>> getGraphElementsOfEmbeddings(
 			Fragment<INodeLabel, IEdgeLabel> fragment) {
@@ -263,7 +256,6 @@ public class MiningManager {
 	 * embedding.
 	 * 
 	 * @param e1
-	 * @return
 	 */
 	public Set<HenshinEdge> getSuperGraphEdges(
 			Embedding<INodeLabel, IEdgeLabel> e1) {
@@ -293,7 +285,6 @@ public class MiningManager {
 	 * by their containing HenshinGraph.
 	 * 
 	 * @param fragment
-	 * @return
 	 */
 	public Map<HenshinEdge, Map<HenshinGraph, HenshinEdge>> createHenshinEdgeMappings(
 			Fragment<INodeLabel, IEdgeLabel> fragment) {
@@ -329,7 +320,6 @@ public class MiningManager {
 	 * HenshinGraph.
 	 * 
 	 * @param fragment
-	 * @return
 	 */
 	public Map<HenshinEdge, Map<HenshinGraph, HenshinEdge>> createHenshinAttributeMappings(
 			Fragment<INodeLabel, IEdgeLabel> fragment) {

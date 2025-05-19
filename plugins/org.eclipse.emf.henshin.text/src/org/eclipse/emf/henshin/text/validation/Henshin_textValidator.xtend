@@ -1650,7 +1650,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	/**
 	 * Fehler wenn keine Zahlenwerte in einem Multiplikations-/Divisions-Ausdruck verwendet werden
 	 * 
-	 * @param plus Zu überprüfender Multiplikations-/Divisions-Ausdruck
+	 * @param mulOrDiv Zu überprüfender Multiplikations-/Divisions-Ausdruck
 	 */
 	@Check
 	def checkTypeMulOrDiv(MulOrDivExpression mulOrDiv) {
@@ -1661,7 +1661,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	/**
 	 * Fehler wenn keine Zahlenwerte in einem Subtraktions-Ausdruck verwendet werden
 	 * 
-	 * @param plus Zu überprüfender Subtraktions-Ausdruck
+	 * @param minus Zu überprüfender Subtraktions-Ausdruck
 	 */
 	@Check
 	def checkTypeMinus(MinusExpression minus) {

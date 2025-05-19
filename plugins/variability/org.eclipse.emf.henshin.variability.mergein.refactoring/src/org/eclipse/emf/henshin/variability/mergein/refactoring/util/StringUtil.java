@@ -14,11 +14,6 @@ public class StringUtil {
 	 * In the given input String, replaces all occurrences of the to-be-replaced
 	 * with the replacement String *unless* the occurrence is directly preceded
 	 * or succeeded by an alphanumeric character.
-	 * 
-	 * @param input
-	 * @param toBeReplaced
-	 * @param replacement
-	 * @return
 	 */
 	public static String cleanReplace(String input, String toBeReplaced,
 			String replacement) {

@@ -269,8 +269,6 @@ public class NodeCreateCommand extends EditElementCommand {
 		 * Opens the dialog and returns the first selected EClass in the
 		 * list. If no EClass is available in the module or
 		 * the dialog is canceled, null is returned.
-		 * 
-		 * @return
 		 */
 		public final EClass openAndReturnSelection() {
 

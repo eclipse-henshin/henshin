@@ -116,7 +116,6 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 	/**
 	 * Export a state space as an AUT file.
 	 * @param stateSpace State space.
-	 * @param aut The AUT file.
 	 * @throws IOException On I/O errors.
 	 */
 	protected File exportAsAUT(StateSpace stateSpace, IProgressMonitor monitor) throws IOException {

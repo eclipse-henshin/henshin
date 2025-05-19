@@ -71,9 +71,6 @@ public class Pushout {
 	/**
 	 * Creates Pushout of rule1.Lhs() <-- S --> rule2.Lhs() and rule1.Lhs() --> G <-- rule2.Lhs()
 	 * 
-	 * @param rule1
-	 * @param s1span
-	 * @param rule2
 	 * @param validate turns the pushout validation on or of
 	 */
 

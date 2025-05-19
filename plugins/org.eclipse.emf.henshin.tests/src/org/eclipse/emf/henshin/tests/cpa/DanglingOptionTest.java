@@ -127,8 +127,6 @@ public class DanglingOptionTest {
 
 	/**
 	 * Test for the 'check'-function of the passed rule set. Check function shall deny the inconsistent rule set.
-	 * 
-	 * @throws UnsupportedRuleException when attempting to analyze rules which are not supported
 	 */
 	@Test
 	public void checkDanglingIconsistent() {

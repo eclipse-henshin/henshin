@@ -55,7 +55,7 @@ public abstract class ChangeImpl implements Change {
 	}
 	
 	/**
-	 * Default implementation of {@link ObjectChange}.
+	 * Default implementation of {@link org.eclipse.emf.henshin.interpreter.Change.ObjectChange}.
 	 * @author Christian Krause
 	 */
 	public static final class ObjectChangeImpl extends ChangeImpl implements ObjectChange {
@@ -104,7 +104,7 @@ public abstract class ChangeImpl implements Change {
 	}
 	
 	/**
-	 * Default implementation of {@link AttributeChange}.
+	 * Default implementation of {@link org.eclipse.emf.henshin.interpreter.Change.AttributeChange}.
 	 * @author Christian Krause
 	 */
 	public static final class AttributeChangeImpl extends ChangeImpl implements AttributeChange {
@@ -211,7 +211,7 @@ public abstract class ChangeImpl implements Change {
 	}
 	
 	/**
-	 * Default implementation of {@link ReferenceChange}.
+	 * Default implementation of {@link org.eclipse.emf.henshin.interpreter.Change.ReferenceChange}.
 	 * @author Christian Krause
 	 */
 	public static final class ReferenceChangeImpl extends ChangeImpl implements ReferenceChange {
@@ -340,7 +340,7 @@ public abstract class ChangeImpl implements Change {
 	}
 
 	/**
-	 * Default implementation of {@link IndexChange}.
+	 * Default implementation of {@link org.eclipse.emf.henshin.interpreter.Change.IndexChange}.
 	 * @author Christian Krause
 	 */
 	public static final class IndexChangeImpl extends ChangeImpl implements IndexChange {
@@ -448,7 +448,7 @@ public abstract class ChangeImpl implements Change {
 	}
 	
 	/**
-	 * Default implementation of {@link CompoundChange}.
+	 * Default implementation of {@link org.eclipse.emf.henshin.interpreter.Change.CompoundChange}.
 	 * @author Christian Krause
 	 */
 	public static final class CompoundChangeImpl extends ChangeImpl implements CompoundChange {

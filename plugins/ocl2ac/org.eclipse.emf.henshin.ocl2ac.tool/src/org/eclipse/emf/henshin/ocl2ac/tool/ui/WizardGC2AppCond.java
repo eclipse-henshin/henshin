@@ -49,9 +49,6 @@ public class WizardGC2AppCond extends Shell {
 
 	/**
 	 * Create the shell.
-	 * 
-	 * @param display
-	 * @param mapAllRules
 	 */
 	public WizardGC2AppCond(final Display display, IFile henshinFile,
 			HashMap<Integer, NestedConstraint> hashmapAllNestedconstraints, HashMap<Integer, Rule> hashmapAllRules,

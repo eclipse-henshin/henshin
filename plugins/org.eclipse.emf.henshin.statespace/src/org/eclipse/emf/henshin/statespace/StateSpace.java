@@ -223,7 +223,7 @@ public interface StateSpace extends Storage {
 	 * Check whether labels should be hidden.
 	 * @return the value of the '<em>Hide Labels</em>' attribute.
 	 * @see #setLayoutHideLabels(boolean)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_HideLabels()
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_LayoutHideLabels()
 	 * @model transient="true" volatile="true"
 	 * @generated
 	 */
