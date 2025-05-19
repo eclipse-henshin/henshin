@@ -45,7 +45,6 @@ public class ConditionHandler {
 	 * @param conditionParameters Condition parameters.
 	 * @param scriptEngine Script engine,
 	 * @param localJavaImports 
-	 * @param javaImports 
 	 */
 	public ConditionHandler(
 			Map<String, Collection<String>> conditionParameters,

@@ -28,7 +28,7 @@ public class Graphs {
 	 * Assert that the specified object is contained in the graph
 	 * 
 	 * @param obj {@link EObject}
-	 * @param graph {@link EGraphImpl}
+	 * @param graph {@link EGraph}
 	 * @throws AssertionError
 	 */
 	public static void assertObjectInGraph(EObject obj, EGraph graph) throws AssertionError {
@@ -41,7 +41,7 @@ public class Graphs {
 	 * Assert that the specified object is not contained in the graph
 	 * 
 	 * @param obj {@link EObject}
-	 * @param graph {@link EGraphImpl}
+	 * @param graph {@link EGraph}
 	 * @throws AssertionError
 	 */
 	public static void assertObjectNotInGraph(EObject obj, EGraph graph) throws AssertionError {
@@ -57,10 +57,8 @@ public class Graphs {
 	 * <li>there are no unmatched elements or changes</li>
 	 * </ul>
 	 * 
-	 * @param graph1 {@link EGraphImpl}
-	 * @param graph2 {@link EGraphImpl}
-	 * @param matchSimilarityThreshold similarity for EmfCompare's mapping. Values above (and including) this are
-	 *            considered as mapped. Range [0..1]. 0.9 is a good value to start with, adjust if problems occur.
+	 * @param graph1 {@link EGraph}
+	 * @param graph2 {@link EGraph}
 	 * @throws AssertionError
 	 */
 	public static void assertGraphsEqual(EGraph graph1, EGraph graph2) throws AssertionError {

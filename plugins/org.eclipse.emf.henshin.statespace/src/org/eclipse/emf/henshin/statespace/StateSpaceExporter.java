@@ -27,7 +27,7 @@ public interface StateSpaceExporter {
 	 * @param uri URI where the state space should be exported to.
 	 * @param monitor Progress monitor.
 	 * @throws StateSpaceException On state space errors. 
-	 * @throws Exception On I/O errors.
+	 * @throws IOException On I/O errors.
 	 */
 	void doExport(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException, StateSpaceException;
 	

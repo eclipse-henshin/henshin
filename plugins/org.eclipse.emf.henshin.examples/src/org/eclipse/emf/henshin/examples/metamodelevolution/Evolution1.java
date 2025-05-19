@@ -339,7 +339,6 @@ public class Evolution1 {
 	 * @param refType
 	 *            Type (EReference) of the reference to be deleted. Its opposite
 	 *            is deduced and deleted as well.
-	 * @return
 	 */
 	public UnitApplication evolveMetaModel_DeleteOldReference(EPackage petri,
 			EReference refType) {

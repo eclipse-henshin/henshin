@@ -435,13 +435,6 @@ public class HenshinNACSimplifier {
 		return null;
 	}
 
-	/**
-	 * 
-	 * 
-	 * @param graphA
-	 * @param graphB
-	 * @return
-	 */
 	public static boolean isSubGraph(Graph graphA, Graph graphB) {
 		HashMap<Node, Node> mappingNodeA2NodeB = new HashMap<Node, Node>();
 		for (Node nodeA : graphA.getNodes()) {

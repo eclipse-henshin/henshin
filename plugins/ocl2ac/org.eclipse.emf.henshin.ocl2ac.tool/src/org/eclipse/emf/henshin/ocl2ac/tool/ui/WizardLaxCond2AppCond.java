@@ -50,9 +50,6 @@ public class WizardLaxCond2AppCond extends Shell {
 
 	/**
 	 * Create the shell.
-	 * 
-	 * @param display
-	 * @param mapAllRules
 	 */
 	public WizardLaxCond2AppCond(final Display display, IFile henshinFile,
 			HashMap<Integer, Condition> hashmapAllLaxCondition, HashMap<Integer, Rule> hashmapAllRules,

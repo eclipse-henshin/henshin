@@ -46,7 +46,7 @@ public class Rules {
 	/**
 	 * Assert that a {@link Rule} has no match
 	 * 
-	 * @param r {@link Rule}
+	 * @param rule {@link Rule}
 	 * @parem engine {@link Engine}
 	 * @throws AssertionError
 	 */
@@ -60,7 +60,7 @@ public class Rules {
 	/**
 	 * Assert that a {@link Rule} produces exactly n matches
 	 * 
-	 * @param r {@link Rule}
+	 * @param rule {@link Rule}
 	 * @param engine {@link Engine}
 	 * @param n Number of expected matches
 	 * @throws AssertionError
@@ -76,7 +76,7 @@ public class Rules {
 	/**
 	 * Assert that a {@link Rule} can be applied multiple times
 	 * 
-	 * @param r {@link Rule}
+	 * @param rule {@link Rule}
 	 * @param engine {@link Engine}
 	 * @throws AssertionError
 	 */

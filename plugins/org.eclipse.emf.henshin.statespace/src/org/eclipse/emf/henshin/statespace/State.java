@@ -11,7 +11,6 @@ package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * Interface for states.
@@ -106,7 +105,7 @@ public interface State extends Storage {
 	/**
 	 * Get the associated model of this state.
 	 * @return the associated model.
-	 * @see #setModel(Resource)
+	 * @see #setModel(Model)
 	 * @model transient="true"
 	 * @generated
 	 */
@@ -131,7 +130,7 @@ public interface State extends Storage {
 
 	/**
 	 * Set the state space that contains this state.
-	 * @param stateSpace the container state space.
+	 * @param value the container state space.
 	 * @see #getStateSpace()
 	 * @generated
 	 */
@@ -149,7 +148,7 @@ public interface State extends Storage {
 
 	/**
 	 * Sets the location of this state. The argument must have length 3.
-	 * @param the new location of the state.
+	 * @param location the new location of the state.
 	 * @see #getLocation()
 	 * @generated NOT
 	 */
@@ -229,7 +228,7 @@ public interface State extends Storage {
 
 	/**
 	 * Set the hash code of this state.
-	 * @param hashCode the hash code.
+	 * @param value the hash code.
 	 * @see #getHashCode()
 	 * @generated
 	 */
@@ -239,7 +238,7 @@ public interface State extends Storage {
 	 * Get the number of nodes in this state's model.
 	 * @return the value of the '<em>Node Count</em>' attribute.
 	 * @see #setObjectCount(int)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_NodeCount()
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_ObjectCount()
 	 * @model transient="true" volatile="true"
 	 * @generated
 	 */
@@ -247,7 +246,7 @@ public interface State extends Storage {
 
 	/**
 	 * Set the number of objects in this state's model.
-	 * @param objectCount the new value of the '<em>Object Count</em>' attribute.
+	 * @param value the new value of the '<em>Object Count</em>' attribute.
 	 * @see #getObjectCount()
 	 * @generated
 	 */
@@ -263,7 +262,7 @@ public interface State extends Storage {
 
 	/**
 	 * Set the object keys for the current state model.
-	 * @param objectKeys the new value of the '<em>Object Keys</em>' attribute.
+	 * @param value the new value of the '<em>Object Keys</em>' attribute.
 	 * @see #getObjectKeys()
 	 * @generated
 	 */

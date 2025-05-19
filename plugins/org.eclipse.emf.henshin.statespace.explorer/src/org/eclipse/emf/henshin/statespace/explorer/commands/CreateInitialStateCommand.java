@@ -31,8 +31,6 @@ public class CreateInitialStateCommand extends AbstractStateSpaceCommand {
 	
 	/**
 	 * Default constructor.
-	 * @param state State to be added.
-	 * @param stateSpace State space.
 	 */
 	public CreateInitialStateCommand(Model model, StateSpaceManager manager) {
 		super("create initial state", manager);

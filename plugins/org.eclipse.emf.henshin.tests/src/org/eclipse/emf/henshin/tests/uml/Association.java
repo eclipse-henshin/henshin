@@ -105,7 +105,7 @@ public class Association extends NamedElement {
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.uml.Association#getSrc <em>Src</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Src</em>' reference.
+	 * @param newSrc the new value of the '<em>Src</em>' reference.
 	 * @see #getSrc()
 	 * @generated
 	 */
@@ -155,7 +155,7 @@ public class Association extends NamedElement {
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.uml.Association#getDst <em>Dst</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Dst</em>' reference.
+	 * @param newDst the new value of the '<em>Dst</em>' reference.
 	 * @see #getDst()
 	 * @generated
 	 */

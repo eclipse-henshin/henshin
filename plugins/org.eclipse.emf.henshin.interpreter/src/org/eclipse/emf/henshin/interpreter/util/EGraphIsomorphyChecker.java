@@ -72,7 +72,7 @@ public class EGraphIsomorphyChecker {
 	 * Default constructor.
 	 * 
 	 * @param source Source graph.
-	 * @param useAttributes Flag indicating whether attribute values should be used.
+	 * @param ignoredAttributes Flag indicating whether attribute values should be ignored.
 	 */
 	public EGraphIsomorphyChecker(final EGraph source, List<EAttribute> ignoredAttributes) {
 		this.source = source;

@@ -39,6 +39,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.StateValidator;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -362,7 +363,7 @@ public class StateExplorer {
 
 	/**
 	 * Derive a model.
-	 * @param State state.
+	 * @param state state.
 	 * @param fromInitial Whether to derive it from an initial state.
 	 * @return The derived model.
 	 * @throws StateSpaceException On errors.
@@ -532,7 +533,7 @@ public class StateExplorer {
 
 		/**
 		 * Constructor.
-		 * @param statepace State space.
+		 * @param stateSpace State space.
 		 */
 		public ModelPostProcessor(StateSpace stateSpace) {
 			ScriptEngineManager manager = new ScriptEngineManager();

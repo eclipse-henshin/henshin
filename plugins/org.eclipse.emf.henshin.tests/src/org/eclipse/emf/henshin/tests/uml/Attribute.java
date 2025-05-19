@@ -94,7 +94,7 @@ public class Attribute extends NamedElement {
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.uml.Attribute#getType <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' reference.
+	 * @param newType the new value of the '<em>Type</em>' reference.
 	 * @see #getType()
 	 * @generated
 	 */

@@ -19,8 +19,6 @@ public class ParamUtil {
 
 	/**
 	 * finds the IFile at the location provided by the string uri
-	 * @param uriString
-	 * @return
 	 */
 	public static IFile getIFile(URI uri) {
 		try {
@@ -37,7 +35,6 @@ public class ParamUtil {
 	/**
 	 * gets the parameter preferences from a given unit
 	 * @param unit
-	 * @return
 	 */
 	public static List<ParameterConfig> getParameterPreferences(Unit unit) {
 		List<ParameterConfig> result = new ArrayList<ParameterConfig>();

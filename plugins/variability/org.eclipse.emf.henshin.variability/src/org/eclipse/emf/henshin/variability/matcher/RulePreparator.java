@@ -69,12 +69,6 @@ public class RulePreparator {
 	 * Prepares the rule for variability-based merging and rule application:
 	 * rejected elements and removed and the "injective" flag is set. Assumes that
 	 * the reject() method has been invoked method before.
-	 * 
-	 * @param rule
-	 * @param ruleInfo
-	 * @param rejected
-	 * @param executed
-	 * @return
 	 */
 	public BitSet prepare(RuleInfo ruleInfo, Set<Sentence> rejected, boolean injectiveMatching, boolean baseRule) {
 		this.baseRule = baseRule;

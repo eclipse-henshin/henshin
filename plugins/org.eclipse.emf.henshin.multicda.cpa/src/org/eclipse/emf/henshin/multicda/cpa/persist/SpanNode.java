@@ -49,7 +49,6 @@ public class SpanNode extends TreeFolder {
 	 * 
 	 * @param firstRuleURI The <code>URI</code> of the first rule.
 	 * @param secondRuleURI The <code>URI</code> of the second rule.
-	 * @param nodeURI
 	 */
 	public SpanNode(String numberedNameOfCPKind, URI firstRuleURI, URI secondRuleURI, URI minimalModelURI, boolean conflict) {
 		this(numberedNameOfCPKind, firstRuleURI, secondRuleURI, minimalModelURI, null, conflict);

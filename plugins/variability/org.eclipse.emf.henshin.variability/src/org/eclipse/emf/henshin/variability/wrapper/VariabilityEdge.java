@@ -66,7 +66,6 @@ public class VariabilityEdge implements Edge, VariabilityGraphElement {
 	 * @param source Source node.
 	 * @param target Target node.
 	 * @param type Edge type.
-	 * @return The created edge.
 	 */
 	VariabilityEdge(Node source, Node target, EReference type) {
 		this(HenshinFactoryImpl.eINSTANCE.createEdge(source, target, type));

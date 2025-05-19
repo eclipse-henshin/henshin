@@ -42,8 +42,6 @@ public class CreateParameterMappingCommand extends AbstractCommand {
 	/**
 	 * Checks if a parameter mappings already exists. This method shall hint the
 	 * wrapping action to appear enabled or disabled.
-	 * 
-	 * @return
 	 */
 	public boolean isEnabled() {
 		if (this.canExecute()) {

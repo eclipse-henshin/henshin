@@ -57,8 +57,8 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	 * Explore a state. This computes all outgoing transitions
 	 * and their target states and adds them to the state space
 	 * if they do not exist yet.
-	 * @param state State to be explored.
-	 * @param generateLocation Whether to generate a location for the new states.
+	 * @param states States to be explored.
+	 * @param generateLocations Whether to generate locations for the new states.
 	 * @return List of newly created successor states.
 	 * @exception StateSpaceException If the state space contains errors.
 	 */
@@ -76,7 +76,7 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	/**
 	 * Reset the state space managed by this instance.
 	 * This removes all derived states and all transitions.
-	 * @param remobeInitial Determines whether also initial states should be removed.
+	 * @param removeInitial Determines whether also initial states should be removed.
 	 * @throws StateSpaceException On errors.
 	 */
 	void resetStateSpace(boolean removeInitial) throws StateSpaceException;

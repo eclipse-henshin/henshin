@@ -32,7 +32,6 @@ public interface Model extends EObject {
 	/**
 	 * Get the resource that contains the actual model elements.
 	 * @return the value of the '<em>Resource</em>' attribute.
-	 * @see #setResource(Resource)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_Resource()
 	 * @model transient="true"
 	 * @generated
@@ -42,7 +41,7 @@ public interface Model extends EObject {
 	/**
 	 * Get the associated {@link EGraph} instance for this model.
 	 * @return the value of the '<em>EGraph</em>' attribute.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_EmfGraph()
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_EGraph()
 	 * @model dataType="org.eclipse.emf.henshin.statespace.EmfGraph" transient="true" changeable="false"
 	 * @generated
 	 */
@@ -77,7 +76,7 @@ public interface Model extends EObject {
 	/**
 	 * Set the object keys of this state model as an integer array.
 	 * This forwards to {@link #getObjectKeysMap()}.
-	 * @param objectKeys the new value of the '<em>Object Keys</em>' attribute.
+	 * @param value the new value of the '<em>Object Keys</em>' attribute.
 	 * @see #getObjectKeys()
 	 * @generated
 	 */
@@ -85,7 +84,7 @@ public interface Model extends EObject {
 
 	/**
 	 * Get the number of objects in this model.
-	 * This is derived from {@link #getEmfGraph()}.
+	 * This is derived from {@link #getEGraph()}.
 	 * @return the value of the '<em>Object Count</em>' attribute.
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_ObjectCount()
 	 * @model transient="true" changeable="false" volatile="true" derived="true"
@@ -95,7 +94,7 @@ public interface Model extends EObject {
 
 	/**
 	 * Get a copy of this model.
-	 * @param Optional match.
+	 * @param match optional match
 	 * @model matchDataType="org.eclipse.emf.henshin.statespace.Match"
 	 * @generated
 	 */
@@ -110,7 +109,7 @@ public interface Model extends EObject {
 	boolean updateObjectKeys(EList<EClass> identityTypes);
 
 	/**
-	 * Collect missing root objects from the {@link EGraphImpl} of this model.
+	 * Collect missing root objects from the {@link EGraph} of this model.
 	 * New root objects will be added to this objects resource.
 	 * @model
 	 * @generated

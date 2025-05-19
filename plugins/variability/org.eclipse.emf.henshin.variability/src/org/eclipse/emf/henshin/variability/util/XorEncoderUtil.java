@@ -6,7 +6,7 @@ import java.util.Stack;
 
 /**
  * 
- * @author Daniel Strüber, Stefan Schulz
+ * @author Daniel Strï¿½ber, Stefan Schulz
  *
  */
 public class XorEncoderUtil {
@@ -15,9 +15,6 @@ public class XorEncoderUtil {
 	 * Encodes any occurrence of a xor(A,B) pattern into ((A and !B) or (A and
 	 * !B)). Works for an arbitrary number of arguments. A and B are allowed to
 	 * contain futher xor patterns, as long as parentheses are nested correctly.
-	 * 
-	 * @param presenceCondition
-	 * @return
 	 */
 	public static String encodeXor(String expression) {
 		if (!isWellFormed(expression)) {

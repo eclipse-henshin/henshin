@@ -153,9 +153,6 @@ public class ModelSelector {
 		}
 	}
 
-	/**
-	 * @return
-	 */
 	public Control getControl() {
 		return container;
 	}

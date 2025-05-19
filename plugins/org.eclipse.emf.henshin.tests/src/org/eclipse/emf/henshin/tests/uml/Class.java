@@ -113,7 +113,7 @@ public class Class extends NamedElement {
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.tests.uml.Class#getParent <em>Parent</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Parent</em>' reference.
+	 * @param newParent the new value of the '<em>Parent</em>' reference.
 	 * @see #getParent()
 	 * @generated
 	 */

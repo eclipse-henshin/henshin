@@ -38,18 +38,12 @@ public class JointPairs {
 	 * for finding the nodes which have to be overlapped. Compute the set of
 	 * jointly surjective pairs that commute with a given span.
 	 * 
-	 * @param span
-	 *            A span of morphisms
-	 * @return the set of jointly surjective pairs that commute with the span
-	 * 
 	 */
 
 	private static Pair pushout = null;
 
 	/**
 	 * for now it should be called after calling the method getJointPairs
-	 * 
-	 * @return
 	 */
 	public static Pair getPushout() {
 		return pushout;

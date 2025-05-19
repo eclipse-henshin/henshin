@@ -26,7 +26,6 @@ public class IconUtil {
 	 * 
 	 * @param baseImage
 	 * @param overlayImage
-	 * @return
 	 */
 	public static Object getCompositeImage(Object baseImage, Object overlayImage) {
 		List<Object> images = new ArrayList<Object>(2);
@@ -46,7 +45,6 @@ public class IconUtil {
 	 * @param overlayImage
 	 * @param moveX
 	 * @param moveY
-	 * @return
 	 */
 	public static Object getCompositeImage(Object baseImage, Object overlayImage, final int moveX,
 			final int moveY) {

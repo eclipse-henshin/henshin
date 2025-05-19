@@ -16,9 +16,6 @@ import org.jgrapht.graph.DefaultDirectedGraph;
  * multi-edges.
  * 
  * @author strueber
- *
- * @param <X>
- * @param <Y>
  */
 public class JGraphTIsomorphyChecker {
 

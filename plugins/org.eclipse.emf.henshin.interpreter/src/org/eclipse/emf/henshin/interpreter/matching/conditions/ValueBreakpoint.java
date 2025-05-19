@@ -6,7 +6,6 @@ public class ValueBreakpoint extends HenshinBreakpoint {
 	
 	/**
 	 * Retrieve the brekpoint's type. (type of the value we set the breakpoint for)
-	 * @return
 	 */
 	public String getType() {
 		return getAttribute("Type", "");
@@ -42,7 +41,6 @@ public class ValueBreakpoint extends HenshinBreakpoint {
 	
 	/**
 	 * Retrieve index.
-	 * @return
 	 */
 	public int getIndex() {
 		return getIntAttribute("Index", -1);

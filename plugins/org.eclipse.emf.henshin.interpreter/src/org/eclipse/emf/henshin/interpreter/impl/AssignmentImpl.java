@@ -37,7 +37,6 @@ public class AssignmentImpl implements Assignment {
 	
 	/**
 	 * Default constructor.
-	 * @param rule Rule to be matched.
 	 */
 	public AssignmentImpl(Unit unit) {
 		this (unit, false);
