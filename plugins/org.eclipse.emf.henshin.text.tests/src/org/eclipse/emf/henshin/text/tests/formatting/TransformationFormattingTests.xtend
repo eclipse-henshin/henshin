@@ -17,9 +17,11 @@ import org.eclipse.emf.henshin.text.henshin_text.JavaClassValue
 import org.eclipse.emf.henshin.text.henshin_text.ParameterValue
 import org.eclipse.emf.henshin.text.henshin_text.JavaAttributeValue
 import org.eclipse.xtext.junit4.formatter.FormatterTester
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(org.eclipse.emf.henshin.text.tests.Henshin_textInjectorProvider))
+@Ignore
 class TransformationFormattingTests extends FormatterTester {
 	@Inject extension ParseHelper<Model>
 

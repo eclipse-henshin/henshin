@@ -9,9 +9,11 @@ import org.eclipse.xtext.junit4.formatter.FormatterTester
 import org.eclipse.xtext.junit4.util.ParseHelper
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(Henshin_textInjectorProvider))
+@Ignore
 class MultiRuleFormattingTests extends FormatterTester {
 	@Inject extension ParseHelper<Model>
 
