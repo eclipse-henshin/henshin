@@ -133,11 +133,18 @@ public class BacktrackingGraph extends JPanel {
 		int yPosYAxisTick = this.borderTop+this.plotHeight;
 		double yDis=this.maxBoxSize/(double)5;
 		double valueDis=this.largestDataValue/(double)5;
+		if (valueDis==0) {
+			valueDis=5.0;
+		}
+		
 		g2d.setColor(Color.BLACK);
 		for (int count = 1; count<=5 ;count++) {
-			g2d.drawLine(xPosYAxisTick, yPosYAxisTick-(int)(count*yDis), xPosYAxisTick - 4, yPosYAxisTick-(int)(count*yDis));
-			String label=Long.toString((long)(valueDis*count));
-			g2d.drawString(label, xPosYAxisTick-g2d.getFontMetrics().stringWidth(label)- 8, yPosYAxisTick-(int)(count*yDis)+(int)(g2d.getFontMetrics().getHeight()/(double)2));
+			long lableValue=(long)(valueDis*count);
+			if((lableValue==this.largestDataValue)||(lableValue>=5)||(this.largestDataValue>=5)) {
+				g2d.drawLine(xPosYAxisTick, yPosYAxisTick-(int)(count*yDis), xPosYAxisTick - 4, yPosYAxisTick-(int)(count*yDis));
+				String label=Long.toString((long)(lableValue));
+				g2d.drawString(label, xPosYAxisTick-g2d.getFontMetrics().stringWidth(label)- 8, yPosYAxisTick-(int)(count*yDis)+(int)(g2d.getFontMetrics().getHeight()/(double)2));
+			}
 		}
 		
 		
