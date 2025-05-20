@@ -28,10 +28,10 @@ import org.eclipse.emf.henshin.model.Unit;
 public class Units {
 
 	/**
-	 * Assert that the specified {@link TransformationUnit} can be executed multiple times.
+	 * Assert that the specified {@link Unit} can be executed multiple times.
 	 * 
-	 * @param tu {@link TransformationUnit} to be executed
-	 * @param graph {@link EGraph} the {@link TransformationUnit} should be executed on
+	 * @param tu {@link Unit} to be executed
+	 * @param graph {@link EGraph} the {@link Unit} should be executed on
 	 * @throws AssertionError
 	 */
 	public static void assertTransformationUnitCanBeExecutedMultipleTimes(Unit tu, EGraph graph, Engine engine)
@@ -61,11 +61,11 @@ public class Units {
 	}
 
 	/**
-	 * Assert that the specified {@link TransformationUnit} can be executed at least n times.
+	 * Assert that the specified {@link Unit} can be executed at least n times.
 	 * 
-	 * @param tu {@link TransformationUnit} to be executed
-	 * @param graph {@link EGraph} the {@link TransformationUnit} should be executed on
-	 * @param n minimum number of times the {@link TransformationUnit} should be able to be executed
+	 * @param tu {@link Unit} to be executed
+	 * @param graph {@link EGraph} the {@link Unit} should be executed on
+	 * @param n minimum number of times the {@link Unit} should be able to be executed
 	 * @throws AssertionError
 	 */
 	public static void assertTransformationUnitCanBeExecutedNTimes(Unit tu, EGraph graph, Engine engine, int n)

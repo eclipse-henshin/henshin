@@ -41,7 +41,7 @@ public interface InterpreterFactory {
 	
 	/**
 	 * Create a {@link Match}.
-	 * @param Rule to be matched.
+	 * @param rule to be matched.
 	 * @param isResultMatch Determines whether this is a result match.
 	 * @return A new {@link Match}.
 	 */

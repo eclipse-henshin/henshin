@@ -23,7 +23,7 @@ public class NodeEquivalence extends ArrayList<Node> {
 	/**
 	 * Compute the require node equivalences for a given rule.
 	 * Every node equivalence has at least two nodes.
-	 * @param rule The rule.
+	 * @param graph The graph.
 	 * @return The list of require node equivalences.
 	 */
 	public static List<NodeEquivalence> computeEquivalences(Graph graph) {

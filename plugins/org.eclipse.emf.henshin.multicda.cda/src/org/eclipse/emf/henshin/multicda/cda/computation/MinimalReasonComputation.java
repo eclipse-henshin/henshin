@@ -108,12 +108,6 @@ public class MinimalReasonComputation {
 
 	/**
 	 * 
-	 * @param rule1
-	 * @param rule2
-	 * @param poDangling
-	 * @param s1
-	 * @param mappingOfRule1InOverlapG
-	 * @param mappingOfRule2InOverlapG
 	 * @return A set of fixing edges, that is, edges in R1 suitable to act as a
 	 *         counterpart for the dangling edge originating from R2.
 	 */

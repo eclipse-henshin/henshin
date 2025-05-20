@@ -83,7 +83,6 @@ public class VBEngineParameterizedTest {
 	/**
 	 * Executes the specified test
 	 *
-	 * @param dataFile The test specification
 	 * @throws InconsistentRuleException If a inconsistent rule should be executed
 	 */
 	@Test

@@ -34,7 +34,6 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 	
 	/**
 	 * Default constructor.
-	 * @param validator State space validator.
 	 * @param manager State space manager.
 	 */
 	public ValidateStateSpaceJob(StateSpaceManager manager) {

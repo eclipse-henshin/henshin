@@ -42,9 +42,6 @@ public class HenshinGraphToParsemisConverter {
 	/**
 	 * Creates the Parsemis graph representation of a Henshin Rrule, represented
 	 * by the input HenshinGraph.
-	 * 
-	 * @param entityList
-	 * @return
 	 */
 	public Graph<INodeLabel, IEdgeLabel> createParsemisGraph(
 			HenshinGraph henshinGraph) {

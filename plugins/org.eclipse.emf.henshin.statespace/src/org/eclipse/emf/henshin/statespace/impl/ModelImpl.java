@@ -52,7 +52,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * Constructor.
 	 * @param resource Resource for this model.
-	 * @param emfGraph EmfGraph for this model.
+	 * @param eGraph EmfGraph for this model.
 	 * @generated NOT
 	 */
 	public ModelImpl(Resource resource, EGraph eGraph) {

@@ -6,7 +6,6 @@ public class ConstraintInstanceBreakpoint extends HenshinBreakpoint {
 
 	/**
 	 * Retrieve the brekpoint's type. (type of the value we set the breakpoint for)
-	 * @return
 	 */
 	public String getConstraintInstance() {
 		return getAttribute("ConstraintInstance", "");

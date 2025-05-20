@@ -19,7 +19,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
  * Compact Module.
- * Contains a {@link org.eclipse.emf.henshin.model.Module]-Instance 
+ * Contains a {@link Module}-Instance 
  * Provides compact Methods to perform basic-operations on said Instance.
  * @author Johannes Ludwig
  */
@@ -48,7 +48,7 @@ public class CModule {
 	//Static Methods
 	/**
 	 * Loads a CModule from a *.henshin File
-	 * @param filepath relative Filepath from working directory.
+	 * @param filePath relative file path from working directory.
 	 * @return the loaded CModule
 	 */
 	public static CModule loadFromFile(String filePath) {
@@ -76,7 +76,7 @@ public class CModule {
 	/**
 	 * Adds an EPackage from an *.ecore-file to the Imports of the Module-Instance.
 	 * registers the given Package in the local PackageRegistry.
-	 * @param fileName The filename of the *.ecore-File
+	 * @param filePath The filename of the *.ecore-File
 	 */
 	public CModule addImportsFromFile(String filePath) {
 		//Split the fileName into File-Path and File-Name
@@ -94,7 +94,7 @@ public class CModule {
 	
 	/**
 	 * Saves the Module-Instance at the given path in *.henshin format
-	 * @param filename relative path coming from the ResourcePath of the Module
+	 * @param fileName relative path coming from the ResourcePath of the Module
 	 */
 	public void save(String fileName) {
 		String[] path = fileName.split("/");

@@ -23,7 +23,7 @@ public class RuleGeneralizer {
 	/**
 	 * Makes each << preserve >> and << delete >> node as abstract as possible.
 	 * 
-	 * @param module The rule to be generalized.
+	 * @param rule The rule to be generalized.
 	 */
 	public static void generalizeRule(Rule rule) {
 

@@ -61,10 +61,6 @@ public class NestedConditionPreparer {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public boolean eliminateForAllANotExistsC() {
 		NestedCondition condition = constraint.getCondition();
 		if (isOfFormForAllANotExistsC(condition)) {
@@ -84,11 +80,6 @@ public class NestedConditionPreparer {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param condition
-	 * @return
-	 */
 	public boolean isOfFormForAllANotExistsC(NestedCondition condition) {
 		if (isForAllCondition(condition)) {
 			QuantifiedCondition forallCondition = (QuantifiedCondition) condition;
@@ -106,11 +97,6 @@ public class NestedConditionPreparer {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param condition
-	 * @return
-	 */
 	public boolean isOfFormNotExistsC(NestedCondition condition) {
 		if (isNotFormula(condition)) {
 			Formula notFormula = (Formula) condition;
@@ -124,11 +110,6 @@ public class NestedConditionPreparer {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param condition
-	 * @return
-	 */
 	public boolean isOfFormExistsC(NestedCondition condition) {
 		if (isExistCondition(condition)) {
 			QuantifiedCondition existCondition = (QuantifiedCondition) condition;

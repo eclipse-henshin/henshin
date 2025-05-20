@@ -34,9 +34,6 @@ public class PartialMatchReport {
 	 */
 	Map<Rule, List<PartialMatchInfo>> infos = new HashMap<Rule, List<PartialMatchInfo>>();
 
-	/**
-	 * @return
-	 */
 	public Map<Rule, List<PartialMatchInfo>> getInfos() {
 		return infos;
 	}
@@ -50,9 +47,6 @@ public class PartialMatchReport {
 		this.matches = matches;
 	}
 
-	/**
-	 * @return
-	 */
 	public Module getModule() {
 		return module;
 	}
@@ -179,7 +173,6 @@ public class PartialMatchReport {
 	 * 
 	 * @param originalRule Rule to collect infos about partial matches for.
 	 * @param matches Module to be used.
-	 * @return 
 	 */
 	public void collectPartialMatchInfos(
 			Rule originalRule, List<Match> matches) {

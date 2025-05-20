@@ -45,10 +45,6 @@ public class ExampleBasedRuleGenerator {
 
 	/**
 	 * Constructs a Henshin rule from a pair of models (original model and changed model).
-	 * 
-	 * @param ruleName
-	 * @param pathA
-	 * @param pathB
 	 */
 	public Rule generateRule(String ruleName, Resource modelA, Resource modelB) {
 		// Init

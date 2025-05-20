@@ -85,8 +85,7 @@ public class VariabilityAwareMatcher {
 	 * 
 	 * @param rule           The rule to be executed
 	 * @param graph          The graph on which the rule should be executed
-	 * @param initiallyTrue  All features set to 'true'
-	 * @param initiallyFalse All features set to 'false'
+	 * @param configuration  All features mapped to their respective state
 	 * @throws InconsistentRuleException If the rule is inconsistent
 	 */
 	public VariabilityAwareMatcher(Rule rule, EGraph graph, Map<String, Boolean> configuration)

@@ -36,7 +36,7 @@ public class HenshinDebugTarget extends HenshinDebugElement implements IDebugTar
 	/**
 	 * HenshinDebugTarget Constructor. <br>
 	 * NOTE: The associated debugThread has to be set separately
-	 * using {@link #initTarget(DebugApplicationCondition)}.
+	 * using {@link #initTarget(DebugApplicationCondition, IResource)}.
 	 * @param launch
 	 * @param ruleName
 	 */

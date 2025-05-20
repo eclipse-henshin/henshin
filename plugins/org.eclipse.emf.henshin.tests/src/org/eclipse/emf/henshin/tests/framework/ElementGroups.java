@@ -28,10 +28,10 @@ public class ElementGroups {
 	 * Asserts that the specified element group is deleted from the graph.<br>
 	 * This is the case if one or more elements in the group have been deleted from the graph.<br>
 	 * To assert that <b>all</b> elements contained in the group have been deleted, use
-	 * {@link assertAllElementsFromElementGroupDeleted}
+	 * {@link #assertAllElementsFromElementGroupDeleted}
 	 * 
 	 * @param group {@link Collection} of {@link EObject}s containing the elements to check
-	 * @param graph {@link EGraphImpl}
+	 * @param graph {@link EGraph}
 	 * @throws AssertionError
 	 */
 	public static void assertElementGroupDeleted(Collection<? extends EObject> group, EGraph graph)
@@ -44,10 +44,10 @@ public class ElementGroups {
 
 	/**
 	 * Asserts that all elements from the specified group are deleted from the graph. To assert that at least one
-	 * element is deleted, use {@link assertElementGroupDeleted}
+	 * element is deleted, use {@link #assertElementGroupDeleted}
 	 * 
 	 * @param group {@link Collection} of {@link EObject}s containing the elements to check
-	 * @param graph {@link EGraphImpl}
+	 * @param graph {@link EGraph}
 	 * @throws AssertionError
 	 */
 	public static void assertAllElementsFromElementGroupDeleted(Collection<? extends EObject> group, EGraph graph)
@@ -66,7 +66,7 @@ public class ElementGroups {
 	 * from the group)
 	 * 
 	 * @param group {@link Collection} of {@link EObject}s containing the elements to check
-	 * @param graph {@link EGraphImpl}
+	 * @param graph {@link EGraph}
 	 * @throws AssertionError
 	 */
 	public static void assertNoElementFromElementGroupDeleted(Collection<? extends EObject> group, EGraph graph)

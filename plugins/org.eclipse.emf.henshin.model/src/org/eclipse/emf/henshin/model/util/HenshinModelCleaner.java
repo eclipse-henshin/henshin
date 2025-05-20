@@ -396,7 +396,6 @@ public class HenshinModelCleaner {
 	/**
 	 * Clean a mapping list. Removes invalid mappings.
 	 * @param mappings Mapping list to be cleaned.
-	 * @param signatures Signatures of the functions that the mapping list stands for.
 	 */
 	public static void cleanMappingList(MappingList mappings, Graph... graphs) {
 		

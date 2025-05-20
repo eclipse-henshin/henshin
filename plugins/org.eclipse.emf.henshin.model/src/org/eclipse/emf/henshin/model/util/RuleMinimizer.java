@@ -22,7 +22,7 @@ public class RuleMinimizer {
 	/**
 	 * Removes all non-context (preserve) nodes from a rule.
 	 * 
-	 * @param module The Henshin Module.
+	 * @param rule The Henshin Module.
 	 */
 	public static void reduceToMinimalRule(Rule rule) {
 

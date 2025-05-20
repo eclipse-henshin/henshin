@@ -75,7 +75,7 @@ public class Options {
 	/**
 	 * Default is printHeader, printResults, printWhenResult and silent on.
 	 * 
-	 * @param options
+	 * @param flags
 	 *            1:dependency, 2:essential, 3:initial, 4:prepare
 	 *            5:noneDeletionSecondRule, 6:printHeader, 7:printResults, 8:silent,
 	 *            9:print when result found, 10:print whole s2 Set

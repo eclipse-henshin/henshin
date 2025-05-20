@@ -325,7 +325,7 @@ public class StateSpaceToolsMenu extends Composite {
 	
 	/**
 	 * Set the job manager to be used.
-	 * @param manager Job manager.
+	 * @param jobManager Job manager.
 	 */
 	public void setJobManager(StateSpaceJobManager jobManager) {
 		if (this.jobManager!=null) removeListeners();
