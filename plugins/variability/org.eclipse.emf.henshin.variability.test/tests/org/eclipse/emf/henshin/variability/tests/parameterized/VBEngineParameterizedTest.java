@@ -1,16 +1,12 @@
-/**
- *
- */
 package org.eclipse.emf.henshin.variability.tests.parameterized;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -25,18 +21,16 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.variability.InconsistentRuleException;
 import org.eclipse.emf.henshin.variability.VarRuleApplicationImpl;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareMatch;
 import org.eclipse.emf.henshin.variability.matcher.VariabilityAwareMatcher;
 import org.eclipse.emf.henshin.variability.tests.parameterized.create.TestCreator;
 import org.eclipse.emf.henshin.variability.tests.parameterized.data.TestResult;
 import org.eclipse.emf.henshin.variability.tests.parameterized.data.VBTestData;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.junit.runner.RunWith;
 
 /**
  * @author speldszus
@@ -48,7 +42,7 @@ import org.junit.runner.RunWith;
 @RunWith(Parameterized.class)
 public class VBEngineParameterizedTest {
 
-	private static final File dataFile = new File("data");
+	private static final File dataFile = new File("data").getAbsoluteFile();
 	private static final boolean DEBUG = false;
 	private VBTestData data;
 
@@ -87,8 +81,7 @@ public class VBEngineParameterizedTest {
 	 * @throws InconsistentRuleException If a inconsistent rule should be executed
 	 */
 	@Test
-	@Ignore
-	public void testVBEngine() throws InconsistentRuleException {
+	public void testVBEngine() throws Exception {
 		EngineImpl engine = new EngineImpl();
 		EGraphImpl graph = new EGraphImpl(data.getResource());
 		Map<String, Boolean> configuration = data.getConfiguration();
@@ -120,16 +113,11 @@ public class VBEngineParameterizedTest {
 		}
 	}
 
-	/**
-	 *
-	 */
-	private void save() {
-		Path path = Paths.get("debug/" + data.getResource().getURI().lastSegment());
-		path.getParent().toFile().mkdirs();
+	private void save() throws IOException {
+		Path path = Path.of("debug/" + data.getResource().getURI().lastSegment());
+		Files.createDirectories(path.getParent());
 		try (OutputStream outputStream = Files.newOutputStream(path)) {
 			data.getResource().save(outputStream, Collections.emptyMap());
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -144,7 +132,7 @@ public class VBEngineParameterizedTest {
 		EcoreUtil.resolveAll(data.getResource());
 		TreeIterator<EObject> contents = data.getResource().getAllContents();
 		while (contents.hasNext()) {
-			EObject next = contents.next();
+			contents.next();
 			modelSize++;
 		}
 		return modelSize;
