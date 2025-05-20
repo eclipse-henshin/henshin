@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.multicda.cpa.result.CPAResult;
 /**
  * Interface for executing the critical pair analysis on a set of Henshin rules.
  * 
- * @author Florian Heﬂ, Kristopher Born
+ * @author Florian He√ü, Kristopher Born
  *
  */
 public interface ICriticalPairAnalysis {

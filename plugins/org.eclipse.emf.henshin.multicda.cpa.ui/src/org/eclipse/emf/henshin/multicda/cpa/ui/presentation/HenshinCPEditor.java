@@ -1,8 +1,8 @@
 /**
  * <copyright>
- * Copyright (c) 2010-2016 Henshin developers. All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 which 
+ * Copyright (c) 2010-2016 Henshin developers. All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0 which
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
@@ -139,7 +139,7 @@ public class HenshinCPEditor extends MultiEditor {
 				}
 			});
 			if (editorPart != null) {
-				// System.err.println("ACHTUNG!!! - KEINE AHNUNG WIE ICH DAS LÖSEN SOLL!!!");
+				// System.err.println("ACHTUNG!!! - KEINE AHNUNG WIE ICH DAS LÃ–SEN SOLL!!!");
 				// ((DiagramDocumentEditor)e).getDiagramGraphicalViewer().addSelectionChangedListener(selectionListenerEditorParts.get(i));
 			}
 		}
@@ -147,7 +147,7 @@ public class HenshinCPEditor extends MultiEditor {
 
 	/**
 	 * Handles a page/tab change.
-	 * 
+	 *
 	 * @param newPageIndex New tab/page index
 	 */
 	protected void pageChange(int newPageIndex) {

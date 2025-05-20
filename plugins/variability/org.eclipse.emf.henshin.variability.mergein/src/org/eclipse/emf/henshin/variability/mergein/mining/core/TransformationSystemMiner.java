@@ -14,17 +14,17 @@ import de.parsemis.graph.Graph;
 import de.parsemis.miner.general.Fragment;
 
 /**
- * This class performs graph mining. 
- * @author strüber
+ * This class performs graph mining.
+ * @author strÃ¼ber
  *
  */
 public class TransformationSystemMiner {
-	
+
 	private MiningManager manager;
 	public TransformationSystemMiner(MiningManager man) {
 		this.manager = man;
 	}
-	
+
 	public void createParsemisInputGraphs() {
 		HenshinGraphToParsemisConverter minableGraphCreator = new HenshinGraphToParsemisConverter();
 		for (HenshinGraph ruleGraph : manager.getRuleGraphs()) {
@@ -32,7 +32,7 @@ public class TransformationSystemMiner {
 			manager.addParsemisGraph(ruleGraph, parsemisGraph);
 		}
 	}
-	
+
 	public void doGraphMining() {
 		if (manager.getSettings() == null) {
 			return;
@@ -44,8 +44,8 @@ public class TransformationSystemMiner {
 
 		Collection<Fragment<INodeLabel, IEdgeLabel>> minedFragmentsCollection = Miner
 				.mine(graphs, manager.getSettings());
-		
-		manager.setMinedFragments(new ArrayList<Fragment<INodeLabel, IEdgeLabel>>());		
+
+		manager.setMinedFragments(new ArrayList<Fragment<INodeLabel, IEdgeLabel>>());
 		manager.getMinedFragments().addAll(minedFragmentsCollection);
 		ResultFragmentSorter.sort(manager.getMinedFragments());
 

@@ -13,7 +13,7 @@ import org.eclipse.emf.henshin.model.Node;
  * Utility for the exploring of containment cycles in a {@link Graph} by a depth
  * first search
  * 
- * @author Kristopher Born, Daniel Strüber, Christian Krause
+ * @author Kristopher Born, Daniel StrÃ¼ber, Christian Krause
  *
  */
 public class ContainmentCycleFinder {

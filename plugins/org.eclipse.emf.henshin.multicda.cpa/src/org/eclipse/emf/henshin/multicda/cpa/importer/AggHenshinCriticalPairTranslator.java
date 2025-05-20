@@ -56,7 +56,7 @@ import agg.xt_basis.Rule;
  * This class provides an importer/converter for the results originating from AGG (which were computed based on the
  * prior "export to AGG" function).
  * 
- * @author Florian Heﬂ, Kristopher Born
+ * @author Florian He√ü, Kristopher Born
  *
  */
 public class AggHenshinCriticalPairTranslator {

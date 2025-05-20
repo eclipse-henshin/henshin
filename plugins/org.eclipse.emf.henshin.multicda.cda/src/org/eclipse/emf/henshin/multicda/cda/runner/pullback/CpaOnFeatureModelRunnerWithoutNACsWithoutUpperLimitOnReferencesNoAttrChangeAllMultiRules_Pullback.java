@@ -13,13 +13,13 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 public class CpaOnFeatureModelRunnerWithoutNACsWithoutUpperLimitOnReferencesNoAttrChangeAllMultiRules_Pullback extends Runner_WithPullback{
 	
 	// Relative path to the transformations.
-//	static String TRANSFORMATIONS = "transformations/"; //überflüssig
+//	static String TRANSFORMATIONS = "transformations/"; //Ã¼berflÃ¼ssig
 	
-//	private static Engine engine;// = new EngineImpl(); //überflüssig
+//	private static Engine engine;// = new EngineImpl(); //Ã¼berflÃ¼ssig
 	
-//	private static Module module; //überflüssig
+//	private static Module module; //Ã¼berflÃ¼ssig
 	
-//	private static HenshinResourceSet henshinResourceSet; // überflüssig
+//	private static HenshinResourceSet henshinResourceSet; // Ã¼berflÃ¼ssig
 
 	public static void main(String args[]){
 		System.out.println("test");
@@ -40,7 +40,7 @@ public class CpaOnFeatureModelRunnerWithoutNACsWithoutUpperLimitOnReferencesNoAt
 		
 		activatedRules.add("addToGroup_features_Feature"); activatedRules.add("createConcreteFeature_IN_Feature"); activatedRules.add("createGroup_IN_FeatureModel"); activatedRules.add("deleteConcreteFeature_IN_Feature"); activatedRules.add("moveFeature_FROM_Feature_children_TO_Feature_Feature"); activatedRules.add("removeFromGroup_features_Feature"); activatedRules.add("addToGroup_features_Feature"); activatedRules.add("changeGroupFromALTtoOR"); activatedRules.add("createConcreteFeature_IN_Feature"); activatedRules.add("deleteExcludeConstraint_IN_FeatureModel"); activatedRules.add("deleteGroup_IN_FeatureModel"); activatedRules.add("setFeatureConcrete"); activatedRules.add("setFeatureOptional"); activatedRules.add("createAbstractFeature_IN_Feature"); activatedRules.add("deleteAbstractFeature_IN_Feature"); activatedRules.add("changeGroupFromORtoALT"); activatedRules.add("createExcludeConstraint_IN_FeatureModel"); activatedRules.add("createGroup_IN_FeatureModel"); activatedRules.add("createRequireConstraint_IN_FeatureModel"); activatedRules.add("deleteConcreteFeature_IN_Feature"); activatedRules.add("deleteGroup_IN_FeatureModel"); activatedRules.add("removeFromGroup_features_Feature"); activatedRules.add("setFeatureAbstract"); activatedRules.add("setFeatureMandatory"); activatedRules.add("mutuallyExchangeMandatoryAndOptional"); activatedRules.add("CreateChildrenFeaturesWithGroup"); activatedRules.add("CreateFeatureWithSubFeatures"); activatedRules.add("ReplaceFeature"); activatedRules.add("AddSiblingFeaturesWithGroup"); activatedRules.add("Generalization_2-6"); activatedRules.add("Generalization_2-7"); activatedRules.add("FlattenFeatureHierarchy"); activatedRules.add("Refactoring_1-2"); activatedRules.add("Refactoring_1-3"); activatedRules.add("Refactoring_1-4"); activatedRules.add("Refactoring_1-5");
 
-//		deactivatedRules.add("Specialization_3-6"); // Ram läuft voll.
+//		deactivatedRules.add("Specialization_3-6"); // Ram lÃ¤uft voll.
 		
 //		Set<String> limitedSetOfRulesByRuleNames = new HashSet<String>();
 //		limitedSetOfRulesByRuleNames.add("Generalization_2-1");
