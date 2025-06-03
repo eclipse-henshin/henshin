@@ -41,7 +41,6 @@ public class BankMapExample {
 	/**
 	 * Run the bank example.
 	 * @param path Relative path to the model files.
-	 * @param saveResult Whether the result should be saved.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void run(String path) {

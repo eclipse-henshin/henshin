@@ -20,7 +20,6 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
 import org.eclipse.emf.henshin.interpreter.monitoring.PerformanceMonitor;
 import org.eclipse.emf.henshin.interpreter.monitoring.VariableCheck;
@@ -125,7 +124,6 @@ public class DomainSlot {
 	 * Constructor.
 	 * @param conditionHandler Condition handler to be used.
 	 * @param usedObjects Used objects.
-	 * @param options Options.
 	 * @param monitor Monitor to collect performance data
 	 */
 	public DomainSlot(ConditionHandler conditionHandler, Set<EObject> usedObjects,
@@ -252,7 +250,7 @@ public class DomainSlot {
 	
 	/**
 	 * Removes the lock on this domain slot. If the domain contains additional
-	 * objects {@link #instantiate(Variable, Map, EGraphImpl)} may be called
+	 * objects {@link #instantiate(Variable, Map, EGraph)} may be called
 	 * again.
 	 * @param sender
 	 *            The variable which uses this domain slot. Only the variable

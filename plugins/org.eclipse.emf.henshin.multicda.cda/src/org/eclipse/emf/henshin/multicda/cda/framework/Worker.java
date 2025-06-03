@@ -29,7 +29,6 @@ public abstract class Worker {
 	 * @param errorOut
 	 *            first bool for error showing, second for System print. Default
 	 *            values are false, true.
-	 * @return
 	 */
 	public String print(String message, boolean... errorOut) {
 		message = NAME + ": " + message;

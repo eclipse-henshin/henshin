@@ -13,9 +13,6 @@ public class ExtensionCloneRelation {
 	/**
 	 * A clone group is an extension of another clone group if includes
 	 * all mappings of the other clone group and the same or a subset of its rules.
-	 * @param basis
-	 * @param extension
-	 * @return
 	 */
 	public static boolean isExtensionClone(CloneGroup basis,
 			CloneGroup extension) {

@@ -89,10 +89,6 @@ public class RuleClassifier {
 				+ forbidActionElements.size() + preserveActionElements.size();
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public boolean doesRuleCreateOnly() {
 		if (createActionElements != null) {
 			if (deleteActionElements.size() == 0 && forbidActionElements.size() == 0
@@ -102,10 +98,6 @@ public class RuleClassifier {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public boolean doesRuleDeleteOnly() {
 		if (deleteActionElements != null) {
 			if (createActionElements.size() == 0 && forbidActionElements.size() == 0

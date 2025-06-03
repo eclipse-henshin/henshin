@@ -48,7 +48,6 @@ public class HenshinInterpreterUIPlugin extends EMFPlugin {
 	/**
 	 * Non-breaking property access.
 	 * @param key
-	 * @return
 	 */
 	public static String LL(String key) {
 		try {

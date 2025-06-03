@@ -146,8 +146,8 @@ public interface MappingList extends EList<Mapping> {
 
 	/**
 	 * Get the image of an untyped object in a target graph. 
-	 * This delegates to {@link #getImage(Node)}, {@link #getImage(Edge)} 
-	 * or {@link #getImage(Attribute)}. It throws an 
+	 * This delegates to {@link #getImage(Node, Graph)}, {@link #getImage(Edge, Graph)} 
+	 * or {@link #getImage(Attribute, Graph)}. It throws an 
 	 * {@link IllegalArgumentException} if the type of the object is unknown.
 	 * @param origin Origin.
 	 * @param imageGraph Image graph.

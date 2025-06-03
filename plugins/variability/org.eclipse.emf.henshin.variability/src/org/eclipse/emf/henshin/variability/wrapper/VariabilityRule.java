@@ -246,7 +246,7 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 	/**
 	 * Removes the given feature if it is a part of this Rule.
 	 * 
-	 * @param variabilityPoint the variability point to be removed.
+	 * @param feature the feature to be removed.
 	 */
 	public void removeFeature(String feature) {
 		if (features.getValue() == null) {
@@ -625,7 +625,6 @@ public class VariabilityRule extends EObjectImpl implements Rule {
 	}
 
 	/**
-	 * @return
 	 * @see org.eclipse.emf.henshin.model.Unit#isActivated()
 	 */
 	public boolean isActivated() {

@@ -31,10 +31,6 @@ public class FeatureExpression {
 
 	/**
 	 * Does expression 1 imply expression 2?
-	 * 
-	 * @param expr1
-	 * @param expr2
-	 * @return
 	 */
 	public static boolean implies(Sentence expr1, Sentence expr2) {
 		if (implies.containsKey(expr1)) {
@@ -88,10 +84,6 @@ public class FeatureExpression {
 
 	/**
 	 * Does expression 1 contradict expression 2?
-	 * 
-	 * @param expr1
-	 * @param expr2
-	 * @return
 	 */
 	public static boolean contradicts(Sentence expr1, Sentence expr2) {
 		if (contradicts.containsKey(expr1)) {

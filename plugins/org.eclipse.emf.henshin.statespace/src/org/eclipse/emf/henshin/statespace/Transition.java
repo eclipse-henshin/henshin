@@ -59,7 +59,7 @@ public interface Transition extends Storage {
 	/**
 	 * Returns the value of the '<em><b>Rule</b></em>' attribute.
 	 * @return the value of the '<em>Rule</em>' attribute.
-	 * @see #setRule(String)
+	 * @see #setRule(Rule)
 	 * @model
 	 * @generated
 	 */

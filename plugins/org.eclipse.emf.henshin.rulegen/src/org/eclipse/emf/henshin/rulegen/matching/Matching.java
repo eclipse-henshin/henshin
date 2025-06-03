@@ -29,9 +29,6 @@ public class Matching {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param modelA
-	 * @param modelB
 	 */
 	public Matching() {
 		super();

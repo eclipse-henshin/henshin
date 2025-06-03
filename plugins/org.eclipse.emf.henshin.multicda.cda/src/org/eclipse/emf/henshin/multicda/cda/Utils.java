@@ -452,10 +452,6 @@ public abstract class Utils {
 		return result;
 	}
 
-	/**
-	 * @param graph
-	 * @return
-	 */
 	public static EPackage graphToEPackage(Graph g) {
 		Set<String> added = new HashSet<String>();
 		EPackage result = EcoreFactory.eINSTANCE.createEPackage();

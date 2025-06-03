@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.interpreter.debug.HenshinStackFrame;
 import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.Constraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
@@ -279,7 +280,6 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	/**
 	 * Tries to find another constraint type that has to be checked.
 	 * If not, tries to continue to the next variable because all constraints for this variable are valid
-	 * @return
 	 */
 	private synchronized void tryNextConstraintType() {
 		//are there any constraint types (with constraints) left that we have to check?
@@ -299,7 +299,6 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	
 	/**
 	 * Tries to go to the next value. Calls {@link #tryLowerIndexVariable()} if no value is left
-	 * @return
 	 */
 	private void tryNextValue() {
 		// are any other values left for this variable?
@@ -327,7 +326,6 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	/**
 	 * Tries to go to the next Variable with a lower index (shallower recursion depth)
 	 * to continue the search for a match.
-	 * @return
 	 */
 	private void tryLowerIndexVariable() {
 		// clear (+ unlock) the current domain slot
@@ -1016,7 +1014,6 @@ public void stepReturn() throws DebugException {
 	/**
 	 * Filter all constraint type breakpoints and returns an array list.
 	 * @param henshinBreakpoints
-	 * @return
 	 */
 	public ArrayList<ConstraintTypeBreakpoint> filterConstraintTypeBreakpoints(ArrayList<HenshinBreakpoint> henshinBreakpoints) {
 		ArrayList<ConstraintTypeBreakpoint> constraintTypeBreakpoints = new ArrayList<ConstraintTypeBreakpoint>();
@@ -1044,7 +1041,6 @@ public void stepReturn() throws DebugException {
 	/**
 	 * Filter all constraint instance breakpoints and returns an array list.
 	 * @param henshinBreakpoints
-	 * @return
 	 */
 	public ArrayList<ConstraintInstanceBreakpoint> filterConstraintInstanceBreakpoints(ArrayList<HenshinBreakpoint> henshinBreakpoints) {
 		ArrayList<ConstraintInstanceBreakpoint> constraintInstanceBreakpoints = new ArrayList<ConstraintInstanceBreakpoint>();
@@ -1116,10 +1112,6 @@ public void stepReturn() throws DebugException {
 	 * Checks if the application should suspend at the given ValueBreakpoint.
 	 * Therefore we check if the value we saved in the ValueBreakpoint is a member of the domain
 	 * and if so we additionally check if the saved index matches the index of the value within the domain.
-	 * 
-	 * @param variableBreakpoint
-	 * @param domain
-	 * @return boolean
 	 */
 	public boolean shouldStopAtValueBreakpoint(ValueBreakpoint valueBreakpoint, EObject value, int index) {
 		try {
@@ -1145,20 +1137,10 @@ public void stepReturn() throws DebugException {
 		return false;
 	}
 	
-	/**
-	 * 
-	 * @param constraintTypeBreakpoint
-	 * @return
-	 */
 	public boolean shouldStopAtConstraintTypeBreakpoint(ConstraintTypeBreakpoint constraintTypeBreakpoint) {
 		return constraintTypeBreakpoint.getType() == currentConstraintType;
 	}
 	
-	/**
-	 * 
-	 * @param constraintTypeBreakpoint
-	 * @return
-	 */
 	public boolean shouldStopAtConstraintInstanceBreakpoint(ConstraintInstanceBreakpoint constraintInstanceBreakpoint) {
 		return removeRuntimeValuesFromConstraintInstance(retrieveConstraintLabel()).equals(constraintInstanceBreakpoint.getConstraintInstance());
 	}
@@ -1286,7 +1268,6 @@ public void stepReturn() throws DebugException {
 	/**
 	 * returns the current array of stackFrames, each containing variables.
 	 * NOTE: maybe we could store the stackframes that do not change
-	 * @return
 	 */
 	public synchronized IStackFrame[] getStackFrames(HenshinDebugThread debugThread) {
 		
@@ -1610,7 +1591,7 @@ public void stepReturn() throws DebugException {
 	 * 
 	 * @param expectedDebugLevel the expected {@link DebugLevel}
 	 * @param expectedVariableIndex the expected variable index (see {@link ApplicationCondition#findMatch(int)}
-	 * @param expectedConstraintType the expected constraint type (see {@link constraint#getClass()})
+	 * @param expectedConstraintType the expected constraint type (see {@link Constraint})
 	 * @param expectedConstraintIndex the expected iteration index for multiple constraints of the same type (for example: {@link Variable#attributeConstraints}).
 	 * 
 	 * @return <code>true</code> if the state is the same, <code>false</code> otherwise
@@ -1649,7 +1630,7 @@ public void stepReturn() throws DebugException {
 	
 	/**
 	 * Checks the values of the match if one was found.
-	 * @param expectedMatch The expected match
+	 * @param expectedValues the expected values
 	 * @return <code>true</code> if the values of the match are the same as the given values
 	 */
 	public boolean checkMatch(Map<Variable, EObject> expectedValues) {

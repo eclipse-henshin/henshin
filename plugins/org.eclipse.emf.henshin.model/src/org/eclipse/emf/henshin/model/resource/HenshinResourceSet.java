@@ -120,7 +120,7 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	 * resource factories are registered only if no other resource factory
 	 * is already registered for the file extension.
 	 * 
-	 * @param fileExtension File extensions.
+	 * @param fileExtensions File extensions.
 	 */
 	public void registerXMIResourceFactories(String... fileExtensions) {
 		Map<String, Object> map = getResourceFactoryRegistry().getExtensionToFactoryMap();
@@ -252,7 +252,7 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	 * instance models to be transformed, and then call this method.
 	 * </p>
 	 * 
-	 * @param path Possible relative path and file name of a Henshin resource.
+	 * @param uri Possible relative path and file name of a Henshin resource.
 	 * @param fixImports If <code>true</code>, tries to fix the imports of the loaded module (default is <code>false</code>).
 	 * @return The contained {@link Module}.
 	 */

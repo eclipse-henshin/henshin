@@ -101,7 +101,7 @@ public class ScriptEngineWrapper {
 
 	/**
 	 * A wrapper for the put operation of the wrapped script engine.
-	 * @see javax.script.ScriptEngine.put(String key, Object value)
+	 * @see javax.script.ScriptEngine#put(String, Object)
 	 * 
 	 * @param key The name of named value to add
 	 * @param value The value of named value to add

@@ -146,8 +146,7 @@ public class RootObjectEditHelper {
 	}
 	
 	/**
-	 * Set the root object type for a rule. Before doing this you should make sure that
-	 * the root object type is ok using {@link #isPossibleRootType(EClass, Rule)}.
+	 * Set the root object type for a rule.
 	 * @param ruleView The rule view.
 	 * @param type Root object type.
 	 * @throws ExecutionException On errors.

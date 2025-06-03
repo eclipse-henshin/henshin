@@ -78,8 +78,6 @@ public class OCL2LaxCondCommand extends Translator {
 
 	/**
 	 * The entry point
-	 * 
-	 * @return
 	 */
 	public List<Condition> getSetofLaxConditions() {
 		long start = System.currentTimeMillis();

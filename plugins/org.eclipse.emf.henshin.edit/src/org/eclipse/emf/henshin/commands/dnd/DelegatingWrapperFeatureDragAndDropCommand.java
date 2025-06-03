@@ -70,7 +70,6 @@ public class DelegatingWrapperFeatureDragAndDropCommand extends AbstractCommand 
 	/**
 	 * @param domain
 	 * @param owner
-	 * @param feature
 	 * @param collection
 	 */
 	public DelegatingWrapperFeatureDragAndDropCommand(EditingDomain domain, Object owner,

@@ -6,7 +6,6 @@ public class VariableBreakpoint extends HenshinBreakpoint {
 
 	/**
 	 * Get type name.
-	 * @return
 	 */
 	public String getTypeName() {
 		return getAttribute("TypeName", null);
@@ -28,7 +27,6 @@ public class VariableBreakpoint extends HenshinBreakpoint {
 	
 	/**
 	 * Get node path representing the variable we set a breakpoint for.
-	 * @return
 	 */
 	public String getPath() {
 		return getAttribute("Path", null);

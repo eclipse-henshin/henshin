@@ -126,7 +126,6 @@ public class Tools {
 	 * 
 	 * @param contextFreeOclQuery context-free OCL query
 	 * @param graph {@link EGraph} the query is executed on
-	 * @return
 	 */
 	public static Collection<? extends EObject> getOCLQueryResults(String contextFreeOclQuery, EGraph graph) {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
@@ -150,10 +149,6 @@ public class Tools {
 
 	/**
 	 * Return the first element matched by the context-free OCL query
-	 * 
-	 * @param contextFreeOclQuery
-	 * @param graph
-	 * @return
 	 */
 	public static EObject getFirstOCLResult(String contextFreeOclQuery, EGraph graph) {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
@@ -181,9 +176,6 @@ public class Tools {
 
 	/**
 	 * get the {@link EGraph}'s first root
-	 * 
-	 * @param graph
-	 * @return
 	 */
 	public static EObject getGraphRoot(EGraph graph) {
 		return graph.getRoots().toArray(new EObject[1])[0];

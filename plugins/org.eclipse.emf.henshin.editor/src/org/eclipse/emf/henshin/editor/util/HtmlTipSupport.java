@@ -112,10 +112,7 @@ public class HtmlTipSupport {
 	/**
 	 * This method must be called after the viewer's {@link LabelProvider} is
 	 * set.
-	 * 
-	 * @param viewer
 	 */
-	
 	protected TreeItem getItem(MouseEvent e) {
 		return viewer.getTree().getItem(new Point(e.x, e.y));
 	}

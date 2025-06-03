@@ -25,8 +25,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 public class StateSpaceHashCodeUtil {
 	
 	/**
-	 * Compute the hash code of a model. This also updates the object hash codes
-	 * as also provides by {@link #updateObjectHashCodes(Model, EqualityHelper)}.
+	 * Compute the hash code of a model. This also updates the object hash codes.
 	 * @param model The model.
 	 * @return The model's hash code.
 	 */

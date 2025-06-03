@@ -37,7 +37,6 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 	/**
 	 * Constructor.
 	 * @param helper State space exploration helper.
-	 * @param generateLocations Whether to generate locations.
 	 */
 	public ExploreStatesCommand(StateSpaceExplorationHelper helper) {
 		super("explore states", helper.getStateSpaceManager());

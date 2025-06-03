@@ -33,7 +33,6 @@ public class LayoutStateSpaceJob extends Job {
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
-	 * @param display Display.
 	 */
 	public LayoutStateSpaceJob(StateSpace stateSpace) {
 		super("Layouting state space");

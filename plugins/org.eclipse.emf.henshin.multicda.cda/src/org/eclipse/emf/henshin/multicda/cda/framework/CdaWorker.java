@@ -195,17 +195,11 @@ public class CdaWorker extends Worker {
 		return minimalReasons;
 	}
 
-	/**
-	 * @return
-	 */
 	@Override
 	public Set<Reason> getResult() {
 		return reasons;
 	}
 
-	/**
-	 * @return
-	 */
 	public Set<Atom> getAtoms() {
 		return atoms;
 	}
@@ -400,7 +394,7 @@ public class CdaWorker extends Worker {
 	 * 
 	 * @param cps
 	 *            to compare
-	 * @param asserts
+	 * @param assertsPrint
 	 *            true if an assertion should be done by failed comparison
 	 * @return Map of matched critical Pairs and Reasons
 	 */
