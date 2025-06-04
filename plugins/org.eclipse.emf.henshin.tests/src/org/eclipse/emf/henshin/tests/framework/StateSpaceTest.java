@@ -31,7 +31,7 @@ public abstract class StateSpaceTest {
 	/**
 	 * Load a state space from a given file.
 	 * 
-	 * @param path Path of the state space file.
+	 * @param file The state space file.
 	 * @return The loaded state space.
 	 */
 	protected StateSpace loadStateSpace(File file) {

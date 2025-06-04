@@ -23,7 +23,7 @@ public interface ActionHelper<E extends GraphElement,C> {
 	 * Determine the action for an element. If this returns <code>null</code>
 	 * the element is not considered to be a proper action element and hence
 	 * should not be displayed in an integrated rule view.
-	 * @param element Element.
+	 * @param e the Element.
 	 * @return Action or <code>null</code>.
 	 */
 	Action getAction(E e);

@@ -35,7 +35,7 @@ import aima.core.logic.propositional.parsing.ast.Sentence;
  * application and matching. If the rule is expected to be used later, it is
  * required to call the undo() method after the application has been performed.
  * 
- * @author Daniel Str�ber
+ * @author Daniel Strüber
  *
  */
 public class RulePreparator {

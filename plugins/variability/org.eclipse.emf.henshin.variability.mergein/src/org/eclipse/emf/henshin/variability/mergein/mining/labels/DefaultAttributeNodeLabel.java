@@ -10,7 +10,7 @@ import org.eclipse.emf.henshin.variability.mergein.normalize.HenshinAttributeNod
  * stores the type of a given node, and supports hashCode() and equals()
  * methods for the comparison of different instances. 
  * 
- * @author strüber
+ * @author StrÃ¼ber
  *
  */ 
 public class DefaultAttributeNodeLabel extends DefaultNodeLabel {

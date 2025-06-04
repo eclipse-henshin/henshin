@@ -6,7 +6,7 @@ import java.util.Stack;
 
 /**
  * 
- * @author Daniel Str�ber, Stefan Schulz
+ * @author Daniel Strüber, Stefan Schulz
  *
  */
 public class XorEncoderUtil {
