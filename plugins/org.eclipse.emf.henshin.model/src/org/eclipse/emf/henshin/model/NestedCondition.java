@@ -26,7 +26,6 @@ package org.eclipse.emf.henshin.model;
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='mappingOriginContainedInParentCondition mappingImageContainedInCurrent'"
  * @generated
  */
-@SuppressWarnings("unused")
 public interface NestedCondition extends ModelElement, Formula {
 	
 	/**

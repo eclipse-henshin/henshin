@@ -28,7 +28,6 @@ import org.eclipse.emf.henshin.provider.descriptors.AttributePropertyDescriptor;
  * <!-- end-user-doc -->
  * @generated
  */
-@SuppressWarnings("unused")
 public class AttributeItemProvider extends ModelElementItemProvider {
 	
 	/**

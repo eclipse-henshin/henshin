@@ -33,7 +33,6 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * <!-- end-user-doc -->
  * @generated
  */
-@SuppressWarnings("unused")
 public class EdgeItemProvider extends ModelElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.

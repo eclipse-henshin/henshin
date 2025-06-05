@@ -97,7 +97,6 @@ public class Pushout {
 
 	}
 
-	@SuppressWarnings("unused")
 	private void glue(Span s1span, SpanMappings spanMappings, Node node, Map<EObject, EObject> shadow2Rule2,
 			boolean validate) {
 		Node l1node = s1span.getMappingIntoRule1(node).getImage();

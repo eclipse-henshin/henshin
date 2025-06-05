@@ -42,7 +42,6 @@ import org.eclipse.emf.henshin.model.Not;
  *
  * @generated
  */
-@SuppressWarnings("unused")
 public class NestedConditionImpl extends ModelElementImpl implements NestedCondition {
 	
 	/**
