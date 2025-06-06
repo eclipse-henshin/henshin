@@ -1,29 +1,26 @@
 package org.eclipse.emf.henshin.text.tests.formatting
 
 import javax.inject.Inject
-import org.eclipse.emf.henshin.text.henshin_text.Model
 import org.eclipse.emf.henshin.text.tests.Henshin_textInjectorProvider
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.formatter.FormatterTester
-import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.formatter.FormatterTestHelper
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(Henshin_textInjectorProvider))
 @Ignore
-class MultiRuleFormattingTests extends FormatterTester {
-	@Inject extension ParseHelper<Model>
+class MultiRuleFormattingTests {
+	@Inject extension FormatterTestHelper
 
 	/**
 	 * M1: Test empty kernel rules with one multi rule
 	 */
 	@Test
 	def testOneMultiRule() {
-		val model =
-'''ePackageImport testmodel
+		val model = '''ePackageImport testmodel
 
 rule rulename() {
 	graph {
@@ -41,7 +38,7 @@ rule rulename() {
 
 '''
 		assertFormatted[
-			toBeFormatted = model.replace("\n","").replace("\t","")
+			toBeFormatted = model.replace("\n", "").replace("\t", "")
 			expectation = model
 		]
 	}
@@ -51,8 +48,7 @@ rule rulename() {
 	 */
 	@Test
 	def testNestedMultiRule() {
-		val model =
-'''ePackageImport testmodel
+		val model = '''ePackageImport testmodel
 
 rule rulename() {
 	graph {
@@ -76,7 +72,7 @@ rule rulename() {
 
 '''
 		assertFormatted[
-			toBeFormatted = model.replace("\n","").replace("\t","")
+			toBeFormatted = model.replace("\n", "").replace("\t", "")
 			expectation = model
 		]
 	}
@@ -86,8 +82,7 @@ rule rulename() {
 	 */
 	@Test
 	def testActionTypeMultiRule() {
-		val model =
-'''ePackageImport testmodel
+		val model = '''ePackageImport testmodel
 
 rule rulename() {
 	graph {
@@ -108,7 +103,7 @@ rule rulename() {
 
 '''
 		assertFormatted[
-			toBeFormatted = model.replace("\n","").replace("\t","")
+			toBeFormatted = model.replace("\n", "").replace("\t", "")
 			expectation = model
 		]
 	}
@@ -118,8 +113,7 @@ rule rulename() {
 	 */
 	@Test
 	def testKernelAndMultiRule() {
-		val model =
-'''ePackageImport testmodel
+		val model = '''ePackageImport testmodel
 
 rule rulename() {
 	graph {
@@ -140,7 +134,7 @@ rule rulename() {
 
 '''
 		assertFormatted[
-			toBeFormatted = model.replace("\n","").replace("\t","")
+			toBeFormatted = model.replace("\n", "").replace("\t", "")
 			expectation = model
 		]
 	}
@@ -150,9 +144,7 @@ rule rulename() {
 	 */
 	@Test
 	def testParameterMultiRule() {
-		val model =
-		
-'''ePackageImport testmodel
+		val model = '''ePackageImport testmodel
 
 rule rulename(param1:EString,param2:EEList) {
 	graph {
@@ -169,7 +161,7 @@ rule rulename(param1:EString,param2:EEList) {
 
 '''
 		assertFormatted[
-			toBeFormatted = model.replace("\n","").replace("\t","")
+			toBeFormatted = model.replace("\n", "").replace("\t", "")
 			expectation = model
 		]
 	}
@@ -179,8 +171,7 @@ rule rulename(param1:EString,param2:EEList) {
 	 */
 	@Test
 	def setAttribute() {
-		val model =
-'''ePackageImport testmodel
+		val model = '''ePackageImport testmodel
 
 rule rulename() {
 	graph {
@@ -198,7 +189,7 @@ rule rulename() {
 
 '''
 		assertFormatted[
-			toBeFormatted = model.replace("\n","").replace("\t","")
+			toBeFormatted = model.replace("\n", "").replace("\t", "")
 			expectation = model
 		]
 	}

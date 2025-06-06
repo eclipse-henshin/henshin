@@ -3,14 +3,15 @@
  */
 package org.eclipse.emf.henshin.text.tests;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.eclipse.emf.henshin.text.Henshin_textRuntimeModule;
 import org.eclipse.emf.henshin.text.Henshin_textStandaloneSetup;
-import org.eclipse.xtext.junit4.GlobalRegistries;
-import org.eclipse.xtext.junit4.GlobalRegistries.GlobalStateMemento;
-import org.eclipse.xtext.junit4.IInjectorProvider;
-import org.eclipse.xtext.junit4.IRegistryConfigurator;
+import org.eclipse.xtext.testing.GlobalRegistries;
+import org.eclipse.xtext.testing.GlobalRegistries.GlobalStateMemento;
+import org.eclipse.xtext.testing.IInjectorProvider;
+import org.eclipse.xtext.testing.IRegistryConfigurator;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class Henshin_textInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
 

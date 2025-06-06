@@ -1,27 +1,27 @@
 package org.eclipse.emf.henshin.text.tests
 
-import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.emf.henshin.text.henshin_text.Model
 import javax.inject.Inject
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.junit.Test
-import org.junit.Assert
-import org.eclipse.emf.henshin.text.henshin_text.Node
-import org.eclipse.emf.henshin.text.henshin_text.Rule
-import org.eclipse.emf.henshin.text.henshin_text.Graph
-import org.eclipse.emf.henshin.text.henshin_text.Edges
-import org.eclipse.emf.henshin.text.henshin_text.StringValue
-import org.eclipse.emf.henshin.text.henshin_text.JavaClassValue
-import org.eclipse.emf.henshin.text.henshin_text.Formula
-import org.eclipse.emf.henshin.text.henshin_text.ConditionReuseNode
-import org.eclipse.emf.henshin.text.henshin_text.ConditionEdges
-import org.eclipse.emf.henshin.text.henshin_text.Not
-import org.eclipse.emf.henshin.text.henshin_text.ConditionGraphRef
-import org.eclipse.emf.henshin.text.henshin_text.ORorXOR
 import org.eclipse.emf.henshin.text.henshin_text.AND
+import org.eclipse.emf.henshin.text.henshin_text.ConditionEdges
+import org.eclipse.emf.henshin.text.henshin_text.ConditionGraphRef
 import org.eclipse.emf.henshin.text.henshin_text.ConditionNode
+import org.eclipse.emf.henshin.text.henshin_text.ConditionReuseNode
+import org.eclipse.emf.henshin.text.henshin_text.Edges
+import org.eclipse.emf.henshin.text.henshin_text.Formula
+import org.eclipse.emf.henshin.text.henshin_text.Graph
+import org.eclipse.emf.henshin.text.henshin_text.JavaClassValue
+import org.eclipse.emf.henshin.text.henshin_text.Model
+import org.eclipse.emf.henshin.text.henshin_text.Node
+import org.eclipse.emf.henshin.text.henshin_text.Not
+import org.eclipse.emf.henshin.text.henshin_text.ORorXOR
+import org.eclipse.emf.henshin.text.henshin_text.Rule
+import org.eclipse.emf.henshin.text.henshin_text.StringValue
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.junit.Assert
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(Henshin_textInjectorProvider))

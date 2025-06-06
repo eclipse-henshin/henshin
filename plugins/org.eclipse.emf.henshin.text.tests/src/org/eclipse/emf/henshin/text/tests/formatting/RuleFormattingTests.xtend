@@ -1,22 +1,20 @@
 package org.eclipse.emf.henshin.text.tests.formatting
 
 import javax.inject.Inject
-import org.eclipse.emf.henshin.text.henshin_text.Model
 import org.eclipse.emf.henshin.text.tests.Henshin_textInjectorProvider
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.formatter.FormatterTester
-import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.formatter.FormatterTestHelper
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(Henshin_textInjectorProvider))
 @Ignore
-class RuleFormattingTests extends FormatterTester {
-	
-	@Inject extension ParseHelper<Model>
+class RuleFormattingTests {
+
+	@Inject extension FormatterTestHelper
 
 	/**
 	 * R1: Test rule with name without parameter

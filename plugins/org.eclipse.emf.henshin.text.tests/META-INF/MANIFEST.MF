@@ -7,9 +7,9 @@ Bundle-SymbolicName: org.eclipse.emf.henshin.text.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.emf.henshin.text,
  org.junit;bundle-version="4.7.0",
- org.eclipse.xtext.junit4,
  org.eclipse.xtext.xbase.junit,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtext.testing
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.emf.henshin.text.tests
 Import-Package: org.hamcrest.core,
