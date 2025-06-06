@@ -27,9 +27,11 @@ pipeline {
 					discoverGitReferenceBuild referenceJob: 'eclipse.henshin/master'
 					recordIssues enabledForFailure: true, publishAllIssues: true, ignoreQualityGate: true, tools: [
 							eclipse(name: 'Compiler', pattern: '**/target/compilelogs/*.xml'),
-							mavenConsole(),
 							javaDoc()
 						], qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]
+					recordIssues enabledForFailure: true, publishAllIssues: true, ignoreQualityGate: true, tools: [
+							mavenConsole(),
+						], qualityGates: [[threshold: 1, type: 'NEW_HIGH', unstable: true]]
 				}
 			}
 		}
