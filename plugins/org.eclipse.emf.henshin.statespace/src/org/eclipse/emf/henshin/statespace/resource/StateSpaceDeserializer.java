@@ -36,8 +36,8 @@ public class StateSpaceDeserializer {
 	
 	/**
 	 * Deserialize a state space.
+	 * @param resource the State space resource.
 	 * @param in Input stream.
-	 * @result State space.
 	 * @throws IOException on I/O errors.
 	 */
 	public void read(StateSpaceResource resource, InputStream in) throws IOException {

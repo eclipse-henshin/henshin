@@ -30,8 +30,8 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 /**
  * M2M transformation with a JaMoPP Java model as source model and a state
  * machine model as target. This is an implementation in terms of case study 1
- * of TTC2011 (http://planet-research20.org/ttc2011/index.php?option=com_content
- * &view=article&id=118&Itemid=160).
+ * of TTC2011 ({@code http://planet-research20.org/ttc2011/index.php?option=com_content
+ * &view=article&id=118&Itemid=160}).
  * 
  * @author Johannes Tietje
  * @author Stefan Jurack

@@ -9,6 +9,7 @@
  */
 package org.eclipse.emf.henshin.editor.util;
 
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;

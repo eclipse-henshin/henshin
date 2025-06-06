@@ -57,19 +57,15 @@ public class Pushout {
 	private Graph shadowGraph;
 
 	/**
-	 * Creates Pushout of rule1.Lhs() <-- S --> rule2.Lhs() and rule1.Lhs() --> G <-- rule2.Lhs()
+	 * Creates Pushout of {@code rule1.Lhs() <-- S --> rule2.Lhs()} and {@code rule1.Lhs() --> G <-- rule2.Lhs()}
 	 * Pushout validation is on
-	 * 
-	 * @param rule1
-	 * @param l1Sl2
-	 * @param rule2
 	 */
 	public Pushout(Rule rule1, Span l1Sl2, Rule rule2) {
 		this(rule1.getLhs(), l1Sl2, rule2.getLhs(), true);
 	}
 
 	/**
-	 * Creates Pushout of rule1.Lhs() <-- S --> rule2.Lhs() and rule1.Lhs() --> G <-- rule2.Lhs()
+	 * Creates Pushout of {@code rule1.Lhs() <-- S --> rule2.Lhs()} and {@code rule1.Lhs() --> G <-- rule2.Lhs()}
 	 * 
 	 * @param validate turns the pushout validation on or of
 	 */

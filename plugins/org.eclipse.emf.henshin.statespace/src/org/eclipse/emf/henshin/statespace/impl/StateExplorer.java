@@ -39,6 +39,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.StateValidator;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -347,7 +348,7 @@ public class StateExplorer {
 	/**
 	 * Check whether a state is a goal state.
 	 * @param state State to be checked.
-	 * @result <code>true</code> if it is a goal state.
+	 * @return <code>true</code> if it is a goal state.
 	 */
 	public boolean isGoalState(State state) throws StateSpaceException {
 		if (goalStateValidator==null) {

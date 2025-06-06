@@ -47,7 +47,7 @@ public class Rules {
 	 * Assert that a {@link Rule} has no match
 	 * 
 	 * @param rule {@link Rule}
-	 * @parem engine {@link Engine}
+	 * @param engine {@link Engine}
 	 * @throws AssertionError
 	 */
 	public static void assertRuleHasNoMatch(Rule rule, EGraph graph, Match partialMatch, Engine engine)
@@ -112,7 +112,7 @@ public class Rules {
 	 * @param graph {@link EGraph} the rule should be applied to
 	 * @param n Number of applications
 	 * @throws AssertionError
-	 * @throws Exception if n < 0
+	 * @throws Exception if {@code n < 0}
 	 */
 	public static void assertRuleCanBeAppliedNTimes(Rule r, EGraph graph, Engine engine, int n) throws AssertionError,
 			Exception {
@@ -128,7 +128,7 @@ public class Rules {
 	 * @param ra {@link RuleApplication}
 	 * @param n Number of applications
 	 * @throws AssertionError
-	 * @throws Exception if n < 0
+	 * @throws Exception if {@code n < 0}
 	 */
 	public static void assertRuleCanBeAppliedNTimes(RuleApplication ra, int n) throws AssertionError, Exception {
 		if (n < 0) {

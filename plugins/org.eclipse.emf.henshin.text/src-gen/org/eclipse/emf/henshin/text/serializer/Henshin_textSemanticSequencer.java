@@ -632,7 +632,7 @@ public class Henshin_textSemanticSequencer extends AbstractDelegatingSemanticSeq
 	 *     ComparisonExpression.ComparisonExpression_1_0 returns ComparisonExpression
 	 *
 	 * Constraint:
-	 *     (left=ComparisonExpression_ComparisonExpression_1_0 (op='>=' | op='<=' | op='>' | op='<') right=PlusOrMinusExpression)
+	 *     (left=ComparisonExpression_ComparisonExpression_1_0 (op='&gt;=' | op='&lt;=' | op='&gt;' | op='&lt;') right=PlusOrMinusExpression)
 	 */
 	protected void sequence_ComparisonExpression(ISerializationContext context, ComparisonExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

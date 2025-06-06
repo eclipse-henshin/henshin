@@ -10,13 +10,13 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.common.util.EMap;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.resource.Resource;
+
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 
@@ -33,16 +33,16 @@ public interface Model extends EObject {
 	 * Get the resource that contains the actual model elements.
 	 * @return the value of the '<em>Resource</em>' attribute.
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_Resource()
-	 * @model transient="true"
+	 * @model transient="true" changeable="false"
 	 * @generated
 	 */
 	Resource getResource();
-	
+
 	/**
 	 * Get the associated {@link EGraph} instance for this model.
 	 * @return the value of the '<em>EGraph</em>' attribute.
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_EGraph()
-	 * @model dataType="org.eclipse.emf.henshin.statespace.EmfGraph" transient="true" changeable="false"
+	 * @model dataType="org.eclipse.emf.henshin.statespace.EGraph" transient="true" changeable="false"
 	 * @generated
 	 */
 	EGraph getEGraph();
@@ -51,7 +51,7 @@ public interface Model extends EObject {
 	 * Get the object hash codes of this state model
 	 * @return the value of the '<em>Object Hash Codes</em>' map.
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_ObjectHashCodes()
-	 * @model mapType="org.eclipse.emf.henshin.statespace.EObjectIntegerMapEntry<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EIntegerObject>"
+	 * @model mapType="org.eclipse.emf.henshin.statespace.EObjectIntegerMapEntry&lt;org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EIntegerObject&gt;"
 	 * @generated
 	 */
 	EMap<EObject, Integer> getObjectHashCodes();
@@ -59,7 +59,8 @@ public interface Model extends EObject {
 	/**
 	 * Get the object keys map for this state model.
 	 * @return the value of the '<em>Object Keys</em>' map.
-	 * @model mapType="org.eclipse.emf.henshin.statespace.ObjectKey<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EIntegerObject>"
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_ObjectKeysMap()
+	 * @model mapType="org.eclipse.emf.henshin.statespace.EObjectIntegerMapEntry&lt;org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EIntegerObject&gt;"
 	 * @generated
 	 */
 	EMap<EObject, Integer> getObjectKeysMap();
@@ -68,7 +69,9 @@ public interface Model extends EObject {
 	 * Get the object keys of this state model as an integer array.
 	 * This is derived from {@link #getObjectKeysMap()}.
 	 * @return the value of the '<em>Object Keys</em>' attribute.
-	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" changeable="false" volatile="true" derived="true"
+	 * @see #setObjectKeys(int[])
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_ObjectKeys()
+	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" volatile="true"
 	 * @generated
 	 */
 	int[] getObjectKeys();

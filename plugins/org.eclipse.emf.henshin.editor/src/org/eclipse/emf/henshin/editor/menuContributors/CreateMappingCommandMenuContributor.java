@@ -16,6 +16,7 @@ import org.eclipse.emf.henshin.editor.commands.CreateMappingCommand;
 import org.eclipse.emf.henshin.editor.commands.CreateParameterMappingCommand;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.commands.QuantUtil;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Unit;

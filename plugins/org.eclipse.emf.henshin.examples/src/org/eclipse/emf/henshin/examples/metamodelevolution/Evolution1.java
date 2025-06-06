@@ -56,7 +56,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
  * performed by the Henshin interpreter.
  * <p>
  * Our case study is dealing with the evolution of a Petri net meta-model. It
- * contains nodes <tt>Place</tt> and <tt>Transition</tt> with direct
+ * contains nodes {@code Place} and {@code Transition} with direct
  * bidirectional references between them. The evolution intends to replace such
  * direct bidirectional references by a reference class. This might by useful
  * e.g. to introduce additional attributes according to this relation. However,

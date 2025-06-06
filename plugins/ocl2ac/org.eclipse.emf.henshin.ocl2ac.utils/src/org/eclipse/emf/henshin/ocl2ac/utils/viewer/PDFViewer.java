@@ -20,7 +20,7 @@ public class PDFViewer extends ViewPart {
 	public static String pdfpath;
 	public static Browser browser;
 
-	/**
+	/*
 	 * @wbp.parser.constructor
 	 */
 	public PDFViewer() {

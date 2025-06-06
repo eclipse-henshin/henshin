@@ -13,7 +13,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * Generalizes a rule by making each << preserve >> and << delete >> node as abstract as possible.
+ * Generalizes a rule by making each {@code preserve} and {@code delete} node as abstract as possible.
  * 
  * 
  * @author Timo Kehrer, Manuel Ohrndorf
@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.model.Rule;
 public class RuleGeneralizer {
 
 	/**
-	 * Makes each << preserve >> and << delete >> node as abstract as possible.
+	 * Makes each {@code preserve} and {@code delete} node as abstract as possible.
 	 * 
 	 * @param rule The rule to be generalized.
 	 */

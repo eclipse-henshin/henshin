@@ -277,7 +277,7 @@ public interface StateSpace extends Storage {
 	 * Get the properties for this state space.
 	 * @return the value of the '<em>Properties</em>' map.
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_Properties()
-	 * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+	 * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;"
 	 * @generated
 	 */
 	EMap<String, String> getProperties();

@@ -233,6 +233,8 @@
 							<locale>en</locale>
 							<failOnError>false</failOnError>
 							<quiet>true</quiet>
+							<failOnError>true</failOnError>
+							<failOnWarnings>true</failOnWarnings>
 							<tags>
 								<!-- PDE API-tools javadoc annotations currently used -->
 								<tag>

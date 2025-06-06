@@ -17,7 +17,7 @@ class TransformationFormattingTests {
 	@Inject extension FormatterTestHelper
 
 	/**
-	 * T1: Test of nodes and edges with <preserve> action
+	 * T1: Test of nodes and edges with {@code preserve} action
 	 */
 	@Test
 	def testPreserve() {
@@ -42,7 +42,7 @@ rule rulename() {
 	}
 
 	/**
-	 * T2: Test of nodes and edges with <create> action
+	 * T2: Test of nodes and edges with {@code create} action
 	 */
 	@Test
 	def testCreate() {
@@ -64,7 +64,7 @@ rule rulename() {
 	}
 
 	/**
-	 * T3: Test of nodes and edges with <delete> action
+	 * T3: Test of nodes and edges with {@code delete} action
 	 */
 	@Test
 	def testDelete() {

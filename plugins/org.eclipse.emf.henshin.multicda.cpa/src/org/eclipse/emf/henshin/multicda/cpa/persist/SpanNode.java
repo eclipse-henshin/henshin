@@ -63,18 +63,18 @@ public class SpanNode extends TreeFolder {
 	}
 
 	/**
-	 * Sets the <code>TreeFolder> in which this <code>CriticalPairdNode</code> shall be contained.
+	 * Sets the <code>TreeFolder</code> in which this <code>CriticalPairdNode</code> shall be contained.
 	 * 
-	 * @param containgTreeFolder The <code>TreeFolder> in which this <code>CriticalPairdNode</code> shall be contained.
+	 * @param containgTreeFolder The <code>TreeFolder</code> in which this <code>CriticalPairdNode</code> shall be contained.
 	 */
 	public void setParent(TreeFolder containgTreeFolder) {
 		parent = containgTreeFolder;
 	}
 
 	/**
-	 * Returns the <code>TreeFolder> in which this <code>CriticalPairdNode</code> is contained.
+	 * Returns the <code>TreeFolder</code> in which this <code>CriticalPairdNode</code> is contained.
 	 * 
-	 * @return The <code>TreeFolder> in which this <code>CriticalPairdNode</code> is contained.
+	 * @return The <code>TreeFolder</code> in which this <code>CriticalPairdNode</code> is contained.
 	 */
 	public TreeFolder getParent() {
 		return parent;

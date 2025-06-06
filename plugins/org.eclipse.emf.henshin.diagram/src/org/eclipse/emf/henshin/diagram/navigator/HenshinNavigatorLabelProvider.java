@@ -59,7 +59,7 @@ import org.eclipse.ui.navigator.ICommonLabelProvider;
 
 /**
  * @generated
- * @implements IColorProvider
+ * @see IColorProvider
  */
 @SuppressWarnings("unused")
 public class HenshinNavigatorLabelProvider extends LabelProvider

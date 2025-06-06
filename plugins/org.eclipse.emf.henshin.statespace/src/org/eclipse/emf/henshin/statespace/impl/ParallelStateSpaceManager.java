@@ -20,6 +20,7 @@ import java.util.concurrent.Future;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 
 /**
  * Parallelized {@link StateSpaceManager} implementation.
