@@ -365,6 +365,7 @@ public class StateImpl extends StorageImpl implements State {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getIndex() {
 		return index;
 	}
@@ -374,6 +375,7 @@ public class StateImpl extends StorageImpl implements State {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIndex(int newIndex) {
 		int oldIndex = index;
 		index = newIndex;
@@ -385,6 +387,7 @@ public class StateImpl extends StorageImpl implements State {
 	 * Get the list of incoming transitions of this state.
 	 * @generated
 	 */
+	@Override
 	public EList<Transition> getIncoming() {
 		if (incoming == null) {
 			incoming = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, StateSpacePackage.STATE__INCOMING, StateSpacePackage.TRANSITION__TARGET);
@@ -396,6 +399,7 @@ public class StateImpl extends StorageImpl implements State {
 	 * Get the list of outgoing transitions of this state.
 	 * @generated
 	 */
+	@Override
 	public EList<Transition> getOutgoing() {
 		if (outgoing == null) {
 			outgoing = new EObjectContainmentWithInverseEList<Transition>(Transition.class, this, StateSpacePackage.STATE__OUTGOING, StateSpacePackage.TRANSITION__SOURCE);
@@ -406,6 +410,7 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated
 	 */
+	@Override
 	public Model getModel() {
 		return model;
 	}
@@ -426,6 +431,7 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated
 	 */
+	@Override
 	public void setModel(Model newModel) {
 		if (newModel != model) {
 			NotificationChain msgs = null;
@@ -443,9 +449,10 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated
 	 */
+	@Override
 	public StateSpace getStateSpace() {
 		if (eContainerFeatureID() != StateSpacePackage.STATE__STATE_SPACE) return null;
-		return (StateSpace)eContainer();
+		return (StateSpace)eInternalContainer();
 	}
 	
 	/**
@@ -459,6 +466,7 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated
 	 */
+	@Override
 	public void setStateSpace(StateSpace newStateSpace) {
 		if (newStateSpace != eInternalContainer() || (eContainerFeatureID() != StateSpacePackage.STATE__STATE_SPACE && newStateSpace != null)) {
 			if (EcoreUtil.isAncestor(this, newStateSpace))

@@ -92,6 +92,7 @@ public class NestedConstraintModelImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -101,6 +102,7 @@ public class NestedConstraintModelImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -113,6 +115,7 @@ public class NestedConstraintModelImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<NestedConstraint> getNestedconstrainmodels() {
 		if (nestedconstrainmodels == null) {
 			nestedconstrainmodels = new EObjectContainmentEList<NestedConstraint>(NestedConstraint.class, this, NestedconstraintmodelPackage.NESTED_CONSTRAINT_MODEL__NESTEDCONSTRAINMODELS);
@@ -213,7 +216,7 @@ public class NestedConstraintModelImpl extends MinimalEObjectImpl.Container impl
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

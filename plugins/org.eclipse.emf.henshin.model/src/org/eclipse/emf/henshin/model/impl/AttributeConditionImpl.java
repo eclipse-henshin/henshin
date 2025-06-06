@@ -83,6 +83,7 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Rule getRule() {
 		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE) return null;
 		return (Rule)eContainer();
@@ -113,6 +114,7 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRule(Rule newRule) {
 		if (newRule != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE && newRule != null)) {
 			if (EcoreUtil.isAncestor(this, newRule))
@@ -134,6 +136,7 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConditionText() {
 		return conditionText;
 	}
@@ -143,6 +146,7 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConditionText(String newConditionText) {
 		String oldConditionText = conditionText;
 		conditionText = newConditionText;

@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EPackage;
  *
  * @see laxcondition.LaxconditionPackage#getCondition()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='TypeGraphConsistency'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot TypeGraphConsistency='graph_0::Graph.allInstances() -> forAll(g|g.typegraph = self.typeGraph)'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot TypeGraphConsistency='graph_0::Graph.allInstances() -&gt; forAll(g|g.typegraph = self.typeGraph)'"
  * @generated
  */
 public interface Condition extends EObject {

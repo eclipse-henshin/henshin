@@ -67,6 +67,7 @@ public class NestedconstraintmodelFactoryImpl extends EFactoryImpl implements Ne
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedConstraintModel createNestedConstraintModel() {
 		NestedConstraintModelImpl nestedConstraintModel = new NestedConstraintModelImpl();
 		return nestedConstraintModel;
@@ -77,6 +78,7 @@ public class NestedconstraintmodelFactoryImpl extends EFactoryImpl implements Ne
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedconstraintmodelPackage getNestedconstraintmodelPackage() {
 		return (NestedconstraintmodelPackage)getEPackage();
 	}

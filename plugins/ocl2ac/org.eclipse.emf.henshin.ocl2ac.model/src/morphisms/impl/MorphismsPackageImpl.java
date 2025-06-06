@@ -72,7 +72,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link MorphismsPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -86,7 +86,8 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 		if (isInited) return (MorphismsPackage)EPackage.Registry.INSTANCE.getEPackage(MorphismsPackage.eNS_URI);
 
 		// Obtain or create and register package
-		MorphismsPackageImpl theMorphismsPackage = (MorphismsPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MorphismsPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MorphismsPackageImpl());
+		Object registeredMorphismsPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		MorphismsPackageImpl theMorphismsPackage = registeredMorphismsPackage instanceof MorphismsPackageImpl ? (MorphismsPackageImpl)registeredMorphismsPackage : new MorphismsPackageImpl();
 
 		isInited = true;
 
@@ -102,7 +103,6 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 		// Mark meta-data to indicate it can't be changed
 		theMorphismsPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(MorphismsPackage.eNS_URI, theMorphismsPackage);
 		return theMorphismsPackage;
@@ -113,6 +113,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMorphism() {
 		return morphismEClass;
 	}
@@ -122,6 +123,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMorphism_Domain() {
 		return (EReference)morphismEClass.getEStructuralFeatures().get(0);
 	}
@@ -131,6 +133,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMorphism_Codomain() {
 		return (EReference)morphismEClass.getEStructuralFeatures().get(1);
 	}
@@ -140,6 +143,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMorphism_Mappings() {
 		return (EReference)morphismEClass.getEStructuralFeatures().get(2);
 	}
@@ -149,6 +153,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMapping() {
 		return mappingEClass;
 	}
@@ -158,6 +163,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapping_Origin() {
 		return (EReference)mappingEClass.getEStructuralFeatures().get(0);
 	}
@@ -167,6 +173,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapping_Image() {
 		return (EReference)mappingEClass.getEStructuralFeatures().get(1);
 	}
@@ -176,6 +183,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPair() {
 		return pairEClass;
 	}
@@ -185,6 +193,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPair_A() {
 		return (EReference)pairEClass.getEStructuralFeatures().get(0);
 	}
@@ -194,6 +203,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPair_B() {
 		return (EReference)pairEClass.getEStructuralFeatures().get(1);
 	}
@@ -203,6 +213,7 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MorphismsFactory getMorphismsFactory() {
 		return (MorphismsFactory)getEFactoryInstance();
 	}
@@ -301,12 +312,12 @@ public class MorphismsPackageImpl extends EPackageImpl implements MorphismsPacka
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "graph", "graph.ecore#/"
+			   "graph", "graph.ecore#/"
 		   });
 	}
 

@@ -26,10 +26,10 @@ import org.eclipse.emf.henshin.wrap.WrapPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.impl.WLinkImpl#getWTarget <em>WTarget</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -142,6 +142,7 @@ public class WLinkImpl extends WMemberImpl implements WLink {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public WObject getWTarget() {
 		if (wTarget != null && wTarget.eIsProxy()) {
 			InternalEObject oldWTarget = (InternalEObject)wTarget;
@@ -168,6 +169,7 @@ public class WLinkImpl extends WMemberImpl implements WLink {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setWTarget(WObject newWTarget) {
 		WObject oldWTarget = wTarget;
 		wTarget = newWTarget;

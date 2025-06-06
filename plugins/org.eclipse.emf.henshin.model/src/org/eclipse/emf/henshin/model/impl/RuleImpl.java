@@ -256,6 +256,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLhs(Graph newLhs) {
 		if (newLhs != lhs) {
 			NotificationChain msgs = null;
@@ -313,6 +314,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRhs(Graph newRhs) {
 		if (newRhs != rhs) {
 			NotificationChain msgs = null;
@@ -332,6 +334,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AttributeCondition> getAttributeConditions() {
 		if (attributeConditions == null) {
 			attributeConditions = new EObjectContainmentWithInverseEList.Resolving<AttributeCondition>(AttributeCondition.class, this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, HenshinPackage.ATTRIBUTE_CONDITION__RULE);
@@ -1027,6 +1030,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isCheckDangling() {
 		return checkDangling;
 	}
@@ -1036,6 +1040,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCheckDangling(boolean newCheckDangling) {
 		boolean oldCheckDangling = checkDangling;
 		checkDangling = newCheckDangling;
@@ -1048,6 +1053,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isInjectiveMatching() {
 		return injectiveMatching;
 	}
@@ -1057,6 +1063,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInjectiveMatching(boolean newInjectiveMatching) {
 		boolean oldInjectiveMatching = injectiveMatching;
 		injectiveMatching = newInjectiveMatching;
@@ -1069,6 +1076,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Rule> getMultiRules() {
 		if (multiRules == null) {
 			multiRules = new EObjectContainmentEList.Resolving<Rule>(Rule.class, this, HenshinPackage.RULE__MULTI_RULES);
@@ -1093,6 +1101,7 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getJavaImports() {
 		if (javaImports == null) {
 			javaImports = new EDataTypeUniqueEList<String>(String.class, this, HenshinPackage.RULE__JAVA_IMPORTS);

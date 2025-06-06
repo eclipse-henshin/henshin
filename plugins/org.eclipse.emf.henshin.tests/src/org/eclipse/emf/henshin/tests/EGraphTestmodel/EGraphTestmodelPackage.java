@@ -129,7 +129,7 @@ public class EGraphTestmodelPackage extends EPackageImpl {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link EGraphTestmodelPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -143,7 +143,8 @@ public class EGraphTestmodelPackage extends EPackageImpl {
 		if (isInited) return (EGraphTestmodelPackage)EPackage.Registry.INSTANCE.getEPackage(EGraphTestmodelPackage.eNS_URI);
 
 		// Obtain or create and register package
-		EGraphTestmodelPackage theEGraphTestmodelPackage = (EGraphTestmodelPackage)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EGraphTestmodelPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EGraphTestmodelPackage());
+		Object registeredEGraphTestmodelPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		EGraphTestmodelPackage theEGraphTestmodelPackage = registeredEGraphTestmodelPackage instanceof EGraphTestmodelPackage ? (EGraphTestmodelPackage)registeredEGraphTestmodelPackage : new EGraphTestmodelPackage();
 
 		isInited = true;
 
@@ -156,7 +157,6 @@ public class EGraphTestmodelPackage extends EPackageImpl {
 		// Mark meta-data to indicate it can't be changed
 		theEGraphTestmodelPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(EGraphTestmodelPackage.eNS_URI, theEGraphTestmodelPackage);
 		return theEGraphTestmodelPackage;

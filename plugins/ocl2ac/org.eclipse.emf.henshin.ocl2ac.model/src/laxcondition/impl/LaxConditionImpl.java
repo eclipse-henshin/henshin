@@ -55,6 +55,7 @@ public abstract class LaxConditionImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Formula getFormula() {
 		if (eContainerFeatureID() != LaxconditionPackage.LAX_CONDITION__FORMULA) return null;
 		return (Formula)eInternalContainer();
@@ -75,6 +76,7 @@ public abstract class LaxConditionImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFormula(Formula newFormula) {
 		if (newFormula != eInternalContainer() || (eContainerFeatureID() != LaxconditionPackage.LAX_CONDITION__FORMULA && newFormula != null)) {
 			if (EcoreUtil.isAncestor(this, newFormula))

@@ -127,7 +127,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link LaxconditionPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -141,14 +141,18 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 		if (isInited) return (LaxconditionPackage)EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI);
 
 		// Obtain or create and register package
-		LaxconditionPackageImpl theLaxconditionPackage = (LaxconditionPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LaxconditionPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LaxconditionPackageImpl());
+		Object registeredLaxconditionPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		LaxconditionPackageImpl theLaxconditionPackage = registeredLaxconditionPackage instanceof LaxconditionPackageImpl ? (LaxconditionPackageImpl)registeredLaxconditionPackage : new LaxconditionPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		NestedconstraintmodelPackageImpl theNestedconstraintmodelPackage = (NestedconstraintmodelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI) instanceof NestedconstraintmodelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI) : NestedconstraintmodelPackage.eINSTANCE);
-		NestedconditionPackageImpl theNestedconditionPackage = (NestedconditionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI) instanceof NestedconditionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI) : NestedconditionPackage.eINSTANCE);
-		GraphPackageImpl theGraphPackage = (GraphPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI) instanceof GraphPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI) : GraphPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI);
+		NestedconstraintmodelPackageImpl theNestedconstraintmodelPackage = (NestedconstraintmodelPackageImpl)(registeredPackage instanceof NestedconstraintmodelPackageImpl ? registeredPackage : NestedconstraintmodelPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI);
+		NestedconditionPackageImpl theNestedconditionPackage = (NestedconditionPackageImpl)(registeredPackage instanceof NestedconditionPackageImpl ? registeredPackage : NestedconditionPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI);
+		GraphPackageImpl theGraphPackage = (GraphPackageImpl)(registeredPackage instanceof GraphPackageImpl ? registeredPackage : GraphPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theLaxconditionPackage.createPackageContents();
@@ -164,8 +168,9 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put
-			(theLaxconditionPackage, 
+			(theLaxconditionPackage,
 			 new EValidator.Descriptor() {
+				 @Override
 				 public EValidator getEValidator() {
 					 return LaxconditionValidator.INSTANCE;
 				 }
@@ -174,7 +179,6 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 		// Mark meta-data to indicate it can't be changed
 		theLaxconditionPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(LaxconditionPackage.eNS_URI, theLaxconditionPackage);
 		return theLaxconditionPackage;
@@ -185,6 +189,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCondition() {
 		return conditionEClass;
 	}
@@ -194,6 +199,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCondition_TypeGraph() {
 		return (EReference)conditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -203,6 +209,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCondition_Name() {
 		return (EAttribute)conditionEClass.getEStructuralFeatures().get(1);
 	}
@@ -212,6 +219,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCondition_LaxCondition() {
 		return (EReference)conditionEClass.getEStructuralFeatures().get(2);
 	}
@@ -221,6 +229,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLaxCondition() {
 		return laxConditionEClass;
 	}
@@ -230,6 +239,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLaxCondition_Formula() {
 		return (EReference)laxConditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -239,6 +249,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getQuantifiedLaxCondition() {
 		return quantifiedLaxConditionEClass;
 	}
@@ -248,6 +259,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getQuantifiedLaxCondition_Graph() {
 		return (EReference)quantifiedLaxConditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -257,6 +269,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getQuantifiedLaxCondition_Condition() {
 		return (EReference)quantifiedLaxConditionEClass.getEStructuralFeatures().get(1);
 	}
@@ -266,6 +279,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getQuantifiedLaxCondition_Quantifier() {
 		return (EAttribute)quantifiedLaxConditionEClass.getEStructuralFeatures().get(2);
 	}
@@ -275,6 +289,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getQuantifiedLaxCondition_Variables() {
 		return (EReference)quantifiedLaxConditionEClass.getEStructuralFeatures().get(3);
 	}
@@ -284,6 +299,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTrue() {
 		return trueEClass;
 	}
@@ -293,6 +309,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getFormula() {
 		return formulaEClass;
 	}
@@ -302,6 +319,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFormula_Op() {
 		return (EAttribute)formulaEClass.getEStructuralFeatures().get(0);
 	}
@@ -311,6 +329,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getFormula_Arguments() {
 		return (EReference)formulaEClass.getEStructuralFeatures().get(1);
 	}
@@ -320,6 +339,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVariable() {
 		return variableEClass;
 	}
@@ -329,6 +349,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getVariable_Name() {
 		return (EAttribute)variableEClass.getEStructuralFeatures().get(0);
 	}
@@ -338,6 +359,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getQuantifier() {
 		return quantifierEEnum;
 	}
@@ -347,6 +369,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getOperator() {
 		return operatorEEnum;
 	}
@@ -356,6 +379,7 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LaxconditionFactory getLaxconditionFactory() {
 		return (LaxconditionFactory)getEFactoryInstance();
 	}
@@ -498,13 +522,13 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore",
-			 "graph_0", "graph.ecore#/"
+			   "ecore", "http://www.eclipse.org/emf/2002/Ecore",
+			   "graph_0", "graph.ecore#/"
 		   });
 	}
 
@@ -515,32 +539,32 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * @generated
 	 */
 	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore";	
+		String source = "http://www.eclipse.org/emf/2002/Ecore";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"
-		   });	
+			   "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+			   "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+			   "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"
+		   });
 		addAnnotation
-		  (conditionEClass, 
-		   source, 
+		  (conditionEClass,
+		   source,
 		   new String[] {
-			 "constraints", "TypeGraphConsistency"
-		   });	
+			   "constraints", "TypeGraphConsistency"
+		   });
 		addAnnotation
-		  (quantifiedLaxConditionEClass, 
-		   source, 
+		  (quantifiedLaxConditionEClass,
+		   source,
 		   new String[] {
-			 "constraints", "HostGraphConsistency"
-		   });	
+			   "constraints", "HostGraphConsistency"
+		   });
 		addAnnotation
-		  (formulaEClass, 
-		   source, 
+		  (formulaEClass,
+		   source,
 		   new String[] {
-			 "constraints", "OneArgumentForNOT AtLeastTwoArgumentForANDOR TwoArgumentForIMPLEQUALXOR"
+			   "constraints", "OneArgumentForNOT AtLeastTwoArgumentForANDOR TwoArgumentForIMPLEQUALXOR"
 		   });
 	}
 
@@ -551,26 +575,26 @@ public class LaxconditionPackageImpl extends EPackageImpl implements Laxconditio
 	 * @generated
 	 */
 	protected void createPivotAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";	
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";
 		addAnnotation
-		  (conditionEClass, 
-		   source, 
+		  (conditionEClass,
+		   source,
 		   new String[] {
-			 "TypeGraphConsistency", "graph_0::Graph.allInstances() -> forAll(g|g.typegraph = self.typeGraph)"
-		   });	
+			   "TypeGraphConsistency", "graph_0::Graph.allInstances() -> forAll(g|g.typegraph = self.typeGraph)"
+		   });
 		addAnnotation
-		  (quantifiedLaxConditionEClass, 
-		   source, 
+		  (quantifiedLaxConditionEClass,
+		   source,
 		   new String[] {
-			 "HostGraphConsistency", "self.graph.edges -> forAll(e|self.graph.nodes -> includes(e.source) and self.graph.nodes -> includes(e.target))"
-		   });	
+			   "HostGraphConsistency", "self.graph.edges -> forAll(e|self.graph.nodes -> includes(e.source) and self.graph.nodes -> includes(e.target))"
+		   });
 		addAnnotation
-		  (formulaEClass, 
-		   source, 
+		  (formulaEClass,
+		   source,
 		   new String[] {
-			 "OneArgumentForNOT", "(self.op = Operator::NOT) implies (self.arguments -> size() = 1)",
-			 "AtLeastTwoArgumentForANDOR", "((self.op = Operator::AND) or (self.op = Operator::OR)) implies (self.arguments -> size() > 1)",
-			 "TwoArgumentForIMPLEQUALXOR", "((self.op = Operator::IMPLIES) or (self.op = Operator::EQUIVALENT) or (self.op = Operator::XOR)) implies (self.arguments -> size() = 2)"
+			   "OneArgumentForNOT", "(self.op = Operator::NOT) implies (self.arguments -> size() = 1)",
+			   "AtLeastTwoArgumentForANDOR", "((self.op = Operator::AND) or (self.op = Operator::OR)) implies (self.arguments -> size() > 1)",
+			   "TwoArgumentForIMPLEQUALXOR", "((self.op = Operator::IMPLIES) or (self.op = Operator::EQUIVALENT) or (self.op = Operator::XOR)) implies (self.arguments -> size() = 2)"
 		   });
 	}
 

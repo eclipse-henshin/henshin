@@ -369,7 +369,7 @@ public class UmlPackage extends EPackageImpl {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link UmlPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -383,7 +383,8 @@ public class UmlPackage extends EPackageImpl {
 		if (isInited) return (UmlPackage)EPackage.Registry.INSTANCE.getEPackage(UmlPackage.eNS_URI);
 
 		// Obtain or create and register package
-		UmlPackage theUmlPackage = (UmlPackage)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof UmlPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new UmlPackage());
+		Object registeredUmlPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		UmlPackage theUmlPackage = registeredUmlPackage instanceof UmlPackage ? (UmlPackage)registeredUmlPackage : new UmlPackage();
 
 		isInited = true;
 
@@ -396,7 +397,6 @@ public class UmlPackage extends EPackageImpl {
 		// Mark meta-data to indicate it can't be changed
 		theUmlPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(UmlPackage.eNS_URI, theUmlPackage);
 		return theUmlPackage;

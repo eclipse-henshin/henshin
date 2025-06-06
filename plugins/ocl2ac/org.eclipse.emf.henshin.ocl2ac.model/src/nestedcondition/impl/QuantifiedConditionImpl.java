@@ -110,6 +110,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Quantifier getQuantifier() {
 		return quantifier;
 	}
@@ -119,6 +120,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setQuantifier(Quantifier newQuantifier) {
 		Quantifier oldQuantifier = quantifier;
 		quantifier = newQuantifier == null ? QUANTIFIER_EDEFAULT : newQuantifier;
@@ -131,6 +133,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedCondition getCondition() {
 		return condition;
 	}
@@ -155,6 +158,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(NestedCondition newCondition) {
 		if (newCondition != condition) {
 			NotificationChain msgs = null;
@@ -174,6 +178,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Morphism getMorphism() {
 		return morphism;
 	}
@@ -198,6 +203,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMorphism(Morphism newMorphism) {
 		if (newMorphism != morphism) {
 			NotificationChain msgs = null;
@@ -217,6 +223,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getCodomain() {
 		return codomain;
 	}
@@ -241,6 +248,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCodomain(Graph newCodomain) {
 		if (newCodomain != codomain) {
 			NotificationChain msgs = null;
@@ -370,7 +378,7 @@ public class QuantifiedConditionImpl extends NestedConditionImpl implements Quan
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (quantifier: ");
 		result.append(quantifier);
 		result.append(')');

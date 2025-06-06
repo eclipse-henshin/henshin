@@ -83,6 +83,7 @@ public abstract class NestedConditionImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Variable> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentEList<Variable>(Variable.class, this, NestedconditionPackage.NESTED_CONDITION__VARIABLES);
@@ -95,6 +96,7 @@ public abstract class NestedConditionImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getDomain() {
 		if (domain != null && domain.eIsProxy()) {
 			InternalEObject oldDomain = (InternalEObject)domain;
@@ -121,6 +123,7 @@ public abstract class NestedConditionImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDomain(Graph newDomain) {
 		Graph oldDomain = domain;
 		domain = newDomain;

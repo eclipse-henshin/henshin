@@ -35,4 +35,12 @@
       </validator>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated statespace -->
+      <package
+            uri="http://www.eclipse.org/emf/2010/Henshin/StateSpace"
+            class="org.eclipse.emf.henshin.statespace.StateSpacePackage"
+            genModel="model/statespace.genmodel"/>
+   </extension>
+
 </plugin>

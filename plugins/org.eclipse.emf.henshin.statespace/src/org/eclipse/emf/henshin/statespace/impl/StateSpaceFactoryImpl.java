@@ -40,7 +40,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 */
 	public static StateSpaceFactory init() {
 		try {
-			StateSpaceFactory theStateSpaceFactory = (StateSpaceFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2010/Henshin/StateSpace"); 
+			StateSpaceFactory theStateSpaceFactory = (StateSpaceFactory)EPackage.Registry.INSTANCE.getEFactory(StateSpacePackage.eNS_URI);
 			if (theStateSpaceFactory != null) {
 				return theStateSpaceFactory;
 			}
@@ -124,6 +124,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public StateSpace createStateSpace() {
 		StateSpaceImpl stateSpace = new StateSpaceImpl();
 		return stateSpace;
@@ -170,6 +171,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public State createState() {
 		StateImpl state = new StateImpl();
 		return state;
@@ -180,6 +182,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Model createModel() {
 		ModelImpl model = new ModelImpl();
 		return model;
@@ -197,6 +200,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Transition createTransition() {
 		TransitionImpl transition = new TransitionImpl();
 		return transition;
@@ -207,6 +211,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EqualityHelper createEqualityHelper() {
 		EqualityHelperImpl equalityHelper = new EqualityHelperImpl();
 		return equalityHelper;
@@ -217,6 +222,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Storage createStorage() {
 		StorageImpl storage = new StorageImpl();
 		return storage;
@@ -312,6 +318,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public StateSpacePackage getStateSpacePackage() {
 		return (StateSpacePackage)getEPackage();
 	}

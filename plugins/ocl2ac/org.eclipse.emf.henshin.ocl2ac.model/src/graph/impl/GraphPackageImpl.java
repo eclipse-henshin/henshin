@@ -94,7 +94,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link GraphPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -108,14 +108,18 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 		if (isInited) return (GraphPackage)EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI);
 
 		// Obtain or create and register package
-		GraphPackageImpl theGraphPackage = (GraphPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof GraphPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new GraphPackageImpl());
+		Object registeredGraphPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		GraphPackageImpl theGraphPackage = registeredGraphPackage instanceof GraphPackageImpl ? (GraphPackageImpl)registeredGraphPackage : new GraphPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		NestedconstraintmodelPackageImpl theNestedconstraintmodelPackage = (NestedconstraintmodelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI) instanceof NestedconstraintmodelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI) : NestedconstraintmodelPackage.eINSTANCE);
-		NestedconditionPackageImpl theNestedconditionPackage = (NestedconditionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI) instanceof NestedconditionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI) : NestedconditionPackage.eINSTANCE);
-		LaxconditionPackageImpl theLaxconditionPackage = (LaxconditionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI) instanceof LaxconditionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI) : LaxconditionPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI);
+		NestedconstraintmodelPackageImpl theNestedconstraintmodelPackage = (NestedconstraintmodelPackageImpl)(registeredPackage instanceof NestedconstraintmodelPackageImpl ? registeredPackage : NestedconstraintmodelPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI);
+		NestedconditionPackageImpl theNestedconditionPackage = (NestedconditionPackageImpl)(registeredPackage instanceof NestedconditionPackageImpl ? registeredPackage : NestedconditionPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI);
+		LaxconditionPackageImpl theLaxconditionPackage = (LaxconditionPackageImpl)(registeredPackage instanceof LaxconditionPackageImpl ? registeredPackage : LaxconditionPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theGraphPackage.createPackageContents();
@@ -131,8 +135,9 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put
-			(theGraphPackage, 
+			(theGraphPackage,
 			 new EValidator.Descriptor() {
+				 @Override
 				 public EValidator getEValidator() {
 					 return GraphValidator.INSTANCE;
 				 }
@@ -141,7 +146,6 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 		// Mark meta-data to indicate it can't be changed
 		theGraphPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(GraphPackage.eNS_URI, theGraphPackage);
 		return theGraphPackage;
@@ -152,6 +156,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGraph() {
 		return graphEClass;
 	}
@@ -161,6 +166,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGraph_Edges() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(0);
 	}
@@ -170,6 +176,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGraph_Nodes() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(1);
 	}
@@ -179,6 +186,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGraph_Typegraph() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(2);
 	}
@@ -188,6 +196,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getGraph_Name() {
 		return (EAttribute)graphEClass.getEStructuralFeatures().get(3);
 	}
@@ -197,6 +206,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNode() {
 		return nodeEClass;
 	}
@@ -206,6 +216,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Attributes() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(0);
 	}
@@ -215,6 +226,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Outgoing() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(1);
 	}
@@ -224,6 +236,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNode_Name() {
 		return (EAttribute)nodeEClass.getEStructuralFeatures().get(2);
 	}
@@ -233,6 +246,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Incoming() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(3);
 	}
@@ -242,6 +256,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Type() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(4);
 	}
@@ -251,6 +266,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdge() {
 		return edgeEClass;
 	}
@@ -260,6 +276,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Source() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(0);
 	}
@@ -269,6 +286,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Target() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(1);
 	}
@@ -278,6 +296,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Type() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(2);
 	}
@@ -287,6 +306,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttribute() {
 		return attributeEClass;
 	}
@@ -296,6 +316,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute_Op() {
 		return (EAttribute)attributeEClass.getEStructuralFeatures().get(0);
 	}
@@ -305,6 +326,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute_Value() {
 		return (EAttribute)attributeEClass.getEStructuralFeatures().get(1);
 	}
@@ -314,6 +336,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttribute_Type() {
 		return (EReference)attributeEClass.getEStructuralFeatures().get(2);
 	}
@@ -323,6 +346,7 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public GraphFactory getGraphFactory() {
 		return (GraphFactory)getEFactoryInstance();
 	}
@@ -442,12 +466,12 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
+			   "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 
@@ -458,32 +482,32 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * @generated
 	 */
 	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore";	
+		String source = "http://www.eclipse.org/emf/2002/Ecore";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"
-		   });	
+			   "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+			   "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+			   "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"
+		   });
 		addAnnotation
-		  (graphEClass, 
-		   source, 
+		  (graphEClass,
+		   source,
 		   new String[] {
-			 "constraints", "CorrectlyTypedNodes"
-		   });	
+			   "constraints", "CorrectlyTypedNodes"
+		   });
 		addAnnotation
-		  (nodeEClass, 
-		   source, 
+		  (nodeEClass,
+		   source,
 		   new String[] {
-			 "constraints", "CorrectlyTypedAttributes"
-		   });	
+			   "constraints", "CorrectlyTypedAttributes"
+		   });
 		addAnnotation
-		  (edgeEClass, 
-		   source, 
+		  (edgeEClass,
+		   source,
 		   new String[] {
-			 "constraints", "CorrectlyTypedEdgesSourceNode CorrectlyTypedEdgesTargetNode"
+			   "constraints", "CorrectlyTypedEdgesSourceNode CorrectlyTypedEdgesTargetNode"
 		   });
 	}
 
@@ -494,25 +518,25 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * @generated
 	 */
 	protected void createPivotAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";	
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";
 		addAnnotation
-		  (graphEClass, 
-		   source, 
+		  (graphEClass,
+		   source,
 		   new String[] {
-			 "CorrectlyTypedNodes", "self.nodes -> forAll(node | self.typegraph.eClassifiers -> includes(node.type))"
-		   });	
+			   "CorrectlyTypedNodes", "self.nodes -> forAll(node | self.typegraph.eClassifiers -> includes(node.type))"
+		   });
 		addAnnotation
-		  (nodeEClass, 
-		   source, 
+		  (nodeEClass,
+		   source,
 		   new String[] {
-			 "CorrectlyTypedAttributes", "self.attributes -> forAll(attr | self.type.eAllAttributes -> includes(attr.type))"
-		   });	
+			   "CorrectlyTypedAttributes", "self.attributes -> forAll(attr | self.type.eAllAttributes -> includes(attr.type))"
+		   });
 		addAnnotation
-		  (edgeEClass, 
-		   source, 
+		  (edgeEClass,
+		   source,
 		   new String[] {
-			 "CorrectlyTypedEdgesSourceNode", "self.source.type.eAllReferences -> includes(self.type)",
-			 "CorrectlyTypedEdgesTargetNode", "(self.target.type = self.type.eReferenceType) or (self.target.type.eAllSuperTypes -> includes(self.type.eReferenceType))"
+			   "CorrectlyTypedEdgesSourceNode", "self.source.type.eAllReferences -> includes(self.type)",
+			   "CorrectlyTypedEdgesTargetNode", "(self.target.type = self.type.eReferenceType) or (self.target.type.eAllSuperTypes -> includes(self.type.eReferenceType))"
 		   });
 	}
 

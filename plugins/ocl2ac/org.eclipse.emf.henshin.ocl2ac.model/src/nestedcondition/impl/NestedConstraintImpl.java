@@ -109,6 +109,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -118,6 +119,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -130,6 +132,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EPackage getTypeGraph() {
 		if (typeGraph != null && typeGraph.eIsProxy()) {
 			InternalEObject oldTypeGraph = (InternalEObject)typeGraph;
@@ -156,6 +159,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTypeGraph(EPackage newTypeGraph) {
 		EPackage oldTypeGraph = typeGraph;
 		typeGraph = newTypeGraph;
@@ -168,6 +172,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedCondition getCondition() {
 		return condition;
 	}
@@ -192,6 +197,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(NestedCondition newCondition) {
 		if (newCondition != condition) {
 			NotificationChain msgs = null;
@@ -211,6 +217,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getDomain() {
 		return domain;
 	}
@@ -235,6 +242,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDomain(Graph newDomain) {
 		if (newDomain != domain) {
 			NotificationChain msgs = null;
@@ -363,7 +371,7 @@ public class NestedConstraintImpl extends MinimalEObjectImpl.Container implement
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

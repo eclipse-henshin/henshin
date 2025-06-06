@@ -11,8 +11,6 @@ import org.eclipse.emf.ecore.EFactory;
  * <!-- end-user-doc -->
  * @see configuration.ConfigurationPackage
  * @generated
- * @author Stefan Schulz
- * 
  */
 public interface ConfigurationFactory extends EFactory {
 	/**

@@ -81,6 +81,7 @@ public abstract class BinaryFormulaImpl extends ModelElementImpl implements Bina
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Formula getLeft() {
 		if (left != null && left.eIsProxy()) {
 			InternalEObject oldLeft = (InternalEObject)left;
@@ -128,6 +129,7 @@ public abstract class BinaryFormulaImpl extends ModelElementImpl implements Bina
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLeft(Formula newLeft) {
 		if (newLeft != left) {
 			NotificationChain msgs = null;
@@ -147,6 +149,7 @@ public abstract class BinaryFormulaImpl extends ModelElementImpl implements Bina
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Formula getRight() {
 		if (right != null && right.eIsProxy()) {
 			InternalEObject oldRight = (InternalEObject)right;
@@ -194,6 +197,7 @@ public abstract class BinaryFormulaImpl extends ModelElementImpl implements Bina
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRight(Formula newRight) {
 		if (newRight != right) {
 			NotificationChain msgs = null;

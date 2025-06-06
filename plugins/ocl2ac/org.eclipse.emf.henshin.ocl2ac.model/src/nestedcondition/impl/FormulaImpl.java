@@ -92,6 +92,7 @@ public class FormulaImpl extends NestedConditionImpl implements Formula {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Operator getOperator() {
 		return operator;
 	}
@@ -101,6 +102,7 @@ public class FormulaImpl extends NestedConditionImpl implements Formula {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOperator(Operator newOperator) {
 		Operator oldOperator = operator;
 		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
@@ -113,6 +115,7 @@ public class FormulaImpl extends NestedConditionImpl implements Formula {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<NestedCondition> getArguments() {
 		if (arguments == null) {
 			arguments = new EObjectContainmentEList<NestedCondition>(NestedCondition.class, this, NestedconditionPackage.FORMULA__ARGUMENTS);
@@ -213,7 +216,7 @@ public class FormulaImpl extends NestedConditionImpl implements Formula {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (operator: ");
 		result.append(operator);
 		result.append(')');

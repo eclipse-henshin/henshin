@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.WSynchronizer#isSynchronize <em>Synchronize</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.wrap.WrapPackage#getWSynchronizer()
  * @model abstract="true"

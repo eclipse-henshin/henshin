@@ -74,6 +74,7 @@ public class EdgeMappingImpl extends MinimalEObjectImpl.Container implements Edg
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Edge getOrigin() {
 		if (origin != null && origin.eIsProxy()) {
 			InternalEObject oldOrigin = (InternalEObject)origin;
@@ -100,6 +101,7 @@ public class EdgeMappingImpl extends MinimalEObjectImpl.Container implements Edg
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOrigin(Edge newOrigin) {
 		Edge oldOrigin = origin;
 		origin = newOrigin;
@@ -112,6 +114,7 @@ public class EdgeMappingImpl extends MinimalEObjectImpl.Container implements Edg
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Edge getImage() {
 		if (image != null && image.eIsProxy()) {
 			InternalEObject oldImage = (InternalEObject)image;
@@ -138,6 +141,7 @@ public class EdgeMappingImpl extends MinimalEObjectImpl.Container implements Edg
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setImage(Edge newImage) {
 		Edge oldImage = image;
 		image = newImage;

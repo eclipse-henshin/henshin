@@ -88,6 +88,7 @@ public class NestedConditionImpl extends ModelElementImpl implements NestedCondi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getConclusion() {
 		if (conclusion != null && conclusion.eIsProxy()) {
 			InternalEObject oldConclusion = (InternalEObject)conclusion;
@@ -135,6 +136,7 @@ public class NestedConditionImpl extends ModelElementImpl implements NestedCondi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConclusion(Graph newConclusion) {
 		if (newConclusion != conclusion) {
 			NotificationChain msgs = null;

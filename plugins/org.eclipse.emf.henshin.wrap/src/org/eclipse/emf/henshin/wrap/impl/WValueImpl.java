@@ -22,10 +22,10 @@ import org.eclipse.emf.henshin.wrap.WrapPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.impl.WValueImpl#getEValue <em>EValue</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -101,6 +101,7 @@ public class WValueImpl extends WMemberImpl implements WValue {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object getEValue() {
 		return eValue;
 	}
@@ -110,6 +111,7 @@ public class WValueImpl extends WMemberImpl implements WValue {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEValue(Object newEValue) {
 		Object oldEValue = eValue;
 		eValue = newEValue;
@@ -184,7 +186,7 @@ public class WValueImpl extends WMemberImpl implements WValue {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (eValue: ");
 		result.append(eValue);
 		result.append(')');

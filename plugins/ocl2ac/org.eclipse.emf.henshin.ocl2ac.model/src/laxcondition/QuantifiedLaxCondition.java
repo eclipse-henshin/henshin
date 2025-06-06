@@ -23,7 +23,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see laxcondition.LaxconditionPackage#getQuantifiedLaxCondition()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='HostGraphConsistency'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot HostGraphConsistency='self.graph.edges -> forAll(e|self.graph.nodes -> includes(e.source) and self.graph.nodes -> includes(e.target))'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot HostGraphConsistency='self.graph.edges -&gt; forAll(e|self.graph.nodes -&gt; includes(e.source) and self.graph.nodes -&gt; includes(e.target))'"
  * @generated
  */
 public interface QuantifiedLaxCondition extends LaxCondition {

@@ -492,6 +492,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * Get the list of states in this state space.
 	 * @generated
 	 */
+	@Override
 	public EList<State> getStates() {
 		if (states == null) {
 			states = new EObjectContainmentWithInverseEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__STATES, StateSpacePackage.STATE__STATE_SPACE);
@@ -504,6 +505,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<State> getInitialStates() {
 		if (initialStates == null) {
 			initialStates = new EObjectResolvingEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__INITIAL_STATES);
@@ -516,6 +518,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Rule> getRules() {
 		if (rules == null) {
 			rules = new EObjectResolvingEList<Rule>(Rule.class, this, StateSpacePackage.STATE_SPACE__RULES);
@@ -528,6 +531,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getTransitionCount() {
 		return transitionCount;
 	}
@@ -537,6 +541,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTransitionCount(int newTransitionCount) {
 		int oldTransitionCount = transitionCount;
 		transitionCount = newTransitionCount;
@@ -549,6 +554,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EqualityHelper getEqualityHelper() {
 		return equalityHelper;
 	}
@@ -558,6 +564,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EMap<String, String> getProperties() {
 		if (properties == null) {
 			properties = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, StateSpacePackage.STATE_SPACE__PROPERTIES);
@@ -581,6 +588,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated
 	 */
+	@Override
 	public void setEqualityHelper(EqualityHelper newEqualityHelper) {
 		if (newEqualityHelper != equalityHelper) {
 			NotificationChain msgs = null;
@@ -817,7 +825,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (transitionCount: ");
 		result.append(transitionCount);
 		result.append(')');

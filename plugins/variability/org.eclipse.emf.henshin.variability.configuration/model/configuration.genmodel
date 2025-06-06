@@ -3,27 +3,25 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.variability.configuration/src"
     modelPluginID="org.eclipse.emf.henshin.variability.configuration" modelName="Configuration"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin"
+    complianceLevel="11.0" copyrightFields="false" usedGenPackages="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin"
     operationReflection="true" importOrganizing="true">
   <foreignModel>configuration.ecore</foreignModel>
   <genPackages prefix="Configuration" disposableProviderFactory="true" ecorePackage="configuration.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="configuration.ecore#//VariabilityPointState">
-      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//VariabilityPointState/UNBOUND"/>
-      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//VariabilityPointState/SET"/>
-      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//VariabilityPointState/UNSET"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="configuration.ecore#//FeatureBinding">
+      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//FeatureBinding/Unbound"/>
+      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//FeatureBinding/True"/>
+      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//FeatureBinding/False"/>
     </genEnums>
-    <genClasses ecoreClass="configuration.ecore#//VariabilityPoint">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//VariabilityPoint/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//VariabilityPoint/state"/>
+    <genClasses ecoreClass="configuration.ecore#//Feature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//Feature/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//Feature/binding"/>
     </genClasses>
     <genClasses ecoreClass="configuration.ecore#//Configuration">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//Configuration/variabilityPoints"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//Configuration/unit"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//Configuration/isFavorite"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//Configuration/rule"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//Configuration/features"/>
     </genClasses>
-    <genClasses ecoreClass="configuration.ecore#//ModuleConfigurations">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//ModuleConfigurations/module"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//ModuleConfigurations/configurations"/>
+    <genClasses ecoreClass="configuration.ecore#//Favorite">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//Favorite/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

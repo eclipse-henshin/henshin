@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.WObject#getEObject <em>EObject</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.wrap.WObject#getEClass <em>EClass</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.wrap.WObject#getWMembers <em>WMembers</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.wrap.WrapPackage#getWObject()
  * @model

@@ -69,6 +69,7 @@ public class MorphismsFactoryImpl extends EFactoryImpl implements MorphismsFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Morphism createMorphism() {
 		MorphismImpl morphism = new MorphismImpl();
 		return morphism;
@@ -79,6 +80,7 @@ public class MorphismsFactoryImpl extends EFactoryImpl implements MorphismsFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Mapping createMapping() {
 		MappingImpl mapping = new MappingImpl();
 		return mapping;
@@ -89,6 +91,7 @@ public class MorphismsFactoryImpl extends EFactoryImpl implements MorphismsFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Pair createPair() {
 		PairImpl pair = new PairImpl();
 		return pair;
@@ -99,6 +102,7 @@ public class MorphismsFactoryImpl extends EFactoryImpl implements MorphismsFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MorphismsPackage getMorphismsPackage() {
 		return (MorphismsPackage)getEPackage();
 	}

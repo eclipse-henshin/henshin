@@ -46,7 +46,7 @@ public class WrapFactoryImpl extends EFactoryImpl implements WrapFactory {
 	 */
 	public static WrapFactory init() {
 		try {
-			WrapFactory theWrapFactory = (WrapFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2013/Henshin/Wrap"); 
+			WrapFactory theWrapFactory = (WrapFactory)EPackage.Registry.INSTANCE.getEFactory(WrapPackage.eNS_URI);
 			if (theWrapFactory != null) {
 				return theWrapFactory;
 			}
@@ -88,6 +88,7 @@ public class WrapFactoryImpl extends EFactoryImpl implements WrapFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public WObject createWObject() {
 		WObjectImpl wObject = new WObjectImpl();
 		return wObject;
@@ -98,6 +99,7 @@ public class WrapFactoryImpl extends EFactoryImpl implements WrapFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public WLink createWLink() {
 		WLinkImpl wLink = new WLinkImpl();
 		return wLink;
@@ -108,6 +110,7 @@ public class WrapFactoryImpl extends EFactoryImpl implements WrapFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public WValue createWValue() {
 		WValueImpl wValue = new WValueImpl();
 		return wValue;
@@ -265,6 +268,7 @@ public class WrapFactoryImpl extends EFactoryImpl implements WrapFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public WrapPackage getWrapPackage() {
 		return (WrapPackage)getEPackage();
 	}

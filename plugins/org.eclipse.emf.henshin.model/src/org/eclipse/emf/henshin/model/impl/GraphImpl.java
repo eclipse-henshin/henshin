@@ -120,6 +120,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Node> getNodes() {
 		if (nodes == null) {
 			nodes = new EObjectContainmentWithInverseEList.Resolving<Node>(Node.class, this, HenshinPackage.GRAPH__NODES, HenshinPackage.NODE__GRAPH);
@@ -132,6 +133,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Edge> getEdges() {
 		if (edges == null) {
 			edges = new EObjectContainmentWithInverseEList.Resolving<Edge>(Edge.class, this, HenshinPackage.GRAPH__EDGES, HenshinPackage.EDGE__GRAPH);
@@ -144,6 +146,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Formula getFormula() {
 		if (formula != null && formula.eIsProxy()) {
 			InternalEObject oldFormula = (InternalEObject)formula;
@@ -191,6 +194,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFormula(Formula newFormula) {
 		if (newFormula != formula) {
 			NotificationChain msgs = null;

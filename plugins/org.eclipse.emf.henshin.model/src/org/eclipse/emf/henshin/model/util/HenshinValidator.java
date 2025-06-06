@@ -36,7 +36,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
-import org.eclipse.emf.henshin.model.*;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Annotation;
@@ -68,6 +67,7 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
+import org.eclipse.emf.henshin.model.True;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.UnaryUnit;
 import org.eclipse.emf.henshin.model.Unit;
@@ -76,24 +76,21 @@ import org.eclipse.emf.henshin.model.Xor;
 /**
  * <!-- begin-user-doc --> The <b>Validator</b> for the Henshin model. <!--
  * end-user-doc -->
- * 
  * @see org.eclipse.emf.henshin.model.HenshinPackage
  * @generated
  */
 public class HenshinValidator extends EObjectValidator {
 
 	/**
-	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached model package
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final HenshinValidator INSTANCE = new HenshinValidator();
 
 	/**
-	 * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource()
-	 * source} of diagnostic {@link org.eclipse.emf.common.util.Diagnostic#getCode()
-	 * codes} from this package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource() source} of diagnostic {@link org.eclipse.emf.common.util.Diagnostic#getCode() codes} from this package.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.emf.common.util.Diagnostic#getSource()
 	 * @see org.eclipse.emf.common.util.Diagnostic#getCode()
 	 * @generated
@@ -110,10 +107,9 @@ public class HenshinValidator extends EObjectValidator {
 	private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
 	/**
-	 * A constant with a fixed name that can be used as the base value for
-	 * additional hand written constants in a derived class. <!-- begin-user-doc -->
+	 * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
@@ -157,102 +153,100 @@ public class HenshinValidator extends EObjectValidator {
 	}
 
 	/**
-	 * Returns the package of this validator switch. <!-- begin-user-doc --> <!--
+	 * Returns the package of this validator switch.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EPackage getEPackage() {
-		return HenshinPackage.eINSTANCE;
+	  return HenshinPackage.eINSTANCE;
 	}
 
 	/**
 	 * Calls <code>validateXXX</code> for the corresponding classifier of the model.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		switch (classifierID) {
-		case HenshinPackage.MODEL_ELEMENT:
-			return validateModelElement((ModelElement) value, diagnostics, context);
-		case HenshinPackage.ANNOTATION:
-			return validateAnnotation((Annotation) value, diagnostics, context);
-		case HenshinPackage.NAMED_ELEMENT:
-			return validateNamedElement((NamedElement) value, diagnostics, context);
-		case HenshinPackage.GRAPH_ELEMENT:
-			return validateGraphElement((GraphElement) value, diagnostics, context);
-		case HenshinPackage.MODULE:
-			return validateModule((Module) value, diagnostics, context);
-		case HenshinPackage.UNIT:
-			return validateUnit((Unit) value, diagnostics, context);
-		case HenshinPackage.RULE:
-			return validateRule((Rule) value, diagnostics, context);
-		case HenshinPackage.PARAMETER:
-			return validateParameter((Parameter) value, diagnostics, context);
-		case HenshinPackage.PARAMETER_MAPPING:
-			return validateParameterMapping((ParameterMapping) value, diagnostics, context);
-		case HenshinPackage.GRAPH:
-			return validateGraph((Graph) value, diagnostics, context);
-		case HenshinPackage.NODE:
-			return validateNode((Node) value, diagnostics, context);
-		case HenshinPackage.EDGE:
-			return validateEdge((Edge) value, diagnostics, context);
-		case HenshinPackage.ATTRIBUTE:
-			return validateAttribute((Attribute) value, diagnostics, context);
-		case HenshinPackage.ATTRIBUTE_CONDITION:
-			return validateAttributeCondition((AttributeCondition) value, diagnostics, context);
-		case HenshinPackage.MAPPING:
-			return validateMapping((Mapping) value, diagnostics, context);
-		case HenshinPackage.UNARY_UNIT:
-			return validateUnaryUnit((UnaryUnit) value, diagnostics, context);
-		case HenshinPackage.MULTI_UNIT:
-			return validateMultiUnit((MultiUnit) value, diagnostics, context);
-		case HenshinPackage.INDEPENDENT_UNIT:
-			return validateIndependentUnit((IndependentUnit) value, diagnostics, context);
-		case HenshinPackage.SEQUENTIAL_UNIT:
-			return validateSequentialUnit((SequentialUnit) value, diagnostics, context);
-		case HenshinPackage.CONDITIONAL_UNIT:
-			return validateConditionalUnit((ConditionalUnit) value, diagnostics, context);
-		case HenshinPackage.PRIORITY_UNIT:
-			return validatePriorityUnit((PriorityUnit) value, diagnostics, context);
-		case HenshinPackage.ITERATED_UNIT:
-			return validateIteratedUnit((IteratedUnit) value, diagnostics, context);
-		case HenshinPackage.LOOP_UNIT:
-			return validateLoopUnit((LoopUnit) value, diagnostics, context);
-		case HenshinPackage.FORMULA:
-			return validateFormula((Formula) value, diagnostics, context);
-		case HenshinPackage.NESTED_CONDITION:
-			return validateNestedCondition((NestedCondition) value, diagnostics, context);
-		case HenshinPackage.UNARY_FORMULA:
-			return validateUnaryFormula((UnaryFormula) value, diagnostics, context);
-		case HenshinPackage.BINARY_FORMULA:
-			return validateBinaryFormula((BinaryFormula) value, diagnostics, context);
-		case HenshinPackage.AND:
-			return validateAnd((And) value, diagnostics, context);
-		case HenshinPackage.OR:
-			return validateOr((Or) value, diagnostics, context);
-		case HenshinPackage.XOR:
-			return validateXor((Xor) value, diagnostics, context);
-		case HenshinPackage.NOT:
-			return validateNot((Not) value, diagnostics, context);
-		case HenshinPackage.TRUE:
-			return validateTrue((True) value, diagnostics, context);
-		case HenshinPackage.PARAMETER_KIND:
-			return validateParameterKind((ParameterKind) value, diagnostics, context);
-		case HenshinPackage.ACTION:
-			return validateAction((Action) value, diagnostics, context);
-		default:
-			return true;
+			case HenshinPackage.MODEL_ELEMENT:
+				return validateModelElement((ModelElement)value, diagnostics, context);
+			case HenshinPackage.ANNOTATION:
+				return validateAnnotation((Annotation)value, diagnostics, context);
+			case HenshinPackage.NAMED_ELEMENT:
+				return validateNamedElement((NamedElement)value, diagnostics, context);
+			case HenshinPackage.GRAPH_ELEMENT:
+				return validateGraphElement((GraphElement)value, diagnostics, context);
+			case HenshinPackage.MODULE:
+				return validateModule((Module)value, diagnostics, context);
+			case HenshinPackage.UNIT:
+				return validateUnit((Unit)value, diagnostics, context);
+			case HenshinPackage.RULE:
+				return validateRule((Rule)value, diagnostics, context);
+			case HenshinPackage.PARAMETER:
+				return validateParameter((Parameter)value, diagnostics, context);
+			case HenshinPackage.PARAMETER_MAPPING:
+				return validateParameterMapping((ParameterMapping)value, diagnostics, context);
+			case HenshinPackage.GRAPH:
+				return validateGraph((Graph)value, diagnostics, context);
+			case HenshinPackage.NODE:
+				return validateNode((Node)value, diagnostics, context);
+			case HenshinPackage.EDGE:
+				return validateEdge((Edge)value, diagnostics, context);
+			case HenshinPackage.ATTRIBUTE:
+				return validateAttribute((Attribute)value, diagnostics, context);
+			case HenshinPackage.ATTRIBUTE_CONDITION:
+				return validateAttributeCondition((AttributeCondition)value, diagnostics, context);
+			case HenshinPackage.MAPPING:
+				return validateMapping((Mapping)value, diagnostics, context);
+			case HenshinPackage.UNARY_UNIT:
+				return validateUnaryUnit((UnaryUnit)value, diagnostics, context);
+			case HenshinPackage.MULTI_UNIT:
+				return validateMultiUnit((MultiUnit)value, diagnostics, context);
+			case HenshinPackage.INDEPENDENT_UNIT:
+				return validateIndependentUnit((IndependentUnit)value, diagnostics, context);
+			case HenshinPackage.SEQUENTIAL_UNIT:
+				return validateSequentialUnit((SequentialUnit)value, diagnostics, context);
+			case HenshinPackage.CONDITIONAL_UNIT:
+				return validateConditionalUnit((ConditionalUnit)value, diagnostics, context);
+			case HenshinPackage.PRIORITY_UNIT:
+				return validatePriorityUnit((PriorityUnit)value, diagnostics, context);
+			case HenshinPackage.ITERATED_UNIT:
+				return validateIteratedUnit((IteratedUnit)value, diagnostics, context);
+			case HenshinPackage.LOOP_UNIT:
+				return validateLoopUnit((LoopUnit)value, diagnostics, context);
+			case HenshinPackage.FORMULA:
+				return validateFormula((Formula)value, diagnostics, context);
+			case HenshinPackage.NESTED_CONDITION:
+				return validateNestedCondition((NestedCondition)value, diagnostics, context);
+			case HenshinPackage.UNARY_FORMULA:
+				return validateUnaryFormula((UnaryFormula)value, diagnostics, context);
+			case HenshinPackage.BINARY_FORMULA:
+				return validateBinaryFormula((BinaryFormula)value, diagnostics, context);
+			case HenshinPackage.AND:
+				return validateAnd((And)value, diagnostics, context);
+			case HenshinPackage.OR:
+				return validateOr((Or)value, diagnostics, context);
+			case HenshinPackage.XOR:
+				return validateXor((Xor)value, diagnostics, context);
+			case HenshinPackage.NOT:
+				return validateNot((Not)value, diagnostics, context);
+			case HenshinPackage.TRUE:
+				return validateTrue((True)value, diagnostics, context);
+			case HenshinPackage.PARAMETER_KIND:
+				return validateParameterKind((ParameterKind)value, diagnostics, context);
+			case HenshinPackage.ACTION:
+				return validateAction((Action)value, diagnostics, context);
+			default:
+				return true;
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateModelElement(ModelElement modelElement, DiagnosticChain diagnostics,
@@ -262,7 +256,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateAnnotation(Annotation annotation, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -271,7 +264,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateNamedElement(NamedElement namedElement, DiagnosticChain diagnostics,
@@ -281,47 +273,28 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateRule(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(rule, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(rule, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateRule_mappingsFromLeft2Right(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateRule_createdNodesNotAbstract(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateRule_createdEdgesNotDerived(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateRule_deletedEdgesNotDerived(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateRule_uniqueNodeNames(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateRule_varParametersOccurOnLeftSide(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateRule_multiRuleParametersSameKind(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_mappingsFromLeft2Right(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_createdNodesNotAbstract(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_createdEdgesNotDerived(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_deletedEdgesNotDerived(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_uniqueNodeNames(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_varParametersOccurOnLeftSide(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateRule_multiRuleParametersSameKind(rule, diagnostics, context);
 		return result;
 	}
 
@@ -726,35 +699,22 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateAttributeCondition(AttributeCondition attributeCondition, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(attributeCondition, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(attributeCondition, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateAttributeCondition_conditionTextNotEmpty(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateAttributeCondition_conditionValidJavaScript(attributeCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateAttributeCondition_conditionAllParametersAreDeclared(attributeCondition, diagnostics,
-					context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAttributeCondition_conditionTextNotEmpty(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAttributeCondition_conditionValidJavaScript(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAttributeCondition_conditionAllParametersAreDeclared(attributeCondition, diagnostics, context);
 		return result;
 	}
 
@@ -887,37 +847,23 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateParameter(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(parameter, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(parameter, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateParameter_nameNotEmpty(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateParameter_nameNotTypeName(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateParameter_nameNotKindAlias(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateParameter_unknownKindDeprecated(parameter, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateParameter_nameNotKeyword(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_nameNotEmpty(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_nameNotTypeName(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_nameNotKindAlias(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_unknownKindDeprecated(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameter_nameNotKeyword(parameter, diagnostics, context);
 		return result;
 	}
 
@@ -1042,7 +988,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateGraph(Graph graph, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1051,7 +996,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateGraphElement(GraphElement graphElement, DiagnosticChain diagnostics,
@@ -1060,8 +1004,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateModule(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1070,33 +1014,21 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateUnit(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(unit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(unit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(unit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(unit, diagnostics, context);
 		return result;
 	}
 
@@ -1171,7 +1103,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateMapping(Mapping mapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -1180,35 +1111,22 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateNode(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(node, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(node, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateNode_uniqueAttributeTypes(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateNode_atMostOneContainer(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateNode_NodeDeletionDanglingEdge(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateNode_NodeCreationWithoutContainment(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNode_uniqueAttributeTypes(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNode_atMostOneContainer(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNode_NodeDeletionDanglingEdge(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNode_NodeCreationWithoutContainment(node, diagnostics, context);
 		return result;
 	}
 
@@ -1353,31 +1271,20 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateAttribute(Attribute attribute, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(attribute, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(attribute, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateAttribute_valueValidJavaScript(attribute, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateAttribute_valueAllParametersAreDeclared(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAttribute_valueValidJavaScript(attribute, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAttribute_valueAllParametersAreDeclared(attribute, diagnostics, context);
 		return result;
 	}
 
@@ -1513,45 +1420,27 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateEdge(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(edge, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(edge, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_equalParentGraphs(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_indexValidJavaScript(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_indexAllParametersAreDeclared(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_noContainmentCycles(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_EOppositeContainments(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_oppositeEdgeConsidered(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_noParallelEdgesOfSameType(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_containmentEdgeDeletion(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateEdge_containmentEdgeCreation(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_equalParentGraphs(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_indexValidJavaScript(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_indexAllParametersAreDeclared(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_noContainmentCycles(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_EOppositeContainments(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_oppositeEdgeConsidered(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_noParallelEdgesOfSameType(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_containmentEdgeDeletion(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validateEdge_containmentEdgeCreation(edge, diagnostics, context);
 		return result;
 	}
 
@@ -1672,236 +1561,149 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateUnaryUnit(UnaryUnit unaryUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(unaryUnit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(unaryUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(unaryUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateMultiUnit(MultiUnit multiUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(multiUnit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(multiUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(multiUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(multiUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateIndependentUnit(IndependentUnit independentUnit, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(independentUnit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(independentUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(independentUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(independentUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateSequentialUnit(SequentialUnit sequentialUnit, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(sequentialUnit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(sequentialUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(sequentialUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateConditionalUnit(ConditionalUnit conditionalUnit, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(conditionalUnit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(conditionalUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(conditionalUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validatePriorityUnit(PriorityUnit priorityUnit, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(priorityUnit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(priorityUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(priorityUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateIteratedUnit(IteratedUnit iteratedUnit, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(iteratedUnit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(iteratedUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateIteratedUnit_iterationsNotEmpty(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateIteratedUnit_iterationsValidJavaScript(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateIteratedUnit_iterationsAllParametersAreDeclared(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateIteratedUnit_iterationsNotEmpty(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateIteratedUnit_iterationsValidJavaScript(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateIteratedUnit_iterationsAllParametersAreDeclared(iteratedUnit, diagnostics, context);
 		return result;
 	}
 
@@ -1964,65 +1766,41 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateLoopUnit(LoopUnit loopUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(loopUnit, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(loopUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_nameNotEmpty(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterNamesUnique(loopUnit, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateUnit_parameterMappingsPointToDirectSubUnit(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_nameNotEmpty(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterNamesUnique(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(loopUnit, diagnostics, context);
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateNestedCondition(NestedCondition nestedCondition, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(nestedCondition, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(nestedCondition, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(nestedCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(nestedCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(nestedCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(nestedCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(nestedCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(nestedCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(nestedCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(nestedCondition, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateNestedCondition_mappingOriginContainedInParentCondition(nestedCondition, diagnostics,
-					context);
-		if (result || diagnostics != null)
-			result &= validateNestedCondition_mappingImageContainedInCurrent(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNestedCondition_mappingOriginContainedInParentCondition(nestedCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNestedCondition_mappingImageContainedInCurrent(nestedCondition, diagnostics, context);
 		return result;
 	}
 
@@ -2067,7 +1845,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateFormula(Formula formula, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -2076,7 +1853,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateUnaryFormula(UnaryFormula unaryFormula, DiagnosticChain diagnostics,
@@ -2086,7 +1862,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateBinaryFormula(BinaryFormula binaryFormula, DiagnosticChain diagnostics,
@@ -2096,7 +1871,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateAnd(And and, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -2105,7 +1879,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateOr(Or or, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -2114,7 +1887,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateNot(Not not, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -2123,7 +1895,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateTrue(True true_, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -2132,7 +1903,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateParameterKind(ParameterKind parameterKind, DiagnosticChain diagnostics,
@@ -2142,7 +1912,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateAction(Action action, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -2151,7 +1920,6 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateXor(Xor xor, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -2160,34 +1928,23 @@ public class HenshinValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateParameterMapping(ParameterMapping parameterMapping, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(parameterMapping, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment(parameterMapping, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateParameterMapping_inParameterMappingIsCausal(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateParameterMapping_outParameterMappingIsCausal(parameterMapping, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateParameterMapping_varParameterMappingIsCausal(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameterMapping_inParameterMappingIsCausal(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameterMapping_outParameterMappingIsCausal(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameterMapping_inoutParameterMappingIsCausal(parameterMapping, diagnostics, context);
+		if (result || diagnostics != null) result &= validateParameterMapping_varParameterMappingIsCausal(parameterMapping, diagnostics, context);
 		return result;
 	}
 
@@ -2245,6 +2002,35 @@ public class HenshinValidator extends EObjectValidator {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Validates the inoutParameterMappingIsCausal constraint of '<em>Parameter Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unused")
+	public boolean validateParameterMapping_inoutParameterMappingIsCausal(ParameterMapping parameterMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		// TODO implement the constraint
+		// -> specify the condition that violates the constraint
+		// -> verify the diagnostic details, including severity, code, and message
+		// Ensure that you remove @generated or mark it @generated NOT
+		if (false) {
+			if (diagnostics != null) {
+				diagnostics.add
+					(createDiagnostic
+						(Diagnostic.ERROR,
+						 DIAGNOSTIC_SOURCE,
+						 0,
+						 "_UI_GenericConstraint_diagnostic",
+						 new Object[] { "inoutParameterMappingIsCausal", getObjectLabel(parameterMapping, context) },
+						 new Object[] { parameterMapping },
+						 context));
+			}
+			return false;
+		}
+		return true;
 	}
 
 	private boolean mappingChainIsCausal(Parameter firstParameter, Parameter secondParameter) {
@@ -2323,9 +2109,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 
 	/**
-	 * Returns the resource locator that will be used to fetch messages for this
-	 * validator's diagnostics. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

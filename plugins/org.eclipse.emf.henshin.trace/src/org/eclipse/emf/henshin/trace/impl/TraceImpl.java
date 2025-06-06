@@ -36,13 +36,13 @@ import org.eclipse.emf.henshin.trace.TracePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.trace.impl.TraceImpl#getSubTraces <em>Sub Traces</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.trace.impl.TraceImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.trace.impl.TraceImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.trace.impl.TraceImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -121,6 +121,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Trace> getSubTraces() {
 		if (subTraces == null) {
 			subTraces = new EObjectContainmentEList<Trace>(Trace.class, this, TracePackage.TRACE__SUB_TRACES);
@@ -133,6 +134,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getSource() {
 		if (source == null) {
 			source = new EObjectResolvingEList<EObject>(EObject.class, this, TracePackage.TRACE__SOURCE);
@@ -145,6 +147,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getTarget() {
 		if (target == null) {
 			target = new EObjectResolvingEList<EObject>(EObject.class, this, TracePackage.TRACE__TARGET);
@@ -157,6 +160,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -166,6 +170,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -288,7 +293,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

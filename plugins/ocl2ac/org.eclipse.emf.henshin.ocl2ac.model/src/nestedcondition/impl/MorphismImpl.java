@@ -106,6 +106,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<NodeMapping> getNodeMappings() {
 		if (nodeMappings == null) {
 			nodeMappings = new EObjectContainmentEList<NodeMapping>(NodeMapping.class, this, NestedconditionPackage.MORPHISM__NODE_MAPPINGS);
@@ -118,6 +119,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getFrom() {
 		if (from != null && from.eIsProxy()) {
 			InternalEObject oldFrom = (InternalEObject)from;
@@ -144,6 +146,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFrom(Graph newFrom) {
 		Graph oldFrom = from;
 		from = newFrom;
@@ -156,6 +159,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getTo() {
 		if (to != null && to.eIsProxy()) {
 			InternalEObject oldTo = (InternalEObject)to;
@@ -182,6 +186,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTo(Graph newTo) {
 		Graph oldTo = to;
 		to = newTo;
@@ -194,6 +199,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EdgeMapping> getEdgeMappings() {
 		if (edgeMappings == null) {
 			edgeMappings = new EObjectContainmentEList<EdgeMapping>(EdgeMapping.class, this, NestedconditionPackage.MORPHISM__EDGE_MAPPINGS);

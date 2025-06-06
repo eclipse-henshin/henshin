@@ -98,6 +98,7 @@ public abstract class NamedElementImpl extends ModelElementImpl implements Named
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -107,6 +108,7 @@ public abstract class NamedElementImpl extends ModelElementImpl implements Named
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -119,6 +121,7 @@ public abstract class NamedElementImpl extends ModelElementImpl implements Named
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return description;
 	}
@@ -128,6 +131,7 @@ public abstract class NamedElementImpl extends ModelElementImpl implements Named
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		String oldDescription = description;
 		description = newDescription;

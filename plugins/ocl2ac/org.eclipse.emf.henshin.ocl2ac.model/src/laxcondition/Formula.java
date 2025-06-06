@@ -19,7 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see laxcondition.LaxconditionPackage#getFormula()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='OneArgumentForNOT AtLeastTwoArgumentForANDOR TwoArgumentForIMPLEQUALXOR'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot OneArgumentForNOT='(self.op = Operator::NOT) implies (self.arguments -> size() = 1)' AtLeastTwoArgumentForANDOR='((self.op = Operator::AND) or (self.op = Operator::OR)) implies (self.arguments -> size() > 1)' TwoArgumentForIMPLEQUALXOR='((self.op = Operator::IMPLIES) or (self.op = Operator::EQUIVALENT) or (self.op = Operator::XOR)) implies (self.arguments -> size() = 2)'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot OneArgumentForNOT='(self.op = Operator::NOT) implies (self.arguments -&gt; size() = 1)' AtLeastTwoArgumentForANDOR='((self.op = Operator::AND) or (self.op = Operator::OR)) implies (self.arguments -&gt; size() &gt; 1)' TwoArgumentForIMPLEQUALXOR='((self.op = Operator::IMPLIES) or (self.op = Operator::EQUIVALENT) or (self.op = Operator::XOR)) implies (self.arguments -&gt; size() = 2)'"
  * @generated
  */
 public interface Formula extends LaxCondition {

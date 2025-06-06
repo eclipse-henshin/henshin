@@ -25,10 +25,10 @@ import org.eclipse.emf.henshin.wrap.WrapPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.impl.WSynchronizerImpl#isSynchronize <em>Synchronize</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -87,6 +87,7 @@ public abstract class WSynchronizerImpl extends EObjectImpl implements WSynchron
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSynchronize() {
 		return synchronize;
 	}
@@ -96,6 +97,7 @@ public abstract class WSynchronizerImpl extends EObjectImpl implements WSynchron
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSynchronize(boolean newSynchronize) {
 		boolean oldSynchronize = synchronize;
 		synchronize = newSynchronize;
@@ -170,7 +172,7 @@ public abstract class WSynchronizerImpl extends EObjectImpl implements WSynchron
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (synchronize: ");
 		result.append(synchronize);
 		result.append(')');

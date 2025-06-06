@@ -306,6 +306,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -332,6 +333,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EAttribute newType) {
 		EAttribute oldType = type;
 		type = newType;
@@ -344,6 +346,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getValue() {
 		return value;
 	}
@@ -353,6 +356,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;
@@ -365,6 +369,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getNode() {
 		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE) return null;
 		return (Node)eContainer();
@@ -395,6 +400,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNode(Node newNode) {
 		if (newNode != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE && newNode != null)) {
 			if (EcoreUtil.isAncestor(this, newNode))
@@ -416,6 +422,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object getConstant() {
 		return constant;
 	}
@@ -425,6 +432,7 @@ public class AttributeImpl extends ModelElementImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isNull() {
 		return null_;
 	}

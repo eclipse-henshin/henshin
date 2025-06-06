@@ -112,6 +112,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Module> getSubModules() {
 		if (subModules == null) {
 			subModules = new EObjectContainmentWithInverseEList.Resolving<Module>(Module.class, this, HenshinPackage.MODULE__SUB_MODULES, HenshinPackage.MODULE__SUPER_MODULE);
@@ -124,6 +125,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Module getSuperModule() {
 		if (eContainerFeatureID() != HenshinPackage.MODULE__SUPER_MODULE) return null;
 		return (Module)eContainer();
@@ -154,6 +156,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSuperModule(Module newSuperModule) {
 		if (newSuperModule != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.MODULE__SUPER_MODULE && newSuperModule != null)) {
 			if (EcoreUtil.isAncestor(this, newSuperModule))
@@ -175,6 +178,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EPackage> getImports() {
 		if (imports == null) {
 			imports = new EObjectResolvingEList<EPackage>(EPackage.class, this, HenshinPackage.MODULE__IMPORTS);
@@ -187,6 +191,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Unit> getUnits() {
 		if (units == null) {
 			units = new EObjectContainmentEList.Resolving<Unit>(Unit.class, this, HenshinPackage.MODULE__UNITS);
@@ -200,6 +205,7 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Graph> getInstances() {
 		if (instances == null) {
 			instances = new EObjectContainmentEList.Resolving<Graph>(Graph.class, this, HenshinPackage.MODULE__INSTANCES);

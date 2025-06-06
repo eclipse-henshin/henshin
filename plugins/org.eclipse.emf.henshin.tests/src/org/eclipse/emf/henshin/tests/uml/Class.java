@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.tests.uml.Class#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.tests.uml.Class#getAttrs <em>Attrs</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.tests.uml.UmlPackage#getClass_()
  * @model kind="class"
@@ -90,7 +90,7 @@ public class Class extends NamedElement {
 	 */
 	public Class getParent() {
 		if (parent != null && parent.eIsProxy()) {
-			InternalEObject oldParent = (InternalEObject)parent;
+			InternalEObject oldParent = parent;
 			parent = (Class)eResolveProxy(oldParent);
 			if (parent != oldParent) {
 				if (eNotificationRequired())
