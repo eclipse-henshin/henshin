@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.editor.commands;
 
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Formula;
 

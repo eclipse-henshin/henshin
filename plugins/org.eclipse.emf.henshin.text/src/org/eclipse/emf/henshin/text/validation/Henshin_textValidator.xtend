@@ -774,7 +774,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	/**
  	* Fehler wenn ein forbid- oder require-Knoten in einer Kanten einer MultiRegel wiederverwendet werden soll
  	* 
- 	* @paran rule Zu überprüfende Regel
+ 	* @param rule Zu überprüfende Regel
  	*/
 	@Check
 	def checkEdgesInMultiRule(Rule rule){
@@ -797,7 +797,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	/**
  	* Fehler wenn ein Knoten mit ActionType require oder forbid reused wird
  	* 
- 	* @parameter multiReuseNode Zu überprüfender reuse-Node
+ 	* @param multiReuseNode Zu überprüfender reuse-Node
  	*/
 	@Check 
 	def checkMultiRuleReuseNodeActionType(MultiRuleReuseNode multiReuseNode){

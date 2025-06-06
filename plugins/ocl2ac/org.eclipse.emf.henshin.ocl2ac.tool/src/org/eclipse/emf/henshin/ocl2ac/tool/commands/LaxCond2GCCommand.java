@@ -22,7 +22,10 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.emf.henshin.ocl2ac.ocl2gc.core.Completer;
+import org.eclipse.jface.action.IAction;
+
 import laxcondition.Condition;
 import laxcondition.LaxconditionPackage;
 import laxcondition.util.extensions.LaxConditionSimplifier;

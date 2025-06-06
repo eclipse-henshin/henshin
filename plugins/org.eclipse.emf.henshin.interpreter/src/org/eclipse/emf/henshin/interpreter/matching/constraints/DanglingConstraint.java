@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
  * This constraint checks whether the value of an EReference contains objects
  * from the target domain.
  * 
- * @authot Enrico Biermann, Christian Krause
+ * @author Enrico Biermann, Christian Krause
  */
 public class DanglingConstraint implements Constraint {
 

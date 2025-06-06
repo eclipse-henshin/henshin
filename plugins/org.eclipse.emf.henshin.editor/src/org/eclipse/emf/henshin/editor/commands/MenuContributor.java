@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.editor.commands;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.henshin.presentation.HenshinEditorPlugin;
 import org.eclipse.jface.action.Action;
@@ -67,9 +68,6 @@ public abstract class MenuContributor {
 	
 	/**
 	 * Convenience method to retrieve labels from the plugin's properties.
-	 * 
-	 * @param key
-	 * @return
 	 */
 	protected String getLabel(String key) {
 		return HenshinEditorPlugin.INSTANCE.getString(propertyPrefix + key);
@@ -79,9 +77,6 @@ public abstract class MenuContributor {
 	 * Creates a disabled {@link Action} as a workaround to insert labels.
 	 * Convenient to display explanations why a certain action is not applicable
 	 * in the given context.
-	 * 
-	 * @param label
-	 * @return
 	 */
 	protected IAction createUnrunnableItem(final String label) {
 		return new Action() {
@@ -101,10 +96,6 @@ public abstract class MenuContributor {
 	/**
 	 * Build an {@link Action} with the given label, that executes the given
 	 * {@link Command} on {@link Action#run()}.
-	 * 
-	 * @param label
-	 * @param cmd
-	 * @return
 	 */
 	protected IAction createAction(final String label, final Command cmd) {
 		
