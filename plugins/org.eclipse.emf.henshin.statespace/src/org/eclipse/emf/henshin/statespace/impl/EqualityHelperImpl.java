@@ -154,6 +154,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isCheckLinkOrder() {
 		return checkLinkOrder;
 	}
@@ -163,6 +164,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EAttribute> getIgnoredAttributes() {
 		if (ignoredAttributes == null) {
 			ignoredAttributes = new EObjectResolvingEList<EAttribute>(EAttribute.class, this, StateSpacePackage.EQUALITY_HELPER__IGNORED_ATTRIBUTES);
@@ -175,6 +177,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EClass> getIdentityTypes() {
 		if (identityTypes == null) {
 			identityTypes = new EObjectResolvingEList<EClass>(EClass.class, this, StateSpacePackage.EQUALITY_HELPER__IDENTITY_TYPES);
@@ -221,7 +224,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (checkLinkOrder: ");
 		result.append(checkLinkOrder);
 		result.append(')');

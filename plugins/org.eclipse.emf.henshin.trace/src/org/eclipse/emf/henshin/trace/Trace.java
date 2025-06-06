@@ -20,13 +20,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.trace.Trace#getSubTraces <em>Sub Traces</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.trace.Trace#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.trace.Trace#getTarget <em>Target</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.trace.Trace#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.trace.TracePackage#getTrace()
  * @model

@@ -180,9 +180,10 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated
 	 */
+	@Override
 	public State getSource() {
 		if (eContainerFeatureID() != StateSpacePackage.TRANSITION__SOURCE) return null;
-		return (State)eContainer();
+		return (State)eInternalContainer();
 	}
 
 	/**
@@ -196,6 +197,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated
 	 */
+	@Override
 	public void setSource(State newSource) {
 		if (newSource != eInternalContainer() || (eContainerFeatureID() != StateSpacePackage.TRANSITION__SOURCE && newSource != null)) {
 			if (EcoreUtil.isAncestor(this, newSource))
@@ -215,6 +217,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated
 	 */
+	@Override
 	public State getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -250,6 +253,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated
 	 */
+	@Override
 	public void setTarget(State newTarget) {
 		if (newTarget != target) {
 			NotificationChain msgs = null;
@@ -267,6 +271,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated
 	 */
+	@Override
 	public Rule getRule() {
 		if (rule != null && rule.eIsProxy()) {
 			InternalEObject oldRule = (InternalEObject)rule;
@@ -293,6 +298,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRule(Rule newRule) {
 		Rule oldRule = rule;
 		rule = newRule;

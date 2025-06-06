@@ -345,7 +345,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link HenshinPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -359,7 +359,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		if (isInited) return (HenshinPackage)EPackage.Registry.INSTANCE.getEPackage(HenshinPackage.eNS_URI);
 
 		// Obtain or create and register package
-		HenshinPackageImpl theHenshinPackage = (HenshinPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof HenshinPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new HenshinPackageImpl());
+		Object registeredHenshinPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		HenshinPackageImpl theHenshinPackage = registeredHenshinPackage instanceof HenshinPackageImpl ? (HenshinPackageImpl)registeredHenshinPackage : new HenshinPackageImpl();
 
 		isInited = true;
 
@@ -371,8 +372,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put
-			(theHenshinPackage, 
+			(theHenshinPackage,
 			 new EValidator.Descriptor() {
+				 @Override
 				 public EValidator getEValidator() {
 					 return HenshinValidator.INSTANCE;
 				 }
@@ -381,7 +383,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Mark meta-data to indicate it can't be changed
 		theHenshinPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(HenshinPackage.eNS_URI, theHenshinPackage);
 		return theHenshinPackage;
@@ -392,6 +393,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModelElement() {
 		return modelElementEClass;
 	}
@@ -401,6 +403,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModelElement_Annotations() {
 		return (EReference)modelElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -410,6 +413,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAnnotation() {
 		return annotationEClass;
 	}
@@ -419,6 +423,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAnnotation_Key() {
 		return (EAttribute)annotationEClass.getEStructuralFeatures().get(0);
 	}
@@ -428,6 +433,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAnnotation_Value() {
 		return (EAttribute)annotationEClass.getEStructuralFeatures().get(1);
 	}
@@ -491,6 +497,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNamedElement() {
 		return namedElementEClass;
 	}
@@ -500,6 +507,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNamedElement_Name() {
 		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -509,6 +517,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNamedElement_Description() {
 		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(1);
 	}
@@ -518,6 +527,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRule() {
 		return ruleEClass;
 	}
@@ -527,6 +537,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_Lhs() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(0);
 	}
@@ -536,6 +547,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_Rhs() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(1);
 	}
@@ -545,6 +557,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_AttributeConditions() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(2);
 	}
@@ -554,6 +567,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_Mappings() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(3);
 	}
@@ -563,6 +577,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRule_CheckDangling() {
 		return (EAttribute)ruleEClass.getEStructuralFeatures().get(4);
 	}
@@ -572,6 +587,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRule_InjectiveMatching() {
 		return (EAttribute)ruleEClass.getEStructuralFeatures().get(5);
 	}
@@ -581,6 +597,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_MultiRules() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(6);
 	}
@@ -590,6 +607,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_MultiMappings() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(7);
 	}
@@ -599,6 +617,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRule_JavaImports() {
 		return (EAttribute)ruleEClass.getEStructuralFeatures().get(8);
 	}
@@ -608,6 +627,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttributeCondition() {
 		return attributeConditionEClass;
 	}
@@ -617,6 +637,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttributeCondition_Rule() {
 		return (EReference)attributeConditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -626,6 +647,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttributeCondition_ConditionText() {
 		return (EAttribute)attributeConditionEClass.getEStructuralFeatures().get(1);
 	}
@@ -635,6 +657,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParameter() {
 		return parameterEClass;
 	}
@@ -644,6 +667,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParameter_Unit() {
 		return (EReference)parameterEClass.getEStructuralFeatures().get(0);
 	}
@@ -653,6 +677,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParameter_Type() {
 		return (EReference)parameterEClass.getEStructuralFeatures().get(1);
 	}
@@ -662,6 +687,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getParameter_Kind() {
 		return (EAttribute)parameterEClass.getEStructuralFeatures().get(2);
 	}
@@ -671,6 +697,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGraph() {
 		return graphEClass;
 	}
@@ -680,6 +707,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGraph_Nodes() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(0);
 	}
@@ -689,6 +717,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGraph_Edges() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(1);
 	}
@@ -698,6 +727,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getGraph_Formula() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(2);
 	}
@@ -707,6 +737,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGraphElement() {
 		return graphElementEClass;
 	}
@@ -716,6 +747,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getGraphElement_Action() {
 		return (EAttribute)graphElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -725,6 +757,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModule() {
 		return moduleEClass;
 	}
@@ -734,6 +767,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModule_SubModules() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(0);
 	}
@@ -743,6 +777,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModule_SuperModule() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(1);
 	}
@@ -752,6 +787,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModule_Imports() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(2);
 	}
@@ -761,6 +797,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModule_Units() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(3);
 	}
@@ -770,6 +807,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModule_Instances() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(4);
 	}
@@ -779,6 +817,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getUnit() {
 		return unitEClass;
 	}
@@ -788,6 +827,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getUnit_Parameters() {
 		return (EReference)unitEClass.getEStructuralFeatures().get(0);
 	}
@@ -797,6 +837,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getUnit_ParameterMappings() {
 		return (EReference)unitEClass.getEStructuralFeatures().get(1);
 	}
@@ -806,6 +847,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUnit_Activated() {
 		return (EAttribute)unitEClass.getEStructuralFeatures().get(2);
 	}
@@ -815,6 +857,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMapping() {
 		return mappingEClass;
 	}
@@ -824,6 +867,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapping_Origin() {
 		return (EReference)mappingEClass.getEStructuralFeatures().get(0);
 	}
@@ -833,6 +877,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapping_Image() {
 		return (EReference)mappingEClass.getEStructuralFeatures().get(1);
 	}
@@ -842,6 +887,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNode() {
 		return nodeEClass;
 	}
@@ -851,6 +897,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Type() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(0);
 	}
@@ -860,6 +907,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Attributes() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(1);
 	}
@@ -869,6 +917,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Graph() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(2);
 	}
@@ -878,6 +927,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Incoming() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(3);
 	}
@@ -887,6 +937,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNode_Outgoing() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(4);
 	}
@@ -896,6 +947,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttribute() {
 		return attributeEClass;
 	}
@@ -905,6 +957,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttribute_Type() {
 		return (EReference)attributeEClass.getEStructuralFeatures().get(0);
 	}
@@ -914,6 +967,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute_Value() {
 		return (EAttribute)attributeEClass.getEStructuralFeatures().get(1);
 	}
@@ -923,6 +977,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttribute_Node() {
 		return (EReference)attributeEClass.getEStructuralFeatures().get(2);
 	}
@@ -932,6 +987,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute_Constant() {
 		return (EAttribute)attributeEClass.getEStructuralFeatures().get(3);
 	}
@@ -941,6 +997,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute_Null() {
 		return (EAttribute)attributeEClass.getEStructuralFeatures().get(4);
 	}
@@ -950,6 +1007,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdge() {
 		return edgeEClass;
 	}
@@ -959,6 +1017,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Source() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(0);
 	}
@@ -968,6 +1027,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Target() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(1);
 	}
@@ -977,6 +1037,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Type() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(2);
 	}
@@ -986,6 +1047,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdge_Graph() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(3);
 	}
@@ -995,6 +1057,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdge_Index() {
 		return (EAttribute)edgeEClass.getEStructuralFeatures().get(4);
 	}
@@ -1004,6 +1067,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEdge_IndexConstant() {
 		return (EAttribute)edgeEClass.getEStructuralFeatures().get(5);
 	}
@@ -1013,6 +1077,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getUnaryUnit() {
 		return unaryUnitEClass;
 	}
@@ -1022,6 +1087,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getUnaryUnit_SubUnit() {
 		return (EReference)unaryUnitEClass.getEStructuralFeatures().get(0);
 	}
@@ -1031,6 +1097,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMultiUnit() {
 		return multiUnitEClass;
 	}
@@ -1040,6 +1107,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMultiUnit_SubUnits() {
 		return (EReference)multiUnitEClass.getEStructuralFeatures().get(0);
 	}
@@ -1049,6 +1117,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIndependentUnit() {
 		return independentUnitEClass;
 	}
@@ -1058,6 +1127,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSequentialUnit() {
 		return sequentialUnitEClass;
 	}
@@ -1067,6 +1137,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSequentialUnit_Strict() {
 		return (EAttribute)sequentialUnitEClass.getEStructuralFeatures().get(0);
 	}
@@ -1076,6 +1147,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSequentialUnit_Rollback() {
 		return (EAttribute)sequentialUnitEClass.getEStructuralFeatures().get(1);
 	}
@@ -1085,6 +1157,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConditionalUnit() {
 		return conditionalUnitEClass;
 	}
@@ -1094,6 +1167,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConditionalUnit_If() {
 		return (EReference)conditionalUnitEClass.getEStructuralFeatures().get(0);
 	}
@@ -1103,6 +1177,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConditionalUnit_Then() {
 		return (EReference)conditionalUnitEClass.getEStructuralFeatures().get(1);
 	}
@@ -1112,6 +1187,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConditionalUnit_Else() {
 		return (EReference)conditionalUnitEClass.getEStructuralFeatures().get(2);
 	}
@@ -1121,6 +1197,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPriorityUnit() {
 		return priorityUnitEClass;
 	}
@@ -1130,6 +1207,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIteratedUnit() {
 		return iteratedUnitEClass;
 	}
@@ -1139,6 +1217,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIteratedUnit_Iterations() {
 		return (EAttribute)iteratedUnitEClass.getEStructuralFeatures().get(0);
 	}
@@ -1148,6 +1227,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIteratedUnit_Strict() {
 		return (EAttribute)iteratedUnitEClass.getEStructuralFeatures().get(1);
 	}
@@ -1157,6 +1237,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIteratedUnit_Rollback() {
 		return (EAttribute)iteratedUnitEClass.getEStructuralFeatures().get(2);
 	}
@@ -1166,6 +1247,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLoopUnit() {
 		return loopUnitEClass;
 	}
@@ -1175,6 +1257,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNestedCondition() {
 		return nestedConditionEClass;
 	}
@@ -1184,6 +1267,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNestedCondition_Conclusion() {
 		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -1193,6 +1277,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNestedCondition_Mappings() {
 		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(1);
 	}
@@ -1202,6 +1287,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getFormula() {
 		return formulaEClass;
 	}
@@ -1211,6 +1297,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getUnaryFormula() {
 		return unaryFormulaEClass;
 	}
@@ -1220,6 +1307,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getUnaryFormula_Child() {
 		return (EReference)unaryFormulaEClass.getEStructuralFeatures().get(0);
 	}
@@ -1229,6 +1317,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBinaryFormula() {
 		return binaryFormulaEClass;
 	}
@@ -1238,6 +1327,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinaryFormula_Left() {
 		return (EReference)binaryFormulaEClass.getEStructuralFeatures().get(0);
 	}
@@ -1247,6 +1337,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinaryFormula_Right() {
 		return (EReference)binaryFormulaEClass.getEStructuralFeatures().get(1);
 	}
@@ -1256,6 +1347,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAnd() {
 		return andEClass;
 	}
@@ -1265,6 +1357,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOr() {
 		return orEClass;
 	}
@@ -1274,6 +1367,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNot() {
 		return notEClass;
 	}
@@ -1283,6 +1377,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTrue() {
 		return trueEClass;
 	}
@@ -1292,6 +1387,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getParameterKind() {
 		return parameterKindEEnum;
 	}
@@ -1301,6 +1397,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getAction() {
 		return actionEDataType;
 	}
@@ -1310,6 +1407,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getXor() {
 		return xorEClass;
 	}
@@ -1319,6 +1417,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParameterMapping() {
 		return parameterMappingEClass;
 	}
@@ -1328,6 +1427,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParameterMapping_Source() {
 		return (EReference)parameterMappingEClass.getEStructuralFeatures().get(0);
 	}
@@ -1337,6 +1437,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParameterMapping_Target() {
 		return (EReference)parameterMappingEClass.getEStructuralFeatures().get(1);
 	}
@@ -1346,6 +1447,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public HenshinFactory getHenshinFactory() {
 		return (HenshinFactory)getEFactoryInstance();
 	}
@@ -1878,66 +1980,66 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore";	
+		String source = "http://www.eclipse.org/emf/2002/Ecore";
 		addAnnotation
-		  (unitEClass, 
-		   source, 
+		  (unitEClass,
+		   source,
 		   new String[] {
-			 "constraints", "nameNotEmpty parameterNamesUnique parameterMappingsPointToDirectSubUnit"
-		   });	
+			   "constraints", "nameNotEmpty parameterNamesUnique parameterMappingsPointToDirectSubUnit"
+		   });
 		addAnnotation
-		  (ruleEClass, 
-		   source, 
+		  (ruleEClass,
+		   source,
 		   new String[] {
-			 "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames varParametersOccurOnLeftSide multiRuleParametersSameKind"
-		   });	
+			   "constraints", "mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived uniqueNodeNames varParametersOccurOnLeftSide multiRuleParametersSameKind"
+		   });
 		addAnnotation
-		  (parameterEClass, 
-		   source, 
+		  (parameterEClass,
+		   source,
 		   new String[] {
-			 "constraints", "nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated nameNotKeyword"
-		   });	
+			   "constraints", "nameNotEmpty nameNotTypeName nameNotKindAlias unknownKindDeprecated nameNotKeyword"
+		   });
 		addAnnotation
-		  (parameterMappingEClass, 
-		   source, 
+		  (parameterMappingEClass,
+		   source,
 		   new String[] {
-			 "constraints", "inParameterMappingIsCausal outParameterMappingIsCausal inoutParameterMappingIsCausal varParameterMappingIsCausal"
-		   });	
+			   "constraints", "inParameterMappingIsCausal outParameterMappingIsCausal inoutParameterMappingIsCausal varParameterMappingIsCausal"
+		   });
 		addAnnotation
-		  (nodeEClass, 
-		   source, 
+		  (nodeEClass,
+		   source,
 		   new String[] {
-			 "constraints", "uniqueAttributeTypes atMostOneContainer NodeDeletionDanglingEdge NodeCreationWithoutContainment"
-		   });	
+			   "constraints", "uniqueAttributeTypes atMostOneContainer NodeDeletionDanglingEdge NodeCreationWithoutContainment"
+		   });
 		addAnnotation
-		  (edgeEClass, 
-		   source, 
+		  (edgeEClass,
+		   source,
 		   new String[] {
-			 "constraints", "equalParentGraphs indexValidJavaScript indexAllParametersAreDeclared noContainmentCycles EOppositeContainments oppositeEdgeConsidered noParallelEdgesOfSameType containmentEdgeDeletion containmentEdgeCreation"
-		   });	
+			   "constraints", "equalParentGraphs indexValidJavaScript indexAllParametersAreDeclared noContainmentCycles EOppositeContainments oppositeEdgeConsidered noParallelEdgesOfSameType containmentEdgeDeletion containmentEdgeCreation"
+		   });
 		addAnnotation
-		  (attributeEClass, 
-		   source, 
+		  (attributeEClass,
+		   source,
 		   new String[] {
-			 "constraints", "valueValidJavaScript valueAllParametersAreDeclared"
-		   });	
+			   "constraints", "valueValidJavaScript valueAllParametersAreDeclared"
+		   });
 		addAnnotation
-		  (attributeConditionEClass, 
-		   source, 
+		  (attributeConditionEClass,
+		   source,
 		   new String[] {
-			 "constraints", "conditionTextNotEmpty conditionValidJavaScript conditionAllParametersAreDeclared"
-		   });	
+			   "constraints", "conditionTextNotEmpty conditionValidJavaScript conditionAllParametersAreDeclared"
+		   });
 		addAnnotation
-		  (iteratedUnitEClass, 
-		   source, 
+		  (iteratedUnitEClass,
+		   source,
 		   new String[] {
-			 "constraints", "iterationsNotEmpty iterationsValidJavaScript iterationsAllParametersAreDeclared"
-		   });	
+			   "constraints", "iterationsNotEmpty iterationsValidJavaScript iterationsAllParametersAreDeclared"
+		   });
 		addAnnotation
-		  (nestedConditionEClass, 
-		   source, 
+		  (nestedConditionEClass,
+		   source,
 		   new String[] {
-			 "constraints", "mappingOriginContainedInParentCondition mappingImageContainedInCurrent"
+			   "constraints", "mappingOriginContainedInParentCondition mappingImageContainedInCurrent"
 		   });
 	}
 

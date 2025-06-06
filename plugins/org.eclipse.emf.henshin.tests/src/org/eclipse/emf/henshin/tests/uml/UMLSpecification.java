@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.tests.uml.UMLSpecification#getClasses <em>Classes</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.tests.uml.UMLSpecification#getAssociations <em>Associations</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.tests.uml.UmlPackage#getUMLSpecification()
  * @model kind="class"

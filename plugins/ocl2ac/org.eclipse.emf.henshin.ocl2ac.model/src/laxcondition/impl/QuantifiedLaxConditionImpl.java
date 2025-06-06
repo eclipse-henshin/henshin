@@ -116,6 +116,7 @@ public class QuantifiedLaxConditionImpl extends LaxConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getGraph() {
 		return graph;
 	}
@@ -140,6 +141,7 @@ public class QuantifiedLaxConditionImpl extends LaxConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setGraph(Graph newGraph) {
 		if (newGraph != graph) {
 			NotificationChain msgs = null;
@@ -159,6 +161,7 @@ public class QuantifiedLaxConditionImpl extends LaxConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LaxCondition getCondition() {
 		return condition;
 	}
@@ -183,6 +186,7 @@ public class QuantifiedLaxConditionImpl extends LaxConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(LaxCondition newCondition) {
 		if (newCondition != condition) {
 			NotificationChain msgs = null;
@@ -202,6 +206,7 @@ public class QuantifiedLaxConditionImpl extends LaxConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Quantifier getQuantifier() {
 		return quantifier;
 	}
@@ -211,6 +216,7 @@ public class QuantifiedLaxConditionImpl extends LaxConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setQuantifier(Quantifier newQuantifier) {
 		Quantifier oldQuantifier = quantifier;
 		quantifier = newQuantifier == null ? QUANTIFIER_EDEFAULT : newQuantifier;
@@ -223,6 +229,7 @@ public class QuantifiedLaxConditionImpl extends LaxConditionImpl implements Quan
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Variable> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentEList<Variable>(Variable.class, this, LaxconditionPackage.QUANTIFIED_LAX_CONDITION__VARIABLES);
@@ -347,7 +354,7 @@ public class QuantifiedLaxConditionImpl extends LaxConditionImpl implements Quan
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (quantifier: ");
 		result.append(quantifier);
 		result.append(')');

@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see nestedcondition.NestedconditionPackage#getMorphism()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='NodeMappingIsFromDomainToCoDomain EdgeMappingIsFromDomainToCoDomain EdgeMappingConsistency'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot NodeMappingIsFromDomainToCoDomain='self.nodeMappings -> forAll(m|self.from.nodes -> includes(m.origin) and self.to.nodes -> includes(m.image))' EdgeMappingIsFromDomainToCoDomain='self.edgeMappings -> forAll(m|self.from.edges -> includes(m.origin) and self.to.edges -> includes(m.image))' EdgeMappingConsistency='self.edgeMappings -> forAll(em|self.nodeMappings -> exists(nm|nm.origin = em.origin.source and nm.image = em.image.source) and self.nodeMappings -> exists(nm|nm.origin = em.origin.target and nm.image = em.image.target))'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot NodeMappingIsFromDomainToCoDomain='self.nodeMappings -&gt; forAll(m|self.from.nodes -&gt; includes(m.origin) and self.to.nodes -&gt; includes(m.image))' EdgeMappingIsFromDomainToCoDomain='self.edgeMappings -&gt; forAll(m|self.from.edges -&gt; includes(m.origin) and self.to.edges -&gt; includes(m.image))' EdgeMappingConsistency='self.edgeMappings -&gt; forAll(em|self.nodeMappings -&gt; exists(nm|nm.origin = em.origin.source and nm.image = em.image.source) and self.nodeMappings -&gt; exists(nm|nm.origin = em.origin.target and nm.image = em.image.target))'"
  * @generated
  */
 public interface Morphism extends EObject {

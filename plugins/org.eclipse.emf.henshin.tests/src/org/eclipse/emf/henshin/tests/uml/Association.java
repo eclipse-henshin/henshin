@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.tests.uml.Association#getSrc <em>Src</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.tests.uml.Association#getDst <em>Dst</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.tests.uml.UmlPackage#getAssociation()
  * @model kind="class"
@@ -82,7 +82,7 @@ public class Association extends NamedElement {
 	 */
 	public org.eclipse.emf.henshin.tests.uml.Class getSrc() {
 		if (src != null && src.eIsProxy()) {
-			InternalEObject oldSrc = (InternalEObject)src;
+			InternalEObject oldSrc = src;
 			src = (org.eclipse.emf.henshin.tests.uml.Class)eResolveProxy(oldSrc);
 			if (src != oldSrc) {
 				if (eNotificationRequired())
@@ -132,7 +132,7 @@ public class Association extends NamedElement {
 	 */
 	public org.eclipse.emf.henshin.tests.uml.Class getDst() {
 		if (dst != null && dst.eIsProxy()) {
-			InternalEObject oldDst = (InternalEObject)dst;
+			InternalEObject oldDst = dst;
 			dst = (org.eclipse.emf.henshin.tests.uml.Class)eResolveProxy(oldDst);
 			if (dst != oldDst) {
 				if (eNotificationRequired())

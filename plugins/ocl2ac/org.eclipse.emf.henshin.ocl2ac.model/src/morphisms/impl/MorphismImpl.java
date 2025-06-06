@@ -94,6 +94,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getDomain() {
 		if (domain != null && domain.eIsProxy()) {
 			InternalEObject oldDomain = (InternalEObject)domain;
@@ -120,6 +121,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDomain(Graph newDomain) {
 		Graph oldDomain = domain;
 		domain = newDomain;
@@ -132,6 +134,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getCodomain() {
 		if (codomain != null && codomain.eIsProxy()) {
 			InternalEObject oldCodomain = (InternalEObject)codomain;
@@ -158,6 +161,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCodomain(Graph newCodomain) {
 		Graph oldCodomain = codomain;
 		codomain = newCodomain;
@@ -170,6 +174,7 @@ public class MorphismImpl extends MinimalEObjectImpl.Container implements Morphi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Mapping> getMappings() {
 		if (mappings == null) {
 			mappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, MorphismsPackage.MORPHISM__MAPPINGS);

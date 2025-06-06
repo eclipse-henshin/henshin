@@ -90,6 +90,7 @@ public class ConditionalUnitImpl extends UnitImpl implements ConditionalUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Unit getIf() {
 		if (if_ != null && if_.eIsProxy()) {
 			InternalEObject oldIf = (InternalEObject)if_;
@@ -116,6 +117,7 @@ public class ConditionalUnitImpl extends UnitImpl implements ConditionalUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIf(Unit newIf) {
 		Unit oldIf = if_;
 		if_ = newIf;
@@ -128,6 +130,7 @@ public class ConditionalUnitImpl extends UnitImpl implements ConditionalUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Unit getThen() {
 		if (then != null && then.eIsProxy()) {
 			InternalEObject oldThen = (InternalEObject)then;
@@ -154,6 +157,7 @@ public class ConditionalUnitImpl extends UnitImpl implements ConditionalUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setThen(Unit newThen) {
 		Unit oldThen = then;
 		then = newThen;
@@ -166,6 +170,7 @@ public class ConditionalUnitImpl extends UnitImpl implements ConditionalUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Unit getElse() {
 		if (else_ != null && else_.eIsProxy()) {
 			InternalEObject oldElse = (InternalEObject)else_;
@@ -192,6 +197,7 @@ public class ConditionalUnitImpl extends UnitImpl implements ConditionalUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setElse(Unit newElse) {
 		Unit oldElse = else_;
 		else_ = newElse;

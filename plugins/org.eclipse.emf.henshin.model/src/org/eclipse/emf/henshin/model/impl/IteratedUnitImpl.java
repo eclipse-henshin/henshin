@@ -117,6 +117,7 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getIterations() {
 		return iterations;
 	}
@@ -126,6 +127,7 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIterations(String newIterations) {
 		String oldIterations = iterations;
 		iterations = newIterations;
@@ -138,6 +140,7 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isStrict() {
 		return strict;
 	}
@@ -147,6 +150,7 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStrict(boolean newStrict) {
 		boolean oldStrict = strict;
 		strict = newStrict;
@@ -159,6 +163,7 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isRollback() {
 		return rollback;
 	}
@@ -168,6 +173,7 @@ public class IteratedUnitImpl extends UnaryUnitImpl implements IteratedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRollback(boolean newRollback) {
 		boolean oldRollback = rollback;
 		rollback = newRollback;

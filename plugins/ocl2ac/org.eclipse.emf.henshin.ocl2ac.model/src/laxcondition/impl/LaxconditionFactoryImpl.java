@@ -106,6 +106,7 @@ public class LaxconditionFactoryImpl extends EFactoryImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Condition createCondition() {
 		ConditionImpl condition = new ConditionImpl();
 		return condition;
@@ -116,6 +117,7 @@ public class LaxconditionFactoryImpl extends EFactoryImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public QuantifiedLaxCondition createQuantifiedLaxCondition() {
 		QuantifiedLaxConditionImpl quantifiedLaxCondition = new QuantifiedLaxConditionImpl();
 		return quantifiedLaxCondition;
@@ -126,6 +128,7 @@ public class LaxconditionFactoryImpl extends EFactoryImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public True createTrue() {
 		TrueImpl true_ = new TrueImpl();
 		return true_;
@@ -136,6 +139,7 @@ public class LaxconditionFactoryImpl extends EFactoryImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Formula createFormula() {
 		FormulaImpl formula = new FormulaImpl();
 		return formula;
@@ -146,6 +150,7 @@ public class LaxconditionFactoryImpl extends EFactoryImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Variable createVariable() {
 		VariableImpl variable = new VariableImpl();
 		return variable;
@@ -196,6 +201,7 @@ public class LaxconditionFactoryImpl extends EFactoryImpl implements Laxconditio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LaxconditionPackage getLaxconditionPackage() {
 		return (LaxconditionPackage)getEPackage();
 	}

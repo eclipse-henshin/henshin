@@ -16,10 +16,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.tests.uml.Attribute#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.tests.uml.UmlPackage#getAttribute()
  * @model kind="class"
@@ -71,7 +71,7 @@ public class Attribute extends NamedElement {
 	 */
 	public org.eclipse.emf.henshin.tests.uml.Class getType() {
 		if (type != null && type.eIsProxy()) {
-			InternalEObject oldType = (InternalEObject)type;
+			InternalEObject oldType = type;
 			type = (org.eclipse.emf.henshin.tests.uml.Class)eResolveProxy(oldType);
 			if (type != oldType) {
 				if (eNotificationRequired())

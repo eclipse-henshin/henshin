@@ -25,10 +25,10 @@ import org.eclipse.emf.henshin.wrap.WrapPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.impl.WMemberImpl#getEStructuralFeature <em>EStructural Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -135,6 +135,7 @@ public abstract class WMemberImpl extends WSynchronizerImpl implements WMember {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EStructuralFeature getEStructuralFeature() {
 		if (eStructuralFeature != null && eStructuralFeature.eIsProxy()) {
 			InternalEObject oldEStructuralFeature = (InternalEObject)eStructuralFeature;
@@ -161,6 +162,7 @@ public abstract class WMemberImpl extends WSynchronizerImpl implements WMember {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEStructuralFeature(EStructuralFeature newEStructuralFeature) {
 		EStructuralFeature oldEStructuralFeature = eStructuralFeature;
 		eStructuralFeature = newEStructuralFeature;

@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * @see graph.GraphPackage#getEdge()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='CorrectlyTypedEdgesSourceNode CorrectlyTypedEdgesTargetNode'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot CorrectlyTypedEdgesSourceNode='self.source.type.eAllReferences -> includes(self.type)' CorrectlyTypedEdgesTargetNode='(self.target.type = self.type.eReferenceType) or (self.target.type.eAllSuperTypes -> includes(self.type.eReferenceType))'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot CorrectlyTypedEdgesSourceNode='self.source.type.eAllReferences -&gt; includes(self.type)' CorrectlyTypedEdgesTargetNode='(self.target.type = self.type.eReferenceType) or (self.target.type.eAllSuperTypes -&gt; includes(self.type.eReferenceType))'"
  * @generated
  */
 public interface Edge extends EObject {

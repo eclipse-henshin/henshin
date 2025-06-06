@@ -75,6 +75,7 @@ public abstract class ModelElementImpl extends EObjectImpl implements ModelEleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Annotation> getAnnotations() {
 		if (annotations == null) {
 			annotations = new EObjectContainmentEList.Resolving<Annotation>(Annotation.class, this, HenshinPackage.MODEL_ELEMENT__ANNOTATIONS);

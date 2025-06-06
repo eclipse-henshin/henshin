@@ -74,6 +74,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedConstraint createNestedConstraint() {
 		NestedConstraintImpl nestedConstraint = new NestedConstraintImpl();
 		return nestedConstraint;
@@ -84,6 +85,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Variable createVariable() {
 		VariableImpl variable = new VariableImpl();
 		return variable;
@@ -94,6 +96,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public QuantifiedCondition createQuantifiedCondition() {
 		QuantifiedConditionImpl quantifiedCondition = new QuantifiedConditionImpl();
 		return quantifiedCondition;
@@ -104,6 +107,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public True createTrue() {
 		TrueImpl true_ = new TrueImpl();
 		return true_;
@@ -114,6 +118,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Formula createFormula() {
 		FormulaImpl formula = new FormulaImpl();
 		return formula;
@@ -124,6 +129,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Morphism createMorphism() {
 		MorphismImpl morphism = new MorphismImpl();
 		return morphism;
@@ -134,6 +140,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NodeMapping createNodeMapping() {
 		NodeMappingImpl nodeMapping = new NodeMappingImpl();
 		return nodeMapping;
@@ -144,6 +151,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdgeMapping createEdgeMapping() {
 		EdgeMappingImpl edgeMapping = new EdgeMappingImpl();
 		return edgeMapping;
@@ -154,6 +162,7 @@ public class NestedconditionFactoryImpl extends EFactoryImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedconditionPackage getNestedconditionPackage() {
 		return (NestedconditionPackage)getEPackage();
 	}

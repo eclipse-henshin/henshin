@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EPackage;
  *
  * @see nestedcondition.NestedconditionPackage#getNestedConstraint()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ConstraintDomainIsEmpty RootConditionDomainIsConatraintDomain TypeGraphConsistency HostGraphConsistency'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot ConstraintDomainIsEmpty='self.domain.nodes -> isEmpty() and self.domain.edges -> isEmpty()' RootConditionDomainIsConatraintDomain='self.condition.domain = self.domain' TypeGraphConsistency='graph::Graph.allInstances() -> forAll(g|g.typegraph = self.typeGraph)' HostGraphConsistency='graph::Graph.allInstances() -> forAll(g|g.edges -> forAll(e|g.nodes -> includes(e.source) and g.nodes -> includes(e.target)))'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot ConstraintDomainIsEmpty='self.domain.nodes -&gt; isEmpty() and self.domain.edges -&gt; isEmpty()' RootConditionDomainIsConatraintDomain='self.condition.domain = self.domain' TypeGraphConsistency='graph::Graph.allInstances() -&gt; forAll(g|g.typegraph = self.typeGraph)' HostGraphConsistency='graph::Graph.allInstances() -&gt; forAll(g|g.edges -&gt; forAll(e|g.nodes -&gt; includes(e.source) and g.nodes -&gt; includes(e.target)))'"
  * @generated
  */
 public interface NestedConstraint extends EObject {

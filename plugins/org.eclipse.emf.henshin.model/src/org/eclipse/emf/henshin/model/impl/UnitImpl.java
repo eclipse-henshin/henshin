@@ -111,6 +111,7 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isActivated() {
 		return activated;
 	}
@@ -120,6 +121,7 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setActivated(boolean newActivated) {
 		boolean oldActivated = activated;
 		activated = newActivated;
@@ -148,6 +150,7 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
 			parameters = new EObjectContainmentWithInverseEList.Resolving<Parameter>(Parameter.class, this, HenshinPackage.UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
@@ -160,6 +163,7 @@ public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ParameterMapping> getParameterMappings() {
 		if (parameterMappings == null) {
 			parameterMappings = new EObjectContainmentEList.Resolving<ParameterMapping>(ParameterMapping.class, this, HenshinPackage.UNIT__PARAMETER_MAPPINGS);

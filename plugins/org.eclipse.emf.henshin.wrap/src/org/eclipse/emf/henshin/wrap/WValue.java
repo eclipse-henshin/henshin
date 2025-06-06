@@ -16,10 +16,10 @@ package org.eclipse.emf.henshin.wrap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.WValue#getEValue <em>EValue</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.wrap.WrapPackage#getWValue()
  * @model

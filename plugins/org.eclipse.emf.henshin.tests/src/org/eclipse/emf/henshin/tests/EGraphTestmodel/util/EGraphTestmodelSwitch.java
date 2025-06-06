@@ -1,19 +1,13 @@
 /**
- * <copyright>
- * Copyright (c) 2010-2014 Henshin developers. All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 which 
- * accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * </copyright>
  */
-package org.eclipse.emf.henshin.trace.util;
+package org.eclipse.emf.henshin.tests.EGraphTestmodel.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
-import org.eclipse.emf.henshin.trace.Trace;
-import org.eclipse.emf.henshin.trace.TracePackage;
+
+import org.eclipse.emf.henshin.tests.EGraphTestmodel.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,17 +19,17 @@ import org.eclipse.emf.henshin.trace.TracePackage;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.henshin.trace.TracePackage
+ * @see org.eclipse.emf.henshin.tests.EGraphTestmodel.EGraphTestmodelPackage
  * @generated
  */
-public class TraceSwitch<T> extends Switch<T> {
+public class EGraphTestmodelSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static TracePackage modelPackage;
+	protected static EGraphTestmodelPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -43,9 +37,9 @@ public class TraceSwitch<T> extends Switch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TraceSwitch() {
+	public EGraphTestmodelSwitch() {
 		if (modelPackage == null) {
-			modelPackage = TracePackage.eINSTANCE;
+			modelPackage = EGraphTestmodelPackage.eINSTANCE;
 		}
 	}
 
@@ -72,9 +66,9 @@ public class TraceSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case TracePackage.TRACE: {
-				Trace trace = (Trace)theEObject;
-				T result = caseTrace(trace);
+			case EGraphTestmodelPackage.RECURSIVE_NODE: {
+				RecursiveNode recursiveNode = (RecursiveNode)theEObject;
+				T result = caseRecursiveNode(recursiveNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -83,17 +77,17 @@ public class TraceSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Trace</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Recursive Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Trace</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Recursive Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTrace(Trace object) {
+	public T caseRecursiveNode(RecursiveNode object) {
 		return null;
 	}
 
@@ -113,4 +107,4 @@ public class TraceSwitch<T> extends Switch<T> {
 		return null;
 	}
 
-} //TraceSwitch
+} //EGraphTestmodelSwitch

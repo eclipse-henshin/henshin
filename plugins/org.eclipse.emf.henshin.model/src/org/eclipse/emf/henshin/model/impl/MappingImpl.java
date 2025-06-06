@@ -80,6 +80,7 @@ public class MappingImpl extends ModelElementImpl implements Mapping {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getOrigin() {
 		if (origin != null && origin.eIsProxy()) {
 			InternalEObject oldOrigin = (InternalEObject)origin;
@@ -106,6 +107,7 @@ public class MappingImpl extends ModelElementImpl implements Mapping {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOrigin(Node newOrigin) {
 		Node oldOrigin = origin;
 		origin = newOrigin;
@@ -118,6 +120,7 @@ public class MappingImpl extends ModelElementImpl implements Mapping {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getImage() {
 		if (image != null && image.eIsProxy()) {
 			InternalEObject oldImage = (InternalEObject)image;
@@ -144,6 +147,7 @@ public class MappingImpl extends ModelElementImpl implements Mapping {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setImage(Node newImage) {
 		Node oldImage = image;
 		image = newImage;

@@ -134,7 +134,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link NestedconditionPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -148,14 +148,18 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 		if (isInited) return (NestedconditionPackage)EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI);
 
 		// Obtain or create and register package
-		NestedconditionPackageImpl theNestedconditionPackage = (NestedconditionPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof NestedconditionPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new NestedconditionPackageImpl());
+		Object registeredNestedconditionPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		NestedconditionPackageImpl theNestedconditionPackage = registeredNestedconditionPackage instanceof NestedconditionPackageImpl ? (NestedconditionPackageImpl)registeredNestedconditionPackage : new NestedconditionPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		NestedconstraintmodelPackageImpl theNestedconstraintmodelPackage = (NestedconstraintmodelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI) instanceof NestedconstraintmodelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI) : NestedconstraintmodelPackage.eINSTANCE);
-		GraphPackageImpl theGraphPackage = (GraphPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI) instanceof GraphPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI) : GraphPackage.eINSTANCE);
-		LaxconditionPackageImpl theLaxconditionPackage = (LaxconditionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI) instanceof LaxconditionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI) : LaxconditionPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI);
+		NestedconstraintmodelPackageImpl theNestedconstraintmodelPackage = (NestedconstraintmodelPackageImpl)(registeredPackage instanceof NestedconstraintmodelPackageImpl ? registeredPackage : NestedconstraintmodelPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI);
+		GraphPackageImpl theGraphPackage = (GraphPackageImpl)(registeredPackage instanceof GraphPackageImpl ? registeredPackage : GraphPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI);
+		LaxconditionPackageImpl theLaxconditionPackage = (LaxconditionPackageImpl)(registeredPackage instanceof LaxconditionPackageImpl ? registeredPackage : LaxconditionPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theNestedconditionPackage.createPackageContents();
@@ -171,8 +175,9 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put
-			(theNestedconditionPackage, 
+			(theNestedconditionPackage,
 			 new EValidator.Descriptor() {
+				 @Override
 				 public EValidator getEValidator() {
 					 return NestedconditionValidator.INSTANCE;
 				 }
@@ -181,7 +186,6 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 		// Mark meta-data to indicate it can't be changed
 		theNestedconditionPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(NestedconditionPackage.eNS_URI, theNestedconditionPackage);
 		return theNestedconditionPackage;
@@ -192,6 +196,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNestedConstraint() {
 		return nestedConstraintEClass;
 	}
@@ -201,6 +206,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNestedConstraint_Name() {
 		return (EAttribute)nestedConstraintEClass.getEStructuralFeatures().get(0);
 	}
@@ -210,6 +216,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNestedConstraint_TypeGraph() {
 		return (EReference)nestedConstraintEClass.getEStructuralFeatures().get(1);
 	}
@@ -219,6 +226,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNestedConstraint_Condition() {
 		return (EReference)nestedConstraintEClass.getEStructuralFeatures().get(2);
 	}
@@ -228,6 +236,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNestedConstraint_Domain() {
 		return (EReference)nestedConstraintEClass.getEStructuralFeatures().get(3);
 	}
@@ -237,6 +246,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNestedCondition() {
 		return nestedConditionEClass;
 	}
@@ -246,6 +256,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNestedCondition_Variables() {
 		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -255,6 +266,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNestedCondition_Domain() {
 		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(1);
 	}
@@ -264,6 +276,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVariable() {
 		return variableEClass;
 	}
@@ -273,6 +286,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getVariable_Name() {
 		return (EAttribute)variableEClass.getEStructuralFeatures().get(0);
 	}
@@ -282,6 +296,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getQuantifiedCondition() {
 		return quantifiedConditionEClass;
 	}
@@ -291,6 +306,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getQuantifiedCondition_Quantifier() {
 		return (EAttribute)quantifiedConditionEClass.getEStructuralFeatures().get(0);
 	}
@@ -300,6 +316,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getQuantifiedCondition_Condition() {
 		return (EReference)quantifiedConditionEClass.getEStructuralFeatures().get(1);
 	}
@@ -309,6 +326,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getQuantifiedCondition_Morphism() {
 		return (EReference)quantifiedConditionEClass.getEStructuralFeatures().get(2);
 	}
@@ -318,6 +336,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getQuantifiedCondition_Codomain() {
 		return (EReference)quantifiedConditionEClass.getEStructuralFeatures().get(3);
 	}
@@ -327,6 +346,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTrue() {
 		return trueEClass;
 	}
@@ -336,6 +356,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getFormula() {
 		return formulaEClass;
 	}
@@ -345,6 +366,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFormula_Operator() {
 		return (EAttribute)formulaEClass.getEStructuralFeatures().get(0);
 	}
@@ -354,6 +376,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getFormula_Arguments() {
 		return (EReference)formulaEClass.getEStructuralFeatures().get(1);
 	}
@@ -363,6 +386,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMorphism() {
 		return morphismEClass;
 	}
@@ -372,6 +396,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMorphism_NodeMappings() {
 		return (EReference)morphismEClass.getEStructuralFeatures().get(0);
 	}
@@ -381,6 +406,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMorphism_From() {
 		return (EReference)morphismEClass.getEStructuralFeatures().get(1);
 	}
@@ -390,6 +416,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMorphism_To() {
 		return (EReference)morphismEClass.getEStructuralFeatures().get(2);
 	}
@@ -399,6 +426,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMorphism_EdgeMappings() {
 		return (EReference)morphismEClass.getEStructuralFeatures().get(3);
 	}
@@ -408,6 +436,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNodeMapping() {
 		return nodeMappingEClass;
 	}
@@ -417,6 +446,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNodeMapping_Origin() {
 		return (EReference)nodeMappingEClass.getEStructuralFeatures().get(0);
 	}
@@ -426,6 +456,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNodeMapping_Image() {
 		return (EReference)nodeMappingEClass.getEStructuralFeatures().get(1);
 	}
@@ -435,6 +466,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdgeMapping() {
 		return edgeMappingEClass;
 	}
@@ -444,6 +476,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdgeMapping_Origin() {
 		return (EReference)edgeMappingEClass.getEStructuralFeatures().get(0);
 	}
@@ -453,6 +486,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdgeMapping_Image() {
 		return (EReference)edgeMappingEClass.getEStructuralFeatures().get(1);
 	}
@@ -462,6 +496,7 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedconditionFactory getNestedconditionFactory() {
 		return (NestedconditionFactory)getEFactoryInstance();
 	}
@@ -620,14 +655,14 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";	
+		String source = "http://www.eclipse.org/OCL/Import";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/",
-			 "graph", "graph.ecore#/",
-			 "laxcondition", "laxcondition.ecore#/"
+			   "ecore", "http://www.eclipse.org/emf/2002/Ecore#/",
+			   "graph", "graph.ecore#/",
+			   "laxcondition", "laxcondition.ecore#/"
 		   });
 	}
 
@@ -638,38 +673,38 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * @generated
 	 */
 	protected void createEcoreAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore";	
+		String source = "http://www.eclipse.org/emf/2002/Ecore";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"
-		   });	
+			   "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+			   "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+			   "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"
+		   });
 		addAnnotation
-		  (nestedConstraintEClass, 
-		   source, 
+		  (nestedConstraintEClass,
+		   source,
 		   new String[] {
-			 "constraints", "ConstraintDomainIsEmpty RootConditionDomainIsConatraintDomain TypeGraphConsistency HostGraphConsistency"
-		   });	
+			   "constraints", "ConstraintDomainIsEmpty RootConditionDomainIsConatraintDomain TypeGraphConsistency HostGraphConsistency"
+		   });
 		addAnnotation
-		  (quantifiedConditionEClass, 
-		   source, 
+		  (quantifiedConditionEClass,
+		   source,
 		   new String[] {
-			 "constraints", "NestedDomainIsCoDomain MorphismIsFromDomainToCoDomain"
-		   });	
+			   "constraints", "NestedDomainIsCoDomain MorphismIsFromDomainToCoDomain"
+		   });
 		addAnnotation
-		  (formulaEClass, 
-		   source, 
+		  (formulaEClass,
+		   source,
 		   new String[] {
-			 "constraints", "ArgumentsDomainConsistency OneArgumentForNOT AtLeastTwoArgumentForANDOR TwoArgumentForIMPLEQUALXOR"
-		   });	
+			   "constraints", "ArgumentsDomainConsistency OneArgumentForNOT AtLeastTwoArgumentForANDOR TwoArgumentForIMPLEQUALXOR"
+		   });
 		addAnnotation
-		  (morphismEClass, 
-		   source, 
+		  (morphismEClass,
+		   source,
 		   new String[] {
-			 "constraints", "NodeMappingIsFromDomainToCoDomain EdgeMappingIsFromDomainToCoDomain EdgeMappingConsistency"
+			   "constraints", "NodeMappingIsFromDomainToCoDomain EdgeMappingIsFromDomainToCoDomain EdgeMappingConsistency"
 		   });
 	}
 
@@ -680,39 +715,39 @@ public class NestedconditionPackageImpl extends EPackageImpl implements Nestedco
 	 * @generated
 	 */
 	protected void createPivotAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";	
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";
 		addAnnotation
-		  (nestedConstraintEClass, 
-		   source, 
+		  (nestedConstraintEClass,
+		   source,
 		   new String[] {
-			 "ConstraintDomainIsEmpty", "self.domain.nodes -> isEmpty() and self.domain.edges -> isEmpty()",
-			 "RootConditionDomainIsConatraintDomain", "self.condition.domain = self.domain",
-			 "TypeGraphConsistency", "graph::Graph.allInstances() -> forAll(g|g.typegraph = self.typeGraph)",
-			 "HostGraphConsistency", "graph::Graph.allInstances() -> forAll(g|g.edges -> forAll(e|g.nodes -> includes(e.source) and g.nodes -> includes(e.target)))"
-		   });	
+			   "ConstraintDomainIsEmpty", "self.domain.nodes -> isEmpty() and self.domain.edges -> isEmpty()",
+			   "RootConditionDomainIsConatraintDomain", "self.condition.domain = self.domain",
+			   "TypeGraphConsistency", "graph::Graph.allInstances() -> forAll(g|g.typegraph = self.typeGraph)",
+			   "HostGraphConsistency", "graph::Graph.allInstances() -> forAll(g|g.edges -> forAll(e|g.nodes -> includes(e.source) and g.nodes -> includes(e.target)))"
+		   });
 		addAnnotation
-		  (quantifiedConditionEClass, 
-		   source, 
+		  (quantifiedConditionEClass,
+		   source,
 		   new String[] {
-			 "NestedDomainIsCoDomain", "self.condition.domain = self.codomain",
-			 "MorphismIsFromDomainToCoDomain", "self.morphism.from = self.domain and self.morphism.to = self.codomain"
-		   });	
+			   "NestedDomainIsCoDomain", "self.condition.domain = self.codomain",
+			   "MorphismIsFromDomainToCoDomain", "self.morphism.from = self.domain and self.morphism.to = self.codomain"
+		   });
 		addAnnotation
-		  (formulaEClass, 
-		   source, 
+		  (formulaEClass,
+		   source,
 		   new String[] {
-			 "ArgumentsDomainConsistency", "self.arguments -> forAll(cond|cond.domain = self.domain)",
-			 "OneArgumentForNOT", "(self.operator = laxcondition::Operator::NOT) implies (self.arguments -> size() = 1)",
-			 "AtLeastTwoArgumentForANDOR", "((self.operator = laxcondition::Operator::AND) or (self.operator = laxcondition::Operator::OR)) implies (self.arguments -> size() > 1)",
-			 "TwoArgumentForIMPLEQUALXOR", "((self.operator = laxcondition::Operator::IMPLIES) or (self.operator = laxcondition::Operator::EQUIVALENT) or (self.operator = laxcondition::Operator::XOR)) implies (self.arguments -> size() = 2)"
-		   });	
+			   "ArgumentsDomainConsistency", "self.arguments -> forAll(cond|cond.domain = self.domain)",
+			   "OneArgumentForNOT", "(self.operator = laxcondition::Operator::NOT) implies (self.arguments -> size() = 1)",
+			   "AtLeastTwoArgumentForANDOR", "((self.operator = laxcondition::Operator::AND) or (self.operator = laxcondition::Operator::OR)) implies (self.arguments -> size() > 1)",
+			   "TwoArgumentForIMPLEQUALXOR", "((self.operator = laxcondition::Operator::IMPLIES) or (self.operator = laxcondition::Operator::EQUIVALENT) or (self.operator = laxcondition::Operator::XOR)) implies (self.arguments -> size() = 2)"
+		   });
 		addAnnotation
-		  (morphismEClass, 
-		   source, 
+		  (morphismEClass,
+		   source,
 		   new String[] {
-			 "NodeMappingIsFromDomainToCoDomain", "self.nodeMappings -> forAll(m|self.from.nodes -> includes(m.origin) and self.to.nodes -> includes(m.image))",
-			 "EdgeMappingIsFromDomainToCoDomain", "self.edgeMappings -> forAll(m|self.from.edges -> includes(m.origin) and self.to.edges -> includes(m.image))",
-			 "EdgeMappingConsistency", "self.edgeMappings -> forAll(em|self.nodeMappings -> exists(nm|nm.origin = em.origin.source and nm.image = em.image.source) and self.nodeMappings -> exists(nm|nm.origin = em.origin.target and nm.image = em.image.target))"
+			   "NodeMappingIsFromDomainToCoDomain", "self.nodeMappings -> forAll(m|self.from.nodes -> includes(m.origin) and self.to.nodes -> includes(m.image))",
+			   "EdgeMappingIsFromDomainToCoDomain", "self.edgeMappings -> forAll(m|self.from.edges -> includes(m.origin) and self.to.edges -> includes(m.image))",
+			   "EdgeMappingConsistency", "self.edgeMappings -> forAll(em|self.nodeMappings -> exists(nm|nm.origin = em.origin.source and nm.image = em.image.source) and self.nodeMappings -> exists(nm|nm.origin = em.origin.target and nm.image = em.image.target))"
 		   });
 	}
 

@@ -67,7 +67,7 @@ public class NestedconstraintmodelPackageImpl extends EPackageImpl implements Ne
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link NestedconstraintmodelPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -81,14 +81,18 @@ public class NestedconstraintmodelPackageImpl extends EPackageImpl implements Ne
 		if (isInited) return (NestedconstraintmodelPackage)EPackage.Registry.INSTANCE.getEPackage(NestedconstraintmodelPackage.eNS_URI);
 
 		// Obtain or create and register package
-		NestedconstraintmodelPackageImpl theNestedconstraintmodelPackage = (NestedconstraintmodelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof NestedconstraintmodelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new NestedconstraintmodelPackageImpl());
+		Object registeredNestedconstraintmodelPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		NestedconstraintmodelPackageImpl theNestedconstraintmodelPackage = registeredNestedconstraintmodelPackage instanceof NestedconstraintmodelPackageImpl ? (NestedconstraintmodelPackageImpl)registeredNestedconstraintmodelPackage : new NestedconstraintmodelPackageImpl();
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		NestedconditionPackageImpl theNestedconditionPackage = (NestedconditionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI) instanceof NestedconditionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI) : NestedconditionPackage.eINSTANCE);
-		GraphPackageImpl theGraphPackage = (GraphPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI) instanceof GraphPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI) : GraphPackage.eINSTANCE);
-		LaxconditionPackageImpl theLaxconditionPackage = (LaxconditionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI) instanceof LaxconditionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI) : LaxconditionPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(NestedconditionPackage.eNS_URI);
+		NestedconditionPackageImpl theNestedconditionPackage = (NestedconditionPackageImpl)(registeredPackage instanceof NestedconditionPackageImpl ? registeredPackage : NestedconditionPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(GraphPackage.eNS_URI);
+		GraphPackageImpl theGraphPackage = (GraphPackageImpl)(registeredPackage instanceof GraphPackageImpl ? registeredPackage : GraphPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LaxconditionPackage.eNS_URI);
+		LaxconditionPackageImpl theLaxconditionPackage = (LaxconditionPackageImpl)(registeredPackage instanceof LaxconditionPackageImpl ? registeredPackage : LaxconditionPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theNestedconstraintmodelPackage.createPackageContents();
@@ -105,7 +109,6 @@ public class NestedconstraintmodelPackageImpl extends EPackageImpl implements Ne
 		// Mark meta-data to indicate it can't be changed
 		theNestedconstraintmodelPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(NestedconstraintmodelPackage.eNS_URI, theNestedconstraintmodelPackage);
 		return theNestedconstraintmodelPackage;
@@ -116,6 +119,7 @@ public class NestedconstraintmodelPackageImpl extends EPackageImpl implements Ne
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNestedConstraintModel() {
 		return nestedConstraintModelEClass;
 	}
@@ -125,6 +129,7 @@ public class NestedconstraintmodelPackageImpl extends EPackageImpl implements Ne
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNestedConstraintModel_Name() {
 		return (EAttribute)nestedConstraintModelEClass.getEStructuralFeatures().get(0);
 	}
@@ -134,6 +139,7 @@ public class NestedconstraintmodelPackageImpl extends EPackageImpl implements Ne
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNestedConstraintModel_Nestedconstrainmodels() {
 		return (EReference)nestedConstraintModelEClass.getEStructuralFeatures().get(1);
 	}
@@ -143,6 +149,7 @@ public class NestedconstraintmodelPackageImpl extends EPackageImpl implements Ne
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedconstraintmodelFactory getNestedconstraintmodelFactory() {
 		return (NestedconstraintmodelFactory)getEFactoryInstance();
 	}

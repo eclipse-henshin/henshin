@@ -95,6 +95,7 @@ public class SequentialUnitImpl extends MultiUnitImpl implements SequentialUnit 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isStrict() {
 		return strict;
 	}
@@ -104,6 +105,7 @@ public class SequentialUnitImpl extends MultiUnitImpl implements SequentialUnit 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStrict(boolean newStrict) {
 		boolean oldStrict = strict;
 		strict = newStrict;
@@ -116,6 +118,7 @@ public class SequentialUnitImpl extends MultiUnitImpl implements SequentialUnit 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isRollback() {
 		return rollback;
 	}
@@ -125,6 +128,7 @@ public class SequentialUnitImpl extends MultiUnitImpl implements SequentialUnit 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRollback(boolean newRollback) {
 		boolean oldRollback = rollback;
 		rollback = newRollback;

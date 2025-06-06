@@ -41,8 +41,6 @@ import configuration.FeatureBinding;
  * </ul>
  *
  * @generated
- * @author Stefan Schulz
- * 
  */
 public class ConfigurationImpl extends MinimalEObjectImpl.Container implements Configuration {
 	

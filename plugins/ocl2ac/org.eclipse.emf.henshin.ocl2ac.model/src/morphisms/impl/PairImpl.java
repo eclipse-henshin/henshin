@@ -74,6 +74,7 @@ public class PairImpl extends MinimalEObjectImpl.Container implements Pair {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Morphism getA() {
 		return a;
 	}
@@ -98,6 +99,7 @@ public class PairImpl extends MinimalEObjectImpl.Container implements Pair {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setA(Morphism newA) {
 		if (newA != a) {
 			NotificationChain msgs = null;
@@ -117,6 +119,7 @@ public class PairImpl extends MinimalEObjectImpl.Container implements Pair {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Morphism getB() {
 		return b;
 	}
@@ -141,6 +144,7 @@ public class PairImpl extends MinimalEObjectImpl.Container implements Pair {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setB(Morphism newB) {
 		if (newB != b) {
 			NotificationChain msgs = null;

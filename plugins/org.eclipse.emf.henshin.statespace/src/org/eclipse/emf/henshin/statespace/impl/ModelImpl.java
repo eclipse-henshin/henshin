@@ -430,6 +430,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated
 	 */
+	@Override
 	public Resource getResource() {
 		return resource;
 	}
@@ -540,7 +541,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (resource: ");
 		result.append(resource);
 		result.append(", eGraph: ");

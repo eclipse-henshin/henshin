@@ -101,6 +101,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Unit getUnit() {
 		if (eContainerFeatureID() != HenshinPackage.PARAMETER__UNIT) return null;
 		return (Unit)eContainer();
@@ -131,6 +132,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUnit(Unit newUnit) {
 		if (newUnit != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.PARAMETER__UNIT && newUnit != null)) {
 			if (EcoreUtil.isAncestor(this, newUnit))
@@ -152,6 +154,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClassifier getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -178,6 +181,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EClassifier newType) {
 		EClassifier oldType = type;
 		type = newType;
@@ -190,6 +194,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ParameterKind getKind() {
 		return kind;
 	}
@@ -199,6 +204,7 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKind(ParameterKind newKind) {
 		ParameterKind oldKind = kind;
 		kind = newKind == null ? KIND_EDEFAULT : newKind;

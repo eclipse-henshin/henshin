@@ -7,6 +7,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.emf.henshin.tests.EGraphTestmodel,
+ org.eclipse.emf.henshin.tests.EGraphTestmodel.util,
  org.eclipse.emf.henshin.tests.basic,
  org.eclipse.emf.henshin.tests.framework,
  org.eclipse.emf.henshin.tests.testmodel,

@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EPackage;
  *
  * @see graph.GraphPackage#getGraph()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='CorrectlyTypedNodes'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot CorrectlyTypedNodes='self.nodes -> forAll(node | self.typegraph.eClassifiers -> includes(node.type))'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot CorrectlyTypedNodes='self.nodes -&gt; forAll(node | self.typegraph.eClassifiers -&gt; includes(node.type))'"
  * @generated
  */
 public interface Graph extends EObject {

@@ -168,6 +168,7 @@ public class StorageImpl extends MinimalEObjectImpl.Container implements Storage
 	/**
 	 * @generated
 	 */
+	@Override
 	public void setData(int[] newData) {
 		int[] oldData = data;
 		data = newData;
@@ -232,7 +233,7 @@ public class StorageImpl extends MinimalEObjectImpl.Container implements Storage
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (data: ");
 		result.append(data);
 		result.append(')');

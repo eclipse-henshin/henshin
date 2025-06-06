@@ -24,7 +24,6 @@ import org.eclipse.emf.henshin.variability.wrapper.VariabilityRule;
  * @see configuration.ConfigurationPackage#getConfiguration()
  * @model
  * @generated
- * @author Stefan Schulz
  */
 public interface Configuration extends EObject {
 	/**
@@ -39,7 +38,7 @@ public interface Configuration extends EObject {
 	 * @see #setRule(Rule)
 	 * @see configuration.ConfigurationPackage#getConfiguration_Rule()
 	 * @model required="true"
-	 * @generated
+	 * @generated NOT
 	 */
 	VariabilityRule getRule();
 

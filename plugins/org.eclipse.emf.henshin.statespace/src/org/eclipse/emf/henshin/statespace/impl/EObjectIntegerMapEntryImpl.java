@@ -29,11 +29,11 @@ import org.eclipse.emf.henshin.statespace.StateSpacePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.EObjectIntegerMapEntryImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.EObjectIntegerMapEntryImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -225,7 +225,7 @@ public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container imp
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: ");
 		result.append(value);
 		result.append(')');
@@ -244,6 +244,7 @@ public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getHash() {
 		if (hash == -1) {
 			Object theKey = getKey();
@@ -257,6 +258,7 @@ public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setHash(int hash) {
 		this.hash = hash;
 	}
@@ -266,6 +268,7 @@ public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getKey() {
 		return getTypedKey();
 	}
@@ -275,6 +278,7 @@ public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKey(EObject key) {
 		setTypedKey(key);
 	}
@@ -284,6 +288,7 @@ public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Integer getValue() {
 		return getTypedValue();
 	}
@@ -293,6 +298,7 @@ public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Integer setValue(Integer value) {
 		Integer oldValue = getValue();
 		setTypedValue(value);

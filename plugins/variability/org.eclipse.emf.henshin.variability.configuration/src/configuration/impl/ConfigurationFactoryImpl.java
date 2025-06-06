@@ -24,8 +24,6 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * An implementation of the model <b>Factory</b>.
  * <!-- end-user-doc -->
  * @generated
- * @author Stefan Schulz
- * 
  */
 public class ConfigurationFactoryImpl extends EFactoryImpl implements ConfigurationFactory {
 	/**

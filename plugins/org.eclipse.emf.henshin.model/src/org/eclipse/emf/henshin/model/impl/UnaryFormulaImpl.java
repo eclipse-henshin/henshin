@@ -70,6 +70,7 @@ public abstract class UnaryFormulaImpl extends ModelElementImpl implements Unary
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Formula getChild() {
 		if (child != null && child.eIsProxy()) {
 			InternalEObject oldChild = (InternalEObject)child;
@@ -117,6 +118,7 @@ public abstract class UnaryFormulaImpl extends ModelElementImpl implements Unary
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setChild(Formula newChild) {
 		if (newChild != child) {
 			NotificationChain msgs = null;

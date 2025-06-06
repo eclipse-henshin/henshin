@@ -91,6 +91,7 @@ public class FormulaImpl extends LaxConditionImpl implements Formula {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Operator getOp() {
 		return op;
 	}
@@ -100,6 +101,7 @@ public class FormulaImpl extends LaxConditionImpl implements Formula {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOp(Operator newOp) {
 		Operator oldOp = op;
 		op = newOp == null ? OP_EDEFAULT : newOp;
@@ -112,6 +114,7 @@ public class FormulaImpl extends LaxConditionImpl implements Formula {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<LaxCondition> getArguments() {
 		if (arguments == null) {
 			arguments = new EObjectContainmentWithInverseEList<LaxCondition>(LaxCondition.class, this, LaxconditionPackage.FORMULA__ARGUMENTS, LaxconditionPackage.LAX_CONDITION__FORMULA);
@@ -227,7 +230,7 @@ public class FormulaImpl extends LaxConditionImpl implements Formula {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (op: ");
 		result.append(op);
 		result.append(')');

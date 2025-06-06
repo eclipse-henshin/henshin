@@ -21,7 +21,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see nestedcondition.NestedconditionPackage#getFormula()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ArgumentsDomainConsistency OneArgumentForNOT AtLeastTwoArgumentForANDOR TwoArgumentForIMPLEQUALXOR'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot ArgumentsDomainConsistency='self.arguments -> forAll(cond|cond.domain = self.domain)' OneArgumentForNOT='(self.operator = laxcondition::Operator::NOT) implies (self.arguments -> size() = 1)' AtLeastTwoArgumentForANDOR='((self.operator = laxcondition::Operator::AND) or (self.operator = laxcondition::Operator::OR)) implies (self.arguments -> size() > 1)' TwoArgumentForIMPLEQUALXOR='((self.operator = laxcondition::Operator::IMPLIES) or (self.operator = laxcondition::Operator::EQUIVALENT) or (self.operator = laxcondition::Operator::XOR)) implies (self.arguments -> size() = 2)'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot ArgumentsDomainConsistency='self.arguments -&gt; forAll(cond|cond.domain = self.domain)' OneArgumentForNOT='(self.operator = laxcondition::Operator::NOT) implies (self.arguments -&gt; size() = 1)' AtLeastTwoArgumentForANDOR='((self.operator = laxcondition::Operator::AND) or (self.operator = laxcondition::Operator::OR)) implies (self.arguments -&gt; size() &gt; 1)' TwoArgumentForIMPLEQUALXOR='((self.operator = laxcondition::Operator::IMPLIES) or (self.operator = laxcondition::Operator::EQUIVALENT) or (self.operator = laxcondition::Operator::XOR)) implies (self.arguments -&gt; size() = 2)'"
  * @generated
  */
 public interface Formula extends NestedCondition {

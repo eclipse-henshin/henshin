@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="&lt;copyright>&#xA;Copyright (c) 2010-2012 Henshin developers. All rights reserved. &#xA;This program and the accompanying materials are made available &#xA;under the terms of the Eclipse Public License v1.0 which &#xA;accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html&#xA;&lt;/copyright>"
     modelDirectory="/org.eclipse.emf.henshin.statespace/src" modelPluginID="org.eclipse.emf.henshin.statespace"
     modelName="StateSpace" modelPluginClass="StateSpacePlugin" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="11.0" copyrightFields="false"
     publicConstructors="true" runtimeVersion="2.6" usedGenPackages="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin">
   <foreignModel>statespace.ecore</foreignModel>
   <genPackages prefix="StateSpace" basePackage="org.eclipse.emf.henshin" disposableProviderFactory="true"
@@ -42,12 +42,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/hashCode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/derivedFrom"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/open"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/goal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/pruned"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/location"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/objectCount"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/objectKeys"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference statespace.ecore#//State/model"/>
       <genOperations ecoreOperation="statespace.ecore#//State/isInitial"/>
-      <genOperations ecoreOperation="statespace.ecore#//State/isTerminal"/>
       <genOperations ecoreOperation="statespace.ecore#//State/getOutgoing">
         <genParameters ecoreParameter="statespace.ecore#//State/getOutgoing/target"/>
         <genParameters ecoreParameter="statespace.ecore#//State/getOutgoing/rule"/>

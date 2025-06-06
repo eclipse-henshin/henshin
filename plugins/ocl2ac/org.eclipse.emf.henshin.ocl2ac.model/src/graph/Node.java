@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see graph.GraphPackage#getNode()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='CorrectlyTypedAttributes'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot CorrectlyTypedAttributes='self.attributes -> forAll(attr | self.type.eAllAttributes -> includes(attr.type))'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot CorrectlyTypedAttributes='self.attributes -&gt; forAll(attr | self.type.eAllAttributes -&gt; includes(attr.type))'"
  * @generated
  */
 public interface Node extends EObject {

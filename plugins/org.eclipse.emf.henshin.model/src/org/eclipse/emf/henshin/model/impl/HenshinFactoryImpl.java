@@ -22,8 +22,33 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import org.eclipse.emf.henshin.model.*;
+import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.And;
+import org.eclipse.emf.henshin.model.Annotation;
+import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.AttributeCondition;
+import org.eclipse.emf.henshin.model.ConditionalUnit;
+import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.IteratedUnit;
+import org.eclipse.emf.henshin.model.LoopUnit;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Not;
+import org.eclipse.emf.henshin.model.Or;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
+import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.eclipse.emf.henshin.model.PriorityUnit;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.SequentialUnit;
+import org.eclipse.emf.henshin.model.True;
+import org.eclipse.emf.henshin.model.Xor;
 
 /**
  * <!-- begin-user-doc -->
@@ -137,6 +162,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Annotation createAnnotation() {
 		AnnotationImpl annotation = new AnnotationImpl();
 		return annotation;
@@ -147,6 +173,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Module createModule() {
 		ModuleImpl module = new ModuleImpl();
 		return module;
@@ -157,6 +184,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Rule createRule() {
 		RuleImpl rule = new RuleImpl();
 		return rule;
@@ -179,6 +207,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeCondition createAttributeCondition() {
 		AttributeConditionImpl attributeCondition = new AttributeConditionImpl();
 		return attributeCondition;
@@ -189,6 +218,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Parameter createParameter() {
 		ParameterImpl parameter = new ParameterImpl();
 		return parameter;
@@ -211,6 +241,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph createGraph() {
 		GraphImpl graph = new GraphImpl();
 		return graph;
@@ -233,6 +264,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Mapping createMapping() {
 		MappingImpl mapping = new MappingImpl();
 		return mapping;
@@ -256,6 +288,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node createNode() {
 		NodeImpl node = new NodeImpl();
 		return node;
@@ -280,6 +313,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute createAttribute() {
 		AttributeImpl attribute = new AttributeImpl();
 		return attribute;
@@ -304,6 +338,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Edge createEdge() {
 		EdgeImpl edge = new EdgeImpl();
 		return edge;
@@ -328,6 +363,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IndependentUnit createIndependentUnit() {
 		IndependentUnitImpl independentUnit = new IndependentUnitImpl();
 		return independentUnit;
@@ -338,6 +374,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SequentialUnit createSequentialUnit() {
 		SequentialUnitImpl sequentialUnit = new SequentialUnitImpl();
 		return sequentialUnit;
@@ -348,6 +385,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConditionalUnit createConditionalUnit() {
 		ConditionalUnitImpl conditionalUnit = new ConditionalUnitImpl();
 		return conditionalUnit;
@@ -358,6 +396,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PriorityUnit createPriorityUnit() {
 		PriorityUnitImpl priorityUnit = new PriorityUnitImpl();
 		return priorityUnit;
@@ -368,6 +407,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IteratedUnit createIteratedUnit() {
 		IteratedUnitImpl iteratedUnit = new IteratedUnitImpl();
 		return iteratedUnit;
@@ -378,6 +418,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LoopUnit createLoopUnit() {
 		LoopUnitImpl loopUnit = new LoopUnitImpl();
 		return loopUnit;
@@ -388,6 +429,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NestedCondition createNestedCondition() {
 		NestedConditionImpl nestedCondition = new NestedConditionImpl();
 		return nestedCondition;
@@ -398,6 +440,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public And createAnd() {
 		AndImpl and = new AndImpl();
 		return and;
@@ -408,6 +451,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Or createOr() {
 		OrImpl or = new OrImpl();
 		return or;
@@ -418,6 +462,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Not createNot() {
 		NotImpl not = new NotImpl();
 		return not;
@@ -428,6 +473,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public True createTrue() {
 		TrueImpl true_ = new TrueImpl();
 		return true_;
@@ -481,6 +527,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Xor createXor() {
 		XorImpl xor = new XorImpl();
 		return xor;
@@ -491,6 +538,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ParameterMapping createParameterMapping() {
 		ParameterMappingImpl parameterMapping = new ParameterMappingImpl();
 		return parameterMapping;
@@ -501,6 +549,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public HenshinPackage getHenshinPackage() {
 		return (HenshinPackage)getEPackage();
 	}

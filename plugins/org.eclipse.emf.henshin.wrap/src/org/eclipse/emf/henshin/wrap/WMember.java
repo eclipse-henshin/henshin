@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.WMember#getEStructuralFeature <em>EStructural Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.henshin.wrap.WrapPackage#getWMember()
  * @model abstract="true"

@@ -94,7 +94,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link WrapPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -108,7 +108,8 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 		if (isInited) return (WrapPackage)EPackage.Registry.INSTANCE.getEPackage(WrapPackage.eNS_URI);
 
 		// Obtain or create and register package
-		WrapPackageImpl theWrapPackage = (WrapPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof WrapPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new WrapPackageImpl());
+		Object registeredWrapPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		WrapPackageImpl theWrapPackage = registeredWrapPackage instanceof WrapPackageImpl ? (WrapPackageImpl)registeredWrapPackage : new WrapPackageImpl();
 
 		isInited = true;
 
@@ -121,7 +122,6 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 		// Mark meta-data to indicate it can't be changed
 		theWrapPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(WrapPackage.eNS_URI, theWrapPackage);
 		return theWrapPackage;
@@ -132,6 +132,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getWSynchronizer() {
 		return wSynchronizerEClass;
 	}
@@ -141,6 +142,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getWSynchronizer_Synchronize() {
 		return (EAttribute)wSynchronizerEClass.getEStructuralFeatures().get(0);
 	}
@@ -150,6 +152,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getWObject() {
 		return wObjectEClass;
 	}
@@ -159,6 +162,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getWObject_EObject() {
 		return (EReference)wObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -168,6 +172,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getWObject_EClass() {
 		return (EReference)wObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -177,6 +182,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getWObject_WMembers() {
 		return (EReference)wObjectEClass.getEStructuralFeatures().get(2);
 	}
@@ -186,6 +192,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getWMember() {
 		return wMemberEClass;
 	}
@@ -195,6 +202,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getWMember_EStructuralFeature() {
 		return (EReference)wMemberEClass.getEStructuralFeatures().get(0);
 	}
@@ -204,6 +212,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getWLink() {
 		return wLinkEClass;
 	}
@@ -213,6 +222,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getWLink_WTarget() {
 		return (EReference)wLinkEClass.getEStructuralFeatures().get(0);
 	}
@@ -222,6 +232,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getWValue() {
 		return wValueEClass;
 	}
@@ -231,6 +242,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getWValue_EValue() {
 		return (EAttribute)wValueEClass.getEStructuralFeatures().get(0);
 	}
@@ -240,6 +252,7 @@ public class WrapPackageImpl extends EPackageImpl implements WrapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public WrapFactory getWrapFactory() {
 		return (WrapFactory)getEFactoryInstance();
 	}

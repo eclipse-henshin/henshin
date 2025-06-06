@@ -33,12 +33,12 @@ import org.eclipse.emf.henshin.wrap.WrapPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.wrap.impl.WObjectImpl#getEObject <em>EObject</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.wrap.impl.WObjectImpl#getEClass <em>EClass</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.wrap.impl.WObjectImpl#getWMembers <em>WMembers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -199,6 +199,7 @@ public class WObjectImpl extends WSynchronizerImpl implements WObject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getEObject() {
 		if (eObject != null && eObject.eIsProxy()) {
 			InternalEObject oldEObject = (InternalEObject)eObject;
@@ -225,6 +226,7 @@ public class WObjectImpl extends WSynchronizerImpl implements WObject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEObject(EObject newEObject) {
 		EObject oldEObject = eObject;
 		eObject = newEObject;
@@ -237,6 +239,7 @@ public class WObjectImpl extends WSynchronizerImpl implements WObject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEClass() {
 		EClass eClass = basicGetEClass();
 		return eClass != null && eClass.eIsProxy() ? (EClass)eResolveProxy((InternalEObject)eClass) : eClass;
@@ -269,6 +272,7 @@ public class WObjectImpl extends WSynchronizerImpl implements WObject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<WMember> getWMembers() {
 		if (wMembers == null) {
 			wMembers = new EObjectContainmentEList<WMember>(WMember.class, this, WrapPackage.WOBJECT__WMEMBERS);

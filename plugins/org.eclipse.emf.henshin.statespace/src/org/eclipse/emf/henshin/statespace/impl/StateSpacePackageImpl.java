@@ -149,7 +149,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link StateSpacePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -163,7 +163,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		if (isInited) return (StateSpacePackage)EPackage.Registry.INSTANCE.getEPackage(StateSpacePackage.eNS_URI);
 
 		// Obtain or create and register package
-		StateSpacePackageImpl theStateSpacePackage = (StateSpacePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof StateSpacePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new StateSpacePackageImpl());
+		Object registeredStateSpacePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		StateSpacePackageImpl theStateSpacePackage = registeredStateSpacePackage instanceof StateSpacePackageImpl ? (StateSpacePackageImpl)registeredStateSpacePackage : new StateSpacePackageImpl();
 
 		isInited = true;
 
@@ -179,7 +180,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		// Mark meta-data to indicate it can't be changed
 		theStateSpacePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(StateSpacePackage.eNS_URI, theStateSpacePackage);
 		return theStateSpacePackage;
@@ -191,6 +191,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStateSpace() {
 		return stateSpaceEClass;
 	}
@@ -200,6 +201,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getStateSpace_States() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(1);
 	}
@@ -209,6 +211,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getStateSpace_InitialStates() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(2);
 	}
@@ -219,6 +222,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getStateSpace_OpenStates() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(3);
 	}
@@ -229,6 +233,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_StateCount() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(4);
 	}
@@ -239,6 +244,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_TransitionCount() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(5);
 	}
@@ -249,6 +255,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getStateSpace_EqualityHelper() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(6);
 	}
@@ -259,6 +266,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_LayoutZoomLevel() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(7);
 	}
@@ -269,6 +277,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_LayoutStateRepulsion() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(8);
 	}
@@ -279,6 +288,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_LayoutTransitionAttraction() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(9);
 	}
@@ -289,6 +299,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_LayoutHideLabels() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(10);
 	}
@@ -299,6 +310,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_LayoutHideIndizes() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(11);
 	}
@@ -309,6 +321,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_MaxStateDistance() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(12);
 	}
@@ -319,6 +332,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getStateSpace_Properties() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(13);
 	}
@@ -329,6 +343,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStateSpace_AllParameterKeys() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(14);
 	}
@@ -339,6 +354,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getStateSpace_Rules() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(0);
 	}
@@ -349,6 +365,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getState() {
 		return stateEClass;
 	}
@@ -358,6 +375,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_Index() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(0);
 	}
@@ -368,6 +386,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getState_Incoming() {
 		return (EReference)stateEClass.getEStructuralFeatures().get(1);
 	}
@@ -377,6 +396,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getState_Outgoing() {
 		return (EReference)stateEClass.getEStructuralFeatures().get(2);
 	}
@@ -386,6 +406,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getState_Model() {
 		return (EReference)stateEClass.getEStructuralFeatures().get(12);
 	}
@@ -396,6 +417,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModel() {
 		return modelEClass;
 	}
@@ -406,6 +428,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModel_Resource() {
 		return (EAttribute)modelEClass.getEStructuralFeatures().get(0);
 	}
@@ -416,6 +439,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModel_EGraph() {
 		return (EAttribute)modelEClass.getEStructuralFeatures().get(1);
 	}
@@ -426,6 +450,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModel_ObjectHashCodes() {
 		return (EReference)modelEClass.getEStructuralFeatures().get(2);
 	}
@@ -436,6 +461,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModel_ObjectKeysMap() {
 		return (EReference)modelEClass.getEStructuralFeatures().get(3);
 	}
@@ -446,6 +472,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModel_ObjectKeys() {
 		return (EAttribute)modelEClass.getEStructuralFeatures().get(4);
 	}
@@ -456,6 +483,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModel_ObjectCount() {
 		return (EAttribute)modelEClass.getEStructuralFeatures().get(5);
 	}
@@ -466,6 +494,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getState_StateSpace() {
 		return (EReference)stateEClass.getEStructuralFeatures().get(3);
 	}
@@ -476,6 +505,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_Location() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(9);
 	}
@@ -486,6 +516,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_Open() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(6);
 	}
@@ -496,6 +527,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_Goal() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(7);
 	}
@@ -506,6 +538,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_Pruned() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(8);
 	}
@@ -516,6 +549,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_HashCode() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(4);
 	}
@@ -526,6 +560,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_DerivedFrom() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(5);
 	}
@@ -536,6 +571,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_ObjectCount() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(10);
 	}
@@ -546,6 +582,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getState_ObjectKeys() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(11);
 	}
@@ -556,6 +593,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTransition() {
 		return transitionEClass;
 	}
@@ -565,6 +603,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTransition_Source() {
 		return (EReference)transitionEClass.getEStructuralFeatures().get(0);
 	}
@@ -574,6 +613,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTransition_Target() {
 		return (EReference)transitionEClass.getEStructuralFeatures().get(1);
 	}
@@ -583,6 +623,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTransition_Rule() {
 		return (EReference)transitionEClass.getEStructuralFeatures().get(2);
 	}
@@ -592,6 +633,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTransition_Match() {
 		return (EAttribute)transitionEClass.getEStructuralFeatures().get(3);
 	}
@@ -602,6 +644,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTransition_ParameterCount() {
 		return (EAttribute)transitionEClass.getEStructuralFeatures().get(4);
 	}
@@ -612,6 +655,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTransition_ParameterKeys() {
 		return (EAttribute)transitionEClass.getEStructuralFeatures().get(5);
 	}
@@ -622,6 +666,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEqualityHelper() {
 		return equalityHelperEClass;
 	}
@@ -632,6 +677,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEqualityHelper_CheckLinkOrder() {
 		return (EAttribute)equalityHelperEClass.getEStructuralFeatures().get(0);
 	}
@@ -642,6 +688,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEqualityHelper_IgnoredAttributes() {
 		return (EReference)equalityHelperEClass.getEStructuralFeatures().get(1);
 	}
@@ -652,6 +699,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEqualityHelper_IdentityTypes() {
 		return (EReference)equalityHelperEClass.getEStructuralFeatures().get(2);
 	}
@@ -662,6 +710,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStorage() {
 		return storageEClass;
 	}
@@ -672,6 +721,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStorage_Data() {
 		return (EAttribute)storageEClass.getEStructuralFeatures().get(0);
 	}
@@ -682,6 +732,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEObjectIntegerMapEntry() {
 		return eObjectIntegerMapEntryEClass;
 	}
@@ -692,6 +743,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEObjectIntegerMapEntry_Key() {
 		return (EReference)eObjectIntegerMapEntryEClass.getEStructuralFeatures().get(0);
 	}
@@ -702,6 +754,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEObjectIntegerMapEntry_Value() {
 		return (EAttribute)eObjectIntegerMapEntryEClass.getEStructuralFeatures().get(1);
 	}
@@ -712,6 +765,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getIntegerArray() {
 		return integerArrayEDataType;
 	}
@@ -722,6 +776,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getStringArray() {
 		return stringArrayEDataType;
 	}
@@ -732,6 +787,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getMatch() {
 		return matchEDataType;
 	}
@@ -742,6 +798,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getEGraph() {
 		return eGraphEDataType;
 	}
@@ -752,6 +809,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public StateSpaceFactory getStateSpaceFactory() {
 		return (StateSpaceFactory)getEFactoryInstance();
 	}
@@ -918,8 +976,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEReference(getState_Model(), this.getModel(), null, "model", null, 0, 1, State.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(stateEClass, ecorePackage.getEBoolean(), "isInitial", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(stateEClass, ecorePackage.getEBoolean(), "isTerminal", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(stateEClass, this.getTransition(), "getOutgoing", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "target", 0, 1, IS_UNIQUE, IS_ORDERED);

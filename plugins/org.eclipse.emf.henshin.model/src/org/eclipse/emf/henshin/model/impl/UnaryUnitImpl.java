@@ -69,6 +69,7 @@ public abstract class UnaryUnitImpl extends UnitImpl implements UnaryUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Unit getSubUnit() {
 		if (subUnit != null && subUnit.eIsProxy()) {
 			InternalEObject oldSubUnit = (InternalEObject)subUnit;
@@ -111,6 +112,7 @@ public abstract class UnaryUnitImpl extends UnitImpl implements UnaryUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSubUnit(Unit newSubUnit) {
 		Unit oldSubUnit = subUnit;
 		subUnit = newSubUnit;

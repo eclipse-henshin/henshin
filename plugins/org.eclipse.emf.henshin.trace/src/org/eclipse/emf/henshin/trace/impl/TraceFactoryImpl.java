@@ -35,7 +35,7 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 */
 	public static TraceFactory init() {
 		try {
-			TraceFactory theTraceFactory = (TraceFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2011/Henshin/Trace"); 
+			TraceFactory theTraceFactory = (TraceFactory)EPackage.Registry.INSTANCE.getEFactory(TracePackage.eNS_URI);
 			if (theTraceFactory != null) {
 				return theTraceFactory;
 			}
@@ -75,6 +75,7 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Trace createTrace() {
 		TraceImpl trace = new TraceImpl();
 		return trace;
@@ -85,6 +86,7 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TracePackage getTracePackage() {
 		return (TracePackage)getEPackage();
 	}

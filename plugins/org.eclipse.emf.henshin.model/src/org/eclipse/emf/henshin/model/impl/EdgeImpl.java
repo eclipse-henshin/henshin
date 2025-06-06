@@ -188,6 +188,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -229,6 +230,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(Node newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -248,6 +250,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -289,6 +292,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(Node newTarget) {
 		if (newTarget != target) {
 			NotificationChain msgs = null;
@@ -308,6 +312,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -334,6 +339,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EReference newType) {
 		EReference oldType = type;
 		type = newType;
@@ -346,6 +352,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Graph getGraph() {
 		if (eContainerFeatureID() != HenshinPackage.EDGE__GRAPH) return null;
 		return (Graph)eContainer();
@@ -376,6 +383,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setGraph(Graph newGraph) {
 		if (newGraph != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.EDGE__GRAPH && newGraph != null)) {
 			if (EcoreUtil.isAncestor(this, newGraph))
@@ -397,6 +405,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getIndex() {
 		return index;
 	}
@@ -437,6 +446,7 @@ public class EdgeImpl extends ModelElementImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Integer getIndexConstant() {
 		return indexConstant;
 	}
