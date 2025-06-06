@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.ConflictAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Atom.DependencyAtom;
 import org.eclipse.emf.henshin.multicda.cda.units.Reason;

@@ -1,25 +1,18 @@
 package org.eclipse.emf.henshin.text.tests.formatting
 
-import org.eclipse.xtext.junit4.XtextRunner
-import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.InjectWith
 import javax.inject.Inject
-import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.emf.henshin.text.henshin_text.Model
-import org.junit.Test
-import org.junit.Assert
-import org.eclipse.emf.henshin.text.henshin_text.Rollback
-import org.eclipse.emf.henshin.text.henshin_text.Strict
-import org.eclipse.emf.henshin.text.henshin_text.Rule
-import org.eclipse.emf.henshin.text.henshin_text.Call
-import org.eclipse.emf.henshin.text.henshin_text.NaturalValue
-import org.eclipse.emf.henshin.text.henshin_text.NumberValue
-import org.eclipse.emf.henshin.text.henshin_text.ParameterValue
+import org.eclipse.emf.henshin.text.tests.Henshin_textInjectorProvider
+import org.eclipse.xtext.junit4.InjectWith
+import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.formatter.FormatterTester
+import org.eclipse.xtext.junit4.util.ParseHelper
 import org.junit.Ignore
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(typeof(XtextRunner))
-@InjectWith(typeof(org.eclipse.emf.henshin.text.tests.Henshin_textInjectorProvider))
+@InjectWith(typeof(Henshin_textInjectorProvider))
 @Ignore
 class UnitFormattingTests  extends FormatterTester  {
 	

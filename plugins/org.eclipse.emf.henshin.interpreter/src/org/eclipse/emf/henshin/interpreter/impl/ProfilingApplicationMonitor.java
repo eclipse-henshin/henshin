@@ -12,7 +12,6 @@ package org.eclipse.emf.henshin.interpreter.impl;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Rule;

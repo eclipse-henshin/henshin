@@ -1,6 +1,5 @@
 package org.eclipse.emf.henshin.interpreter.debug;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.debug.core.DebugEvent;

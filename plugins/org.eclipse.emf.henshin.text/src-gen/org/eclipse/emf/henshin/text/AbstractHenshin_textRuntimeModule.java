@@ -8,15 +8,12 @@ import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import java.util.Properties;
 
-import javax.annotation.Generated;
-
 import org.eclipse.emf.henshin.text.formatting2.Henshin_textFormatter;
 import org.eclipse.emf.henshin.text.generator.Henshin_textGenerator;
 import org.eclipse.emf.henshin.text.parser.antlr.Henshin_textAntlrTokenFileProvider;
 import org.eclipse.emf.henshin.text.parser.antlr.Henshin_textParser;
 import org.eclipse.emf.henshin.text.parser.antlr.internal.InternalHenshin_textLexer;
 import org.eclipse.emf.henshin.text.scoping.Henshin_textImportedNamespaceAwareLocalScopeProvider;
-import org.eclipse.emf.henshin.text.scoping.Henshin_textScopeProvider;
 import org.eclipse.emf.henshin.text.serializer.Henshin_textSemanticSequencer;
 import org.eclipse.emf.henshin.text.serializer.Henshin_textSyntacticSequencer;
 import org.eclipse.emf.henshin.text.services.Henshin_textGrammarAccess;

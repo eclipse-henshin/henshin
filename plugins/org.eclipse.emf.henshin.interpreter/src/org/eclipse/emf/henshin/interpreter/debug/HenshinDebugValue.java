@@ -1,8 +1,6 @@
 package org.eclipse.emf.henshin.interpreter.debug;
 
 import java.util.Arrays;
-import java.util.List;
-
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;

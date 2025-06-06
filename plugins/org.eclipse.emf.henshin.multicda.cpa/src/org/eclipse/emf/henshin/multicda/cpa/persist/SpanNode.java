@@ -12,9 +12,6 @@ package org.eclipse.emf.henshin.multicda.cpa.persist;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
-
-import agg.util.Pair;
 
 /**
  * This class links the different files composing a critical pair within the file system.

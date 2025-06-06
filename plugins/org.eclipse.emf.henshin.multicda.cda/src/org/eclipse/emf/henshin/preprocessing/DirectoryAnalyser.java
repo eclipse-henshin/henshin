@@ -1,7 +1,6 @@
 package org.eclipse.emf.henshin.preprocessing;
 
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;

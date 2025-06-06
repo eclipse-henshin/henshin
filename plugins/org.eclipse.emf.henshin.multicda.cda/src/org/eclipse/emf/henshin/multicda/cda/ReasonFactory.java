@@ -20,7 +20,6 @@ import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.ChangeConfli
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.CreateEdgeDeleteNodeConflictReason;
 import org.eclipse.emf.henshin.multicda.cda.conflict.ConflictReason.DeleteConflictReason;
-import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason;
 import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.ChangeDependencyReason;
 import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.CreateDependencyReason;
 import org.eclipse.emf.henshin.multicda.cda.dependency.DependencyReason.DeleteDependencyReason;

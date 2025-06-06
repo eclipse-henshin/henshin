@@ -3,7 +3,6 @@ package org.eclipse.emf.henshin.interpreter.matching.conditions;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugException;
-import org.eclipse.debug.core.IBreakpointManager;
 import org.eclipse.debug.core.model.Breakpoint;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition.DebugLevel;

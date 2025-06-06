@@ -25,8 +25,6 @@ import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPol
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
-import org.eclipse.emf.henshin.model.Action;
-import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.provider.util.HenshinColorMode;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
