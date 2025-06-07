@@ -102,7 +102,7 @@ public class ApplyTransformationHandler extends AbstractHandler implements IHand
 					String uriMy=henshin_textResource.getURI().toString().replace(".","_")+".henshin";
 					Resource resourceResult = resourceSetTransform.createResource(URI.createURI(uriMy));
 					Transformation transformation=new Transformation();
-					resourceResult=transformation.transformHenshin_textToHenshin(henshin_textResource,"platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin_text2HenshinTransformation.qvto","");
+					resourceResult=transformation.transformHenshin_textToHenshin(henshin_textResource,"platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin_text2HenshinTransformation.qvto");
 					if(resourceResult!=null){
 						//Prepare for Transformation-Dialog
 						List <org.eclipse.emf.henshin.model.Unit> help=orderUnits(((Module) resourceResult.getContents().get(0)).getUnits());
