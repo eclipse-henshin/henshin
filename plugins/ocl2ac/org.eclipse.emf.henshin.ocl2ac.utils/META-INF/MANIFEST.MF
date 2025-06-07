@@ -14,8 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.henshin.interpreter;bundle-version="1.4.0",
  org.eclipse.emf.henshin.ocl2ac.model;bundle-version="1.0.0",
  org.eclipse.emf.edit.ui;bundle-version="2.12.0",
- org.eclipse.ui.ide;bundle-version="3.12.3",
- org.apache.commons.io;bundle-version="2.2.0"
+ org.eclipse.ui.ide;bundle-version="3.12.3"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.henshin.ocl2ac.utils.henshin.simplification,
