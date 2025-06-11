@@ -532,7 +532,7 @@ public class InterpreterUtil {
 	 * @param rule Rule to be matched.
 	 * @param graph Target graph.
 	 * @param partialMatch Partial match or <code>null</code>.
-	 * @return <code>true</code> if the <code>rule<code> is applicable on the <code>graph<code>.
+	 * @return <code>true</code> if the <code>rule</code> is applicable on the <code>graph</code>.
 	 */
 	public boolean isApplicable(Engine engine, Rule rule, EGraph graph, Match partialMatch){
 		Match match = this.findSingleMatch(engine, rule, graph, partialMatch);

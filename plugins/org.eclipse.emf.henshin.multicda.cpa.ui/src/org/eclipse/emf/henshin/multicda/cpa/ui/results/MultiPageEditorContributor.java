@@ -15,6 +15,7 @@ import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IActionBars2;
+import org.eclipse.ui.IEditorActionBarContributor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.part.EditorActionBarContributor;
@@ -38,7 +39,7 @@ public class MultiPageEditorContributor extends EditorActionBarContributor {
 	private IWorkbenchPage page;
 
 	/**
-	 * Creates an empty editor action bar contributor. The action bars are furnished later via the <code>init method.
+	 * Creates an empty editor action bar contributor. The action bars are furnished later via the {@code init} method.
 	 */
 	public MultiPageEditorContributor() {
 	}
@@ -46,7 +47,7 @@ public class MultiPageEditorContributor extends EditorActionBarContributor {
 	/**
 	 * Contributes to the given menu.
 	 * <p>
-	 * The <code>EditorActionBarContributor implementation of this method
+	 * The  {@link EditorActionBarContributor} implementation of this method
 	 * does nothing. Subclasses may reimplement to add to the menu portion of this
 	 * contribution.
 	 * </p>
@@ -59,7 +60,7 @@ public class MultiPageEditorContributor extends EditorActionBarContributor {
 	/**
 	 * Contributes to the given status line.
 	 * <p>
-	 * The <code>EditorActionBarContributor implementation of this method
+	 * The {@link EditorActionBarContributor} implementation of this method
 	 * does nothing. Subclasses may reimplement to add to the status line portion of
 	 * this contribution.
 	 * </p>
@@ -72,7 +73,7 @@ public class MultiPageEditorContributor extends EditorActionBarContributor {
 	/**
 	 * Contributes to the given tool bar.
 	 * <p>
-	 * The <code>EditorActionBarContributor implementation of this method
+	 * The  {@link EditorActionBarContributor} implementation of this method
 	 * does nothing. Subclasses may reimplement to add to the tool bar portion of
 	 * this contribution.
 	 * </p>
@@ -85,7 +86,7 @@ public class MultiPageEditorContributor extends EditorActionBarContributor {
 	/**
 	 * Contributes to the given cool bar.
 	 * <p>
-	 * The <code>EditorActionBarContributor implementation of this method
+	 * The  {@link EditorActionBarContributor} implementation of this method
 	 * does nothing. Subclasses may reimplement to add to the cool bar portion of
 	 * this contribution. There can only be contributions from a cool bar or a tool bar.
 	 * </p>
@@ -116,17 +117,17 @@ public class MultiPageEditorContributor extends EditorActionBarContributor {
 	}
 
 	/**
-	 * The <code>EditorActionBarContributor implementation of this 
-	 * <code>IEditorActionBarContributor method does nothing,
-	 * subclasses may override.
+	 * The  {@link EditorActionBarContributor} implementation of this
+	 *  {@link IEditorActionBarContributor} method does nothing, subclasses may
+	 * override.
 	 */
 	public void dispose() {
 	}
 
 	/**
-	 * The <code>EditorActionBarContributor implementation of this 
-	 * <code>IEditorActionBarContributor method remembers the page
-	 * then forwards the call to <code>init(IActionBars) for
+	 * The  {@link EditorActionBarContributor} implementation of this 
+	 *  {@link IEditorActionBarContributor} method remembers the page
+	 * then forwards the call to  {@link #init(IActionBars)} for
 	 * backward compatibility
 	 */
 	public void init(IActionBars bars, IWorkbenchPage page) {
@@ -137,13 +138,12 @@ public class MultiPageEditorContributor extends EditorActionBarContributor {
 	/**
 	 * This method calls:
 	 * <ul>
-	 * <li>contributeToMenu with bars' menu manager
+	 * <li>contributeToMenu with bars' menu manager</li>
 	 * <li>contributeToToolBar with bars' tool bar manager</li>
-	 * <li>contributeToCoolBar with bars' cool bar manager if <code>IActionBars is of extended type IActionBars2 
-	 *  <li>contributeToStatusLine with bars' status line
-	 *    manager</li>
+	 * <li>contributeToCoolBar with bars' cool bar manager if {@link IActionBars} is of extended type IActionBars2</li>
+	 *  <li>contributeToStatusLine with bars' status line manager</li>
 	 * </ul>
-	 * The given action bars are also remembered and made accessible via <code>getActionBars.
+	 * The given action bars are also remembered and made accessible via {@link #getActionBars()}.
 	 * 
 	 * @param bars the action bars
 	 */
@@ -161,7 +161,7 @@ public class MultiPageEditorContributor extends EditorActionBarContributor {
 	/**
 	 * Sets the active editor for the contributor.
 	 * <p>
-	 * The <code>EditorActionBarContributor implementation of this method does
+	 * The {@link EditorActionBarContributor} implementation of this method does
 	 * nothing. Subclasses may reimplement. This generally entails disconnecting
 	 * from the old editor, connecting to the new editor, and updating the actions
 	 * to reflect the new editor.

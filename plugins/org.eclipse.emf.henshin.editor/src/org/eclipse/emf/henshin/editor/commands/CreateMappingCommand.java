@@ -145,10 +145,6 @@ public class CreateMappingCommand extends CompoundCommand {
 	/**
 	 * Returns true is source and target are contained in the LHS and RHS of the
 	 * same rule.
-	 * 
-	 * @param source
-	 * @param target
-	 * @return
 	 */
 	protected boolean isUnmappedLhsRhsPairFromSameRule(Node source, Node target) {
 		return source.getGraph().isLhs()
@@ -161,11 +157,6 @@ public class CreateMappingCommand extends CompoundCommand {
 	 * Checks if <code>sourceNode</code> or <code>targetNode</code> are involved
 	 * in a mapping already, being origin or image respectively, contained in
 	 * <code>mappings</code>.
-	 * 
-	 * @param sourceNode
-	 * @param targetNode
-	 * @param mappings
-	 * @return
 	 */
 	protected boolean isUnmapped(Node sourceNode, Node targetNode, Collection<Mapping> mappings) {
 		for (Mapping mapping : mappings) {

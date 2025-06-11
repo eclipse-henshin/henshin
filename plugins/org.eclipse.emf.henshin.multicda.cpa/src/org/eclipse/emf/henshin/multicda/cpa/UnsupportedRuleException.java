@@ -82,7 +82,7 @@ public class UnsupportedRuleException extends Exception {
 	/**
 	 * Extended constructor for unsupported multiple imports per module.
 	 * 
-	 * @param rule The <code>rule</rule> in which the multiple imports occur.
+	 * @param rule The <code>rule</code> in which the multiple imports occur.
 	 */
 	public UnsupportedRuleException(Rule rule) {
 		super(multipleDomainImport);

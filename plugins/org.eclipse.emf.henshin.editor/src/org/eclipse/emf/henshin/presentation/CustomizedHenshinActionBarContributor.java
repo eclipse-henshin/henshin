@@ -23,6 +23,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
+import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CleanUpCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CompleteMultiRulesCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CopySubgraphMenuContributor;
@@ -45,6 +46,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.IEditorPart;
 
 /**

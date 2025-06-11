@@ -1,6 +1,8 @@
 package org.eclipse.emf.henshin.interpreter.debug;
 
 import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;
@@ -30,7 +32,7 @@ public abstract class HenshinDebugValue extends HenshinDebugElement implements I
 	 * <ol>
 	 * <li>an EObject</li>
 	 * <li>a {@link List} of objects (in this case the same rules apply for the list elements)</li>
-	 * <li>an object that provides a meaningful toString(), as that will be used for all other objects</>
+	 * <li>an object that provides a meaningful toString(), as that will be used for all other objects</li>
 	 * </ol>
 	 * @param target the associated debug target
 	 * @param graph an {@link EGraph} that is used to retrieve a string label for this value, or <code>null</code>
