@@ -6,7 +6,7 @@ import org.eclipse.xtext.xtext.generator.model.project.*
 var rootPath = ".."
 
 Workflow {
-	
+
 	component = XtextGenerator {
 		configuration = {
 			project = StandardProjectConfig {
@@ -31,14 +31,16 @@ Workflow {
 		language = StandardLanguage {
 			name = "org.eclipse.emf.henshin.text.Henshin_text"
 			fileExtensions = "henshin_text"
-
+			emfGenerator = {
+				jdkLevel = "JDK110"
+			}
 			serializer = {
 				generateStub = false
 			}
 			validator = {
-				 composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+				composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
-			
+
 			fragment = formatting.Formatter2Fragment2 auto-inject {}
 		}
 	}
