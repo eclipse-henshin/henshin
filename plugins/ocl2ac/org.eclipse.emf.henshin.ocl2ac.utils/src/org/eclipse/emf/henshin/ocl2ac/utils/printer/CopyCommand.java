@@ -5,21 +5,24 @@
  */
 package org.eclipse.emf.henshin.ocl2ac.utils.printer;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.henshin.ocl2ac.utils.Activator;
 
 public class CopyCommand {
 
-	public static final String TEX_FOLDER = "supplementary";
+	public static final IPath TEX_FOLDER = org.eclipse.core.runtime.Path.fromOSString("supplementary");
 	private URI uri;
 
 	public CopyCommand(URI uri) {
@@ -28,14 +31,31 @@ public class CopyCommand {
 
 	public void copy() {
 		String texFolderPath = getFullPath(TEX_FOLDER);
-		File srcDir = new File(texFolderPath);
-		System.err.println(srcDir.exists() + " " + texFolderPath);
+		Path srcDir = Path.of(texFolderPath);
+		System.err.println(Files.exists(srcDir) + " " + texFolderPath);
 
-		File targetDir = new File(uri.getPath());
-		System.err.println(targetDir.exists());
+		Path targetDir = Path.of(uri.getPath());
+		System.err.println(Files.exists(targetDir));
 
 		try {
-			FileUtils.copyDirectory(srcDir, targetDir, true);
+			Files.walkFileTree(srcDir, new SimpleFileVisitor<>() {
+				@Override
+				public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+					Files.createDirectories(getTarget(dir));
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					Files.copy(file, getTarget(file), StandardCopyOption.REPLACE_EXISTING,
+							StandardCopyOption.COPY_ATTRIBUTES);
+					return FileVisitResult.CONTINUE;
+				}
+
+				private Path getTarget(Path path) {
+					return targetDir.resolve(srcDir.relativize(path));
+				}
+			});
 			System.err.println("Copy From:" + srcDir);
 			System.err.println("Copy To:" + targetDir);
 
@@ -46,8 +66,8 @@ public class CopyCommand {
 
 	}
 
-	private String getFullPath(String path) {
-		URL url = FileLocator.find(Activator.getDefault().getBundle(), new Path(path), Collections.EMPTY_MAP);
+	private static String getFullPath(IPath path) {
+		URL url = FileLocator.find(Activator.getDefault().getBundle(), path, Collections.emptyMap());
 		URL fileUrl = null;
 		try {
 			fileUrl = FileLocator.toFileURL(url);
