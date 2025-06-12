@@ -195,11 +195,11 @@ public class HenshinDomainNavigatorContentProvider implements ICommonContentProv
 	 * @generated
 	 */
 	public Object[] wrapEObjects(Object[] objects, Object parentElement) {
-		Collection result = new ArrayList();
-		for (int i = 0; i < objects.length; i++) {
-			if (objects[i] instanceof EObject) {
-				result.add(new HenshinDomainNavigatorItem((EObject) objects[i], parentElement,
-						myAdapterFctoryContentProvier));
+		Collection<HenshinDomainNavigatorItem> result = new ArrayList<>();
+		for (Object object : objects) {
+			if (object instanceof EObject) {
+				EObject eObject = (EObject) object;
+				result.add(new HenshinDomainNavigatorItem(eObject, parentElement, myAdapterFctoryContentProvier));
 			}
 		}
 		return result.toArray();

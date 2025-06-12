@@ -24,18 +24,19 @@ public class HenshinNavigatorItem extends HenshinAbstractNavigatorItem {
 	 * @generated
 	 */
 	static {
-		final Class[] supportedTypes = new Class[] { View.class, EObject.class };
+		final Class<?>[] supportedTypes = new Class<?>[] { View.class, EObject.class };
 		Platform.getAdapterManager().registerAdapters(new IAdapterFactory() {
-
-			public Object getAdapter(Object adaptableObject, Class adapterType) {
+			@Override
+			public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 				if (adaptableObject instanceof org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem
 						&& (adapterType == View.class || adapterType == EObject.class)) {
-					return ((org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) adaptableObject).getView();
+					return adapterType.cast(((HenshinNavigatorItem) adaptableObject).getView());
 				}
 				return null;
 			}
 
-			public Class[] getAdapterList() {
+			@Override
+			public Class<?>[] getAdapterList() {
 				return supportedTypes;
 			}
 		}, org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem.class);

@@ -206,7 +206,8 @@ public class HenshinDocumentProvider extends AbstractDocumentProvider implements
 				}
 				if (!resource.isLoaded()) {
 					try {
-						Map options = new HashMap(GMFResourceFactory.getDefaultLoadOptions());
+						@SuppressWarnings("unchecked")
+						Map<?, ?> options = new HashMap<>(GMFResourceFactory.getDefaultLoadOptions());
 						// @see 171060 
 						// options.put(org.eclipse.emf.ecore.xmi.XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
 						resource.load(options);
@@ -222,8 +223,7 @@ public class HenshinDocumentProvider extends AbstractDocumentProvider implements
 						return;
 					}
 				} else {
-					for (Iterator it = resource.getContents().iterator(); it.hasNext();) {
-						Object rootElement = it.next();
+					for (EObject rootElement : resource.getContents()) {
 						if (rootElement instanceof Diagram) {
 							document.setContent((Diagram) rootElement);
 							return;
@@ -985,9 +985,8 @@ public class HenshinDocumentProvider extends AbstractDocumentProvider implements
 					Resource resource = (Resource) notification.getNotifier();
 					if (resource.isLoaded()) {
 						boolean modified = false;
-						for (Iterator /*<org.eclipse.emf.ecore.resource.Resource>*/ it = myInfo
-								.getLoadedResourcesIterator(); it.hasNext() && !modified;) {
-							Resource nextResource = (Resource) it.next();
+						for (Iterator<Resource> it = myInfo.getLoadedResourcesIterator(); it.hasNext() && !modified;) {
+							Resource nextResource = it.next();
 							if (nextResource.isLoaded()) {
 								modified = nextResource.isModified();
 							}
