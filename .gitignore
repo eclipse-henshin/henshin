@@ -15,6 +15,7 @@ plugins/*/xtend-gen/
 plugins/adapters/*/xtend-gen/
 
 # Ignore settings and metadata files
-.settings/
+**/.settings/*
+!**/.settings/org.eclipse.core.resources.prefs
 /.metadata/
 .DS_Store
