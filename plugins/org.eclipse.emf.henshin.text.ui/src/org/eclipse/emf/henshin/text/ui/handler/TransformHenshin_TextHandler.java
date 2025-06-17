@@ -49,7 +49,7 @@ public class TransformHenshin_TextHandler extends AbstractHandler implements IHa
 			String henshinUri=henshin_textUri.toString().replace(".henshin_text","_henshin_text")+".henshin";
 			Resource resourceResult = resourceSetTransform.createResource(URI.createURI(henshinUri));
 			Transformation transformation=new Transformation();
-			resourceResult=transformation.transformHenshin_textToHenshin(henshin_textResource,"platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin_text2HenshinTransformation.qvto","");
+			resourceResult=transformation.transformHenshin_textToHenshin(henshin_textResource,"platform:/plugin/org.eclipse.emf.henshin.text.transformation/transforms/Henshin_text2HenshinTransformation/Henshin_text2HenshinTransformation.qvto");
 			if(resourceResult!=null){
 				try {
 					resourceResult.save(Collections.EMPTY_MAP);

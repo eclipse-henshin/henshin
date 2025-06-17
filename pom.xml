@@ -264,6 +264,17 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>macos</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<surefire.platformSystemProperties>-XstartOnFirstThread</surefire.platformSystemProperties>
+			</properties>
+		</profile>
 	</profiles>
 
 	<distributionManagement>
