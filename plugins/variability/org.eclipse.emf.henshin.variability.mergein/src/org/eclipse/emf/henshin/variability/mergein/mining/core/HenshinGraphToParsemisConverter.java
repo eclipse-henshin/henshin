@@ -42,8 +42,8 @@ public class HenshinGraphToParsemisConverter {
 	public Graph<INodeLabel, IEdgeLabel> createParsemisGraph(
 			HenshinGraph henshinGraph) {
 		GraphFactory<INodeLabel, IEdgeLabel> factory = new Factory<>(
-				new ParsemisParserSerializer(),
-				new ParsemisParserSerializer());
+				ParsemisParserSerializer.NODE_LABEL_PARSER,
+				ParsemisParserSerializer.EDGE_LABEL_PARSER);
 		Graph<INodeLabel, IEdgeLabel> graph = factory.newGraph(henshinGraph
 				.getRuleName());
 		highPerformanceGraph = (HPMutableGraph<INodeLabel, IEdgeLabel>) graph

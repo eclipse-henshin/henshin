@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.function.Function;
 
 import org.eclipse.emf.henshin.variability.mergein.mining.labels.IEdgeLabel;
 import org.eclipse.emf.henshin.variability.mergein.mining.labels.INodeLabel;
@@ -23,8 +24,8 @@ import de.parsemis.parsers.LabelParser;
  * @author Strüber
  *
  */
-public class ParsemisParserSerializer implements
-		GraphParser<INodeLabel, IEdgeLabel>, LabelParser {
+public class ParsemisParserSerializer implements GraphParser<INodeLabel, IEdgeLabel> {
+	private static final long serialVersionUID = 8826507660954709617L;
 
 	public LabelParser<IEdgeLabel> getEdgeParser() {
 		throw new UnsupportedOperationException("Unexpected function call!", null);
@@ -76,26 +77,26 @@ public class ParsemisParserSerializer implements
 		throw new UnsupportedOperationException("Unexpected function call!", null);
 	}
 
-	private static ParsemisParserSerializer instance = new ParsemisParserSerializer();
+	public static LabelParser<INodeLabel> NODE_LABEL_PARSER = new SerializingLabelParser<>(INodeLabel::getLabelName);
+	public static LabelParser<IEdgeLabel> EDGE_LABEL_PARSER = new SerializingLabelParser<>(IEdgeLabel::getLabelName);
 
-	public static String ser(Graph<INodeLabel, IEdgeLabel> graph) {
-		return instance.serialize(graph);
-	}
+	private static class SerializingLabelParser<T> implements LabelParser<T> {
+		private static final long serialVersionUID = 1L;
+		private final Function<T, String> serializer;
 
-	public Object parse(String text) throws ParseException {
-		throw new RuntimeException("This function should never be called");
-	}
-
-	public String serialize(Object label) {
-		if (label instanceof INodeLabel) {
-			INodeLabel myNodeLabel = (INodeLabel) label;
-			return myNodeLabel.getLabelName();
+		public SerializingLabelParser(Function<T, String> serializer) {
+			this.serializer = serializer;
 		}
-		if (label instanceof IEdgeLabel) {
-			IEdgeLabel myEdgeLabel = (IEdgeLabel) label;
-			return myEdgeLabel.getLabelName();
+
+		@Override
+		public T parse(String text) throws ParseException {
+			throw new RuntimeException("This function should never be called");
 		}
-		throw new RuntimeException("tried to serialize unknown label..",null);
+
+		@Override
+		public String serialize(T label) {
+			return serializer.apply(label);
+		}
 	}
 
 }
