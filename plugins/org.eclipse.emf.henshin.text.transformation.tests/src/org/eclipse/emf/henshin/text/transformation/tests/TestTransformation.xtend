@@ -1,14 +1,13 @@
 package org.eclipse.emf.henshin.text.transformation.tests
 
-import org.w3c.dom.Document
 import org.eclipse.emf.henshin.text.transformation.tests.util.AdaptID
 import org.eclipse.emf.henshin.text.transformation.tests.util.Compare
-import org.junit.Assert
-import org.junit.Test
 import org.eclipse.emf.henshin.text.transformation.tests.util.DocumentUtil
-import java.io.File
 import org.eclipse.emf.henshin.text.ui.util.Transformation
+import org.junit.Assert
 import org.junit.Ignore
+import org.junit.Test
+import org.w3c.dom.Document
 
 @Ignore
 class TestTransformation {
@@ -75,7 +74,7 @@ class TestTransformation {
 		}
 		val Document originalXML = document.getDocument(originalPath)
 		var Document transformationXML = document.getDocument(transformationPath)
-		if((originalXML==null) || (transformationXML==null)){
+		if((originalXML===null) || (transformationXML===null)){
 			Assert::fail("Can not load file!");
 		}
 		adaptID.adaptID(originalXML,transformationXML,adaptPath)
@@ -91,7 +90,7 @@ class TestTransformation {
 	}
 
 	def void cleanUp(String path){
-		val File currentFile = new File(path);
+		// val File currentFile = new File(path);
    		//currentFile.delete()
 	}
 

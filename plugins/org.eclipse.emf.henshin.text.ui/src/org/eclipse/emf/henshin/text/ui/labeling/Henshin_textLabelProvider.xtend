@@ -78,7 +78,7 @@ class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
 	def image(Parameter ele) { "outline/Parameter.gif" }
 	def text(Parameter ele) {
 		ele.name+":"+
-		if(ele.type.type!=null){
+		if(ele.type.type!==null){
 			ele.type.type.name
 		}else{
 			ele.type.enumType
@@ -102,7 +102,7 @@ class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
 	def image(Node ele) { "outline/Node.gif" }
 	def image(Attribute ele) { "outline/Attribute.gif" }
 	def text(Attribute ele) { 
-		if(ele.update!=null){
+		if(ele.update!==null){
 			"set-"+ele.name.name
 		}else{
 			ele.name.name
@@ -182,7 +182,7 @@ class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
 	def image(LoopUnit ele) { "outline/LoopUnit.gif" }
 	def text(LoopUnit ele) { "LoopUnit" }
 	
-	private def ExpressionToString(Expression expression){
+	private def String ExpressionToString(Expression expression){
 		switch (expression) {  
 			OrExpression :  return ExpressionToString(expression.left)+" OR "+ExpressionToString(expression.right)
 			AndExpression : return ExpressionToString(expression.left)+" AND "+ExpressionToString(expression.right)
@@ -199,8 +199,8 @@ class Henshin_textLabelProvider extends DefaultEObjectLabelProvider {
   			StringValue : return expression.value
   			NumberValue : return expression.value
   			IntegerValue : return expression.value
-  			NaturalValue : return expression.value
-   			BoolValue : return expression.value 
+			NaturalValue : return Integer.toString(expression.value)
+			BoolValue : return Boolean.toString(expression.value)
 		}
 	}
 
