@@ -59,8 +59,8 @@ public class CloneGroup {
 	}
 
 	public void removeRule(Rule rule) {
-		Set<Edge> deleteEdges = new HashSet<Edge>();
-		Set<Attribute> deleteAttributes = new HashSet<Attribute>();
+		Set<Edge> deleteEdges = new HashSet<>();
+		Set<Attribute> deleteAttributes = new HashSet<>();
 		for (Edge edge : edgeMappings.keySet()) {
 			Edge correspondingEdge = edgeMappings.get(edge).get(rule);
 			if (correspondingEdge != null)
@@ -78,7 +78,7 @@ public class CloneGroup {
 			edgeMappings.remove(edge);
 		}
 		for (Attribute attribute : deleteAttributes) {
-			edgeMappings.remove(attribute);
+			attributeMappings.remove(attribute);
 		}
 		rules.remove(rule);
 		updateNodeMappings();

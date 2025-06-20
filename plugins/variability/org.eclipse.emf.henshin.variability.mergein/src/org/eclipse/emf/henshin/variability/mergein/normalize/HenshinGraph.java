@@ -32,7 +32,7 @@ public class HenshinGraph extends
 	}
 
 	public boolean containsAttribute(Attribute attribute) {
-		return edge2representation.containsKey(attribute);
+		return attribute2representation.containsKey(attribute);
 	}
 
 	public boolean containsNode(Node node) {
@@ -48,7 +48,7 @@ public class HenshinGraph extends
 	}
 
 	public HenshinEdge getRepresentation(Attribute attribute) {
-		return edge2representation.get(attribute);
+		return attribute2representation.get(attribute);
 	}
 
 	public Node getRepresentedNode(HenshinNode node) {
