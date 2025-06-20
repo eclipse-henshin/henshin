@@ -196,7 +196,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			
 			} else if (currentId!=0 && !identityTypes.contains(object.eClass())) {
 				//System.out.println("Removing illegal object id for object of type " + object.eClass().getName());
-				objectKeysMap.remove(object);
+				objectKeysMap.removeKey(object);
 				changed = true;
 			}
 			

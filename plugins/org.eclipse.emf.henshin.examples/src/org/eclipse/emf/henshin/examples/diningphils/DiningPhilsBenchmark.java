@@ -52,7 +52,7 @@ public class DiningPhilsBenchmark {
 		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace, numThreads);
 		
 		// To improve the performance, we omit the identity types:
-		stateSpace.getProperties().remove(StateSpace.PROPERTY_IDENTITY_TYPES);
+		stateSpace.getProperties().removeKey(StateSpace.PROPERTY_IDENTITY_TYPES);
 		
 		// Find the rule for adding a philosopher:
 		Rule createPhilRule = (Rule) stateSpace.getRules().get(0).getModule().getUnit("createPhil");

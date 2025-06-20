@@ -19,8 +19,7 @@ public class AnalyseAndModifySurveyRefactorings {
 		String preserveRules = "preserve_rules\\";
 		
 		// analyze original
-		DirectoryAnalyser directoryAnalyser = new DirectoryAnalyser();
-		AnalysisResult analysesResult = directoryAnalyser.analyseDirectory(subDirectoryPath+original);
+		AnalysisResult analysesResult = DirectoryAnalyser.analyseDirectory(subDirectoryPath+original);
 		analysesResult.printAllResultsOnConsole();
 		
 		//reduce units
@@ -39,7 +38,7 @@ public class AnalyseAndModifySurveyRefactorings {
 		ruleSetModifier.transformDeleteToPreserve(subDirectoryPath+original, subDirectoryPath+preserveRules, true);
 		
 		// analyze result
-		directoryAnalyser.analyseDirectory(subDirectoryPath+preserveRules).printAllResultsOnConsole();
+		DirectoryAnalyser.analyseDirectory(subDirectoryPath+preserveRules).printAllResultsOnConsole();
 
 	}
 

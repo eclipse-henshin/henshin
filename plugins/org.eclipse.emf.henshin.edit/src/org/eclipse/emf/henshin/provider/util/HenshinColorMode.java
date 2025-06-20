@@ -127,7 +127,7 @@ public class HenshinColorMode {
 		if (DEFAULT == null) {
 			DEFAULT = REGISTRY.get("default");
 			if (DEFAULT == null && !HenshinColorMode.REGISTRY.isEmpty()) {
-				DEFAULT = HenshinColorMode.REGISTRY.get(0);
+				DEFAULT = HenshinColorMode.REGISTRY.values().iterator().next();
 			}
 		}
 		return DEFAULT;

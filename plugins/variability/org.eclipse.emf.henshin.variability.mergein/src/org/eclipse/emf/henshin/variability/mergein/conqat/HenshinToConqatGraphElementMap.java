@@ -33,11 +33,11 @@ public class HenshinToConqatGraphElementMap {
 	}
 	
 	public boolean contains(HenshinNode node) {
-		return iNodeToHenshinNodeMap.containsKey(node);
+		return henshinNodeToINodeMap.containsKey(node);
 	}
 
 	public boolean contains(INode node) {
-		return henshinNodeToINodeMap.containsKey(node);
+		return iNodeToHenshinNodeMap.containsKey(node);
 	}
 	
 	public void put(HenshinEdge henshinEdge, IDirectedEdge iEdge) {
@@ -59,10 +59,10 @@ public class HenshinToConqatGraphElementMap {
 	}
 	
 	public boolean contains(HenshinEdge edge) {
-		return iEdgeToHenshinEdgeMap.containsKey(edge);
+		return henshinEdgeToIEdgeMap.containsKey(edge);
 	}
 
 	public boolean contains(IDirectedEdge edge) {
-		return henshinEdgeToIEdgeMap.containsKey(edge);
+		return iEdgeToHenshinEdgeMap.containsKey(edge);
 	}
 }

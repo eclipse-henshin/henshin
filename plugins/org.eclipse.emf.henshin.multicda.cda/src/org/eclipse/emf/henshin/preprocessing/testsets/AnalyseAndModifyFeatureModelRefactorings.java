@@ -18,8 +18,7 @@ public class AnalyseAndModifyFeatureModelRefactorings {
 //		String noMultiRulesNoAcNoAttrChange = "noMultiRules_noAC_noAttrChange\\";
 		
 		// analyze original
-		DirectoryAnalyser directoryAnalyser = new DirectoryAnalyser();
-		AnalysisResult analysesResult = directoryAnalyser.analyseDirectory(subDirectoryPath+original);
+		AnalysisResult analysesResult = DirectoryAnalyser.analyseDirectory(subDirectoryPath+original);
 		analysesResult.printAllResultsOnConsole();
 		
 		//reduce units
@@ -35,7 +34,7 @@ public class AnalyseAndModifyFeatureModelRefactorings {
 		// reduce attribute changes
 		
 		// analyze result
-		directoryAnalyser.analyseDirectory(subDirectoryPath+noMultiRulesNoAc).printAllResultsOnConsole();
+		DirectoryAnalyser.analyseDirectory(subDirectoryPath+noMultiRulesNoAc).printAllResultsOnConsole();
 
 	}
 
