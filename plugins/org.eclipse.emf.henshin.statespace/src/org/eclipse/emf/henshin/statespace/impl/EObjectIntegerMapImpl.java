@@ -25,7 +25,7 @@ public class EObjectIntegerMapImpl extends EcoreEMap<EObject,Integer> {
 	private static final long serialVersionUID = 731163102737038198L;
 	
 	// Static zero integer object:
-	private static final Integer ZERO = new Integer(0);
+	private static final Integer ZERO = 0;
 
 	/**
 	 * Default constructor.

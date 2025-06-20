@@ -21,10 +21,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -66,13 +65,8 @@ public class GiraphGenerator extends GiraphValidator {
 		});
 	}
 
-	public IFile generate(IProgressMonitor monitor) throws CoreException {
-
-		if (monitor == null) {
-			monitor = new NullProgressMonitor();
-		}
-
-		monitor.beginTask("Generating Giraph Project", testEnvironment ? 40 : 30);
+	public IFile generate(IProgressMonitor progressMonitor) throws CoreException {
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Generating Giraph Project", testEnvironment ? 40 : 30);
 
 		monitor.subTask("Executing Templates...");
 		String getLibsXml, giraphCode, utilCode, compileXml, pomXml, launchEnvXml, launchConf, launchXml, installHadoopXml, buildJarLaunch, inputCode;
@@ -135,7 +129,7 @@ public class GiraphGenerator extends GiraphValidator {
 		if (!project.isOpen()) {
 			project.open(null);
 		}
-		project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1));
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor.split(1));
 		monitor.worked(1); // 2
 
 		// Set Java project nature:
@@ -174,7 +168,7 @@ public class GiraphGenerator extends GiraphValidator {
 		AntRunner runner = new AntRunner();
 		runner.setBuildFileLocation(getLibsXmlFile.getLocation().toOSString());
 		runner.setArguments("-Dmessage=\"Fetching Giraph and Hadoop Libraries\" -verbose");
-		runner.run(new SubProgressMonitor(monitor, 5)); // 10
+		runner.run(monitor.split(5)); // 10
 
 		monitor.subTask("Generating Code...");
 
@@ -247,16 +241,16 @@ public class GiraphGenerator extends GiraphValidator {
 			runner = new AntRunner();
 			runner.setBuildFileLocation(installHadoop.getLocation().toOSString());
 			runner.setArguments("-Dmessage=\"Installing Hadoop Test Environment\" -verbose");
-			runner.run(new SubProgressMonitor(monitor, 10)); // 29
+			runner.run(monitor.split(10)); // 29
 
 		}
 
 		// Refresh:
-		project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1)); // 20 / 30
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor.split(1)); // 20 / 30
 
 		// Wait for Maven refresh jobs (building jar):
 		final int secs = 900;
-		IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 10);
+		IProgressMonitor subMonitor = monitor.split(10);
 		monitor.subTask("Building Jar...");
 		subMonitor.beginTask("Building Jar...", secs);
 		for (int i = 0; i < secs; i++) {

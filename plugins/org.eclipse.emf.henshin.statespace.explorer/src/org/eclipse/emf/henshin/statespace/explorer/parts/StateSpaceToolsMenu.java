@@ -220,7 +220,7 @@ public class StateSpaceToolsMenu extends Composite {
 			}
 			try {
 				Validator old = validator;
-				validator = validator.getClass().newInstance();
+				validator = validator.getClass().getDeclaredConstructor().newInstance();
 				if (lastValidator==old) lastValidator = validator;
 			} catch (Throwable t) {
 				StateSpaceExplorerPlugin.getInstance().logError("Validator cannot be reinstantiated", t);

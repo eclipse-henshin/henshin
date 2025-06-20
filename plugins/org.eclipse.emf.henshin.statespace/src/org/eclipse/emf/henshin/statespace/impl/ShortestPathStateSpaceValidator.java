@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -50,9 +50,10 @@ public class ShortestPathStateSpaceValidator implements StateSpaceValidator {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#validate(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
+	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor progressMonitor) throws Exception {
 		
-		monitor.beginTask("Finding shortest path...", stateSpace.getStateCount()*2);
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Finding shortest path...",
+				stateSpace.getStateCount() * 2);
 		
 		// Find target states:
 		List<State> targetStates = new ArrayList<State>();
@@ -60,7 +61,7 @@ public class ShortestPathStateSpaceValidator implements StateSpaceValidator {
 			if (monitor.isCanceled()) {
 				return null;
 			}
-			ValidationResult result = validator.validate(state, new SubProgressMonitor(monitor,1));
+			ValidationResult result = validator.validate(state, monitor.split(1));
 			if (result.isValid()) {
 				targetStates.add(state);
 			}

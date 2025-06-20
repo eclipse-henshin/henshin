@@ -201,7 +201,7 @@ public class StateExplorer {
 			for (Validator validator : StateSpacePlugin.INSTANCE.getValidators().values()) {
 				if (validator instanceof StateValidator && (type==null || type.equalsIgnoreCase(validator.getName()))) {
 					try {
-						goalStateValidator = (StateValidator) validator.getClass().newInstance();
+						goalStateValidator = (StateValidator) validator.getClass().getDeclaredConstructor().newInstance();
 						goalStateValidator.setStateSpaceIndex(index);
 						goalStateValidator.setProperty(goalProperty);
 						break;

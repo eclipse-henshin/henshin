@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
@@ -54,10 +54,10 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceExporter#doExport(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.emf.common.util.URI, java.lang.String, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void doExport(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException, StateSpaceException {
+	public void doExport(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor progressMonitor) throws IOException, StateSpaceException {
 
 		int stateCount = stateSpace.getStates().size();
-		monitor.beginTask("Exporting state space...", 3 * stateCount);
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Exporting state space...", 2 * stateCount);
 		int steps;
 
 		// Get the time info:
@@ -274,7 +274,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 		// State labels:		
 		if (parameters!=null) {
 			try {
-				String expanded = PRISMUtil.expandLabels(parameters, stateSpaceIndex, new SubProgressMonitor(monitor, stateCount));
+				String expanded = PRISMUtil.expandLabels(parameters, stateSpaceIndex, monitor.split(stateCount));
 				if (explicit) {
 					OutputStreamWriter labelsWriter = createWriter(new File(uri.toFileString().replaceAll(".tra", ".lab")));
 					labelsWriter.write(expanded);
@@ -299,10 +299,6 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 
 		// Finished:
 		writer.close();
-		if (!monitor.isCanceled()) {
-			monitor.done();
-		}
-
 	}
 
 	

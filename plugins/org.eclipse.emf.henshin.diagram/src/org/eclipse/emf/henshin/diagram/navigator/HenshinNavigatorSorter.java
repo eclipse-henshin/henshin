@@ -10,12 +10,12 @@
 package org.eclipse.emf.henshin.diagram.navigator;
 
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 
 /**
  * @generated
  */
-public class HenshinNavigatorSorter extends ViewerSorter {
+public class HenshinNavigatorSorter extends ViewerComparator {
 
 	/**
 	 * @generated

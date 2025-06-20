@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
@@ -34,10 +34,10 @@ public class CTMCStateSpaceExporter extends AbstractStateSpaceExporter {
 	 * @see org.eclipse.emf.henshin.statespace.export.StateSpaceExporter#export(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.emf.common.util.URI, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void doExport(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException {
+	public void doExport(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor progressMonitor) throws IOException {
 
 		int stateCount = stateSpace.getStates().size();
-		monitor.beginTask("Exporting state space...", 2*stateCount);
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Exporting state space...", 2 * stateCount);
 
 		// Shall we produce an explicit model?
 		boolean explicit = "tra".equalsIgnoreCase(uri.fileExtension());
@@ -104,7 +104,7 @@ public class CTMCStateSpaceExporter extends AbstractStateSpaceExporter {
 		// State labels:		
 		if (parameters!=null) {
 			try {
-				String expanded = PRISMUtil.expandLabels(parameters, stateSpaceIndex, new SubProgressMonitor(monitor, stateCount));
+				String expanded = PRISMUtil.expandLabels(parameters, stateSpaceIndex, monitor.split(stateCount));
 				if (explicit) {
 					OutputStreamWriter labelsWriter = createWriter(new File(uri.toFileString().replaceAll(".tra", ".lab")));
 					labelsWriter.write(expanded);

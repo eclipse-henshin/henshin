@@ -20,7 +20,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
@@ -215,14 +215,14 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	/*
 	 * Perform the export operation.
 	 */
-	protected void performExport(StateSpaceExporter exporter, IFile file, String parameters, IProgressMonitor monitor) throws Throwable {
+	protected void performExport(StateSpaceExporter exporter, IFile file, String parameters, IProgressMonitor progressMonitor) throws Throwable {
 		
-		monitor.beginTask("Exporting state space...", 20);
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Exporting state space...", 20);
 		URI fileURI = URI.createFileURI(file.getLocation().toOSString());
 
 		exporter.setStateSpaceIndex(index);
-		exporter.doExport(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,19));
-				
+		monitor.worked(1);
+		exporter.doExport(stateSpace, fileURI, parameters, monitor.split(19));
 	}
 	
 	

@@ -318,7 +318,7 @@ public class VariableInfo {
 		return node2variable;
 	}
 
-	private static final Integer ONE = new Integer(1);
+	private static final Integer ONE = 1;
 
 	public void updateCached() {
 		for (Entry<Variable, Node> entry : variable2node.entrySet()) {
