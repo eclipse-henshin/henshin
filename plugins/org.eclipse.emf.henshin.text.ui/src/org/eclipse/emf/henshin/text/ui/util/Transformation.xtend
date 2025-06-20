@@ -35,7 +35,7 @@ class Transformation {
 	def Resource transformHenshin_textToHenshin(Resource textResource,String qvtoPath,String henshin_textPath){
 		var HenshinResourceSet henshinResourceSet = new HenshinResourceSet()
 		var Resource henshin_textResource
-		if(textResource!=null){
+		if(textResource!==null){
 			henshin_textResource = textResource
 		}else{
 			//Load henshin_textFile standalone and imported EPackages
