@@ -572,6 +572,7 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	private Collection<View> getOutgoingLinksByType(Collection<? extends View> nodes, String type) {
 		LinkedList<View> result = new LinkedList<View>();
 		for (View nextNode : nodes) {
@@ -583,6 +584,7 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	private Collection<View> getIncomingLinksByType(Collection<? extends View> nodes, String type) {
 		LinkedList<View> result = new LinkedList<View>();
 		for (View nextNode : nodes) {
@@ -594,6 +596,7 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	private Collection<View> getChildrenByType(Collection<? extends View> nodes, String type) {
 		LinkedList<View> result = new LinkedList<View>();
 		for (View nextNode : nodes) {
@@ -605,6 +608,7 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	private Collection<View> getDiagramLinksByType(Collection<Diagram> diagrams, String type) {
 		ArrayList<View> result = new ArrayList<View>();
 		for (Diagram nextDiagram : diagrams) {

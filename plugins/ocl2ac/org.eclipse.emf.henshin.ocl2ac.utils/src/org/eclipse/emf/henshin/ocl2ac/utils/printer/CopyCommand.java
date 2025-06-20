@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Collections;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
@@ -67,7 +66,7 @@ public class CopyCommand {
 	}
 
 	private static String getFullPath(IPath path) {
-		URL url = FileLocator.find(Activator.getDefault().getBundle(), path, Collections.emptyMap());
+		URL url = FileLocator.find(Activator.getDefault().getBundle(), path);
 		URL fileUrl = null;
 		try {
 			fileUrl = FileLocator.toFileURL(url);

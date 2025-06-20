@@ -249,7 +249,7 @@ public class HenshinParserProvider extends AbstractProvider implements IParserPr
 		/**
 		 * @generated
 		 */
-		public Object getAdapter(Class adapter) {
+		public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 			if (IElementType.class.equals(adapter)) {
 				return elementType;
 			}

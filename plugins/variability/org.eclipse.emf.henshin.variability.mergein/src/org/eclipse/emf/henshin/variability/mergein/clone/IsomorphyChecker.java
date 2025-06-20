@@ -51,7 +51,7 @@ public class IsomorphyChecker {
 	private static void treatEdges(Map<HenshinEdge, Map<HenshinGraph, HenshinEdge>> edgeMappings,
 			Map<HenshinGraph, HenshinGraph> rules2clones) {
 
-		Set<Map> considered = new HashSet<Map>();
+		Set<Map<HenshinGraph, HenshinEdge>> considered = new HashSet<>();
 		for (HenshinEdge e : edgeMappings.keySet()) {
 			Map<HenshinGraph, HenshinEdge> map = edgeMappings.get(e);
 			if (!considered.contains(map)) {

@@ -578,6 +578,7 @@ public class EdgeActionEditPart extends LabelEditPart implements ITextAwareEditP
 	 * @generated
 	 */
 	@Override
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class key) {
 		if (ILabelDelegate.class.equals(key)) {
 			return getLabelDelegate();

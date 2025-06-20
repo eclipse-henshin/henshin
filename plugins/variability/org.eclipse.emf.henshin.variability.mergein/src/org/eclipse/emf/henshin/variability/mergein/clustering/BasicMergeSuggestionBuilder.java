@@ -302,19 +302,19 @@ public class BasicMergeSuggestionBuilder {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected GraphElement findClone(GraphElement ge, Graph graph, CloneGroup cloneGroup) {
-		Map outerMap = null;
+		Map<GraphElement, Map<Rule, ? extends GraphElement>> outerMap = null;
 		if (ge instanceof Node)
-			outerMap = cloneGroup.getNodeMappings();
+			outerMap = (Map) cloneGroup.getNodeMappings();
 		else if (ge instanceof Edge)
-			outerMap = cloneGroup.getEdgeMappings();
+			outerMap = (Map) cloneGroup.getEdgeMappings();
 		else if (ge instanceof Attribute)
-			outerMap = cloneGroup.getAttributeMappings();
+			outerMap = (Map) cloneGroup.getAttributeMappings();
 		Rule rule = getRule(graph);
 		GraphElement actionElement = getActionElement(ge);
 		if (outerMap != null && rule != null && actionElement != null) {
-			Map innerMap = (Map) outerMap.get(actionElement);
-			GraphElement actionElement2 = (GraphElement) innerMap.get(rule);
+			GraphElement actionElement2 = outerMap.get(actionElement).get(rule);
 			if (actionElement2 != null) {
 				for (GraphElement ge2 : getGraphElements(graph)) {
 					if (getActionElement(ge2) == actionElement2)

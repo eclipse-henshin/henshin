@@ -563,6 +563,7 @@ public class AttributeEditPart extends CompartmentEditPart implements ITextAware
 	 * @generated
 	 */
 	@Override
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class key) {
 		if (ILabelDelegate.class.equals(key)) {
 			return getLabelDelegate();

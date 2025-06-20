@@ -523,6 +523,7 @@ public class AttributeConditionBodyEditPart extends CompartmentEditPart implemen
 	 * @generated
 	 */
 	@Override
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class key) {
 		if (ILabelDelegate.class.equals(key)) {
 			return getLabelDelegate();

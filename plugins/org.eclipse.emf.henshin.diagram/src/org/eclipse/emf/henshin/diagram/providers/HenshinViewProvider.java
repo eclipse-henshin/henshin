@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.diagram.providers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.ColorConstants;
@@ -211,7 +212,7 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 	 */
 	public Diagram createDiagram(IAdaptable semanticAdapter, String diagramKind, PreferencesHint preferencesHint) {
 		Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
-		diagram.getStyles().add(NotationFactory.eINSTANCE.createDiagramStyle());
+		getStyles(diagram).add(NotationFactory.eINSTANCE.createDiagramStyle());
 		diagram.setType(ModuleEditPart.MODEL_ID);
 		diagram.setElement(getSemanticElement(semanticAdapter));
 		diagram.setMeasurementUnit(MeasurementUnit.PIXEL_LITERAL);
@@ -465,8 +466,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 	public Node createAttributeCondition_3005(EObject domainElement, View containerView, int index, boolean persisted,
 			PreferencesHint preferencesHint) {
 		Node node = NotationFactory.eINSTANCE.createNode();
-		node.getStyles().add(NotationFactory.eINSTANCE.createDescriptionStyle());
-		node.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		getStyles(node).add(NotationFactory.eINSTANCE.createDescriptionStyle());
+		getStyles(node).add(NotationFactory.eINSTANCE.createFontStyle());
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
 		node.setType(HenshinVisualIDRegistry.getType(AttributeConditionEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
@@ -495,8 +496,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 	public Node createNode_3004(EObject domainElement, View containerView, int index, boolean persisted,
 			PreferencesHint preferencesHint) {
 		Node node = NotationFactory.eINSTANCE.createNode();
-		node.getStyles().add(NotationFactory.eINSTANCE.createDescriptionStyle());
-		node.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		getStyles(node).add(NotationFactory.eINSTANCE.createDescriptionStyle());
+		getStyles(node).add(NotationFactory.eINSTANCE.createFontStyle());
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
 		node.setType(HenshinVisualIDRegistry.getType(SymbolEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
@@ -577,7 +578,7 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 	public Edge createEdge_4001(EObject domainElement, View containerView, int index, boolean persisted,
 			PreferencesHint preferencesHint) {
 		Connector edge = NotationFactory.eINSTANCE.createConnector();
-		edge.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		getStyles(edge).add(NotationFactory.eINSTANCE.createFontStyle());
 		RelativeBendpoints bendpoints = NotationFactory.eINSTANCE.createRelativeBendpoints();
 		ArrayList<RelativeBendpoint> points = new ArrayList<RelativeBendpoint>(2);
 		points.add(new RelativeBendpoint());
@@ -627,8 +628,8 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 	 */
 	public Edge createLink_4002(View containerView, int index, boolean persisted, PreferencesHint preferencesHint) {
 		Edge edge = NotationFactory.eINSTANCE.createEdge();
-		edge.getStyles().add(NotationFactory.eINSTANCE.createRoutingStyle());
-		edge.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		getStyles(edge).add(NotationFactory.eINSTANCE.createRoutingStyle());
+		getStyles(edge).add(NotationFactory.eINSTANCE.createFontStyle());
 		RelativeBendpoints bendpoints = NotationFactory.eINSTANCE.createRelativeBendpoints();
 		ArrayList<RelativeBendpoint> points = new ArrayList<RelativeBendpoint>(2);
 		points.add(new RelativeBendpoint());
@@ -697,17 +698,22 @@ public class HenshinViewProvider extends AbstractProvider implements IViewProvid
 		if (hasTitle) {
 			TitleStyle ts = NotationFactory.eINSTANCE.createTitleStyle();
 			ts.setShowTitle(true);
-			rv.getStyles().add(ts);
+			getStyles(rv).add(ts);
 		}
 		if (canSort) {
-			rv.getStyles().add(NotationFactory.eINSTANCE.createSortingStyle());
+			getStyles(rv).add(NotationFactory.eINSTANCE.createSortingStyle());
 		}
 		if (canFilter) {
-			rv.getStyles().add(NotationFactory.eINSTANCE.createFilteringStyle());
+			getStyles(rv).add(NotationFactory.eINSTANCE.createFilteringStyle());
 		}
 		rv.setType(hint);
 		ViewUtil.insertChildView(owner, rv, ViewUtil.APPEND, true);
 		return rv;
+	}
+
+	@SuppressWarnings("unchecked")
+	private static List<org.eclipse.gmf.runtime.notation.Style> getStyles(View view) {
+		return view.getStyles();
 	}
 
 	/**

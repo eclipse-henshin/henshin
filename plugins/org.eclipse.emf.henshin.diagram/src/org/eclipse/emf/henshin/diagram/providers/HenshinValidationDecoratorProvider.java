@@ -11,7 +11,6 @@ package org.eclipse.emf.henshin.diagram.providers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +72,7 @@ public class HenshinValidationDecoratorProvider extends AbstractProvider impleme
 	/**
 	 * @generated
 	 */
-	private static Map/*<String, List<IDecorator>>*/ allDecorators = new HashMap();
+	private static final Map<String, List<IDecorator>> ALL_DECORATORS = new HashMap<>();
 
 	/**
 	 * @generated
@@ -121,20 +120,19 @@ public class HenshinValidationDecoratorProvider extends AbstractProvider impleme
 	 * @generated
 	 */
 	private static void refreshDecorators(String viewId, Diagram diagram) {
-		final List decorators = viewId != null ? (List) allDecorators.get(viewId) : null;
+		final List<IDecorator> decorators = viewId != null ? ALL_DECORATORS.get(viewId) : null;
 		if (decorators == null || decorators.isEmpty() || diagram == null) {
 			return;
 		}
 		final Diagram fdiagram = diagram;
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-
+			@Override
 			public void run() {
 				try {
 					TransactionUtil.getEditingDomain(fdiagram).runExclusive(new Runnable() {
-
+						@Override
 						public void run() {
-							for (Iterator it = decorators.iterator(); it.hasNext();) {
-								IDecorator decorator = (IDecorator) it.next();
+							for (IDecorator decorator : decorators) {
 								decorator.refresh();
 							}
 						}
@@ -283,12 +281,8 @@ public class HenshinValidationDecoratorProvider extends AbstractProvider impleme
 			}
 
 			// add self to global decorators registry
-			List list = (List) allDecorators.get(viewId);
-			if (list == null) {
-				list = new ArrayList(2);
-				list.add(this);
-				allDecorators.put(viewId, list);
-			} else if (!list.contains(this)) {
+			List<IDecorator> list = ALL_DECORATORS.computeIfAbsent(viewId, id -> new ArrayList<>(2));
+			if (!list.contains(this)) {
 				list.add(this);
 			}
 
@@ -315,16 +309,16 @@ public class HenshinValidationDecoratorProvider extends AbstractProvider impleme
 			}
 
 			// remove self from global decorators registry
-			List list = (List) allDecorators.get(viewId);
+			List<IDecorator> list = ALL_DECORATORS.get(viewId);
 			if (list != null) {
 				list.remove(this);
 				if (list.isEmpty()) {
-					allDecorators.remove(viewId);
+					ALL_DECORATORS.remove(viewId);
 				}
 			}
 
 			// stop listening to changes in resources if there are no more decorators
-			if (fileObserver != null && allDecorators.isEmpty()) {
+			if (fileObserver != null && ALL_DECORATORS.isEmpty()) {
 				FileChangeManager.getInstance().removeFileObserver(fileObserver);
 				fileObserver = null;
 			}
@@ -385,7 +379,7 @@ public class HenshinValidationDecoratorProvider extends AbstractProvider impleme
 		/**
 		 * @generated
 		 */
-		public void handleMarkerDeleted(IMarker marker, Map attributes) {
+		public void handleMarkerDeleted(IMarker marker, @SuppressWarnings("rawtypes") Map attributes) {
 			String viewId = (String) attributes.get(org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID);
 			refreshDecorators(viewId, diagram);
 		}

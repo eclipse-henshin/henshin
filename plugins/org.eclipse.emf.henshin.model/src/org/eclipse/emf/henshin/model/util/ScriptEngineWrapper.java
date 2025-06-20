@@ -87,7 +87,6 @@ public class ScriptEngineWrapper {
 	 * @return The result.
 	 * @throws ScriptException On script execution errors.
 	 */
-	@SuppressWarnings("unchecked")
 	public Object eval(String script, List<String> localImports) throws ScriptException {
 		if (!globalImports.isEmpty() || !localImports.isEmpty()) {
   			script =  toStringWithImports(script,globalImports, localImports);
@@ -113,13 +112,14 @@ public class ScriptEngineWrapper {
 	/**
 	 * Converts a list of imports like List("foo.Foo", "foo.bar.*") into one string "foo.Foo, foo.bar"
 	 */
+	@SafeVarargs
 	private static String toStringWithImports(String script, List<String>... imports) {
 		StringBuffer out = new StringBuffer();
 		String delim = "";
 		out.append("with (new JavaImporter(");
 		
-		for (int i = 0; i < imports.length; i++) {
-			for (String entry : imports[i]) {
+		for (List<String> importsList : imports) {
+			for (String entry : importsList) {
 				if (isDirectory(entry) || isWildcard(entry)) {
 					out.append(delim).append(stripWildcard(entry));
 					delim = ", ";
@@ -129,8 +129,8 @@ public class ScriptEngineWrapper {
 
 		out.append(")) { ");
 
-		for (int i = 0; i < imports.length; i++) {
-			for (String entry : imports[i]) {
+		for (List<String> importsList : imports) {
+			for (String entry : importsList) {
 				Matcher m = CLASS_FQN_PATTERN.matcher(entry);
 				if (m.matches()) {
 					String filename = m.group(2);

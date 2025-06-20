@@ -11,7 +11,8 @@ package org.eclipse.emf.henshin.diagram.providers;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Set;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -36,6 +37,7 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EObject selectExistingElementForSource(IAdaptable target, IElementType relationshipType) {
 		return selectExistingElement(target, getTypesForSource(target, relationshipType));
 	}
@@ -43,6 +45,7 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EObject selectExistingElementForTarget(IAdaptable source, IElementType relationshipType) {
 		return selectExistingElement(source, getTypesForTarget(source, relationshipType));
 	}
@@ -50,7 +53,7 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 	/**
 	 * @generated
 	 */
-	protected EObject selectExistingElement(IAdaptable host, Collection types) {
+	protected EObject selectExistingElement(IAdaptable host, Collection<IElementType> types) {
 		if (types.isEmpty()) {
 			return null;
 		}
@@ -59,23 +62,22 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 			return null;
 		}
 		Diagram diagram = (Diagram) editPart.getRoot().getContents().getModel();
-		HashSet<EObject> elements = new HashSet<EObject>();
-		for (Iterator<EObject> it = diagram.getElement().eAllContents(); it.hasNext();) {
-			EObject element = it.next();
+		Set<EObject> elements = new HashSet<>();
+		diagram.getElement().eAllContents().forEachRemaining(element -> {
 			if (isApplicableElement(element, types)) {
 				elements.add(element);
 			}
-		}
+		});
 		if (elements.isEmpty()) {
 			return null;
 		}
-		return selectElement((EObject[]) elements.toArray(new EObject[elements.size()]));
+		return selectElement(elements.toArray(EObject[]::new));
 	}
 
 	/**
 	 * @generated
 	 */
-	protected boolean isApplicableElement(EObject element, Collection types) {
+	protected boolean isApplicableElement(EObject element, Collection<IElementType> types) {
 		IElementType type = ElementTypeRegistry.getInstance().getElementType(element);
 		return types.contains(type);
 	}

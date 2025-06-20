@@ -23,23 +23,24 @@ public abstract class HenshinAbstractNavigatorItem extends PlatformObject {
 	 * @generated
 	 */
 	static {
-		final Class[] supportedTypes = new Class[] { ITabbedPropertySheetPageContributor.class };
+		final Class<?>[] supportedTypes = new Class<?>[] { ITabbedPropertySheetPageContributor.class };
 		final ITabbedPropertySheetPageContributor propertySheetPageContributor = new ITabbedPropertySheetPageContributor() {
 			public String getContributorId() {
 				return "org.eclipse.emf.henshin.diagram"; //$NON-NLS-1$
 			}
 		};
 		Platform.getAdapterManager().registerAdapters(new IAdapterFactory() {
-
-			public Object getAdapter(Object adaptableObject, Class adapterType) {
+			@Override
+			public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 				if (adaptableObject instanceof org.eclipse.emf.henshin.diagram.navigator.HenshinAbstractNavigatorItem
 						&& adapterType == ITabbedPropertySheetPageContributor.class) {
-					return propertySheetPageContributor;
+					return adapterType.cast(propertySheetPageContributor);
 				}
 				return null;
 			}
 
-			public Class[] getAdapterList() {
+			@Override
+			public Class<?>[] getAdapterList() {
 				return supportedTypes;
 			}
 		}, org.eclipse.emf.henshin.diagram.navigator.HenshinAbstractNavigatorItem.class);

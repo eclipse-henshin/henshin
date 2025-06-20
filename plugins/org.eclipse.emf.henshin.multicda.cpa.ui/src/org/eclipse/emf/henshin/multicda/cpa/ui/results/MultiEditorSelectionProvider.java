@@ -37,12 +37,12 @@ public class MultiEditorSelectionProvider implements IPostSelectionProvider {
 	/**
 	 * Registered selection changed listeners (element type: <code>ISelectionChangedListener</code>).
 	 */
-	private ListenerList listeners = new ListenerList();
+	private ListenerList<ISelectionChangedListener> listeners = new ListenerList<>();
 
 	/**
 	 * Registered post selection changed listeners.
 	 */
-	private ListenerList postListeners = new ListenerList();
+	private ListenerList<ISelectionChangedListener> postListeners = new ListenerList<>();
 
 	/**
 	 * The multi-page editor.

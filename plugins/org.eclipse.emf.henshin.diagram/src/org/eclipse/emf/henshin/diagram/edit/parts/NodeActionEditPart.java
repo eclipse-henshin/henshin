@@ -562,7 +562,7 @@ public class NodeActionEditPart extends CompartmentEditPart implements ITextAwar
 	 * @generated
 	 */
 	@Override
-	public Object getAdapter(Class key) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
 		if (ILabelDelegate.class.equals(key)) {
 			return getLabelDelegate();
 		}

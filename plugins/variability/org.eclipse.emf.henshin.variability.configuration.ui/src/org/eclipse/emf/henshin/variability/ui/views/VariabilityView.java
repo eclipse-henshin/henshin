@@ -429,6 +429,7 @@ public class VariabilityView extends ViewPart
 		IObservableValue<?> target = WidgetProperties.text(SWT.Modify).observe(variabilityModelText);
 		variabilityModelTextBindingContext = new DataBindingContext();
 		writableValue = new WritableValue<Rule>();
+		@SuppressWarnings("unchecked")
 		IObservableValue<String> model = EMFProperties.value(HenshinPackage.Literals.MODEL_ELEMENT__ANNOTATIONS)
 				.observeDetail(writableValue);
 //		UpdateValueStrategy strategy = new UpdateValueStrategy();

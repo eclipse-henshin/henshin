@@ -45,8 +45,8 @@ public class OpenCpHandler extends AbstractHandler {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		ISelectionService service = window.getSelectionService();
 		ISelection iSelection = service.getSelection();
-		IStructuredSelection iStructuredSelection = (IStructuredSelection) iSelection;
-		List<IResource> selection = iStructuredSelection.toList();
+		@SuppressWarnings("unchecked")
+		List<IResource> selection = ((IStructuredSelection) iSelection).toList();
 
 		createEditorInputsAndModelURIs(selection);
 		IWorkspace iWorkspace = ResourcesPlugin.getWorkspace();

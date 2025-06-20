@@ -51,7 +51,7 @@ public class TransformationSystemMiner {
 
 		if (manager.getMinedFragments() != null && manager.getMinedFragments().size() != 0) {
 			ParsemisParserSerializer ser = new ParsemisParserSerializer();
-			for (Fragment fragment : manager.getMinedFragments()) {
+			for (Fragment<INodeLabel, IEdgeLabel> fragment : manager.getMinedFragments()) {
 						ser.serialize(fragment.toGraph());
 			}
 		} else {

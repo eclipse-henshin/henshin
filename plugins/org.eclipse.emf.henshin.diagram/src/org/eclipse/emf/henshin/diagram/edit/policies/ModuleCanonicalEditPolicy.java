@@ -263,8 +263,9 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 	private Collection<IAdaptable> refreshConnections() {
 		Domain2Notation domain2NotationMap = new Domain2Notation();
 		Collection<HenshinLinkDescriptor> linkDescriptors = collectAllLinks(getDiagram(), domain2NotationMap);
-		Collection existingLinks = new LinkedList(getDiagram().getEdges());
-		for (Iterator linksIterator = existingLinks.iterator(); linksIterator.hasNext();) {
+		@SuppressWarnings("unchecked")
+		List<View> existingLinks = new ArrayList<>(getDiagram().getEdges());
+		for (Iterator<View> linksIterator = existingLinks.iterator(); linksIterator.hasNext();) {
 			Edge nextDiagramLink = (Edge) linksIterator.next();
 			int diagramLinkVisualID = HenshinVisualIDRegistry.getVisualID(nextDiagramLink);
 			if (diagramLinkVisualID == -1 || diagramLinkVisualID == LinkEditPart.VISUAL_ID) {
@@ -352,11 +353,15 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 			break;
 		}
 		}
-		for (Iterator children = view.getChildren().iterator(); children.hasNext();) {
-			result.addAll(collectAllLinks((View) children.next(), domain2NotationMap));
+		@SuppressWarnings("unchecked")
+		List<View> children = view.getChildren();
+		for (View child : children) {
+			result.addAll(collectAllLinks(child, domain2NotationMap));
 		}
-		for (Iterator edges = view.getSourceEdges().iterator(); edges.hasNext();) {
-			result.addAll(collectAllLinks((View) edges.next(), domain2NotationMap));
+		@SuppressWarnings("unchecked")
+		List<View> sourceEdges = view.getSourceEdges();
+		for (View sourceEdge : sourceEdges) {
+			result.addAll(collectAllLinks(sourceEdge, domain2NotationMap));
 		}
 		return result;
 	}

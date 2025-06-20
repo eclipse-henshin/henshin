@@ -215,7 +215,7 @@ public class InvocationNameEditPart extends CompartmentEditPart implements IText
 		if (element != null) {
 			return new EObjectAdapter(element) {
 				@Override
-				public Object getAdapter(Class adapter) {
+				public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 					if (View.class.equals(adapter)) {
 						return getNotationView();
 					}
@@ -563,7 +563,7 @@ public class InvocationNameEditPart extends CompartmentEditPart implements IText
 	 * @generated
 	 */
 	@Override
-	public Object getAdapter(Class key) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
 		if (ILabelDelegate.class.equals(key)) {
 			return getLabelDelegate();
 		}

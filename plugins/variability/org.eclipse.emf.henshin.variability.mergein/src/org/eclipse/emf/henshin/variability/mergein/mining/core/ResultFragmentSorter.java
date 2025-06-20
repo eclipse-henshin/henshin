@@ -11,23 +11,11 @@ import de.parsemis.miner.general.Fragment;
 
 public class ResultFragmentSorter {
 
+	private static final Comparator<Fragment<INodeLabel, IEdgeLabel>> BY_FREQUENCY_THEN_MAXIMALNONOVERLAPPINGSUBSET_SIZE = Comparator
+			.<Fragment<INodeLabel, IEdgeLabel>>comparingInt(f -> Integer.parseInt(f.frequency().toString()))
+			.thenComparingInt(f -> f.getMaximalNonOverlappingSubSet().size());
+
 	public static void sort(List<Fragment<INodeLabel, IEdgeLabel>> fragmentList) {
-
-		Collections.sort(fragmentList, new Comparator<Fragment>() {
-
-			@Override
-			public int compare(Fragment frag1, Fragment frag2) {
-				int freq1 = Integer.parseInt(frag1.frequency().toString());
-				int freq2 = Integer.parseInt(frag2.frequency().toString());
-				if (freq1 == freq2) {
-					int frag1size = frag1.getMaximalNonOverlappingSubSet().size();
-					int frag2size = frag1.getMaximalNonOverlappingSubSet().size();
-					if (frag1size == frag2size)
-						return 0;
-					return (frag1size > frag2size) ? 1 : -1;
-				}
-				return freq1 > freq2 ? 1 : -1;
-			}
-		});
+		Collections.sort(fragmentList, BY_FREQUENCY_THEN_MAXIMALNONOVERLAPPINGSUBSET_SIZE);
 	}
 }

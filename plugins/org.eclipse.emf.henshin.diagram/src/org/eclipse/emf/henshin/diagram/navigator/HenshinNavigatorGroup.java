@@ -9,8 +9,8 @@
  */
 package org.eclipse.emf.henshin.diagram.navigator;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 
 /**
  * @generated
@@ -30,7 +30,7 @@ public class HenshinNavigatorGroup extends HenshinAbstractNavigatorItem {
 	/**
 	 * @generated
 	 */
-	private Collection myChildren = new LinkedList();
+	private Collection<HenshinNavigatorItem> myChildren = new ArrayList<>();
 
 	/**
 	 * @generated
@@ -65,14 +65,14 @@ public class HenshinNavigatorGroup extends HenshinAbstractNavigatorItem {
 	/**
 	 * @generated
 	 */
-	public void addChildren(Collection children) {
+	public void addChildren(Collection<HenshinNavigatorItem> children) {
 		myChildren.addAll(children);
 	}
 
 	/**
 	 * @generated
 	 */
-	public void addChild(Object child) {
+	public void addChild(HenshinNavigatorItem child) {
 		myChildren.add(child);
 	}
 
@@ -80,7 +80,7 @@ public class HenshinNavigatorGroup extends HenshinAbstractNavigatorItem {
 	 * @generated
 	 */
 	public boolean isEmpty() {
-		return myChildren.size() == 0;
+		return myChildren.isEmpty();
 	}
 
 	/**
