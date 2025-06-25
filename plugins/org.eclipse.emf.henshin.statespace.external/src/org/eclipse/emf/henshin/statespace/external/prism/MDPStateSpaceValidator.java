@@ -13,8 +13,7 @@ import java.io.File;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
@@ -59,22 +58,19 @@ public class MDPStateSpaceValidator extends AbstractFileBasedValidator {
 	 * @see org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator#validate(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
+	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor progressMonitor) throws Exception {
 		
-		if (monitor==null) {
-			monitor = new NullProgressMonitor();
-		}
-		monitor.beginTask("Checking PCTL property...", 4);
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Checking PCTL property...", 4);
 		
 		// Generate the model file.
 		MDPStateSpaceExporter exporter = new MDPStateSpaceExporter();
-		File modelFile = export(stateSpace, exporter, null, "nm",  new SubProgressMonitor(monitor, 1));
+		File modelFile = export(stateSpace, exporter, null, "nm",  monitor.split(1));
 
 		// Try to free memory:
 		index.clearCache();
 		
 		// Generate the CSL file.
-		String expanded = PRISMUtil.expandLabels(property, index, new SubProgressMonitor(monitor, 1));
+		String expanded = PRISMUtil.expandLabels(property, index, monitor.split(1));
 		File propertyFile = createTempFile("property", ".pctl", expanded);
 		
 		// Try to free memory:
@@ -83,10 +79,10 @@ public class MDPStateSpaceValidator extends AbstractFileBasedValidator {
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
 		Map<String, String> constants = PRISMUtil.getAllProbs(stateSpace, true);
-		Process process = PRISMUtil.invokePRISM(stateSpace, modelFile, propertyFile, new String[] { "-fixdl" , "-gaussseidel" }, constants, true,  new SubProgressMonitor(monitor, 1));
+		Process process = PRISMUtil.invokePRISM(stateSpace, modelFile, propertyFile, new String[] { "-fixdl" , "-gaussseidel" }, constants, true,  monitor.split(1));
 		
 		// Parse the experiments:
-		ValidationResult result = PRISMExperiment.parseValidationResult(stateSpace, process, new SubProgressMonitor(monitor, 1));
+		ValidationResult result = PRISMExperiment.parseValidationResult(stateSpace, process, monitor.split(1));
 		process.waitFor();
 		
 		return result;

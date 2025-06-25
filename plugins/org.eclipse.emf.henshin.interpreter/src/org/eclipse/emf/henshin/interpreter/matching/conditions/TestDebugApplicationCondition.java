@@ -2,7 +2,7 @@ package org.eclipse.emf.henshin.interpreter.matching.conditions;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Observer;
+import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -13,12 +13,13 @@ import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugTarget;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugValue;
 import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 
 public class TestDebugApplicationCondition extends DebugApplicationCondition {
 
 	public TestDebugApplicationCondition(HenshinDebugTarget debugTarget, List<Variable> variables,
-			Map<Variable, DomainSlot> domainMap, EGraph graph, IFormula formula, Observer matchObserver,
+			Map<Variable, DomainSlot> domainMap, EGraph graph, IFormula formula, Consumer<Solution> matchObserver,
 			RuleInfo ruleInfo) {
 		super(debugTarget, variables, domainMap, graph, formula, matchObserver, ruleInfo);
 		// TODO Auto-generated constructor stub

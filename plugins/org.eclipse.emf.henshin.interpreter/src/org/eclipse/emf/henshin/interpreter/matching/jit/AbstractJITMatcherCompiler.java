@@ -140,7 +140,7 @@ public abstract class AbstractJITMatcherCompiler implements JITMatcherCompiler {
 			// Load, instantiate and initialize the compiled match finder class:
 			try {
 				URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { root.toURI().toURL() });
-				JITMatcher matchFinder = (JITMatcher) Class.forName(className, true, classLoader).newInstance();
+				JITMatcher matchFinder = (JITMatcher) Class.forName(className, true, classLoader).getDeclaredConstructor().newInstance();
 				Method init = matchFinder.getClass().getMethod("init", Rule.class);
 				init.invoke(matchFinder, rule);
 				return matchFinder;

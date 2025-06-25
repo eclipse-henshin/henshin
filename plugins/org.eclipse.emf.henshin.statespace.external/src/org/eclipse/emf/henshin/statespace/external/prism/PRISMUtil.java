@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -197,7 +197,7 @@ public class PRISMUtil {
 	/*
 	 * Expand labels.
 	 */
-	public static String expandLabels(String template, StateSpaceIndex index, IProgressMonitor monitor) throws Exception {
+	public static String expandLabels(String template, StateSpaceIndex index, IProgressMonitor progressMonitor) throws Exception {
 
 		// Find out how many sections need to be replaced:
 		int sections = -1;
@@ -210,9 +210,9 @@ public class PRISMUtil {
 		} while (!dummy1.equals(dummy2));
 		
 		// Now do the expansion:
-		monitor.beginTask("Expanding labels...", sections);
+		SubMonitor monitor = SubMonitor.convert(progressMonitor, "Expanding labels...", sections);
 		for (int i=0; i<sections; i++) {
-			template = doExpandLabels(template, index, new SubProgressMonitor(monitor,1));
+			template = doExpandLabels(template, index, monitor.split(1));
 		}
 		monitor.done();
 		return template;

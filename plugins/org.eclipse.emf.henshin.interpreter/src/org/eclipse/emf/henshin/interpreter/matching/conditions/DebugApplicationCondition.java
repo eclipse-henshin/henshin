@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Observer;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -122,7 +122,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 		
 	private IStackFrame[] stackFrames;
 
-	private Observer matchObserver;
+	private Consumer<Solution> matchObserver;
 	
 	// used to compare currentVariable to HenshinBreakpoints
 	private RuleInfo ruleInfo;
@@ -135,7 +135,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 	}
 
 	public DebugApplicationCondition(HenshinDebugTarget debugTarget, List<Variable> variables,
-			Map<Variable, DomainSlot> domainMap, EGraph graph, IFormula formula, Observer matchObserver, RuleInfo ruleInfo) {
+			Map<Variable, DomainSlot> domainMap, EGraph graph, IFormula formula, Consumer<Solution> matchObserver, RuleInfo ruleInfo) {
 		super(graph, domainMap,null); //added PerformanceMonitor as parameter null=no monitoring
 		
 		this.debugTarget = debugTarget;
@@ -205,7 +205,7 @@ public class DebugApplicationCondition extends ApplicationCondition {
 				
 				// notify the observer that we have a solution
 				if (matchObserver != null) {					
-					matchObserver.update(null, solution);
+					matchObserver.accept(solution);
 				}
 				
 				if (debugTarget != null) {
