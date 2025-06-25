@@ -47,7 +47,7 @@ public class RuleEditHelper extends HenshinBaseEditHelper {
 		 * Dispose this listener.
 		 */
 		public void dispose() {
-			rule.eAdapters().remove(rule);
+			rule.eAdapters().remove(this);
 		}
 	}
 

@@ -14,8 +14,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
@@ -338,9 +336,7 @@ public class VariabilityAwareMatcher {
 			usedExpressions = new HashMap<>();
 			node2Mapping = new HashMap<>();
 			pc2elem = new HashMap<>();
-			TreeIterator<EObject> it = rule.eAllContents();
-			while (it.hasNext()) {
-				EObject o = it.next();
+			rule.eAllContents().forEachRemaining(o -> {
 				if (o instanceof Node || o instanceof Edge || o instanceof Attribute) {
 					VariabilityGraphElement g = VariabilityFactory.INSTANCE.createVariabilityGraphElement((GraphElement) o);
 					if (!RuleInfo.presenceConditionEmpty(g)) {
@@ -370,9 +366,9 @@ public class VariabilityAwareMatcher {
 					}
 					set.add(m);
 				}
-			}
+			});
 
-			if (featureConstraint != null && !featureConstraint.equals("") 
+			if (featureConstraint != null && !featureConstraint.toString().equals("")
 					&& !pc2elem.containsKey(featureConstraint)) {
 				pc2elem.put(featureConstraint, new HashSet<GraphElement>());
 			}
