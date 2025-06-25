@@ -275,7 +275,7 @@ public class AttributeConditionEditPart extends ShapeNodeEditPart {
 			layoutThis.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
 
 			layoutThis.setSpacing(0);
-			layoutThis.setVertical(true);
+			layoutThis.setHorizontal(false);
 
 			this.setLayoutManager(layoutThis);
 

@@ -115,6 +115,7 @@ public class ObservableFeatureConstraintValue<T> implements IObservableValue<Str
 		
 	}
 	
+	@SuppressWarnings("restriction") 
 	private VariabilityRule getTargetVariabilityRule() {
 		if (this.value instanceof EMFObservableValueDecorator) {
 			EMFObservableValueDecorator emfValue = (EMFObservableValueDecorator) this.value;
