@@ -166,7 +166,7 @@ class Henshin_textTypeProvider {
 	 * 
 	 */
 	def Henshin_textType typeFor(ParameterType parameterType){
-		if(parameterType.type==null){
+		if(parameterType.type===null){
 			return typeFor(parameterType.enumType.literal)	
 		}else{
 			return complexType
