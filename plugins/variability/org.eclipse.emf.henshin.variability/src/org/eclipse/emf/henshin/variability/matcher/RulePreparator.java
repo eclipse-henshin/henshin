@@ -4,6 +4,7 @@ import java.util.BitSet;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -94,12 +95,13 @@ public class RulePreparator {
 		return bs;
 	}
 
-	private <T extends GraphElement> void addElementToRemoveList(boolean geIsVariabilityAware, GraphElement ge,
-			Collection<T> list) {
-		if (geIsVariabilityAware) {
-			list.add((T) ((VariabilityGraphElement) ge).getGraphElement());
+	private static <T extends GraphElement> void addElementToRemoveList(T ge, Collection<T> list) {
+		if (ge instanceof VariabilityGraphElement) {
+			@SuppressWarnings("unchecked")
+			T e = (T) ((VariabilityGraphElement) ge).getGraphElement();
+			list.add(e);
 		} else {
-			list.add((T) ge);
+			list.add(ge);
 		}
 	}
 
@@ -111,20 +113,17 @@ public class RulePreparator {
 				continue;
 
 			for (GraphElement ge : elements) {
-				boolean geIsVariabilityAware = ge instanceof VariabilityGraphElement;
-
 				if (ge instanceof Node) {
-					addElementToRemoveList(geIsVariabilityAware, ge, removeNodes);
+					addElementToRemoveList((Node) ge, removeNodes);
 					Set<Mapping> mappings = ruleInfo.getNode2Mapping().get((Node) ge);
 					if (mappings != null) {
 						removeMappings.addAll(mappings);
 					}
-					((Node) ge).getAllEdges()
-							.forEach(edge -> addElementToRemoveList(geIsVariabilityAware, edge, removeEdges));
+					((Node) ge).getAllEdges().forEach(edge -> addElementToRemoveList(edge, removeEdges));
 				} else if (ge instanceof Edge) {
-					addElementToRemoveList(geIsVariabilityAware, ge, removeEdges);
+					addElementToRemoveList((Edge) ge, removeEdges);
 				} else if (ge instanceof Attribute) {
-					addElementToRemoveList(geIsVariabilityAware, ge, removeAttributes);
+					addElementToRemoveList((Attribute) ge, removeAttributes);
 				}
 
 			}
@@ -169,7 +168,9 @@ public class RulePreparator {
 			EStructuralFeature feature = m.eContainingFeature();
 			removeMappingContainingRef.put(m, feature);
 			removeElementContainers.put(m, m.eContainer());
-			((EList<EObject>) m.eContainer().eGet(feature)).remove(m);
+			@SuppressWarnings("unchecked")
+			List<EObject> list = (List<EObject>) m.eContainer().eGet(feature);
+			list.remove(m);
 		}
 		for (Attribute a : removeAttributes) {
 			removeElementContainers.put(a, a.getNode());

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +29,6 @@ import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Or;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
-
 import org.eclipse.emf.henshin.ocl2ac.utils.Activator;
 
 public class HenshinNACSimplifier {
@@ -488,7 +486,7 @@ public class HenshinNACSimplifier {
 	}
 
 	private static String getFullPath(String path) {
-		URL url = FileLocator.find(Activator.getDefault().getBundle(), new Path(path), Collections.EMPTY_MAP);
+		URL url = FileLocator.find(Activator.getDefault().getBundle(), new Path(path));
 		URL fileUrl = null;
 		try {
 			fileUrl = FileLocator.toFileURL(url);

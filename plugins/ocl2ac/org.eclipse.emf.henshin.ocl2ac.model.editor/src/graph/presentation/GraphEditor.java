@@ -1241,15 +1241,14 @@ public class GraphEditor extends MultiPageEditorPart
 	 * 
 	 * @generated
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
-	public Object getAdapter(Class key) {
+	public <T> T getAdapter(Class<T> key) {
 		if (key.equals(IContentOutlinePage.class)) {
-			return showOutlineView() ? getContentOutlinePage() : null;
-		} else if (key.equals(IPropertySheetPage.class)) {
-			return getPropertySheetPage();
-		} else if (key.equals(IGotoMarker.class)) {
-			return this;
+			return showOutlineView() ? key.cast(getContentOutlinePage()) : null;
+		} else if (key == IPropertySheetPage.class) {
+			return key.cast(getPropertySheetPage());
+		} else if (key == IGotoMarker.class) {
+			return key.cast(this);
 		} else {
 			return super.getAdapter(key);
 		}

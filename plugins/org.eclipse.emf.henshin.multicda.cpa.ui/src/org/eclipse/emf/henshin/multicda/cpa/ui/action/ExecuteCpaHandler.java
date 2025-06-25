@@ -36,8 +36,8 @@ public class ExecuteCpaHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection sel = HandlerUtil.getActiveMenuSelection(event);
 		if(sel instanceof IStructuredSelection){
-		    IStructuredSelection selection = (IStructuredSelection) sel;
-		    List<IStructuredSelection> selectedFiles = selection.toList();
+			@SuppressWarnings("unchecked")
+			List<IStructuredSelection> selectedFiles = ((IStructuredSelection) sel).toList();
 
 		    Shell shell = HandlerUtil.getActiveShell(event);
 			WizardDialog wizardDialog = new WizardDialog(shell.getShell(), new CpaWizard(selectedFiles));
