@@ -140,7 +140,7 @@ public class RuleCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 		for (Iterator<HenshinNodeDescriptor> descriptorsIterator = childDescriptors.iterator(); descriptorsIterator
 				.hasNext();) {
 			HenshinNodeDescriptor next = descriptorsIterator.next();
-			String hint = HenshinVisualIDRegistry.getType(next.getVisualID());
+			String hint = next.getVisualID();
 			LinkedList<View> perfectMatch = new LinkedList<View>(); // both semanticElement and hint match that of NodeDescriptor
 			for (View childView : getViewChildren()) {
 				EObject semanticElement = childView.getElement();
@@ -166,7 +166,7 @@ public class RuleCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 		ArrayList<CreateViewRequest.ViewDescriptor> viewDescriptors = new ArrayList<CreateViewRequest.ViewDescriptor>(
 				childDescriptors.size());
 		for (HenshinNodeDescriptor next : childDescriptors) {
-			String hint = HenshinVisualIDRegistry.getType(next.getVisualID());
+			String hint = next.getVisualID();
 			IAdaptable elementAdapter = new CanonicalElementAdapter(next.getModelElement(), hint);
 			CreateViewRequest.ViewDescriptor descriptor = new CreateViewRequest.ViewDescriptor(elementAdapter,
 					Node.class, hint, ViewUtil.APPEND, false, host().getDiagramPreferencesHint());
