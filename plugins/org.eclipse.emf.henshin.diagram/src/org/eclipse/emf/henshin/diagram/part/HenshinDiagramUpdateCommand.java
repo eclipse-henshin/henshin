@@ -9,7 +9,6 @@
  */
 package org.eclipse.emf.henshin.diagram.part;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -56,9 +55,8 @@ public class HenshinDiagramUpdateCommand implements IHandler {
 					&& ((EditPart) structuredSelection.getFirstElement()).getModel() instanceof View) {
 				EObject modelElement = ((View) ((EditPart) structuredSelection.getFirstElement()).getModel())
 						.getElement();
-				List editPolicies = CanonicalEditPolicy.getRegisteredEditPolicies(modelElement);
-				for (Iterator it = editPolicies.iterator(); it.hasNext();) {
-					CanonicalEditPolicy nextEditPolicy = (CanonicalEditPolicy) it.next();
+				List<CanonicalEditPolicy> editPolicies = CanonicalEditPolicy.getRegisteredEditPolicies(modelElement);
+				for (CanonicalEditPolicy nextEditPolicy : editPolicies) {
 					nextEditPolicy.refresh();
 				}
 

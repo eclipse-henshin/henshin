@@ -42,12 +42,13 @@ public class HenshinMarkerNavigationProvider extends AbstractModelMarkerNavigati
 			return;
 		}
 		DiagramEditor editor = (DiagramEditor) getEditor();
-		Map editPartRegistry = editor.getDiagramGraphicalViewer().getEditPartRegistry();
+		@SuppressWarnings("unchecked")
+		Map<EObject, EditPart> editPartRegistry = editor.getDiagramGraphicalViewer().getEditPartRegistry();
 		EObject targetView = editor.getDiagram().eResource().getEObject(elementId);
 		if (targetView == null) {
 			return;
 		}
-		EditPart targetEditPart = (EditPart) editPartRegistry.get(targetView);
+		EditPart targetEditPart = editPartRegistry.get(targetView);
 		if (targetEditPart != null) {
 			HenshinDiagramEditorUtil.selectElementsInDiagram(editor, Arrays.asList(new EditPart[] { targetEditPart }));
 		}

@@ -1319,17 +1319,16 @@ public class LaxconditionEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
-	public Object getAdapter(Class key) {
-		if (key.equals(IContentOutlinePage.class)) {
-			return showOutlineView() ? getContentOutlinePage() : null;
+	public <T> T getAdapter(Class<T> key) {
+		if (key == IContentOutlinePage.class) {
+			return showOutlineView() ? key.cast(getContentOutlinePage()) : null;
 		}
-		else if (key.equals(IPropertySheetPage.class)) {
-			return getPropertySheetPage();
+		else if (key == IPropertySheetPage.class) {
+			return key.cast(getPropertySheetPage());
 		}
-		else if (key.equals(IGotoMarker.class)) {
-			return this;
+		else if (key == IGotoMarker.class) {
+			return key.cast(this);
 		}
 		else {
 			return super.getAdapter(key);

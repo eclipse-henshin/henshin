@@ -229,6 +229,7 @@ public class CPAUtility {
 			eo2.setName(name + ":" + eo2.getName());
 	}
 
+	@SuppressWarnings("unchecked")
 	public static Diagram createDiagram(EObject object) {
 		Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
 		diagram.setMeasurementUnit(MeasurementUnit.PIXEL_LITERAL);

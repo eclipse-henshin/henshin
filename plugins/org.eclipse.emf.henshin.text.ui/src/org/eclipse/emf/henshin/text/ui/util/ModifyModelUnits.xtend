@@ -26,10 +26,10 @@ import org.eclipse.emf.henshin.text.henshin_text.ParameterType
 import org.eclipse.emf.henshin.text.henshin_text.Type
 
 
-public class ModifyModelUnits {
+class ModifyModelUnits {
 	
-	private var long seed
-	private var testSetup=false
+	var long seed
+	var testSetup=false
 	
 	new(long seed){
 		this.seed=seed
@@ -60,7 +60,7 @@ public class ModifyModelUnits {
 					(unit.unitElements.get(0)as ConditionalUnit).getIf.add(call)
 					var List<Unit> newSubUnitList=flat(newSubUnit,level+1,call)
 					erg.addAll(newSubUnitList)
-				}else if (unitCall!=null){
+				}else if (unitCall!==null){
 					var parameterIndex=0
 					for(p:unitCall.parameters){
 						var indexInSubCall=(help.getIf.get(0) as Call).parameters.indexOf(p)
@@ -79,7 +79,7 @@ public class ModifyModelUnits {
 					(unit.unitElements.get(0)as ConditionalUnit).getThen.add(call)
 					var List<Unit> newSubUnitList=flat(newSubUnit,level+1,call)
 					erg.addAll(newSubUnitList)
-				}else if (unitCall!=null){
+				}else if (unitCall!==null){
 					var parameterIndex=0
 					for(p:unitCall.parameters){
 						var indexInSubCall=(help.getThen.get(0) as Call).parameters.indexOf(p)
@@ -99,7 +99,7 @@ public class ModifyModelUnits {
 						(unit.unitElements.get(0)as ConditionalUnit).getElse.add(call)
 						var List<Unit> newSubUnitList=flat(newSubUnit,level+1,call)
 						erg.addAll(newSubUnitList)
-					}else if (unitCall!=null){
+					}else if (unitCall!==null){
 						var parameterIndex=0
 						for(p:unitCall.parameters){
 							var indexInSubCall=(help.getElse.get(0) as Call).parameters.indexOf(p)
@@ -120,14 +120,14 @@ public class ModifyModelUnits {
 					call.setElementCall(newSubUnit)
 					call.parameters.addAll(unit.parameters)
 					for(p:unit.parameters){
-						var Parameter param=Henshin_textFactory.eINSTANCE.createParameter()
+						Henshin_textFactory.eINSTANCE.createParameter()
 					}
 					(unit.unitElements.get(0)as IteratedUnit).subElement.add(call)
 					erg.add(unit)
 					var List<Unit> newSubUnitList=flat(newSubUnit,level+1,call)
 					erg.addAll(newSubUnitList)
 				}else{
-					if (unitCall!=null){
+					if (unitCall!==null){
 						var parameterIndex=0
 						for(p:unitCall.parameters){
 							var indexInSubCall=(help.subElement.get(0) as Call).parameters.indexOf(p)
@@ -152,7 +152,7 @@ public class ModifyModelUnits {
 					var List<Unit> newSubUnitList=flat(newSubUnit,level+1,call)
 					erg.addAll(newSubUnitList)
 				}else{
-					if (unitCall!=null){
+					if (unitCall!==null){
 						var parameterIndex=0
 						for(p:unitCall.parameters){
 							var indexInSubCall=(help.subElement.get(0) as Call).parameters.indexOf(p)
@@ -178,7 +178,7 @@ public class ModifyModelUnits {
 						var List<Unit> newSubUnitList=flat(newSubUnit,level+1,call)
 						erg.addAll(newSubUnitList)
 						index++
-					}else if (unitCall!=null){
+					}else if (unitCall!==null){
 					var parameterIndex=0
 					for(p:unitCall.parameters){
 						var indexInSubCall=(sub.subElements.get(0) as Call).parameters.indexOf(p)
@@ -204,7 +204,7 @@ public class ModifyModelUnits {
 						var List<Unit> newSubUnitList=flat(newSubUnit,level+1,call)
 						erg.addAll(newSubUnitList)
 						index++
-					}else if(unitCall!=null){
+					}else if(unitCall!==null){
 						var parameterIndex=0
 						for(p:unitCall.parameters){
 							var indexInSubCall=(sub.subElements.get(0) as Call).parameters.indexOf(p)
@@ -238,7 +238,7 @@ public class ModifyModelUnits {
 						unit.unitElements.set(index,call)
 						var List<Unit> newSubUnitList=flat(newSubUnit,level+1,call)
 						erg.addAll(newSubUnitList)
-					}else if ((unitCall!=null)&&(element instanceof Call)){
+					}else if ((unitCall!==null)&&(element instanceof Call)){
 						var parameterIndex=0
 						for(p:unitCall.parameters){
 							var indexInSubCall=(element as Call).parameters.indexOf(p)
@@ -275,7 +275,7 @@ public class ModifyModelUnits {
 	
 def getParameterType(ParameterType type){
 	var ParameterType result=Henshin_textFactory.eINSTANCE.createParameterType()
-	if(type.type!=null){
+	if(type.type!==null){
 		result.type=type.type
 	}else{
 		var Type value

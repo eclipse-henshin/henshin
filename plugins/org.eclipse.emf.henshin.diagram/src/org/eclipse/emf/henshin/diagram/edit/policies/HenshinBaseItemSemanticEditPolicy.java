@@ -9,7 +9,8 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.policies;
 
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
@@ -280,13 +281,14 @@ public class HenshinBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	 */
 	protected void addDestroyShortcutsCommand(ICompositeCommand cmd, View view) {
 		assert view.getEAnnotation("Shortcut") == null; //$NON-NLS-1$
-		for (Iterator it = view.getDiagram().getChildren().iterator(); it.hasNext();) {
-			View nextView = (View) it.next();
-			if (nextView.getEAnnotation("Shortcut") == null || !nextView.isSetElement() //$NON-NLS-1$
-					|| nextView.getElement() != view.getElement()) {
+		@SuppressWarnings("unchecked")
+		List<View> children = view.getDiagram().getChildren();
+		for (View child : children) {
+			if (child.getEAnnotation("Shortcut") == null || !child.isSetElement() //$NON-NLS-1$
+					|| child.getElement() != view.getElement()) {
 				continue;
 			}
-			cmd.add(new DeleteCommand(getEditingDomain(), nextView));
+			cmd.add(new DeleteCommand(getEditingDomain(), child));
 		}
 	}
 

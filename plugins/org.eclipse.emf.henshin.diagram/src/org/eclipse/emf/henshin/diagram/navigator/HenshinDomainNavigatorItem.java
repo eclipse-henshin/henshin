@@ -26,25 +26,25 @@ public class HenshinDomainNavigatorItem extends PlatformObject {
 	 * @generated
 	 */
 	static {
-		final Class[] supportedTypes = new Class[] { EObject.class, IPropertySource.class };
+		final Class<?>[] supportedTypes = new Class<?>[] { EObject.class, IPropertySource.class };
 		Platform.getAdapterManager().registerAdapters(new IAdapterFactory() {
-
-			public Object getAdapter(Object adaptableObject, Class adapterType) {
+			@Override
+			public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 				if (adaptableObject instanceof org.eclipse.emf.henshin.diagram.navigator.HenshinDomainNavigatorItem) {
 					org.eclipse.emf.henshin.diagram.navigator.HenshinDomainNavigatorItem domainNavigatorItem = (org.eclipse.emf.henshin.diagram.navigator.HenshinDomainNavigatorItem) adaptableObject;
 					EObject eObject = domainNavigatorItem.getEObject();
 					if (adapterType == EObject.class) {
-						return eObject;
+						return adapterType.cast(eObject);
 					}
 					if (adapterType == IPropertySource.class) {
-						return domainNavigatorItem.getPropertySourceProvider().getPropertySource(eObject);
+						return adapterType.cast(domainNavigatorItem.getPropertySourceProvider().getPropertySource(eObject));
 					}
 				}
-
 				return null;
 			}
 
-			public Class[] getAdapterList() {
+			@Override
+			public Class<?>[] getAdapterList() {
 				return supportedTypes;
 			}
 		}, org.eclipse.emf.henshin.diagram.navigator.HenshinDomainNavigatorItem.class);

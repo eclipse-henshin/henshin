@@ -12,7 +12,6 @@ package org.eclipse.emf.henshin.diagram.part;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -174,19 +173,18 @@ public class ValidateAction extends Action {
 			return;
 		}
 		final IStatus rootStatus = validationStatus;
-		List allStatuses = new ArrayList();
+		List<IConstraintStatus> allStatuses = new ArrayList<>();
 		HenshinDiagramEditorUtil.LazyElement2ViewMap element2ViewMap = new HenshinDiagramEditorUtil.LazyElement2ViewMap(
 				diagramEditPart.getDiagramView(),
-				collectTargetElements(rootStatus, new HashSet<EObject>(), allStatuses));
-		for (Iterator it = allStatuses.iterator(); it.hasNext();) {
-			IConstraintStatus nextStatus = (IConstraintStatus) it.next();
-			View view = HenshinDiagramEditorUtil.findView(diagramEditPart, nextStatus.getTarget(), element2ViewMap);
+				collectTargetElements(rootStatus, new HashSet<>(), allStatuses));
+		for (IConstraintStatus status : allStatuses) {
+			View view = HenshinDiagramEditorUtil.findView(diagramEditPart, status.getTarget(), element2ViewMap);
 			if (view != null) {
 				Resource eResource = view.eResource();
 				if (eResource != null) {
 					addMarker(diagramEditPart.getViewer(), target, eResource.getURIFragment(view),
-							EMFCoreUtil.getQualifiedName(nextStatus.getTarget(), true), nextStatus.getMessage(),
-							nextStatus.getSeverity());
+							EMFCoreUtil.getQualifiedName(status.getTarget(), true), status.getMessage(),
+							status.getSeverity());
 				}
 			}
 		}
@@ -200,19 +198,18 @@ public class ValidateAction extends Action {
 			return;
 		}
 		final Diagnostic rootStatus = emfValidationStatus;
-		List allDiagnostics = new ArrayList();
+		List<Diagnostic> allDiagnostics = new ArrayList<>();
 		HenshinDiagramEditorUtil.LazyElement2ViewMap element2ViewMap = new HenshinDiagramEditorUtil.LazyElement2ViewMap(
 				diagramEditPart.getDiagramView(),
-				collectTargetElements(rootStatus, new HashSet<EObject>(), allDiagnostics));
-		for (Iterator it = emfValidationStatus.getChildren().iterator(); it.hasNext();) {
-			Diagnostic nextDiagnostic = (Diagnostic) it.next();
-			List data = nextDiagnostic.getData();
+				collectTargetElements(rootStatus, new HashSet<>(), allDiagnostics));
+		for (Diagnostic diagnostic : emfValidationStatus.getChildren()) {
+			List<?> data = diagnostic.getData();
 			if (data != null && !data.isEmpty() && data.get(0) instanceof EObject) {
 				EObject element = (EObject) data.get(0);
 				View view = HenshinDiagramEditorUtil.findView(diagramEditPart, element, element2ViewMap);
 				addMarker(diagramEditPart.getViewer(), target, view.eResource().getURIFragment(view),
-						EMFCoreUtil.getQualifiedName(element, true), nextDiagnostic.getMessage(),
-						diagnosticToStatusSeverity(nextDiagnostic.getSeverity()));
+						EMFCoreUtil.getQualifiedName(element, true), diagnostic.getMessage(),
+						diagnosticToStatusSeverity(diagnostic.getSeverity()));
 			}
 		}
 	}
@@ -248,15 +245,15 @@ public class ValidateAction extends Action {
 	 * @generated
 	 */
 	private static Set<EObject> collectTargetElements(IStatus status, Set<EObject> targetElementCollector,
-			List allConstraintStatuses) {
+			List<IConstraintStatus> allConstraintStatuses) {
 		if (status instanceof IConstraintStatus) {
-			targetElementCollector.add(((IConstraintStatus) status).getTarget());
-			allConstraintStatuses.add(status);
+			IConstraintStatus constraintStatus = (IConstraintStatus) status;
+			targetElementCollector.add(constraintStatus.getTarget());
+			allConstraintStatuses.add(constraintStatus);
 		}
 		if (status.isMultiStatus()) {
-			IStatus[] children = status.getChildren();
-			for (int i = 0; i < children.length; i++) {
-				collectTargetElements(children[i], targetElementCollector, allConstraintStatuses);
+			for (IStatus child : status.getChildren()) {
+				collectTargetElements(child, targetElementCollector, allConstraintStatuses);
 			}
 		}
 		return targetElementCollector;
@@ -266,8 +263,8 @@ public class ValidateAction extends Action {
 	 * @generated
 	 */
 	private static Set<EObject> collectTargetElements(Diagnostic diagnostic, Set<EObject> targetElementCollector,
-			List allDiagnostics) {
-		List data = diagnostic.getData();
+			List<Diagnostic> allDiagnostics) {
+		List<?> data = diagnostic.getData();
 		EObject target = null;
 		if (data != null && !data.isEmpty() && data.get(0) instanceof EObject) {
 			target = (EObject) data.get(0);
@@ -275,8 +272,8 @@ public class ValidateAction extends Action {
 			allDiagnostics.add(diagnostic);
 		}
 		if (diagnostic.getChildren() != null && !diagnostic.getChildren().isEmpty()) {
-			for (Iterator it = diagnostic.getChildren().iterator(); it.hasNext();) {
-				collectTargetElements((Diagnostic) it.next(), targetElementCollector, allDiagnostics);
+			for (Diagnostic child : diagnostic.getChildren()) {
+				collectTargetElements(child, targetElementCollector, allDiagnostics);
 			}
 		}
 		return targetElementCollector;

@@ -95,7 +95,7 @@ public class NodeGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	protected ICommand getPromptAndCreateConnectionCommand(List content, CreateConnectionRequest request) {
+	protected ICommand getPromptAndCreateConnectionCommand(@SuppressWarnings("rawtypes") List content, CreateConnectionRequest request) {
 		return new PromptAndCreateEdgeCommand(content, request);
 	}
 	

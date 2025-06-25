@@ -25,7 +25,7 @@ public class HenshinDiagramActionBarContributor extends DiagramActionBarContribu
 	/**
 	 * @generated
 	 */
-	protected Class getEditorClass() {
+	protected Class<HenshinDiagramEditor> getEditorClass() {
 		return HenshinDiagramEditor.class;
 	}
 

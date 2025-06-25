@@ -65,9 +65,9 @@ public class RuleCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	/**
 	 * @generated
 	 */
-	protected Set getFeaturesToSynchronize() {
+	protected Set<EStructuralFeature> getFeaturesToSynchronize() {
 		if (myFeaturesToSynchronize == null) {
-			myFeaturesToSynchronize = new HashSet<EStructuralFeature>();
+			myFeaturesToSynchronize = new HashSet<>();
 			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE.getGraph_Nodes());
 			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE.getRule_AttributeConditions());
 		}

@@ -131,7 +131,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	def ckeckExistingEdge(Edge edge){
 		var EClass sourceType
 		var EClass targetType
-		if(edge.source!=null){
+		if(edge.source!==null){
 			if(edge.source instanceof Node){
 				sourceType=(edge.source as Node).nodetype
 			}else{
@@ -142,7 +142,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 				}
 			}
 		}
-		if(edge.target!=null){
+		if(edge.target!==null){
 			if(edge.target instanceof Node){
 				targetType=(edge.target as Node).nodetype
 			}else{
@@ -153,7 +153,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 				}
 			}
 		}
-		if((sourceType!=null)&&(targetType!=null)){
+		if((sourceType!==null)&&(targetType!==null)){
 			var wrongType=true
 			var EClass referenceType
 			for(reference:sourceType.EAllReferences){
@@ -263,11 +263,11 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
  	*/
 	@Check
 	def checkSetAttribute(Node node){
-		if((node.actiontype=="preserve")||(node.actiontype==null)){
+		if((node.actiontype=="preserve")||(node.actiontype===null)){
 			for(attribute:node.attribute){
-				if(attribute.update!=null){
+				if(attribute.update!==null){
 					for(checkAttribute:node.attribute){
-						if((checkAttribute!=attribute)&&(attribute.name==checkAttribute.name)&&((checkAttribute.update!=null)||(checkAttribute.actiontype=="create"))){
+						if((checkAttribute!=attribute)&&(attribute.name==checkAttribute.name)&&((checkAttribute.update!==null)||(checkAttribute.actiontype=="create"))){
 							error("Duplicate update.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Update)
 							error("Duplicate update.'", checkAttribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
 						}
@@ -284,12 +284,12 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
  	*/
 	@Check
 	def checkSetandMatchAttribute(Node node){
-		if((node.actiontype=="preserve")||(node.actiontype==null)){
+		if((node.actiontype=="preserve")||(node.actiontype===null)){
 			for(attribute:node.attribute){
-				if(attribute.update!=null){
+				if(attribute.update!==null){
 					var matchExist=false
 					for(checkAttribute:node.attribute){
-						if((checkAttribute!=attribute)&&(attribute.name==checkAttribute.name)&&((checkAttribute.actiontype=="preserve")||((checkAttribute.actiontype==null)&&((node.actiontype=="preserve")||(node.actiontype==null))))){
+						if((checkAttribute!=attribute)&&(attribute.name==checkAttribute.name)&&((checkAttribute.actiontype=="preserve")||((checkAttribute.actiontype===null)&&((node.actiontype=="preserve")||(node.actiontype===null))))){
 							matchExist=true
 						}
 					}
@@ -310,39 +310,39 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	def checkNodeAttributeAction(Node node){
 		if(node.actiontype=="create"){
 			for(attribute:node.attribute){
-				if(((attribute.actiontype=="preserve")&&(attribute.update==null))||(attribute.actiontype=="delete")||
+				if(((attribute.actiontype=="preserve")&&(attribute.update===null))||(attribute.actiontype=="delete")||
 					(attribute.actiontype=="forbid")||(attribute.actiontype=="require")
 				){
 					error(attribute.actiontype+"-attributes are not allowed in "+node.actiontype+"-nodes.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
 				}
-				if(attribute.update!=null){
+				if(attribute.update!==null){
 					error("set-attributes are not allowed in "+node.actiontype+"-nodes. '", attribute, Henshin_textPackage::eINSTANCE.attribute_Update)	
 				}
 			}
 		}else if(node.actiontype=="delete"){
 			for(attribute:node.attribute){
-				if(((attribute.actiontype=="preserve")&&(attribute.update==null))||(attribute.actiontype=="create")){
+				if(((attribute.actiontype=="preserve")&&(attribute.update===null))||(attribute.actiontype=="create")){
 					error(attribute.actiontype+"-attributes are not allowed in "+node.actiontype+"-nodes.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
 				}
-				if(attribute.update!=null){
+				if(attribute.update!==null){
 					error("set-attributes are not allowed in "+node.actiontype+"-nodes.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Update)	
 				}
 			}
 		}else if(node.actiontype=="forbid"){
 			for(attribute:node.attribute){
-				if(((attribute.actiontype=="preserve")&&(attribute.update==null))||(attribute.actiontype=="delete")||(attribute.actiontype=="create")||(attribute.actiontype=="require")){
+				if(((attribute.actiontype=="preserve")&&(attribute.update===null))||(attribute.actiontype=="delete")||(attribute.actiontype=="create")||(attribute.actiontype=="require")){
 					error(attribute.actiontype+"-attributes are not allowed in "+node.actiontype+"-nodes.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
 				}
-				if(attribute.update!=null){
+				if(attribute.update!==null){
 					error("set-attributes are not allowed in "+node.actiontype+"-nodes.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Update)	
 				}
 			}
 		}else if(node.actiontype=="require"){
 			for(attribute:node.attribute){
-				if(((attribute.actiontype=="preserve")&&(attribute.update==null))||(attribute.actiontype=="delete")||(attribute.actiontype=="create")||(attribute.actiontype=="forbid")){
+				if(((attribute.actiontype=="preserve")&&(attribute.update===null))||(attribute.actiontype=="delete")||(attribute.actiontype=="create")||(attribute.actiontype=="forbid")){
 					error(attribute.actiontype+"-attributes are not allowed in "+node.actiontype+"-nodes.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
 				}
-				if(attribute.update!=null){
+				if(attribute.update!==null){
 					error("set-attributes are not allowed in "+node.actiontype+"-nodes.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Update)	
 				}
 			}
@@ -377,43 +377,43 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 				target=null
 			}		
 		}
-		if(target!=null&&source!=null){
+		if(target!==null&&source!==null){
 			var edgetype=edge.actiontype
-			if(edgetype==null){
+			if(edgetype===null){
 				edgetype="preserve"
 			}
 			var sourcetype=source.actiontype
-			if(sourcetype==null){
+			if(sourcetype===null){
 				sourcetype="preserve"
 			}
 			var tagettype=target.actiontype
-			if(tagettype==null){
+			if(tagettype===null){
 				tagettype="preserve"
 			}
-			if((edge.actiontype=="preserve")||(edge.actiontype==null)){
-				if(((source.actiontype=="preserve")||(source.actiontype==null))&&((target.actiontype!="preserve")&&(target.actiontype!=null))){
+			if((edge.actiontype=="preserve")||(edge.actiontype===null)){
+				if(((source.actiontype=="preserve")||(source.actiontype===null))&&((target.actiontype!="preserve")&&(target.actiontype!==null))){
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
-				}else if((source.actiontype!="preserve")&&(source.actiontype!=null)){
+				}else if((source.actiontype!="preserve")&&(source.actiontype!==null)){
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
 				} 
 			}else if(edge.actiontype=="create"){
-				if(((source.actiontype==null)||(source.actiontype=="preserve")||(source.actiontype=="create"))&&
-					((target.actiontype!=null)&&(target.actiontype!="preserve")&&(target.actiontype!="create"))
+				if(((source.actiontype===null)||(source.actiontype=="preserve")||(source.actiontype=="create"))&&
+					((target.actiontype!==null)&&(target.actiontype!="preserve")&&(target.actiontype!="create"))
 				){
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
-				}else if((source.actiontype!=null)&&(source.actiontype!="preserve")&&(source.actiontype!="create")){
+				}else if((source.actiontype!==null)&&(source.actiontype!="preserve")&&(source.actiontype!="create")){
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
 				}
 			}else if(edge.actiontype=="delete"){
-				if(((source.actiontype==null)||(source.actiontype=="preserve")||(source.actiontype=="delete"))&&
-					((target.actiontype!=null)&&(target.actiontype!="preserve")&&(target.actiontype!="delete"))
+				if(((source.actiontype===null)||(source.actiontype=="preserve")||(source.actiontype=="delete"))&&
+					((target.actiontype!==null)&&(target.actiontype!="preserve")&&(target.actiontype!="delete"))
 				){
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
-				}else if((source.actiontype!=null)&&(source.actiontype!="preserve")&&(source.actiontype!="delete")){
+				}else if((source.actiontype!==null)&&(source.actiontype!="preserve")&&(source.actiontype!="delete")){
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
 				}
 			}else if(edge.actiontype=="forbid"){
-				if(((source.actiontype==null)||(source.actiontype=="preserve")||(source.actiontype=="delete")||(source.actiontype=="forbid"))&&
+				if(((source.actiontype===null)||(source.actiontype=="preserve")||(source.actiontype=="delete")||(source.actiontype=="forbid"))&&
 					((target.actiontype=="create")||(target.actiontype=="require"))
 				){
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
@@ -421,7 +421,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
 				}
 			}else if(edge.actiontype=="require"){
-				if(((source.actiontype==null)||(source.actiontype=="preserve")||(source.actiontype=="delete")||(source.actiontype=="require"))&&
+				if(((source.actiontype===null)||(source.actiontype=="preserve")||(source.actiontype=="delete")||(source.actiontype=="require"))&&
 					((target.actiontype=="create")||(target.actiontype=="forbid"))
 				){
 					error("A "+edgetype+"-edge is not allowed between a "+sourcetype+"-node and a "+tagettype+"-node.'", edge, Henshin_textPackage::eINSTANCE.edge_Actiontype)
@@ -727,7 +727,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 		for(edges:Iterables.filter(graph.graphElements,typeof(Edges))){
 			for(edge:edges.edges){
 				var Node testNode
-				if(edge.source!=null){
+				if(edge.source!==null){
 					if(edge.source instanceof Node){
 						testNode=(edge.source as Node)
 					}else{
@@ -743,7 +743,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 						error(testNode.actiontype+"-nodes are not allowed to be reused in edges in MultiRuleReuseNodes.'",edge, Henshin_textPackage::eINSTANCE.edge_Source)
 					}
 				}
-				if(edge.target!=null){
+				if(edge.target!==null){
 					if(edge.target instanceof Node){
 						testNode=(edge.target as Node)
 					}else{
@@ -815,7 +815,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Check
 	def checkMultiRuleReuseNodAttributeSet(MultiRuleReuseNode reuseNode){
 		for(attribute:reuseNode.attribute){
-			if(attribute.update!=null){
+			if(attribute.update!==null){
 				error("Set-attributes are not allowed in MultiRuleReuseNodes.'", attribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
 			}
 		}
@@ -830,22 +830,22 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Check
 	def checkMultiRuleReuseNodAttributeAction(MultiRuleReuseNode reuseNode){
 		var reuseNodeType=reuseNode.name.actiontype
-		if(reuseNodeType==null){
+		if(reuseNodeType===null){
 			reuseNodeType="preserve"
 		}
 		if(reuseNode.name.actiontype=="create"){
 			for(attribute:reuseNode.attribute){
-				if((attribute.actiontype!="create")&&(attribute.actiontype!=null)){
+				if((attribute.actiontype!="create")&&(attribute.actiontype!==null)){
 					error(attribute.actiontype+"-attributes are not allowed in "+reuseNodeType+"-reuseNodes. '", attribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
 				}		
 			}
 		}else if(reuseNode.name.actiontype=="delete"){
 			for(attribute:reuseNode.attribute){
-				if((attribute.actiontype!="delete")&&(attribute.actiontype!=null)){
+				if((attribute.actiontype!="delete")&&(attribute.actiontype!==null)){
 					error(attribute.actiontype+"-attributes are not allowed in "+reuseNodeType+"-reuseNodes. '", attribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
 				}
 			}
-		}else if((reuseNode.name.actiontype=="preserve")||(reuseNode.name.actiontype==null)){
+		}else if((reuseNode.name.actiontype=="preserve")||(reuseNode.name.actiontype===null)){
 			for(attribute:reuseNode.attribute){
 				if((attribute.actiontype=="forbid")||(attribute.actiontype=="require")){
 					error(attribute.actiontype+"-attributes are not allowed in "+reuseNodeType+"-reuseNodes. '", attribute, Henshin_textPackage::eINSTANCE.attribute_Actiontype)
@@ -995,7 +995,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 				targetType=null
 			}
 		}
-		if((sourceType!=null)&&(targetType!=null)){
+		if((sourceType!==null)&&(targetType!==null)){
 			var wrongType=true
 			var EClass referenceType
 			for(reference:sourceType.EAllReferences){
@@ -1070,7 +1070,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 				nodeType=null
 			}
 		}
-		if(nodeType!=null){
+		if(nodeType!==null){
 			for(attribute:node.attribute){
 				var superTypeAttribute=false
 				if(!nodeType.EAttributes.contains(attribute.name)){
@@ -1129,7 +1129,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Check 
 	def checkConditionReuseNodeInLHS(ConditionReuseNode conReuseNode){
 		if(conReuseNode.name instanceof Node){
-			if(((conReuseNode.name as Node).actiontype!=null)&&((conReuseNode.name as Node).actiontype!="preserve")&&((conReuseNode.name as Node).actiontype!="delete")){
+			if(((conReuseNode.name as Node).actiontype!==null)&&((conReuseNode.name as Node).actiontype!="preserve")&&((conReuseNode.name as Node).actiontype!="delete")){
 				error("Node '"+(conReuseNode.name as Node).name+"' is not in LHS.'",conReuseNode, Henshin_textPackage::eINSTANCE.conditionReuseNode_Name)
 			}
 		}	
@@ -1144,12 +1144,12 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Check 
 	def checkConditionEdgeInLHS(ConditionEdge conEdge){
 		if(conEdge.source instanceof Node){
-			if(((conEdge.source as Node).actiontype!=null)&&((conEdge.source as Node).actiontype!="preserve")&&((conEdge.source as Node).actiontype!="delete")){
+			if(((conEdge.source as Node).actiontype!==null)&&((conEdge.source as Node).actiontype!="preserve")&&((conEdge.source as Node).actiontype!="delete")){
 				error("Node '"+(conEdge.source as Node).name+"' is not in LHS.'",conEdge, Henshin_textPackage::eINSTANCE.conditionEdge_Source)
 			}
 		}	
 		if(conEdge.target instanceof Node){
-			if(((conEdge.target as Node).actiontype!=null)&&((conEdge.target as Node).actiontype!="preserve")&&((conEdge.target as Node).actiontype!="delete")){
+			if(((conEdge.target as Node).actiontype!==null)&&((conEdge.target as Node).actiontype!="preserve")&&((conEdge.target as Node).actiontype!="delete")){
 				error("Node '"+(conEdge.target as Node).name+"' is not in LHS.'",conEdge, Henshin_textPackage::eINSTANCE.conditionEdge_Target)
 			}
 		}
@@ -1379,7 +1379,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
  	*/
 	@Check
 	def checkIterationUnitIterationsType(IteratedUnit unit){
-		if(unit.iterations!=null){
+		if(unit.iterations!==null){
 			if(typeFor(unit.iterations).toString!="number"){
 				error("IteratedUnit expected number type, but was " +typeFor(unit.iterations)+".'",unit, Henshin_textPackage::eINSTANCE.iteratedUnit_Iterations)
 			}
@@ -1715,7 +1715,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	def checkTypeEquality(EqualityExpression equality) {
 		val leftType = getTypeAndCheckNotNull(equality.left, Henshin_textPackage.Literals.EQUALITY_EXPRESSION__LEFT)
 		val rightType = getTypeAndCheckNotNull(equality.right, Henshin_textPackage.Literals.EQUALITY_EXPRESSION__RIGHT)
-		if((leftType!=rightType)&&(leftType!=null)&&(rightType!=null)){
+		if((leftType!=rightType)&&(leftType!==null)&&(rightType!==null)){
 			error("Expression expected the same type, but was " + leftType + " and " +rightType+".'",Henshin_textPackage.Literals.EQUALITY_EXPRESSION.getEIDAttribute(),"")
 		}
 	}
@@ -1730,7 +1730,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	def checkTypeComparison(ComparisonExpression comparison) {
 		val leftType = getTypeAndCheckNotNull(comparison.left, Henshin_textPackage.Literals.COMPARISON_EXPRESSION__LEFT)
 		val rightType = getTypeAndCheckNotNull(comparison.right, Henshin_textPackage.Literals.COMPARISON_EXPRESSION__RIGHT)
-		if((leftType!=rightType)&&(leftType!=null)&&(rightType!=null)){
+		if((leftType!=rightType)&&(leftType!==null)&&(rightType!==null)){
 			error("Expression expected the same type, but was " + leftType + " and " +rightType+".'",Henshin_textPackage.Literals.COMPARISON_EXPRESSION.getEIDAttribute(),"")
 		}
 		if ((leftType==Henshin_textTypeProvider.boolType)||(leftType==Henshin_textTypeProvider.complexType)){
@@ -1769,10 +1769,10 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	 */
 	def private Henshin_textType getTypeAndCheckNotNull(Expression expression,EReference reference){
 		var Henshin_textType type 
-		if(expression!=null){
+		if(expression!==null){
 			type=typeFor(expression)
 		}
-		if (type==null){
+		if (type===null){
 			error("Null type.'",reference, "")
 		}
 		return type;
@@ -1787,7 +1787,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Check
 	def checkAttributeType(Attribute attribute){
 		if(attribute.value instanceof ParameterValue){
-			if(((attribute.value as ParameterValue).value.type.type!=null)&&(attribute.name.EAttributeType.name!=(attribute.value as ParameterValue).value.type.type.name)){
+			if(((attribute.value as ParameterValue).value.type.type!==null)&&(attribute.name.EAttributeType.name!=(attribute.value as ParameterValue).value.type.type.name)){
 				error("Attribute expected " + attribute.name.EAttributeType.name + " type, but was " + (attribute.value as ParameterValue).value.type.type.name+".'", attribute,Henshin_textPackage::eINSTANCE.attribute_Value)
 			}else if((typeFor(attribute.name.EAttributeType.name).toString!="string")&&(typeFor(attribute.name.EAttributeType.name)!=typeFor((attribute.value as ParameterValue).value.type.enumType.literal))){
 				error("Attribute expected " + attribute.name.EAttributeType.name + " type, but was " + (attribute.value as ParameterValue).value.type.enumType.literal+".'", attribute,Henshin_textPackage::eINSTANCE.attribute_Value)
@@ -1808,7 +1808,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 	@Check
 	def checkMatchType(Match match){
 		if(match.value instanceof ParameterValue){
-			if(((match.value as ParameterValue).value.type.type!=null)&&(match.name.EAttributeType.name!=(match.value as ParameterValue).value.type.type.name)){
+			if(((match.value as ParameterValue).value.type.type!==null)&&(match.name.EAttributeType.name!=(match.value as ParameterValue).value.type.type.name)){
 				error("Attribute expected " + match.name.EAttributeType.name + " type, but was " + (match.value as ParameterValue).value.type.type.name+".'",match,Henshin_textPackage::eINSTANCE.match_Value)
 			}else if((typeFor(match.name.EAttributeType.name).toString!="string")&&(typeFor(match.name.EAttributeType.name)!=typeFor((match.value as ParameterValue).value.type.enumType.literal))){
 				error("Attribute expected " + match.name.EAttributeType.name + " type, but was " +(match.value as ParameterValue).value.type.enumType.literal+".'", match,Henshin_textPackage::eINSTANCE.match_Value)
@@ -1839,7 +1839,7 @@ class Henshin_textValidator extends AbstractHenshin_textValidator {
 				}
 			}catch(ClassNotFoundException e){}
 		}
-		if(javaAttribute==null){
+		if(javaAttribute===null){
 			error(attribute.value+" doesn't exist.'",attribute,Henshin_textPackage::eINSTANCE.javaAttributeValue_Value)
 		}	
 	}

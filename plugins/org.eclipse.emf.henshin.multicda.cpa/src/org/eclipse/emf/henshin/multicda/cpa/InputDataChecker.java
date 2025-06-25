@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.multicda.cpa;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EcorePackage;
@@ -125,13 +126,9 @@ public class InputDataChecker {
 	private boolean checkAttributeTypes(Set<Rule> rulesToBeChecked) throws UnsupportedRuleException {
 
 		for (final Rule rule : rulesToBeChecked) {
-			ArrayList<Graph> lhsAndRhsGraph = new ArrayList<Graph>() {
-				{
-					add(rule.getLhs());
-					add(rule.getRhs());
-				}
-			};
-
+			List<Graph> lhsAndRhsGraph = new ArrayList<>();
+			lhsAndRhsGraph.add(rule.getLhs());
+			lhsAndRhsGraph.add(rule.getRhs());
 			for (Graph graph : lhsAndRhsGraph) {
 				for (Node node : graph.getNodes()) {
 					for (Attribute attribute : node.getAttributes()) {

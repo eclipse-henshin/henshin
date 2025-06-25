@@ -71,10 +71,13 @@ public class HenshinDomainNavigatorContentProvider implements ICommonContentProv
 				HenshinDiagramEditorPlugin.getInstance().getItemProvidersAdapterFactory());
 		TransactionalEditingDomain editingDomain = GMFEditingDomainFactory.INSTANCE.createEditingDomain();
 		myEditingDomain = (AdapterFactoryEditingDomain) editingDomain;
-		myEditingDomain.setResourceToReadOnlyMap(new HashMap() {
-			public Object get(Object key) {
+		myEditingDomain.setResourceToReadOnlyMap(new HashMap<Resource, Boolean>() {
+			private static final long serialVersionUID = 8966369836810914458L;
+
+			@Override
+			public Boolean get(Object key) {
 				if (!containsKey(key)) {
-					put(key, Boolean.TRUE);
+					put((Resource) key, Boolean.TRUE);
 				}
 				return super.get(key);
 			}
@@ -195,11 +198,11 @@ public class HenshinDomainNavigatorContentProvider implements ICommonContentProv
 	 * @generated
 	 */
 	public Object[] wrapEObjects(Object[] objects, Object parentElement) {
-		Collection result = new ArrayList();
-		for (int i = 0; i < objects.length; i++) {
-			if (objects[i] instanceof EObject) {
-				result.add(new HenshinDomainNavigatorItem((EObject) objects[i], parentElement,
-						myAdapterFctoryContentProvier));
+		Collection<HenshinDomainNavigatorItem> result = new ArrayList<>();
+		for (Object object : objects) {
+			if (object instanceof EObject) {
+				EObject eObject = (EObject) object;
+				result.add(new HenshinDomainNavigatorItem(eObject, parentElement, myAdapterFctoryContentProvier));
 			}
 		}
 		return result.toArray();

@@ -3,8 +3,6 @@
  */
 package org.eclipse.emf.henshin.text.formatting2
 
-import com.google.inject.Inject
-import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.henshin.text.henshin_text.Attribute
 import org.eclipse.emf.henshin.text.henshin_text.Call
@@ -43,15 +41,10 @@ import org.eclipse.emf.henshin.text.henshin_text.RuleElement
 import org.eclipse.emf.henshin.text.henshin_text.Strict
 import org.eclipse.emf.henshin.text.henshin_text.Unit
 import org.eclipse.emf.henshin.text.henshin_text.UnitElement
-import org.eclipse.emf.henshin.text.services.Henshin_textGrammarAccess
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
 
 class Henshin_textFormatter extends AbstractFormatter2 {
-
-	@Inject extension Henshin_textGrammarAccess
-	
-	EList<Match> el
 
 	def dispatch void format(Model model, extension IFormattableDocument document) {
 		val lastImport = model.getEPackageimports().last
