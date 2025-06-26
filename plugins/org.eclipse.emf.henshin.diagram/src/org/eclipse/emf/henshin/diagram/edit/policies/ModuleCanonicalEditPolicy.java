@@ -49,7 +49,7 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.papyrus.infra.gmfdiag.tooling.runtime.update.UpdaterLinkDescriptor;
+import org.eclipse.papyrus.infra.gmfdiag.common.updater.UpdaterLinkDescriptor;
 
 /**
  * @generated
@@ -130,7 +130,7 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 		for (Iterator<HenshinNodeDescriptor> descriptorsIterator = childDescriptors.iterator(); descriptorsIterator
 				.hasNext();) {
 			HenshinNodeDescriptor next = descriptorsIterator.next();
-			String hint = HenshinVisualIDRegistry.getType(next.getVisualID());
+			String hint = next.getVisualID();
 			LinkedList<View> perfectMatch = new LinkedList<View>(); // both semanticElement and hint match that of NodeDescriptor
 			for (View childView : getViewChildren()) {
 				EObject semanticElement = childView.getElement();
@@ -156,7 +156,7 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 		ArrayList<CreateViewRequest.ViewDescriptor> viewDescriptors = new ArrayList<CreateViewRequest.ViewDescriptor>(
 				childDescriptors.size());
 		for (HenshinNodeDescriptor next : childDescriptors) {
-			String hint = HenshinVisualIDRegistry.getType(next.getVisualID());
+			String hint = next.getVisualID();
 			IAdaptable elementAdapter = new CanonicalElementAdapter(next.getModelElement(), hint);
 			CreateViewRequest.ViewDescriptor descriptor = new CreateViewRequest.ViewDescriptor(elementAdapter,
 					Node.class, hint, ViewUtil.APPEND, false, host().getDiagramPreferencesHint());
@@ -283,7 +283,7 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 				if (diagramLinkObject == nextLinkDescriptor.getModelElement()
 						&& diagramLinkSrc == nextLinkDescriptor.getSource()
 						&& diagramLinkDst == nextLinkDescriptor.getDestination()
-						&& diagramLinkVisualID == nextLinkDescriptor.getVisualID()) {
+						&& Integer.toString(diagramLinkVisualID).equals(nextLinkDescriptor.getVisualID())) {
 					linksIterator.remove();
 					linkDescriptorsIterator.remove();
 					break;
@@ -392,8 +392,7 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 				continue;
 			}
 			CreateConnectionViewRequest.ConnectionViewDescriptor descriptor = new CreateConnectionViewRequest.ConnectionViewDescriptor(
-					nextLinkDescriptor.getSemanticAdapter(),
-					HenshinVisualIDRegistry.getType(nextLinkDescriptor.getVisualID()), ViewUtil.APPEND, false,
+					nextLinkDescriptor.getSemanticAdapter(), nextLinkDescriptor.getVisualID(), ViewUtil.APPEND, false,
 					((IGraphicalEditPart) getHost()).getDiagramPreferencesHint());
 			CreateConnectionViewRequest ccr = new CreateConnectionViewRequest(descriptor);
 			ccr.setType(RequestConstants.REQ_CONNECTION_START);

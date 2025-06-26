@@ -11,7 +11,7 @@ package org.eclipse.emf.henshin.diagram.part;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
-import org.eclipse.papyrus.infra.gmfdiag.tooling.runtime.update.UpdaterLinkDescriptor;
+import org.eclipse.papyrus.infra.gmfdiag.common.updater.UpdaterLinkDescriptor;
 
 /**
  * @generated
@@ -22,7 +22,7 @@ public class HenshinLinkDescriptor extends UpdaterLinkDescriptor {
 	 * @generated
 	 */
 	public HenshinLinkDescriptor(EObject source, EObject destination, IElementType elementType, int linkVID) {
-		super(source, destination, elementType, linkVID);
+		super(source, destination, elementType, Integer.toString(linkVID));
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class HenshinLinkDescriptor extends UpdaterLinkDescriptor {
 	 */
 	public HenshinLinkDescriptor(EObject source, EObject destination, EObject linkElement, IElementType elementType,
 			int linkVID) {
-		super(source, destination, linkElement, elementType, linkVID);
+		super(source, destination, linkElement, elementType, Integer.toString(linkVID));
 	}
 
 }

@@ -10,7 +10,7 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.papyrus.infra.gmfdiag.tooling.runtime.update.UpdaterNodeDescriptor;
+import org.eclipse.papyrus.infra.gmfdiag.common.updater.UpdaterNodeDescriptor;
 
 /**
  * @generated
@@ -21,7 +21,7 @@ public class HenshinNodeDescriptor extends UpdaterNodeDescriptor {
 	 * @generated
 	 */
 	public HenshinNodeDescriptor(EObject modelElement, int visualID) {
-		super(modelElement, visualID);
+		super(modelElement, Integer.toString(visualID));
 	}
 
 }

@@ -9,6 +9,7 @@
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<unit id="org.eclipse.sdk.feature.group"/>
 			<unit id="org.eclipse.papyrus.infra.gmfdiag.tooling.runtime"/>
+			<unit id="org.eclipse.papyrus.infra.gmfdiag.common"/>
 			<unit id="org.eclipse.m2e.feature.feature.group"/>
 			<unit id="org.eclipse.emf.compare.feature.group"/>
 			<unit id="org.eclipse.emf.compare.ide.ui.feature.group"/>
