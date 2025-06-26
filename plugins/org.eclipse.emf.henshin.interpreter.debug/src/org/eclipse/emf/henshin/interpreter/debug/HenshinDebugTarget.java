@@ -11,7 +11,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.DebugApplicationCondition;
 
 public class HenshinDebugTarget extends HenshinDebugElement implements IDebugTarget {
 

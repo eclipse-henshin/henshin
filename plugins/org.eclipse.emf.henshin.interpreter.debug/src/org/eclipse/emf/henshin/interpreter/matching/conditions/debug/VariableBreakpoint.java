@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.interpreter.matching.conditions;
+package org.eclipse.emf.henshin.interpreter.matching.conditions.debug;
 
 import org.eclipse.core.runtime.CoreException;
 

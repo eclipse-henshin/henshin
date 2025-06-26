@@ -11,8 +11,8 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition.DebugState;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.DebugApplicationCondition;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.DebugApplicationCondition.DebugState;
 
 public class HenshinDebugThread extends HenshinDebugElement implements IThread {
 

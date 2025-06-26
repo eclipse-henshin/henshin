@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.DebugApplicationCondition;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.debug.DebugApplicationCondition;
 
 public class DebugValueEObject extends HenshinDebugValue {
 
@@ -50,6 +50,7 @@ public class DebugValueEObject extends HenshinDebugValue {
 				for (int i = 0; i < structuralFeatures.size(); i++) {
 					EStructuralFeature childFeature = structuralFeatures.get(i);
 					String nameString = childFeature.getName();					
+					@SuppressWarnings("unused")
 					String childDeclaredType = childFeature.getEType().getName();
 					Object childObj = valueEObject.eGet(childFeature);
 					

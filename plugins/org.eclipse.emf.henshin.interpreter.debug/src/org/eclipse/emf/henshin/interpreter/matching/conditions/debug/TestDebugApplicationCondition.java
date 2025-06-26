@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.interpreter.matching.conditions; 
+package org.eclipse.emf.henshin.interpreter.matching.conditions.debug; 
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +12,7 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugTarget;
 import org.eclipse.emf.henshin.interpreter.debug.HenshinDebugValue;
 import org.eclipse.emf.henshin.interpreter.info.RuleInfo;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
