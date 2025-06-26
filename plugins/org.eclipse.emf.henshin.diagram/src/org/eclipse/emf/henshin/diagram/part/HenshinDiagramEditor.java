@@ -10,7 +10,6 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +33,6 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gmf.runtime.common.ui.services.marker.MarkerNavigationService;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
@@ -116,9 +114,8 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements IGoto
 		}
 
 		// Install a command stack listener:
-		getEditDomain().getCommandStack().addCommandStackListener(new CommandStackListener() {
-			@Override
-			public void commandStackChanged(EventObject event) {
+		getEditDomain().getCommandStack().addCommandStackEventListener(event -> {
+			if (event.isPostChangeEvent()) {
 				// Refresh rule views:
 				refreshRuleViews();
 				// Run background validation:

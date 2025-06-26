@@ -85,7 +85,9 @@ public class HenshinBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Object view = ((ReconnectRequest) request).getConnectionEditPart().getModel();
 			if (view instanceof View) {
 				Integer id = HenshinVisualIDRegistry.getVisualID((View) view);
-				request.getExtendedData().put(VISUAL_ID_KEY, id);
+				@SuppressWarnings("unchecked")
+				Map<String, Object> extendedData = request.getExtendedData();
+				extendedData.put(VISUAL_ID_KEY, id);
 			}
 		}
 		return super.getCommand(request);

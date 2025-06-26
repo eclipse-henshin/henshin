@@ -26,6 +26,7 @@ import org.eclipse.ui.part.MultiEditorInput;
 
 public class MultiEditorLauncher implements IEditorLauncher {
 
+	@SuppressWarnings("restriction")
 	public void open(IPath file) {
 		String[] editorIds = new String[] { "org.eclipse.emf.henshin.presentation.HenshinEditorID",
 				"org.eclipse.emf.ecore.presentation.EcoreEditorID",
@@ -35,9 +36,9 @@ public class MultiEditorLauncher implements IEditorLauncher {
 
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
+		IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(file);
 		try {
-			EditorDescriptor editorDescriptor = (EditorDescriptor) IDE.getEditorDescriptor(ResourcesPlugin
-					.getWorkspace().getRoot().getFileForLocation(file));
+			EditorDescriptor editorDescriptor = (EditorDescriptor) IDE.getEditorDescriptor(iFile, true, true);
 			editorDescriptor.setOpenMode(EditorDescriptor.OPEN_INTERNAL);
 			editorDescriptor.isInternal();
 			editorDescriptor.isOpenExternal();

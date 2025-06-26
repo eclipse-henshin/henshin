@@ -194,6 +194,7 @@ public class HenshinDocumentProvider extends AbstractDocumentProvider implements
 		TransactionalEditingDomain domain = diagramDocument.getEditingDomain();
 		if (element instanceof FileEditorInput) {
 			IStorage storage = ((FileEditorInput) element).getStorage();
+			@SuppressWarnings("restriction") 
 			Diagram diagram = DiagramIOUtil.load(domain, storage, true, getProgressMonitor());
 			document.setContent(diagram);
 		} else if (element instanceof URIEditorInput) {
@@ -544,8 +545,10 @@ public class HenshinDocumentProvider extends AbstractDocumentProvider implements
 							nextResource.save(HenshinDiagramEditorUtil.getSaveOptions());
 						} catch (IOException e) {
 							fireElementStateChangeFailed(element);
-							throw new CoreException(new Status(IStatus.ERROR, HenshinDiagramEditorPlugin.ID,
-									EditorStatusCodes.RESOURCE_FAILURE, e.getLocalizedMessage(), null));
+							@SuppressWarnings("restriction")
+							Status status = new Status(IStatus.ERROR, HenshinDiagramEditorPlugin.ID,
+									EditorStatusCodes.RESOURCE_FAILURE, e.getLocalizedMessage(), e);
+							throw new CoreException(status);
 						}
 					}
 					monitor.worked(1);

@@ -11,8 +11,10 @@ package org.eclipse.emf.henshin.diagram.part;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -40,6 +42,8 @@ import org.eclipse.gmf.runtime.emf.core.util.EMFCoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -107,8 +111,11 @@ public class ValidateAction extends Action {
 	 * @generated
 	 */
 	public static void runNonUIValidation(View view) {
+		Display display = PlatformUI.getWorkbench().getDisplay();
+		Shell shell = Optional.ofNullable(display.getActiveShell())
+				.or(() -> Arrays.stream(display.getShells()).findFirst()).orElseThrow();
 		DiagramEditPart diagramEditPart = OffscreenEditPartFactory.getInstance()
-				.createDiagramEditPart(view.getDiagram());
+				.createDiagramEditPart(view.getDiagram(), shell);
 		runValidation(diagramEditPart, view);
 	}
 

@@ -1109,7 +1109,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 						new ToolItem(actionBar, SWT.SEPARATOR);
 						
 						filterViewer.buildControls(actionBar);
-						control.changed(new Control[] { actionBar });
+						control.layout(new Control[] { actionBar }, SWT.DEFER);
 					}
 				};
 				
