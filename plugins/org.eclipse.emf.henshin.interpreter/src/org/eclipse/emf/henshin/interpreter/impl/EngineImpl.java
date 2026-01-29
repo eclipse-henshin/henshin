@@ -239,56 +239,9 @@ public class EngineImpl implements Engine {
 		if (partialMatch == null) {
 			partialMatch = new MatchImpl(rule);
 		}
-		return new MatchGenerator(rule, graph, partialMatch);
+		Match match = partialMatch;
+		return () -> new MatchFinder(rule, graph, match, new HashSet<>());
 	}
-
-	/**
-	 * Match generator class. Delegates to {@link MatchFinder}.
-	 */
-	final class MatchGenerator implements Iterable<Match> {
-
-		/**
-		 * Rule to be matched.
-		 */
-		private final Rule rule;
-
-		/**
-		 * Object graph.
-		 */
-		private final EGraph graph;
-
-		/**
-		 * A partial match.
-		 */
-		private final Match partialMatch;
-
-		/**
-		 * Default constructor.
-		 * 
-		 * @param rule
-		 *            Rule to be matched.
-		 * @param graph
-		 *            Object graph.
-		 * @param partialMatch
-		 *            Partial match.
-		 */
-		public MatchGenerator(Rule rule, EGraph graph, Match partialMatch) {
-			this.rule = rule;
-			this.graph = graph;
-			this.partialMatch = partialMatch;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Iterable#iterator()
-		 */
-		@Override
-		public Iterator<Match> iterator() {
-			return new MatchFinder(rule, graph, partialMatch, new HashSet<EObject>());
-		}
-
-	} // MatchGenerator
 
 	/**
 	 * Match finder class. Uses {@link SolutionFinder} to find matches.
