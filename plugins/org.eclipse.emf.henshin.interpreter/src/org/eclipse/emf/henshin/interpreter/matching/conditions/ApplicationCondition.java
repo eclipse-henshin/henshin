@@ -78,6 +78,10 @@ public class ApplicationCondition implements IFormula {
 	 * Finds a match for the variable at the given index in the LHS-variables vector.
 	 */
 	protected boolean findMatch(int index) {
+		// Stop looking for matches if the current thread has been interrupted.
+		if (Thread.currentThread().isInterrupted()) {
+			return false;		
+		}
 		
 		// Matched all variables?
 		if (index==variables.size()) {
